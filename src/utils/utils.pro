@@ -1,0 +1,20 @@
+TARGET = QtDroidUtils
+#VERSION = 1.0.0
+CONFIG += dll warn_on
+
+QT = core
+#QT = core-private gui-private qml-private quick-private
+#QT_PRIVATE = v8-private
+
+#DEFINES   += QT_NO_URL_CAST_FROM_STRING QT_NO_INTEGER_EVENT_COORDINATES
+
+MODULE = droidutils
+load(qt_module)
+
+LIBS += -lhardware -lcutils
+
+HEADERS += \
+    $$PWD/qdroidutils.h
+
+SOURCES += \
+    $$PWD/qdroidutils.cpp

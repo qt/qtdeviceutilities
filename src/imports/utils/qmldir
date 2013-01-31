@@ -1,0 +1,3 @@
+module QtDroid.Utils
+plugin qtdroidutilsplugin
+typeinfo plugins.qmltypes
