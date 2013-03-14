@@ -2,6 +2,7 @@
 
 #include <QtGui/QOpenGLContext>
 #include <QtQuick/qsgtexture.h>
+#include <QtQuick/qquickwindow.h>
 
 #include <QTimer>
 
@@ -72,11 +73,6 @@ void OmxNode::preprocess()
 {
 }
 
-void OmxNode::updateTexture()
-{
-    printf("OmxNode::updateTexture()\n");
-}
-
 void OmxNode::setRect(const QRectF &rect)
 {
     if (m_rect == rect)
@@ -93,15 +89,30 @@ OmxItem::OmxItem()
     : m_player(OmxPlayer::create())
     , m_hasFrame(false)
     , m_initialized(false)
+    , m_paused(false)
     , m_sourceWidth(0)
     , m_sourceHeight(0)
-    , m_paused(false)
 {
     connect(m_player, SIGNAL(frameAvailable()), this, SLOT(triggerRender()));
     connect(m_player, SIGNAL(videoSize(int, int)), this, SLOT(videoSize(int, int)));
 
     setFlag(ItemHasContents, true);
 }
+
+void OmxItem::itemChange(ItemChange change, const ItemChangeData &)
+{
+    if (change == ItemSceneChange) {
+        QQuickWindow *win = window();
+        if (!win)
+            return;
+
+        // Connect the beforeRendering signal to our paint function.
+        // Since this call is executed on the rendering thread it must be
+        // a Qt::DirectConnection
+        connect(win, SIGNAL(beforeRendering()), this, SLOT(beforeRendering()), Qt::DirectConnection);
+    }
+}
+
 
 OmxItem::~OmxItem()
 {
@@ -129,14 +140,23 @@ void OmxItem::setSource(const QString &source)
         return;
 
     m_source = source;
+    emit sourceChanged();
+    update();
+}
+
+void OmxItem::beforeRendering()
+{
+    if (m_initialized || m_source.isNull())
+        return;
 
     m_initialized = m_player->initialize(m_source.toLocal8Bit());
+
+    GLuint tid;
+    glGenTextures(1, &tid);
 
     // start playing if not paused
     if (m_initialized && !paused())
         m_player->setPaused(false);
-
-    emit sourceChanged();
 }
 
 QSGNode *OmxItem::updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData *)

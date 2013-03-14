@@ -23,7 +23,6 @@ public:
     ~OmxNode();
 
     void preprocess();
-    void updateTexture();
 
     void setRect(const QRectF &rect);
     inline void setRect(qreal x, qreal y, qreal w, qreal h) { setRect(QRectF(x, y, w, h)); }
@@ -91,10 +90,12 @@ signals:
 
 protected:
     QSGNode *updatePaintNode(QSGNode *, UpdatePaintNodeData *);
+    void itemChange(ItemChange change, const ItemChangeData &);
 
 private slots:
     void triggerRender();
     void videoSize(int w, int h);
+    void beforeRendering();
 
 private:
     OmxPlayer *m_player;
