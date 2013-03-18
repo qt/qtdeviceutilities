@@ -1,6 +1,6 @@
 #include "qdroidutils.h"
 
-#ifdef Q_OS_LINUX_ANDROID
+#ifdef Q_OS_ANDROID_NO_SDK
 #include <cutils/android_reboot.h>
 #include <hardware/lights.h>
 #endif
@@ -12,9 +12,9 @@
  */
 void QDroidUtils::rebootSystem()
 {
-#ifdef Q_OS_LINUX_ANDROID
+#ifdef Q_OS_ANDROID_NO_SDK
     (void)android_reboot(ANDROID_RB_RESTART, 0, 0);
-    qFatal("android_reboot returned");
+    qWarning("android_reboot returned");
 #else
     qDebug("QDroidUtils::rebootSystem()");
 #endif
@@ -27,9 +27,9 @@ void QDroidUtils::rebootSystem()
  */
 void QDroidUtils::powerOffSystem()
 {
-#ifdef Q_OS_LINUX_ANDROID
+#ifdef Q_OS_ANDROID_NO_SDK
     (void)android_reboot(ANDROID_RB_POWEROFF, 0, 0);
-    qFatal("android_reboot returned");
+    qWarning("android_reboot returned");
 #else
     qDebug("QDroidUtils::powerOffSystem()");
 #endif
@@ -45,7 +45,7 @@ void QDroidUtils::powerOffSystem()
 //### TBD: add the user/sensor setting as parameter!
 bool QDroidUtils::setDisplayBrightness(quint8 value)
 {
-#ifdef Q_OS_LINUX_ANDROID
+#ifdef Q_OS_ANDROID_NO_SDK
     const struct hw_module_t* module = 0;
     if (hw_get_module(LIGHTS_HARDWARE_MODULE_ID, &module))
         return false;
