@@ -42,7 +42,9 @@ import QtQuick 2.0
 
 BaseKey {
     functionKey: true
-    onClicked: Qt.inputMethod.inputItem.focus = false
+    onClicked: {
+        Qt.inputMethod.hide();
+    }
     Icon {
         invert: pressed
         source: "../images/hidekeyboard.png"
