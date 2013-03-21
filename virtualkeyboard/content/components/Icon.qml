@@ -49,12 +49,12 @@ ShaderEffect {
     height: image.implicitHeight
 
     fragmentShader: "
-        uniform lowp bool invert;
+        uniform bool invert;
         uniform lowp float qt_Opacity;
         uniform lowp sampler2D texture;
         varying highp vec2 qt_TexCoord0;
         void main() {
-            vec4 color = texture2D(texture, qt_TexCoord0) * qt_Opacity;
+            lowp vec4 color = texture2D(texture, qt_TexCoord0) * qt_Opacity;
             if (invert)
                 gl_FragColor = vec4(vec3(1.0) - color.rgb, 1.0) * color.a;
             else
