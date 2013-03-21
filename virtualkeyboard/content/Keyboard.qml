@@ -40,7 +40,7 @@
 
 import QtQuick 2.0
 import "components"
-import Example.PlatformInputContext 1.0
+import Boot2Qt.InputContext 1.0
 import Qt.labs.folderlistmodel 2.0
 
 Image {

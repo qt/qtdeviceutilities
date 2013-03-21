@@ -1,5 +1,5 @@
 TEMPLATE = lib
-TARGET  = exampleplatforminputcontextplugin
+TARGET  = b2qtinputcontextplugin
 TARGETPATH = $$[QT_INSTALL_PLUGINS]/platforminputcontexts
 
 target.path = $$TARGETPATH

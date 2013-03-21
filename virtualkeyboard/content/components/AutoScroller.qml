@@ -39,7 +39,7 @@
 ****************************************************************************/
 
 import QtQuick 2.0
-import Example.PlatformInputContext 1.0
+import Boot2Qt.InputContext 1.0
 
 Item {
     property var innerFlickable

@@ -66,16 +66,16 @@ public:
 
 QStringList PlatformInputContextPlugin::keys() const
 {
-    return QStringList(QStringLiteral("exampleplatforminputcontext"));
+    return QStringList(QStringLiteral("b2qtinputcontext"));
 }
 
 QPlatformInputContext *PlatformInputContextPlugin::create(const QString& system, const QStringList& paramList)
 {
     Q_UNUSED(paramList);
 
-    qmlRegisterSingletonType<DeclarativeInputContext>("Example.PlatformInputContext", 1, 0, "InputContext", createInputContextModule);
+    qmlRegisterSingletonType<DeclarativeInputContext>("Boot2Qt.InputContext", 1, 0, "InputContext", createInputContextModule);
 
-    if (system.compare(system, QStringLiteral("exampleplatforminputcontext"), Qt::CaseInsensitive) == 0)
+    if (system.compare(system, QStringLiteral("b2qtinputcontext"), Qt::CaseInsensitive) == 0)
         platformInputContext = new PlatformInputContext;
     return platformInputContext;
 }

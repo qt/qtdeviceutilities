@@ -3,7 +3,7 @@
 
 int main(int argc, char *argv[])
 {
-    qputenv("QT_IM_MODULE", QByteArray("exampleplatforminputcontext"));
+    qputenv("QT_IM_MODULE", QByteArray("b2qtinputcontext"));
 
     QGuiApplication app(argc, argv);
     QQuickView view(QString("virtualkeyboard.qml"));
