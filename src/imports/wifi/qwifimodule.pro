@@ -4,16 +4,14 @@
 #
 #-------------------------------------------------
 
-QT = core gui qml quick
-
-TARGET = wifitest
-CONFIG   += console
-CONFIG   -= app_bundle
-
-TEMPLATE = app
+CXX_MODULE = qml
+QT += qml quick
+TARGET = qwifimodule
+TARGETPATH = Qt/labs/wifi
+IMPORT_VERSION = 0.1
 
 SOURCES += \
-    main.cpp \
+    pluginmain.cpp \
     qwifimanager.cpp \
     qwifinetwork.cpp \
     qwifinetworklist.cpp
@@ -25,5 +23,5 @@ HEADERS += \
 
 LIBS += -lhardware_legacy -lcutils
 
-OTHER_FILES += \
-    main.qml
+load(qml_plugin)
+
