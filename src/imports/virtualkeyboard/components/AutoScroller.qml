@@ -47,7 +47,6 @@ Item {
     property var inputItem: Qt.inputMethod.inputItem
 
     onInputItemChanged: {
-        flickable = null
         if (inputItem) {
             var parent_ = inputItem.parent
             while (parent_) {

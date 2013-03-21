@@ -1,2 +1,2 @@
 TEMPLATE = subdirs
-SUBDIRS = utils nativemedia
+SUBDIRS = utils nativemedia virtualkeyboard

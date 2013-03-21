@@ -62,6 +62,7 @@ Image {
     width: parent.width
     height: keyboardLayout.height+10
     y: Qt.inputMethod.visible ? parent.height - height : parent.height
+    visible: Qt.inputMethod.visible || Qt.inputMethod.animating;
 
     onLocaleChanged: InputContext.setLocale(locale)
     onUppercasedChanged: if (Qt.inputMethod.visible) InputContext.handleUppercasing(uppercased)
