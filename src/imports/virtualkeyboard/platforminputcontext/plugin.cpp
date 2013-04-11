@@ -73,6 +73,8 @@ QPlatformInputContext *PlatformInputContextPlugin::create(const QString& system,
 {
     Q_UNUSED(paramList);
 
+    qDebug("created...");
+
     qmlRegisterSingletonType<DeclarativeInputContext>("Boot2Qt.InputContext", 1, 0, "InputContext", createInputContextModule);
 
     if (system.compare(system, QStringLiteral("b2qtinputcontext"), Qt::CaseInsensitive) == 0)

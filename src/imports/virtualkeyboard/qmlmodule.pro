@@ -8,7 +8,6 @@ QML_FILES = \
 	  images/enter.png \
 	  images/keypad.png \
 	  images/hidekeyboard.png \
-	  TextField.qml \
 	  components/AutoScroller.qml \
 	  components/InputEngine.qml \
 	  components/HideKeyboardKey.qml \
@@ -26,12 +25,10 @@ QML_FILES = \
 	  components/PressedKey.qml \
 	  components/BackspaceKey.qml \
 	  Keyboard.qml \
-	  TextBase.qml \
 	  layouts/symbols.qml \
 	  layouts/numbers.qml \
 	  layouts/ar_AR.qml \
 	  layouts/en_GB.qml \
 	  layouts/fi_FI.qml \
-	  ScrollBar.qml \
 
 load(qml_module)
