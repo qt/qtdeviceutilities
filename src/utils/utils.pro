@@ -1,5 +1,5 @@
 TARGET = QtDroidUtils
-#VERSION = 1.0.0
+VERSION = 5
 CONFIG += dll warn_on
 
 QT = core
