@@ -1,0 +1,578 @@
+/**************************************************************************
+**
+** Copyright (c) 2013 Digia Plc and/or its subsidiary(-ies).
+**
+** Licensees holding valid Qt Commercial licenses may use this document in
+** accordance with the Qt Commercial License Agreement provided with the
+** Software or, alternatively, in accordance with the terms contained in a
+** written agreement between you and Digia.
+**
+**************************************************************************/
+
+/*!
+    \contentspage{index.html}{Boot to Qt}
+    \page index.html
+    \nextpage b2qt-getting-started.html
+    \title Boot to Qt Introduction
+
+
+    \list
+        \li \b {\l{Getting Started with Boot to Qt}}
+        \list
+            \li \l{Installation}
+            \li \l{Preparing for Development}
+            \li \l{Building and Running an Example on Hardware}
+        \endlist
+        \li \b {\l{Supported Platforms}}
+        \li \b {\l{Troubleshooting}}
+    \endlist
+
+
+    \section1 What is \B2Q?
+
+    \b{\B2Q} is a light-weight UI stack for embedded linux, based on the
+    \l{http://qt.digia.com/}{Qt Framework} by Digia. \B2Q places Qt on top of
+    an Android kernel/baselayer and offers an elegant means of developing
+    beautiful and performant embedded devices.
+
+    \B2Q runs on top of Android 4.0/4.1 baselayers and has been tested and
+    verified on a number of different hardware configurations.
+
+
+    \section1 About Qt
+
+    \l{http://qt.digia.com/}{Qt} is a full development framework with tools
+    designed to streamline the creation of applications and user interfaces
+    for desktop, embedded and mobile platforms.
+
+    \list
+        \li \b{Qt Framework} - intuitive APIs for C++
+            and CSS/JavaScript-like programming with
+            \b{Qt Quick} for rapid UI
+            creation
+        \li \b{Qt Creator IDE} - powerful cross-platform integrated development
+            environment, including UI designer tools and on-device debugging
+        \li \b{Tools and toolchains} - internationalization support, embedded
+            toolchains and more.
+    \endlist
+
+    With Qt, you can reuse code efficiently to target multiple platforms
+    with one code base. The modular C++ class library and developer tools
+    enables developers to create applications for one platform and easily
+    build and run to deploy also on other platforms.
+
+
+    \section1 \B2Q vs Qt for Android
+
+    \image b2qt-vs-qt-for-android.png
+
+    \b{Qt for Android} is a port of the Qt Framework to be used for application
+    development on the Android platform. Its purpose is to enable development
+    of applications that can run on Android devices. For developers writing
+    applications for the Android ecosystem, Qt for Android is the right choice.
+
+    \b{\B2Q} tries to strip down the Android stack to the bare minimum, relying
+    only on basic Linux features. The majority of the Android stack, such as
+    \e{SurfaceFlinger} or \e{DalvikVM} is not running in \B2Q, resulting in
+    faster startup times, lower memory consumption and overall better
+    performance.
+
+
+    \section1 \B2Q SDK
+
+    \B2Q SDK provides a complete software development package for
+    creating applications on embedded linux devices. It comes with Qt Creator
+    IDE with preconfigured build targets for hardware platforms
+    as well as an \l{Emulator}{emulator}.
+*/
+
+/*!
+    \page b2qt-getting-started.html
+    \title Getting Started with Boot to Qt
+    \previouspage index.html
+    \nextpage b2qt-installation.html
+
+    \B2Q SDK provides you all the tools to start developing embedded
+    linux devices using Qt and Qt Quick.
+
+    \B2Q runs on top of Android 4.0 based kernels. For the technology
+    preview release, following devices are in focus and tested to
+    work:
+
+    \list
+        \li \l{http://www.google.com/nexus/7/specs/}{Google Nexus 7}
+        \li \l{http://beagleboard.org/hardware-xM}{BeagleBoard-xM}
+        \li \l{http://boundarydevices.com/products/sabre-lite-imx6-sbc/}{Boundary Devices i.MX 6}
+    \endlist
+
+    In addition, \B2Q comes with an emulator to help you test your
+    applications without deploying to hardware.
+
+
+    \section1 Requirements
+
+    \b {Target Hardware Requirements}
+
+    Rough minimal requirements for running \B2Q are:
+    \list
+        \li 256Mb of RAM
+        \li 500Mhz CPU, 1Ghz preferred for 60 FPS velvet-smooth UI
+        \li OpenGL ES 2.0 support
+        \li Android 4.0+ compatible hardware
+    \endlist
+
+
+    \b {\B2Q SDK Requirements}
+
+    A 64-bit Linux system is required for \B2Q development. Instructions
+    in this documentation assume Ubuntu Linux 64-bit 12.04 LTS or later.
+
+    To install and use \B2Q SDK, the following things are required:
+
+    \list
+        \li 64-bit Linux system (for example, \l{http://www.ubuntu.com/download}{Ubuntu}).
+        \li C/C++ build essentials and support for running 32-bit code.
+        \li \l{https://www.virtualbox.org/}{VirtualBox} virtualization software.
+    \endlist
+
+
+    \section1 Installing 32-bit Support Libraries
+
+    Some of the build tools in \B2Q are 32-bit programs, and they require
+    that support libraries for running 32-bit code are present in the
+    system. To install the required packages in Ubuntu, use
+
+    \code
+    sudo apt-get install g++-multilib:i386
+    \endcode
+
+
+    \section1 Installing VirtualBox
+
+    Emulator in \B2Q relies on VirtualBox virtualization software. You can
+    download it from \l{https://www.virtualbox.org/wiki/Linux_Downloads} or
+    install it from the command line. In Ubuntu:
+
+    \code
+    sudo apt-get install virtualbox
+    \endcode
+
+    \b{Configuring VirtualBox}
+
+    Open VirtualBox network settings: Select \b{File > Preferences...}
+    and click on the \b{Network} tab. Create a new network named
+    \e{vboxnet0} and edit its properties:
+
+    \list
+        \li Change IPv4 address to 192.168.56.1 and IPv4 network mask to 255.255.255.0.
+        \li Check \b{Enable Server} in \b{DCHP Server} tab.
+        \li Change server address to 192.168.56.1.
+        \li Change both the lower and upper address bounds to 192.168.56.101.
+    \endlist
+*/
+
+/*!
+    \page b2qt-installation.html
+    \title Installation
+    \previouspage b2qt-getting-started.html
+    \nextpage b2qt-preparing-for-development.html
+
+    Before proceeding to install the \B2Q SDK, make sure that your development
+    system meets the \l{requirements}.
+
+    After downloading the \B2Q SDK binary installer, make sure it
+    is executable either by
+
+    \list
+        \li Using \c{chmod +x <filename>} command, or
+        \li Right-clicking on the file, selecting \b{Properties}, and checking
+            \b{Allow executing file as program} on the \b{Permissions} tab.
+    \endlist
+
+    Run the installer and follow its instructions.
+
+    After the installation has finished, continue with \l{Preparing for Development}.
+*/
+
+/*!
+    \page b2qt-preparing-for-development.html
+    \title Preparing for Development
+    \previouspage b2qt-installation.html
+    \nextpage b2qt-preparing-hardware-nexus-7.html
+
+    After installing the \B2Q SDK, the hardware devices need
+    to be prepared before they can be used for application
+    deployment from the Qt Creator.
+
+    \section1 Setting up Access to Development Hardware via USB
+
+    On Ubuntu Linux you have to grant your development user access to
+    plugged in devices. This is done by creating a new \e{udev} rule that
+    allows access to the device via USB. In order to do that, you need to
+    find out the USB ID of your device.
+
+    First, power up the device and connect it to your development
+    machine with a USB cable. Then, look for a line listing your
+    device in the output generated by the \c{lsusb} command.
+
+    For example:
+
+    \code
+    $ lsusb
+    ...
+    ...
+    Bus 001 Device 008: ID 18d1:9018 Google Inc.
+    ...
+    \endcode
+
+    Take note of the numbers stated after \c{ID}, and replace them in the
+    following shell command:
+
+    \code
+    echo 'SUBSYSTEM=="usb", ATTRS{idVendor}=="18d1", ATTRS{idProduct}=="9018", TAG+="udev-acl"' | sudo tee -a /etc/udev/rules.d/70-boot2qt.rules
+    \endcode
+
+
+    \section1 Preparing Hardware for Running \B2Q
+
+    Before deploying and testing your Qt application on hardware, it needs
+    to be flashed with an image that contains the \B2Q stack. These steps
+    vary from device to device - follow the instructions specific to
+    your device:
+
+    \list
+        \li \l{Preparing Nexus 7 for Development}
+        \li \l{Preparing BeagleBoard-xM for Development}
+        \li \l{Preparing i.MX 6 for Development}
+    \endlist
+
+
+    \section1 Configuring a Device Kit in Qt Creator
+
+    After the hardware has been prepared, there is one final step required
+    to set up the development tools in Qt Creator for your device.
+
+    A separate device \b{Kit} needs to be cloned for each hardware device
+    you want to develop for.
+
+    To do so, connect your device to your computer via USB and launch
+    Qt Creator (\B2Q IDE). Then,
+
+    \list 1
+        \li Go to \b{Tools > Options > Build & Run > Kits}
+        \li Select one of the predefined Kits starting with \e{Boot2QtSDK...}
+        that matches the type of your device.
+        \li Click \b{Clone}.
+        \li (Optional) Change the name to a shorter one, for example, \e{MyBeagleBoard}.
+        \li Select the correct device in the \b{Device} combobox.
+        \li Click \b{Ok}.
+    \endlist
+
+    You are now ready to start developing for your device!
+
+    See \l{Building and Running an Example on Hardware}
+*/
+
+/*!
+    \page b2qt-preparing-hardware-nexus-7.html
+    \title Preparing Nexus 7 for Development
+    \previouspage b2qt-preparing-for-development.html
+    \nextpage b2qt-preparing-hardware-beagleboard.html
+
+    When using a \l{http://www.google.com/nexus/7/specs/}{Nexus 7} as a
+    development device, following steps are required to prepare it for
+    \B2Q.
+
+    \section1 Unlocking Nexus 7
+
+    The Nexus 7 has to be unlocked to allow custom software to be installed.
+    This procedure can be done directly from the device UI, and needs to be
+    done only once.
+
+    First, go to \b{Settings > Developer Options}, tap the \b{Build Number}
+    entry seven times. You should see a message \e{"You are now a developer!"}
+    displayed.
+
+    In \b{Developer Options}, also enable \b{USB Debugging}.
+
+    \note When running Android 4.2: If you don't see \b{Developer Options}
+    directly under \b{Settings}, go to \b{About Tablet}.
+
+    Finally, connect your Nexus 7 to your computer via USB, and run
+    the following command:
+
+    \code
+    <SDK_INSTALL_DIR>/targets/android-utils/bin/fastboot oem unlock
+    \endcode
+
+
+    \section1 Updating a Nexus 7 with \B2Q Images
+
+    \note \b{It is important that the steps in this section are repeated
+    every time after updating the \B2Q SDK.}
+
+    An unlocked Nexus 7 device can now be updated with a \B2Q image.
+
+    To do so, connect your Nexus 7 to your computer via USB, and run the
+    commands
+
+    \code
+    cd <SDK_INSTALL_DIR>/targets/
+    ./android-utils/bin/adb reboot bootloader
+    \endcode
+
+    The device will reboot into \e{fastboot} mode.
+
+    To re-flash the \e{boot}, \e{system}, and \e{userdata} partitions on the
+    device, use the following commands in the order they are listed:
+
+    \code
+    ./android-utils/bin/fastboot flash boot nexus7/images/boot.img
+    ./android-utils/bin/fastboot flash system nexus7/images/system.img
+    ./android-utils/bin/fastboot flash userdata nexus7/images/data.img
+    \endcode
+
+    Once the flashing is completed successfully, reboot the device:
+
+    \code
+    ./android-utils/bin/fastboot reboot
+    \endcode
+
+
+    \section1 Installing Proprietary Graphics Drivers
+
+    Download the proprietary graphics drivers for your Nexus 7
+    \l{https://developers.google.com/android/nexus/drivers#grouperjzo54k}{here}.
+
+    \note Make sure you have read the license terms at the beginning of the
+    driver download page.
+
+    Select the link in the \b{Graphics} row from the table
+    \e{"Nexus 7 (Wi-Fi) binaries for Android 4.1.2"}, download and save the file
+    to the installation directory of the \B2Q SDK.
+
+    Make sure your Nexus 7 is connected to the computer via USB.
+
+    Then, follow these steps to update the Nexus 7:
+
+    \list 1
+        \li Extract the downloaded file, and run the extracted installer. For example,
+    \code
+    cd <SDK_INSTALL_DIR>
+    tar xf nvidia-grouper-jzo54k-56de148f.tgz
+    ./extract-nvidia-grouper.sh
+    \endcode
+        \li Find out the serial number of the connected Nexus 7 device:
+    \code
+    <SDK_INSTALL_DIR>/targets/android-utils/bin/adb devices
+    \endcode
+        \li Deploy the drivers to your device using the following command:
+    \code
+    <SDK_INSTALL_DIR>/targets/android-utils/bin/deploy_tegra_drivers_to_nexus7 <serial_number>
+    \endcode
+    \endlist
+
+    Next, see \l{Configuring a Device Kit in Qt Creator} for information on how
+    to finish the new hardware configuration in \B2Q IDE.
+*/
+
+/*!
+    \page b2qt-preparing-hardware-beagleboard.html
+    \title Preparing BeagleBoard-xM for Development
+    \previouspage b2qt-preparing-hardware-nexus-7.html
+    \nextpage b2qt-preparing-hardware-imx6.html
+
+    When using a \l{http://beagleboard.org/hardware-xM}{BeagleBoard-xM} as a
+    development device, following steps are required to prepare it for
+    \B2Q.
+
+    \note \b{It is important that the steps in this section are repeated
+    every time after updating the \B2Q SDK.}
+
+    The image containing \B2Q stack for BeagleBoard-xM is included in the SDK,
+    ready to be copied to an SD card.
+
+    Write the image to an SD card with at least 2GB capacity. To do so,
+    plug in the SD card/reader and use the following command to find out
+    its device name:
+
+    \code
+    df -h
+    \endcode
+
+    Next, unmount the SD card. Assuming the device name of the SD card is
+    \c{/dev/sdb}:
+
+    \code
+    umount /dev/sdb
+    \endcode
+
+    Finally, write the image to the SD card:
+
+    \code
+    cd <SDK_INSTALL_DIR>
+    sudo dd if=targets/beagleboard/images/sdcard.img of=/dev/sdb bs=1M
+    \endcode
+
+    \warning \b{Make very sure you select the right device. Selecting the wrong
+    one can result in a wiped hard drive}.
+
+    Next, see \l{Configuring a Device Kit in Qt Creator} for information on how
+    to finish the new hardware configuration in \B2Q IDE.
+*/
+
+/*!
+    \page b2qt-preparing-hardware-imx6.html
+    \title Preparing i.MX 6 for Development
+    \previouspage b2qt-preparing-hardware-beagleboard.html
+    \nextpage b2qt-building-and-running-on-hw.html
+
+    When using a \l{http://boundarydevices.com/products/sabre-lite-imx6-sbc/}{Boundary Devices i.MX 6}
+    as a development device, following steps are required to prepare it for \B2Q.
+
+    \note \b{It is important that the steps in this section are repeated
+    every time after updating the \B2Q SDK.}
+
+    Download the package \e{r13.4.1-nitrogen-20130407.tar.gz} from
+    \l{http://boundarydevices.com/i-mx6-images-for-branch-r13-4-1/}{i.MX6 images for branch r13.4-1}
+
+    Follow the instructions on the Boundary Devices web site to create an SD card containing
+    the downloaded image.
+
+    Make sure you have the required tools installed in your development machine:
+
+    \code
+    sudo apt-get install u-boot-tools
+    \endcode
+
+    Then, upgrade the SD Card with \B2Q:
+
+    \code
+    <SDK_INSTALL_DIR>/targets/android-utils/deploy_to_iMX6 /dev/XXX
+    \endcode
+
+    where \c{XXX} is the device for your SD card, typically \c{sdb}.
+
+    \warning \b{Make very sure you select the right device. Selecting the wrong
+    one can result in a wiped hard drive.}
+
+    Next, see \l{Configuring a Device Kit in Qt Creator} for information on how
+    to finish the new hardware configuration in \B2Q IDE.
+*/
+
+
+/*!
+    \page b2qt-building-and-running-on-hw.html
+    \title Building and Running an Example on Hardware
+    \previouspage b2qt-preparing-for-development.html
+    \nextpage b2qt-supported-platforms.html
+
+    Once the installation and configuration steps for all the hardware are
+    completed, it's time to test the setup.
+
+    First, make sure your device is connected to the computer via USB.
+
+    Then, follow these steps to create and run a simple \l{Qt Quick}
+    application on the device:
+
+    \list 1
+        \li Open \b{File > New File or Project}, select
+            \b{Qt Quick 2 Application (Built-in Elements)} and click \b{Next}.
+        \li In \b{Kit Selection} dialog, select all kits you created for your
+            devices. You can also select the emulator kit to test running the
+            project in the emulator.
+        \li Click \b{Next} and finish the wizard.
+        \li In \b{Projects > Build & Run}, select the correct kit for your
+            connected device. Also, click on \b{Run} to check if the
+            \b{Run configuration} of your device kit has a
+            \b{Custom Executable} setting, and remove it if present.
+        \li To build and run the project, click \inlineimage qtcreator-run.png
+    \endlist
+*/
+
+/*!
+    \page b2qt-supported-platforms.html
+    \title Supported Platforms
+    \previouspage b2qt-building-and-running-on-hw.html
+    \nextpage b2qt-troubleshooting.html
+
+    \section1 Supported Hardware Platforms
+
+    \B2Q can be made to run on hardware that has support for
+    Android 4.0+ operating system. Additional requirements
+    are as follows:
+
+    \list
+        \li 256Mb of RAM
+        \li 500Mhz CPU, 1Ghz preferred
+        \li OpenGL ES 2.0 support
+    \endlist
+
+    The \B2Q Technology Preview Release focuses on the following
+    devices:
+
+    \list
+        \li \l{http://www.google.com/nexus/7/specs/}{Google Nexus 7} (Manufactured by ASUS)
+        \li \l{http://beagleboard.org/hardware-xM}{BeagleBoard-xM}
+        \li \l{http://boundarydevices.com/products/sabre-lite-imx6-sbc/}{Boundary Devices i.MX 6}
+    \endlist
+
+    See also \l{Preparing Hardware for Running Boot to Qt}.
+
+    \section1 Supported Development Environment
+
+    The development environment supported in \B2Q Technology Preview release
+    is Ubuntu Linux 64-bit (12.04 LTS or 12.10).
+*/
+
+/*!
+    \page b2qt-troubleshooting.html
+    \title Troubleshooting
+    \previouspage b2qt-supported-platforms.html
+
+    \section1 General Issues
+
+    \b {Problems launching/running applications on hardware after updating \B2Q SDK}
+
+    Remember to repeat the process of updating also your device with the latest
+    version of \B2Q. See \l{Preparing Hardware for Running Boot to Qt}.
+
+    \b {Problems deploying/launching the application in Qt Creator}
+
+    Check if the device is properly connected to the PC via USB.
+    See \l{Connectivity Issues}.
+
+    If using the emulator, see \l{Installing VirtualBox}{Configuring VirtualBox}.
+
+    In addition, check if \b{Run configuration} of your device kit has a
+    \b{Custom Executable} setting, and remove it if present. To see the
+    run configuration, click on \b{Projects > Build & Run}, and click
+    \b{Run} on the active device kit.
+
+    \b{How do I restore my Nexus 7 to factory settings?}
+
+    Goto \l{https://developers.google.com/android/nexus/images} and
+    download the correct file for your device. Unpack it, and then
+
+    \code
+    <SDK_INSTALL_DIR>/targets/android-utils/bin/adb reboot bootloader
+    <SDK_INSTALL_DIR>/targets/android-utils/bin/fastboot -w update <image-file>.zip
+    <SDK_INSTALL_DIR>/targets/android-utils/bin/fastboot reboot
+    \endcode
+
+    \b{I'm unable to shut down my Nexus 7, what can I do?}
+
+    In case you are not able to shut down or reboot your Nexus 7, press and
+    hold the power button for 10 seconds. This will force a reboot.
+
+    \b{Trying to build for the emulator target fails with error message \e{make: i686-android-linux-g++: Command not found}}
+
+    You need to install proper libraries in order to run 32-bit programs in 64-bit Linux operating system.
+
+    See \l{Requirements}.
+
+    \section1 Connectivity Issues
+    \b {I cannot connect to my hardware device via USB}
+
+    See \l{Setting up Access to Development Hardware via USB}.
+*/
