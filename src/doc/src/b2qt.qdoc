@@ -1,13 +1,19 @@
-/**************************************************************************
+/****************************************************************************
 **
 ** Copyright (c) 2013 Digia Plc and/or its subsidiary(-ies).
+**
+** Qt and Qt logos are trademarks of of Digia Corporation in Finland and/or
+** other countries worldwide. All other trademarks are property of their
+** respective owners.
+**
 **
 ** Licensees holding valid Qt Commercial licenses may use this document in
 ** accordance with the Qt Commercial License Agreement provided with the
 ** Software or, alternatively, in accordance with the terms contained in a
 ** written agreement between you and Digia.
 **
-**************************************************************************/
+**
+****************************************************************************/
 
 /*!
     \contentspage{index.html}{Boot to Qt}
@@ -81,7 +87,7 @@
     \section1 \B2Q SDK
 
     \B2Q SDK provides a complete software development package for
-    creating applications on embedded linux devices. It comes with Qt Creator
+    creating applications on embedded Android devices. It comes with Qt Creator
     IDE with preconfigured build targets for hardware platforms
     as well as an \l{Emulator}{emulator}.
 */
@@ -95,7 +101,7 @@
     \B2Q SDK provides you all the tools to start developing embedded
     linux devices using Qt and Qt Quick.
 
-    \B2Q runs on top of Android 4.0 based kernels. For the technology
+    \B2Q runs on top of Android 4.0/4.1 baselayers. For the technology
     preview release, following devices are in focus and tested to
     work:
 

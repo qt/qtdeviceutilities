@@ -4,12 +4,12 @@ naturallanguage              = en_US
 outputencoding               = UTF-8
 sourceencoding               = UTF-8
 
-project                      = B2Qt
+project                      = Boot2Qt
 description                  = Boot to Qt Technology Preview Documentation
-version                      = tp1
+version                      = tp
 
 sourcedirs                   = ../src
-imagedirs                    = ../images
+imagedirs                   += ../images
 
 sources.fileextensions       = "*.qdoc"
 
