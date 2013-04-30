@@ -238,6 +238,22 @@
     echo 'SUBSYSTEM=="usb", ATTRS{idVendor}=="18d1", ATTRS{idProduct}=="9018", TAG+="udev-acl"' | sudo tee -a /etc/udev/rules.d/70-boot2qt.rules
     \endcode
 
+    Now disconnect and reconnect the USB cable. Confirm that the
+    connection is working by running this shell command:
+
+    \code
+    <SDK_INSTALL_DIR>/targets/android-utils/bin/adb devices
+    \endcode
+
+    The output should be a list of connected android devices,
+    identifed with a serial number and a name. Note that the emulator
+    may be listed as well, its serial number will be its IP and port
+    number (\c{192.168.56.101:5555}). If your device is missing from
+    the list, or the serial number is \c{??????}, the connection is
+    not working properly. If so, check that the device is powered up,
+    and that the USB cable has been disconnected and reconnected. The
+    system log files \c{/var/log/udev} and \c{/var/log/syslog} may
+    provide relevant information in case of connection problems.
 
     \section1 Preparing Hardware for Running \B2Q
 
