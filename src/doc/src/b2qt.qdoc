@@ -149,7 +149,7 @@
     system. To install the required packages in Ubuntu, use
 
     \code
-    sudo apt-get install g++-multilib:i386
+    sudo apt-get install g++-multilib:i386 ia32-libs
     \endcode
 
 
@@ -414,26 +414,34 @@
     The image containing \B2Q stack for BeagleBoard-xM is included in the SDK,
     ready to be copied to an SD card.
 
-    Write the image to an SD card with at least 2GB capacity. To do so,
-    plug in the SD card/reader and use the following command to find out
-    its device name:
+    Write the image to an SD card with at least 2GB capacity. To do
+    so, plug in the SD card/reader in the PC and use the following
+    command to find out its device name (i.e. \c{/dev/XXX}, where
+    \c{XXX} typically is \c{sdb}):
 
     \code
     df -h
     \endcode
 
-    Next, unmount the SD card. Assuming the device name of the SD card is
-    \c{/dev/sdb}:
+    Alternatively, if the SD card is unformatted, run the following
+    command immediately after inserting the card to see its device
+    name:
 
     \code
-    umount /dev/sdb
+    dmesg | tail
+    \endcode
+
+    Next, make sure the SD card is not mounted:
+
+    \code
+    umount /dev/XXX
     \endcode
 
     Finally, write the image to the SD card:
 
     \code
     cd <SDK_INSTALL_DIR>
-    sudo dd if=targets/beagleboard/images/sdcard.img of=/dev/sdb bs=1M
+    sudo dd if=targets/beagleboard/images/sdcard.img of=/dev/XXX bs=1M
     \endcode
 
     \warning \b{Make very sure you select the right device. Selecting the wrong
@@ -470,7 +478,7 @@
     Then, upgrade the SD Card with \B2Q:
 
     \code
-    <SDK_INSTALL_DIR>/targets/android-utils/deploy_to_iMX6 /dev/XXX
+    <SDK_INSTALL_DIR>/targets/android-utils/bin/deploy_to_iMX6 /dev/XXX
     \endcode
 
     where \c{XXX} is the device for your SD card, typically \c{sdb}.
@@ -584,8 +592,14 @@
 
     \b{I'm unable to shut down my Nexus 7, what can I do?}
 
-    In case you are not able to shut down or reboot your Nexus 7, press and
-    hold the power button for 10 seconds. This will force a reboot.
+    Make sure the Nexus 7 is connected to your PC with USB, and run
+    the following command in a terminal:
+    \code
+    <SDK_INSTALL_DIR>/targets/android-utils/bin/adb shell reboot -p
+    \endcode
+
+    Alternatively, press and hold the power button for 10
+    seconds. This will force a reboot.
 
     \b{Trying to build for the emulator target fails with error message \e{make: i686-android-linux-g++: Command not found}}
 
