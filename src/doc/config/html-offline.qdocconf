@@ -1,4 +1,4 @@
-#HTML.nobreadcrumbs    = "true"
+HTML.nobreadcrumbs    = "true"
 
 HTML.stylesheets      = template/style/offline.css
 
