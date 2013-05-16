@@ -34,6 +34,7 @@
             \li \l{Preparing Sabre Lite i.MX 6 for Development}
         \endlist
         \li \b {\l{Building and Running an Example}}
+        \li \b {\l{Customization}}
         \li \b {\l{Supported Platforms}}
         \li \b {\l{Troubleshooting}}
     \endlist
@@ -259,26 +260,22 @@
     development device, following steps are required to prepare it for
     \B2Q.
 
-    \section1 Unlocking Nexus 7
+    \section1 Unlocking Nexus 7 Bootloader
 
-    The Nexus 7 has to be unlocked to allow custom software to be installed.
-    This procedure can be done directly from the device UI, and needs to be
-    done only once.
+    The Nexus 7 Bootloader has to be unlocked to allow custom software
+    to be installed. This has to be done only once.
 
     \list 1
-        \li Power up the device.
-        \li Open \b{Settings > Developer Options} (Note: If you don't see \b{Developer Options} directly under \b{Settings}, go to \b{About Tablet}).
-        \li Use the slider in the top right corner to enable developer mode. (Note: If you don't see a slider, instead tap the \b{Build Number} entry seven times. You should see a message \e{"You are now a developer!"} displayed.)
-        \li In \b{Developer Options}, also enable \b{USB Debugging}.
+        \li Power down the device.
+        \li Connect it to the development host with a USB cable.
+        \li Start the Nexus up in \e{fastboot} mode: Press the power button for a second, and then keep the Volume Down key pressed, until you see a screen with a green robot with its front panel open. Note: If you get the ordinary startup screen instead, just power it down and try again.
+        \li On the development host, give the command
+        \code
+            sudo <SDK_INSTALL_DIR>/targets/android-utils/bin/fastboot oem unlock
+        \endcode
+        The Nexus screen will ask if you want to unlock the bootloader. Press power button to confirm.
+        \li Wait a few seconds, and check that the text line stating the \c{LOCK STATE} now says \c{UNLOCKED}.
     \endlist
-
-    Finally, connect your Nexus 7 to your computer via USB, and run
-    the following command:
-
-    \code
-    sudo <SDK_INSTALL_DIR>/targets/android-utils/bin/fastboot oem unlock
-    \endcode
-
 
     \section1 Updating a Nexus 7 with \B2Q Images
 
@@ -287,20 +284,14 @@
 
     An unlocked Nexus 7 device can now be updated with a \B2Q image.
 
-    To do so, connect your Nexus 7 to your computer via USB, and run the
-    commands
+    To do so, first make sure that the device is in \e{fastboot} mode
+    (see above), and connected to the development host via USB.
+
+    Then, re-flash the \e{boot}, \e{system}, and \e{userdata} partitions on the
+    device, using the following commands in the order they are listed:
 
     \code
-    cd <SDK_INSTALL_DIR>/targets/
-    ./android-utils/bin/adb reboot bootloader
-    \endcode
-
-    The device will reboot into \e{fastboot} mode.
-
-    To re-flash the \e{boot}, \e{system}, and \e{userdata} partitions on the
-    device, use the following commands in the order they are listed:
-
-    \code
+    cd <SDK_INSTALL_DIR>/targets
     sudo ./android-utils/bin/fastboot flash boot nexus7/images/boot.img
     sudo ./android-utils/bin/fastboot flash system nexus7/images/system.img
     sudo ./android-utils/bin/fastboot flash userdata nexus7/images/data.img
@@ -309,9 +300,11 @@
     Once the flashing is completed successfully, reboot the device:
 
     \code
-    ./android-utils/bin/fastboot reboot
+    sudo ./android-utils/bin/fastboot reboot
     \endcode
 
+    Until the next step is performed, the Nexus screen may only show
+    the "Google" logo.
 
     \section1 Installing Proprietary Graphics Drivers
 
@@ -325,7 +318,8 @@
     \e{"Nexus 7 (Wi-Fi) binaries for Android 4.1.2"}, download and save the file
     to the installation directory of the \B2Q SDK.
 
-    Make sure your Nexus 7 is connected to the computer via USB.
+    Make sure your Nexus 7 is powered up, is \e{not} in fastboot mode,
+    and is connected to the computer via USB.
 
     Then, follow these steps to update the Nexus 7:
 
@@ -532,9 +526,46 @@
 */
 
 /*!
+    \page b2qt-customization.html
+    \title Customization
+    \previouspage b2qt-building-and-running.html
+    \nextpage b2qt-supported-platforms.html
+
+    \section1 Environment and Input
+
+    By default, the basic environment variables and startup options of
+    \B2Q applications are set in the file \c
+    {/system/bin/appcontroller.conf}.
+
+    This file can be customized if targeting a hardware device that
+    has different input devices than what the \B2Q stack is configured
+    for by default.
+
+    Note that on some devices, the root file system (where this file
+    resides) is mounted read-only at boot time. It needs to be
+    remounted read-write to allow modification. The following command
+    does that:
+    \code
+    <SDK_INSTALL_DIR>/targets/android-utils/bin/adb remount
+    \endcode
+
+    In the \c{appcontroller.conf} file, the input devices are
+    specified by the lines similar to these:
+    \code
+    append=-plugin
+    append=evdevtouch:/dev/input/event0
+    \endcode
+
+    The mouse pointer can be turned on and off by removing or adding this line:
+    \code
+    env=QT_QPA_EGLFS_HIDECURSOR=1
+    \endcode
+*/
+
+/*!
     \page b2qt-supported-platforms.html
     \title Supported Platforms
-    \previouspage b2qt-building-and-running.html
+    \previouspage b2qt-customization.html
     \nextpage b2qt-troubleshooting.html
 
     \section1 Supported Target Devices
@@ -571,6 +602,8 @@
     \page b2qt-troubleshooting.html
     \title Troubleshooting
     \previouspage b2qt-supported-platforms.html
+
+    \e {NOTE: An updated version of this information may be available in the Digia customer portal.}
 
     \section1 General Issues
 
@@ -621,6 +654,20 @@
     You need to install proper libraries in order to run 32-bit programs in 64-bit Linux operating system.
 
     See \l{Installing 32-bit Support Libraries}.
+
+    \section2 Something crashed!
+
+    The following command shows the system log:
+    \code
+    <SDK_INSTALL_DIR>/targets/android-utils/bin/adb logcat
+    \endcode
+
+    \section2 Mouse or touch input does not work
+
+    See \l{Customization}.
+
+    Note that hotplugging does not currently work; any input device
+    must be present at boot time to be recognized.
 
     \section1 Connectivity Issues
     \section2 I cannot connect to my hardware device via USB
