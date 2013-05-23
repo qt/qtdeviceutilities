@@ -619,6 +619,16 @@
     run configuration, click on \b{Projects > Build & Run}, and click
     \b{Run} on the active device kit.
 
+    \section2 I have a problem deploying/launching a Qt or Qt Declarative example application
+
+    Because of a technical peculiarity in \c{qmake}, it is not
+    possible to get correct deployment setup for any application that
+    is placed inside a Qt source code tree.
+
+    The workaround is to copy the example sources to a location
+    outside the Qt source tree, and open this copy of the example
+    application instead.
+
     \section2 I have a problem launching or running applications on hardware after updating \B2Q SDK
 
     Remember to repeat the process of updating also your device with the latest
