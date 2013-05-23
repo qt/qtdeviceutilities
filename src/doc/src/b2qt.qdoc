@@ -632,7 +632,6 @@
     \code
     <SDK_INSTALL_DIR>/targets/android-utils/bin/adb reboot bootloader
     <SDK_INSTALL_DIR>/targets/android-utils/bin/fastboot -w update <image-file>.zip
-    <SDK_INSTALL_DIR>/targets/android-utils/bin/fastboot reboot
     \endcode
 
     \section2 How do I shut down the Nexus 7?
