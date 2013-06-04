@@ -1,9 +1,11 @@
 #include "qdroidutils.h"
+#include <unistd.h>
 
 #ifdef Q_OS_ANDROID_NO_SDK
-#include <unistd.h>
 #include <cutils/android_reboot.h>
 #include <hardware/lights.h>
+#else
+#include <sys/reboot.h>
 #endif
 
 /*!
@@ -13,13 +15,13 @@
  */
 void QDroidUtils::rebootSystem()
 {
-#ifdef Q_OS_ANDROID_NO_SDK
     sync();
+#ifdef Q_OS_ANDROID_NO_SDK
     (void)android_reboot(ANDROID_RB_RESTART, 0, 0);
-    qWarning("android_reboot returned");
 #else
-    qDebug("QDroidUtils::rebootSystem()");
+    reboot(RB_AUTOBOOT);
 #endif
+    qWarning("reboot returned");
 }
 
 /*!
@@ -29,13 +31,13 @@ void QDroidUtils::rebootSystem()
  */
 void QDroidUtils::powerOffSystem()
 {
-#ifdef Q_OS_ANDROID_NO_SDK
     sync();
+#ifdef Q_OS_ANDROID_NO_SDK
     (void)android_reboot(ANDROID_RB_POWEROFF, 0, 0);
-    qWarning("android_reboot returned");
 #else
-    qDebug("QDroidUtils::powerOffSystem()");
+    reboot(RB_POWER_OFF);
 #endif
+    qWarning("powerOff returned");
 }
 
 /*!

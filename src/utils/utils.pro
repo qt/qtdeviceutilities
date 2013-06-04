@@ -11,7 +11,7 @@ QT = core
 MODULE = droidutils
 load(qt_module)
 
-LIBS += -lhardware -lcutils
+android: LIBS += -lhardware -lcutils
 
 HEADERS += \
     $$PWD/qdroidutils.h
