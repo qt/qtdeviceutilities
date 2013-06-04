@@ -29,9 +29,11 @@
     \list
         \li \b {\l{Installation Guide}}
         \list
-            \li \l{Preparing Nexus 7 for Development}
-            \li \l{Preparing BeagleBoard-xM for Development}
-            \li \l{Preparing Sabre Lite i.MX 6 for Development}
+            \li \l{Preparing Nexus 7 for embedded Android Development}
+            \li \l{Preparing BeagleBoard-xM for embedded Android Development}
+            \li \l{Preparing BeagleBoard-xM for embedded Linux Development}
+            \li \l{Preparing Sabre Lite i.MX 6 for embedded Android Development}
+            \li \l{Preparing Sabre Lite i.MX 6 for embedded Linux Development}
         \endlist
         \li \b {\l{Building and Running an Example}}
         \li \b {\l{Customization}}
@@ -51,8 +53,14 @@
     Android 4.0/4.1 baselayers and has been tested and verified on a
     number of different hardware configurations.
 
+    \B2Q for embedded Linux places Qt on top of an Linux
+    kernel/baselayer and offers the same elegant means of developing
+    beautiful and performant embedded devices as \B2Q for embedded Android.
+    It has been build using Yocto 1.4 'Dylan' release and has been tested and
+    verified on a number of different hardware configurations.
+
     \B2Q SDK provides a complete software development package for
-    creating applications on embedded Android devices. It comes with
+    creating applications on embedded devices. It comes with
     the Qt Creator IDE with preconfigured build targets for hardware
     platforms as well as an \l{Emulator}{emulator}.
 
@@ -94,7 +102,12 @@
     features. The majority of the Android stack, such as
     \e{SurfaceFlinger} or \e{DalvikVM} is not running in \B2Q,
     resulting in faster startup times, lower memory consumption and
-    overall better performance.  */
+    overall better performance.
+
+    \b{\B2Q} for embedded Linux is build from scratch using Yocto 1.4 tools
+    to contain only components required in the embedded device, resulting
+    in smaller image sizes while keeping valuable development tools available.
+*/
 
 /*!
     \page b2qt-installation-guide.html
@@ -183,9 +196,11 @@
     instructions specific to your device:
 
     \list
-        \li \l{Preparing Nexus 7 for Development}
-        \li \l{Preparing BeagleBoard-xM for Development}
-        \li \l{Preparing Sabre Lite i.MX 6 for Development}
+        \li \l{Preparing Nexus 7 for embedded Android Development}
+        \li \l{Preparing BeagleBoard-xM for embedded Android Development}
+        \li \l{Preparing BeagleBoard-xM for embedded Linux Development}
+        \li \l{Preparing Sabre Lite i.MX 6 for embedded Android Development}
+        \li \l{Preparing Sabre Lite i.MX 6 for embedded Linux Development}
     \endlist
 
     After preparing the device, power it up and confirm that it shows
@@ -224,7 +239,13 @@
     system log files \c{/var/log/udev} and \c{/var/log/syslog} may
     provide relevant information in case of connection problems.
 
-    \section1 6. Configuring a Device Kit in Qt Creator
+    \section1 6. Network Connection for Embedded Linux Devices
+
+    Devices using \B2Q for embedded Linux need to be connected to network
+    in order to be used with QtCreator. The devices are setup to automatically
+    configure a wired network connection using DHCP.
+
+    \section1 7. Configuring a Device Kit in Qt Creator
 
     After the hardware has been prepared, there is one final step required
     to set up the development tools in Qt Creator for your device.
@@ -253,7 +274,7 @@
 
 /*!
     \page b2qt-preparing-hardware-nexus-7.html
-    \title Preparing Nexus 7 for Development
+    \title Preparing Nexus 7 for embedded Android Development
     \previouspage b2qt-installation-guide.html
 
     When using a \l{http://www.google.com/nexus/7/specs/}{Nexus 7} as a
@@ -345,7 +366,7 @@
 
 /*!
     \page b2qt-preparing-hardware-beagleboard.html
-    \title Preparing BeagleBoard-xM for Development
+    \title Preparing BeagleBoard-xM for embedded Android Development
     \previouspage b2qt-installation-guide.html
 
     When using a \l{http://beagleboard.org/hardware-xM}{BeagleBoard-xM} as a
@@ -400,8 +421,64 @@
 */
 
 /*!
+    \page b2qt-preparing-hardware-beagleboard-linux.html
+    \title Preparing BeagleBoard-xM for embedded Linux Development
+    \previouspage b2qt-installation-guide.html
+
+    When using a \l{http://beagleboard.org/hardware-xM}{BeagleBoard-xM} as a
+    development device, following steps are required to prepare it for
+    \B2Q.
+
+    \note \b{It is important that the steps in this section are repeated
+    every time after updating the \B2Q SDK.}
+
+    The image containing \B2Q stack for BeagleBoard-xM is included in the SDK,
+    ready to be copied to a micro-SD card.
+
+    \section1 Preparing a micro-SD card
+
+    A micro-SD card of at least 512MB capacity is needed.
+
+    Plug the micro-SD card/reader into the development host PC and use
+    the following command to find out its device path
+    (i.e. \c{/dev/XXX}, where \c{XXX} typically is \c{sdb}):
+
+    \code
+    df -h
+    \endcode
+
+    Alternatively, if the micro-SD card is unformatted, run the following
+    command immediately after inserting the card to see its device
+    path:
+
+    \code
+    dmesg | tail
+    \endcode
+
+    Now make sure the micro-SD card is not mounted:
+
+    \code
+    umount /dev/XXX
+    \endcode
+
+    \section1 Installing the \B2Q image
+
+    Write the image to the micro-SD card:
+
+    \code
+    cd <SDK_INSTALL_DIR>
+    targets/beagleboard-linux/images/deploy.sh /dev/XXX
+    \endcode
+
+    \warning \b{Make very sure you select the right device. Selecting the wrong
+    one can result in a wiped hard drive}.
+
+    Now make sure to complete all the steps of the \l{Installation Guide}.
+*/
+
+/*!
     \page b2qt-preparing-hardware-imx6.html
-    \title Preparing Sabre Lite i.MX 6 for Development
+    \title Preparing Sabre Lite i.MX 6 for embedded Android Development
     \previouspage b2qt-installation-guide.html
 
     When using a
@@ -494,6 +571,61 @@
     Now make sure to complete all the steps of the \l{Installation Guide}.
 */
 
+/*!
+    \page b2qt-preparing-hardware-imx6-linux.html
+    \title Preparing Sabre Lite i.MX 6 for embedded Linux Development
+    \previouspage b2qt-installation-guide.html
+
+    When using a \l{http://boundarydevices.com/products/sabre-lite-imx6-sbc/}{Sabre
+    Lite i.MX 6} as a development device, following steps are required to prepare it for
+    \B2Q.
+
+    \note \b{It is important that the steps in this section are repeated
+    every time after updating the \B2Q SDK.}
+
+    The image containing \B2Q stack for Sabre Lite i.MX 6 is included in the SDK,
+    ready to be copied to a micro-SD card.
+
+    \section1 Preparing a micro-SD card
+
+    A micro-SD card of at least 512MB capacity is needed.
+
+    Plug the micro-SD card/reader into the development host PC and use
+    the following command to find out its device path
+    (i.e. \c{/dev/XXX}, where \c{XXX} typically is \c{sdb}):
+
+    \code
+    df -h
+    \endcode
+
+    Alternatively, if the micro-SD card is unformatted, run the following
+    command immediately after inserting the card to see its device
+    path:
+
+    \code
+    dmesg | tail
+    \endcode
+
+    Now make sure the micro-SD card is not mounted:
+
+    \code
+    umount /dev/XXX
+    \endcode
+
+    \section1 Installing the \B2Q image
+
+    Write the image to the micro-SD card:
+
+    \code
+    cd <SDK_INSTALL_DIR>
+    targets/iMX6-linux/images/deploy.sh /dev/XXX
+    \endcode
+
+    \warning \b{Make very sure you select the right device. Selecting the wrong
+    one can result in a wiped hard drive}.
+
+    Now make sure to complete all the steps of the \l{Installation Guide}.
+*/
 
 /*!
     \page b2qt-building-and-running.html
@@ -535,7 +667,8 @@
 
     By default, the basic environment variables and startup options of
     \B2Q applications are set in the file \c
-    {/system/bin/appcontroller.conf}.
+    {/system/bin/appcontroller.conf} in embedded Android devices and
+    in \c{/etc/appcontroller.conf} in embedded Linux devices.
 
     This file can be customized if targeting a hardware device that
     has different input devices than what the \B2Q stack is configured
