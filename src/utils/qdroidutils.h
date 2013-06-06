@@ -23,6 +23,9 @@ public Q_SLOTS:
 
     bool setDisplayBrightness(quint8 value);
 
+    QString getIPAddress();
+    QString getHostname();
+    bool setHostname(QString hostname);
 };
 
 #endif // QDROIDUTILS_H

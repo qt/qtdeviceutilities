@@ -2,7 +2,7 @@ TARGET = QtDroidUtils
 VERSION = 5
 CONFIG += dll warn_on
 
-QT = core
+QT = core network
 #QT = core-private gui-private qml-private quick-private
 #QT_PRIVATE = v8-private
 

@@ -6,6 +6,9 @@
 #include <hardware/lights.h>
 #else
 #include <sys/reboot.h>
+#include <QNetworkInterface>
+#include <QHostInfo>
+#include <QFile>
 #endif
 
 /*!
@@ -72,6 +75,59 @@ bool QDroidUtils::setDisplayBrightness(quint8 value)
     device->common.close(&device->common);
 #else
     qDebug("QDroidUtils::setDisplayBrightness(%i)", value);
+#endif
+    return true;
+}
+
+
+/*!
+ * Gets the current IP address of the device
+ */
+QString QDroidUtils::getIPAddress()
+{
+    QString address;
+#ifdef Q_OS_ANDROID_NO_SDK
+    qDebug("QDroidUtils::getIPAddress()");
+#else
+    QNetworkInterface interface = QNetworkInterface::interfaceFromName("eth0");
+    QList<QNetworkAddressEntry> entries;
+    entries = interface.addressEntries();
+    if ( !entries.empty() ) {
+        address = entries.first().ip().toString();
+    }
+#endif
+    return address;
+}
+
+/*!
+ * Gets the current hostname of the device
+ */
+QString QDroidUtils::getHostname()
+{
+    QString hostname;
+#ifdef Q_OS_ANDROID_NO_SDK
+    qDebug("QDroidUtils::getHostname()");
+#else
+    hostname = QHostInfo::localHostName();
+#endif
+    return hostname;
+}
+
+/*!
+ * Sets new hostname for the device
+ */
+bool QDroidUtils::setHostname(QString hostname)
+{
+#ifdef Q_OS_ANDROID_NO_SDK
+    qDebug("QDroidUtils::setHostname()");
+#else
+    QFile file("/etc/hostname");
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        qWarning("Could not open hostname file");
+        return false;
+    }
+    file.write(hostname.toLocal8Bit());
+    file.close();
 #endif
     return true;
 }
