@@ -207,7 +207,9 @@
     a \B2Q welcome screen and/or demo. Then go on to the installation
     steps below.
 
-    \section1 5. Setting up USB Access to Target Devices
+    \section1 5. Setting up Connection to Target Devices
+
+    \section2 5.1 Setting up USB Access to Embedded Android Devices
 
     \e{If targeting only the emulator, this step may be skipped}
 
@@ -239,13 +241,25 @@
     system log files \c{/var/log/udev} and \c{/var/log/syslog} may
     provide relevant information in case of connection problems.
 
-    \section1 6. Network Connection for Embedded Linux Devices
+    \section2 5.2 Setting up Network Access to Embedded Linux Devices
 
-    Devices using \B2Q for embedded Linux need to be connected to network
-    in order to be used with QtCreator. The devices are setup to automatically
-    configure a wired network connection using DHCP.
+    Devices using \B2Q for embedded Linux stack must be connected to a
+    wired network in order to be used with QtCreator. The devices are
+    setup to automatically configure a network connection using DHCP
+    and device specific hostname which is used by QtCreator to connect
+    to the device.
 
-    \section1 7. Configuring a Device Kit in Qt Creator
+    You can verify that the connection between QtCreator and the target
+    device is working correctly from the \c{Devices} configuration tab
+    in QtCreator.
+
+    Depending on the configuration on your network, connecting with the
+    hostname may not work correctly. In that case you can use IP address
+    for the connection instead of hostname. You can view the device's
+    current hostname and IP address from the "Launcher Settings" app and
+    setup the connection in the QtCreator's \c{Devices} configuration.
+
+    \section1 6. Configuring a Device Kit in Qt Creator
 
     After the hardware has been prepared, there is one final step required
     to set up the development tools in Qt Creator for your device.
@@ -814,7 +828,11 @@
     \section1 Connectivity Issues
     \section2 I cannot connect to my hardware device via USB
 
-    See \l{5. Setting up USB Access to Target Devices}.
+    See \l{5.1 Setting up USB Access to Embedded Android Devices}.
+
+    \section2 I cannot connect to my hardware device via network
+
+    See \l{5.2 Setting up Network Access to Embedded Linux Devices}.
 
     \section2 adb fails with "error: more than one device and emulator"
 
@@ -826,4 +844,10 @@
     \code
     <SDK_INSTALL_DIR>/targets/android-utils/bin/adb devices
     \endcode
+
+    \section2 What is the user and password to access my embedded Linux device
+
+    Embedded Linux devices can be accessed using user \c{root} and an empty password.
+
+
 */
