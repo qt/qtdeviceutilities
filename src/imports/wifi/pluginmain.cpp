@@ -14,6 +14,7 @@ public:
         Q_ASSERT(QLatin1String(uri) == QLatin1String("Qt.labs.wifi"));
 
         qmlRegisterType<QWifiManager>(uri, 0, 1, "QWifiManager");
+        qmlRegisterType<QWifiNetworkList>();
     }
 };
 
