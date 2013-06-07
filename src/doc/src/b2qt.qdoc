@@ -529,37 +529,13 @@
     umount /dev/XXX
     \endcode
 
-    \section1 Installing the Android image
-
-    Download the package \e{r13.4.1-nitrogen-20130407.tar.gz} from
-    \l{http://boundarydevices.com/i-mx6-images-for-branch-r13-4-1/}{i.MX6
-    images for branch r13.4-1}. This requires registration.
-
-    Follow the instructions on the Boundary Devices web site to create
-    an SD card containing the downloaded image. We recommend choosing
-    the "Tar-ball installation" procedure, as it is much
-    quicker. However, in case of problems, the "binary image
-    installation" procedure is more failsafe.
-
-    In either case, make sure to replace the device path
-    (\c{"/dev/sdc"}) with the micro-SD card's device path that
-    was found in the previous step.
-
-    \warning \b{Make very sure you select the right device. Selecting the wrong
-    one can result in a wiped hard drive.}
-
     \section1 Installing the \B2Q image
 
-    Make sure you have the required tools installed in your development machine:
+    Write the image to the micro-SD card:
 
     \code
-    sudo apt-get install u-boot-tools
-    \endcode
-
-    Then, upgrade the micro-SD Card with \B2Q:
-
-    \code
-    <SDK_INSTALL_DIR>/targets/android-utils/bin/deploy_to_iMX6 /dev/XXX
+    cd <SDK_INSTALL_DIR>
+    sudo dd if=targets/iMX6/images/sdcard.img of=/dev/XXX bs=1M
     \endcode
 
     \warning \b{Make very sure you select the right device. Selecting the wrong
