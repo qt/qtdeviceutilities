@@ -4,6 +4,7 @@
 #ifdef Q_OS_ANDROID_NO_SDK
 #include <cutils/android_reboot.h>
 #include <hardware/lights.h>
+#include <media/AudioSystem.h>
 #else
 #include <sys/reboot.h>
 #include <QNetworkInterface>
@@ -41,6 +42,99 @@ void QDroidUtils::powerOffSystem()
     reboot(RB_POWER_OFF);
 #endif
     qWarning("powerOff returned");
+}
+
+/*!
+ * Sets the master volume to \a volume.
+ * The volume can range from 0 to 100 and is linear.
+ * Changing the master volume will affect all audio streams.
+ *
+ * \sa setStreamVolume()
+ * \sa setMasterMute()
+ */
+void QDroidUtils::setMasterVolume(int volume)
+{
+#ifdef Q_OS_ANDROID_NO_SDK
+    volume = qBound(0, volume, 100);
+    android::AudioSystem::setMasterVolume(android::AudioSystem::linearToLog(volume));
+#endif
+}
+
+/*!
+ * Sets the master mute to \a mute. Setting it to true will disable all
+ * sounds on the device.
+ *
+ * \sa setMasterVolume()
+ * \sa setStreamMute()
+ */
+void QDroidUtils::setMasterMute(bool mute)
+{
+#ifdef Q_OS_ANDROID_NO_SDK
+    android::AudioSystem::setMasterMute(mute);
+#endif
+}
+
+/*!
+    \enum QDroidUtils::AudioStreamType
+    \value DefaultAudioStream
+           The default audio stream
+
+    \value VoiceCallAudioStream
+           The audio stream for phone calls
+
+    \value SystemAudioStream
+           The audio stream for system sounds
+
+    \value RingAudioStream
+           The audio stream for the phone ring
+
+    \value AlarmAudioStream
+           The audio stream for alarms
+
+    \value NotificationAudioStream
+           The audio stream for notifications
+
+    \value BluetoothAudioStream
+           The audio stream for audio transmitted over bluetooth
+
+    \value EnforcedAudibleAudioStream
+           Sounds that cannot be muted by user and must be routed to speaker
+
+    \value DTMFAudioStream
+           The audio stream for DTMF Tones
+
+    \value TTSAudioStream
+           The audio stream for text-to-speech
+*/
+
+/*!
+ * Sets the volume for a specific audio \a stream type to \a volume.
+ * The volume can range from 0 to 100 and is linear.
+ * All streams of the specified type will be affected.
+ *
+ * \sa setMasterVolume()
+ * \sa setStreamMute()
+ */
+void QDroidUtils::setStreamVolume(AudioStreamType streamType, int volume)
+{
+#ifdef Q_OS_ANDROID_NO_SDK
+    volume = qBound(0, volume, 100);
+    android::AudioSystem::setStreamVolume(audio_stream_type_t(streamType),
+                                          android::AudioSystem::linearToLog(volume), 0);
+#endif
+}
+
+/*!
+ * Mutes all audio \a streams of type \a streamType.
+ *
+ * \sa setStreamVolume()
+ * \sa setMasterMute()
+ */
+void QDroidUtils::setStreamMute(AudioStreamType streamType, bool mute)
+{
+#ifdef Q_OS_ANDROID_NO_SDK
+    android::AudioSystem::setStreamMute(audio_stream_type_t(streamType), mute);
+#endif
 }
 
 /*!
