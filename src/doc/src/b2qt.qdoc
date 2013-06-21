@@ -353,6 +353,8 @@
     \e{"Nexus 7 (Wi-Fi) binaries for Android 4.1.2"}, download and save the file
     to the installation directory of the \B2Q SDK.
 
+    \note Only the version "Android 4.1.2 (JZO54K and JZO54L)" will work with the current Boot to Qt image.
+
     Make sure your Nexus 7 is powered up, is \e{not} in fastboot mode,
     and is connected to the computer via USB.
 
