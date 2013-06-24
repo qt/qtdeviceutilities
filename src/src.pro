@@ -4,3 +4,5 @@ SUBDIRS += \
     utils \
     imports \
     doc
+
+android: SUBDIRS += doppelganger
