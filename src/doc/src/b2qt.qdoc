@@ -639,9 +639,7 @@
             project in the emulator.
         \li Click \b{Next} and finish the wizard.
         \li In \b{Projects > Build & Run}, select the correct kit for your
-            connected device. Also, click on \b{Run} to check if the
-            \b{Run configuration} of your device kit has a
-            \b{Custom Executable} setting, and remove it if present.
+            connected device.
         \li To build and run the project, click \inlineimage qtcreator-run.png
     \endlist
 */
@@ -735,11 +733,6 @@
     See \l{Connectivity Issues}.
 
     If using the emulator, see \l{Installing VirtualBox}{Configuring VirtualBox}.
-
-    In addition, check if \b{Run configuration} of your device kit has a
-    \b{Custom Executable} setting, and remove it if present. To see the
-    run configuration, click on \b{Projects > Build & Run}, and click
-    \b{Run} on the active device kit.
 
     \section2 I have a problem deploying/launching a Qt or Qt Declarative example application
 
