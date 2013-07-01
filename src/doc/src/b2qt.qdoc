@@ -264,18 +264,15 @@
     After the hardware has been prepared, there is one final step required
     to set up the development tools in Qt Creator for your device.
 
-    A separate device \b{Kit} needs to be cloned for each hardware device
-    you want to develop for.
+    You have to configure the right device to be used for each \b{Kit}.
 
     To do so, connect your device to your computer via USB and launch
     Qt Creator (\B2Q IDE). Then,
 
     \list 1
         \li Go to \b{Tools > Options > Build & Run > Kits}
-        \li Select one of the predefined Kits starting with \e{Boot2QtSDK...}
+        \li Select one of the predefined Kits starting with \e{Boot2Qt...}
         that matches the type of your device.
-        \li Click \b{Clone}.
-        \li (Optional) Change the name to a shorter one, for example, \e{MyBeagleBoard}.
         \li Select the correct device in the \b{Device} combobox.
         \li Click \b{Ok}.
     \endlist
@@ -637,7 +634,7 @@
     \list 1
         \li Open \b{File > New File or Project}, select
             \b{Qt Quick 2 Application (Built-in Elements)} and click \b{Next}.
-        \li In \b{Kit Selection} dialog, select the kit(s) you cloned for your
+        \li In \b{Kit Selection} dialog, select the kit(s) for your
             devices. You can also select the emulator kit to test running the
             project in the emulator.
         \li Click \b{Next} and finish the wizard.
