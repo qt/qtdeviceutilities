@@ -22,6 +22,7 @@ class QWifiManager : public QObject
 public:
     enum InternalState {
         IS_Uninitialized,
+        IS_LoadDriver,
         IS_StartBackend,
         IS_ConnectToBackend,
         IS_UpAndRunning
@@ -61,6 +62,7 @@ private:
     void parseScanResults();
     void connectToBackend();
     QByteArray call(const char *command);
+    bool checkedCall(const char *command);
 
     QString m_connectedSSID;
     QWifiNetworkList m_networks;

@@ -4,10 +4,10 @@ QWifiNetwork::QWifiNetwork()
 {
 }
 
-void QWifiNetwork::setSignalStrength(int strenght)
+void QWifiNetwork::setSignalStrength(int strength)
 {
-    if (m_signalStrength == strenght)
+    if (m_signalStrength == strength)
         return;
-    m_signalStrength = strenght;
+    m_signalStrength = strength;
     emit signalStrengthChanged(m_signalStrength);
 }

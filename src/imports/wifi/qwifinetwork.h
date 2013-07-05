@@ -28,7 +28,7 @@ public:
     void setSsid(const QByteArray &id) { m_ssid = id; }
 
     int signalStrength() const { return m_signalStrength; }
-    void setSignalStrength(int strenght);
+    void setSignalStrength(int strength);
 
     QByteArray flags() const { return m_flags; }
     void setFlags(const QByteArray &f) { m_flags = f; }
