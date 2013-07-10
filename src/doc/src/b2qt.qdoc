@@ -304,9 +304,9 @@
 
     \code
     cd <SDK_INSTALL_DIR>/targets
-    sudo ./android-utils/bin/fastboot flash boot nexus7/images/boot.img
-    sudo ./android-utils/bin/fastboot flash system nexus7/images/system.img
-    sudo ./android-utils/bin/fastboot flash userdata nexus7/images/data.img
+    sudo ./android-utils/bin/fastboot flash boot nexus7-eAndroid/images/boot.img
+    sudo ./android-utils/bin/fastboot flash system nexus7-eAndroid/images/system.img
+    sudo ./android-utils/bin/fastboot flash userdata nexus7-eAndroid/images/data.img
     \endcode
 
     Once the flashing is completed successfully, reboot the device:
@@ -315,8 +315,8 @@
     sudo ./android-utils/bin/fastboot reboot
     \endcode
 
-    Until the next step is performed, the Nexus screen may only show
-    the "Google" logo.
+    \note Until the next step is performed, the Nexus 7 will not
+    boot correctly (the screen will only show the "Google" logo).
 
     \section1 Installing Proprietary Graphics Drivers
 
@@ -404,7 +404,7 @@
 
     \code
     cd <SDK_INSTALL_DIR>
-    sudo dd if=targets/beagleboard/images/sdcard.img of=/dev/XXX bs=1M
+    sudo dd if=targets/beagleboard-eAndroid/images/sdcard.img of=/dev/XXX bs=1M
     \endcode
 
     \warning \b{Make very sure you select the right device. Selecting the wrong
@@ -460,7 +460,7 @@
 
     \code
     cd <SDK_INSTALL_DIR>
-    targets/beagleboard-linux/images/deploy.sh /dev/XXX
+    targets/beagleboard-eLinux/images/deploy.sh /dev/XXX
     \endcode
 
     \warning \b{Make very sure you select the right device. Selecting the wrong
@@ -514,7 +514,7 @@
 
     \code
     cd <SDK_INSTALL_DIR>
-    sudo dd if=targets/iMX6/images/sdcard.img of=/dev/XXX bs=1M
+    sudo dd if=targets/iMX6-eAndroid/images/sdcard.img of=/dev/XXX bs=1M
     \endcode
 
     \warning \b{Make very sure you select the right device. Selecting the wrong
@@ -587,7 +587,7 @@
 
     \code
     cd <SDK_INSTALL_DIR>
-    targets/iMX6-linux/images/deploy.sh /dev/XXX
+    targets/iMX6-eLinux/images/deploy.sh /dev/XXX
     \endcode
 
     \warning \b{Make very sure you select the right device. Selecting the wrong
