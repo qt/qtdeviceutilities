@@ -660,18 +660,15 @@
     env=QT_QPA_EGLFS_HIDECURSOR=1
     \endcode
 
-    \section1 Launching custom application on boot
+    \section1 Booting your custom application
 
-    To run your own application by default instead of the \B2Q demo launcher you
-    have to deploy your custom application to the device.
-    For embedded Android you have to do:
-    \code
-    <SDK_INSTALL_DIR>/targets/android-utils/bin/adb shell ln -sf PATH_TO_YOUR_APP /data/user/b2qt
-    \endcode
+    After you have deployed your own application to the device it will be launched instead
+    of the \B2Q demo launcher on boot. To prevent this behavior you have to remove
+    this step from the build steps of your project's run configuration.
 
-    For embedded Linux you have to do:
+    To remove your application from the default startup use the following command:
     \code
-    <SDK_INSTALL_DIR>/targets/android-utils/bin/adb shell ln -sf PATH_TO_YOUR_APP /usr/bin/b2qt
+    <SDK_INSTALL_DIR>/targets/android-utils/bin/adb shell appcontroller --remove-default
     \endcode
 */
 
