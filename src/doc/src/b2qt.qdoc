@@ -652,8 +652,7 @@
     In the \c{appcontroller.conf} file, the input devices are
     specified by the lines similar to these:
     \code
-    append=-plugin
-    append=evdevtouch:/dev/input/event0
+    env=QT_QPA_GENERIC_PLUGINS=evdevtouch:/dev/input/event0
     \endcode
 
     The mouse pointer can be turned on and off by removing or adding this line:
