@@ -28,12 +28,11 @@
 
     \list
         \li \b {\l{Installation Guide}}
+        \li \b {\l{Preparing Hardware}}
         \list
-            \li \l{Preparing Nexus 7 for embedded Android Development}
-            \li \l{Preparing BeagleBoard-xM for embedded Android Development}
-            \li \l{Preparing BeagleBoard-xM for embedded Linux Development}
-            \li \l{Preparing Sabre Lite i.MX 6 for embedded Android Development}
-            \li \l{Preparing Sabre Lite i.MX 6 for embedded Linux Development}
+            \li \l{Preparing Nexus 7 for embedded Android Development}{Nexus 7}
+            \li \l{Preparing BeagleBoard-xM}{BeagleBoard-xM}
+            \li \l{Preparing Sabre Lite i.MX 6}{Sabre Lite i.MX 6}
         \endlist
         \li \b {\l{Building and Running an Example}}
         \li \b {\l{Customization}}
@@ -47,15 +46,15 @@
     \b{\B2Q} is a light-weight UI stack for embedded systems, based on the
     \l{http://qt.digia.com/}{Qt Framework} by Digia.
 
-    \B2Q for embedded Android places Qt on top of an Android
+    \B2QA places Qt on top of an Android
     kernel/baselayer and offers an elegant means of developing
     beautiful and performant embedded devices. It runs on top of
     Android 4.0/4.1 baselayers and has been tested and verified on a
     number of different hardware configurations.
 
-    \B2Q for embedded Linux places Qt on top of an Linux
+    \B2QL places Qt on top of an Linux
     kernel/baselayer and offers the same elegant means of developing
-    beautiful and performant embedded devices as \B2Q for embedded Android.
+    beautiful and performant embedded devices as \B2QA.
     It has been build using Yocto 1.4 'Dylan' release and has been tested and
     verified on a number of different hardware configurations.
 
@@ -97,14 +96,14 @@
     of applications that can run on Android devices. For developers writing
     applications for the Android ecosystem, Qt for Android is the right choice.
 
-    \b{\B2Q} for embedded Android tries to strip down the Android
+    \b{\B2QA} tries to strip down the Android
     stack to the bare minimum, relying only on basic Linux
     features. The majority of the Android stack, such as
     \e{SurfaceFlinger} or \e{DalvikVM} is not running in \B2Q,
     resulting in faster startup times, lower memory consumption and
     overall better performance.
 
-    \b{\B2Q} for embedded Linux is build from scratch using Yocto 1.4 tools
+    \b{\B2QL} is build from scratch using Yocto 1.4 tools
     to contain only components required in the embedded device, resulting
     in smaller image sizes while keeping valuable development tools available.
 */
@@ -136,7 +135,7 @@
     following command in a terminal:
 
     \code
-    sudo apt-get install g++-multilib ia32-libs
+        sudo apt-get install g++-multilib ia32-libs
     \endcode
 
     \target Installing VirtualBox
@@ -147,7 +146,7 @@
     install it from the command line with the following command:
 
     \code
-    sudo apt-get install virtualbox
+        sudo apt-get install virtualbox
     \endcode
 
     \b{Configuring VirtualBox}
@@ -192,16 +191,9 @@
 
     Before deploying and testing your Qt application on hardware, the
     target device needs to be flashed with an image that contains the
-    \B2Q stack. These steps vary from device to device - follow the
-    instructions specific to your device:
-
-    \list
-        \li \l{Preparing Nexus 7 for embedded Android Development}
-        \li \l{Preparing BeagleBoard-xM for embedded Android Development}
-        \li \l{Preparing BeagleBoard-xM for embedded Linux Development}
-        \li \l{Preparing Sabre Lite i.MX 6 for embedded Android Development}
-        \li \l{Preparing Sabre Lite i.MX 6 for embedded Linux Development}
-    \endlist
+    \B2Q stack. These steps vary from device to device. See chapter
+    \l {Preparing Hardware} and follow the instructions specific to
+    your device.
 
     After preparing the device, power it up and confirm that it shows
     a \B2Q welcome screen and/or demo. Then go on to the installation
@@ -217,7 +209,7 @@
     command in a shell:
 
     \code
-    echo 'SUBSYSTEM=="usb", ATTRS{idVendor}=="18d1", TAG+="udev-acl"' | sudo tee -a /etc/udev/rules.d/70-boot2qt.rules
+        echo 'SUBSYSTEM=="usb", ATTRS{idVendor}=="18d1", TAG+="udev-acl"' | sudo tee -a /etc/udev/rules.d/70-boot2qt.rules
     \endcode
 
     Now connect the running device to the development host with a USB
@@ -226,7 +218,7 @@
     connection is working by running this shell command:
 
     \code
-    <SDK_INSTALL_DIR>/targets/android-utils/bin/adb devices
+        <SDK_INSTALL_DIR>/targets/android-utils/bin/adb devices
     \endcode
 
     The output should be a list of connected android devices,
@@ -264,6 +256,22 @@
 */
 
 /*!
+    \page b2qt-preparing-hardware.html
+    \title Preparing Hardware
+
+    Before deploying and testing your Qt application on hardware, the
+    target device needs to be flashed with an image that contains the
+    \B2Q stack. These steps vary from device to device:
+
+    \list
+        \li \l{Preparing Nexus 7}{Nexus 7}
+        \li \l{Preparing BeagleBoard-xM}{BeagleBoard-xM}
+        \li \l{Preparing Sabre Lite i.MX 6}{Sabre Lite i.MX 6}
+    \endlist
+*/
+
+/*!
+    \target Preparing Nexus 7
     \page b2qt-preparing-hardware-nexus-7.html
     \title Preparing Nexus 7 for embedded Android Development
     \previouspage b2qt-installation-guide.html
@@ -303,16 +311,16 @@
     device, using the following commands in the order they are listed:
 
     \code
-    cd <SDK_INSTALL_DIR>/targets
-    sudo ./android-utils/bin/fastboot flash boot nexus7-eAndroid/images/boot.img
-    sudo ./android-utils/bin/fastboot flash system nexus7-eAndroid/images/system.img
-    sudo ./android-utils/bin/fastboot flash userdata nexus7-eAndroid/images/data.img
+        cd <SDK_INSTALL_DIR>/targets
+        sudo ./android-utils/bin/fastboot flash boot nexus7-eAndroid/images/boot.img
+        sudo ./android-utils/bin/fastboot flash system nexus7-eAndroid/images/system.img
+        sudo ./android-utils/bin/fastboot flash userdata nexus7-eAndroid/images/data.img
     \endcode
 
     Once the flashing is completed successfully, reboot the device:
 
     \code
-    sudo ./android-utils/bin/fastboot reboot
+        sudo ./android-utils/bin/fastboot reboot
     \endcode
 
     \note Until the next step is performed, the Nexus 7 will not
@@ -339,19 +347,19 @@
 
     \list 1
         \li Extract the downloaded file, and run the extracted installer. For example,
-    \code
-    cd <SDK_INSTALL_DIR>
-    tar xf nvidia-grouper-jzo54k-56de148f.tgz
-    ./extract-nvidia-grouper.sh
-    \endcode
+        \code
+            cd <SDK_INSTALL_DIR>
+            tar xf nvidia-grouper-jzo54k-56de148f.tgz
+            ./extract-nvidia-grouper.sh
+        \endcode
         \li Find out the serial number of the connected Nexus 7 device:
-    \code
-    <SDK_INSTALL_DIR>/targets/android-utils/bin/adb devices
-    \endcode
+        \code
+            <SDK_INSTALL_DIR>/targets/android-utils/bin/adb devices
+        \endcode
         \li Deploy the drivers to your device using the following command:
-    \code
-    <SDK_INSTALL_DIR>/targets/android-utils/bin/deploy_tegra_drivers_to_nexus7 <serial_number>
-    \endcode
+        \code
+            <SDK_INSTALL_DIR>/targets/android-utils/bin/deploy_tegra_drivers_to_nexus7 <serial_number>
+        \endcode
     \endlist
 
     Now make sure to complete all the steps of the \l{Installation Guide}.
@@ -359,7 +367,7 @@
 
 /*!
     \page b2qt-preparing-hardware-beagleboard.html
-    \title Preparing BeagleBoard-xM for embedded Android Development
+    \title Preparing BeagleBoard-xM
     \previouspage b2qt-installation-guide.html
 
     When using a \l{http://beagleboard.org/hardware-xM}{BeagleBoard-xM} as a
@@ -369,19 +377,20 @@
     \note \b{It is important that the steps in this section are repeated
     every time after updating the \B2Q SDK.}
 
-    The image containing \B2Q stack for BeagleBoard-xM is included in the SDK,
+    The images containing \B2Q stack for BeagleBoard-xM is included in the SDK,
     ready to be copied to a micro-SD card.
 
-    \section1 Preparing a micro-SD card
+    \section1 Preparing a Micro-SD Card
 
-    A micro-SD card of at least 2GB capacity is needed.
+    For \B2QA, a micro-SD card of at least 2GB capacity is needed. For \B2QL,
+    a card of at least 512MB capacity is sufficient.
 
     Plug the micro-SD card/reader into the development host PC and use
     the following command to find out its device path
     (i.e. \c{/dev/XXX}, where \c{XXX} typically is \c{sdb}):
 
     \code
-    df -h
+        df -h
     \endcode
 
     Alternatively, if the micro-SD card is unformatted, run the following
@@ -389,79 +398,34 @@
     path:
 
     \code
-    dmesg | tail
+        dmesg | tail
     \endcode
 
     Now make sure the micro-SD card is not mounted:
 
     \code
-    umount /dev/XXX
+        umount /dev/XXX
     \endcode
 
-    \section1 Installing the \B2Q image
+    \section1 Installing the \B2Q Image
+
+    The commands used in this step vary depending on whether you are developing
+    for \B2QA or embedded Linux.
 
     Write the image to the micro-SD card:
 
-    \code
-    cd <SDK_INSTALL_DIR>
-    sudo dd if=targets/beagleboard-eAndroid/images/sdcard.img of=/dev/XXX bs=1M
-    \endcode
-
-    \warning \b{Make very sure you select the right device. Selecting the wrong
-    one can result in a wiped hard drive}.
-
-    Now make sure to complete all the steps of the \l{Installation Guide}.
-*/
-
-/*!
-    \page b2qt-preparing-hardware-beagleboard-linux.html
-    \title Preparing BeagleBoard-xM for embedded Linux Development
-    \previouspage b2qt-installation-guide.html
-
-    When using a \l{http://beagleboard.org/hardware-xM}{BeagleBoard-xM} as a
-    development device, following steps are required to prepare it for
-    \B2Q.
-
-    \note \b{It is important that the steps in this section are repeated
-    every time after updating the \B2Q SDK.}
-
-    The image containing \B2Q stack for BeagleBoard-xM is included in the SDK,
-    ready to be copied to a micro-SD card.
-
-    \section1 Preparing a micro-SD card
-
-    A micro-SD card of at least 512MB capacity is needed.
-
-    Plug the micro-SD card/reader into the development host PC and use
-    the following command to find out its device path
-    (i.e. \c{/dev/XXX}, where \c{XXX} typically is \c{sdb}):
-
-    \code
-    df -h
-    \endcode
-
-    Alternatively, if the micro-SD card is unformatted, run the following
-    command immediately after inserting the card to see its device
-    path:
-
-    \code
-    dmesg | tail
-    \endcode
-
-    Now make sure the micro-SD card is not mounted:
-
-    \code
-    umount /dev/XXX
-    \endcode
-
-    \section1 Installing the \B2Q image
-
-    Write the image to the micro-SD card:
-
-    \code
-    cd <SDK_INSTALL_DIR>
-    targets/beagleboard-eLinux/images/deploy.sh /dev/XXX
-    \endcode
+    \list
+        \li \b{\B2QA}
+        \code
+            cd <SDK_INSTALL_DIR>
+            sudo dd if=targets/beagleboard-eAndroid/images/sdcard.img of=/dev/XXX bs=1M
+        \endcode
+        \li \b{\B2QL}
+        \code
+            cd <SDK_INSTALL_DIR>
+            targets/beagleboard-eLinux/images/deploy.sh /dev/XXX
+        \endcode
+    \endlist
 
     \warning \b{Make very sure you select the right device. Selecting the wrong
     one can result in a wiped hard drive}.
@@ -471,7 +435,7 @@
 
 /*!
     \page b2qt-preparing-hardware-imx6.html
-    \title Preparing Sabre Lite i.MX 6 for embedded Android Development
+    \title Preparing Sabre Lite i.MX 6
     \previouspage b2qt-installation-guide.html
 
     When using a
@@ -482,16 +446,20 @@
     \note \b{It is important that the steps in this section are repeated
     every time after updating the \B2Q SDK.}
 
-    \section1 Preparing a micro-SD card
+    The images containing \B2Q stack for Sabre Lite i.MX 6 is included in the SDK,
+    ready to be copied to a micro-SD card.
 
-    A micro-SD card of at least 4GB capacity is needed.
+    \section1 Preparing a Micro-SD Card
+
+    For \B2QA, a micro-SD card of at least 4GB capacity is needed. For \B2QL,
+    a card of at least 512MB capacity is sufficient.
 
     Plug the micro-SD card/reader into the development host PC and use
     the following command to find out its device path
     (i.e. \c{/dev/XXX}, where \c{XXX} typically is \c{sdb}):
 
     \code
-    df -h
+        df -h
     \endcode
 
     Alternatively, if the micro-SD card is unformatted, run the following
@@ -499,35 +467,42 @@
     path:
 
     \code
-    dmesg | tail
+        dmesg | tail
     \endcode
 
     Next, make sure the micro-SD card is not mounted:
 
     \code
-    umount /dev/XXX
+        umount /dev/XXX
     \endcode
 
-    \section1 Installing the \B2Q image
+    \section1 Installing the \B2Q Image
+
+    The commands used in this step vary depending on whether you are developing
+    for \B2QA or embedded Linux.
 
     Write the image to the micro-SD card:
 
-    \code
-    cd <SDK_INSTALL_DIR>
-    sudo dd if=targets/iMX6-eAndroid/images/sdcard.img of=/dev/XXX bs=1M
-    \endcode
+    \list
+        \li \b{\B2QA}
+        \code
+            cd <SDK_INSTALL_DIR>
+            sudo dd if=targets/iMX6-eAndroid/images/sdcard.img of=/dev/XXX bs=1M
+        \endcode
+        \li \b{\B2QL}
+        \code
+            cd <SDK_INSTALL_DIR>
+            targets/iMX6-linux/images/deploy.sh /dev/XXX
+        \endcode
+    \endlist
 
     \warning \b{Make very sure you select the right device. Selecting the wrong
     one can result in a wiped hard drive}.
 
-    \section1 Upgrading the bootloader
+    \section1 Upgrading the Bootloader
 
-    Now plug the micro-SD card into the board and power it up. If
-    booting stops with the error message
-    \code
-    6x_bootscript not found
-    \endcode
-
+    Plug in the micro-SD card into the board and power it up. If
+    booting stops with the error message \e {6x_bootscript not found},
     check U-Boot version number. It should start with \c{2012} or
     \c{2013}. If it is \c{2009.xx}, an upgrade of the bootloader is
     required. See information and instructions here:
@@ -536,62 +511,6 @@
         \li \l http://boundarydevices.com/6q_bootscript/
         \li \l http://boundarydevices.com/switching-u-boot-versions-on-i-mx6/
     \endlist
-
-    Now make sure to complete all the steps of the \l{Installation Guide}.
-*/
-
-/*!
-    \page b2qt-preparing-hardware-imx6-linux.html
-    \title Preparing Sabre Lite i.MX 6 for embedded Linux Development
-    \previouspage b2qt-installation-guide.html
-
-    When using a \l{http://boundarydevices.com/products/sabre-lite-imx6-sbc/}{Sabre
-    Lite i.MX 6} as a development device, following steps are required to prepare it for
-    \B2Q.
-
-    \note \b{It is important that the steps in this section are repeated
-    every time after updating the \B2Q SDK.}
-
-    The image containing \B2Q stack for Sabre Lite i.MX 6 is included in the SDK,
-    ready to be copied to a micro-SD card.
-
-    \section1 Preparing a micro-SD card
-
-    A micro-SD card of at least 512MB capacity is needed.
-
-    Plug the micro-SD card/reader into the development host PC and use
-    the following command to find out its device path
-    (i.e. \c{/dev/XXX}, where \c{XXX} typically is \c{sdb}):
-
-    \code
-    df -h
-    \endcode
-
-    Alternatively, if the micro-SD card is unformatted, run the following
-    command immediately after inserting the card to see its device
-    path:
-
-    \code
-    dmesg | tail
-    \endcode
-
-    Now make sure the micro-SD card is not mounted:
-
-    \code
-    umount /dev/XXX
-    \endcode
-
-    \section1 Installing the \B2Q image
-
-    Write the image to the micro-SD card:
-
-    \code
-    cd <SDK_INSTALL_DIR>
-    targets/iMX6-eLinux/images/deploy.sh /dev/XXX
-    \endcode
-
-    \warning \b{Make very sure you select the right device. Selecting the wrong
-    one can result in a wiped hard drive}.
 
     Now make sure to complete all the steps of the \l{Installation Guide}.
 */
@@ -646,18 +565,18 @@
     remounted read-write to allow modification. The following command
     does that:
     \code
-    <SDK_INSTALL_DIR>/targets/android-utils/bin/adb remount
+        <SDK_INSTALL_DIR>/targets/android-utils/bin/adb remount
     \endcode
 
     In the \c{appcontroller.conf} file, the input devices are
     specified by the lines similar to these:
     \code
-    env=QT_QPA_GENERIC_PLUGINS=evdevtouch:/dev/input/event0
+        env=QT_QPA_GENERIC_PLUGINS=evdevtouch:/dev/input/event0
     \endcode
 
     The mouse pointer can be turned on and off by removing or adding this line:
     \code
-    env=QT_QPA_EGLFS_HIDECURSOR=1
+        env=QT_QPA_EGLFS_HIDECURSOR=1
     \endcode
 
     \section1 Booting your custom application
@@ -668,7 +587,7 @@
 
     To remove your application from the default startup use the following command:
     \code
-    <SDK_INSTALL_DIR>/targets/android-utils/bin/adb shell appcontroller --remove-default
+        <SDK_INSTALL_DIR>/targets/android-utils/bin/adb shell appcontroller --remove-default
     \endcode
 */
 
@@ -683,8 +602,7 @@
     \B2Q can be made to run on hardware that has support for
     the Android operating system, version 4.0 or later.
 
-    Approximate minimal hardware requirements for running \B2Q for
-    embedded Android are:
+    Approximate minimal hardware requirements for running \B2Q are:
     \list
         \li 256Mb of RAM
         \li 500Mhz CPU, 1Ghz preferred for 60 FPS velvet-smooth UI
@@ -745,8 +663,8 @@
     download the correct file for your device. Unpack it, and then
 
     \code
-    <SDK_INSTALL_DIR>/targets/android-utils/bin/adb reboot bootloader
-    <SDK_INSTALL_DIR>/targets/android-utils/bin/fastboot -w update <image-file>.zip
+        <SDK_INSTALL_DIR>/targets/android-utils/bin/adb reboot bootloader
+        <SDK_INSTALL_DIR>/targets/android-utils/bin/fastboot -w update <image-file>.zip
     \endcode
 
     \section2 How do I shut down the Nexus 7?
@@ -757,7 +675,7 @@
     Otherwise, make sure the Nexus 7 is connected to your PC with USB, and run
     the following command in a terminal:
     \code
-    <SDK_INSTALL_DIR>/targets/android-utils/bin/adb shell reboot -p
+        <SDK_INSTALL_DIR>/targets/android-utils/bin/adb shell reboot -p
     \endcode
 
     Alternatively, press and hold the power button for 10
@@ -773,7 +691,7 @@
 
     The following command shows the system log:
     \code
-    <SDK_INSTALL_DIR>/targets/android-utils/bin/adb logcat
+        <SDK_INSTALL_DIR>/targets/android-utils/bin/adb logcat
     \endcode
 
     \section2 Mouse or touch input does not work
@@ -796,7 +714,7 @@
     devices:
 
     \code
-    <SDK_INSTALL_DIR>/targets/android-utils/bin/adb devices
+        <SDK_INSTALL_DIR>/targets/android-utils/bin/adb devices
     \endcode
 
     \section2 What is the user and password to access my embedded Linux device
