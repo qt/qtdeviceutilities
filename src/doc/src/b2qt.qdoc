@@ -702,6 +702,12 @@
     Note that hotplugging does not currently work; any input device
     must be present at boot time to be recognized.
 
+    \section2 I cannot edit the contents of appcontroller.conf on the device
+
+    The file system where this file is located may be mounted as read-only.
+
+    See \l{Customization}.
+
     \section1 Connectivity Issues
     \section2 I cannot connect to my hardware device via USB
 
