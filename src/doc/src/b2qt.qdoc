@@ -30,9 +30,9 @@
         \li \b {\l{Installation Guide}}
         \li \b {\l{Preparing Hardware}}
         \list
-            \li \l{Preparing Nexus 7 for embedded Android Development}{Nexus 7}
-            \li \l{Preparing BeagleBoard-xM}{BeagleBoard-xM}
-            \li \l{Preparing Sabre Lite i.MX 6}{Sabre Lite i.MX 6}
+            \li \l{Preparing Nexus 7 for embedded Android Development}{Nexus 7 (embedded Android)}
+            \li \l{Preparing BeagleBoard-xM}{BeagleBoard-xM (embedded Android and Linux)}
+            \li \l{Preparing Sabre Lite i.MX 6}{Sabre Lite i.MX 6 (embedded Android and Linux)}
         \endlist
         \li \b {\l{Building and Running an Example}}
         \li \b {\l{Customization}}
@@ -44,19 +44,21 @@
     \section1 What is \B2Q?
 
     \b{\B2Q} is a light-weight UI stack for embedded systems, based on the
-    \l{http://qt.digia.com/}{Qt Framework} by Digia.
+    \l{http://qt.digia.com/}{Qt Framework} by Digia, offering an elegant
+    means of developing beautiful and performant embedded devices. It supports
+    two different operating systems:
 
-    \B2QA places Qt on top of an Android
-    kernel/baselayer and offers an elegant means of developing
-    beautiful and performant embedded devices. It runs on top of
-    Android 4.0/4.1 baselayers and has been tested and verified on a
-    number of different hardware configurations.
+    \list
+        \li \b{\B2QA} places Qt on top of an Android (version 4.0 or 4.1)
+            kernel/baselayer.
 
-    \B2QL places Qt on top of an Linux
-    kernel/baselayer and offers the same elegant means of developing
-    beautiful and performant embedded devices as \B2QA.
-    It has been build using Yocto 1.4 'Dylan' release and has been tested and
-    verified on a number of different hardware configurations.
+        \li \b{\B2QL} places Qt on top of an Linux kernel/baselayer, built
+            using Yocto 1.4 'Dylan' release.
+    \endlist
+
+    Both versions have been tested and verified on a number of different
+    hardware configurations. \B2Q support is not limited to the devices used
+    as reference platforms, it can be made to run on a variety of hardware.
 
     \B2Q SDK provides a complete software development package for
     creating applications on embedded devices. It comes with
