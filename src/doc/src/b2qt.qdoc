@@ -32,7 +32,7 @@
         \list
             \li \l{Preparing Nexus 7 for embedded Android Development}{Nexus 7 (embedded Android)}
             \li \l{Preparing BeagleBoard-xM}{BeagleBoard-xM (embedded Android and Linux)}
-            \li \l{Preparing Sabre Lite i.MX 6}{Sabre Lite i.MX 6 (embedded Android and Linux)}
+            \li \l{Preparing Sabre Lite i.MX 6}{Sabre Lite i.MX 6 (embedded Android)}
         \endlist
         \li \b {\l{Building and Running an Example}}
         \li \b {\l{Customization}}
@@ -444,7 +444,7 @@
     When using a
     \l{http://boundarydevices.com/products/sabre-lite-imx6-sbc/}{Sabre
     Lite i.MX 6} as a development device, following steps are required
-    to prepare it for \B2Q.
+    to prepare it for \B2QA.
 
     \note \b{It is important that the steps in this section are repeated
     every time after updating the \B2Q SDK.}
@@ -454,8 +454,7 @@
 
     \section1 Preparing a Micro-SD Card
 
-    For \B2QA, a micro-SD card of at least 4GB capacity is needed. For \B2QL,
-    a card of at least 512MB capacity is sufficient.
+    For \B2QA, a micro-SD card of at least 4GB capacity is needed.
 
     Plug the micro-SD card/reader into the development host PC and use
     the following command to find out its device path
@@ -479,25 +478,38 @@
         umount /dev/XXX
     \endcode
 
-    \section1 Installing the \B2Q Image
+    \section1 Installing the Android image
 
-    The commands used in this step vary depending on whether you are developing
-    for \B2QA or embedded Linux.
+    Download the package \e{r13.4.1-nitrogen-20130407.tar.gz} from
+    \l{http://boundarydevices.com/i-mx6-images-for-branch-r13-4-1/}{i.MX6
+    images for branch r13.4-1} (registration required).
 
-    Write the image to the micro-SD card:
+    Follow the instructions on the Boundary Devices web site to create
+    an SD card containing the downloaded image. We recommend choosing
+    the "Tar-ball installation" procedure, as it is much
+    quicker. However, in case of problems, the "binary image
+    installation" procedure is more failsafe.
 
-    \list
-        \li \b{\B2QA}
-        \code
-            cd <SDK_INSTALL_DIR>
-            sudo dd if=targets/iMX6-eAndroid/images/sdcard.img of=/dev/XXX bs=1M
-        \endcode
-        \li \b{\B2QL}
-        \code
-            cd <SDK_INSTALL_DIR>
-            targets/iMX6-linux/images/deploy.sh /dev/XXX
-        \endcode
-    \endlist
+    In either case, make sure to replace the device path
+    (\c{"/dev/sdc"}) with your micro-SD card's device path that was
+    found in the previous step.
+
+    \warning \b{Make very sure you select the right device. Selecting the wrong
+    one can result in a wiped hard drive.}
+
+    \section1 Installing the \B2QA Image
+
+    Make sure you have the required tools installed in your development machine:
+
+    \code
+        sudo apt-get install u-boot-tools
+    \endcode
+
+    Then, upgrade the micro-SD Card with \B2QA:
+
+    \code
+        <SDK_INSTALL_DIR>/targets/android-utils/bin/install_to_imx6_android_image /dev/XXX
+    \endcode
 
     \warning \b{Make very sure you select the right device. Selecting the wrong
     one can result in a wiped hard drive}.
