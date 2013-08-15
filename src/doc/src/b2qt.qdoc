@@ -118,7 +118,9 @@
 
     \e{IMPORTANT: The \B2Q SDK requires the following installation steps to be followed closely.}
 
-    In case of problems, see the \l{Troubleshooting} information.
+    In case of problems, see the \l{Troubleshooting} information and the
+    \l{http://qt.digia.com/en/Product/Boot-to-Qt/Boot-to-Qt-Known-Issues/}
+    {Boot to Qt Known Issues} page.
 
     \target Requirements for Development Host
     \section1 0. Requirements for Development Host
@@ -650,7 +652,9 @@
     \title Troubleshooting
     \previouspage b2qt-supported-platforms.html
 
-    \e {NOTE: An updated version of this information may be available in the Digia customer portal.}
+    \note An updated version of this information may be available in the Digia customer portal.
+
+    See also \b{\l{http://qt.digia.com/en/Product/Boot-to-Qt/Boot-to-Qt-Known-Issues/}{Boot to Qt Known Issues}.}
 
     \section1 General Issues
 
