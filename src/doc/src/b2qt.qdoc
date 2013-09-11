@@ -30,9 +30,9 @@
         \li \b {\l{Installation Guide}}
         \li \b {\l{Preparing Hardware}}
         \list
-            \li \l{Preparing Nexus 7 for embedded Android Development}{Nexus 7 (embedded Android)}
-            \li \l{Preparing BeagleBoard-xM}{BeagleBoard-xM (embedded Android and Linux)}
+            \li \l{Preparing Nexus 7}{Nexus 7 (embedded Android)}
             \li \l{Preparing Sabre Lite i.MX 6}{Sabre Lite i.MX 6 (embedded Android)}
+            \li \l{Preparing BeagleBoard-xM}{BeagleBoard-xM (embedded Android and Linux)}
         \endlist
         \li \b {\l{Building and Running an Example}}
         \li \b {\l{Customization}}
@@ -114,7 +114,7 @@
     \page b2qt-installation-guide.html
     \title Installation Guide
     \previouspage index.html
-    \nextpage b2qt-building-and-running.html
+    \nextpage b2qt-preparing-hardware.html
 
     \e{IMPORTANT: The \B2Q SDK requires the following installation steps to be followed closely.}
 
@@ -169,7 +169,7 @@
     If you have not already installed the \B2Q SDK, do it as follows.
 
     After downloading the \B2Q SDK binary installer (the file named
-    something like \c{Boot2QtSDK-evaluation-64bit-2013xxxxxx-offline}),
+    something like \c{Boot2QtSDK-evaluation-64bit-2013xxxxxx}),
     make sure it is executable either by
 
     \list
@@ -193,91 +193,55 @@
 
     Before deploying and testing your Qt application on hardware, the
     target device needs to be flashed with an image that contains the
-    \B2Q stack. These steps vary from device to device. See chapter
-    \l {Preparing Hardware} and follow the instructions specific to
+    \B2Q stack. These steps vary from device to device. See the
+    following chapter and follow the instructions specific to
     your device.
 
-    After preparing the device, power it up and confirm that it shows
-    a \B2Q welcome screen and/or demo. Then go on to the installation
-    steps below.
+    \list
+        \li \l {Preparing Hardware}
+    \endlist
 
     \section1 5. Setting up USB Access to Embedded Devices
 
     \e{If targeting only the emulator, this step may be skipped}
 
-    On Ubuntu Linux you have to grant your development user access to
-    plugged in devices. This is done by creating a new \e{udev} rule
-    that allows access to the device via USB. First, run the following
-    command in a shell:
-
-    \code
-        echo 'SUBSYSTEM=="usb", ATTRS{idVendor}=="18d1", TAG+="udev-acl"' | sudo tee -a /etc/udev/rules.d/70-boot2qt.rules
-    \endcode
-
-    Now connect the running device to the development host with a USB
-    cable. (If already connected, disconnect and reconnect the USB
-    cable after running the command above). Confirm that the
-    connection is working by running this shell command:
-
-    \code
-        <SDK_INSTALL_DIR>/targets/android-utils/bin/adb devices
-    \endcode
-
-    The output should be a list of connected android devices,
-    identifed with a serial number and a name. Note that the emulator
-    may be listed as well, its serial number will be its IP and port
-    number (\c{192.168.56.101:5555}). If your device is missing from
-    the list, or the serial number is \c{??????}, the connection is
-    not working properly. If so, check that the device is powered up,
-    and that the USB cable has been disconnected and reconnected. The
-    system log files \c{/var/log/udev} and \c{/var/log/syslog} may
-    provide relevant information in case of connection problems.
+    \include b2qt-post-install-setup.qdocinc setting up usb access
 
     \section1 6. Configuring a Device Kit in Qt Creator
 
-    After the hardware has been prepared, there is one final step required
-    to set up the development tools in Qt Creator for your device.
+    \include b2qt-post-install-setup.qdocinc configuring device kit
 
-    You have to configure the right device to be used for each \b{Kit}.
-
-    To do so, connect your device to your computer via USB and launch
-    Qt Creator (\B2Q IDE). Then,
-
-    \list 1
-        \li Go to \b{Tools > Options > Build & Run > Kits}
-        \li Select one of the predefined Kits starting with \e{Boot2Qt...}
-        that matches the type of your device.
-        \li Select the correct device in the \b{Device} combobox.
-        \li Click \b{Ok}.
-    \endlist
-
-    You are now ready to start developing for your device!
+    \b {You are now ready to start developing for your device!}
 
     See \l{Building and Running an Example}
-
 */
 
 /*!
     \page b2qt-preparing-hardware.html
     \title Preparing Hardware
     \previouspage b2qt-installation-guide.html
+    \nextpage b2qt-building-and-running.html
 
     Before deploying and testing your Qt application on hardware, the
     target device needs to be flashed with an image that contains the
     \B2Q stack. These steps vary from device to device:
 
     \list
-        \li \l{Preparing Nexus 7}{Nexus 7}
-        \li \l{Preparing BeagleBoard-xM}{BeagleBoard-xM}
-        \li \l{Preparing Sabre Lite i.MX 6}{Sabre Lite i.MX 6}
+        \li \l{Nexus 7 (embedded Android)}
+        \li \l{Sabre Lite i.MX 6 (embedded Android)}
+        \li \l{BeagleBoard-xM (embedded Android and Linux)}
     \endlist
+
+    If you are only using the emulator, you can skip this step
+    and continue straight to \l {Building and Running an Example}.
 */
 
 /*!
-    \target Preparing Nexus 7
+    \target Nexus 7 (embedded Android)
     \page b2qt-preparing-hardware-nexus-7.html
-    \title Preparing Nexus 7 for Embedded Android Development
+    \title Preparing Nexus 7
     \previouspage b2qt-installation-guide.html
+    \nextpage b2qt-building-and-running.html
 
     When using a \l{http://www.google.com/nexus/7/specs/}{Nexus 7} as a
     development device, following steps are required to prepare it for
@@ -365,13 +329,28 @@
         \endcode
     \endlist
 
-    Now make sure to complete all the steps of the \l{Installation Guide}.
+    After the installation is complete, power up the device and confirm that it shows
+    a \B2Q welcome screen and/or demo.
+
+    \section1 Setting up USB Access
+
+    \include b2qt-post-install-setup.qdocinc setting up usb access
+
+    \section1 Configuring a Device Kit in Qt Creator
+
+    \include b2qt-post-install-setup.qdocinc configuring device kit
+
+    \b {You are now ready to start developing for your device!}
+
+    See \l{Building and Running an Example}
 */
 
 /*!
+    \target BeagleBoard-xM (embedded Android and Linux)
     \page b2qt-preparing-hardware-beagleboard.html
     \title Preparing BeagleBoard-xM
     \previouspage b2qt-installation-guide.html
+    \nextpage b2qt-building-and-running.html
 
     When using a \l{http://beagleboard.org/hardware-xM}{BeagleBoard-xM} as a
     development device, following steps are required to prepare it for
@@ -433,10 +412,24 @@
     \warning \b{Make very sure you select the right device. Selecting the wrong
     one can result in a wiped hard drive}.
 
-    Now make sure to complete all the steps of the \l{Installation Guide}.
+    After the image has been deployed, power up the device and confirm that it shows
+    a \B2Q welcome screen and/or demo.
+
+    \section1 Setting up USB Access
+
+    \include b2qt-post-install-setup.qdocinc setting up usb access
+
+    \section1 Configuring a Device Kit in Qt Creator
+
+    \include b2qt-post-install-setup.qdocinc configuring device kit
+
+    \b {You are now ready to start developing for your device!}
+
+    See \l{Building and Running an Example}
 */
 
 /*!
+    \target Sabre Lite i.MX 6 (embedded Android)
     \page b2qt-preparing-hardware-imx6.html
     \title Preparing Sabre Lite i.MX 6
     \previouspage b2qt-installation-guide.html
@@ -484,15 +477,26 @@
     \l{http://boundarydevices.com/i-mx6-images-for-branch-r13-4-1/}{i.MX6
     images for branch r13.4-1} (registration required).
 
-    Follow the instructions on the Boundary Devices web site to create
-    an SD card containing the downloaded image. We recommend choosing
-    the "Tar-ball installation" procedure, as it is much
-    quicker. However, in case of problems, the "binary image
-    installation" procedure is more failsafe.
+    Use the following commands to create a micro-SD card containing the
+    dowloaded image:
 
-    In either case, make sure to replace the device path
-    (\c{"/dev/sdc"}) with your micro-SD card's device path that was
-    found in the previous step.
+    \list
+        \li Extract the downloaded package
+        \code
+        ~/$ mkdir r13.4-1
+        ~/$ cd r13.4-1
+        ~/r13.4-1$ sudo tar zxvf ~/Downloads/r13.4.1-nitrogen-20130407.tar.gz
+        \endcode
+        \li Run device/boundary/mksdcard.sh:
+        \code
+        ~/r13.4-1$ sudo umount /media/*
+        ~/r13.4-1$ sudo device/boundary/mksdcard.sh /dev/XXX
+        ~/r13.4-1$ sync
+        \endcode
+    \endlist
+
+    Make sure to replace the device path (\c{"/dev/XXX"}) with your micro-SD
+    card's device path that was found in the previous step.
 
     \warning \b{Make very sure you select the right device. Selecting the wrong
     one can result in a wiped hard drive.}
@@ -514,20 +518,20 @@
     \warning \b{Make very sure you select the right device. Selecting the wrong
     one can result in a wiped hard drive}.
 
-    \section1 Upgrading the Bootloader
+    After the installation is complete, power up the device and confirm that it shows
+    a \B2Q welcome screen and/or demo.
 
-    Plug in the micro-SD card into the board and power it up. If
-    booting stops with the error message \e {6x_bootscript not found},
-    check U-Boot version number. It should start with \c{2012} or
-    \c{2013}. If it is \c{2009.xx}, an upgrade of the bootloader is
-    required. See information and instructions here:
+    \section1 Setting up USB Access
 
-    \list
-        \li \l http://boundarydevices.com/6q_bootscript/
-        \li \l http://boundarydevices.com/switching-u-boot-versions-on-i-mx6/
-    \endlist
+    \include b2qt-post-install-setup.qdocinc setting up usb access
 
-    Now make sure to complete all the steps of the \l{Installation Guide}.
+    \section1 Configuring a Device Kit in Qt Creator
+
+    \include b2qt-post-install-setup.qdocinc configuring device kit
+
+    \b {You are now ready to start developing for your device!}
+
+    See \l{Building and Running an Example}
 */
 
 /*!
@@ -671,6 +675,17 @@
 
     Remember to repeat the process of updating also your device with the latest
     version of \B2Q. See \l{Installing Boot to Qt on Target Devices}.
+
+    \section2 Booting Sabre Lite i.MX 6 stops with \e {6x_bootscript not found} error
+
+    Check the U-Boot version number. It should start with either \c{2012} or \c{2013}.
+    If it is \c{2009.xx}, an upgrade of the bootloader is required. See information and
+    instructions here:
+
+    \list
+        \li \l http://boundarydevices.com/6q_bootscript/
+        \li \l http://boundarydevices.com/switching-u-boot-versions-on-i-mx6/
+    \endlist
 
     \section2 How do I restore my Nexus 7 to factory settings?
 

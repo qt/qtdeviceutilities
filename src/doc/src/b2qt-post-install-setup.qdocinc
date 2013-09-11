@@ -1,0 +1,52 @@
+/*!
+//! [setting up usb access]
+    On Ubuntu Linux you have to grant your development user access to
+    plugged in devices. This is done by creating a new \e{udev} rule
+    that allows access to the device via USB. First, run the following
+    command in a shell:
+
+    \code
+        echo 'SUBSYSTEM=="usb", ATTRS{idVendor}=="18d1", TAG+="udev-acl"' | sudo tee -a /etc/udev/rules.d/70-boot2qt.rules
+    \endcode
+
+    Now connect the running device to the development host with a USB
+    cable. (If already connected, disconnect and reconnect the USB
+    cable after running the command above).
+
+    On \B2QA, you can confirm that the connection is working by running
+    this shell command:
+
+    \code
+        <SDK_INSTALL_DIR>/targets/android-utils/bin/adb devices
+    \endcode
+
+    The output should be a list of connected android devices,
+    identified with a serial number and a name. Note that the emulator
+    may be listed as well, its serial number will be its IP and port
+    number (\c{192.168.56.101:5555}). If your device is missing from
+    the list, or the serial number is \c{??????}, the connection is
+    not working properly. If so, check that the device is powered up,
+    and that the USB cable has been disconnected and reconnected.
+
+    The system log files \c{/var/log/udev} and \c{/var/log/syslog} may
+    provide relevant information in case of connection problems.
+//! [setting up usb access]
+
+//! [configuring device kit]
+    After the hardware has been prepared, there is one final step required
+    to set up the development tools in Qt Creator for your device.
+
+    You have to configure the right device to be used for each \b{Kit}.
+
+    To do so, connect your device to your computer via USB and launch
+    Qt Creator (\B2Q IDE). Then,
+
+    \list 1
+        \li Go to \b{Tools > Options > Build & Run > Kits}
+        \li Select one of the predefined Kits starting with \e{Boot2Qt...}
+        that matches the type of your device.
+        \li Select the correct device in the \b{Device} combobox.
+        \li Click \b{Ok}.
+    \endlist
+//! [configuring device kit]
+*/
