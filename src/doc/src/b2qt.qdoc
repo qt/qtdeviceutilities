@@ -295,19 +295,19 @@
     \note Until the next step is performed, the Nexus 7 will not
     boot correctly (the screen will only show the "Google" logo).
 
-    \section1 Installing Proprietary Graphics Drivers
+    \section1 Installing Proprietary Drivers
 
-    Download the proprietary graphics drivers for your Nexus 7
-    \l{https://developers.google.com/android/nexus/drivers#grouperjzo54k}{here}.
+    Download the proprietary drivers for your Nexus 7
+    \l{https://developers.google.com/android/nexus/drivers#grouperjdq39}{here}.
 
     \note Make sure you have read the license terms at the beginning of the
     driver download page.
 
-    Select the link in the \b{Graphics} row from the table
-    \e{"Nexus 7 (Wi-Fi) binaries for Android 4.1.2"}, download and save the file
+    Select the links in the \b{Graphics}, \b{Camera, Sensors, DRM} and \b{Orientation Sensor} rows from the table
+    \e{"Nexus 7 (Wi-Fi) binaries for Android 4.2.2"}, download and save the files
     to the installation directory of the \B2Q SDK.
 
-    \note Only the version "Android 4.1.2 (JZO54K and JZO54L)" will work with the current Boot to Qt image.
+    \note Only the version "Android 4.2.2 (JDQ39 to JDQ39E)" will work with the current Boot to Qt image.
 
     Make sure your Nexus 7 is powered up, is \e{not} in fastboot mode,
     and is connected to the computer via USB.
@@ -315,11 +315,15 @@
     Then, follow these steps to update the Nexus 7:
 
     \list 1
-        \li Extract the downloaded file, and run the extracted installer. For example,
+        \li Extract the downloaded files, and run the extracted installers. For example,
         \code
             cd <SDK_INSTALL_DIR>
-            tar xf nvidia-grouper-jzo54k-56de148f.tgz
+            tar xf nvidia-grouper-jdq39-738059f9.tgz
             ./extract-nvidia-grouper.sh
+            tar xf asus-grouper-jdq39-b6907aa5.tgz
+            ./extract-asus-grouper.sh
+            tar xf invensense-grouper-jdq39-28df082f.tgz
+            ./extract-invensense-grouper.sh
         \endcode
         \li Find out the serial number of the connected Nexus 7 device:
         \code
@@ -327,7 +331,7 @@
         \endcode
         \li Deploy the drivers to your device using the following command:
         \code
-            <SDK_INSTALL_DIR>/targets/android-utils/bin/deploy_tegra_drivers_to_nexus7 <serial_number>
+            <SDK_INSTALL_DIR>/targets/android-utils/bin/deploy_proprietary_drivers_to_nexus7 <serial_number>
         \endcode
     \endlist
 
