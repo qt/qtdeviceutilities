@@ -3,6 +3,8 @@ CONFIG += ordered
 SUBDIRS += \
     utils \
     imports \
-    doc
+    doc \
+    plugins \
+
 
 android: SUBDIRS += doppelganger
