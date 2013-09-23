@@ -1,3 +1,3 @@
 TEMPLATE = subdirs
-SUBDIRS += eandroid
+android: SUBDIRS += eandroid
 
