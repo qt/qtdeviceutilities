@@ -614,6 +614,43 @@
     \code
         <SDK_INSTALL_DIR>/targets/android-utils/bin/adb shell appcontroller --remove-default
     \endcode
+
+    \section1 Switching Between Portrait and Landscape Views
+
+    Depending on a device screen dimensions and application requirements it might be desirable
+    to change the default view orientation. The following example shows how to rotate your
+    application in QML.
+
+    \code
+    import QtQuick 2.0
+
+    Item {
+        id: root
+        width: 800
+        height: 1280
+        // Container element for rotating
+        Rectangle {
+            id: main
+            // Swap the width and height of the root item
+            width: root.height
+            height: root.width
+            anchors.centerIn: parent
+            // Rotate 90 degrees clockwise around transformOrigin
+            rotation: 90
+            // The rotated content
+            Text {
+                text: qsTr("Hello World")
+                anchors.centerIn: parent
+            }
+            MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                    Qt.quit();
+                }
+            }
+        }
+    }
+    \endcode
 */
 
 /*!
