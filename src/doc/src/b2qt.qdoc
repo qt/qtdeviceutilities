@@ -260,7 +260,7 @@
         \li Start the Nexus up in \e{fastboot} mode: Press the power button for a second, and then keep the Volume Down key pressed, until you see a screen with a green robot with its front panel open. Note: If you get the ordinary startup screen instead, just power it down and try again.
         \li On the development host, give the command
         \code
-            sudo <SDK_INSTALL_DIR>/targets/android-utils/bin/fastboot oem unlock
+            sudo <SDK_INSTALL_DIR>/Tools/b2qt/fastboot oem unlock
         \endcode
         The Nexus screen will ask if you want to unlock the bootloader. Press power button to confirm.
         \li Wait a few seconds, and check that the text line stating the \c{LOCK STATE} now says \c{UNLOCKED}.
@@ -280,16 +280,16 @@
     device, using the following commands in the order they are listed:
 
     \code
-        cd <SDK_INSTALL_DIR>/targets
-        sudo ./android-utils/bin/fastboot flash boot nexus7-eAndroid/images/boot.img
-        sudo ./android-utils/bin/fastboot flash system nexus7-eAndroid/images/system.img
-        sudo ./android-utils/bin/fastboot flash userdata nexus7-eAndroid/images/data.img
+        cd <SDK_INSTALL_DIR>
+        sudo ./Tools/b2qt/fastboot flash boot Boot2Qt-1.0/nexus7-eAndroid/images/boot.img
+        sudo ./Tools/b2qt/fastboot flash system Boot2Qt-1.0/nexus7-eAndroid/images/system.img
+        sudo ./Tools/b2qt/fastboot flash userdata Boot2Qt-1.0/nexus7-eAndroid/images/data.img
     \endcode
 
     Once the flashing is completed successfully, reboot the device:
 
     \code
-        sudo ./android-utils/bin/fastboot reboot
+        sudo ./Tools/b2qt/fastboot reboot
     \endcode
 
     \note Until the next step is performed, the Nexus 7 will not
@@ -327,11 +327,11 @@
         \endcode
         \li Find out the serial number of the connected Nexus 7 device:
         \code
-            <SDK_INSTALL_DIR>/targets/android-utils/bin/adb devices
+            <SDK_INSTALL_DIR>/Tools/b2qt/adb devices
         \endcode
         \li Deploy the drivers to your device using the following command:
         \code
-            <SDK_INSTALL_DIR>/targets/android-utils/bin/deploy_proprietary_drivers_to_nexus7 <serial_number>
+            <SDK_INSTALL_DIR>/Tools/b2qt/deploy_proprietary_drivers_to_nexus7 <serial_number>
         \endcode
     \endlist
 
@@ -406,12 +406,12 @@
         \li \b{\B2QA}
         \code
             cd <SDK_INSTALL_DIR>
-            sudo dd if=targets/beagleboard-eAndroid/images/sdcard.img of=/dev/XXX bs=1M
+            sudo dd if=Boot2Qt-1.0/beagleboard-eAndroid/images/sdcard.img of=/dev/XXX bs=1M
         \endcode
         \li \b{\B2QL}
         \code
             cd <SDK_INSTALL_DIR>
-            targets/beagleboard-eLinux/images/deploy.sh /dev/XXX
+            Boot2Qt-1.0/beagleboard-eLinux/images/deploy.sh /dev/XXX
         \endcode
     \endlist
 
@@ -518,7 +518,7 @@
     Then, upgrade the micro-SD Card with \B2QA:
 
     \code
-        <SDK_INSTALL_DIR>/targets/android-utils/bin/install_to_imx6_android_image /dev/XXX
+        <SDK_INSTALL_DIR>/Tools/b2qt/install_to_imx6_android_image /dev/XXX
     \endcode
 
     \warning \b{Make very sure you select the right device. Selecting the wrong
@@ -590,7 +590,7 @@
     remounted read-write to allow modification. The following command
     does that:
     \code
-        <SDK_INSTALL_DIR>/targets/android-utils/bin/adb remount
+        <SDK_INSTALL_DIR>/Tools/b2qt/adb remount
     \endcode
 
     In the \c{appcontroller.conf} file, the input devices are
@@ -612,7 +612,7 @@
 
     To remove your application from the default startup use the following command:
     \code
-        <SDK_INSTALL_DIR>/targets/android-utils/bin/adb shell appcontroller --remove-default
+        <SDK_INSTALL_DIR>/Tools/b2qt/adb shell appcontroller --remove-default
     \endcode
 
     \section1 Switching Between Portrait and Landscape Views
@@ -738,8 +738,8 @@
     download the correct file for your device. Unpack it, and then
 
     \code
-        <SDK_INSTALL_DIR>/targets/android-utils/bin/adb reboot bootloader
-        <SDK_INSTALL_DIR>/targets/android-utils/bin/fastboot -w update <image-file>.zip
+        <SDK_INSTALL_DIR>/Tools/b2qt/adb reboot bootloader
+        <SDK_INSTALL_DIR>/Tools/b2qt/fastboot -w update <image-file>.zip
     \endcode
 
     \section2 How do I shut down the Nexus 7?
@@ -750,7 +750,7 @@
     Otherwise, make sure the Nexus 7 is connected to your PC with USB, and run
     the following command in a terminal:
     \code
-        <SDK_INSTALL_DIR>/targets/android-utils/bin/adb shell reboot -p
+        <SDK_INSTALL_DIR>/Tools/b2qt/adb shell reboot -p
     \endcode
 
     Alternatively, press and hold the power button for 10
@@ -766,7 +766,7 @@
 
     The following command shows the system log:
     \code
-        <SDK_INSTALL_DIR>/targets/android-utils/bin/adb logcat
+        <SDK_INSTALL_DIR>/Tools/b2qt/adb logcat
     \endcode
 
     \section2 Mouse or touch input does not work
@@ -795,7 +795,7 @@
     devices:
 
     \code
-        <SDK_INSTALL_DIR>/targets/android-utils/bin/adb devices
+        <SDK_INSTALL_DIR>/Tools/b2qt/adb devices
     \endcode
 
     \section2 What is the user and password to access my embedded Linux device
