@@ -479,9 +479,9 @@
 
     \section1 Installing the Android image
 
-    Download the package \e{r13.4.1-nitrogen-20130407.tar.gz} from
-    \l{http://boundarydevices.com/i-mx6-images-for-branch-r13-4-1/}{i.MX6
-    images for branch r13.4-1} (registration required).
+    Download the package \e{imx6-jb-20130628.tar.gz} from
+    \l{http://boundarydevices.com/android-jellybean-on-i-mx6-with-no-disclaimers/}{Boundary
+    Devices Android Jellybean i.MX6 images} (registration required).
 
     Use the following commands to create a micro-SD card containing the
     dowloaded image:
@@ -489,15 +489,15 @@
     \list
         \li Extract the downloaded package
         \code
-        ~/$ mkdir r13.4-1
-        ~/$ cd r13.4-1
-        ~/r13.4-1$ sudo tar zxvf ~/Downloads/r13.4.1-nitrogen-20130407.tar.gz
+        ~/$ mkdir bd-android
+        ~/$ cd bd-android
+        ~/bd-android$ sudo tar zxvf ~/Downloads/imx6-jb-20130628.tar.gz
         \endcode
         \li Run device/boundary/mksdcard.sh:
         \code
-        ~/r13.4-1$ sudo umount /media/*
-        ~/r13.4-1$ sudo device/boundary/mksdcard.sh /dev/XXX
-        ~/r13.4-1$ sync
+        ~/bd-android$ sudo umount /media/*
+        ~/bd-android$ sudo device/boundary/mksdcard.sh /dev/XXX
+        ~/bd-android$ sync
         \endcode
     \endlist
 
