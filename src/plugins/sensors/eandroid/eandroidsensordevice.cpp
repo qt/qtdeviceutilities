@@ -41,12 +41,18 @@ void EventReaderThread::run()
 EAndroidSensorDevice::EAndroidSensorDevice()
     : m_eventThread(0),
       m_sensorModule(0),
-      m_availableSensorsList(0)
+      m_sensorDevice(0),
+      m_availableSensorsList(0),
+      m_initSuccess(true)
 {
-    initSensorDevice();
-    m_eventThread = new EventReaderThread(this);
-    connect(m_eventThread, SIGNAL(eventPending()), this,
+    m_initSuccess = initSensorDevice();
+    if (m_initSuccess) {
+        m_eventThread = new EventReaderThread(this);
+        connect(m_eventThread, SIGNAL(eventPending()), this,
             SLOT(processSensorEvents()), Qt::QueuedConnection);
+    } else {
+        qWarning("Failed to initialize sensor module. Possibly a missing sensor driver?");
+    }
 }
 
 EAndroidSensorDevice* EAndroidSensorDevice::m_instance = 0;
@@ -149,24 +155,30 @@ QString EAndroidSensorDevice::description(int type) const
 
 int EAndroidSensorDevice::availableSensors(sensor_t const** list) const
 {
-    return m_sensorModule->get_sensors_list(m_sensorModule, list);
+    if (m_initSuccess)
+        return m_sensorModule->get_sensors_list(m_sensorModule, list);
+    return 0;
 }
 
-void EAndroidSensorDevice::initSensorDevice()
+bool EAndroidSensorDevice::initSensorDevice()
 {
     int err = 0;
     err = hw_get_module(SENSORS_HARDWARE_MODULE_ID,
                         (hw_module_t const**)&m_sensorModule);
-    if (err != 0)
+    if (err != 0 || !m_sensorModule) {
         qWarning("hw_get_module() failed (%s)\n", strerror(-err));
-
-    if (m_sensorModule) {
-        err = sensors_open(&m_sensorModule->common, &m_sensorDevice);
-        if (err != 0)
-            qWarning("sensors_open() failed (%s)\n", strerror(-err));
+        return false;
     }
+
+    err = sensors_open(&m_sensorModule->common, &m_sensorDevice);
+    if (err != 0 || !m_sensorDevice) {
+        qWarning("sensors_open() failed (%s)\n", strerror(-err));
+        return false;
+    }
+
     m_availableSensors = m_sensorModule->get_sensors_list(m_sensorModule,
                                                           &m_availableSensorsList);
+    return true;
 }
 
 void EAndroidSensorDevice::processSensorEvents() const

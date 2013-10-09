@@ -52,7 +52,7 @@ public:
     QString description(int type) const;
 
 protected:
-    void initSensorDevice();
+    bool initSensorDevice();
     int indexForType(int type) const;
     void setActive(int type, bool enable);
     void setDelay(int type, int dataRateHz) const;
@@ -73,6 +73,7 @@ private:
     sensors_poll_device_t* m_sensorDevice;
     sensor_t const* m_availableSensorsList;
     int m_availableSensors;
+    bool m_initSuccess;
 
     ListenersHash m_listenersHash;
 };
