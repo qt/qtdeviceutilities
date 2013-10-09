@@ -331,7 +331,7 @@
         \endcode
         \li Deploy the drivers to your device using the following command:
         \code
-            <SDK_INSTALL_DIR>/Tools/b2qt/deploy_proprietary_drivers_to_nexus7 <serial_number>
+            <SDK_INSTALL_DIR>/Boot2Qt-1.0/nexus7-eAndroid/images/deploy.sh <serial_number>
         \endcode
     \endlist
 
@@ -518,7 +518,7 @@
     Then, upgrade the micro-SD Card with \B2QA:
 
     \code
-        <SDK_INSTALL_DIR>/Tools/b2qt/install_to_imx6_android_image /dev/XXX
+        <SDK_INSTALL_DIR>/Boot2Qt-1.0/iMX6-eAndroid/images/deploy.sh /dev/XXX
     \endcode
 
     \warning \b{Make very sure you select the right device. Selecting the wrong
