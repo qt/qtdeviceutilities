@@ -133,10 +133,10 @@
     \target Installing 32-bit Support Libraries
     \section1 1. Installing 32-bit Support Libraries
 
-    Some of the build tools in \B2Q are 32-bit programs, and they
-    require that support libraries for running 32-bit code are present
-    in the system. To install the required packages in Ubuntu, use the
-    following command in a terminal:
+    Some of the build tools in \B2Q are 32-bit programs, and on 64-bit
+    systems they require that support libraries for running 32-bit
+    code are present in the system. To install the required packages
+    in Ubuntu, use the following command in a terminal:
 
     \code
         sudo apt-get install g++-multilib ia32-libs
