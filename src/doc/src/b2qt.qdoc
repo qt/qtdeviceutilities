@@ -495,7 +495,7 @@
         \endcode
         \li Run device/boundary/mksdcard.sh:
         \code
-        ~/bd-android$ sudo umount /media/*
+        ~/bd-android$ sudo umount /media/* /media/$USER/*
         ~/bd-android$ sudo device/boundary/mksdcard.sh /dev/XXX
         ~/bd-android$ sync
         \endcode
