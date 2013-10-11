@@ -299,15 +299,13 @@
 
     \section1 Installing Proprietary Drivers
 
-    Download the proprietary drivers for your Nexus 7
-    \l{https://developers.google.com/android/nexus/drivers#grouperjdq39}{here}.
-
-    \note Make sure you have read the license terms at the beginning of the
-    driver download page.
-
-    Select the links in the \b{Graphics}, \b{Camera, Sensors, DRM} and \b{Orientation Sensor} rows from the table
-    \e{"Nexus 7 (Wi-Fi) binaries for Android 4.2.2"}, download and save the files
-    to the installation directory of the \B2Q SDK.
+    Download the proprietary drivers for your Nexus 7. The following script will download the third
+    party drivers from \l{https://developers.google.com/android/nexus/drivers#grouperjdq39}
+    {https://developers.google.com/android/nexus/drivers#grouperjdq39}
+    \code
+        cd <SDK_INSTALL_DIR>
+        ./Boot2Qt-1.0/nexus7-eAndroid/images/download.sh
+    \endcode
 
     \note Only the version "Android 4.2.2 (JDQ39 to JDQ39E)" will work with the current Boot to Qt image.
 
@@ -315,25 +313,24 @@
     and is connected to the computer via USB.
 
     Then, follow these steps to update the Nexus 7:
+    \note Make sure you have read the license terms enclosed in each individual extractor
 
     \list 1
-        \li Extract the downloaded files, and run the extracted installers. For example,
+        \li Run the driver extractors:
         \code
-            cd <SDK_INSTALL_DIR>
-            tar xf nvidia-grouper-jdq39-738059f9.tgz
+            cd Boot2Qt-1.0/nexus7-eAndroid/images/drivers
             ./extract-nvidia-grouper.sh
-            tar xf asus-grouper-jdq39-b6907aa5.tgz
             ./extract-asus-grouper.sh
-            tar xf invensense-grouper-jdq39-28df082f.tgz
             ./extract-invensense-grouper.sh
+            cd -
         \endcode
         \li Find out the serial number of the connected Nexus 7 device:
         \code
-            <SDK_INSTALL_DIR>/Tools/b2qt/adb devices
+            ./Tools/b2qt/adb devices
         \endcode
         \li Deploy the drivers to your device using the following command:
         \code
-            <SDK_INSTALL_DIR>/Boot2Qt-1.0/nexus7-eAndroid/images/deploy.sh <serial_number>
+            ./Boot2Qt-1.0/nexus7-eAndroid/images/deploy.sh <serial_number>
         \endcode
     \endlist
 
