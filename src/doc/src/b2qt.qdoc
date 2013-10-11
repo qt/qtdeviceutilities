@@ -101,7 +101,7 @@
     \b{\B2QA} tries to strip down the Android
     stack to the bare minimum, relying only on basic Linux
     features. The majority of the Android stack, such as
-    \e{SurfaceFlinger} or \e{DalvikVM} is not running in \B2Q,
+    \e{Dalvik virtual machine} is not running in \B2Q,
     resulting in faster startup times, lower memory consumption and
     overall better performance.
 
