@@ -372,27 +372,7 @@
     For \B2QA, a micro-SD card of at least 2GB capacity is needed. For \B2QL,
     a card of at least 512MB capacity is sufficient.
 
-    Plug the micro-SD card/reader into the development host PC and use
-    the following command to find out its device path
-    (i.e. \c{/dev/XXX}, where \c{XXX} typically is \c{sdb}):
-
-    \code
-        df -h
-    \endcode
-
-    Alternatively, if the micro-SD card is unformatted, run the following
-    command immediately after inserting the card to see its device
-    path:
-
-    \code
-        dmesg | tail
-    \endcode
-
-    Now make sure the micro-SD card is not mounted:
-
-    \code
-        umount /dev/XXX
-    \endcode
+    \include detect-sd-card-device-name.qdocinc instructions
 
     \section1 Installing the \B2Q Image
 
@@ -413,9 +393,6 @@
             sudo Boot2Qt-1.0/beagleboard-eLinux/images/deploy.sh /dev/XXX
         \endcode
     \endlist
-
-    \warning \b{Make very sure you select the right device. Selecting the wrong
-    one can result in a wiped hard drive}.
 
     After the image has been deployed, power up the device and confirm that it shows
     a \B2Q welcome screen and/or demo.
@@ -454,27 +431,7 @@
 
     For \B2QA, a micro-SD card of at least 4GB capacity is needed.
 
-    Plug the micro-SD card/reader into the development host PC and use
-    the following command to find out its device path
-    (i.e. \c{/dev/XXX}, where \c{XXX} typically is \c{sdb}):
-
-    \code
-        df -h
-    \endcode
-
-    Alternatively, if the micro-SD card is unformatted, run the following
-    command immediately after inserting the card to see its device
-    path:
-
-    \code
-        dmesg | tail
-    \endcode
-
-    Next, make sure the micro-SD card is not mounted:
-
-    \code
-        umount /dev/XXX
-    \endcode
+    \include detect-sd-card-device-name.qdocinc instructions
 
     \section1 Installing the Android image
 
@@ -500,12 +457,6 @@
         \endcode
     \endlist
 
-    Make sure to replace the device path (\c{"/dev/XXX"}) with your micro-SD
-    card's device path that was found in the previous step.
-
-    \warning \b{Make very sure you select the right device. Selecting the wrong
-    one can result in a wiped hard drive.}
-
     \section1 Installing the \B2QA Image
 
     Make sure you have the required tools installed in your development machine:
@@ -520,9 +471,6 @@
         cd <SDK_INSTALL_DIR>
         Boot2Qt-1.0/iMX6-eAndroid/images/deploy.sh /dev/XXX
     \endcode
-
-    \warning \b{Make very sure you select the right device. Selecting the wrong
-    one can result in a wiped hard drive}.
 
     After the installation is complete, power up the device and confirm that it shows
     a \B2Q welcome screen and/or demo.
@@ -561,27 +509,7 @@
 
     For \B2QL, a card of at least 512MB capacity is sufficient.
 
-    Plug the micro-SD card/reader into the development host PC and use
-    the following command to find out its device path
-    (i.e. \c{/dev/XXX}, where \c{XXX} typically is \c{sdb}):
-
-    \code
-        df -h
-    \endcode
-
-    Alternatively, if the micro-SD card is unformatted, run the following
-    command immediately after inserting the card to see its device
-    path:
-
-    \code
-        dmesg | tail
-    \endcode
-
-    Now make sure the micro-SD card is not mounted:
-
-    \code
-        umount /dev/XXX
-    \endcode
+    \include detect-sd-card-device-name.qdocinc instructions
 
     \section1 Installing the \B2Q Image
 
@@ -591,9 +519,6 @@
         cd <SDK_INSTALL_DIR>
         sudo Boot2Qt-1.0/raspberrypi-eLinux/images/deploy.sh /dev/XXX
     \endcode
-
-    \warning \b{Make very sure you select the right device. Selecting the wrong
-    one can result in a wiped hard drive}.
 
     After the image has been deployed, power up the device and confirm that it shows
     a \B2Q welcome screen and/or demo.
