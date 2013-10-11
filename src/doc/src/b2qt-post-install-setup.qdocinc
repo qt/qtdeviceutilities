@@ -41,6 +41,7 @@
     To do so, connect your device to your computer via USB and launch
     Qt Creator (\B2Q IDE). Then,
 
+//! [steps for device kit]
     \list 1
         \li Go to \b{Tools > Options > Build & Run > Kits}
         \li Select one of the predefined Kits starting with \e{Boot2Qt...}
@@ -48,5 +49,28 @@
         \li Select the correct device in the \b{Device} combobox.
         \li Click \b{Ok}.
     \endlist
+//! [steps for device kit]
 //! [configuring device kit]
+
+//! [configuring network device]
+    After the hardware has been prepared, there are final steps required
+    to set up the development tools in Qt Creator for your device.
+
+    To do so, connect your device to network via ethernet cable and launch
+    Qt Creator (\B2Q IDE). Then,
+
+    \list 1
+        \li Go to \b{Tools > Options > Devices}
+        \li Click \b{Add...}
+        \li Select \b{Boot2Qt Device} and Click \b{Start Wizart}
+        \li Fill in name of the device and network address. Device address can be seen from
+            \e{Launcher Settings} when device is running \B2Q demo
+        \li Click \b{Finish}.
+    \endlist
+
+    You also have to configure the right device to be used for each \b{Kit}.
+
+    \include b2qt-post-install-setup.qdocinc steps for device kit
+
+//! [configuring network device]
 */

@@ -33,6 +33,7 @@
             \li \l{Preparing Nexus 7}{Nexus 7 (embedded Android)}
             \li \l{Preparing Sabre Lite i.MX 6}{Sabre Lite i.MX 6 (embedded Android)}
             \li \l{Preparing BeagleBoard-xM}{BeagleBoard-xM (embedded Android and Linux)}
+            \li \l{Preparing Raspberry Pi}{Raspberry Pi (embedded Linux)}
         \endlist
         \li \b {\l{Building and Running an Example}}
         \li \b {\l{Customization}}
@@ -232,6 +233,7 @@
         \li \l{Nexus 7 (embedded Android)}
         \li \l{Sabre Lite i.MX 6 (embedded Android)}
         \li \l{BeagleBoard-xM (embedded Android and Linux)}
+        \li \l{Raspberry Pi (embedded Linux)}
     \endlist
 
     If you are only using the emulator, you can skip this step
@@ -535,6 +537,73 @@
     \section1 Configuring a Device Kit in Qt Creator
 
     \include b2qt-post-install-setup.qdocinc configuring device kit
+
+    \b {You are now ready to start developing for your device!}
+
+    See \l{Building and Running an Example}
+*/
+
+/*!
+    \target Raspberry Pi (embedded Linux)
+    \page b2qt-preparing-hardware-rasberrypi.html
+    \title Preparing Raspberry Pi
+    \previouspage b2qt-installation-guide.html
+    \nextpage b2qt-building-and-running.html
+
+    When using a \l{http://www.raspberrypi.org/}{Raspberry Pi} as a
+    development device, following steps are required to prepare it for
+    \B2Q.
+
+    \note \b{It is important that the steps in this section are repeated
+    every time after updating the \B2Q SDK.}
+
+    The images containing \B2Q stack for Raspberry Pi is included in the SDK,
+    ready to be copied to a micro-SD card.
+
+    \section1 Preparing a Micro-SD Card
+
+    For \B2QL, a card of at least 512MB capacity is sufficient.
+
+    Plug the micro-SD card/reader into the development host PC and use
+    the following command to find out its device path
+    (i.e. \c{/dev/XXX}, where \c{XXX} typically is \c{sdb}):
+
+    \code
+        df -h
+    \endcode
+
+    Alternatively, if the micro-SD card is unformatted, run the following
+    command immediately after inserting the card to see its device
+    path:
+
+    \code
+        dmesg | tail
+    \endcode
+
+    Now make sure the micro-SD card is not mounted:
+
+    \code
+        umount /dev/XXX
+    \endcode
+
+    \section1 Installing the \B2Q Image
+
+    Write the image to the micro-SD card:
+
+    \code
+        cd <SDK_INSTALL_DIR>
+        Boot2Qt-1.0/raspberrypi-eLinux/images/deploy.sh /dev/XXX
+    \endcode
+
+    \warning \b{Make very sure you select the right device. Selecting the wrong
+    one can result in a wiped hard drive}.
+
+    After the image has been deployed, power up the device and confirm that it shows
+    a \B2Q welcome screen and/or demo.
+
+    \section1 Configuring a Device Kit in Qt Creator
+
+    \include b2qt-post-install-setup.qdocinc configuring network device
 
     \b {You are now ready to start developing for your device!}
 
