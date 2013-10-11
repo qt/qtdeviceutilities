@@ -50,7 +50,7 @@
     two different operating systems:
 
     \list
-        \li \b{\B2QA} places Qt on top of an Android (version 4.0 or 4.1)
+        \li \b{\B2QA} places Qt on top of an Android (version 4.1 or higher)
             kernel/baselayer.
 
         \li \b{\B2QL} places Qt on top of an Linux kernel/baselayer, built
