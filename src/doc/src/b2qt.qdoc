@@ -44,7 +44,7 @@
 
     \section1 What is \B2Q?
 
-    \b{\B2Q} is a light-weight UI stack for embedded systems, based on the
+    \e{\b{\B2Q}} is a light-weight UI stack for embedded systems, based on the
     \l{http://qt.digia.com/}{Qt Framework} by Digia, offering an elegant
     means of developing beautiful and performant embedded devices. It supports
     two different operating systems:
@@ -61,8 +61,10 @@
     hardware configurations. \B2Q support is not limited to the devices used
     as reference platforms, it can be made to run on a variety of hardware.
 
-    \B2Q SDK provides a complete software development package for
-    creating applications on embedded devices. It comes with
+    \section1 \SDK
+
+    \SDK includes the \B2Q stack, providing a complete software development
+    package for creating applications on embedded devices. It comes with
     the Qt Creator IDE with preconfigured build targets for hardware
     platforms as well as an \l{Emulator}{emulator}.
 
@@ -94,7 +96,7 @@
 
     \image b2qt-vs-qt-for-android.png
 
-    \b{Qt for Android} is a port of the Qt Framework to be used for application
+    \e{\b{Qt for Android}} is a port of the Qt Framework to be used for application
     development on the Android platform. Its purpose is to enable development
     of applications that can run on Android devices. For developers writing
     applications for the Android ecosystem, Qt for Android is the right choice.
@@ -117,7 +119,7 @@
     \previouspage index.html
     \nextpage b2qt-preparing-hardware.html
 
-    \e{IMPORTANT: The \B2Q SDK requires the following installation steps to be followed closely.}
+    \e{IMPORTANT: The \SDK requires the following installation steps to be followed closely.}
 
     In case of problems, see the \l{Troubleshooting} information and the
     \l{http://qt.digia.com/en/Product/Boot-to-Qt/Boot-to-Qt-Known-Issues/}
@@ -126,10 +128,10 @@
     \target Requirements for Development Host
     \section1 0. Requirements for Development Host
 
-    A 64-bit Linux system is required to install and use \B2Q
-    SDK. Instructions in this documentation assume Ubuntu Linux 64-bit
-    12.04 LTS or later. Other Linux distributions may work, but have
-    not been tested. C/C++ build essentials must be installed.
+    A 64-bit Linux system is required to install and use \SDK. Instructions
+    in this documentation assume Ubuntu Linux 64-bit 12.04 LTS or later.
+    Other Linux distributions may work, but have not been tested. C/C++ build
+    essentials must be installed.
 
     \target Installing 32-bit Support Libraries
     \section1 1. Installing 32-bit Support Libraries
@@ -167,12 +169,11 @@
         \li Change both the lower and upper address bounds to 192.168.56.101.
     \endlist
 
-    \section1 3. Installing the \B2Q SDK
+    \section1 3. Installing the \SDK
 
-    If you have not already installed the \B2Q SDK, do it as follows.
+    If you have not already installed the SDK, do it as follows.
 
-    After downloading the \B2Q SDK binary installer (the file named
-    something like \c{Boot2QtSDK-evaluation-64bit-2013xxxxxx}),
+    After downloading the binary installer for the SDK,
     make sure it is executable either by
 
     \list
@@ -183,11 +184,10 @@
 
     Run the installer and follow its instructions.
 
-    The installer will let you select a directory where the entire,
-    self-contained \B2Q SDK will be installed. In the rest of this
-    documentation, that directory is referred to as
-    \c{<SDK_INSTALL_DIR>}. By default, it is
-    \tt{/home/\e{yourusername}/Boot2QtSDK}.
+    The installer will let you select a directory where the SDK will be
+    installed. In the rest of this documentation, that directory is referred
+    to as \b{\c{<SDK_INSTALL_DIR>}}. The default installation directory is
+    \tt{~/Qt}.
 
     \target Installing Boot to Qt on Target Devices
     \section1 4. Install \B2Q on Target Devices
@@ -271,7 +271,7 @@
     \section1 Updating a Nexus 7 with \B2Q Images
 
     \note \b{It is important that the steps in this section are repeated
-    every time after updating the \B2Q SDK.}
+    every time after updating the \SDK.}
 
     An unlocked Nexus 7 device can now be updated with a \B2Q image.
 
@@ -307,7 +307,7 @@
         ./Boot2Qt-1.0/nexus7-eAndroid/images/download.sh
     \endcode
 
-    \note Only the version "Android 4.2.2 (JDQ39 to JDQ39E)" will work with the current Boot to Qt image.
+    \note Only the version "Android 4.2.2 (JDQ39 to JDQ39E)" will work with the current \B2Q image.
 
     Make sure your Nexus 7 is powered up, is \e{not} in fastboot mode,
     and is connected to the computer via USB.
@@ -362,7 +362,7 @@
     \B2Q.
 
     \note \b{It is important that the steps in this section are repeated
-    every time after updating the \B2Q SDK.}
+    every time after updating the \SDK.}
 
     The images containing \B2Q stack for BeagleBoard-xM is included in the SDK,
     ready to be copied to a micro-SD card.
@@ -377,7 +377,7 @@
     \section1 Installing the \B2Q Image
 
     The commands used in this step vary depending on whether you are developing
-    for \B2QA or embedded Linux.
+    for embedded Android or embedded Linux.
 
     Write the image to the micro-SD card:
 
@@ -422,7 +422,7 @@
     to prepare it for \B2QA.
 
     \note \b{It is important that the steps in this section are repeated
-    every time after updating the \B2Q SDK.}
+    every time after updating the \SDK.}
 
     The images containing \B2Q stack for Sabre Lite i.MX 6 is included in the SDK,
     ready to be copied to a micro-SD card.
@@ -457,7 +457,7 @@
         \endcode
     \endlist
 
-    \section1 Installing the \B2QA Image
+    \section1 Installing the \B2Q Image
 
     Make sure you have the required tools installed in your development machine:
 

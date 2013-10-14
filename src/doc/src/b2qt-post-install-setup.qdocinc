@@ -39,7 +39,7 @@
     You have to configure the right device to be used for each \b{Kit}.
 
     To do so, connect your device to your computer via USB and launch
-    Qt Creator (\B2Q IDE). Then,
+    Qt Creator. Then,
 
 //! [steps for device kit]
     \list 1
@@ -57,7 +57,7 @@
     to set up the development tools in Qt Creator for your device.
 
     To do so, connect your device to network via ethernet cable and launch
-    Qt Creator (\B2Q IDE). Then,
+    Qt Creator. Then,
 
     \list 1
         \li Go to \b{Tools > Options > Devices}

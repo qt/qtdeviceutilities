@@ -27,6 +27,7 @@ qhp.B2Qt.subprojects.manual.indexTitle = Boot to Qt Introduction
 qhp.B2Qt.subprojects.manual.type = manual
 
 macro.B2Q                    = "Boot to Qt"
-macro.B2QA                   = "Boot to Qt for embedded Android"
-macro.B2QL                   = "Boot to Qt for embedded Linux"
+macro.SDK                    = "Qt for Embedded Enterprise SDK"
+macro.B2QA                   = "\\e {Boot to Qt for embedded Android}"
+macro.B2QL                   = "\\e {Boot to Qt for embedded Linux}"
 
