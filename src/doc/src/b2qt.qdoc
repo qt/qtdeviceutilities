@@ -520,8 +520,8 @@
     Then, upgrade the micro-SD Card with \B2QA:
 
     \code
-        chmod +x <SDK_INSTALL_DIR>/Boot2Qt-1.0/iMX6-eAndroid/images/deploy.sh
-        <SDK_INSTALL_DIR>/Boot2Qt-1.0/iMX6-eAndroid/images/deploy.sh /dev/XXX
+        cd <SDK_INSTALL_DIR>
+        Boot2Qt-1.0/iMX6-eAndroid/images/deploy.sh /dev/XXX
     \endcode
 
     \warning \b{Make very sure you select the right device. Selecting the wrong
