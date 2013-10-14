@@ -7,4 +7,4 @@ SUBDIRS += \
     plugins \
 
 
-android: SUBDIRS += doppelganger
+android: SUBDIRS += doppelganger qt_hw_init
