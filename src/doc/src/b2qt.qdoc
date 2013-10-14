@@ -413,7 +413,7 @@
         \li \b{\B2QL}
         \code
             cd <SDK_INSTALL_DIR>
-            Boot2Qt-1.0/beagleboard-eLinux/images/deploy.sh /dev/XXX
+            sudo Boot2Qt-1.0/beagleboard-eLinux/images/deploy.sh /dev/XXX
         \endcode
     \endlist
 
@@ -592,7 +592,7 @@
 
     \code
         cd <SDK_INSTALL_DIR>
-        Boot2Qt-1.0/raspberrypi-eLinux/images/deploy.sh /dev/XXX
+        sudo Boot2Qt-1.0/raspberrypi-eLinux/images/deploy.sh /dev/XXX
     \endcode
 
     \warning \b{Make very sure you select the right device. Selecting the wrong
