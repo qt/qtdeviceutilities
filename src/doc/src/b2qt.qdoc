@@ -33,7 +33,7 @@
             \li \l{Preparing Nexus 7}{Nexus 7 (embedded Android)}
             \li \l{Preparing Sabre Lite i.MX 6}{Sabre Lite i.MX 6 (embedded Android)}
             \li \l{Preparing BeagleBoard-xM}{BeagleBoard-xM (embedded Android and Linux)}
-            \li \l{Preparing Raspberry Pi}{Raspberry Pi (embedded Linux)}
+            \li \l{Preparing Raspberry Pi}{Raspberry Pi Model B (embedded Linux)}
         \endlist
         \li \b {\l{Building and Running an Example}}
         \li \b {\l{Customization}}
@@ -233,7 +233,7 @@
         \li \l{Nexus 7 (embedded Android)}
         \li \l{Sabre Lite i.MX 6 (embedded Android)}
         \li \l{BeagleBoard-xM (embedded Android and Linux)}
-        \li \l{Raspberry Pi (embedded Linux)}
+        \li \l{Raspberry Pi Model B (embedded Linux)}
     \endlist
 
     If you are only using the emulator, you can skip this step
@@ -489,7 +489,7 @@
 */
 
 /*!
-    \target Raspberry Pi (embedded Linux)
+    \target Raspberry Pi Model B (embedded Linux)
     \page b2qt-preparing-hardware-rasberrypi.html
     \title Preparing Raspberry Pi
     \previouspage b2qt-installation-guide.html
@@ -499,15 +499,19 @@
     development device, following steps are required to prepare it for
     \B2Q.
 
+    Note that Ethernet networking is required to connect the device to Qt Creator.
+    This means that the support is currently limited to Raspberry Pi Model B which
+    includes an Ethernet port.
+
     \note \b{It is important that the steps in this section are repeated
-    every time after updating the \B2Q SDK.}
+    every time after updating the \SDK.}
 
     The images containing \B2Q stack for Raspberry Pi is included in the SDK,
     ready to be copied to a micro-SD card.
 
     \section1 Preparing a Micro-SD Card
 
-    For \B2QL, a card of at least 512MB capacity is sufficient.
+    An SD card of at least 512MB capacity is sufficient.
 
     \include detect-sd-card-device-name.qdocinc instructions
 
@@ -693,19 +697,19 @@
         \li Android 4.0+ compatible hardware
     \endlist
 
-    For the technology preview release, the following devices have
-    been used as reference and are tested to work:
+    The following devices have been used as reference and are tested to work:
     \list
         \li \l{http://www.google.com/nexus/7/specs/}{Google/Asus Nexus 7}
         \li \l{http://beagleboard.org/hardware-xM}{BeagleBoard-xM}
         \li \l{http://boundarydevices.com/products/sabre-lite-imx6-sbc/}{Freescale i.MX6 Sabre Lite board (Boundary Devices)}
+        \li \l{http://www.raspberrypi.org/faqs}{Raspberry Pi Model B}
     \endlist
 
     \section1 Supported Development Environment
 
-    The development environment supported in \B2Q Technology Preview
-    release is Ubuntu Linux 64-bit (12.04 LTS or 12.10). See the
-    \l{Requirements for Development Host}.
+    The development environment supported by \B2Q is Ubuntu Linux 64-bit (12.04 LTS or 12.10).
+
+    \sa {Requirements for Development Host}
 
 */
 
