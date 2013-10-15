@@ -5,8 +5,8 @@ outputencoding               = UTF-8
 sourceencoding               = UTF-8
 
 project                      = Boot2Qt
-description                  = Boot to Qt Technology Preview 2 Documentation
-version                      = tp2
+description                  = Boot to Qt Documentation
+version                      = 1.0.0
 
 sourcedirs                   = ../src
 imagedirs                   += ../images
@@ -16,9 +16,9 @@ sources.fileextensions       = "*.qdoc"
 qhp.projects                 = B2Qt
 
 qhp.B2Qt.file                = b2qt.qhp
-qhp.B2Qt.namespace           = com.digia.b2qt.tp2
+qhp.B2Qt.namespace           = com.digia.b2qt.100
 qhp.B2Qt.virtualFolder       = b2qt
-qhp.B2Qt.indexTitle          = Boot to Qt Technology Preview 2
+qhp.B2Qt.indexTitle          = Boot to Qt Documentation
 qhp.B2Qt.indexRoot           =
 
 qhp.B2Qt.subprojects = manual
