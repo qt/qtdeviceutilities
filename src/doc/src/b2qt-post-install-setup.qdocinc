@@ -17,7 +17,7 @@
     this shell command:
 
     \code
-        <SDK_INSTALL_DIR>/targets/android-utils/bin/adb devices
+        <SDK_INSTALL_DIR>/Tools/b2qt/adb devices
     \endcode
 
     The output should be a list of connected android devices,
