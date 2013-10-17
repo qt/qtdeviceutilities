@@ -1,5 +1,6 @@
 #include "qdroidutils.h"
 #include <unistd.h>
+#include <QDebug>
 
 #ifdef Q_OS_ANDROID_NO_SDK
 #include <cutils/android_reboot.h>
@@ -55,8 +56,11 @@ void QDroidUtils::powerOffSystem()
 void QDroidUtils::setMasterVolume(int volume)
 {
 #ifdef Q_OS_ANDROID_NO_SDK
+    android::status_t rc;
     volume = qBound(0, volume, 100);
-    android::AudioSystem::setMasterVolume(android::AudioSystem::linearToLog(volume));
+    rc = android::AudioSystem::setMasterVolume(android::AudioSystem::linearToLog(volume));
+    if (rc != android::NO_ERROR)
+        qWarning() << Q_FUNC_INFO << "Error while setting audio properties.";
 #endif
 }
 
@@ -70,7 +74,10 @@ void QDroidUtils::setMasterVolume(int volume)
 void QDroidUtils::setMasterMute(bool mute)
 {
 #ifdef Q_OS_ANDROID_NO_SDK
-    android::AudioSystem::setMasterMute(mute);
+    android::status_t rc;
+    rc = android::AudioSystem::setMasterMute(mute);
+    if (rc != android::NO_ERROR)
+        qWarning() << Q_FUNC_INFO << "Error while setting audio properties.";
 #endif
 }
 
@@ -118,9 +125,12 @@ void QDroidUtils::setMasterMute(bool mute)
 void QDroidUtils::setStreamVolume(AudioStreamType streamType, int volume)
 {
 #ifdef Q_OS_ANDROID_NO_SDK
+    android::status_t rc;
     volume = qBound(0, volume, 100);
-    android::AudioSystem::setStreamVolume(audio_stream_type_t(streamType),
+    rc = android::AudioSystem::setStreamVolume(audio_stream_type_t(streamType),
                                           android::AudioSystem::linearToLog(volume), 0);
+    if (rc != android::NO_ERROR)
+        qWarning() << Q_FUNC_INFO << "Error while setting audio properties.";
 #endif
 }
 
@@ -133,7 +143,10 @@ void QDroidUtils::setStreamVolume(AudioStreamType streamType, int volume)
 void QDroidUtils::setStreamMute(AudioStreamType streamType, bool mute)
 {
 #ifdef Q_OS_ANDROID_NO_SDK
-    android::AudioSystem::setStreamMute(audio_stream_type_t(streamType), mute);
+    android::status_t rc;
+    rc = android::AudioSystem::setStreamMute(audio_stream_type_t(streamType), mute);
+    if (rc != android::NO_ERROR)
+        qWarning() << Q_FUNC_INFO << "Error while setting audio properties.";
 #endif
 }
 
