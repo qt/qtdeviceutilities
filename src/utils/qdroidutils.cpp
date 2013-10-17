@@ -238,3 +238,54 @@ bool QDroidUtils::setHostname(QString hostname)
 #endif
     return true;
 }
+
+float QDroidUtils::masterVolume() const
+{
+
+    qDebug() << android::AudioSystem::NUM_STREAM_TYPES;
+
+    float volume = NAN;
+#ifdef Q_OS_ANDROID_NO_SDK
+    android::status_t rc;
+    rc = android::AudioSystem::getMasterVolume(&volume);
+    if (rc != android::NO_ERROR)
+        qWarning() << Q_FUNC_INFO << "Error while getting audio properties.";
+#endif
+    return volume;
+}
+
+bool QDroidUtils::masterMute() const
+{
+    bool mute = false;
+#ifdef Q_OS_ANDROID_NO_SDK
+    android::status_t rc;
+    rc = android::AudioSystem::getMasterMute(&mute);
+    if (rc != android::NO_ERROR)
+        qWarning() << Q_FUNC_INFO << "Error while getting audio properties.";
+#endif
+    return mute;
+}
+
+float QDroidUtils::streamVolume(AudioStreamType stream) const
+{
+    float volume = NAN;
+#ifdef Q_OS_ANDROID_NO_SDK
+    android::status_t rc;
+    rc = android::AudioSystem::getStreamVolume(audio_stream_type_t(stream), &volume, 0);
+    if (rc != android::NO_ERROR)
+        qWarning() << Q_FUNC_INFO << "Error while getting audio properties.";
+#endif
+    return volume;
+}
+
+bool QDroidUtils::streamMute(AudioStreamType stream) const
+{
+    bool mute = false;
+#ifdef Q_OS_ANDROID_NO_SDK
+    android::status_t rc;
+    rc = android::AudioSystem::getStreamMute(audio_stream_type_t(stream), &mute);
+    if (rc != android::NO_ERROR)
+        qWarning() << Q_FUNC_INFO << "Error while getting audio properties.";
+#endif
+    return mute;
+}

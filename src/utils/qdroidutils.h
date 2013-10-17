@@ -41,6 +41,11 @@ public Q_SLOTS:
     void setStreamVolume(AudioStreamType stream, int volume);
     void setStreamMute(AudioStreamType stream, bool mute);
 
+    float masterVolume() const;
+    bool masterMute() const;
+    float streamVolume(AudioStreamType stream) const;
+    bool streamMute(AudioStreamType stream) const;
+
     bool setDisplayBrightness(quint8 value);
 
     QString getIPAddress();
