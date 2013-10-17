@@ -241,9 +241,6 @@ bool QDroidUtils::setHostname(QString hostname)
 
 float QDroidUtils::masterVolume() const
 {
-
-    qDebug() << android::AudioSystem::NUM_STREAM_TYPES;
-
     float volume = NAN;
 #ifdef Q_OS_ANDROID_NO_SDK
     android::status_t rc;
