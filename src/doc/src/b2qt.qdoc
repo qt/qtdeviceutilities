@@ -16,10 +16,10 @@
 ****************************************************************************/
 
 /*!
-    \contentspage{index.html}{Boot to Qt}
+    \contentspage{index.html}{Qt Enterprise Embedded}
     \page index.html
-    \nextpage b2qt-installation-guide.html
-    \title Boot to Qt Introduction
+    \nextpage qee-installation-guide.html
+    \title Qt Enterprise Embedded
 
     \e{\b{IMPORTANT:} Make sure to follow the \l{Installation Guide}
     closely!}
@@ -27,20 +27,26 @@
     \section1 Contents
 
     \list
-        \li \b {\l{Installation Guide}}
-        \li \b {\l{Preparing Hardware}}
+        \li \l{Installation Guide}
+        \li \l{Preparing Hardware}
         \list
             \li \l{Preparing Nexus 7}{Nexus 7 (embedded Android)}
             \li \l{Preparing Sabre Lite i.MX 6}{Sabre Lite i.MX 6 (embedded Android)}
             \li \l{Preparing BeagleBoard-xM}{BeagleBoard-xM (embedded Android and Linux)}
             \li \l{Preparing Raspberry Pi}{Raspberry Pi Model B (embedded Linux)}
         \endlist
-        \li \b {\l{Building and Running an Example}}
-        \li \b {\l{Customization}}
-        \li \b {\l{Supported Platforms}}
-        \li \b {\l{Troubleshooting}}
+        \li \l{Building and Running an Example}
+        \li \l{Customization}
+        \li \l{Supported Platforms}
+        \li \l{Troubleshooting}
     \endlist
 
+    \section1 About \SDK
+
+    \SDK includes the \B2Q stack, providing a complete software development
+    package for creating applications on embedded devices. It comes with
+    the Qt Creator IDE with preconfigured build targets for hardware
+    platforms as well as an \l{Emulator}{emulator}.
 
     \section1 What is \B2Q?
 
@@ -60,14 +66,6 @@
     Both versions have been tested and verified on a number of different
     hardware configurations. \B2Q support is not limited to the devices used
     as reference platforms, it can be made to run on a variety of hardware.
-
-    \section1 \SDK
-
-    \SDK includes the \B2Q stack, providing a complete software development
-    package for creating applications on embedded devices. It comes with
-    the Qt Creator IDE with preconfigured build targets for hardware
-    platforms as well as an \l{Emulator}{emulator}.
-
 
     \section1 About Qt
 
@@ -114,16 +112,16 @@
 */
 
 /*!
-    \page b2qt-installation-guide.html
+    \page qee-installation-guide.html
     \title Installation Guide
     \previouspage index.html
-    \nextpage b2qt-preparing-hardware.html
+    \nextpage qee-preparing-hardware.html
 
-    \e{IMPORTANT: The \SDK requires the following installation steps to be followed closely.}
+    \e{IMPORTANT: \SDK requires the following installation steps to be followed closely.}
 
     In case of problems, see the \l{Troubleshooting} information and the
     \l{http://qt.digia.com/en/Product/Boot-to-Qt/Boot-to-Qt-Known-Issues/}
-    {Boot to Qt Known Issues} page.
+    {Qt Enterprise Embedded Known Issues} page.
 
     \target Requirements for Development Host
     \section1 0. Requirements for Development Host
@@ -136,7 +134,7 @@
     \target Installing 32-bit Support Libraries
     \section1 1. Installing 32-bit Support Libraries
 
-    Some of the build tools in \B2Q are 32-bit programs, and on 64-bit
+    Some of the build tools in \SDK are 32-bit programs, and on 64-bit
     systems they require that support libraries for running 32-bit
     code are present in the system. To install the required packages
     in Ubuntu, use the following command in a terminal:
@@ -148,7 +146,7 @@
     \target Installing VirtualBox
     \section1 2. Installing VirtualBox
 
-    The emulator in \B2Q relies on VirtualBox virtualization software. You can
+    The \B2Q emulator in \SDK relies on VirtualBox virtualization software. You can
     download it from \l{https://www.virtualbox.org/wiki/Linux_Downloads} or
     install it from the command line with the following command:
 
@@ -169,12 +167,11 @@
         \li Change both the lower and upper address bounds to 192.168.56.101.
     \endlist
 
-    \section1 3. Installing the \SDK
+    \section1 3. Installing \SDK
 
-    If you have not already installed the SDK, do it as follows.
+    If you have not already installed \SDK, do it as follows.
 
-    After downloading the binary installer for the SDK,
-    make sure it is executable either by
+    After downloading the binary installer, make sure it is executable either by
 
     \list
         \li Using \c{chmod +x <filename>} command, or
@@ -184,9 +181,9 @@
 
     Run the installer and follow its instructions.
 
-    The installer will let you select a directory where the SDK will be
+    The installer will let you select a directory where \SDK will be
     installed. In the rest of this documentation, that directory is referred
-    to as \b{\c{<SDK_INSTALL_DIR>}}. The default installation directory is
+    to as \b{\c{<INSTALL_DIR>}}. The default installation directory is
     \tt{~/Qt}.
 
     \target Installing Boot to Qt on Target Devices
@@ -220,10 +217,10 @@
 */
 
 /*!
-    \page b2qt-preparing-hardware.html
+    \page qee-preparing-hardware.html
     \title Preparing Hardware
-    \previouspage b2qt-installation-guide.html
-    \nextpage b2qt-building-and-running.html
+    \previouspage qee-installation-guide.html
+    \nextpage qee-building-and-running.html
 
     Before deploying and testing your Qt application on hardware, the
     target device needs to be flashed with an image that contains the
@@ -242,10 +239,10 @@
 
 /*!
     \target Nexus 7 (embedded Android)
-    \page b2qt-preparing-hardware-nexus-7.html
+    \page qee-preparing-hardware-nexus-7.html
     \title Preparing Nexus 7
-    \previouspage b2qt-installation-guide.html
-    \nextpage b2qt-building-and-running.html
+    \previouspage qee-installation-guide.html
+    \nextpage qee-building-and-running.html
 
     When using a \l{http://www.google.com/nexus/7/specs/}{Nexus 7} as a
     development device, following steps are required to prepare it for
@@ -262,7 +259,7 @@
         \li Start the Nexus up in \e{fastboot} mode: Press the power button for a second, and then keep the Volume Down key pressed, until you see a screen with a green robot with its front panel open. Note: If you get the ordinary startup screen instead, just power it down and try again.
         \li On the development host, give the command
         \code
-            sudo <SDK_INSTALL_DIR>/Tools/b2qt/fastboot oem unlock
+            sudo <INSTALL_DIR>/Tools/b2qt/fastboot oem unlock
         \endcode
         The Nexus screen will ask if you want to unlock the bootloader. Press power button to confirm.
         \li Wait a few seconds, and check that the text line stating the \c{LOCK STATE} now says \c{UNLOCKED}.
@@ -271,7 +268,7 @@
     \section1 Updating a Nexus 7 with \B2Q Images
 
     \note \b{It is important that the steps in this section are repeated
-    every time after updating the \SDK.}
+    every time after updating \SDK.}
 
     An unlocked Nexus 7 device can now be updated with a \B2Q image.
 
@@ -282,7 +279,7 @@
     device, using the following commands in the order they are listed:
 
     \code
-        cd <SDK_INSTALL_DIR>
+        cd <INSTALL_DIR>
         sudo ./Tools/b2qt/fastboot flash boot Boot2Qt-1.0/nexus7-eAndroid/images/boot.img
         sudo ./Tools/b2qt/fastboot flash system Boot2Qt-1.0/nexus7-eAndroid/images/system.img
         sudo ./Tools/b2qt/fastboot flash userdata Boot2Qt-1.0/nexus7-eAndroid/images/data.img
@@ -303,7 +300,7 @@
     party drivers from \l{https://developers.google.com/android/nexus/drivers#grouperjdq39}
     {https://developers.google.com/android/nexus/drivers#grouperjdq39}
     \code
-        cd <SDK_INSTALL_DIR>
+        cd <INSTALL_DIR>
         ./Boot2Qt-1.0/nexus7-eAndroid/images/download.sh
     \endcode
 
@@ -352,17 +349,17 @@
 
 /*!
     \target BeagleBoard-xM (embedded Android and Linux)
-    \page b2qt-preparing-hardware-beagleboard.html
+    \page qee-preparing-hardware-beagleboard.html
     \title Preparing BeagleBoard-xM
-    \previouspage b2qt-installation-guide.html
-    \nextpage b2qt-building-and-running.html
+    \previouspage qee-installation-guide.html
+    \nextpage qee-building-and-running.html
 
     When using a \l{http://beagleboard.org/hardware-xM}{BeagleBoard-xM} as a
     development device, following steps are required to prepare it for
     \B2Q.
 
     \note \b{It is important that the steps in this section are repeated
-    every time after updating the \SDK.}
+    every time after updating \SDK.}
 
     The images containing \B2Q stack for BeagleBoard-xM is included in the SDK,
     ready to be copied to a micro-SD card.
@@ -384,12 +381,12 @@
     \list
         \li \b{\B2QA}
         \code
-            cd <SDK_INSTALL_DIR>
+            cd <INSTALL_DIR>
             sudo dd if=Boot2Qt-1.0/beagleboard-eAndroid/images/sdcard.img of=/dev/XXX bs=1M
         \endcode
         \li \b{\B2QL}
         \code
-            cd <SDK_INSTALL_DIR>
+            cd <INSTALL_DIR>
             sudo Boot2Qt-1.0/beagleboard-eLinux/images/deploy.sh /dev/XXX
         \endcode
     \endlist
@@ -412,9 +409,9 @@
 
 /*!
     \target Sabre Lite i.MX 6 (embedded Android)
-    \page b2qt-preparing-hardware-imx6.html
+    \page qee-preparing-hardware-imx6.html
     \title Preparing Sabre Lite i.MX 6
-    \previouspage b2qt-installation-guide.html
+    \previouspage qee-installation-guide.html
 
     When using a
     \l{http://boundarydevices.com/products/sabre-lite-imx6-sbc/}{Sabre
@@ -422,7 +419,7 @@
     to prepare it for \B2QA.
 
     \note \b{It is important that the steps in this section are repeated
-    every time after updating the \SDK.}
+    every time after updating \SDK.}
 
     The images containing \B2Q stack for Sabre Lite i.MX 6 is included in the SDK,
     ready to be copied to a micro-SD card.
@@ -467,7 +464,7 @@
     Then, upgrade the micro-SD Card with \B2QA:
 
     \code
-        cd <SDK_INSTALL_DIR>
+        cd <INSTALL_DIR>
         Boot2Qt-1.0/iMX6-eAndroid/images/deploy.sh /dev/XXX
     \endcode
 
@@ -489,10 +486,10 @@
 
 /*!
     \target Raspberry Pi Model B (embedded Linux)
-    \page b2qt-preparing-hardware-rasberrypi.html
+    \page qee-preparing-hardware-rasberrypi.html
     \title Preparing Raspberry Pi
-    \previouspage b2qt-installation-guide.html
-    \nextpage b2qt-building-and-running.html
+    \previouspage qee-installation-guide.html
+    \nextpage qee-building-and-running.html
 
     When using a \l{http://www.raspberrypi.org/}{Raspberry Pi} as a
     development device, following steps are required to prepare it for
@@ -503,7 +500,7 @@
     includes an Ethernet port.
 
     \note \b{It is important that the steps in this section are repeated
-    every time after updating the \SDK.}
+    every time after updating \SDK.}
 
     The images containing \B2Q stack for Raspberry Pi is included in the SDK,
     ready to be copied to a micro-SD card.
@@ -519,7 +516,7 @@
     Write the image to the micro-SD card:
 
     \code
-        cd <SDK_INSTALL_DIR>
+        cd <INSTALL_DIR>
         sudo Boot2Qt-1.0/raspberrypi-eLinux/images/deploy.sh /dev/XXX
     \endcode
 
@@ -536,12 +533,12 @@
 */
 
 /*!
-    \page b2qt-building-and-running.html
+    \page qee-building-and-running.html
     \title Building and Running an Example
-    \previouspage b2qt-installation-guide.html
-    \nextpage b2qt-customization.html
+    \previouspage qee-installation-guide.html
+    \nextpage qee-customization.html
 
-    Once the installation and configuration steps for the SDK and the
+    Once the installation and configuration steps for \SDK and the
     target device(s) are completed, it's time to test the setup.
 
     First, make sure your device is powered up and connected to the
@@ -589,10 +586,10 @@
 */
 
 /*!
-    \page b2qt-customization.html
+    \page qee-customization.html
     \title Customization
-    \previouspage b2qt-building-and-running.html
-    \nextpage b2qt-supported-platforms.html
+    \previouspage qee-building-and-running.html
+    \nextpage qee-supported-platforms.html
 
     \section1 Environment and Input
 
@@ -610,7 +607,7 @@
     remounted read-write to allow modification. The following command
     does that:
     \code
-        <SDK_INSTALL_DIR>/Tools/b2qt/adb remount
+        <INSTALL_DIR>/Tools/b2qt/adb remount
     \endcode
 
     In the \c{appcontroller.conf} file the input devices are
@@ -639,7 +636,7 @@
 
     To remove your application from the default startup use the following command:
     \code
-        <SDK_INSTALL_DIR>/Tools/b2qt/adb shell appcontroller --remove-default
+        <INSTALL_DIR>/Tools/b2qt/adb shell appcontroller --remove-default
     \endcode
 
     \section1 Switching Between Portrait and Landscape Views
@@ -681,15 +678,16 @@
 */
 
 /*!
-    \page b2qt-supported-platforms.html
+    \page qee-supported-platforms.html
     \title Supported Platforms
-    \previouspage b2qt-customization.html
-    \nextpage b2qt-troubleshooting.html
+    \previouspage qee-customization.html
+    \nextpage qee-troubleshooting.html
 
     \section1 Supported Target Devices
 
-    \B2Q can be made to run on hardware that has support for
-    the Android operating system, version 4.0 or later.
+    The \B2Q stack can be made to run on a variety of hardware. \B2QA
+    requires hardware that has support for the Android operating system,
+    version 4.0 or later.
 
     Approximate minimal hardware requirements for running \B2Q are:
     \list
@@ -709,20 +707,20 @@
 
     \section1 Supported Development Environment
 
-    The development environment supported by \B2Q is Ubuntu Linux 64-bit (12.04 LTS or 12.10).
+    The development environment supported by \SDK is Ubuntu Linux 64-bit (12.04 LTS or 12.10).
 
     \sa {Requirements for Development Host}
 
 */
 
 /*!
-    \page b2qt-troubleshooting.html
+    \page qee-troubleshooting.html
     \title Troubleshooting
-    \previouspage b2qt-supported-platforms.html
+    \previouspage qee-supported-platforms.html
 
     \note An updated version of this information may be available in the Digia customer portal.
 
-    See also \b{\l{http://qt.digia.com/en/Product/Boot-to-Qt/Boot-to-Qt-Known-Issues/}{Boot to Qt Known Issues}.}
+    See also \b{\l{http://qt.digia.com/en/Product/Boot-to-Qt/Boot-to-Qt-Known-Issues/}{Qt Enterprise Embedded Known Issues}.}
 
     \section1 General Issues
 
@@ -765,8 +763,8 @@
     download the correct file for your device. Unpack it, and then
 
     \code
-        <SDK_INSTALL_DIR>/Tools/b2qt/adb reboot bootloader
-        <SDK_INSTALL_DIR>/Tools/b2qt/fastboot -w update <image-file>.zip
+        <INSTALL_DIR>/Tools/b2qt/adb reboot bootloader
+        <INSTALL_DIR>/Tools/b2qt/fastboot -w update <image-file>.zip
     \endcode
 
     \section2 How do I shut down the Nexus 7?
@@ -777,7 +775,7 @@
     Otherwise, make sure the Nexus 7 is connected to your PC with USB, and run
     the following command in a terminal:
     \code
-        <SDK_INSTALL_DIR>/Tools/b2qt/adb shell reboot -p
+        <INSTALL_DIR>/Tools/b2qt/adb shell reboot -p
     \endcode
 
     Alternatively, press and hold the power button for 10
@@ -793,7 +791,7 @@
 
     The following command shows the system log:
     \code
-        <SDK_INSTALL_DIR>/Tools/b2qt/adb logcat
+        <INSTALL_DIR>/Tools/b2qt/adb logcat
     \endcode
 
     \section2 Mouse or touch input does not work
@@ -832,7 +830,7 @@
     devices:
 
     \code
-        <SDK_INSTALL_DIR>/Tools/b2qt/adb devices
+        <INSTALL_DIR>/Tools/b2qt/adb devices
     \endcode
 
     \section2 What is the user and password to access my embedded Linux device
