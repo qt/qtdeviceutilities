@@ -120,8 +120,8 @@
     \e{IMPORTANT: \SDK requires the following installation steps to be followed closely.}
 
     In case of problems, see the \l{Troubleshooting} information and the
-    \l{http://qt.digia.com/en/Product/Boot-to-Qt/Boot-to-Qt-Known-Issues/}
-    {Qt Enterprise Embedded Known Issues} page.
+    Known Issues in Qt Enterprise Embedded product page in Digia customer
+    portal.
 
     \target Requirements for Development Host
     \section1 0. Requirements for Development Host
@@ -731,9 +731,8 @@
     \title Troubleshooting
     \previouspage qee-supported-platforms.html
 
-    \note An updated version of this information may be available in the Digia customer portal.
-
-    See also \b{\l{http://qt.digia.com/en/Product/Boot-to-Qt/Boot-to-Qt-Known-Issues/}{Qt Enterprise Embedded Known Issues}.}
+    \note An updated version of this information may be available in Digia customer portal,
+    see Known Issues in Qt Enterprise Embedded product page.
 
     \section1 General Issues
 
