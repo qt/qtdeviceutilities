@@ -31,7 +31,7 @@
         \li \l{Preparing Hardware}
         \list
             \li \l{Preparing Nexus 7}{Nexus 7 (embedded Android)}
-            \li \l{Preparing Sabre Lite i.MX 6}{Sabre Lite i.MX 6 (embedded Android)}
+            \li \l{Preparing Sabre Lite i.MX 6}{Sabre Lite i.MX 6 (embedded Android and Linux)}
             \li \l{Preparing BeagleBoard-xM}{BeagleBoard-xM (embedded Android and Linux)}
             \li \l{Preparing Raspberry Pi}{Raspberry Pi Model B (embedded Linux)}
         \endlist
@@ -228,7 +228,7 @@
 
     \list
         \li \l{Nexus 7 (embedded Android)}
-        \li \l{Sabre Lite i.MX 6 (embedded Android)}
+        \li \l{Sabre Lite i.MX 6 (embedded Android and Linux)}
         \li \l{BeagleBoard-xM (embedded Android and Linux)}
         \li \l{Raspberry Pi Model B (embedded Linux)}
     \endlist
@@ -408,7 +408,7 @@
 */
 
 /*!
-    \target Sabre Lite i.MX 6 (embedded Android)
+    \target Sabre Lite i.MX 6 (embedded Android and Linux)
     \page qee-preparing-hardware-imx6.html
     \title Preparing Sabre Lite i.MX 6
     \previouspage qee-installation-guide.html
@@ -416,21 +416,25 @@
     When using a
     \l{http://boundarydevices.com/products/sabre-lite-imx6-sbc/}{Sabre
     Lite i.MX 6} as a development device, following steps are required
-    to prepare it for \B2QA.
+    to prepare it for \B2Q.
 
     \note \b{It is important that the steps in this section are repeated
     every time after updating \SDK.}
 
-    The images containing \B2Q stack for Sabre Lite i.MX 6 is included in the SDK,
-    ready to be copied to a micro-SD card.
+    The images containing the \B2Q stack for Sabre Lite i.MX 6 are included
+    in the SDK, ready to be copied to a micro-SD card.
 
     \section1 Preparing a Micro-SD Card
 
-    For \B2QA, a micro-SD card of at least 4GB capacity is needed.
+    For \B2QA, a micro-SD card of at least 4GB capacity is needed. For \B2QL,
+    a card of at least 512MB capacity is sufficient.
 
     \include detect-sd-card-device-name.qdocinc instructions
 
     \section1 Installing the Android image
+
+    \e{If installing} \B2QL, \e{you can skip this step and proceed to}
+    \l{Installing the Boot to Qt Image}.
 
     Download the package \e{imx6-jb-20130628.tar.gz} from
     \l{http://boundarydevices.com/android-jellybean-on-i-mx6-with-no-disclaimers/}{Boundary
@@ -461,12 +465,21 @@
         sudo apt-get install u-boot-tools
     \endcode
 
-    Then, upgrade the micro-SD Card with \B2QA:
+    Then, upgrade the micro-SD Card with \B2Q. Use one of the commands below,
+    depending on whether you're developing for embedded Android or Linux:
 
-    \code
-        cd <INSTALL_DIR>
-        Boot2Qt-1.0/iMX6-eAndroid/images/deploy.sh /dev/XXX
-    \endcode
+    \list
+        \li \b{\B2QA}
+        \code
+            cd <INSTALL_DIR>
+            Boot2Qt-1.0/iMX6-eAndroid/images/deploy.sh /dev/XXX
+        \endcode
+        \li \b{\B2QL}
+        \code
+            cd <INSTALL_DIR>
+            Boot2Qt-1.0/iMX6-eLinux/images/deploy.sh /dev/XXX
+        \endcode
+    \endlist
 
     After the installation is complete, power up the device and confirm that it shows
     a \B2Q welcome screen and/or demo.
