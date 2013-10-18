@@ -846,6 +846,37 @@
         <INSTALL_DIR>/Tools/b2qt/adb devices
     \endcode
 
+    \section2 The emulator cannot connect to the internet
+
+    By default, the Virtualbox is configured to use host-only network, so external
+    connections do not work in the emulator.
+
+    You may be able to enable internet connectivity with another
+    virtual network adapter in NAT mode by adapting
+    \l{http://askubuntu.com/questions/293816/in-virtualbox-how-do-i-set-up-host-only-virtual-machines-that-can-access-the-in}{these}
+    instructions.
+
+    \section2 The emulator is stuck in 'Waiting for display data' or fails to start properly
+
+    Check the output of the following command:
+
+    \code
+        <INSTALL_DIR>/Tools/b2qt/adb devices
+    \endcode
+
+    If the emulator (192.168.56.101) is not listed there, try connecting to it:
+
+    \code
+        <INSTALL_DIR>/Tools/b2qt/adb connect 192.168.56.101
+    \endcode
+
+    If the emulator is already listed, try disconnecting it:
+    \code
+        <INSTALL_DIR>/Tools/b2qt/adb disconnect 192.168.56.101
+    \endcode
+
+    And then close the emulator and retry.
+
     \section2 What is the user and password to access my embedded Linux device
 
     Embedded Linux devices can be accessed using user \c{root} and an empty password.
