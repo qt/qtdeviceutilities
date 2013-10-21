@@ -11,7 +11,7 @@ QT = core network
 MODULE = droidutils
 load(qt_module)
 
-android: LIBS += -lmedia -lhardware -lcutils
+android: LIBS += -lmedia -lhardware -lcutils -lutils
 
 HEADERS += \
     $$PWD/qdroidutils.h

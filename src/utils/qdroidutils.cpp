@@ -45,6 +45,28 @@ void QDroidUtils::powerOffSystem()
     qWarning("powerOff returned");
 }
 
+void QDroidUtils::setOrientationForAudioSystem(AudioOrientation orientation)
+{
+#ifdef Q_OS_ANDROID_NO_SDK
+    QString orientationString = QStringLiteral("undefined");
+    switch (orientation) {
+    case LandscapeAudioOrientation:
+        orientationString = QStringLiteral("landscape");
+        break;
+    case PortraitAudioOrientation:
+        orientationString = QStringLiteral("portrait");
+        break;
+    case SquareAudioOrientation:
+        orientationString = QStringLiteral("square");
+        break;
+    default:
+        break;
+    }
+    android::AudioSystem::setParameters(0, android::String8(QStringLiteral("orientation=%2")
+                                                            .arg(orientationString).toLatin1().constData()));
+#endif
+}
+
 /*!
  * Sets the master volume to \a volume.
  * The volume can range from 0 to 100 and is linear.

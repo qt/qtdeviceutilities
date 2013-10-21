@@ -8,6 +8,13 @@ class Q_DECL_EXPORT QDroidUtils : public QObject
     Q_OBJECT
     Q_ENUMS(AudioStreamType)
 public:
+    enum AudioOrientation {
+        LandscapeAudioOrientation,
+        PortraitAudioOrientation,
+        SquareAudioOrientation,
+        UndefinedAudioOrientation,
+    };
+
     enum AudioStreamType {
         DefaultAudioStream = -1,
         VoiceCallAudioStream = 0,
@@ -35,6 +42,8 @@ public:
 public Q_SLOTS:
     void rebootSystem();
     void powerOffSystem();
+
+    void setOrientationForAudioSystem(AudioOrientation orientation);
 
     void setMasterVolume(int volume);
     void setMasterMute(bool mute);
