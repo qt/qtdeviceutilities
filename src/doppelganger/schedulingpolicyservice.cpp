@@ -12,7 +12,7 @@ enum {
 };
 
 #define PRIORITY_MIN 1
-#define PRIORITY_MAX 2
+#define PRIORITY_MAX 3
 
 SchedulingPolicyService::SchedulingPolicyService()
 {
