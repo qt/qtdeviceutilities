@@ -38,6 +38,7 @@
         \li \l{Building and Running an Example}
         \li \l{Customization}
         \li \l{Supported Platforms}
+        \li \l{License Information}
         \li \l{Troubleshooting}
     \endlist
 
@@ -694,7 +695,7 @@
     \page qtee-supported-platforms.html
     \title Supported Platforms
     \previouspage qtee-customization.html
-    \nextpage qtee-troubleshooting.html
+    \nextpage qtee-licenses.html
 
     \section1 Supported Target Devices
 
@@ -724,6 +725,31 @@
 
     \sa {Requirements for Development Host}
 
+*/
+
+/*!
+    \page qtee-licenses.html
+    \title License Information
+    \previouspage qtee-supported-platforms.html
+    \nextpage qtee-troubleshooting.html
+
+    \section1 Licensing
+
+    \SDK is licensed under the Qt Enterprise commercial license. For more information,
+    see \l {http://qt.digia.com/licensing}. Evaluation licenses are also available,
+    see \l {http://qt.digia.com/Products/Qt-Enterprise-Embedded}.
+
+    \section1 3rd Party Software Licenses
+
+    The third-party licenses used in \SDK are listed in the file
+    \c {<INSTALL_DIR>/Licenses/ThirdPartySoftware_Listing.txt}.
+
+    \section2 Embedded Android Images
+
+    The embedded Android platform is built from the \e {Android Open Source Project},
+    source code available at \l {http://android.googlesource.com/}. The open
+    source licenses and notices are collected into the file
+    \c {/etc/NOTICE.html.gz} in the target images.
 */
 
 /*!
