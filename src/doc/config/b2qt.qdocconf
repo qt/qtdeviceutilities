@@ -31,4 +31,4 @@ macro.SDK                    = "Qt Enterprise Embedded"
 macro.B2QA                   = "\\e {Boot to Qt for embedded Android}"
 macro.B2QL                   = "\\e {Boot to Qt for embedded Linux}"
 
-navigation.landingpage = "Boot to Qt Introduction"
+navigation.landingpage = "Qt Enterprise Embedded"
