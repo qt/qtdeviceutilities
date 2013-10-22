@@ -18,7 +18,7 @@
 /*!
     \contentspage{index.html}{Qt Enterprise Embedded}
     \page index.html
-    \nextpage qee-installation-guide.html
+    \nextpage qtee-installation-guide.html
     \title Qt Enterprise Embedded
 
     \e{\b{IMPORTANT:} Make sure to follow the \l{Installation Guide}
@@ -112,10 +112,10 @@
 */
 
 /*!
-    \page qee-installation-guide.html
+    \page qtee-installation-guide.html
     \title Installation Guide
     \previouspage index.html
-    \nextpage qee-preparing-hardware.html
+    \nextpage qtee-preparing-hardware.html
 
     \e{IMPORTANT: \SDK requires the following installation steps to be followed closely.}
 
@@ -217,10 +217,10 @@
 */
 
 /*!
-    \page qee-preparing-hardware.html
+    \page qtee-preparing-hardware.html
     \title Preparing Hardware
-    \previouspage qee-installation-guide.html
-    \nextpage qee-building-and-running.html
+    \previouspage qtee-installation-guide.html
+    \nextpage qtee-building-and-running.html
 
     Before deploying and testing your Qt application on hardware, the
     target device needs to be flashed with an image that contains the
@@ -239,10 +239,10 @@
 
 /*!
     \target Nexus 7 (embedded Android)
-    \page qee-preparing-hardware-nexus-7.html
+    \page qtee-preparing-hardware-nexus-7.html
     \title Preparing Nexus 7
-    \previouspage qee-installation-guide.html
-    \nextpage qee-building-and-running.html
+    \previouspage qtee-installation-guide.html
+    \nextpage qtee-building-and-running.html
 
     When using a \l{http://www.google.com/nexus/7/specs/}{Nexus 7} as a
     development device, following steps are required to prepare it for
@@ -349,10 +349,10 @@
 
 /*!
     \target BeagleBoard-xM (embedded Android and Linux)
-    \page qee-preparing-hardware-beagleboard.html
+    \page qtee-preparing-hardware-beagleboard.html
     \title Preparing BeagleBoard-xM
-    \previouspage qee-installation-guide.html
-    \nextpage qee-building-and-running.html
+    \previouspage qtee-installation-guide.html
+    \nextpage qtee-building-and-running.html
 
     When using a \l{http://beagleboard.org/hardware-xM}{BeagleBoard-xM} as a
     development device, following steps are required to prepare it for
@@ -409,9 +409,9 @@
 
 /*!
     \target Sabre Lite i.MX 6 (embedded Android and Linux)
-    \page qee-preparing-hardware-imx6.html
+    \page qtee-preparing-hardware-imx6.html
     \title Preparing Sabre Lite i.MX 6
-    \previouspage qee-installation-guide.html
+    \previouspage qtee-installation-guide.html
 
     When using a
     \l{http://boundarydevices.com/products/sabre-lite-imx6-sbc/}{Sabre
@@ -499,10 +499,10 @@
 
 /*!
     \target Raspberry Pi Model B (embedded Linux)
-    \page qee-preparing-hardware-rasberrypi.html
+    \page qtee-preparing-hardware-rasberrypi.html
     \title Preparing Raspberry Pi
-    \previouspage qee-installation-guide.html
-    \nextpage qee-building-and-running.html
+    \previouspage qtee-installation-guide.html
+    \nextpage qtee-building-and-running.html
 
     When using a \l{http://www.raspberrypi.org/}{Raspberry Pi} as a
     development device, following steps are required to prepare it for
@@ -546,10 +546,10 @@
 */
 
 /*!
-    \page qee-building-and-running.html
+    \page qtee-building-and-running.html
     \title Building and Running an Example
-    \previouspage qee-installation-guide.html
-    \nextpage qee-customization.html
+    \previouspage qtee-installation-guide.html
+    \nextpage qtee-customization.html
 
     Once the installation and configuration steps for \SDK and the
     target device(s) are completed, it's time to test the setup.
@@ -599,10 +599,10 @@
 */
 
 /*!
-    \page qee-customization.html
+    \page qtee-customization.html
     \title Customization
-    \previouspage qee-building-and-running.html
-    \nextpage qee-supported-platforms.html
+    \previouspage qtee-building-and-running.html
+    \nextpage qtee-supported-platforms.html
 
     \section1 Environment and Input
 
@@ -691,10 +691,10 @@
 */
 
 /*!
-    \page qee-supported-platforms.html
+    \page qtee-supported-platforms.html
     \title Supported Platforms
-    \previouspage qee-customization.html
-    \nextpage qee-troubleshooting.html
+    \previouspage qtee-customization.html
+    \nextpage qtee-troubleshooting.html
 
     \section1 Supported Target Devices
 
@@ -727,9 +727,9 @@
 */
 
 /*!
-    \page qee-troubleshooting.html
+    \page qtee-troubleshooting.html
     \title Troubleshooting
-    \previouspage qee-supported-platforms.html
+    \previouspage qtee-supported-platforms.html
 
     \note An updated version of this information may be available in Digia customer portal,
     see Known Issues in Qt Enterprise Embedded product page.
