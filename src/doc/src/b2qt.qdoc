@@ -30,7 +30,7 @@
         \li \l{Installation Guide}
         \li \l{Preparing Hardware}
         \list
-            \li \l{Preparing Nexus 7}{Nexus 7 (embedded Android)}
+            \li \l{Preparing Nexus 7}{Nexus 7 (2012) (embedded Android)}
             \li \l{Preparing Sabre Lite i.MX 6}{Sabre Lite i.MX 6 (embedded Android and Linux)}
             \li \l{Preparing BeagleBoard-xM}{BeagleBoard-xM (embedded Android and Linux)}
             \li \l{Preparing Raspberry Pi}{Raspberry Pi Model B (embedded Linux)}
@@ -228,7 +228,7 @@
     \B2Q stack. These steps vary from device to device:
 
     \list
-        \li \l{Nexus 7 (embedded Android)}
+        \li \l{Nexus 7 (2012) (embedded Android)}
         \li \l{Sabre Lite i.MX 6 (embedded Android and Linux)}
         \li \l{BeagleBoard-xM (embedded Android and Linux)}
         \li \l{Raspberry Pi Model B (embedded Linux)}
@@ -239,13 +239,13 @@
 */
 
 /*!
-    \target Nexus 7 (embedded Android)
+    \target Nexus 7 (2012) (embedded Android)
     \page qtee-preparing-hardware-nexus-7.html
     \title Preparing Nexus 7
     \previouspage qtee-installation-guide.html
     \nextpage qtee-building-and-running.html
 
-    When using a \l{http://www.google.com/nexus/7/specs/}{Nexus 7} as a
+    When using a \l{http://www.google.com/nexus/7/specs/}{Nexus 7 (2012)} as a
     development device, following steps are required to prepare it for
     \B2Q.
 
@@ -713,7 +713,7 @@
 
     The following devices have been used as reference and are tested to work:
     \list
-        \li \l{http://www.google.com/nexus/7/specs/}{Google/Asus Nexus 7}
+        \li \l{http://www.google.com/nexus/7/specs/}{Google/Asus Nexus 7 (2012)}
         \li \l{http://beagleboard.org/hardware-xM}{BeagleBoard-xM}
         \li \l{http://boundarydevices.com/products/sabre-lite-imx6-sbc/}{Freescale i.MX6 Sabre Lite board (Boundary Devices)}
         \li \l{http://www.raspberrypi.org/faqs}{Raspberry Pi Model B}
