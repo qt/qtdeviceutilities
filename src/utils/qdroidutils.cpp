@@ -1,6 +1,7 @@
 #include "qdroidutils.h"
 #include <unistd.h>
 #include <QDebug>
+#include <math.h>
 
 #ifdef Q_OS_ANDROID_NO_SDK
 #include <cutils/android_reboot.h>
