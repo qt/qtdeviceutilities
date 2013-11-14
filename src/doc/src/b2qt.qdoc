@@ -156,7 +156,8 @@
 
     \b{Configuring VirtualBox}
 
-    Open VirtualBox network settings: Select \b{File > Preferences...}
+    Open the VirtualBox user interface.
+    Open the network settings: Select \b{File > Preferences...}
     and click on the \b{Network} tab. Create a new network named
     \e{vboxnet0} and edit its properties:
 
