@@ -168,6 +168,9 @@
         \li Change both the lower and upper address bounds to 192.168.56.101.
     \endlist
 
+    Configure your system firewall to allow TCP and UDP packets between your host and
+    the virtual machine.
+
     \section1 3. Installing \SDK
 
     If you have not already installed \SDK, do it as follows.
