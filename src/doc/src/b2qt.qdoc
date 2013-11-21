@@ -566,7 +566,9 @@
 
     \list 1
         \li Open \b{File > New File or Project}, select
-            \b{Qt Quick 2 Application (Built-in Types)} and click \b{Choose...}.
+            \b{Qt Quick 2 Application} and click \b{Choose...}.
+        \li Choose a location for your new project.
+        \li In \b{Qt Quick Component Set} dialog, select \b{Qt Quick 2.0}.
         \li In \b{Kit Selection} dialog, select the kit(s) for your
             devices. You can also select the emulator kit to test running the
             project in the emulator.
