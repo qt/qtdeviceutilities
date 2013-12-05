@@ -20,8 +20,17 @@
 /*!
     \contentspage{index.html}{Qt Enterprise Embedded}
     \page index.html
-    \nextpage qtee-installation-guide.html
+    \nextpage qtee-overview.html
     \title Qt Enterprise Embedded
+
+    \SDK provides a fully-integrated solution to get you started immediately
+    with software development on your embedded device with a tailored user
+    experience for embedded Linux and embedded Android. \SDK contains the tools
+    you need for fast, easy, and fully-integrated embedded device application
+    development. It comes with \B2Q, a light-weight UI stack for embedded
+    systems, and the Qt Creator integrated development environment (IDE) with
+    preconfigured build targets for hardware platforms, as well as an emulator
+    for testing the applications.
 
     \e{\b{IMPORTANT:} Make sure to follow the \l{Installation Guide}
     closely!}
@@ -29,6 +38,7 @@
     \section1 Contents
 
     \list
+        \li \l{About Qt Enterprise Embedded}
         \li \l{Installation Guide}
         \li \l{Preparing Hardware}
         \list
@@ -43,27 +53,59 @@
         \li \l{License Information}
         \li \l{Troubleshooting}
     \endlist
+*/
 
-    \section1 About \SDK
+/*!
+    \contentspage{index.html}{Qt Enterprise Embedded}
+    \page qtee-overview.html
+    \previouspage index.html
+    \nextpage qtee-installation-guide.html
 
-    \SDK includes the \B2Q stack, providing a complete software development
-    package for creating applications on embedded devices. It comes with
-    the Qt Creator IDE with preconfigured build targets for hardware
-    platforms as well as an \l{Emulator}{emulator}.
+    \title About Qt Enterprise Embedded
 
-    \section1 What is \B2Q?
-
-    \e{\b{\B2Q}} is a light-weight UI stack for embedded systems, based on the
-    \l{http://qt.digia.com/}{Qt Framework} by Digia, offering an elegant
-    means of developing beautiful and performant embedded devices. It supports
-    two different operating systems:
+    \SDK has two main parts:
 
     \list
-        \li \b{\B2QA} places Qt on top of an Android (version 4.1 or higher)
-            kernel/baselayer.
+        \li Development environment that is installed on a Linux development
+            desktop by using an online installer.
+        \li \B2Q
+    \endlist
 
-        \li \b{\B2QL} places Qt on top of an Linux kernel/baselayer, built
-            using Yocto 1.4 'Dylan' release.
+    \section1 About the Development Environment
+
+    The development is done with the Qt Enterprise libraries and device
+    deployment can be done with one click directly from Qt Creator to a device
+    connected via USB. Alternatively, you can deploy the application locally
+    directly to the \B2Q Emulator that is running the full target software stack
+    as in the device.
+
+    As with any Qt based application, the same application can be deployed to
+    desktop and mobile OS targets as well.
+
+    \section1 About \B2Q
+
+    \e{\b{\B2Q}} is a light-weight, Qt-optimized, full software stack for
+    embedded systems that is installed into the actual target device. This is
+    done by flashing the device’s memory card or device's internal memory
+    directly with a pre-built image that comes with the development environment.
+
+    \B2Q supports two different operating systems:
+
+    \list
+        \li \b{\B2QA} where the software stack is based on the Android Kernel
+            (version 4.1 or higher) and selected  middleware. It includes a lean
+            software stack where Qt/QML replaces the top Java graphical layer
+            and removes the Zygote process layer as well the Android home screen
+            enabling better and faster development where modern UIs are at the
+            forefront.
+
+        \li \b{\B2QL} where the software stack is using the traditional embedded
+            Linux kernel built with the Yocto Poky reference system (Yocto 1.4
+            \e Dylan release). Because of its Yocto compliance, the Embedded
+            Linux variant is designed for great customization possibilities.
+            It contains only components required in the embedded device,
+            resulting in smaller image sizes while keeping valuable development
+            tools available.
     \endlist
 
     Both versions have been tested and verified on a number of different
@@ -74,7 +116,7 @@
 
     \l{http://qt.digia.com/}{Qt} is a full development framework with tools
     designed to streamline the creation of applications and user interfaces
-    for desktop, embedded and mobile platforms.
+    for desktop, embedded, and mobile platforms.
 
     \list
         \li \b{Qt Framework} - intuitive APIs for C++
@@ -88,8 +130,8 @@
     \endlist
 
     With Qt, you can reuse code efficiently to target multiple platforms
-    with one code base. The modular C++ class library and developer tools
-    enables developers to create applications for one platform and easily
+    with one code base. The modular C++ class library and development tools
+    enable developers to create applications for one platform and easily
     build and run to deploy also on other platforms.
 
 
@@ -108,16 +150,12 @@
     \e{Dalvik virtual machine} is not running in \B2Q,
     resulting in faster startup times, lower memory consumption and
     overall better performance.
-
-    \b{\B2QL} is build from scratch using Yocto 1.4 tools
-    to contain only components required in the embedded device, resulting
-    in smaller image sizes while keeping valuable development tools available.
 */
 
 /*!
     \page qtee-installation-guide.html
     \title Installation Guide
-    \previouspage index.html
+    \previouspage qtee-overview.html
     \nextpage qtee-preparing-hardware.html
 
     \e{IMPORTANT: \SDK requires the following installation steps to be followed closely.}
