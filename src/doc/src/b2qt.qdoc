@@ -40,6 +40,7 @@
     \list
         \li \l{About Qt Enterprise Embedded}
         \li \l{Installation Guide}
+        \li \l{Supported Platforms}
         \li \l{Preparing Hardware}
         \list
             \li \l{Preparing Nexus 7}{Nexus 7 (2012) (embedded Android)}
@@ -49,9 +50,8 @@
         \endlist
         \li \l{Building and Running an Example}
         \li \l{Customization}
-        \li \l{Supported Platforms}
-        \li \l{License Information}
         \li \l{Troubleshooting}
+        \li \l{License Information}
     \endlist
 */
 
@@ -156,7 +156,7 @@
     \page qtee-installation-guide.html
     \title Installation Guide
     \previouspage qtee-overview.html
-    \nextpage qtee-preparing-hardware.html
+    \nextpage qtee-supported-platforms.html
 
     \e{IMPORTANT: \SDK requires the following installation steps to be followed closely.}
 
@@ -260,7 +260,7 @@
 /*!
     \page qtee-preparing-hardware.html
     \title Preparing Hardware
-    \previouspage qtee-installation-guide.html
+    \previouspage qtee-supported-platforms.html
     \nextpage qtee-building-and-running.html
 
     Before deploying and testing your Qt application on hardware, the
@@ -589,7 +589,7 @@
 /*!
     \page qtee-building-and-running.html
     \title Building and Running an Example
-    \previouspage qtee-installation-guide.html
+    \previouspage qtee-preparing-hardware.html
     \nextpage qtee-customization.html
 
     Once the installation and configuration steps for \SDK and the
@@ -643,7 +643,7 @@
     \page qtee-customization.html
     \title Customization
     \previouspage qtee-building-and-running.html
-    \nextpage qtee-supported-platforms.html
+    \nextpage qtee-troubleshooting.html
 
     \section1 Environment and Input
 
@@ -734,8 +734,8 @@
 /*!
     \page qtee-supported-platforms.html
     \title Supported Platforms
-    \previouspage qtee-customization.html
-    \nextpage qtee-licenses.html
+    \previouspage qtee-installation-guide.html
+    \nextpage qtee-preparing-hardware.html
 
     \section1 Supported Target Devices
 
@@ -770,8 +770,7 @@
 /*!
     \page qtee-licenses.html
     \title License Information
-    \previouspage qtee-supported-platforms.html
-    \nextpage qtee-troubleshooting.html
+    \previouspage qtee-troubleshooting.html
 
     \section1 Licensing
 
@@ -795,7 +794,8 @@
 /*!
     \page qtee-troubleshooting.html
     \title Troubleshooting
-    \previouspage qtee-supported-platforms.html
+    \previouspage qtee-customization.html
+    \nextpage qtee-licenses.html
 
     \note An updated version of this information may be available in Digia customer portal,
     see Known Issues in Qt Enterprise Embedded product page.
