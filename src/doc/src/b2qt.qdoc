@@ -801,17 +801,18 @@
     \previouspage qtee-customization.html
     \nextpage qtee-licenses.html
 
-    \note An updated version of this information may be available in Digia customer portal,
-    see Known Issues in Qt Enterprise Embedded product page.
+    \note An updated version of this information may be available in the Digia
+    customer portal, in the \e{Known Issues} section on the \SDK product page.
 
     \section1 General Issues
 
     \section2 I have problems deploying/launching the application in Qt Creator
 
-    Check if the device is properly connected to the PC via USB.
+    Check that the device is properly connected to the development host via USB
+    or Ethernet (depending on the device).
     See \l{Connectivity Issues}.
 
-    If using the emulator, see \l{Installing VirtualBox}{Configuring VirtualBox}.
+    If using the emulator, see \l{Installing VirtualBox}.
 
     \section2 I have problems deploying/launching a Qt or Qt Quick example application
 
@@ -831,8 +832,8 @@
     \section2 Booting Sabre Lite i.MX 6 stops with \e {6x_bootscript not found} error
 
     Check the U-Boot version number. It should start with either \c{2012} or \c{2013}.
-    If it is \c{2009.xx}, an upgrade of the bootloader is required. See information and
-    instructions here:
+    If it is \c{2009.xx}, an upgrade of the bootloader is required. For more
+    information, see:
 
     \list
         \li \l http://boundarydevices.com/6q_bootscript/
@@ -841,8 +842,9 @@
 
     \section2 How do I restore my Nexus 7 to factory settings?
 
-    Goto \l{https://developers.google.com/android/nexus/images} and
-    download the correct file for your device. Unpack it, and then
+    Go to \l{https://developers.google.com/android/nexus/images} and
+    download the correct file for your device. Unpack it, and then enter the
+    following commands:
 
     \code
         <INSTALL_DIR>/Tools/b2qt/adb reboot bootloader
@@ -851,10 +853,10 @@
 
     \section2 How do I shut down the Nexus 7?
 
-    If the \B2Q demo launcher is running, start the "Launcher
-    Settings" app, and press the "Power Off" button.
+    If the \B2Q demo launcher is running, start the \b {Launcher
+    Settings} app, and press the power button to power off the device.
 
-    Otherwise, make sure the Nexus 7 is connected to your PC with USB, and run
+    Otherwise, make sure the Nexus 7 is connected to the development host, and run
     the following command in a terminal:
     \code
         <INSTALL_DIR>/Tools/b2qt/adb shell reboot -p
@@ -865,7 +867,8 @@
 
     \section2 Trying to build for the emulator target fails with error message \e{make: i686-android-linux-g++: Command not found}
 
-    You need to install proper libraries in order to run 32-bit programs in 64-bit Linux operating system.
+    You need to install support libraries in order to run 32-bit programs in a
+    64-bit Linux operating system.
 
     See \l{Installing 32-bit Support Libraries}.
 
@@ -880,7 +883,7 @@
 
     See \l{Customization}.
 
-    Note that hotplugging does not currently work; any input device
+    \note Hotplugging does not currently work, and therefore, any input device
     must be present at boot time to be recognized.
 
     \section2 Application stops with \e{EGLFS: OpenGL windows cannot be mixed with others.}
@@ -906,7 +909,7 @@
 
     \section2 adb fails with "error: more than one device and emulator"
 
-    You have to specify which android device you want \c{adb} to talk
+    You have to specify which Android device you want \c{adb} to talk
     to, using adb's \c{-s <serial-number>} option. Use the following
     command to find to see the serial number of the connected
     devices:
@@ -915,17 +918,17 @@
         <INSTALL_DIR>/Tools/b2qt/adb devices
     \endcode
 
-    \section2 The emulator cannot connect to the internet
+    \section2 The emulator cannot connect to the Internet
 
-    By default, the Virtualbox is configured to use host-only network, so external
+    By default, the VirtualBox is configured to use a host-only network, so external
     connections do not work in the emulator.
 
-    You may be able to enable internet connectivity with another
+    You may be able to enable Internet connectivity with another
     virtual network adapter in NAT mode by adapting
     \l{http://askubuntu.com/questions/293816/in-virtualbox-how-do-i-set-up-host-only-virtual-machines-that-can-access-the-in}{these}
     instructions.
 
-    \section2 The emulator is stuck in 'Waiting for display data' or fails to start properly
+    \section2 The emulator is stuck in \e{Waiting for display data} or fails to start properly
 
     Check the output of the following command:
 
@@ -946,7 +949,7 @@
 
     And then close the emulator and retry.
 
-    \section2 What is the user and password to access my embedded Linux device
+    \section2 What are the user and password to access my embedded Linux device?
 
     Embedded Linux devices can be accessed using user \c{root} and an empty password.
 
