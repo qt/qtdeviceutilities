@@ -749,13 +749,13 @@
 
     Approximate minimal hardware requirements for running \B2Q are:
     \list
-        \li 256Mb of RAM
-        \li 500Mhz CPU, 1Ghz preferred for 60 FPS velvet-smooth UI
+        \li 256 MB of RAM
+        \li 500 MHz CPU, 1 GHz preferred for 60-FPS velvet-smooth UI
         \li OpenGL ES 2.0 support
         \li Android 4.0+ compatible hardware
     \endlist
 
-    The following devices have been used as reference and are tested to work:
+    \B2Q has been tested to work on the following reference devices:
     \list
         \li \l{http://www.google.com/nexus/7/specs/}{Google/Asus Nexus 7 (2012)}
         \li \l{http://beagleboard.org/hardware-xM}{BeagleBoard-xM}
