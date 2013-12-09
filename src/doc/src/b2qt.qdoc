@@ -656,30 +656,29 @@
     {/system/bin/appcontroller.conf} in embedded Android devices and
     in \c{/etc/appcontroller.conf} in embedded Linux devices.
 
-    This file can be customized if targeting a hardware device that
-    has different input devices than what the \B2Q stack is configured
+    You can customize this file if you target a hardware device that
+    has other input devices than the ones that the \B2Q stack is configured
     for by default.
 
-    Note that on some devices, the root file system (where this file
-    resides) is mounted read-only at boot time. It needs to be
-    remounted read-write to allow modification. The following command
-    does that:
+    On some devices, the root file system (where this file
+    resides) is mounted read-only at boot time. To allow modification,
+    remount it read-write by entering the following command:
     \code
         <INSTALL_DIR>/Tools/b2qt/adb remount
     \endcode
 
-    In the \c{appcontroller.conf} file the input devices are
+    In the \c{appcontroller.conf} file, the input devices are
     specified by the lines similar to these:
     \code
         env=QT_QPA_GENERIC_PLUGINS=evdevtouch:/dev/input/event0
     \endcode
 
-    Usually there is no need to change this setting. USB input devices like
-    keyboards and mice are automatically recognized. The mouse pointer is shown
+    Usually, you do not need to change this setting. USB input devices, such as
+    keyboards and mice, are automatically recognized. The mouse pointer is shown
     automatically if a mouse is connected.
 
-    Note however that hotplugging may not work, meaning that the input
-    devices, like keyboard and mouse, have to be connected at boot
+    However, hotplugging may not work, which means that the input
+    devices, such as a keyboard and mouse, have to be connected at boot
     time.
 
     On some devices, for example the i.MX6 Sabre Lite, the touchscreen device is
@@ -688,18 +687,21 @@
 
     \section1 Booting to a Custom Application
 
-    After you have deployed your own application to the device it will be launched instead
-    of the \B2Q demo launcher on boot. To prevent this behavior you have to remove
-    this step from the build steps of your project's run configuration.
+    After you have deployed your own application to the device, it will be
+    launched on boot, instead of the \B2Q demo launcher. To prevent this
+    behavior, remove the \b {Make this application the default one} step from
+    the \b{Run Settings} for your project in the Qt Creator \b Projects mode.
 
-    To remove your application from the default startup use the following command:
+    To remove your application from the default startup, use the following
+    command:
     \code
         <INSTALL_DIR>/Tools/b2qt/adb shell appcontroller --remove-default
     \endcode
 
     \section1 Switching Between Portrait and Landscape Views
 
-    Depending on a device screen dimensions and application requirements it might be desirable
+    Depending on device screen dimensions and application requirements, it might
+    be desirable
     to change the default view orientation. The following example shows how to rotate your
     application in QML.
 
