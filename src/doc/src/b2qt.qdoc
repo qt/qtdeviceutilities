@@ -158,14 +158,15 @@
     \previouspage qtee-overview.html
     \nextpage qtee-supported-platforms.html
 
-    \e{IMPORTANT: \SDK requires the following installation steps to be followed closely.}
+    To successfully set up \SDK, you must closely follow the instructions in
+    this section and perform all the described tasks.
 
     In case of problems, see the \l{Troubleshooting} information and the
-    Known Issues in Qt Enterprise Embedded product page in Digia customer
+    \e {Known Issues} on the Qt Enterprise Embedded product page in the Digia customer
     portal.
 
     \target Requirements for Development Host
-    \section1 0. Requirements for Development Host
+    \section1 Requirements for Development Host
 
     A 64-bit Linux system is required to install and use \SDK. Instructions
     in this documentation assume Ubuntu Linux 64-bit 12.04 LTS or later.
@@ -176,8 +177,8 @@
     \section1 1. Installing 32-bit Support Libraries
 
     Some of the build tools in \SDK are 32-bit programs, and on 64-bit
-    systems they require that support libraries for running 32-bit
-    code are present in the system. To install the required packages
+    systems they require support libraries for running 32-bit code. To install
+    the required packages
     in Ubuntu, use the following command in a terminal:
 
     \code
@@ -195,56 +196,60 @@
         sudo apt-get install virtualbox
     \endcode
 
-    \b{Configuring VirtualBox}
+    To configure VirtualBox:
 
-    Open VirtualBox network settings: Select \b{File > Preferences...}
-    and click on the \b{Network} tab. Create a new network named
-    \e{vboxnet0} and edit its properties:
+    \list 1
+        \li Start the VirtualBox user interface.
+        \li Select \b{File > Preferences} > \b{Network} to open VirtualBox
+            network settings.
+        \li Create a new network named \e{vboxnet0} and edit its properties:
 
-    \list
-        \li Change IPv4 address to 192.168.56.1 and IPv4 network mask to 255.255.255.0.
-        \li Check \b{Enable Server} in \b{DCHP Server} tab.
-        \li Change server address to 192.168.56.1.
-        \li Change both the lower and upper address bounds to 192.168.56.101.
+        \list 1
+            \li Change the IPv4 address to \c{192.168.56.1} and the IPv4 network
+                 mask to \c{255.255.255.0}.
+            \li In the \b{DCHP Server} tab, select the \b{Enable Server} check
+                box.
+            \li Change the server address to \c{192.168.56.1}.
+            \li Change both the lower and upper address bounds to
+                \c{192.168.56.101}.
+        \endlist
     \endlist
 
     \section1 3. Installing \SDK
 
-    If you have not already installed \SDK, do it as follows.
+    \list 1
 
-    After downloading the binary installer, make sure it is executable either by
+        \li Download the binary \SDK installer, and make sure it is executable
+            by using one of the following methods:
 
     \list
-        \li Using \c{chmod +x <filename>} command, or
-        \li Right-clicking on the file, selecting \b{Properties}, and checking
-            \b{Allow executing file as program} on the \b{Permissions} tab.
+        \li Enter the \c{chmod +x <filename>} command.
+        \li Right-click the file, and select \b{Properties} >
+            \b{Permissions} > \b{Allow executing file as program}.
     \endlist
 
-    Run the installer and follow its instructions.
+        \li Run the installer and follow its instructions.
+
+    \endlist
 
     The installer will let you select a directory where \SDK will be
-    installed. In the rest of this documentation, that directory is referred
+    installed. In this documentation, the installation directory is referred
     to as \b{\c{<INSTALL_DIR>}}. The default installation directory is
     \tt{~/Qt}.
 
     \target Installing Boot to Qt on Target Devices
     \section1 4. Install \B2Q on Target Devices
 
-    \e{If targeting only the emulator, this step may be skipped}
+    \e{If you target only the emulator, you can skip this step.}
 
-    Before deploying and testing your Qt application on hardware, the
-    target device needs to be flashed with an image that contains the
-    \B2Q stack. These steps vary from device to device. See the
-    following chapter and follow the instructions specific to
-    your device.
-
-    \list
-        \li \l {Preparing Hardware}
-    \endlist
+    Before you can deploy and test your Qt application on hardware, you must
+    flash the target device with an image that contains the
+    \B2Q stack. The steps vary from device to device. Follow the instructions
+    specific to your device in \l {Preparing Hardware}.
 
     \section1 5. Setting up USB Access to Embedded Devices
 
-    \e{If targeting only the emulator, this step may be skipped}
+    \e{If you target only the emulator, you can skip this step.}
 
     \include b2qt-post-install-setup.qdocinc setting up usb access
 
@@ -252,9 +257,8 @@
 
     \include b2qt-post-install-setup.qdocinc configuring device kit
 
-    \b {You are now ready to start developing for your device!}
-
-    See \l{Building and Running an Example}
+    You are now ready to start developing for your device.
+    For more information, see \l{Building and Running an Example}.
 */
 
 /*!

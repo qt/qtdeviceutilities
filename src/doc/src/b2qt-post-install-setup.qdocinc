@@ -18,54 +18,57 @@
 ****************************************************************************/
 /*!
 //! [setting up usb access]
-    On Ubuntu Linux you have to grant your development user access to
-    plugged in devices. This is done by creating a new \e{udev} rule
-    that allows access to the device via USB. First, run the following
-    command in a shell:
+    On Ubuntu Linux, the development user account must have access to plugged in
+    devices. To allow the development user access to the device via USB, create
+    a new \e{udev} rule:
+
+    \list 1
+
+        \li Run the following command in a shell:
 
     \code
         echo 'SUBSYSTEM=="usb", ATTRS{idVendor}=="18d1", TAG+="udev-acl"' | sudo tee -a /etc/udev/rules.d/70-boot2qt.rules
     \endcode
 
-    Now connect the running device to the development host with a USB
-    cable. (If already connected, disconnect and reconnect the USB
-    cable after running the command above).
+        \li Connect the running device to the development host with a USB
+    cable. If the device is already connected, disconnect and reconnect the USB
+    cable after running the command above.
 
-    On \B2QA, you can confirm that the connection is working by running
-    this shell command:
+        \li On \B2QA, you can confirm that the connection is working by running
+    the following shell command:
 
     \code
         <INSTALL_DIR>/Tools/b2qt/adb devices
     \endcode
 
-    The output should be a list of connected android devices,
-    identified with a serial number and a name. Note that the emulator
-    may be listed as well, its serial number will be its IP and port
-    number (\c{192.168.56.101:5555}). If your device is missing from
+    The output should be a list of connected Android devices,
+    identified with a serial number and a name. If your device is missing from
     the list, or the serial number is \c{??????}, the connection is
-    not working properly. If so, check that the device is powered up,
-    and that the USB cable has been disconnected and reconnected.
+    not working properly. Check that the device is powered up, and disconnect
+    and reconnect the USB cable.
+
+    The emulator may be listed as well. Its serial number is its IP and the port
+    number: \c{192.168.56.101:5555}.
+    \endlist
 
     The system log files \c{/var/log/udev} and \c{/var/log/syslog} may
     provide relevant information in case of connection problems.
 //! [setting up usb access]
 
 //! [configuring device kit]
-    After the hardware has been prepared, there is one final step required
-    to set up the development tools in Qt Creator for your device.
-
-    You have to configure the right device to be used for each \b{Kit}.
-
-    To do so, connect your device to your computer via USB and launch
-    Qt Creator. Then,
+    After you have prepared the hardware, you must perform one final step
+    to set up the development tools in Qt Creator for your device. That is,
+    you must configure the correct device to be used for each build and run
+    \e{kit}. Connect your device to the development host via USB and launch
+    Qt Creator. In Qt Creator:
 
 //! [steps for device kit]
     \list 1
-        \li Go to \b{Tools > Options > Build & Run > Kits}
-        \li Select one of the predefined Kits starting with \e{Boot2Qt...}
+        \li Select \b{Tools > Options > Build & Run > Kits}.
+        \li Select one of the predefined kits starting with \e{Boot2Qt...}
         that matches the type of your device.
-        \li Select the correct device in the \b{Device} combobox.
-        \li Click \b{Ok}.
+        \li Select the correct device in the \b{Device} field.
+        \li Select \b{OK}.
     \endlist
 //! [steps for device kit]
 //! [configuring device kit]
