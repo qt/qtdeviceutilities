@@ -267,8 +267,8 @@
     \previouspage qtee-supported-platforms.html
     \nextpage qtee-building-and-running.html
 
-    Before deploying and testing your Qt application on hardware, the
-    target device needs to be flashed with an image that contains the
+    Before you can deploy and test your Qt application on hardware, you must
+    flash the target device with an image that contains the
     \B2Q stack. These steps vary from device to device:
 
     \list
@@ -278,7 +278,7 @@
         \li \l{Raspberry Pi Model B (embedded Linux)}
     \endlist
 
-    If you are only using the emulator, you can skip this step
+    If you use only the emulator, you can skip this step
     and continue straight to \l {Building and Running an Example}.
 */
 
@@ -289,39 +289,45 @@
     \previouspage qtee-installation-guide.html
     \nextpage qtee-building-and-running.html
 
-    When using a \l{http://www.google.com/nexus/7/specs/}{Nexus 7 (2012)} as a
-    development device, following steps are required to prepare it for
+    Take the following steps to prepare a
+    \l{http://www.google.com/nexus/7/specs/}{Nexus 7 (2012)} for
     \B2Q.
 
     \section1 Unlocking Nexus 7 Bootloader
 
-    The Nexus 7 Bootloader has to be unlocked to allow custom software
-    to be installed. This has to be done only once.
+    You must unlock the Nexus 7 Bootloader to be able to install custom
+    software. You need to do this only once.
 
     \list 1
         \li Power down the device.
-        \li Connect it to the development host with a USB cable.
-        \li Start the Nexus up in \e{fastboot} mode: Press the power button for a second, and then keep the Volume Down key pressed, until you see a screen with a green robot with its front panel open. Note: If you get the ordinary startup screen instead, just power it down and try again.
-        \li On the development host, give the command
+        \li Connect the device to the development host with a USB cable.
+        \li To start the Nexus up in \e{fastboot} mode, press the power button
+            for a second, and then keep the \b {Volume Down} key pressed down,
+            until you see a screen with a green robot with its front panel open.
+            \note If the ordinary startup screen appears instead, power down the
+            device and try again.
+        \li On the development host, enter the following command:
         \code
             sudo <INSTALL_DIR>/Tools/b2qt/fastboot oem unlock
         \endcode
-        The Nexus screen will ask if you want to unlock the bootloader. Press power button to confirm.
+        \li Press the power button to confirm that you want to unlock the
+            bootloader when the prompt appears on the Nexus screen.
         \li Wait a few seconds, and check that the text line stating the \c{LOCK STATE} now says \c{UNLOCKED}.
     \endlist
 
     \section1 Updating a Nexus 7 with \B2Q Images
 
-    \note \b{It is important that the steps in this section are repeated
-    every time after updating \SDK.}
+    \note It is important that you repeat the steps in this section after you
+    update \SDK.
 
-    An unlocked Nexus 7 device can now be updated with a \B2Q image.
+    To update an unlocked Nexus 7 device with a \B2Q image:
 
-    To do so, first make sure that the device is in \e{fastboot} mode
-    (see above), and connected to the development host via USB.
+    \list 1
+    \li Make sure that the device is in \e{fastboot} mode and that it is
+        connected to the development host via USB.
 
-    Then, re-flash the \e{boot}, \e{system}, and \e{userdata} partitions on the
-    device, using the following commands in the order they are listed:
+    \li Re-flash the \e{boot}, \e{system}, and \e{userdata} partitions on the
+    device, by entering the following commands in the following order:
 
     \code
         cd <INSTALL_DIR>
@@ -330,18 +336,21 @@
         sudo ./Tools/b2qt/fastboot flash userdata Boot2Qt-1.0/nexus7-eAndroid/images/data.img
     \endcode
 
-    Once the flashing is completed successfully, reboot the device:
+    \li Once the flashing is completed successfully, reboot the device:
 
     \code
         sudo ./Tools/b2qt/fastboot reboot
     \endcode
 
-    \note Until the next step is performed, the Nexus 7 will not
-    boot correctly (the screen will only show the "Google" logo).
+    \endlist
+
+    \note You must install proprietary drivers for the Nexus 7 to boot
+    correctly. Until then, the screen will only show the "Google" logo,
+    instead of the \B2Q welcome screen or demo.
 
     \section1 Installing Proprietary Drivers
 
-    Download the proprietary drivers for your Nexus 7. The following script will download the third
+    Download the proprietary drivers for your Nexus 7. The following script downloads the third
     party drivers from \l{https://developers.google.com/android/nexus/drivers#grouperjdq39}
     {https://developers.google.com/android/nexus/drivers#grouperjdq39}
     \code
@@ -349,15 +358,14 @@
         ./Boot2Qt-1.0/nexus7-eAndroid/images/download.sh
     \endcode
 
-    \note Only the version "Android 4.2.2 (JDQ39 to JDQ39E)" will work with the current \B2Q image.
+    \note Only the version "Android 4.2.2 (JDQ39 to JDQ39E)" works with the
+    current \B2Q image.
 
-    Make sure your Nexus 7 is powered up, is \e{not} in fastboot mode,
-    and is connected to the computer via USB.
-
-    Then, follow these steps to update the Nexus 7:
-    \note Make sure you have read the license terms enclosed in each individual extractor
+    To install the drivers to Nexus 7:
 
     \list 1
+        \li Power up the device and connect it to the development host via USB.
+            Also check that the device is \e{not} in fastboot mode.
         \li Run the driver extractors:
         \code
             cd Boot2Qt-1.0/nexus7-eAndroid/images/drivers
@@ -366,18 +374,20 @@
             ./extract-invensense-grouper.sh
             cd -
         \endcode
+            \note Carefully read the license terms enclosed in each individual
+            extractor.
         \li Find out the serial number of the connected Nexus 7 device:
         \code
             ./Tools/b2qt/adb devices
         \endcode
-        \li Deploy the drivers to your device using the following command:
+        \li Deploy the drivers to your device:
         \code
             ./Boot2Qt-1.0/nexus7-eAndroid/images/deploy.sh <serial_number>
         \endcode
     \endlist
 
-    After the installation is complete, power up the device and confirm that it shows
-    a \B2Q welcome screen and/or demo.
+    After the installation is complete, power up the device and check that
+    the \B2Q welcome screen and/or demo appear.
 
     \section1 Setting up USB Access
 
@@ -387,9 +397,8 @@
 
     \include b2qt-post-install-setup.qdocinc configuring device kit
 
-    \b {You are now ready to start developing for your device!}
-
-    See \l{Building and Running an Example}
+    You are now ready to start developing for your device. For more information,
+    see \l{Building and Running an Example}.
 */
 
 /*!
@@ -399,20 +408,20 @@
     \previouspage qtee-installation-guide.html
     \nextpage qtee-building-and-running.html
 
-    When using a \l{http://beagleboard.org/hardware-xM}{BeagleBoard-xM} as a
-    development device, following steps are required to prepare it for
+    Take the following steps to prepare a \l{http://beagleboard.org/hardware-xM}
+    {BeagleBoard-xM} for
     \B2Q.
 
-    \note \b{It is important that the steps in this section are repeated
-    every time after updating \SDK.}
+    \note It is important that you repeat the steps in this section after you
+    update \SDK.
 
-    The images containing \B2Q stack for BeagleBoard-xM is included in the SDK,
-    ready to be copied to a micro-SD card.
+    The images containing \B2Q stack for BeagleBoard-xM are included in \SDK,
+    ready to be copied to an SD card.
 
-    \section1 Preparing a Micro-SD Card
+    \section1 Preparing an SD Card
 
-    For \B2QA, a micro-SD card of at least 2GB capacity is needed. For \B2QL,
-    a card of at least 512MB capacity is sufficient.
+    For \B2QA, an SD card of at least 2 GB capacity is needed. For \B2QL,
+    a card of at least 512 MB capacity is sufficient.
 
     \include detect-sd-card-device-name.qdocinc instructions
 
@@ -421,23 +430,23 @@
     The commands used in this step vary depending on whether you are developing
     for embedded Android or embedded Linux.
 
-    Write the image to the micro-SD card:
+    To write the image to the SD card:
 
     \list
         \li \b{\B2QA}
         \code
             cd <INSTALL_DIR>
-            sudo dd if=Boot2Qt-1.0/beagleboard-eAndroid/images/sdcard.img of=/dev/XXX bs=1M
+            sudo dd if=Boot2Qt-1.0/beagleboard-eAndroid/images/sdcard.img of=/dev/<device_name> bs=1M
         \endcode
         \li \b{\B2QL}
         \code
             cd <INSTALL_DIR>
-            sudo Boot2Qt-1.0/beagleboard-eLinux/images/deploy.sh /dev/XXX
+            sudo Boot2Qt-1.0/beagleboard-eLinux/images/deploy.sh /dev/<device_name>
         \endcode
     \endlist
 
-    After the image has been deployed, power up the device and confirm that it shows
-    a \B2Q welcome screen and/or demo.
+    After the image has been deployed, power up the device and check that
+    the \B2Q welcome screen and/or demo appear.
 
     \section1 Setting up USB Access
 
@@ -447,9 +456,8 @@
 
     \include b2qt-post-install-setup.qdocinc configuring device kit
 
-    \b {You are now ready to start developing for your device!}
-
-    See \l{Building and Running an Example}
+    You are now ready to start developing for your device. For more information,
+    see \l{Building and Running an Example}.
 */
 
 /*!
@@ -458,21 +466,20 @@
     \title Preparing Sabre Lite i.MX 6
     \previouspage qtee-installation-guide.html
 
-    When using a
+    Take the following steps to prepare a
     \l{http://boundarydevices.com/products/sabre-lite-imx6-sbc/}{Sabre
-    Lite i.MX 6} as a development device, following steps are required
-    to prepare it for \B2Q.
+    Lite i.MX 6} for \B2Q.
 
-    \note \b{It is important that the steps in this section are repeated
-    every time after updating \SDK.}
+    \note It is important that you repeat the steps in this section after you
+    update \SDK.
 
     The images containing the \B2Q stack for Sabre Lite i.MX 6 are included
-    in the SDK, ready to be copied to a micro-SD card.
+    in \SDK, ready to be copied to an SD card.
 
-    \section1 Preparing a Micro-SD Card
+    \section1 Preparing an SD Card
 
-    For \B2QA, a micro-SD card of at least 4GB capacity is needed. For \B2QL,
-    a card of at least 512MB capacity is sufficient.
+    For \B2QA, an SD card of at least 4 GB capacity is needed. For \B2QL,
+    a card of at least 512 MB capacity is sufficient.
 
     \include detect-sd-card-device-name.qdocinc instructions
 
@@ -485,11 +492,11 @@
     \l{http://boundarydevices.com/android-jellybean-on-i-mx6-with-no-disclaimers/}{Boundary
     Devices Android Jellybean i.MX6 images} (registration required).
 
-    Use the following commands to create a micro-SD card containing the
+    Use the following commands to create an SD card containing the
     downloaded image:
 
-    \list
-        \li Extract the downloaded package
+    \list 1
+        \li Extract the downloaded package:
         \code
         ~/$ mkdir bd-android
         ~/$ cd bd-android
@@ -497,7 +504,7 @@
         \endcode
         \li Run device/boundary/mksdcard.sh:
         \code
-        ~/bd-android$ sudo device/boundary/mksdcard.sh /dev/XXX
+        ~/bd-android$ sudo device/boundary/mksdcard.sh /dev/<device_name>
         ~/bd-android$ sync
         \endcode
     \endlist
@@ -510,24 +517,24 @@
         sudo apt-get install u-boot-tools
     \endcode
 
-    Then, upgrade the micro-SD Card with \B2Q. Use one of the commands below,
-    depending on whether you're developing for embedded Android or Linux:
+    Then, upgrade the SD card with \B2Q. Use one of the commands below,
+    depending on whether you are developing for embedded Android or Linux:
 
     \list
         \li \b{\B2QA}
         \code
             cd <INSTALL_DIR>
-            Boot2Qt-1.0/iMX6-eAndroid/images/deploy.sh /dev/XXX
+            Boot2Qt-1.0/iMX6-eAndroid/images/deploy.sh /dev/<device_name>
         \endcode
         \li \b{\B2QL}
         \code
             cd <INSTALL_DIR>
-            Boot2Qt-1.0/iMX6-eLinux/images/deploy.sh /dev/XXX
+            Boot2Qt-1.0/iMX6-eLinux/images/deploy.sh /dev/<device_name>
         \endcode
     \endlist
 
-    After the installation is complete, power up the device and confirm that it shows
-    a \B2Q welcome screen and/or demo.
+    After the installation is complete, power up the device and check that
+    the \B2Q welcome screen and/or demo appear.
 
     \section1 Setting up USB Access
 
@@ -537,9 +544,8 @@
 
     \include b2qt-post-install-setup.qdocinc configuring device kit
 
-    \b {You are now ready to start developing for your device!}
-
-    See \l{Building and Running an Example}
+    You are now ready to start developing for your device. For more information,
+    see \l{Building and Running an Example}.
 */
 
 /*!
@@ -549,45 +555,44 @@
     \previouspage qtee-installation-guide.html
     \nextpage qtee-building-and-running.html
 
-    When using a \l{http://www.raspberrypi.org/}{Raspberry Pi} as a
-    development device, following steps are required to prepare it for
+    Take the following steps to prepare a  \l{http://www.raspberrypi.org/}
+    {Raspberry Pi} for
     \B2Q.
 
-    Note that Ethernet networking is required to connect the device to Qt Creator.
-    This means that the support is currently limited to Raspberry Pi Model B which
+    \note Ethernet networking is required to connect the device to Qt Creator.
+    This means that the support is currently limited to Raspberry Pi Model B, which
     includes an Ethernet port.
 
-    \note \b{It is important that the steps in this section are repeated
-    every time after updating \SDK.}
+    \note It is important that you repeat the steps in this section after you
+    update \SDK.
 
-    The images containing \B2Q stack for Raspberry Pi is included in the SDK,
-    ready to be copied to a micro-SD card.
+    The image containing \B2Q stack for Raspberry Pi is included in the SDK,
+    ready to be copied to an SD card.
 
-    \section1 Preparing a Micro-SD Card
+    \section1 Preparing an SD Card
 
-    An SD card of at least 512MB capacity is sufficient.
+    An SD card of at least 512 MB capacity is sufficient.
 
     \include detect-sd-card-device-name.qdocinc instructions
 
     \section1 Installing the \B2Q Image
 
-    Write the image to the micro-SD card:
+    To write the image to the SD card:
 
     \code
         cd <INSTALL_DIR>
-        sudo Boot2Qt-1.0/raspberrypi-eLinux/images/deploy.sh /dev/XXX
+        sudo Boot2Qt-1.0/raspberrypi-eLinux/images/deploy.sh /dev/<device_name>
     \endcode
 
-    After the image has been deployed, power up the device and confirm that it shows
-    a \B2Q welcome screen and/or demo.
+    After the image has been deployed, power up the device and check that
+    the \B2Q welcome screen and/or demo appear.
 
     \section1 Configuring a Device Kit in Qt Creator
 
     \include b2qt-post-install-setup.qdocinc configuring network device
 
-    \b {You are now ready to start developing for your device!}
-
-    See \l{Building and Running an Example}
+    You are now ready to start developing for your device. For more information,
+    see \l{Building and Running an Example}.
 */
 
 /*!

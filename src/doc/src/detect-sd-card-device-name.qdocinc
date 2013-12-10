@@ -18,28 +18,28 @@
 ****************************************************************************/
 /*!
 //! [instructions]
-    Plug the micro-SD card or reader into the development host PC,
+    Plug in the SD card or reader to the development host,
     and use the following command to find out its device name:
 
     \code
         lsblk -d
     \endcode
 
-    Removable devices such as SD cards have a value '1' in
+    Removable devices such as SD cards have the value '1' in
     the \e RM column.
 
-    \warning \b{Make very sure you select the right device. Selecting
-    the wrong one can result in a wiped hard drive}.
+    \warning Make sure to select the correct device, because selecting
+    the wrong one can result in a wiped hard drive.
 
     Typical device names for SD cards include \c {sdb} and
     \c {mmcblk0}. The full device path is \c {/dev/} followed by
-    the name. Replace \b XXX with the device name in below
-    instructions.
+    the name.
 
-    Now make sure the micro-SD card is not mounted:
+    To make sure that the SD card is not mounted, enter the following
+    command, where <device_name> is the device name:
 
     \code
-        umount /dev/XXX
+        umount /dev/<device_name>
     \endcode
 //! [instructions]
 */

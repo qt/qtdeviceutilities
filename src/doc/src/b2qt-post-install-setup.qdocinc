@@ -74,22 +74,21 @@
 //! [configuring device kit]
 
 //! [configuring network device]
-    After the hardware has been prepared, there are final steps required
-    to set up the development tools in Qt Creator for your device.
-
-    To do so, connect your device to network via ethernet cable and launch
-    Qt Creator. Then,
+    After you have prepared the hardware, you must set up the development tools
+    in Qt Creator for your device. Connect your device to the network via an
+    Ethernet cable and launch Qt Creator. In Qt Creator:
 
     \list 1
-        \li Go to \b{Tools > Options > Devices}
-        \li Click \b{Add...}
-        \li Select \b{Boot2Qt Device} and Click \b{Start Wizart}
-        \li Fill in name of the device and network address. Device address can be seen from
-            \e{Launcher Settings} when device is running \B2Q demo
-        \li Click \b{Finish}.
+        \li Select \b{Tools > Options > Devices > Add}.
+        \li Select \b{Boot2Qt Device} > \b{Start Wizard}.
+        \li Enter the device name and network address. You can check the device
+            address in the \e{Launcher Settings} when the device is running the
+            \B2Q demo.
+        \li Select \b{Finish}.
     \endlist
 
-    You also have to configure the right device to be used for each \b{Kit}.
+    You also have to configure the correct device to be used for each build and
+    run \e{kit}:
 
     \include b2qt-post-install-setup.qdocinc steps for device kit
 
