@@ -299,12 +299,12 @@
     software. You need to do this only once.
 
     \list 1
-        \li Power down the device.
+        \li Power off the device.
         \li Connect the device to the development host with a USB cable.
         \li To start the Nexus up in \e{fastboot} mode, press the power button
             for a second, and then keep the \b {Volume Down} key pressed down,
             until you see a screen with a green robot with its front panel open.
-            \note If the ordinary startup screen appears instead, power down the
+            \note If the ordinary startup screen appears instead, power off the
             device and try again.
         \li On the development host, enter the following command:
         \code
@@ -364,7 +364,7 @@
     To install the drivers to Nexus 7:
 
     \list 1
-        \li Power up the device and connect it to the development host via USB.
+        \li Power on the device and connect it to the development host via USB.
             Also check that the device is \e{not} in fastboot mode.
         \li Run the driver extractors:
         \code
@@ -386,7 +386,7 @@
         \endcode
     \endlist
 
-    After the installation is complete, power up the device and check that
+    After the installation is complete, power on the device and check that
     the \B2Q welcome screen and/or demo appear.
 
     \section1 Setting up USB Access
@@ -445,7 +445,7 @@
         \endcode
     \endlist
 
-    After the image has been deployed, power up the device and check that
+    After the image has been deployed, power on the device and check that
     the \B2Q welcome screen and/or demo appear.
 
     \section1 Setting up USB Access
@@ -533,7 +533,7 @@
         \endcode
     \endlist
 
-    After the installation is complete, power up the device and check that
+    After the installation is complete, power on the device and check that
     the \B2Q welcome screen and/or demo appear.
 
     \section1 Setting up USB Access
@@ -584,7 +584,7 @@
         sudo Boot2Qt-1.0/raspberrypi-eLinux/images/deploy.sh /dev/<device_name>
     \endcode
 
-    After the image has been deployed, power up the device and check that
+    After the image has been deployed, power on the device and check that
     the \B2Q welcome screen and/or demo appear.
 
     \section1 Configuring a Device Kit in Qt Creator
@@ -606,7 +606,7 @@
     application and running it on the device:
 
     \list 1
-        \li Make sure that your device is powered up and connected to the
+        \li Make sure that your device is powered on and connected to the
             development host.
         \li In Qt Creator, select \b{File > New File or Project} >
             \b Applications > \b{Qt Quick 2 Application (Built-in Types)} >
@@ -859,13 +859,16 @@
     \section2 How do I shut down the Nexus 7?
 
     If the \B2Q demo launcher is running, start the \b {Launcher
-    Settings} app, and press the power button to power off the device.
+    Settings} app, and select \b {Shut Down} to power off the device.
 
     Otherwise, make sure the Nexus 7 is connected to the development host, and run
     the following command in a terminal:
     \code
         <INSTALL_DIR>/Tools/b2qt/adb shell reboot -p
     \endcode
+
+    If the device is in the fastboot mode, use the volume button to display the
+    \b {Power off} option and press the power button to power off the device.
 
     Alternatively, press and hold the power button for 10
     seconds. This will force a reboot.

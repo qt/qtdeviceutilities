@@ -44,7 +44,7 @@
     The output should be a list of connected Android devices,
     identified with a serial number and a name. If your device is missing from
     the list, or the serial number is \c{??????}, the connection is
-    not working properly. Check that the device is powered up, and disconnect
+    not working properly. Check that the device is powered on, and disconnect
     and reconnect the USB cable.
 
     The emulator may be listed as well. Its serial number is its IP and the port
