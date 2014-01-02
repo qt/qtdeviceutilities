@@ -21,53 +21,47 @@
 #include <QtCore>
 
 #include <hardware_legacy/wifi.h>
-#include <cutils/properties.h>
+#include <cutils/sockets.h>
 #include <unistd.h>
 
-#define WLAN_INTERFACE "wlan0"
+static const char SUPPLICANT_SVC[]  = "init.svc.wpa_supplicant";
+static const char WIFI_INTERFACE[]  = "wifi.interface";
+static const char QT_WIFI_BACKEND[] = "qt.wifi";
 
 static bool QT_WIFI_DEBUG = !qgetenv("QT_WIFI_DEBUG").isEmpty();
 
 const QEvent::Type WIFI_SCAN_RESULTS = (QEvent::Type) (QEvent::User + 2001);
 const QEvent::Type WIFI_CONNECTED = (QEvent::Type) (QEvent::User + 2002);
 
-static int q_wifi_start_supplicant()
+/*
+ * This function is borrowed from /system/core/libnetutils/dhcp_utils.c
+ *
+ * Wait for a system property to be assigned a specified value.
+ * If desired_value is NULL, then just wait for the property to
+ * be created with any value. maxwait is the maximum amount of
+ * time in seconds to wait before giving up.
+ */
+static const int NAP_TIME = 200; // wait for 200ms at a time when polling for property values
+static int wait_for_property(const char *name, const char *desired_value, int maxwait)
 {
-#if Q_ANDROID_VERSION_MAJOR > 4 || (Q_ANDROID_VERSION_MAJOR == 4 && Q_ANDROID_VERSION_MINOR >= 1)
-    return wifi_start_supplicant(0);
-#else
-    return wifi_start_supplicant();
-#endif
+    char value[PROPERTY_VALUE_MAX] = {'\0'};
+    int maxnaps = (maxwait * 1000) / NAP_TIME;
+
+    if (maxnaps < 1) {
+        maxnaps = 1;
+    }
+
+    while (maxnaps-- > 0) {
+        usleep(NAP_TIME * 1000);
+        if (property_get(name, value, NULL)) {
+            if (desired_value == NULL ||
+                    strcmp(value, desired_value) == 0) {
+                return 0;
+            }
+        }
+    }
+    return -1; /* failure */
 }
-
-static int q_wifi_connect_to_supplicant()
-{
-#if Q_ANDROID_VERSION_MAJOR > 4 || (Q_ANDROID_VERSION_MAJOR == 4 && Q_ANDROID_VERSION_MINOR >= 1)
-    return wifi_connect_to_supplicant(WLAN_INTERFACE);
-#else
-    return wifi_connect_to_supplicant();
-#endif
-}
-
-static int q_wifi_command(const char *command, char *reply, size_t *reply_len)
-{
-#if Q_ANDROID_VERSION_MAJOR > 4 || (Q_ANDROID_VERSION_MAJOR == 4 && Q_ANDROID_VERSION_MINOR >= 1)
-    return wifi_command(WLAN_INTERFACE, command, reply, reply_len);
-#else
-    return wifi_command(command, reply, reply_len);
-#endif
-
-}
-
-static int q_wifi_wait_for_event(char *buf, size_t len)
-{
-#if Q_ANDROID_VERSION_MAJOR > 4 || (Q_ANDROID_VERSION_MAJOR == 4 && Q_ANDROID_VERSION_MINOR >= 1)
-    return wifi_wait_for_event(WLAN_INTERFACE, buf, len);
-#else
-    return wifi_wait_for_event(buf, len);
-#endif
-}
-
 
 class QWifiManagerEvent : public QEvent
 {
@@ -84,13 +78,12 @@ private:
     QByteArray m_data;
 };
 
-
-
 class QWifiManagerEventThread : public QThread
 {
 public:
-    QWifiManagerEventThread(QWifiManager *manager)
+    QWifiManagerEventThread(QWifiManager *manager, const QByteArray &interface)
         : m_manager(manager)
+        , m_if(interface)
     {
 
     }
@@ -99,7 +92,9 @@ public:
         if (QT_WIFI_DEBUG) qDebug("EventReceiver thread is running");
         char buffer[2048];
         while (1) {
-            int size = q_wifi_wait_for_event(buffer, sizeof(buffer) - 1);
+            if (m_manager->exiting())
+                return;
+            int size = wifi_wait_for_event(m_if.constData(), buffer, sizeof(buffer) - 1);
             if (size > 0) {
                 buffer[size] = 0;
 
@@ -112,34 +107,149 @@ public:
                 } else if (strstr(event, "CONNECTED")) {
                     QWifiManagerEvent *e = new QWifiManagerEvent(WIFI_CONNECTED);
                     QCoreApplication::postEvent(m_manager, e);
+                } else if (strstr(event, "TERMINATING")) {
+                    // stop monitoring for events when supplicant is terminating
+                    return;
                 }
             }
         }
     }
 
     QWifiManager *m_manager;
+    QByteArray m_if;
 };
-
-
 
 QWifiManager::QWifiManager()
     : m_networks(this)
     , m_eventThread(0)
     , m_scanTimer(0)
-    , m_internalState(IS_Uninitialized)
     , m_scanning(false)
+    , m_daemonClientSocket(0)
+    , m_exiting(false)
 {
+    char interface[PROPERTY_VALUE_MAX];
+    property_get(WIFI_INTERFACE, interface, NULL);
+    m_interface = interface;
+    if (QT_WIFI_DEBUG) qDebug("QWifiManager: using wifi interface: %s", m_interface.constData());
+    m_eventThread = new QWifiManagerEventThread(this, m_interface);
+
+    m_daemonClientSocket = new QLocalSocket;
+    int qconnFd = socket_local_client("qconnectivity", ANDROID_SOCKET_NAMESPACE_RESERVED, SOCK_STREAM);
+    if (qconnFd != -1) {
+        m_daemonClientSocket->setSocketDescriptor(qconnFd);
+        QObject::connect(m_daemonClientSocket, SIGNAL(readyRead()), this, SLOT(handleDhcpReply()));
+        QObject::connect(m_daemonClientSocket, SIGNAL(connected()), this, SLOT(connectedToDaemon()));
+    } else {
+        qWarning() << "QWifiManager: failed to connect to qconnectivity socket";
+    }
+
+    // check if backend has already been initialized
+    char backend_status[PROPERTY_VALUE_MAX];
+    if (property_get(QT_WIFI_BACKEND, backend_status, NULL)
+            && strcmp(backend_status, "running") == 0) {
+        // let it re-connect, in most cases this will see that everything is working properly
+        // and will do nothing. Special case is when process has crashed or was killed by a system
+        // signal in previous execution, which results in broken connection to a supplicant,
+        // connectToBackend will fix it..
+        connectToBackend();
+    } else {
+        // same here, cleans up the state
+        disconnectFromBackend();
+    }
 }
 
+QWifiManager::~QWifiManager()
+{
+    m_exiting = true;
+    m_eventThread->wait();
+}
 
+void QWifiManager::handleDhcpReply()
+{
+    if (m_daemonClientSocket->canReadLine()) {
+        QByteArray receivedMessage;
+        receivedMessage = m_daemonClientSocket->readLine(m_daemonClientSocket->bytesAvailable());
+        if (QT_WIFI_DEBUG) qDebug() << "QWifiManager: reply from qconnectivity: " << receivedMessage;
+        if (receivedMessage == "success") {
+            m_state = Connected;
+            emit networkStateChanged();
+            emit connectedSSIDChanged(m_connectedSSID);
+            // Store settings of a working wifi connection
+            call("SAVE_CONFIG");
+        } else if (receivedMessage == "failed") {
+            m_state = DhcpRequestFailed;
+            emit networkStateChanged();
+        } else {
+            qWarning() << "QWifiManager: unknown message: " << receivedMessage;
+        }
+    }
+}
+
+void QWifiManager::sendDhcpRequest(const QByteArray &request)
+{
+    if (QT_WIFI_DEBUG) qDebug() << "QWifiManager: sending request - " << request;
+    m_request = request;
+    m_request.append("\n");
+    m_daemonClientSocket->abort();
+    // path where android stores "reserved" sockets
+    m_daemonClientSocket->connectToServer(ANDROID_SOCKET_DIR "/qconnectivity");
+}
+
+void QWifiManager::connectedToDaemon()
+{
+    m_daemonClientSocket->write(m_request.constData(), m_request.length());
+    m_daemonClientSocket->flush();
+}
 
 void QWifiManager::start()
 {
-    if (QT_WIFI_DEBUG) qDebug("QWifiManager: start");
+    if (QT_WIFI_DEBUG) qDebug("QWifiManager: connecting to the backend");
     connectToBackend();
 }
 
+void QWifiManager::stop()
+{
+    if (QT_WIFI_DEBUG) qDebug("QWifiManager: shutting down");
+    disconnectFromBackend();
+}
 
+void QWifiManager::connectToBackend()
+{
+    if (!(is_wifi_driver_loaded() || wifi_load_driver() == 0)) {
+        qWarning("QWifiManager: failed to load a driver");
+        return;
+    }
+    if (wifi_start_supplicant(0) != 0) {
+        qWarning("QWifiManager: failed to start a supplicant");
+        return;
+    }
+    if (wait_for_property(SUPPLICANT_SVC, "running", 5) < 0) {
+        qWarning("QWifiManager: Timed out waiting for supplicant to start");
+        return;
+    }
+    if (wifi_connect_to_supplicant(m_interface.constData()) == 0) {
+        m_backendReady = true;
+        emit backendReadyChanged();
+        property_set(QT_WIFI_BACKEND, "running");
+    } else {
+        qWarning("QWifiManager: failed to connect to a supplicant");
+        return;
+    }
+    if (QT_WIFI_DEBUG) qDebug("QWifiManager: started successfully");
+    m_eventThread->start();
+    handleConnected();
+}
+
+void QWifiManager::disconnectFromBackend()
+{
+    m_eventThread->quit();
+    if (wifi_stop_supplicant(0) < 0)
+        qWarning("QWifiManager: failed to stop supplicant");
+    wifi_close_supplicant_connection(m_interface.constData());
+    property_set(QT_WIFI_BACKEND, "stopped");
+    m_backendReady = false;
+    emit backendReadyChanged();
+}
 
 void QWifiManager::setScanning(bool scanning)
 {
@@ -147,70 +257,23 @@ void QWifiManager::setScanning(bool scanning)
         return;
 
     m_scanning = scanning;
-    emit scanningChanged(scanning);
+    emit scanningChanged(m_scanning);
 
     if (m_scanning) {
         if (QT_WIFI_DEBUG) qDebug("QWifiManager: scanning");
         call("SCAN");
-        m_scanTimer = startTimer(5000);
+        m_scanTimer = startTimer(5000); // ### todo - this could be a qml property
     } else {
         if (QT_WIFI_DEBUG) qDebug("QWifiManager: stop scanning");
         killTimer(m_scanTimer);
     }
 }
 
-
-
-QByteArray int_to_ip(int i) {
-    QByteArray ip;
-
-    ip.append(QByteArray::number(i & 0x000000ff));
-    ip.append('.');
-    ip.append(QByteArray::number((i & 0x0000ff00) >> 8));
-    ip.append('.');
-    ip.append(QByteArray::number((i & 0x00ff0000) >> 16));
-    ip.append('.');
-    ip.append(QByteArray::number(i >> 24));
-
-    return ip;
-}
-
-
-void QWifiManager::connectToBackend()
-{
-    if (m_internalState == IS_Uninitialized)
-        m_internalState = IS_LoadDriver;
-
-    if (m_internalState == IS_LoadDriver && (is_wifi_driver_loaded() || wifi_load_driver() >= 0))
-        m_internalState = IS_StartBackend;
-
-    if (m_internalState == IS_StartBackend && q_wifi_start_supplicant() >= 0) {
-        m_internalState = IS_ConnectToBackend;
-        sleep(3); //###
-    }
-
-    if (m_internalState == IS_ConnectToBackend && q_wifi_connect_to_supplicant() >= 0)
-        m_internalState = IS_UpAndRunning;
-
-    if (m_internalState == IS_UpAndRunning) {
-        qDebug("QWifiManager: started successfully");
-
-        emit readyChanged(true);
-        m_eventThread = new QWifiManagerEventThread(this);
-        m_eventThread->start();
-
-        handleConnected();
-    } else {
-        qWarning("QWifiManager: stuck at internal state level: %d", m_internalState);
-    }
-}
-
-
-QByteArray QWifiManager::call(const char *command)
+QByteArray QWifiManager::call(const char *command) const
 {
     char data[2048];
     size_t len = sizeof(data) - 1;  // -1: room to add a 0-terminator
-    if (q_wifi_command(command, data, &len) < 0) {
+    if (wifi_command(m_interface.constData(), command, data, &len) < 0) {
         qWarning("QWifiManager: call failed: %s", command);
         return QByteArray();
     }
@@ -221,12 +284,10 @@ QByteArray QWifiManager::call(const char *command)
     return result;
 }
 
-
-bool QWifiManager::checkedCall(const char *command)
+bool QWifiManager::checkedCall(const char *command) const
 {
     return call(command).trimmed().toUpper() == "OK";
 }
-
 
 bool QWifiManager::event(QEvent *e)
 {
@@ -261,9 +322,10 @@ void QWifiManager::connect(QWifiNetwork *network, const QString &passphrase)
     if (!m_connectedSSID.isEmpty()) {
         m_connectedSSID.clear();
         emit connectedSSIDChanged(m_connectedSSID);
-        //also possibly change online state
     }
 
+    m_state = ObtainingIPAddress;
+    emit networkStateChanged();
     bool networkKnown = false;
     QByteArray id;
     QByteArray listResult = call("LIST_NETWORKS");
@@ -295,7 +357,7 @@ void QWifiManager::connect(QWifiNetwork *network, const QString &passphrase)
     QByteArray key_mgmt;
     if (network->supportsWPA() || network->supportsWPA2()) {
         ok = ok && checkedCall(setNetworkCommand + QByteArray(" psk ") + '"' + passphrase.toLatin1() + '"');
-        key_mgmt = "WPA_PSK";
+        key_mgmt = "WPA-PSK";
     } else if (network->supportsWEP()) {
         ok = ok && checkedCall(setNetworkCommand + QByteArray(" wep_key0 ") + '"' + passphrase.toLatin1() + '"');
         ok = ok && checkedCall(setNetworkCommand + QByteArray(" auth_alg OPEN SHARED"));
@@ -317,19 +379,16 @@ void QWifiManager::connect(QWifiNetwork *network, const QString &passphrase)
     call("RECONNECT");
 }
 
-
-class ProcessRunner : public QThread {
-public:
-    void run() {
-        QStringList args;
-        args << QStringLiteral("-A")
-         << QStringLiteral("-h") << QStringLiteral("KAON")  //### hardcoded hostname, for testing
-         << QStringLiteral("wlan0");
-        QProcess::execute(QStringLiteral("dhcpcd"), args);
-        deleteLater();
-    }
-};
-
+void QWifiManager::disconnect()
+{
+    call("DISCONNECT");
+    QByteArray req = m_interface;
+    sendDhcpRequest(req.append(" disconnect"));
+    m_state = Disconnected;
+    m_connectedSSID.clear();
+    emit networkStateChanged();
+    emit connectedSSIDChanged(m_connectedSSID);
+}
 
 void QWifiManager::handleConnected()
 {
@@ -344,49 +403,16 @@ void QWifiManager::handleConnected()
 
     if (connectedNetwork.isEmpty()) {
         if (QT_WIFI_DEBUG) qDebug("QWifiManager::handleConnected: not connected to a network...");
-        m_online = false;
-        onlineChanged(m_online);
+        m_state = Disconnected;
+        emit networkStateChanged();
         return;
-    } else {
-        if (QT_WIFI_DEBUG) qDebug("QWifiManager::handleConnected: current is %s", connectedNetwork.constData());
     }
+
+    if (QT_WIFI_DEBUG) qDebug("QWifiManager::handleConnected: current is %s", connectedNetwork.constData());
 
     QList<QByteArray> info = connectedNetwork.split('\t');
     m_connectedSSID = info.at(1);
-    emit connectedSSIDChanged(m_connectedSSID);
 
-    if (QT_WIFI_DEBUG) qDebug("QWifiManager::handleConnected: starting dhcpcd...");
-    QThread *t = new ProcessRunner();
-    t->start();
-
-    int ipaddr, gateway, mask, dns1, dns2, server, lease;
-    if (do_dhcp_request(&ipaddr, &gateway, &mask, &dns1, &dns2, &server, &lease) == 0) {
-        if (QT_WIFI_DEBUG) {
-            printf("ip ........: %s\n"
-                   "gateway ...: %s\n"
-                   "mask ......: %s\n"
-                   "dns1 ......: %s\n"
-                   "dns2 ......: %s\n"
-                   "lease .....: %d\n",
-                   int_to_ip(ipaddr).constData(),
-                   int_to_ip(gateway).constData(),
-                   int_to_ip(mask).constData(),
-                   int_to_ip(dns1).constData(),
-                   int_to_ip(dns2).constData(),
-                   lease);
-        }
-
-        // Updating dns values..
-        property_set("net.dns1", int_to_ip(dns1).constData());
-        property_set("net.dns2", int_to_ip(dns2).constData());
-
-        // Store (possibly updated) settings
-        call("SAVE_CONFIG");
-
-        m_online = true;
-        onlineChanged(m_online);
-
-     } else {
-        if (QT_WIFI_DEBUG) qDebug("QWifiManager::handleConnected: dhcp request failed...");
-     }
+    QByteArray req = m_interface;
+    sendDhcpRequest(req.append(" connect"));
 }
