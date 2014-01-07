@@ -14,7 +14,6 @@ QWifiNetworkList::QWifiNetworkList(QWifiManager *manager)
 {
 }
 
-
 QHash<int, QByteArray> QWifiNetworkList::roleNames() const
 {
     QHash<int, QByteArray> names;
@@ -26,8 +25,6 @@ QHash<int, QByteArray> QWifiNetworkList::roleNames() const
     names.insert(ID_NETWORK, "network");
     return names;
 }
-
-
 
 QVariant QWifiNetworkList::data(const QModelIndex &index, int role) const
 {
@@ -42,15 +39,15 @@ QVariant QWifiNetworkList::data(const QModelIndex &index, int role) const
     case ID_NETWORK: return QVariant::fromValue((QObject *) n);
     }
 
-    qDebug("QWifiNetworkList::data(), undefined role: %d\n", role);
+    qWarning("QWifiNetworkList::data(), undefined role: %d\n", role);
 
     return QVariant();
 }
 
-QWifiNetwork *QWifiNetworkList::networkForBSSID(const QByteArray &bssid, int *pos)
+QWifiNetwork *QWifiNetworkList::networkForSSID(const QByteArray &ssid, int *pos)
 {
     for (int i=0; i<m_networks.size(); ++i) {
-        if (m_networks.at(i)->bssid() == bssid) {
+        if (m_networks.at(i)->ssid() == ssid) {
             if (pos)
                 *pos = i;
             return m_networks.at(i);
@@ -59,37 +56,48 @@ QWifiNetwork *QWifiNetworkList::networkForBSSID(const QByteArray &bssid, int *po
     return 0;
 }
 
-
 void QWifiNetworkList::parseScanResults(const QByteArray &results)
 {
     QList<QByteArray> lines = results.split('\n');
 
-    QSet<QByteArray> bssids;
+    QSet<QByteArray> sensibleNetworks;
     for (int i=1; i<lines.size(); ++i) {
         QList<QByteArray> info = lines.at(i).split('\t');
         if (info.size() < 5 || info.at(4).isEmpty() || info.at(0).isEmpty())
             continue;
-        bssids.insert(info.at(0));
         int pos = 0;
-        QWifiNetwork *existing = networkForBSSID(info.at(0), &pos);
-        if (!existing) {
+        if (!sensibleNetworks.contains(info.at(4)))
+            sensibleNetworks.insert(info.at(4));
+        QWifiNetwork *existingNetwork = networkForSSID(info.at(4), &pos);
+        if (!existingNetwork) {
             QWifiNetwork *network = new QWifiNetwork();
             network->setBssid(info.at(0));
             network->setFlags(info.at(3));
+            // signal strength is in dBm
             network->setSignalStrength(info.at(2).toInt());
             network->setSsid(info.at(4));
             beginInsertRows(QModelIndex(), m_networks.size(), m_networks.size());
             m_networks << network;
             endInsertRows();
-
         } else {
-            existing->setSignalStrength(info.at(2).toInt());
-            dataChanged(createIndex(pos, 0), createIndex(pos, 0));
+            // ssids are the same, compare bssids..
+            if (existingNetwork->bssid() == info.at(0)) {
+                // same access point, simply update the signal strength
+                existingNetwork->setSignalStrength(info.at(2).toInt());
+                dataChanged(createIndex(pos, 0), createIndex(pos, 0));
+            } else if (existingNetwork->signalStrength() < info.at(2).toInt()) {
+                // replace with a stronger access point within the same network
+                m_networks.at(pos)->setBssid(info.at(0));
+                m_networks.at(pos)->setFlags(info.at(3));
+                m_networks.at(pos)->setSignalStrength(info.at(2).toInt());
+                m_networks.at(pos)->setSsid(info.at(4));
+                dataChanged(createIndex(pos, 0), createIndex(pos, 0));
+            }
         }
     }
-
-    for (int i=0; i<m_networks.size(); ) {
-        if (!bssids.contains(m_networks.at(i)->bssid())) {
+    // remove networks that have gone out of range
+    for (int i = 0; i < m_networks.size(); ++i) {
+        if (!sensibleNetworks.contains(m_networks.at(i)->ssid())) {
             beginRemoveRows(QModelIndex(), i, i);
             delete m_networks.takeAt(i);
             endRemoveRows();
@@ -97,10 +105,6 @@ void QWifiNetworkList::parseScanResults(const QByteArray &results)
             ++i;
         }
     }
-
-//    for (int i=0; i<m_networks.size(); ++i) {
-//        qDebug() << " - network:" << m_networks.at(i)->bssid() << m_networks.at(i)->ssid() << m_networks.at(i)->flags() << m_networks.at(i)->signalStrength();
-//    }
 }
 
 

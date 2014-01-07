@@ -18,7 +18,7 @@ public:
 
     void parseScanResults(const QByteArray &data);
 
-    QWifiNetwork *networkForBSSID(const QByteArray &bssid, int *pos);
+    QWifiNetwork *networkForSSID(const QByteArray &ssid, int *pos);
 
     int rowCount(const QModelIndex &) const { return m_networks.size(); }
     QVariant data(const QModelIndex &index, int role) const;
