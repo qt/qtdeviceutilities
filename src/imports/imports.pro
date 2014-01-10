@@ -1,2 +1,2 @@
 TEMPLATE = subdirs
-SUBDIRS = utils virtualkeyboard
+SUBDIRS = utils
