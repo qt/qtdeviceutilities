@@ -1,25 +1,36 @@
 /****************************************************************************
 **
-** Copyright (c) 2013 Digia Plc and/or its subsidiary(-ies).
+** Copyright (C) 2013 Digia Plc
+** All rights reserved.
+** For any questions to Digia, please use the contact form at
+** http://qt.digia.com/
 **
-** Qt and Qt logos are trademarks of of Digia Corporation in Finland and/or
-** other countries worldwide. All other trademarks are property of their
-** respective owners.
+** This file is part of Qt Enterprise Embedded.
 **
+** Licensees holding valid Qt Enterprise licenses may use this file in
+** accordance with the Qt Enterprise License Agreement provided with the
+** Software or, alternatively, in accordance with the terms contained in
+** a written agreement between you and Digia.
 **
-** Licensees holding valid Qt Commercial licenses may use this document in
-** accordance with the Qt Commercial License Agreement provided with the
-** Software or, alternatively, in accordance with the terms contained in a
-** written agreement between you and Digia.
-**
+** If you have questions regarding the use of this file, please use
+** the contact form at http://qt.digia.com/
 **
 ****************************************************************************/
 
 /*!
     \contentspage{index.html}{Qt Enterprise Embedded}
     \page index.html
-    \nextpage qee-installation-guide.html
+    \nextpage qtee-overview.html
     \title Qt Enterprise Embedded
+
+    \SDK provides a fully-integrated solution to get you started immediately
+    with software development on your embedded device with a tailored user
+    experience for embedded Linux and embedded Android. \SDK contains the tools
+    you need for fast, easy, and fully-integrated embedded device application
+    development. It comes with \B2Q, a light-weight UI stack for embedded
+    systems, and the Qt Creator integrated development environment (IDE) with
+    preconfigured build targets for hardware platforms, as well as an emulator
+    for testing the applications.
 
     \e{\b{IMPORTANT:} Make sure to follow the \l{Installation Guide}
     closely!}
@@ -27,40 +38,74 @@
     \section1 Contents
 
     \list
+        \li \l{About Qt Enterprise Embedded}
         \li \l{Installation Guide}
+        \li \l{Supported Platforms}
         \li \l{Preparing Hardware}
         \list
-            \li \l{Preparing Nexus 7}{Nexus 7 (embedded Android)}
+            \li \l{Preparing Nexus 7}{Nexus 7 (2012) (embedded Android)}
             \li \l{Preparing Sabre Lite i.MX 6}{Sabre Lite i.MX 6 (embedded Android and Linux)}
             \li \l{Preparing BeagleBoard-xM}{BeagleBoard-xM (embedded Android and Linux)}
             \li \l{Preparing Raspberry Pi}{Raspberry Pi Model B (embedded Linux)}
         \endlist
         \li \l{Building and Running an Example}
         \li \l{Customization}
-        \li \l{Supported Platforms}
         \li \l{Troubleshooting}
+        \li \l{License Information}
     \endlist
+*/
 
-    \section1 About \SDK
+/*!
+    \contentspage{index.html}{Qt Enterprise Embedded}
+    \page qtee-overview.html
+    \previouspage index.html
+    \nextpage qtee-installation-guide.html
 
-    \SDK includes the \B2Q stack, providing a complete software development
-    package for creating applications on embedded devices. It comes with
-    the Qt Creator IDE with preconfigured build targets for hardware
-    platforms as well as an \l{Emulator}{emulator}.
+    \title About Qt Enterprise Embedded
 
-    \section1 What is \B2Q?
-
-    \e{\b{\B2Q}} is a light-weight UI stack for embedded systems, based on the
-    \l{http://qt.digia.com/}{Qt Framework} by Digia, offering an elegant
-    means of developing beautiful and performant embedded devices. It supports
-    two different operating systems:
+    \SDK has two main parts:
 
     \list
-        \li \b{\B2QA} places Qt on top of an Android (version 4.1 or higher)
-            kernel/baselayer.
+        \li Development environment that is installed on a Linux development
+            desktop by using an online installer
+        \li \B2Q
+    \endlist
 
-        \li \b{\B2QL} places Qt on top of an Linux kernel/baselayer, built
-            using Yocto 1.4 'Dylan' release.
+    \section1 About the Development Environment
+
+    The development is done with the Qt Enterprise libraries and device
+    deployment can be done with one click directly from Qt Creator to a device
+    connected via USB. Alternatively, you can deploy the application locally
+    directly to the \B2Q Emulator that is running the full target software stack
+    as in the device.
+
+    As with any Qt based application, the same application can be deployed to
+    desktop and mobile OS targets as well.
+
+    \section1 About \B2Q
+
+    \e{\b{\B2Q}} is a light-weight, Qt-optimized, full software stack for
+    embedded systems that is installed into the actual target device. This is
+    done by flashing the device’s memory card or device's internal memory
+    directly with a pre-built image that comes with the development environment.
+
+    \B2Q supports two different operating systems:
+
+    \list
+        \li \b{\B2QA} where the software stack is based on the Android Kernel
+            (version 4.1 or higher) and selected  middleware. It includes a lean
+            software stack where Qt/QML replaces the top Java graphical layer
+            and removes the Zygote process layer as well the Android home screen
+            enabling better and faster development where modern UIs are at the
+            forefront.
+
+        \li \b{\B2QL} where the software stack is using the traditional embedded
+            Linux kernel built with the Yocto Poky reference system (Yocto 1.4
+            \e Dylan release). Because of its Yocto compliance, the Embedded
+            Linux variant is designed for great customization possibilities.
+            It contains only components required in the embedded device,
+            resulting in smaller image sizes while keeping valuable development
+            tools available.
     \endlist
 
     Both versions have been tested and verified on a number of different
@@ -71,7 +116,7 @@
 
     \l{http://qt.digia.com/}{Qt} is a full development framework with tools
     designed to streamline the creation of applications and user interfaces
-    for desktop, embedded and mobile platforms.
+    for desktop, embedded, and mobile platforms.
 
     \list
         \li \b{Qt Framework} - intuitive APIs for C++
@@ -85,8 +130,8 @@
     \endlist
 
     With Qt, you can reuse code efficiently to target multiple platforms
-    with one code base. The modular C++ class library and developer tools
-    enables developers to create applications for one platform and easily
+    with one code base. The modular C++ class library and development tools
+    enable developers to create applications for one platform and easily
     build and run to deploy also on other platforms.
 
 
@@ -105,26 +150,23 @@
     \e{Dalvik virtual machine} is not running in \B2Q,
     resulting in faster startup times, lower memory consumption and
     overall better performance.
-
-    \b{\B2QL} is build from scratch using Yocto 1.4 tools
-    to contain only components required in the embedded device, resulting
-    in smaller image sizes while keeping valuable development tools available.
 */
 
 /*!
-    \page qee-installation-guide.html
+    \page qtee-installation-guide.html
     \title Installation Guide
-    \previouspage index.html
-    \nextpage qee-preparing-hardware.html
+    \previouspage qtee-overview.html
+    \nextpage qtee-supported-platforms.html
 
-    \e{IMPORTANT: \SDK requires the following installation steps to be followed closely.}
+    To successfully set up \SDK, you must closely follow the instructions in
+    this section and perform all the described tasks.
 
     In case of problems, see the \l{Troubleshooting} information and the
-    Known Issues in Qt Enterprise Embedded product page in Digia customer
+    \e {Known Issues} on the Qt Enterprise Embedded product page in the Digia customer
     portal.
 
     \target Requirements for Development Host
-    \section1 0. Requirements for Development Host
+    \section1 Requirements for Development Host
 
     A 64-bit Linux system is required to install and use \SDK. Instructions
     in this documentation assume Ubuntu Linux 64-bit 12.04 LTS or later.
@@ -135,8 +177,8 @@
     \section1 1. Installing 32-bit Support Libraries
 
     Some of the build tools in \SDK are 32-bit programs, and on 64-bit
-    systems they require that support libraries for running 32-bit
-    code are present in the system. To install the required packages
+    systems they require support libraries for running 32-bit code. To install
+    the required packages
     in Ubuntu, use the following command in a terminal:
 
     \code
@@ -154,60 +196,64 @@
         sudo apt-get install virtualbox
     \endcode
 
-    \b{Configuring VirtualBox}
+    To configure VirtualBox:
 
-    Open the VirtualBox user interface.
-    Open the network settings: Select \b{File > Preferences...}
-    and click on the \b{Network} tab. Create a new network named
-    \e{vboxnet0} and edit its properties:
+    \list 1
+        \li Start the VirtualBox user interface.
+        \li Select \b{File > Preferences} > \b{Network} to open VirtualBox
+            network settings.
+        \li Create a new network named \e{vboxnet0} and edit its properties:
 
-    \list
-        \li Change IPv4 address to 192.168.56.1 and IPv4 network mask to 255.255.255.0.
-        \li Check \b{Enable Server} in \b{DCHP Server} tab.
-        \li Change server address to 192.168.56.1.
-        \li Change both the lower and upper address bounds to 192.168.56.101.
+        \list 1
+            \li Change the IPv4 address to \c{192.168.56.1} and the IPv4 network
+                 mask to \c{255.255.255.0}.
+            \li In the \b{DCHP Server} tab, select the \b{Enable Server} check
+                box.
+            \li Change the server address to \c{192.168.56.1}.
+            \li Change both the lower and upper address bounds to
+                \c{192.168.56.101}.
+        \endlist
     \endlist
 
-    Configure your system firewall to allow TCP and UDP packets between your host and
-    the virtual machine.
+    If a firewall is enabled on the development host, it needs to
+    allow TCP and UDP packets between your host and the virtual
+    machine.
 
     \section1 3. Installing \SDK
 
-    If you have not already installed \SDK, do it as follows.
+    \list 1
 
-    After downloading the binary installer, make sure it is executable either by
+        \li Download the binary \SDK installer, and make sure it is executable
+            by using one of the following methods:
 
     \list
-        \li Using \c{chmod +x <filename>} command, or
-        \li Right-clicking on the file, selecting \b{Properties}, and checking
-            \b{Allow executing file as program} on the \b{Permissions} tab.
+        \li Enter the \c{chmod +x <filename>} command.
+        \li Right-click the file, and select \b{Properties} >
+            \b{Permissions} > \b{Allow executing file as program}.
     \endlist
 
-    Run the installer and follow its instructions.
+        \li Run the installer and follow its instructions.
+
+    \endlist
 
     The installer will let you select a directory where \SDK will be
-    installed. In the rest of this documentation, that directory is referred
+    installed. In this documentation, the installation directory is referred
     to as \b{\c{<INSTALL_DIR>}}. The default installation directory is
     \tt{~/Qt}.
 
     \target Installing Boot to Qt on Target Devices
     \section1 4. Install \B2Q on Target Devices
 
-    \e{If targeting only the emulator, this step may be skipped}
+    \e{If you target only the emulator, you can skip this step.}
 
-    Before deploying and testing your Qt application on hardware, the
-    target device needs to be flashed with an image that contains the
-    \B2Q stack. These steps vary from device to device. See the
-    following chapter and follow the instructions specific to
-    your device.
-
-    \list
-        \li \l {Preparing Hardware}
-    \endlist
+    Before you can deploy and test your Qt application on hardware, you must
+    flash the target device with an image that contains the
+    \B2Q stack. The steps vary from device to device. Follow the instructions
+    specific to your device in \l {Preparing Hardware}.
 
     \section1 5. Setting up USB Access to Embedded Devices
 
-    \e{If targeting only the emulator, this step may be skipped}
+    \e{If you target only the emulator, you can skip this step.}
 
     \include b2qt-post-install-setup.qdocinc setting up usb access
 
@@ -215,72 +261,77 @@
 
     \include b2qt-post-install-setup.qdocinc configuring device kit
 
-    \b {You are now ready to start developing for your device!}
-
-    See \l{Building and Running an Example}
+    You are now ready to start developing for your device.
+    For more information, see \l{Building and Running an Example}.
 */
 
 /*!
-    \page qee-preparing-hardware.html
+    \page qtee-preparing-hardware.html
     \title Preparing Hardware
-    \previouspage qee-installation-guide.html
-    \nextpage qee-building-and-running.html
+    \previouspage qtee-supported-platforms.html
+    \nextpage qtee-building-and-running.html
 
-    Before deploying and testing your Qt application on hardware, the
-    target device needs to be flashed with an image that contains the
+    Before you can deploy and test your Qt application on hardware, you must
+    flash the target device with an image that contains the
     \B2Q stack. These steps vary from device to device:
 
     \list
-        \li \l{Nexus 7 (embedded Android)}
+        \li \l{Nexus 7 (2012) (embedded Android)}
         \li \l{Sabre Lite i.MX 6 (embedded Android and Linux)}
         \li \l{BeagleBoard-xM (embedded Android and Linux)}
         \li \l{Raspberry Pi Model B (embedded Linux)}
     \endlist
 
-    If you are only using the emulator, you can skip this step
+    If you use only the emulator, you can skip this step
     and continue straight to \l {Building and Running an Example}.
 */
 
 /*!
-    \target Nexus 7 (embedded Android)
-    \page qee-preparing-hardware-nexus-7.html
+    \target Nexus 7 (2012) (embedded Android)
+    \page qtee-preparing-hardware-nexus-7.html
     \title Preparing Nexus 7
-    \previouspage qee-installation-guide.html
-    \nextpage qee-building-and-running.html
+    \previouspage qtee-installation-guide.html
+    \nextpage qtee-building-and-running.html
 
-    When using a \l{http://www.google.com/nexus/7/specs/}{Nexus 7} as a
-    development device, following steps are required to prepare it for
+    Take the following steps to prepare a
+    \l{http://www.google.com/nexus/7/specs/}{Nexus 7 (2012)} for
     \B2Q.
 
     \section1 Unlocking Nexus 7 Bootloader
 
-    The Nexus 7 Bootloader has to be unlocked to allow custom software
-    to be installed. This has to be done only once.
+    You must unlock the Nexus 7 Bootloader to be able to install custom
+    software. You need to do this only once.
 
     \list 1
-        \li Power down the device.
-        \li Connect it to the development host with a USB cable.
-        \li Start the Nexus up in \e{fastboot} mode: Press the power button for a second, and then keep the Volume Down key pressed, until you see a screen with a green robot with its front panel open. Note: If you get the ordinary startup screen instead, just power it down and try again.
-        \li On the development host, give the command
+        \li Power off the device.
+        \li Connect the device to the development host with a USB cable.
+        \li To start the Nexus up in \e{fastboot} mode, press the power button
+            for a second, and then keep the \b {Volume Down} key pressed down,
+            until you see a screen with a green robot with its front panel open.
+            \note If the ordinary startup screen appears instead, power off the
+            device and try again.
+        \li On the development host, enter the following command:
         \code
             sudo <INSTALL_DIR>/Tools/b2qt/fastboot oem unlock
         \endcode
-        The Nexus screen will ask if you want to unlock the bootloader. Press power button to confirm.
+        \li Press the power button to confirm that you want to unlock the
+            bootloader when the prompt appears on the Nexus screen.
         \li Wait a few seconds, and check that the text line stating the \c{LOCK STATE} now says \c{UNLOCKED}.
     \endlist
 
     \section1 Updating a Nexus 7 with \B2Q Images
 
-    \note \b{It is important that the steps in this section are repeated
-    every time after updating \SDK.}
+    \note It is important that you repeat the steps in this section after you
+    update \SDK.
 
-    An unlocked Nexus 7 device can now be updated with a \B2Q image.
+    To update an unlocked Nexus 7 device with a \B2Q image:
 
-    To do so, first make sure that the device is in \e{fastboot} mode
-    (see above), and connected to the development host via USB.
+    \list 1
+    \li Make sure that the device is in \e{fastboot} mode and that it is
+        connected to the development host via USB.
 
-    Then, re-flash the \e{boot}, \e{system}, and \e{userdata} partitions on the
-    device, using the following commands in the order they are listed:
+    \li Re-flash the \e{boot}, \e{system}, and \e{userdata} partitions on the
+    device, by entering the following commands in the following order:
 
     \code
         cd <INSTALL_DIR>
@@ -289,18 +340,21 @@
         sudo ./Tools/b2qt/fastboot flash userdata Boot2Qt-1.0/nexus7-eAndroid/images/data.img
     \endcode
 
-    Once the flashing is completed successfully, reboot the device:
+    \li Once the flashing is completed successfully, reboot the device:
 
     \code
         sudo ./Tools/b2qt/fastboot reboot
     \endcode
 
-    \note Until the next step is performed, the Nexus 7 will not
-    boot correctly (the screen will only show the "Google" logo).
+    \endlist
+
+    \note You must install proprietary drivers for the Nexus 7 to boot
+    correctly. Until then, the screen will only show the "Google" logo,
+    instead of the \B2Q welcome screen or demo.
 
     \section1 Installing Proprietary Drivers
 
-    Download the proprietary drivers for your Nexus 7. The following script will download the third
+    Download the proprietary drivers for your Nexus 7. The following script downloads the third
     party drivers from \l{https://developers.google.com/android/nexus/drivers#grouperjdq39}
     {https://developers.google.com/android/nexus/drivers#grouperjdq39}
     \code
@@ -308,15 +362,14 @@
         ./Boot2Qt-1.0/nexus7-eAndroid/images/download.sh
     \endcode
 
-    \note Only the version "Android 4.2.2 (JDQ39 to JDQ39E)" will work with the current \B2Q image.
+    \note Only the version "Android 4.2.2 (JDQ39 to JDQ39E)" works with the
+    current \B2Q image.
 
-    Make sure your Nexus 7 is powered up, is \e{not} in fastboot mode,
-    and is connected to the computer via USB.
-
-    Then, follow these steps to update the Nexus 7:
-    \note Make sure you have read the license terms enclosed in each individual extractor
+    To install the drivers to Nexus 7:
 
     \list 1
+        \li Power on the device and connect it to the development host via USB.
+            Also check that the device is \e{not} in fastboot mode.
         \li Run the driver extractors:
         \code
             cd Boot2Qt-1.0/nexus7-eAndroid/images/drivers
@@ -325,18 +378,20 @@
             ./extract-invensense-grouper.sh
             cd -
         \endcode
+            \note Carefully read the license terms enclosed in each individual
+            extractor.
         \li Find out the serial number of the connected Nexus 7 device:
         \code
             ./Tools/b2qt/adb devices
         \endcode
-        \li Deploy the drivers to your device using the following command:
+        \li Deploy the drivers to your device:
         \code
             ./Boot2Qt-1.0/nexus7-eAndroid/images/deploy.sh <serial_number>
         \endcode
     \endlist
 
-    After the installation is complete, power up the device and confirm that it shows
-    a \B2Q welcome screen and/or demo.
+    After the installation is complete, power on the device and check that
+    the \B2Q welcome screen and/or demo appear.
 
     \section1 Setting up USB Access
 
@@ -346,32 +401,31 @@
 
     \include b2qt-post-install-setup.qdocinc configuring device kit
 
-    \b {You are now ready to start developing for your device!}
-
-    See \l{Building and Running an Example}
+    You are now ready to start developing for your device. For more information,
+    see \l{Building and Running an Example}.
 */
 
 /*!
     \target BeagleBoard-xM (embedded Android and Linux)
-    \page qee-preparing-hardware-beagleboard.html
+    \page qtee-preparing-hardware-beagleboard.html
     \title Preparing BeagleBoard-xM
-    \previouspage qee-installation-guide.html
-    \nextpage qee-building-and-running.html
+    \previouspage qtee-installation-guide.html
+    \nextpage qtee-building-and-running.html
 
-    When using a \l{http://beagleboard.org/hardware-xM}{BeagleBoard-xM} as a
-    development device, following steps are required to prepare it for
+    Take the following steps to prepare a \l{http://beagleboard.org/hardware-xM}
+    {BeagleBoard-xM} for
     \B2Q.
 
-    \note \b{It is important that the steps in this section are repeated
-    every time after updating \SDK.}
+    \note It is important that you repeat the steps in this section after you
+    update \SDK.
 
-    The images containing \B2Q stack for BeagleBoard-xM is included in the SDK,
-    ready to be copied to a micro-SD card.
+    The images containing \B2Q stack for BeagleBoard-xM are included in \SDK,
+    ready to be copied to an SD card.
 
-    \section1 Preparing a Micro-SD Card
+    \section1 Preparing an SD Card
 
-    For \B2QA, a micro-SD card of at least 2GB capacity is needed. For \B2QL,
-    a card of at least 512MB capacity is sufficient.
+    For \B2QA, an SD card of at least 2 GB capacity is needed. For \B2QL,
+    a card of at least 512 MB capacity is sufficient.
 
     \include detect-sd-card-device-name.qdocinc instructions
 
@@ -380,23 +434,23 @@
     The commands used in this step vary depending on whether you are developing
     for embedded Android or embedded Linux.
 
-    Write the image to the micro-SD card:
+    To write the image to the SD card:
 
     \list
         \li \b{\B2QA}
         \code
             cd <INSTALL_DIR>
-            sudo dd if=Boot2Qt-1.0/beagleboard-eAndroid/images/sdcard.img of=/dev/XXX bs=1M
+            sudo dd if=Boot2Qt-1.0/beagleboard-eAndroid/images/sdcard.img of=/dev/<device_name> bs=1M
         \endcode
         \li \b{\B2QL}
         \code
             cd <INSTALL_DIR>
-            sudo Boot2Qt-1.0/beagleboard-eLinux/images/deploy.sh /dev/XXX
+            sudo Boot2Qt-1.0/beagleboard-eLinux/images/deploy.sh /dev/<device_name>
         \endcode
     \endlist
 
-    After the image has been deployed, power up the device and confirm that it shows
-    a \B2Q welcome screen and/or demo.
+    After the image has been deployed, power on the device and check that
+    the \B2Q welcome screen and/or demo appear.
 
     \section1 Setting up USB Access
 
@@ -406,32 +460,30 @@
 
     \include b2qt-post-install-setup.qdocinc configuring device kit
 
-    \b {You are now ready to start developing for your device!}
-
-    See \l{Building and Running an Example}
+    You are now ready to start developing for your device. For more information,
+    see \l{Building and Running an Example}.
 */
 
 /*!
     \target Sabre Lite i.MX 6 (embedded Android and Linux)
-    \page qee-preparing-hardware-imx6.html
+    \page qtee-preparing-hardware-imx6.html
     \title Preparing Sabre Lite i.MX 6
-    \previouspage qee-installation-guide.html
+    \previouspage qtee-installation-guide.html
 
-    When using a
+    Take the following steps to prepare a
     \l{http://boundarydevices.com/products/sabre-lite-imx6-sbc/}{Sabre
-    Lite i.MX 6} as a development device, following steps are required
-    to prepare it for \B2Q.
+    Lite i.MX 6} for \B2Q.
 
-    \note \b{It is important that the steps in this section are repeated
-    every time after updating \SDK.}
+    \note It is important that you repeat the steps in this section after you
+    update \SDK.
 
     The images containing the \B2Q stack for Sabre Lite i.MX 6 are included
-    in the SDK, ready to be copied to a micro-SD card.
+    in \SDK, ready to be copied to an SD card.
 
-    \section1 Preparing a Micro-SD Card
+    \section1 Preparing an SD Card
 
-    For \B2QA, a micro-SD card of at least 4GB capacity is needed. For \B2QL,
-    a card of at least 512MB capacity is sufficient.
+    For \B2QA, an SD card of at least 4 GB capacity is needed. For \B2QL,
+    a card of at least 512 MB capacity is sufficient.
 
     \include detect-sd-card-device-name.qdocinc instructions
 
@@ -444,11 +496,11 @@
     \l{http://boundarydevices.com/android-jellybean-on-i-mx6-with-no-disclaimers/}{Boundary
     Devices Android Jellybean i.MX6 images} (registration required).
 
-    Use the following commands to create a micro-SD card containing the
+    Use the following commands to create an SD card containing the
     downloaded image:
 
-    \list
-        \li Extract the downloaded package
+    \list 1
+        \li Extract the downloaded package:
         \code
         ~/$ mkdir bd-android
         ~/$ cd bd-android
@@ -456,7 +508,7 @@
         \endcode
         \li Run device/boundary/mksdcard.sh:
         \code
-        ~/bd-android$ sudo device/boundary/mksdcard.sh /dev/XXX
+        ~/bd-android$ sudo device/boundary/mksdcard.sh /dev/<device_name>
         ~/bd-android$ sync
         \endcode
     \endlist
@@ -469,24 +521,24 @@
         sudo apt-get install u-boot-tools
     \endcode
 
-    Then, upgrade the micro-SD Card with \B2Q. Use one of the commands below,
-    depending on whether you're developing for embedded Android or Linux:
+    Then, upgrade the SD card with \B2Q. Use one of the commands below,
+    depending on whether you are developing for embedded Android or Linux:
 
     \list
         \li \b{\B2QA}
         \code
             cd <INSTALL_DIR>
-            Boot2Qt-1.0/iMX6-eAndroid/images/deploy.sh /dev/XXX
+            Boot2Qt-1.0/iMX6-eAndroid/images/deploy.sh /dev/<device_name>
         \endcode
         \li \b{\B2QL}
         \code
             cd <INSTALL_DIR>
-            Boot2Qt-1.0/iMX6-eLinux/images/deploy.sh /dev/XXX
+            Boot2Qt-1.0/iMX6-eLinux/images/deploy.sh /dev/<device_name>
         \endcode
     \endlist
 
-    After the installation is complete, power up the device and confirm that it shows
-    a \B2Q welcome screen and/or demo.
+    After the installation is complete, power on the device and check that
+    the \B2Q welcome screen and/or demo appear.
 
     \section1 Setting up USB Access
 
@@ -496,80 +548,75 @@
 
     \include b2qt-post-install-setup.qdocinc configuring device kit
 
-    \b {You are now ready to start developing for your device!}
-
-    See \l{Building and Running an Example}
+    You are now ready to start developing for your device. For more information,
+    see \l{Building and Running an Example}.
 */
 
 /*!
     \target Raspberry Pi Model B (embedded Linux)
-    \page qee-preparing-hardware-rasberrypi.html
+    \page qtee-preparing-hardware-rasberrypi.html
     \title Preparing Raspberry Pi
-    \previouspage qee-installation-guide.html
-    \nextpage qee-building-and-running.html
+    \previouspage qtee-installation-guide.html
+    \nextpage qtee-building-and-running.html
 
-    When using a \l{http://www.raspberrypi.org/}{Raspberry Pi} as a
-    development device, following steps are required to prepare it for
+    Take the following steps to prepare a  \l{http://www.raspberrypi.org/}
+    {Raspberry Pi} for
     \B2Q.
 
-    Note that Ethernet networking is required to connect the device to Qt Creator.
-    This means that the support is currently limited to Raspberry Pi Model B which
+    \note Ethernet networking is required to connect the device to Qt Creator.
+    This means that the support is currently limited to Raspberry Pi Model B, which
     includes an Ethernet port.
 
-    \note \b{It is important that the steps in this section are repeated
-    every time after updating \SDK.}
+    \note It is important that you repeat the steps in this section after you
+    update \SDK.
 
-    The images containing \B2Q stack for Raspberry Pi is included in the SDK,
-    ready to be copied to a micro-SD card.
+    The image containing \B2Q stack for Raspberry Pi is included in the SDK,
+    ready to be copied to an SD card.
 
-    \section1 Preparing a Micro-SD Card
+    \section1 Preparing an SD Card
 
-    An SD card of at least 512MB capacity is sufficient.
+    An SD card of at least 512 MB capacity is sufficient.
 
     \include detect-sd-card-device-name.qdocinc instructions
 
     \section1 Installing the \B2Q Image
 
-    Write the image to the micro-SD card:
+    To write the image to the SD card:
 
     \code
         cd <INSTALL_DIR>
-        sudo Boot2Qt-1.0/raspberrypi-eLinux/images/deploy.sh /dev/XXX
+        sudo Boot2Qt-1.0/raspberrypi-eLinux/images/deploy.sh /dev/<device_name>
     \endcode
 
-    After the image has been deployed, power up the device and confirm that it shows
-    a \B2Q welcome screen and/or demo.
+    After the image has been deployed, power on the device and check that
+    the \B2Q welcome screen and/or demo appear.
 
     \section1 Configuring a Device Kit in Qt Creator
 
     \include b2qt-post-install-setup.qdocinc configuring network device
 
-    \b {You are now ready to start developing for your device!}
-
-    See \l{Building and Running an Example}
+    You are now ready to start developing for your device. For more information,
+    see \l{Building and Running an Example}.
 */
 
 /*!
-    \page qee-building-and-running.html
+    \page qtee-building-and-running.html
     \title Building and Running an Example
-    \previouspage qee-installation-guide.html
-    \nextpage qee-customization.html
+    \previouspage qtee-preparing-hardware.html
+    \nextpage qtee-customization.html
 
-    Once the installation and configuration steps for \SDK and the
-    target device(s) are completed, it's time to test the setup.
-
-    First, make sure your device is powered up and connected to the
-    development host via USB.
-
-    Then, follow these steps to create and run a simple \l{Qt Quick}
-    application on the device:
+    After you complete the installation and configuration steps for \SDK and the
+    target devices, you can test the setup by creating a simple \l{Qt Quick}
+    application and running it on the device:
 
     \list 1
-        \li Open \b{File > New File or Project}, select
-            \b{Qt Quick 2 Application} and click \b{Choose...}.
+        \li Make sure that your device is powered on and connected to the
+            development host.
+        \li In Qt Creator, select \b{File > New File or Project} >
+            \b Applications > \b{Qt Quick 2 Application } > \b{Choose}.
         \li Choose a location for your new project.
-        \li In \b{Qt Quick Component Set} dialog, select \b{Qt Quick 2.0}.
-        \li In \b{Kit Selection} dialog, select the kit(s) for your
+        \li In the \b{Qt Quick Component Set} dialog, select \b{Qt Quick 2.0}.
+        \li In the \b{Kit Selection} dialog, select the kits for your
             devices. You can also select the emulator kit to test running the
             project in the emulator.
         \li Click \b{Next} and finish the wizard.
@@ -580,23 +627,23 @@
 
     \section1 Setting Up an Already Existing Project for Deployment
 
-    The projects generated by Qt Creator will always have the correct settings
+    The projects generated by Qt Creator always have the correct settings
     for deployment on the device or emulator. However, existing projects may
     need some changes.
 
     As a general rule, application binaries and resources (such as QML files and
-    images) are deployed under \c {/data/user/qt/<APPLICATION_NAME>} directory.
-    Therefore, the \c path variable for \c INSTALLS target(s) need to be adjusted
-    accordingly in .pro files:
+    images) are deployed to the \c {/data/user/qt/<APPLICATION_NAME>} directory.
+    Therefore, the \c path variable for the \c INSTALLS targets needs to be adjusted
+    accordingly in .pro files.
 
-    For example, the following:
+    For example, change the following \c target.path value:
 
     \code
         target.path = ...
         INSTALLS += target
     \endcode
 
-    should be migrated to:
+    to:
 
     \code
         target.path = /data/user/qt/<APPLICATION_NAME>
@@ -605,10 +652,10 @@
 */
 
 /*!
-    \page qee-customization.html
+    \page qtee-customization.html
     \title Customization
-    \previouspage qee-building-and-running.html
-    \nextpage qee-supported-platforms.html
+    \previouspage qtee-building-and-running.html
+    \nextpage qtee-troubleshooting.html
 
     \section1 Environment and Input
 
@@ -617,30 +664,29 @@
     {/system/bin/appcontroller.conf} in embedded Android devices and
     in \c{/etc/appcontroller.conf} in embedded Linux devices.
 
-    This file can be customized if targeting a hardware device that
-    has different input devices than what the \B2Q stack is configured
+    You can customize this file if you target a hardware device that
+    has other input devices than the ones that the \B2Q stack is configured
     for by default.
 
-    Note that on some devices, the root file system (where this file
-    resides) is mounted read-only at boot time. It needs to be
-    remounted read-write to allow modification. The following command
-    does that:
+    On some devices, the root file system (where this file
+    resides) is mounted read-only at boot time. To allow modification,
+    remount it read-write by entering the following command:
     \code
         <INSTALL_DIR>/Tools/b2qt/adb remount
     \endcode
 
-    In the \c{appcontroller.conf} file the input devices are
+    In the \c{appcontroller.conf} file, the input devices are
     specified by the lines similar to these:
     \code
         env=QT_QPA_GENERIC_PLUGINS=evdevtouch:/dev/input/event0
     \endcode
 
-    Usually there is no need to change this setting. USB input devices like
-    keyboards and mice are automatically recognized. The mouse pointer is shown
+    Usually, you do not need to change this setting. USB input devices, such as
+    keyboards and mice, are automatically recognized. The mouse pointer is shown
     automatically if a mouse is connected.
 
-    Note however that hotplugging may not work, meaning that the input
-    devices, like keyboard and mouse, have to be connected at boot
+    However, hotplugging may not work, which means that the input
+    devices, such as a keyboard and mouse, have to be connected at boot
     time.
 
     On some devices, for example the i.MX6 Sabre Lite, the touchscreen device is
@@ -649,18 +695,21 @@
 
     \section1 Booting to a Custom Application
 
-    After you have deployed your own application to the device it will be launched instead
-    of the \B2Q demo launcher on boot. To prevent this behavior you have to remove
-    this step from the build steps of your project's run configuration.
+    After you have deployed your own application to the device, it will be
+    launched on boot, instead of the \B2Q demo launcher. To prevent this
+    behavior, remove the \b {Make this application the default one} step from
+    the \b{Run Settings} for your project in the Qt Creator \b Projects mode.
 
-    To remove your application from the default startup use the following command:
+    To remove your application from the default startup, use the following
+    command:
     \code
         <INSTALL_DIR>/Tools/b2qt/adb shell appcontroller --remove-default
     \endcode
 
     \section1 Switching Between Portrait and Landscape Views
 
-    Depending on a device screen dimensions and application requirements it might be desirable
+    Depending on device screen dimensions and application requirements, it might
+    be desirable
     to change the default view orientation. The following example shows how to rotate your
     application in QML.
 
@@ -697,10 +746,10 @@
 */
 
 /*!
-    \page qee-supported-platforms.html
+    \page qtee-supported-platforms.html
     \title Supported Platforms
-    \previouspage qee-customization.html
-    \nextpage qee-troubleshooting.html
+    \previouspage qtee-installation-guide.html
+    \nextpage qtee-preparing-hardware.html
 
     \section1 Supported Target Devices
 
@@ -710,15 +759,15 @@
 
     Approximate minimal hardware requirements for running \B2Q are:
     \list
-        \li 256Mb of RAM
-        \li 500Mhz CPU, 1Ghz preferred for 60 FPS velvet-smooth UI
+        \li 256 MB of RAM
+        \li 500 MHz CPU, 1 GHz preferred for 60-FPS velvet-smooth UI
         \li OpenGL ES 2.0 support
         \li Android 4.0+ compatible hardware
     \endlist
 
-    The following devices have been used as reference and are tested to work:
+    \B2Q has been tested to work on the following reference devices:
     \list
-        \li \l{http://www.google.com/nexus/7/specs/}{Google/Asus Nexus 7}
+        \li \l{http://www.google.com/nexus/7/specs/}{Google/Asus Nexus 7 (2012)}
         \li \l{http://beagleboard.org/hardware-xM}{BeagleBoard-xM}
         \li \l{http://boundarydevices.com/products/sabre-lite-imx6-sbc/}{Freescale i.MX6 Sabre Lite board (Boundary Devices)}
         \li \l{http://www.raspberrypi.org/faqs}{Raspberry Pi Model B}
@@ -733,21 +782,47 @@
 */
 
 /*!
-    \page qee-troubleshooting.html
-    \title Troubleshooting
-    \previouspage qee-supported-platforms.html
+    \page qtee-licenses.html
+    \title License Information
+    \previouspage qtee-troubleshooting.html
 
-    \note An updated version of this information may be available in Digia customer portal,
-    see Known Issues in Qt Enterprise Embedded product page.
+    \section1 Licensing
+
+    \SDK is licensed under the Qt Enterprise commercial license. For more information,
+    see \l {http://qt.digia.com/licensing}. Evaluation licenses are also available,
+    see \l {http://qt.digia.com/Products/Qt-Enterprise-Embedded}.
+
+    \section1 3rd Party Software Licenses
+
+    The third-party licenses used in \SDK are listed in the file
+    \c {<INSTALL_DIR>/Licenses/ThirdPartySoftware_Listing.txt}.
+
+    \section2 Embedded Android Images
+
+    The embedded Android platform is built from the \e {Android Open Source Project},
+    source code available at \l {http://android.googlesource.com/}. The open
+    source licenses and notices are collected into the file
+    \c {/etc/NOTICE.html.gz} in the target images.
+*/
+
+/*!
+    \page qtee-troubleshooting.html
+    \title Troubleshooting
+    \previouspage qtee-customization.html
+    \nextpage qtee-licenses.html
+
+    \note An updated version of this information may be available in the Digia
+    customer portal, in the \e{Known Issues} section on the \SDK product page.
 
     \section1 General Issues
 
     \section2 I have problems deploying/launching the application in Qt Creator
 
-    Check if the device is properly connected to the PC via USB.
+    Check that the device is properly connected to the development host via USB
+    or Ethernet (depending on the device).
     See \l{Connectivity Issues}.
 
-    If using the emulator, see \l{Installing VirtualBox}{Configuring VirtualBox}.
+    If using the emulator, see \l{Installing VirtualBox}.
 
     \section2 I have problems deploying/launching a Qt or Qt Quick example application
 
@@ -767,8 +842,8 @@
     \section2 Booting Sabre Lite i.MX 6 stops with \e {6x_bootscript not found} error
 
     Check the U-Boot version number. It should start with either \c{2012} or \c{2013}.
-    If it is \c{2009.xx}, an upgrade of the bootloader is required. See information and
-    instructions here:
+    If it is \c{2009.xx}, an upgrade of the bootloader is required. For more
+    information, see:
 
     \list
         \li \l http://boundarydevices.com/6q_bootscript/
@@ -777,8 +852,9 @@
 
     \section2 How do I restore my Nexus 7 to factory settings?
 
-    Goto \l{https://developers.google.com/android/nexus/images} and
-    download the correct file for your device. Unpack it, and then
+    Go to \l{https://developers.google.com/android/nexus/images} and
+    download the correct file for your device. Unpack it, and then enter the
+    following commands:
 
     \code
         <INSTALL_DIR>/Tools/b2qt/adb reboot bootloader
@@ -787,21 +863,25 @@
 
     \section2 How do I shut down the Nexus 7?
 
-    If the \B2Q demo launcher is running, start the "Launcher
-    Settings" app, and press the "Power Off" button.
+    If the \B2Q demo launcher is running, start the \b {Launcher
+    Settings} app, and select \b {Shut Down} to power off the device.
 
-    Otherwise, make sure the Nexus 7 is connected to your PC with USB, and run
+    Otherwise, make sure the Nexus 7 is connected to the development host, and run
     the following command in a terminal:
     \code
         <INSTALL_DIR>/Tools/b2qt/adb shell reboot -p
     \endcode
+
+    If the device is in the fastboot mode, use the volume button to display the
+    \b {Power off} option and press the power button to power off the device.
 
     Alternatively, press and hold the power button for 10
     seconds. This will force a reboot.
 
     \section2 Trying to build for the emulator target fails with error message \e{make: i686-android-linux-g++: Command not found}
 
-    You need to install proper libraries in order to run 32-bit programs in 64-bit Linux operating system.
+    You need to install support libraries in order to run 32-bit programs in a
+    64-bit Linux operating system.
 
     See \l{Installing 32-bit Support Libraries}.
 
@@ -816,7 +896,7 @@
 
     See \l{Customization}.
 
-    Note that hotplugging does not currently work; any input device
+    \note Hotplugging does not currently work, and therefore, any input device
     must be present at boot time to be recognized.
 
     \section2 Application stops with \e{EGLFS: OpenGL windows cannot be mixed with others.}
@@ -842,7 +922,7 @@
 
     \section2 adb fails with "error: more than one device and emulator"
 
-    You have to specify which android device you want \c{adb} to talk
+    You have to specify which Android device you want \c{adb} to talk
     to, using adb's \c{-s <serial-number>} option. Use the following
     command to find to see the serial number of the connected
     devices:
@@ -851,17 +931,17 @@
         <INSTALL_DIR>/Tools/b2qt/adb devices
     \endcode
 
-    \section2 The emulator cannot connect to the internet
+    \section2 The emulator cannot connect to the Internet
 
-    By default, the Virtualbox is configured to use host-only network, so external
+    By default, the VirtualBox is configured to use a host-only network, so external
     connections do not work in the emulator.
 
-    You may be able to enable internet connectivity with another
+    You may be able to enable Internet connectivity with another
     virtual network adapter in NAT mode by adapting
     \l{http://askubuntu.com/questions/293816/in-virtualbox-how-do-i-set-up-host-only-virtual-machines-that-can-access-the-in}{these}
     instructions.
 
-    \section2 The emulator is stuck in 'Waiting for display data' or fails to start properly
+    \section2 The emulator is stuck in \e{Waiting for display data} or fails to start properly
 
     Check the output of the following command:
 
@@ -882,7 +962,7 @@
 
     And then close the emulator and retry.
 
-    \section2 What is the user and password to access my embedded Linux device
+    \section2 What are the user and password to access my embedded Linux device?
 
     Embedded Linux devices can be accessed using user \c{root} and an empty password.
 

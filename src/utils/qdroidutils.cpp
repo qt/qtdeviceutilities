@@ -1,3 +1,21 @@
+/****************************************************************************
+**
+** Copyright (C) 2013 Digia Plc
+** All rights reserved.
+** For any questions to Digia, please use the contact form at
+** http://qt.digia.com/
+**
+** This file is part of Qt Enterprise Embedded.
+**
+** Licensees holding valid Qt Enterprise licenses may use this file in
+** accordance with the Qt Enterprise License Agreement provided with the
+** Software or, alternatively, in accordance with the terms contained in
+** a written agreement between you and Digia.
+**
+** If you have questions regarding the use of this file, please use
+** the contact form at http://qt.digia.com/
+**
+****************************************************************************/
 #include "qdroidutils.h"
 #include <unistd.h>
 #include <QDebug>
@@ -44,6 +62,28 @@ void QDroidUtils::powerOffSystem()
     reboot(RB_POWER_OFF);
 #endif
     qWarning("powerOff returned");
+}
+
+void QDroidUtils::setOrientationForAudioSystem(AudioOrientation orientation)
+{
+#ifdef Q_OS_ANDROID_NO_SDK
+    QString orientationString = QStringLiteral("undefined");
+    switch (orientation) {
+    case LandscapeAudioOrientation:
+        orientationString = QStringLiteral("landscape");
+        break;
+    case PortraitAudioOrientation:
+        orientationString = QStringLiteral("portrait");
+        break;
+    case SquareAudioOrientation:
+        orientationString = QStringLiteral("square");
+        break;
+    default:
+        break;
+    }
+    android::AudioSystem::setParameters(0, android::String8(QStringLiteral("orientation=%2")
+                                                            .arg(orientationString).toLatin1().constData()));
+#endif
 }
 
 /*!
