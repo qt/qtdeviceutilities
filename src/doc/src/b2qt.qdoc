@@ -335,9 +335,9 @@
 
     \code
         cd <INSTALL_DIR>
-        sudo ./Tools/b2qt/fastboot flash boot Boot2Qt-1.0/nexus7-eAndroid/images/boot.img
-        sudo ./Tools/b2qt/fastboot flash system Boot2Qt-1.0/nexus7-eAndroid/images/system.img
-        sudo ./Tools/b2qt/fastboot flash userdata Boot2Qt-1.0/nexus7-eAndroid/images/data.img
+        sudo ./Tools/b2qt/fastboot flash boot Boot2Qt-2.x/nexus7-eAndroid/images/boot.img
+        sudo ./Tools/b2qt/fastboot flash system Boot2Qt-2.x/nexus7-eAndroid/images/system.img
+        sudo ./Tools/b2qt/fastboot flash userdata Boot2Qt-2.x/nexus7-eAndroid/images/data.img
     \endcode
 
     \li Once the flashing is completed successfully, reboot the device:
@@ -359,7 +359,7 @@
     {https://developers.google.com/android/nexus/drivers#grouperjdq39}
     \code
         cd <INSTALL_DIR>
-        ./Boot2Qt-1.0/nexus7-eAndroid/images/download.sh
+        ./Boot2Qt-2.x/nexus7-eAndroid/images/download.sh
     \endcode
 
     \note Only the version "Android 4.2.2 (JDQ39 to JDQ39E)" works with the
@@ -372,7 +372,7 @@
             Also check that the device is \e{not} in fastboot mode.
         \li Run the driver extractors:
         \code
-            cd Boot2Qt-1.0/nexus7-eAndroid/images/drivers
+            cd Boot2Qt-2.x/nexus7-eAndroid/images/drivers
             ./extract-nvidia-grouper.sh
             ./extract-asus-grouper.sh
             ./extract-invensense-grouper.sh
@@ -386,7 +386,7 @@
         \endcode
         \li Deploy the drivers to your device:
         \code
-            ./Boot2Qt-1.0/nexus7-eAndroid/images/deploy.sh <serial_number>
+            ./Boot2Qt-2.x/nexus7-eAndroid/images/deploy.sh <serial_number>
         \endcode
     \endlist
 
@@ -440,12 +440,12 @@
         \li \b{\B2QA}
         \code
             cd <INSTALL_DIR>
-            sudo dd if=Boot2Qt-1.0/beagleboard-eAndroid/images/sdcard.img of=/dev/<device_name> bs=1M
+            sudo dd if=Boot2Qt-2.x/beagleboard-eAndroid/images/sdcard.img of=/dev/<device_name> bs=1M
         \endcode
         \li \b{\B2QL}
         \code
             cd <INSTALL_DIR>
-            sudo Boot2Qt-1.0/beagleboard-eLinux/images/deploy.sh /dev/<device_name>
+            sudo Boot2Qt-2.x/beagleboard-eLinux/images/deploy.sh /dev/<device_name>
         \endcode
     \endlist
 
@@ -528,12 +528,12 @@
         \li \b{\B2QA}
         \code
             cd <INSTALL_DIR>
-            Boot2Qt-1.0/iMX6-eAndroid/images/deploy.sh /dev/<device_name>
+            Boot2Qt-2.x/iMX6-eAndroid/images/deploy.sh /dev/<device_name>
         \endcode
         \li \b{\B2QL}
         \code
             cd <INSTALL_DIR>
-            Boot2Qt-1.0/iMX6-eLinux/images/deploy.sh /dev/<device_name>
+            Boot2Qt-2.x/iMX6-eLinux/images/deploy.sh /dev/<device_name>
         \endcode
     \endlist
 
@@ -585,7 +585,7 @@
 
     \code
         cd <INSTALL_DIR>
-        sudo Boot2Qt-1.0/raspberrypi-eLinux/images/deploy.sh /dev/<device_name>
+        sudo Boot2Qt-2.x/raspberrypi-eLinux/images/deploy.sh /dev/<device_name>
     \endcode
 
     After the image has been deployed, power on the device and check that
