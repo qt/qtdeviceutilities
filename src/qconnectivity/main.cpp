@@ -69,6 +69,7 @@ protected:
     bool ethernetSupported() const;
 
 protected slots:
+    void initNetdConnection();
     void handleNetdEvent();
     void handleRequest();
     void handleNewConnection();
@@ -116,15 +117,32 @@ private:
 QConnectivityDaemon::QConnectivityDaemon()
     : m_netdSocket(0), m_serverSocket(0), m_linkUp(false), m_leaseTimer(0)
 {
-    if (QT_CONNECTIVITY_DEBUG) qDebug() << "starting QConnectivityDaemon...";
+    qDebug() << "starting QConnectivityDaemon...";
 
+    initNetdConnection();
     m_leaseTimer = new LeaseTimer(this);
     m_leaseTimer->setSingleShot(true);
     connect(m_leaseTimer, SIGNAL(timeout()), this, SLOT(updateLease()));
 
+    int serverFd = socket_local_server("qconnectivity", ANDROID_SOCKET_NAMESPACE_RESERVED, SOCK_STREAM);
+    if (serverFd != -1) {
+        m_serverSocket = new QLocalServer(this);
+        if (m_serverSocket->listen(serverFd))
+            connect(m_serverSocket, SIGNAL(newConnection()), this, SLOT(handleNewConnection()));
+        else
+            qWarning() << "QConnectivityDaemon: not able to listen on the server socket...";
+    } else {
+        qWarning() << "QConnectivityDaemon: failed to open qconnectivity server socket";
+    }
+}
+
+void QConnectivityDaemon::initNetdConnection()
+{
+    static int attemptCount = 12;
     if (ethernetSupported()) {
         int netdFd = socket_local_client("netd", ANDROID_SOCKET_NAMESPACE_RESERVED, SOCK_STREAM);
         if (netdFd != -1) {
+            qDebug() << "QConnectivityDaemon: connected to netd socket";
             m_netdSocket = new QLocalSocket(this);
             m_netdSocket->setSocketDescriptor(netdFd);
             connect(m_netdSocket, SIGNAL(readyRead()), this, SLOT(handleNetdEvent()));
@@ -137,18 +155,9 @@ QConnectivityDaemon::QConnectivityDaemon()
             sendCommand("0 interface setcfg " ETH_INTERFACE " up");
         } else {
             qWarning() << "QConnectivityDaemon: failed to connect to netd socket";
+            if (--attemptCount != 0)
+                QTimer::singleShot(2000, this, SLOT(initNetdConnection()));
         }
-    }
-
-    int serverFd = socket_local_server("qconnectivity", ANDROID_SOCKET_NAMESPACE_RESERVED, SOCK_STREAM);
-    if (serverFd != -1) {
-        m_serverSocket = new QLocalServer(this);
-        if (m_serverSocket->listen(serverFd))
-            connect(m_serverSocket, SIGNAL(newConnection()), this, SLOT(handleNewConnection()));
-        else
-            qWarning() << "QConnectivityDaemon: not able to listen on the server socket...";
-    } else {
-        qWarning() << "QConnectivityDaemon: failed to open qconnectivity server socket";
     }
 }
 
@@ -176,7 +185,7 @@ void QConnectivityDaemon::setHostnamePropery(const char *interface) const
 
 void QConnectivityDaemon::sendCommand(const char *command) const
 {
-    if (QT_CONNECTIVITY_DEBUG) qDebug() << "QConnectivityDaemon: sending command - " << command;
+    qDebug() << "QConnectivityDaemon: sending command - " << command;
     // netd expects "\0" terminated commands...
     m_netdSocket->write(command, qstrlen(command) + 1);
     m_netdSocket->flush();
@@ -208,8 +217,8 @@ void QConnectivityDaemon::handleInterfaceChange(const QList<QByteArray> &message
 
 bool QConnectivityDaemon::startDhcp(bool renew, const char *interface)
 {
-    if (QT_CONNECTIVITY_DEBUG) qDebug() << "QConnectivityDaemon: startDhcp [ renew"
-                                        << renew << "] " << "interface: " << interface;
+    qDebug() << "QConnectivityDaemon: startDhcp [ renew" << renew << "] "
+             << "interface: " << interface;
     setHostnamePropery(interface);
 
     int result = 0;
@@ -238,8 +247,8 @@ bool QConnectivityDaemon::startDhcp(bool renew, const char *interface)
 
     bool success = (result == 0) ? true : false;
     if (success) {
-        if (QT_CONNECTIVITY_DEBUG) qDebug() << "\nipaddr: " << ipaddr << "\nprefixLength: " << prefixLength
-            << "\ngateway: " << gateway << "\ndns1: " << dns1 << "\ndns2: " << dns2;
+        qDebug() << "\nipaddr: " << ipaddr << "\nprefixLength: " << prefixLength
+                 << "\ngateway: " << gateway << "\ndns1: " << dns1 << "\ndns2: " << dns2;
 
         if (!renew) {
             in_addr _ipaddr, _gateway, _dns1, _dns2;
@@ -285,7 +294,7 @@ bool QConnectivityDaemon::startDhcp(bool renew, const char *interface)
 
 void QConnectivityDaemon::stopDhcp(const char *interface)
 {
-    if (QT_CONNECTIVITY_DEBUG) qDebug() << "QConnectivityDaemon: stopDhcp: " << interface;
+    qDebug() << "QConnectivityDaemon: stopDhcp: " << interface;
     ifc_clear_addresses(interface);
     dhcp_stop(interface);
     if (m_leaseTimer->isActive())
@@ -323,7 +332,7 @@ void QConnectivityDaemon::handleRequest()
     if (requester->canReadLine()) {
         QByteArray request = requester->readLine(requester->bytesAvailable());
 
-        if (QT_CONNECTIVITY_DEBUG) qDebug() << "QConnectivityDaemon: received a request: " << request;
+        qDebug() << "QConnectivityDaemon: received a request: " << request;
         QList<QByteArray> cmd = request.split(' ');
         if (cmd.size() < 2)
             return;
@@ -351,7 +360,7 @@ void QConnectivityDaemon::handleNewConnection()
 
 void QConnectivityDaemon::sendReply(QLocalSocket *requester, const QByteArray &reply) const
 {
-    QByteArray r = reply.left(reply.size());
+    QByteArray r = reply;
     r.append("\n");
     requester->write(r.constData(), r.length());
     requester->flush();
@@ -360,7 +369,7 @@ void QConnectivityDaemon::sendReply(QLocalSocket *requester, const QByteArray &r
 
 void QConnectivityDaemon::updateLease()
 {
-    if (QT_CONNECTIVITY_DEBUG) qDebug() << "QConnectivityDaemon: updating lease";
+    qDebug() << "QConnectivityDaemon: updating lease";
     startDhcp(true, m_leaseTimer->interface().constData());
 }
 
