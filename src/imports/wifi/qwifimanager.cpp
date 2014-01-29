@@ -92,8 +92,6 @@ public:
         if (QT_WIFI_DEBUG) qDebug("EventReceiver thread is running");
         char buffer[2048];
         while (1) {
-            if (m_manager->exiting())
-                return;
             int size = wifi_wait_for_event(m_if.constData(), buffer, sizeof(buffer) - 1);
             if (size > 0) {
                 buffer[size] = 0;
@@ -102,6 +100,8 @@ public:
 
                 char *event = &buffer[11];
                 if (strstr(event, "SCAN-RESULTS")) {
+                    if (m_manager->exitingEventThread())
+                        return;
                     QWifiManagerEvent *e = new QWifiManagerEvent(WIFI_SCAN_RESULTS);
                     QCoreApplication::postEvent(m_manager, e);
                 } else if (strstr(event, "CONNECTED")) {
@@ -125,7 +125,7 @@ QWifiManager::QWifiManager()
     , m_scanTimer(0)
     , m_scanning(false)
     , m_daemonClientSocket(0)
-    , m_exiting(false)
+    , m_exitingEventThread(false)
 {
     char interface[PROPERTY_VALUE_MAX];
     property_get(WIFI_INTERFACE, interface, NULL);
@@ -160,8 +160,14 @@ QWifiManager::QWifiManager()
 
 QWifiManager::~QWifiManager()
 {
-    m_exiting = true;
-    m_eventThread->wait();
+    // exit event thread if it is running
+    if (m_eventThread->isRunning()) {
+        m_exitingEventThread = true;
+        call("SCAN");
+        m_eventThread->wait();
+    }
+    delete m_eventThread;
+    delete m_daemonClientSocket;
 }
 
 void QWifiManager::handleDhcpReply()
@@ -236,13 +242,17 @@ void QWifiManager::connectToBackend()
         return;
     }
     if (QT_WIFI_DEBUG) qDebug("QWifiManager: started successfully");
+    m_exitingEventThread = false;
     m_eventThread->start();
     handleConnected();
 }
 
 void QWifiManager::disconnectFromBackend()
 {
-    m_eventThread->quit();
+    m_exitingEventThread = true;
+    call("SCAN");
+    m_eventThread->wait();
+
     if (wifi_stop_supplicant(0) < 0)
         qWarning("QWifiManager: failed to stop supplicant");
     wifi_close_supplicant_connection(m_interface.constData());

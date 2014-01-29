@@ -56,7 +56,7 @@ public:
     void setScanning(bool scanning);
     NetworkState networkState() const { return m_state; }
     bool isbackendReady() const { return m_backendReady; }
-    bool exiting() const { return m_exiting; }
+    bool exitingEventThread() const { return m_exitingEventThread; }
 
 public slots:
     void start();
@@ -98,7 +98,7 @@ private:
     NetworkState m_state;
     QLocalSocket *m_daemonClientSocket;
     QByteArray m_request;
-    bool m_exiting;
+    bool m_exitingEventThread;
 };
 
 #endif // QWIFIMANAGER_H
