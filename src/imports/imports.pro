@@ -1,3 +1,3 @@
 TEMPLATE = subdirs
 SUBDIRS = utils
-#android:SUBDIRS += wifi
+android:SUBDIRS += wifi
