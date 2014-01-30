@@ -45,7 +45,7 @@
         \list
             \li \l{Preparing Nexus 7}{Nexus 7 (2012) (embedded Android)}
             \li \l{Preparing Sabre Lite i.MX 6}{Sabre Lite i.MX 6 (embedded Android and Linux)}
-            \li \l{Preparing BeagleBoard-xM}{BeagleBoard-xM (embedded Android and Linux)}
+            \li \l{Preparing BeagleBoard-xM}{BeagleBoard-xM (embedded Linux)}
             \li \l{Preparing Raspberry Pi}{Raspberry Pi Model B (embedded Linux)}
         \endlist
         \li \l{Building and Running an Example}
@@ -278,7 +278,7 @@
     \list
         \li \l{Nexus 7 (2012) (embedded Android)}
         \li \l{Sabre Lite i.MX 6 (embedded Android and Linux)}
-        \li \l{BeagleBoard-xM (embedded Android and Linux)}
+        \li \l{BeagleBoard-xM (embedded Linux)}
         \li \l{Raspberry Pi Model B (embedded Linux)}
     \endlist
 
@@ -406,7 +406,7 @@
 */
 
 /*!
-    \target BeagleBoard-xM (embedded Android and Linux)
+    \target BeagleBoard-xM (embedded Linux)
     \page qtee-preparing-hardware-beagleboard.html
     \title Preparing BeagleBoard-xM
     \previouspage qtee-installation-guide.html
@@ -419,35 +419,23 @@
     \note It is important that you repeat the steps in this section after you
     update \SDK.
 
-    The images containing \B2Q stack for BeagleBoard-xM are included in \SDK,
+    The image containing \B2Q stack for BeagleBoard-xM are included in \SDK,
     ready to be copied to an SD card.
 
     \section1 Preparing an SD Card
 
-    For \B2QA, an SD card of at least 2 GB capacity is needed. For \B2QL,
-    a card of at least 512 MB capacity is sufficient.
+    An SD card of at least 512 MB capacity is needed.
 
     \include detect-sd-card-device-name.qdocinc instructions
 
     \section1 Installing the \B2Q Image
 
-    The commands used in this step vary depending on whether you are developing
-    for embedded Android or embedded Linux.
-
     To write the image to the SD card:
 
-    \list
-        \li \b{\B2QA}
-        \code
-            cd <INSTALL_DIR>
-            sudo dd if=Boot2Qt-2.x/beagleboard-eAndroid/images/sdcard.img of=/dev/<device_name> bs=1M
-        \endcode
-        \li \b{\B2QL}
-        \code
-            cd <INSTALL_DIR>
-            sudo Boot2Qt-2.x/beagleboard-eLinux/images/deploy.sh /dev/<device_name>
-        \endcode
-    \endlist
+    \code
+        cd <INSTALL_DIR>
+        sudo Boot2Qt-2.x/beagleboard-eLinux/images/deploy.sh /dev/<device_name>
+    \endcode
 
     After the image has been deployed, power on the device and check that
     the \B2Q welcome screen and/or demo appear.
