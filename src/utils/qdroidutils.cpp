@@ -229,22 +229,22 @@ bool QDroidUtils::setDisplayBrightness(quint8 value)
 
 
 /*!
- * Gets the current IP address of the device
+ * Gets the current IP address(es) of the device
  */
 QString QDroidUtils::getIPAddress()
 {
-    QString address;
+    QStringList addresses;
 #ifdef Q_OS_ANDROID_NO_SDK
     qDebug("QDroidUtils::getIPAddress()");
 #else
     QNetworkInterface interface = QNetworkInterface::interfaceFromName("eth0");
     QList<QNetworkAddressEntry> entries;
     entries = interface.addressEntries();
-    if ( !entries.empty() ) {
-        address = entries.first().ip().toString();
+    foreach (const QNetworkAddressEntry &entry, entries) {
+        addresses.append(entry.ip().toString().split('%').first());
     }
 #endif
-    return address;
+    return addresses.join(QStringLiteral(", "));
 }
 
 /*!
