@@ -1,5 +1,5 @@
 CXX_MODULE = qml
-QT += qml quick
+QT += qml quick network
 TARGET = qwifimodule
 TARGETPATH = Qt/labs/wifi
 IMPORT_VERSION = 0.1

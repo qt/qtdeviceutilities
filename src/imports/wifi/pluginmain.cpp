@@ -21,6 +21,36 @@
 #include <QtQml/QQmlExtensionPlugin>
 #include <QtQml/qqml.h>
 
+#include <QtCore/QDir>
+#include <QtCore/QByteArray>
+
+class QWifiGlobal : public QObject
+{
+    Q_OBJECT
+public:
+    explicit QWifiGlobal(QObject *parent = 0)
+        : QObject(parent) {}
+    ~QWifiGlobal() {}
+
+    Q_INVOKABLE bool wifiSupported() const
+    {
+        char interface[PROPERTY_VALUE_MAX];
+        property_get("wifi.interface", interface, NULL);
+        // standard linux kernel path
+        QByteArray path;
+        path.append("/sys/class/net/").append(interface);
+        bool interfaceFound = QDir().exists(path.constData());
+        if (!interfaceFound)
+            qWarning() << "QWifiGlobal: could not find wifi interface in " << path;
+        return interfaceFound;
+    }
+};
+
+static QObject *global_object_wifi(QQmlEngine *, QJSEngine *)
+{
+    return new QWifiGlobal;
+}
+
 class QWifiPlugin : public QQmlExtensionPlugin
 {
     Q_OBJECT
@@ -31,11 +61,10 @@ public:
     {
         Q_ASSERT(QLatin1String(uri) == QLatin1String("Qt.labs.wifi"));
 
-        qmlRegisterType<QWifiManager>(uri, 0, 1, "QWifiManager");
+        qmlRegisterType<QWifiManager>(uri, 0, 1, "WifiManager");
         qmlRegisterType<QWifiNetworkList>();
+        qmlRegisterSingletonType<QWifiGlobal>(uri, 0, 1, "Interface", global_object_wifi);
     }
 };
 
 #include "pluginmain.moc"
-
-

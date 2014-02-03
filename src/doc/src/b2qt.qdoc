@@ -45,7 +45,7 @@
         \list
             \li \l{Preparing Nexus 7}{Nexus 7 (2012) (embedded Android)}
             \li \l{Preparing Sabre Lite i.MX 6}{Sabre Lite i.MX 6 (embedded Android and Linux)}
-            \li \l{Preparing BeagleBoard-xM}{BeagleBoard-xM (embedded Android and Linux)}
+            \li \l{Preparing BeagleBoard-xM}{BeagleBoard-xM (embedded Linux)}
             \li \l{Preparing Raspberry Pi}{Raspberry Pi Model B (embedded Linux)}
         \endlist
         \li \l{Building and Running an Example}
@@ -101,11 +101,10 @@
 
         \li \b{\B2QL} where the software stack is using the traditional embedded
             Linux kernel built with the Yocto Poky reference system (Yocto 1.4
-            \e Dylan release). Because of its Yocto compliance, the Embedded
-            Linux variant is designed for great customization possibilities.
-            It contains only components required in the embedded device,
-            resulting in smaller image sizes while keeping valuable development
-            tools available.
+            \e Dylan release). The Embedded Linux variant is designed for great
+            customization possibilities. It contains only components required in
+            the embedded device, resulting in smaller image sizes while keeping
+            valuable development tools available.
     \endlist
 
     Both versions have been tested and verified on a number of different
@@ -215,6 +214,10 @@
         \endlist
     \endlist
 
+    If a firewall is enabled on the development host, it needs to
+    allow TCP and UDP packets between your host and the virtual
+    machine.
+
     \section1 3. Installing \SDK
 
     \list 1
@@ -274,7 +277,7 @@
     \list
         \li \l{Nexus 7 (2012) (embedded Android)}
         \li \l{Sabre Lite i.MX 6 (embedded Android and Linux)}
-        \li \l{BeagleBoard-xM (embedded Android and Linux)}
+        \li \l{BeagleBoard-xM (embedded Linux)}
         \li \l{Raspberry Pi Model B (embedded Linux)}
     \endlist
 
@@ -331,9 +334,9 @@
 
     \code
         cd <INSTALL_DIR>
-        sudo ./Tools/b2qt/fastboot flash boot Boot2Qt-1.0/nexus7-eAndroid/images/boot.img
-        sudo ./Tools/b2qt/fastboot flash system Boot2Qt-1.0/nexus7-eAndroid/images/system.img
-        sudo ./Tools/b2qt/fastboot flash userdata Boot2Qt-1.0/nexus7-eAndroid/images/data.img
+        sudo ./Tools/b2qt/fastboot flash boot Boot2Qt-2.x/nexus7-eAndroid/images/boot.img
+        sudo ./Tools/b2qt/fastboot flash system Boot2Qt-2.x/nexus7-eAndroid/images/system.img
+        sudo ./Tools/b2qt/fastboot flash userdata Boot2Qt-2.x/nexus7-eAndroid/images/data.img
     \endcode
 
     \li Once the flashing is completed successfully, reboot the device:
@@ -355,7 +358,7 @@
     {https://developers.google.com/android/nexus/drivers#grouperjdq39}
     \code
         cd <INSTALL_DIR>
-        ./Boot2Qt-1.0/nexus7-eAndroid/images/download.sh
+        ./Boot2Qt-2.x/nexus7-eAndroid/images/download.sh
     \endcode
 
     \note Only the version "Android 4.2.2 (JDQ39 to JDQ39E)" works with the
@@ -368,7 +371,7 @@
             Also check that the device is \e{not} in fastboot mode.
         \li Run the driver extractors:
         \code
-            cd Boot2Qt-1.0/nexus7-eAndroid/images/drivers
+            cd Boot2Qt-2.x/nexus7-eAndroid/images/drivers
             ./extract-nvidia-grouper.sh
             ./extract-asus-grouper.sh
             ./extract-invensense-grouper.sh
@@ -382,7 +385,7 @@
         \endcode
         \li Deploy the drivers to your device:
         \code
-            ./Boot2Qt-1.0/nexus7-eAndroid/images/deploy.sh <serial_number>
+            ./Boot2Qt-2.x/nexus7-eAndroid/images/deploy.sh <serial_number>
         \endcode
     \endlist
 
@@ -402,7 +405,7 @@
 */
 
 /*!
-    \target BeagleBoard-xM (embedded Android and Linux)
+    \target BeagleBoard-xM (embedded Linux)
     \page qtee-preparing-hardware-beagleboard.html
     \title Preparing BeagleBoard-xM
     \previouspage qtee-installation-guide.html
@@ -415,35 +418,23 @@
     \note It is important that you repeat the steps in this section after you
     update \SDK.
 
-    The images containing \B2Q stack for BeagleBoard-xM are included in \SDK,
+    The image containing \B2Q stack for BeagleBoard-xM are included in \SDK,
     ready to be copied to an SD card.
 
     \section1 Preparing an SD Card
 
-    For \B2QA, an SD card of at least 2 GB capacity is needed. For \B2QL,
-    a card of at least 512 MB capacity is sufficient.
+    An SD card of at least 512 MB capacity is needed.
 
     \include detect-sd-card-device-name.qdocinc instructions
 
     \section1 Installing the \B2Q Image
 
-    The commands used in this step vary depending on whether you are developing
-    for embedded Android or embedded Linux.
-
     To write the image to the SD card:
 
-    \list
-        \li \b{\B2QA}
-        \code
-            cd <INSTALL_DIR>
-            sudo dd if=Boot2Qt-1.0/beagleboard-eAndroid/images/sdcard.img of=/dev/<device_name> bs=1M
-        \endcode
-        \li \b{\B2QL}
-        \code
-            cd <INSTALL_DIR>
-            sudo Boot2Qt-1.0/beagleboard-eLinux/images/deploy.sh /dev/<device_name>
-        \endcode
-    \endlist
+    \code
+        cd <INSTALL_DIR>
+        sudo Boot2Qt-2.x/beagleboard-eLinux/images/deploy.sh /dev/<device_name>
+    \endcode
 
     After the image has been deployed, power on the device and check that
     the \B2Q welcome screen and/or demo appear.
@@ -524,12 +515,12 @@
         \li \b{\B2QA}
         \code
             cd <INSTALL_DIR>
-            Boot2Qt-1.0/iMX6-eAndroid/images/deploy.sh /dev/<device_name>
+            Boot2Qt-2.x/iMX6-eAndroid/images/deploy.sh /dev/<device_name>
         \endcode
         \li \b{\B2QL}
         \code
             cd <INSTALL_DIR>
-            Boot2Qt-1.0/iMX6-eLinux/images/deploy.sh /dev/<device_name>
+            Boot2Qt-2.x/iMX6-eLinux/images/deploy.sh /dev/<device_name>
         \endcode
     \endlist
 
@@ -581,7 +572,7 @@
 
     \code
         cd <INSTALL_DIR>
-        sudo Boot2Qt-1.0/raspberrypi-eLinux/images/deploy.sh /dev/<device_name>
+        sudo Boot2Qt-2.x/raspberrypi-eLinux/images/deploy.sh /dev/<device_name>
     \endcode
 
     After the image has been deployed, power on the device and check that
@@ -609,8 +600,9 @@
         \li Make sure that your device is powered on and connected to the
             development host.
         \li In Qt Creator, select \b{File > New File or Project} >
-            \b Applications > \b{Qt Quick 2 Application (Built-in Types)} >
-            \b{Choose}.
+            \b Applications > \b{Qt Quick 2 Application } > \b{Choose}.
+        \li Choose a location for your new project.
+        \li In the \b{Qt Quick Component Set} dialog, select \b{Qt Quick 2.0}.
         \li In the \b{Kit Selection} dialog, select the kits for your
             devices. You can also select the emulator kit to test running the
             project in the emulator.
