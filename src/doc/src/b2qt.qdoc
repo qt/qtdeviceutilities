@@ -493,7 +493,7 @@
         \code
         ~/$ mkdir bd-android
         ~/$ cd bd-android
-        ~/bd-android$ sudo tar zxvf ~/Downloads/imx6-jb-20130628.tar.gz
+        ~/bd-android$ tar zxvf ~/Downloads/imx6-jb-20130628.tar.gz
         \endcode
         \li Run device/boundary/mksdcard.sh:
         \code
