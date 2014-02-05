@@ -101,8 +101,8 @@
             forefront.
 
         \li \b{\B2QL} where the software stack is using the traditional embedded
-            Linux kernel built with the Yocto Poky reference system (Yocto 1.4
-            \e Dylan release). The Embedded Linux variant is designed for great
+            Linux kernel built with the Yocto Poky reference system (Yocto 1.5
+            \e Dora release). The Embedded Linux variant is designed for great
             customization possibilities. It contains only components required in
             the embedded device, resulting in smaller image sizes while keeping
             valuable development tools available.
