@@ -51,6 +51,7 @@
         \endlist
         \li \l{Building and Running an Example}
         \li \l{Customization}
+        \li \l{ChangeLog}
         \li \l{Troubleshooting}
         \li \l{License Information}
     \endlist
@@ -722,7 +723,7 @@
     \page qtee-customization.html
     \title Customization
     \previouspage qtee-building-and-running.html
-    \nextpage qtee-troubleshooting.html
+    \nextpage qtee-changelog.html
 
     \section1 Environment and Input
 
@@ -816,7 +817,7 @@
     \page qtee-supported-platforms.html
     \title Supported Platforms
     \previouspage qtee-installation-guide.html
-    \nextpage qtee-preparing-hardware.html
+    \nextpage qtee-changelog.html
 
     \section1 Supported Target Devices
 
@@ -890,9 +891,86 @@
 */
 
 /*!
+    \page qtee-changelog.html
+    \title ChangeLog
+    \previouspage qtee-customization.html
+    \nextpage qtee-troubleshooting.html
+
+    \section1 \B2Q 2.0.0
+
+    \list
+        \li Release date: February 2014
+    \endlist
+
+    \section2 Changes
+    \b {New Features}:
+    \list
+        \li \B2Q stack was updated to use Qt 5.2.1 on embedded Android and Linux
+        \li Building your own \B2Q embedded Linux stack was enabled
+        \li Emulator graphics performance and quality was improved (GL-streaming)
+        \li BeagleBone Black was added as a reference device
+        \li \l {Qt Virtual Keyboard} was integrated into \B2Q
+        \li \l {Qt Quick Enterprise Controls} was added to the \B2Q stack
+        \li \l {Qt Charts} was added to the \B2Q stack
+        \li \B2Q source code was made available via online installer
+        \li WiFi networking support/configuration were implemented on embedded Android
+        \li Ethernet connectivity was enabled on embedded Android
+    \endlist
+
+    \b {Improvements}:
+    \list
+        \li Updated GDB for embedded Android toolchain
+        \li Enterprise demos (Charts, Enterprise Controls) were added
+        \li Embedded Linux: Moved to use Yocto 1.5 (Dora)
+        \li Demos available as examples in Qt Creator
+        \li Embedded Android emulator updated to Android 4.2.2
+    \endlist
+
+    \b {Fixed Bugs}:
+    \list
+        \li Embedded Android emulator: Missing Mesa headers
+        \li Embedded Linux emulator: Black screen in camera demo
+        \li Emulator tries to load host plugins
+        \li Sensors not working in emulators
+        \li Empty \c HOME environment variable in processes launched by appcontroller
+        \li Black screen after exiting the last Qt application on Nexus 7
+        \li Embedded Android emulator: C++ debugging fails
+        \li Qt add-ons not installed to host
+    \endlist
+
+    \b {Fixed Known Issues}:
+    \list
+        \li Qt SQL: QML LocalStorage Fails to Connect to Database on Embedded Android
+        \li Qt XML Patterns: Module not Available on embedded Android
+        \li Qt Multimedia: Audio is Muted on Nexus 7
+        \li Unnecessary Warnings Displayed by the Installer
+        \li Virtual Keyboard: Backspace Removes Two Characters
+    \endlist
+
+    \section1 \B2Q 1.0.1
+
+    \list
+        \li Release date: Dec. 5, 2013
+    \endlist
+
+    \section2 Changes
+    \list
+        \li Emulator: Remote control widget version shown together with emulator version
+        \li Emulator: Mouse events are sent instead of touch events
+        \li Emulator: Raster window support added
+        \li Emulator: emulatorproxyd shows its version on startup
+        \li Emulator: Detect some network problems
+        \li Emulator: Fixed issues related to startup
+        \li Emulator: Updated source code license headers
+        \li Emulator: Show all VirtualBox errors
+        \li Emulator: Video playback support on embedded Linux
+    \endlist
+*/
+
+/*!
     \page qtee-troubleshooting.html
     \title Troubleshooting
-    \previouspage qtee-customization.html
+    \previouspage qtee-changelog.html
     \nextpage qtee-licenses.html
 
     \note An updated version of this information may be available in Digia customer portal,
