@@ -87,8 +87,8 @@
 
     \e{\b{\B2Q}} is a light-weight, Qt-optimized, full software stack for
     embedded systems that is installed into the actual target device. This is
-    done by flashing the device’s memory card or device's internal memory
-    directly with a pre-built image that comes with the development environment.
+    done by flashing the device's memory card or internal memory directly with a
+    pre-built image that comes with the development environment.
 
     \B2Q supports two different operating systems:
 
@@ -162,8 +162,7 @@
     this section and perform all the described tasks.
 
     In case of problems, see the \l{Troubleshooting} information and the
-    \e {Known Issues} on the Qt Enterprise Embedded product page in the Digia customer
-    portal.
+    \l {Known Issues} in \SDK \l {product page}.
 
     \target Requirements for Development Host
     \section1 Requirements for Development Host
@@ -859,7 +858,7 @@
 
     \SDK is licensed under the Qt Enterprise commercial license. For more information,
     see \l {http://qt.digia.com/licensing}. Evaluation licenses are also available,
-    see \l {http://qt.digia.com/Products/Qt-Enterprise-Embedded}.
+    see \l {product page}{\SDK} on qt.digia.com.
 
     \section1 3rd Party Software Licenses
 
@@ -880,8 +879,8 @@
     \previouspage qtee-customization.html
     \nextpage qtee-licenses.html
 
-    \note An updated version of this information may be available in the Digia
-    customer portal, in the \e{Known Issues} section on the \SDK product page.
+    \note An updated version of this information may be available in Digia customer portal,
+    see \l {Known Issues} in \SDK \l {product page}.
 
     \section1 General Issues
 
