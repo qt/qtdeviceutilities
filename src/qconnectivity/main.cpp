@@ -76,6 +76,7 @@ protected slots:
     void sendReply(QLocalSocket *requester, const QByteArray &reply) const;
     void updateLease();
     void handleError(QLocalSocket::LocalSocketError /*socketError*/) const;
+    bool isEmulator() const;
 
 private:
     friend class LeaseTimer;
@@ -118,22 +119,41 @@ QConnectivityDaemon::QConnectivityDaemon()
     : m_netdSocket(0), m_serverSocket(0), m_linkUp(false), m_leaseTimer(0)
 {
     qDebug() << "starting QConnectivityDaemon...";
-
-    initNetdConnection();
-    m_leaseTimer = new LeaseTimer(this);
-    m_leaseTimer->setSingleShot(true);
-    connect(m_leaseTimer, SIGNAL(timeout()), this, SLOT(updateLease()));
-
-    int serverFd = socket_local_server("qconnectivity", ANDROID_SOCKET_NAMESPACE_RESERVED, SOCK_STREAM);
-    if (serverFd != -1) {
-        m_serverSocket = new QLocalServer(this);
-        if (m_serverSocket->listen(serverFd))
-            connect(m_serverSocket, SIGNAL(newConnection()), this, SLOT(handleNewConnection()));
-        else
-            qWarning() << "QConnectivityDaemon: not able to listen on the server socket...";
+    if (isEmulator()) {
+        // ### TODO - init Internet setup on emulator
     } else {
-        qWarning() << "QConnectivityDaemon: failed to open qconnectivity server socket";
+        initNetdConnection();
+        m_leaseTimer = new LeaseTimer(this);
+        m_leaseTimer->setSingleShot(true);
+        connect(m_leaseTimer, SIGNAL(timeout()), this, SLOT(updateLease()));
+
+        int serverFd = socket_local_server("qconnectivity", ANDROID_SOCKET_NAMESPACE_RESERVED, SOCK_STREAM);
+        if (serverFd != -1) {
+            m_serverSocket = new QLocalServer(this);
+            if (m_serverSocket->listen(serverFd))
+                connect(m_serverSocket, SIGNAL(newConnection()), this, SLOT(handleNewConnection()));
+            else
+                qWarning() << "QConnectivityDaemon: not able to listen on the server socket...";
+        } else {
+            qWarning() << "QConnectivityDaemon: failed to open qconnectivity server socket";
+        }
     }
+}
+
+bool QConnectivityDaemon::isEmulator() const
+{
+    bool isEmulator = false;
+    QString content;
+    QFile conf("/system/bin/appcontroller.conf");
+    if (conf.open(QIODevice::ReadOnly)) {
+        QTextStream stream(&conf);
+        content = stream.readAll();
+        isEmulator = content.contains("platform=emulator");
+    } else {
+        qWarning() << "Failed to read appcontroller.conf";
+    }
+    conf.close();
+    return isEmulator;
 }
 
 void QConnectivityDaemon::initNetdConnection()
