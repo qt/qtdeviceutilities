@@ -933,7 +933,6 @@
         \li Emulator tries to load host plugins
         \li Sensors not working in emulators
         \li Empty \c HOME environment variable in processes launched by appcontroller
-        \li Black screen after exiting the last Qt application on Nexus 7
         \li Embedded Android emulator: C++ debugging fails
         \li Qt add-ons not installed to host
     \endlist
