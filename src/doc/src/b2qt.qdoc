@@ -811,6 +811,72 @@
         }
     }
     \endcode
+
+    \section1 Building Your Own Embedded Linux Image
+
+    \B2QL is built using the tools and resources from the \l {Yocto Project},
+    and is based on Yocto's reference distribution (\e Poky). You can
+    use the same tools to build custom \B2Q images, and have control over
+    which packages are included in the build and how the software stack
+    is configured.
+
+    \section2 Requirements
+
+    You should be familiar with the Yocto tools and the concept of
+    \e {recipes}. For more information, see Yocto Project
+    \l{https://www.yoctoproject.org/documentation/current}{documentation}.
+
+    To get started, you need the following:
+
+    \list
+        \li Install the \B2Q \e source packages. You can
+            find these by running the \e MaintenanceTool application
+            located in the \SDK installation directory and selecting
+            \e {Package Manager}. The \e {Yocto meta layer} package
+            contains the additional recipes required to make the image
+            compatible with \B2Q.
+        \li Install the dependencies for the Yocto tools. In Ubuntu,
+            the following packages are required:
+    \code
+    sudo apt-get install gawk wget git-core diffstat unzip texinfo gcc-multilib \
+    build-essential chrpath libsdl1.2-dev xterm
+    \endcode
+    \endlist
+
+    \section2 Setting Up Yocto Build Environment
+
+    Run the setup script that initializes the Yocto environment:
+
+    \code
+    cd <your/yocto/build/directory>
+    <INSTALL_DIR>/Boot2Qt-2.x/sources/b2qt-yocto-meta/scripts/b2qt-init-build-env .
+    \endcode
+
+    \section2 Building the Image and Toolchain
+
+    After the Yocto environment is set up, you need to configure the
+    build environment for your target device. Using Raspberry Pi as
+    an example:
+
+    \code
+    export TEMPLATECONF=meta-b2qt/conf
+    export MACHINE=raspberrypi
+    source poky/oe-init-build-env build-raspberrypi
+    \endcode
+
+    Yocto recipes for \B2QL have two main targets to build: The target image,
+    and the external toolchain that is used for building the Qt framework and
+    applications.
+
+    \code
+    bitbake b2qt-embedded-image
+    bitbake meta-toolchain-b2qt-embedded-sdk
+    \endcode
+
+    \note The generated target image does not yet include Qt libraries,
+    you need to build Qt and add it into the image yourself. The
+    file \c {embedded-linux/build_qt.sh} from the \e {Build scripts} source
+    package can be used as reference on how to configure and build Qt.
 */
 
 /*!
