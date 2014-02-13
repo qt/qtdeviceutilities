@@ -681,7 +681,7 @@
         \li Make sure that your device is powered on and connected to the
             development host.
         \li In Qt Creator, select \b{File > New File or Project} >
-            \b Applications > \b{Qt Quick 2 Application } > \b{Choose}.
+            \b Applications > \b{Qt Quick Application} > \b{Choose}.
         \li Choose a location for your new project.
         \li In the \b{Qt Quick Component Set} dialog, select \b{Qt Quick 2.0}.
         \li In the \b{Kit Selection} dialog, select the kits for your
@@ -690,6 +690,19 @@
         \li Click \b{Next} and finish the wizard.
         \li In \b{Projects > Build & Run}, select the correct kit for your
             connected device.
+        \li To build and run the project, click \inlineimage qtcreator-run.png
+    \endlist
+
+    \section1 Building and Running \B2Q Demos
+
+    You can find the \B2Q demo applications in Qt Creator.
+
+    \list 1
+        \li Go to \b Welcome > \b Examples.
+        \li Select a \e Boot2Qt Qt version from the drop-down list.
+        \li Select a demo you want to build.
+        \li In \b{Projects > Build & Run}, select the correct kit for your
+            connected device or emulator.
         \li To build and run the project, click \inlineimage qtcreator-run.png
     \endlist
 
