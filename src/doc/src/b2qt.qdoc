@@ -1105,6 +1105,16 @@
     Alternatively, press and hold the power button for 10
     seconds. This will force a reboot.
 
+    \section2 How do I get HDMI output working properly on BeagleBone Black?
+
+    Depending on the HDMI monitor, the cable, and the build variant of
+    the BeagleBone Black device, it may not be able to drive an HDMI display in a
+    stable way; the image may disappear or stutter. These issues are not caused by
+    the \B2Q stack.
+
+    More details and possible solutions can be found
+    \l {http://www.elinux.org/Beagleboard:BeagleBoneBlack_HDMI}{here}.
+
     \section2 Trying to build for the emulator target fails with error message \e{make: i686-android-linux-g++: Command not found}
 
     You need to install support libraries in order to run 32-bit programs in a
