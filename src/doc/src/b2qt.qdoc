@@ -825,6 +825,23 @@
     }
     \endcode
 
+    \section1 Disabling Screen Composer on Embedded Android
+
+    By default, the \B2Q stack uses Android's screen composer, \e
+    Surfaceflinger. It is required for Qt Multimedia functionality,
+    i.e. video playback and camera. If that functionality is not
+    required, Surfaceflinger may be disabled. This can in some
+    situations improve performance.
+
+    \list 1
+      \li Edit \c {/system/bin/appcontroller.conf} to set the value of
+      the environment variable \c QT_QPA_EGLFS_NO_SURFACEFLINGER to \c
+      1 instead of \c 0.
+      \li Disable the startup of \c surfaceflinger at boot-up. Either
+      change \c /init.rc, or simply rename the \c
+      {/system/bin/surfaceflinger} executable.
+    \endlist
+
     \section1 Building Your Own Embedded Linux Image
 
     \B2QL is built using the tools and resources from the \l {Yocto Project},
