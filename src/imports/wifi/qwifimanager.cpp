@@ -142,19 +142,19 @@ QWifiManager::QWifiManager()
     } else {
         qWarning() << "QWifiManager: failed to connect to qconnectivity socket";
     }
-
     // check if backend has already been initialized
     char backend_status[PROPERTY_VALUE_MAX];
-    if (property_get(QT_WIFI_BACKEND, backend_status, NULL)
-            && strcmp(backend_status, "running") == 0) {
-        // let it re-connect, in most cases this will see that everything is working properly
-        // and will do nothing. Special case is when process has crashed or was killed by a system
-        // signal in previous execution, which results in broken connection to a supplicant,
-        // connectToBackend will fix it..
-        connectToBackend();
-    } else {
-        // same here, cleans up the state
-        disconnectFromBackend();
+    if (property_get(QT_WIFI_BACKEND, backend_status, NULL)) {
+        if (strcmp(backend_status, "running") == 0) {
+            // let it re-connect, in most cases this will see that everything is working properly
+            // and will do nothing. Special case is when process has crashed or was killed by a system
+            // signal in previous execution, which results in broken connection to a supplicant,
+            // connectToBackend will fix it..
+            connectToBackend();
+        } else if (strcmp(backend_status, "stopped") == 0) {
+            // same here, cleans up the state
+            disconnectFromBackend();
+        }
     }
 }
 
