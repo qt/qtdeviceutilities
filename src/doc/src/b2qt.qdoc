@@ -190,10 +190,21 @@
 
     The \B2Q emulator in \SDK relies on VirtualBox virtualization software. You can
     download it from \l{https://www.virtualbox.org/wiki/Linux_Downloads} or
-    install it from the command line with the following command:
+    install it via distribution tools.
+
+    If you have older Ubuntu versions such as 12.04 you have to install a newer
+    version of VirtualBox than your distribution does provide.
+    You have to add a foreign package source:
 
     \code
-        sudo apt-get install virtualbox
+        wget -q http://download.virtualbox.org/virtualbox/debian/oracle_vbox.asc -O- | sudo apt-key add -
+        echo "deb http://download.virtualbox.org/virtualbox/debian $(lsb_release -sc) contrib" | sudo tee /etc/apt/sources.list.d/virtualbox.list
+        sudo apt-get update
+    \endcode
+
+    Now install VirtualBox on your computer
+    \code
+        sudo apt-get install virtualbox-4.3
     \endcode
 
     To configure VirtualBox:
