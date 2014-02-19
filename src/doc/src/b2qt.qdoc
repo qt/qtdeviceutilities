@@ -915,9 +915,35 @@
     \endcode
 
     \note The generated target image does not yet include Qt libraries,
-    you need to build Qt and add it into the image yourself. The
-    file \c {embedded-linux/build_qt.sh} from the \e {Build scripts} source
-    package can be used as reference on how to configure and build Qt.
+    you need to build Qt and add it into the image yourself.
+
+    \section2 Building Qt and addons
+
+    \e {Build scripts} source package contains scripts that can be used to
+    build Qt and all additional Qt addons that are part of \B2QL image.
+    To setup build environment for your target hardware, create new build
+    directory and run the initialization script. Using Raspberry Pi as
+    an example:
+
+    \code
+    cd <your/qt/build/directory>
+    <INSTALL_DIR>/Boot2Qt-2.x/sources/b2qt-build-scripts/embedded-common/init_build_env.sh \
+    <INSTALL_DIR>/Boot2Qt-2.x/sources/b2qt-build-scripts/embedded-linux/config.raspberrypi
+    \endcode
+
+    You can use following scripts to build different parts of the \B2Q stack.
+
+    \code
+    <INSTALL_DIR>/Boot2Qt-2.x/sources/b2qt-build-scripts/embedded-linux/build_qt.sh \
+    <INSTALL_DIR>/Boot2Qt-2.x/sources/b2qt-build-scripts/embedded-linux/config.raspberrypi
+    <INSTALL_DIR>/Boot2Qt-2.x/sources/b2qt-build-scripts/embedded-linux/build_extras.sh \
+    <INSTALL_DIR>/Boot2Qt-2.x/sources/b2qt-build-scripts/embedded-linux/config.raspberrypi
+    <INSTALL_DIR>/Boot2Qt-2.x/sources/b2qt-build-scripts/embedded-linux/build_image.sh \
+    <INSTALL_DIR>/Boot2Qt-2.x/sources/b2qt-build-scripts/embedded-linux/config.raspberrypi
+    \endcode
+
+    After \e {embedded-linux/build_image.sh} has finished, you can flash the devices with
+    the updated image located in the build folder.
 */
 
 /*!
