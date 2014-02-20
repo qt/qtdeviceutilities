@@ -534,12 +534,12 @@
         \li \b{\B2QA}
         \code
             cd <INSTALL_DIR>
-            Boot2Qt-2.x/iMX6-eAndroid/images/deploy.sh /dev/<device_name>
+            ./Boot2Qt-2.x/iMX6-eAndroid/images/deploy.sh /dev/<device_name>
         \endcode
         \li \b{\B2QL}
         \code
             cd <INSTALL_DIR>
-            Boot2Qt-2.x/iMX6-eLinux/images/deploy.sh /dev/<device_name>
+            sudo ./Boot2Qt-2.x/iMX6-eLinux/images/deploy.sh /dev/<device_name>
         \endcode
     \endlist
 
