@@ -1,3 +1,21 @@
+/****************************************************************************
+**
+** Copyright (C) 2014 Digia Plc
+** All rights reserved.
+** For any questions to Digia, please use the contact form at
+** http://qt.digia.com/
+**
+** This file is part of Qt Enterprise Embedded.
+**
+** Licensees holding valid Qt Enterprise licenses may use this file in
+** accordance with the Qt Enterprise License Agreement provided with the
+** Software or, alternatively, in accordance with the terms contained in
+** a written agreement between you and Digia.
+**
+** If you have questions regarding the use of this file, please use
+** the contact form at http://qt.digia.com/
+**
+****************************************************************************/
 #ifndef QWIFINETWORKLIST_H
 #define QWIFINETWORKLIST_H
 
@@ -18,7 +36,7 @@ public:
 
     void parseScanResults(const QByteArray &data);
 
-    QWifiNetwork *networkForBSSID(const QByteArray &bssid, int *pos);
+    QWifiNetwork *networkForSSID(const QByteArray &ssid, int *pos);
 
     int rowCount(const QModelIndex &) const { return m_networks.size(); }
     QVariant data(const QModelIndex &index, int role) const;

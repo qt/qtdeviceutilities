@@ -1,0 +1,48 @@
+/****************************************************************************
+**
+** Copyright (C) 2014 Digia Plc
+** All rights reserved.
+** For any questions to Digia, please use the contact form at
+** http://qt.digia.com/
+**
+** This file is part of Qt Enterprise Embedded.
+**
+** Licensees holding valid Qt Enterprise licenses may use this file in
+** accordance with the Qt Enterprise License Agreement provided with the
+** Software or, alternatively, in accordance with the terms contained in
+** a written agreement between you and Digia.
+**
+** If you have questions regarding the use of this file, please use
+** the contact form at http://qt.digia.com/
+**
+****************************************************************************/
+
+/*!
+    \externalpage http://qt.digia.com/Product/Qt-for-Embedded-Development/Qt-Enterprise-Embedded/Supported-Modules-and-Known-Issues/
+    \title Known Issues
+*/
+
+/*!
+    \externalpage http://qt.digia.com/Product/Qt-for-Embedded-Development/Qt-Enterprise-Embedded/
+    \title product page
+*/
+
+/*!
+    \externalpage http://qt.digia.com/Product/Qt-Enterprise-Features/Qt-Quick-Enterprise-Controls/
+    \title Qt Quick Enterprise Controls
+*/
+
+/*!
+    \externalpage http://qt.digia.com/Product/Qt-Enterprise-Features/Qt-Virtual-Keyboard/
+    \title Qt Virtual Keyboard
+*/
+
+/*!
+    \externalpage http://qt.digia.com/Product/Qt-Enterprise-Features/Charts/
+    \title Qt Charts
+*/
+
+/*!
+    \externalpage https://www.yoctoproject.org/
+    \title Yocto Project
+*/

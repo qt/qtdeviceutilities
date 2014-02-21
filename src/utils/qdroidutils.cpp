@@ -1,15 +1,34 @@
+/****************************************************************************
+**
+** Copyright (C) 2014 Digia Plc
+** All rights reserved.
+** For any questions to Digia, please use the contact form at
+** http://qt.digia.com/
+**
+** This file is part of Qt Enterprise Embedded.
+**
+** Licensees holding valid Qt Enterprise licenses may use this file in
+** accordance with the Qt Enterprise License Agreement provided with the
+** Software or, alternatively, in accordance with the terms contained in
+** a written agreement between you and Digia.
+**
+** If you have questions regarding the use of this file, please use
+** the contact form at http://qt.digia.com/
+**
+****************************************************************************/
 #include "qdroidutils.h"
 #include <unistd.h>
-
-#ifdef Q_OS_ANDROID_NO_SDK
-#include <cutils/android_reboot.h>
-#include <hardware/lights.h>
-#include <media/AudioSystem.h>
-#else
+#include <QDebug>
+#include <math.h>
 #include <sys/reboot.h>
 #include <QNetworkInterface>
 #include <QHostInfo>
 #include <QFile>
+
+#ifdef Q_OS_ANDROID_NO_SDK
+#include <cutils/properties.h>
+#include <hardware/lights.h>
+#include <media/AudioSystem.h>
 #endif
 
 /*!
@@ -20,11 +39,7 @@
 void QDroidUtils::rebootSystem()
 {
     sync();
-#ifdef Q_OS_ANDROID_NO_SDK
-    (void)android_reboot(ANDROID_RB_RESTART, 0, 0);
-#else
     reboot(RB_AUTOBOOT);
-#endif
     qWarning("reboot returned");
 }
 
@@ -36,12 +51,30 @@ void QDroidUtils::rebootSystem()
 void QDroidUtils::powerOffSystem()
 {
     sync();
-#ifdef Q_OS_ANDROID_NO_SDK
-    (void)android_reboot(ANDROID_RB_POWEROFF, 0, 0);
-#else
     reboot(RB_POWER_OFF);
-#endif
     qWarning("powerOff returned");
+}
+
+void QDroidUtils::setOrientationForAudioSystem(AudioOrientation orientation)
+{
+#ifdef Q_OS_ANDROID_NO_SDK
+    QString orientationString = QStringLiteral("undefined");
+    switch (orientation) {
+    case LandscapeAudioOrientation:
+        orientationString = QStringLiteral("landscape");
+        break;
+    case PortraitAudioOrientation:
+        orientationString = QStringLiteral("portrait");
+        break;
+    case SquareAudioOrientation:
+        orientationString = QStringLiteral("square");
+        break;
+    default:
+        break;
+    }
+    android::AudioSystem::setParameters(0, android::String8(QStringLiteral("orientation=%2")
+                                                            .arg(orientationString).toLatin1().constData()));
+#endif
 }
 
 /*!
@@ -55,8 +88,11 @@ void QDroidUtils::powerOffSystem()
 void QDroidUtils::setMasterVolume(int volume)
 {
 #ifdef Q_OS_ANDROID_NO_SDK
+    android::status_t rc;
     volume = qBound(0, volume, 100);
-    android::AudioSystem::setMasterVolume(android::AudioSystem::linearToLog(volume));
+    rc = android::AudioSystem::setMasterVolume(android::AudioSystem::linearToLog(volume));
+    if (rc != android::NO_ERROR)
+        qWarning() << Q_FUNC_INFO << "Error while setting audio properties.";
 #endif
 }
 
@@ -70,7 +106,10 @@ void QDroidUtils::setMasterVolume(int volume)
 void QDroidUtils::setMasterMute(bool mute)
 {
 #ifdef Q_OS_ANDROID_NO_SDK
-    android::AudioSystem::setMasterMute(mute);
+    android::status_t rc;
+    rc = android::AudioSystem::setMasterMute(mute);
+    if (rc != android::NO_ERROR)
+        qWarning() << Q_FUNC_INFO << "Error while setting audio properties.";
 #endif
 }
 
@@ -118,9 +157,12 @@ void QDroidUtils::setMasterMute(bool mute)
 void QDroidUtils::setStreamVolume(AudioStreamType streamType, int volume)
 {
 #ifdef Q_OS_ANDROID_NO_SDK
+    android::status_t rc;
     volume = qBound(0, volume, 100);
-    android::AudioSystem::setStreamVolume(audio_stream_type_t(streamType),
+    rc = android::AudioSystem::setStreamVolume(audio_stream_type_t(streamType),
                                           android::AudioSystem::linearToLog(volume), 0);
+    if (rc != android::NO_ERROR)
+        qWarning() << Q_FUNC_INFO << "Error while setting audio properties.";
 #endif
 }
 
@@ -133,7 +175,10 @@ void QDroidUtils::setStreamVolume(AudioStreamType streamType, int volume)
 void QDroidUtils::setStreamMute(AudioStreamType streamType, bool mute)
 {
 #ifdef Q_OS_ANDROID_NO_SDK
-    android::AudioSystem::setStreamMute(audio_stream_type_t(streamType), mute);
+    android::status_t rc;
+    rc = android::AudioSystem::setStreamMute(audio_stream_type_t(streamType), mute);
+    if (rc != android::NO_ERROR)
+        qWarning() << Q_FUNC_INFO << "Error while setting audio properties.";
 #endif
 }
 
@@ -175,22 +220,18 @@ bool QDroidUtils::setDisplayBrightness(quint8 value)
 
 
 /*!
- * Gets the current IP address of the device
+ * Gets the current IP address(es) of the device
  */
 QString QDroidUtils::getIPAddress()
 {
-    QString address;
-#ifdef Q_OS_ANDROID_NO_SDK
-    qDebug("QDroidUtils::getIPAddress()");
-#else
+    QStringList addresses;
     QNetworkInterface interface = QNetworkInterface::interfaceFromName("eth0");
     QList<QNetworkAddressEntry> entries;
     entries = interface.addressEntries();
-    if ( !entries.empty() ) {
-        address = entries.first().ip().toString();
+    foreach (const QNetworkAddressEntry &entry, entries) {
+        addresses.append(entry.ip().toString().split('%').first());
     }
-#endif
-    return address;
+    return addresses.join(QStringLiteral(", "));
 }
 
 /*!
@@ -200,7 +241,10 @@ QString QDroidUtils::getHostname()
 {
     QString hostname;
 #ifdef Q_OS_ANDROID_NO_SDK
-    qDebug("QDroidUtils::getHostname()");
+    char prop_value[PROPERTY_VALUE_MAX];
+    int len = property_get("net.hostname", prop_value, 0);
+    if (len)
+        hostname = QString::fromLocal8Bit(prop_value, len);
 #else
     hostname = QHostInfo::localHostName();
 #endif
@@ -213,7 +257,7 @@ QString QDroidUtils::getHostname()
 bool QDroidUtils::setHostname(QString hostname)
 {
 #ifdef Q_OS_ANDROID_NO_SDK
-    qDebug("QDroidUtils::setHostname()");
+    property_set("net.hostname", hostname.toLocal8Bit().constData());
 #else
     QFile file("/etc/hostname");
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
@@ -224,4 +268,52 @@ bool QDroidUtils::setHostname(QString hostname)
     file.close();
 #endif
     return true;
+}
+
+float QDroidUtils::masterVolume() const
+{
+    float volume = NAN;
+#ifdef Q_OS_ANDROID_NO_SDK
+    android::status_t rc;
+    rc = android::AudioSystem::getMasterVolume(&volume);
+    if (rc != android::NO_ERROR)
+        qWarning() << Q_FUNC_INFO << "Error while getting audio properties.";
+#endif
+    return volume;
+}
+
+bool QDroidUtils::masterMute() const
+{
+    bool mute = false;
+#ifdef Q_OS_ANDROID_NO_SDK
+    android::status_t rc;
+    rc = android::AudioSystem::getMasterMute(&mute);
+    if (rc != android::NO_ERROR)
+        qWarning() << Q_FUNC_INFO << "Error while getting audio properties.";
+#endif
+    return mute;
+}
+
+float QDroidUtils::streamVolume(AudioStreamType stream) const
+{
+    float volume = NAN;
+#ifdef Q_OS_ANDROID_NO_SDK
+    android::status_t rc;
+    rc = android::AudioSystem::getStreamVolume(audio_stream_type_t(stream), &volume, 0);
+    if (rc != android::NO_ERROR)
+        qWarning() << Q_FUNC_INFO << "Error while getting audio properties.";
+#endif
+    return volume;
+}
+
+bool QDroidUtils::streamMute(AudioStreamType stream) const
+{
+    bool mute = false;
+#ifdef Q_OS_ANDROID_NO_SDK
+    android::status_t rc;
+    rc = android::AudioSystem::getStreamMute(audio_stream_type_t(stream), &mute);
+    if (rc != android::NO_ERROR)
+        qWarning() << Q_FUNC_INFO << "Error while getting audio properties.";
+#endif
+    return mute;
 }

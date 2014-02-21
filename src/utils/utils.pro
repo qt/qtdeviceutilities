@@ -1,5 +1,5 @@
 TARGET = QtDroidUtils
-VERSION = 5
+VERSION = 5.2
 CONFIG += dll warn_on
 
 QT = core network
@@ -11,7 +11,7 @@ QT = core network
 MODULE = droidutils
 load(qt_module)
 
-android: LIBS += -lmedia -lhardware -lcutils
+android: LIBS += -lmedia -lhardware -lcutils -lutils
 
 HEADERS += \
     $$PWD/qdroidutils.h

@@ -4,29 +4,34 @@ naturallanguage              = en_US
 outputencoding               = UTF-8
 sourceencoding               = UTF-8
 
-project                      = Boot2Qt
-description                  = Boot to Qt Technology Preview 2 Documentation
-version                      = tp2
+project                      = QtEnterpriseEmbedded
+description                  = Qt Enterprise Embedded Documentation
+version                      = 2.0.0
 
 sourcedirs                   = ../src
 imagedirs                   += ../images
 
 sources.fileextensions       = "*.qdoc"
 
+indexes                      = $QT_INSTALL_DOCS/qtquick/qtquick.index \
+                               $QT_INSTALL_DOCS/emulator/emulator.index
+
 qhp.projects                 = B2Qt
 
 qhp.B2Qt.file                = b2qt.qhp
-qhp.B2Qt.namespace           = com.digia.b2qt.tp2
+qhp.B2Qt.namespace           = com.digia.b2qt.200
 qhp.B2Qt.virtualFolder       = b2qt
-qhp.B2Qt.indexTitle          = Boot to Qt Technology Preview 2
+qhp.B2Qt.indexTitle          = Qt Enterprise Embedded Documentation
 qhp.B2Qt.indexRoot           =
 
-qhp.B2Qt.subprojects = manual
-qhp.B2Qt.subprojects.manual.title = Boot to Qt Introduction
-qhp.B2Qt.subprojects.manual.indexTitle = Boot to Qt Introduction
-qhp.B2Qt.subprojects.manual.type = manual
+qhp.B2Qt.subprojects                   = manual
+qhp.B2Qt.subprojects.manual.title      = Qt Enterprise Embedded
+qhp.B2Qt.subprojects.manual.indexTitle = Qt Enterprise Embedded
+qhp.B2Qt.subprojects.manual.type       = manual
 
 macro.B2Q                    = "Boot to Qt"
-macro.B2QA                   = "Boot to Qt for embedded Android"
-macro.B2QL                   = "Boot to Qt for embedded Linux"
+macro.SDK                    = "Qt Enterprise Embedded"
+macro.B2QA                   = "\\e {Boot to Qt for embedded Android}"
+macro.B2QL                   = "\\e {Boot to Qt for embedded Linux}"
 
+navigation.landingpage = "Qt Enterprise Embedded"
