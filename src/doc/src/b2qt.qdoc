@@ -922,7 +922,7 @@
     \note The generated target image does not yet include Qt libraries,
     you need to build Qt and add it into the image yourself.
 
-    \section2 Building Qt and addons
+    \section2 Building Qt and Addons
 
     \e {Build scripts} source package contains scripts that can be used to
     build Qt and all additional Qt addons that are part of \B2QL image.
@@ -945,6 +945,14 @@
 
     After \e {embedded-linux/build_image.sh} has finished, you can flash the device with
     the updated image located in the build folder.
+
+    \section2 Note About Support Services for Yocto Tools
+
+    By default, Digia will only provide customer support for the Yocto
+    recipes on the reference platforms, as delivered with \SDK, and
+    setting up the development environment for them. Receiving support
+    for any other configuration requires a separate service agreement
+    between a customer and Digia.
 */
 
 /*!
