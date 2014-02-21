@@ -885,8 +885,7 @@
         \li Install the dependencies for the Yocto tools. In Ubuntu,
             the following packages are required:
     \code
-    sudo apt-get install gawk wget git-core diffstat unzip texinfo gcc-multilib \
-    build-essential chrpath libsdl1.2-dev xterm
+    sudo apt-get install gawk wget git-core diffstat unzip texinfo gcc-multilib build-essential chrpath libsdl1.2-dev xterm
     \endcode
     \endlist
 
@@ -896,7 +895,7 @@
 
     \code
     cd <your/yocto/build/directory>
-    <INSTALL_DIR>/Boot2Qt-2.x/sources/b2qt-yocto-meta/scripts/b2qt-init-build-env .
+    <INSTALL_DIR>/Boot2Qt-2.x/sources/b2qt-yocto-meta/b2qt-init-build-env .
     \endcode
 
     \section2 Building the Image and Toolchain
@@ -933,22 +932,18 @@
 
     \code
     cd <your/qt/build/directory>
-    <INSTALL_DIR>/Boot2Qt-2.x/sources/b2qt-build-scripts/embedded-common/init_build_env.sh \
-    <INSTALL_DIR>/Boot2Qt-2.x/sources/b2qt-build-scripts/embedded-linux/config.raspberrypi
+    <INSTALL_DIR>/Boot2Qt-2.x/sources/b2qt-build-scripts/embedded-common/init_build_env.sh <INSTALL_DIR>/Boot2Qt-2.x/sources/b2qt-build-scripts/embedded-linux/config.raspberrypi
     \endcode
 
     You can use following scripts to build different parts of the \B2Q stack.
 
     \code
-    <INSTALL_DIR>/Boot2Qt-2.x/sources/b2qt-build-scripts/embedded-linux/build_qt.sh \
-    <INSTALL_DIR>/Boot2Qt-2.x/sources/b2qt-build-scripts/embedded-linux/config.raspberrypi
-    <INSTALL_DIR>/Boot2Qt-2.x/sources/b2qt-build-scripts/embedded-linux/build_extras.sh \
-    <INSTALL_DIR>/Boot2Qt-2.x/sources/b2qt-build-scripts/embedded-linux/config.raspberrypi
-    <INSTALL_DIR>/Boot2Qt-2.x/sources/b2qt-build-scripts/embedded-linux/build_image.sh \
-    <INSTALL_DIR>/Boot2Qt-2.x/sources/b2qt-build-scripts/embedded-linux/config.raspberrypi
+    <INSTALL_DIR>/Boot2Qt-2.x/sources/b2qt-build-scripts/embedded-linux/build_qt.sh <INSTALL_DIR>/Boot2Qt-2.x/sources/b2qt-build-scripts/embedded-linux/config.raspberrypi
+    <INSTALL_DIR>/Boot2Qt-2.x/sources/b2qt-build-scripts/embedded-linux/build_extras.sh <INSTALL_DIR>/Boot2Qt-2.x/sources/b2qt-build-scripts/embedded-linux/config.raspberrypi
+    <INSTALL_DIR>/Boot2Qt-2.x/sources/b2qt-build-scripts/embedded-linux/build_image.sh <INSTALL_DIR>/Boot2Qt-2.x/sources/b2qt-build-scripts/embedded-linux/config.raspberrypi
     \endcode
 
-    After \e {embedded-linux/build_image.sh} has finished, you can flash the devices with
+    After \e {embedded-linux/build_image.sh} has finished, you can flash the device with
     the updated image located in the build folder.
 */
 
