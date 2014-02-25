@@ -38,7 +38,8 @@ static bool QT_USE_EXPIRED_LEASE = !qgetenv("QT_USE_EXPIRED_LEASE").isEmpty();
 // this might indicate a badly configured DHCP server
 static int MIN_RENEWAL_TIME_SECS = 300; // 5 min
 
-#define ETH_INTERFACE "eth0"
+#define ETH_INTERFACE_HW "eth0"
+#define ETH_INTERFACE_EMULATOR "eth1"
 
 // this function is defined in android/system/core/libnetutils/dhcp_utils.c
 extern "C" {
@@ -67,6 +68,7 @@ protected:
     bool startDhcp(bool renew, const char *interface);
     void stopDhcp(const char *interface);
     bool ethernetSupported() const;
+    bool isEmulator() const;
 
 protected slots:
     void initNetdConnection();
@@ -85,6 +87,8 @@ private:
     QLocalServer *m_serverSocket;
     bool m_linkUp;
     LeaseTimer *m_leaseTimer;
+    bool m_isEmulator;
+    QByteArray m_ethInterface;
 };
 
 class LeaseTimer : public QTimer
@@ -115,31 +119,49 @@ private:
 };
 
 QConnectivityDaemon::QConnectivityDaemon()
-    : m_netdSocket(0), m_serverSocket(0), m_linkUp(false), m_leaseTimer(0)
+    : m_netdSocket(0), m_serverSocket(0), m_linkUp(false), m_leaseTimer(0), m_isEmulator(isEmulator())
 {
     qDebug() << "starting QConnectivityDaemon...";
+    if (!m_isEmulator) {
+        m_ethInterface = ETH_INTERFACE_HW;
+        m_leaseTimer = new LeaseTimer(this);
+        m_leaseTimer->setSingleShot(true);
+        connect(m_leaseTimer, SIGNAL(timeout()), this, SLOT(updateLease()));
 
-    initNetdConnection();
-    m_leaseTimer = new LeaseTimer(this);
-    m_leaseTimer->setSingleShot(true);
-    connect(m_leaseTimer, SIGNAL(timeout()), this, SLOT(updateLease()));
-
-    int serverFd = socket_local_server("qconnectivity", ANDROID_SOCKET_NAMESPACE_RESERVED, SOCK_STREAM);
-    if (serverFd != -1) {
-        m_serverSocket = new QLocalServer(this);
-        if (m_serverSocket->listen(serverFd))
-            connect(m_serverSocket, SIGNAL(newConnection()), this, SLOT(handleNewConnection()));
-        else
-            qWarning() << "QConnectivityDaemon: not able to listen on the server socket...";
+        int serverFd = socket_local_server("qconnectivity", ANDROID_SOCKET_NAMESPACE_RESERVED, SOCK_STREAM);
+        if (serverFd != -1) {
+            m_serverSocket = new QLocalServer(this);
+            if (m_serverSocket->listen(serverFd))
+                connect(m_serverSocket, SIGNAL(newConnection()), this, SLOT(handleNewConnection()));
+            else
+                qWarning() << "QConnectivityDaemon: not able to listen on the server socket...";
+        } else {
+            qWarning() << "QConnectivityDaemon: failed to open qconnectivity server socket";
+        }
     } else {
-        qWarning() << "QConnectivityDaemon: failed to open qconnectivity server socket";
+        m_ethInterface = ETH_INTERFACE_EMULATOR;
     }
+    initNetdConnection();
+}
+
+bool QConnectivityDaemon::isEmulator() const
+{
+    bool isEmulator = false;
+    QFile conf("/system/bin/appcontroller.conf");
+    if (conf.open(QIODevice::ReadOnly)) {
+        QByteArray content = conf.readAll();
+        isEmulator = content.contains("platform=emulator");
+        conf.close();
+    } else {
+        qWarning() << "Failed to read appcontroller.conf";
+    }
+    return isEmulator;
 }
 
 void QConnectivityDaemon::initNetdConnection()
 {
-    static int attemptCount = 12;
     if (ethernetSupported()) {
+        static int attemptCount = 12;
         int netdFd = socket_local_client("netd", ANDROID_SOCKET_NAMESPACE_RESERVED, SOCK_STREAM);
         if (netdFd != -1) {
             qDebug() << "QConnectivityDaemon: connected to netd socket";
@@ -150,9 +172,8 @@ void QConnectivityDaemon::initNetdConnection()
                     this, SLOT(handleError(QLocalSocket::LocalSocketError)));
             // down-up sequence generates "linkstate" events, which we can use to setup
             // our daemon on initial startup or on daemon restarts
-            stopDhcp(ETH_INTERFACE);
-            sendCommand("0 interface setcfg " ETH_INTERFACE " down");
-            sendCommand("0 interface setcfg " ETH_INTERFACE " up");
+            sendCommand(QByteArray("0 interface setcfg ").append(m_ethInterface).append(" down").constData());
+            sendCommand(QByteArray("0 interface setcfg ").append(m_ethInterface).append(" up").constData());
         } else {
             qWarning() << "QConnectivityDaemon: failed to connect to netd socket";
             if (--attemptCount != 0)
@@ -198,18 +219,19 @@ void QConnectivityDaemon::handleInterfaceChange(const QList<QByteArray> &message
         qWarning() << "QConnectivityDaemon: broken command";
         return;
     }
-    if (message.at(2) == "linkstate" && message.at(3) == ETH_INTERFACE) {
+
+    if (message.at(2) == "linkstate" && message.at(3) == m_ethInterface) {
         if (message.at(4) == "up") {
             // ethernet cable has been plugged in
             if (!m_linkUp) {
                 m_linkUp = true;
-                startDhcp(false, ETH_INTERFACE);
+                startDhcp(false, m_ethInterface);
             }
         } else {
             // .. plugged out
             if (m_linkUp) {
                 m_linkUp = false;
-                stopDhcp(ETH_INTERFACE);
+                stopDhcp(m_ethInterface);
             }
         }
     }
@@ -264,7 +286,7 @@ bool QConnectivityDaemon::startDhcp(bool renew, const char *interface)
             property_set("net.dns2", dns2);
         }
 
-        if (lease >= 0) {
+        if (!m_isEmulator && lease >= 0) {
             if (lease < MIN_RENEWAL_TIME_SECS) {
                 qWarning() << "QConnectivityDaemon: DHCP server proposes lease time " << lease
                            << "seconds. We will use" << MIN_RENEWAL_TIME_SECS << " seconds instead.";
@@ -297,20 +319,21 @@ void QConnectivityDaemon::stopDhcp(const char *interface)
     qDebug() << "QConnectivityDaemon: stopDhcp: " << interface;
     ifc_clear_addresses(interface);
     dhcp_stop(interface);
-    if (m_leaseTimer->isActive())
+    if (!m_isEmulator && m_leaseTimer->isActive())
         m_leaseTimer->stop();
 }
 
 bool QConnectivityDaemon::ethernetSupported() const
 {
     // standard linux kernel path
-    return QDir().exists("/sys/class/net/" ETH_INTERFACE);
+    return QDir().exists(QString("/sys/class/net/").append(m_ethInterface));
 }
 
 void QConnectivityDaemon::handleNetdEvent()
 {
     QByteArray data = m_netdSocket->readAll();
-    if (QT_CONNECTIVITY_DEBUG) qDebug() << "QConnectivityDaemon: netd event: " << data;
+    if (QT_CONNECTIVITY_DEBUG)
+        qDebug() << "QConnectivityDaemon: netd event: " << data;
     if (data.endsWith('\0'))
         data.chop(1);
 

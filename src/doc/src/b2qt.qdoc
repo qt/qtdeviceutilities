@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2013 Digia Plc
+** Copyright (C) 2014 Digia Plc
 ** All rights reserved.
 ** For any questions to Digia, please use the contact form at
 ** http://qt.digia.com/
@@ -45,11 +45,13 @@
         \list
             \li \l{Preparing Nexus 7}{Nexus 7 (2012) (embedded Android)}
             \li \l{Preparing Sabre Lite i.MX 6}{Sabre Lite i.MX 6 (embedded Android and Linux)}
+            \li \l{Preparing BeagleBone Black}{BeagleBone Black (embedded Android and Linux)}
             \li \l{Preparing BeagleBoard-xM}{BeagleBoard-xM (embedded Linux)}
             \li \l{Preparing Raspberry Pi}{Raspberry Pi Model B (embedded Linux)}
         \endlist
         \li \l{Building and Running an Example}
         \li \l{Customization}
+        \li \l{ChangeLog}
         \li \l{Troubleshooting}
         \li \l{License Information}
     \endlist
@@ -86,8 +88,8 @@
 
     \e{\b{\B2Q}} is a light-weight, Qt-optimized, full software stack for
     embedded systems that is installed into the actual target device. This is
-    done by flashing the device’s memory card or device's internal memory
-    directly with a pre-built image that comes with the development environment.
+    done by flashing the device's memory card or internal memory directly with a
+    pre-built image that comes with the development environment.
 
     \B2Q supports two different operating systems:
 
@@ -100,8 +102,8 @@
             forefront.
 
         \li \b{\B2QL} where the software stack is using the traditional embedded
-            Linux kernel built with the Yocto Poky reference system (Yocto 1.4
-            \e Dylan release). The Embedded Linux variant is designed for great
+            Linux kernel built with the Yocto Poky reference system (Yocto 1.5
+            \e Dora release). The Embedded Linux variant is designed for great
             customization possibilities. It contains only components required in
             the embedded device, resulting in smaller image sizes while keeping
             valuable development tools available.
@@ -161,8 +163,7 @@
     this section and perform all the described tasks.
 
     In case of problems, see the \l{Troubleshooting} information and the
-    \e {Known Issues} on the Qt Enterprise Embedded product page in the Digia customer
-    portal.
+    \l {Known Issues} in \SDK \l {product page}.
 
     \target Requirements for Development Host
     \section1 Requirements for Development Host
@@ -176,9 +177,15 @@
     \section1 1. Installing 32-bit Support Libraries
 
     Some of the build tools in \SDK are 32-bit programs, and on 64-bit
-    systems they require support libraries for running 32-bit code. To install
-    the required packages
-    in Ubuntu, use the following command in a terminal:
+    systems they require support libraries for running 32-bit code. To
+    install the required packages in recent versions of Ubuntu, use
+    the following command in a terminal:
+
+    \code
+        sudo apt-get install g++-multilib zlib1g:i386
+    \endcode
+
+    For older Ubuntu versions such as 12.04, instead do:
 
     \code
         sudo apt-get install g++-multilib ia32-libs
@@ -189,10 +196,21 @@
 
     The \B2Q emulator in \SDK relies on VirtualBox virtualization software. You can
     download it from \l{https://www.virtualbox.org/wiki/Linux_Downloads} or
-    install it from the command line with the following command:
+    install it via distribution tools.
+
+    If you have older Ubuntu versions such as 12.04 you have to install a newer
+    version of VirtualBox than your distribution does provide.
+    You have to add a foreign package source:
 
     \code
-        sudo apt-get install virtualbox
+        wget -q http://download.virtualbox.org/virtualbox/debian/oracle_vbox.asc -O- | sudo apt-key add -
+        echo "deb http://download.virtualbox.org/virtualbox/debian $(lsb_release -sc) contrib" | sudo tee /etc/apt/sources.list.d/virtualbox.list
+        sudo apt-get update
+    \endcode
+
+    Now install VirtualBox on your computer
+    \code
+        sudo apt-get install virtualbox-4.3
     \endcode
 
     To configure VirtualBox:
@@ -277,6 +295,7 @@
     \list
         \li \l{Nexus 7 (2012) (embedded Android)}
         \li \l{Sabre Lite i.MX 6 (embedded Android and Linux)}
+        \li \l{BeagleBone Black (embedded Android and Linux)}
         \li \l{BeagleBoard-xM (embedded Linux)}
         \li \l{Raspberry Pi Model B (embedded Linux)}
     \endlist
@@ -491,7 +510,7 @@
         \code
         ~/$ mkdir bd-android
         ~/$ cd bd-android
-        ~/bd-android$ sudo tar zxvf ~/Downloads/imx6-jb-20130628.tar.gz
+        ~/bd-android$ tar zxvf ~/Downloads/imx6-jb-20130628.tar.gz
         \endcode
         \li Run device/boundary/mksdcard.sh:
         \code
@@ -515,16 +534,16 @@
         \li \b{\B2QA}
         \code
             cd <INSTALL_DIR>
-            Boot2Qt-2.x/iMX6-eAndroid/images/deploy.sh /dev/<device_name>
+            ./Boot2Qt-2.x/iMX6-eAndroid/images/deploy.sh /dev/<device_name>
         \endcode
         \li \b{\B2QL}
         \code
             cd <INSTALL_DIR>
-            Boot2Qt-2.x/iMX6-eLinux/images/deploy.sh /dev/<device_name>
+            sudo ./Boot2Qt-2.x/iMX6-eLinux/images/deploy.sh /dev/<device_name>
         \endcode
     \endlist
 
-    After the installation is complete, power on the device and check that
+    After the installation is complete, insert the SD card, power on the device and check that
     the \B2Q welcome screen and/or demo appear.
 
     \section1 Setting up USB Access
@@ -575,12 +594,91 @@
         sudo Boot2Qt-2.x/raspberrypi-eLinux/images/deploy.sh /dev/<device_name>
     \endcode
 
-    After the image has been deployed, power on the device and check that
+    After the image has been deployed, insert the SD card, power on the device and check that
     the \B2Q welcome screen and/or demo appear.
 
     \section1 Configuring a Device Kit in Qt Creator
 
     \include b2qt-post-install-setup.qdocinc configuring network device
+
+    You are now ready to start developing for your device. For more information,
+    see \l{Building and Running an Example}.
+*/
+
+/*!
+    \target BeagleBone Black (embedded Android and Linux)
+    \page qtee-preparing-hardware-beaglebone.html
+    \title Preparing BeagleBone Black
+    \previouspage qtee-installation-guide.html
+
+    Take the following steps to prepare a
+    \l{http://beagleboard.org/products/beaglebone%20black}{BeagleBone Black} for \B2Q.
+
+    \note It is important that you repeat the steps in this section after you
+    update \SDK.
+
+    The images containing the \B2Q stack for BeagleBone Black are included
+    in \SDK, ready to be copied to an SD card.
+
+    \section1 Preparing an SD Card
+
+    For \B2QA, an SD card of at least 2 GB capacity is needed. For \B2QL,
+    a card of at least 512 MB capacity is sufficient.
+
+    \include detect-sd-card-device-name.qdocinc instructions
+
+    \section1 Installing the Android image
+
+    \e{If installing} \B2QL, \e{you can skip this step and proceed to}
+    \l{Installing the Boot to Qt Image}.
+
+    Download the package \e{TI_Android_JB_4.2.2_DevKit_4.1.1_beagleboneblack.tar.gz} from
+    \l{http://downloads.ti.com/sitara_android/esd/TI_Android_DevKit/TI_Android_JB_4_2_2_DevKit_4_1_1/index_FDS.html}
+    {Texas Instruments} (search for \e {BeagleBone Black} in the list of download packages).
+
+    Use the following commands to create an SD card containing the
+    downloaded image:
+
+    \list 1
+        \li Extract the downloaded package:
+        \code
+        ~$ tar zxvf ~/Downloads/TI_Android_JB_4.2.2_DevKit_4.1.1_beagleboneblack.tar.gz
+        \endcode
+        \li Run beagleboneblack/mkmmc-android.sh:
+        \code
+        ~$ cd beagleboneblack
+        ~/beagleboneblack$ sudo ./mkmmc-android.sh /dev/<device_name>
+        \endcode
+    \endlist
+
+    \section1 Installing the \B2Q Image
+
+    Then, upgrade the SD card with \B2Q. Use one of the commands below,
+    depending on whether you are developing for embedded Android or Linux:
+
+    \list
+        \li \b{\B2QA}
+        \code
+            cd <INSTALL_DIR>
+            ./Boot2Qt-2.x/beaglebone-eAndroid/images/deploy.sh /dev/<device_name>
+        \endcode
+        \li \b{\B2QL}
+        \code
+            cd <INSTALL_DIR>
+            sudo ./Boot2Qt-2.x/beaglebone-eLinux/images/deploy.sh /dev/<device_name>
+        \endcode
+    \endlist
+
+    After the installation is complete, insert the SD card, power on the device and check that
+    the \B2Q welcome screen and/or demo appear.
+
+    \section1 Setting up USB Access
+
+    \include b2qt-post-install-setup.qdocinc setting up usb access
+
+    \section1 Configuring a Device Kit in Qt Creator
+
+    \include b2qt-post-install-setup.qdocinc configuring device kit
 
     You are now ready to start developing for your device. For more information,
     see \l{Building and Running an Example}.
@@ -600,7 +698,7 @@
         \li Make sure that your device is powered on and connected to the
             development host.
         \li In Qt Creator, select \b{File > New File or Project} >
-            \b Applications > \b{Qt Quick 2 Application } > \b{Choose}.
+            \b Applications > \b{Qt Quick Application} > \b{Choose}.
         \li Choose a location for your new project.
         \li In the \b{Qt Quick Component Set} dialog, select \b{Qt Quick 2.0}.
         \li In the \b{Kit Selection} dialog, select the kits for your
@@ -612,10 +710,23 @@
         \li To build and run the project, click \inlineimage qtcreator-run.png
     \endlist
 
+    \section1 Building and Running \B2Q Demos
+
+    You can find the \B2Q demo applications in Qt Creator.
+
+    \list 1
+        \li Go to \b Welcome > \b Examples.
+        \li Select a \e Boot2Qt Qt version from the drop-down list.
+        \li Select a demo you want to build.
+        \li In \b{Projects > Build & Run}, select the correct kit for your
+            connected device or emulator.
+        \li To build and run the project, click \inlineimage qtcreator-run.png
+    \endlist
+
     \section1 Setting Up an Already Existing Project for Deployment
 
-    The projects generated by Qt Creator always have the correct settings
-    for deployment on the device or emulator. However, existing projects may
+    New Qt Quick application projects generated by Qt Creator always have the correct
+    settings for deployment on the device or emulator. However, other projects may
     need some changes.
 
     As a general rule, application binaries and resources (such as QML files and
@@ -642,7 +753,7 @@
     \page qtee-customization.html
     \title Customization
     \previouspage qtee-building-and-running.html
-    \nextpage qtee-troubleshooting.html
+    \nextpage qtee-changelog.html
 
     \section1 Environment and Input
 
@@ -730,13 +841,125 @@
         }
     }
     \endcode
+
+    \section1 Disabling Screen Composer on Embedded Android
+
+    By default, the \B2Q stack uses Android's screen composer, \e
+    Surfaceflinger. It is required for Qt Multimedia functionality,
+    i.e. video playback and camera. If that functionality is not
+    required, Surfaceflinger may be disabled. This can in some
+    situations improve performance.
+
+    \list 1
+      \li Edit \c {/system/bin/appcontroller.conf} to set the value of
+      the environment variable \c QT_QPA_EGLFS_NO_SURFACEFLINGER to \c
+      1 instead of \c 0.
+      \li Disable the startup of \c surfaceflinger at boot-up. Either
+      change \c /init.rc, or simply rename the \c
+      {/system/bin/surfaceflinger} executable.
+    \endlist
+
+    \section1 Building Your Own Embedded Linux Image
+
+    \B2QL is built using the tools and resources from the \l {Yocto Project},
+    and is based on Yocto's reference distribution (\e Poky). You can
+    use the same tools to build custom \B2Q images, and have control over
+    which packages are included in the build and how the software stack
+    is configured.
+
+    \section2 Requirements
+
+    You should be familiar with the Yocto tools and the concept of
+    \e {recipes}. For more information, see Yocto Project
+    \l{https://www.yoctoproject.org/documentation/current}{documentation}.
+
+    To get started, you need the following:
+
+    \list
+        \li Install the \B2Q \e source packages. You can
+            find these by running the \e MaintenanceTool application
+            located in the \SDK installation directory and selecting
+            \e {Package Manager}. The \e {Yocto meta layer} package
+            contains the additional recipes required to make the image
+            compatible with \B2Q.
+        \li Install the dependencies for the Yocto tools. In Ubuntu,
+            the following packages are required:
+    \code
+    sudo apt-get install gawk wget git-core diffstat unzip texinfo gcc-multilib build-essential chrpath libsdl1.2-dev xterm
+    \endcode
+    \endlist
+
+    \section2 Setting Up Yocto Build Environment
+
+    Run the setup script that initializes the Yocto environment:
+
+    \code
+    cd <your/yocto/build/directory>
+    <INSTALL_DIR>/Boot2Qt-2.x/sources/b2qt-yocto-meta/b2qt-init-build-env .
+    \endcode
+
+    \section2 Building the Image and Toolchain
+
+    After the Yocto environment is set up, you need to configure the
+    build environment for your target device. Using Raspberry Pi as
+    an example:
+
+    \code
+    export TEMPLATECONF=meta-b2qt/conf
+    export MACHINE=raspberrypi
+    source poky/oe-init-build-env build-raspberrypi
+    \endcode
+
+    Yocto recipes for \B2QL have two main targets to build: The target image,
+    and the external toolchain that is used for building the Qt framework and
+    applications.
+
+    \code
+    bitbake b2qt-embedded-image
+    bitbake meta-toolchain-b2qt-embedded-sdk
+    \endcode
+
+    \note The generated target image does not yet include Qt libraries,
+    you need to build Qt and add it into the image yourself.
+
+    \section2 Building Qt and Addons
+
+    \e {Build scripts} source package contains scripts that can be used to
+    build Qt and all additional Qt addons that are part of \B2QL image.
+    To setup build environment for your target hardware, create new build
+    directory and run the initialization script. Using Raspberry Pi as
+    an example:
+
+    \code
+    cd <your/qt/build/directory>
+    <INSTALL_DIR>/Boot2Qt-2.x/sources/b2qt-build-scripts/embedded-common/init_build_env.sh <INSTALL_DIR>/Boot2Qt-2.x/sources/b2qt-build-scripts/embedded-linux/config.raspberrypi
+    \endcode
+
+    You can use following scripts to build different parts of the \B2Q stack.
+
+    \code
+    <INSTALL_DIR>/Boot2Qt-2.x/sources/b2qt-build-scripts/embedded-linux/build_qt.sh <INSTALL_DIR>/Boot2Qt-2.x/sources/b2qt-build-scripts/embedded-linux/config.raspberrypi
+    <INSTALL_DIR>/Boot2Qt-2.x/sources/b2qt-build-scripts/embedded-linux/build_extras.sh <INSTALL_DIR>/Boot2Qt-2.x/sources/b2qt-build-scripts/embedded-linux/config.raspberrypi
+    <INSTALL_DIR>/Boot2Qt-2.x/sources/b2qt-build-scripts/embedded-linux/build_image.sh <INSTALL_DIR>/Boot2Qt-2.x/sources/b2qt-build-scripts/embedded-linux/config.raspberrypi
+    \endcode
+
+    After \e {embedded-linux/build_image.sh} has finished, you can flash the device with
+    the updated image located in the build folder.
+
+    \section2 Note About Support Services for Yocto Tools
+
+    By default, Digia will only provide customer support for the Yocto
+    recipes on the reference platforms, as delivered with \SDK, and
+    setting up the development environment for them. Receiving support
+    for any other configuration requires a separate service agreement
+    between a customer and Digia.
 */
 
 /*!
     \page qtee-supported-platforms.html
     \title Supported Platforms
     \previouspage qtee-installation-guide.html
-    \nextpage qtee-preparing-hardware.html
+    \nextpage qtee-changelog.html
 
     \section1 Supported Target Devices
 
@@ -756,6 +979,7 @@
     \list
         \li \l{http://www.google.com/nexus/7/specs/}{Google/Asus Nexus 7 (2012)}
         \li \l{http://beagleboard.org/hardware-xM}{BeagleBoard-xM}
+        \li \l{http://beagleboard.org/products/beaglebone%20black}{BeagleBone Black}
         \li \l{http://boundarydevices.com/products/sabre-lite-imx6-sbc/}{Freescale i.MX6 Sabre Lite board (Boundary Devices)}
         \li \l{http://www.raspberrypi.org/faqs}{Raspberry Pi Model B}
     \endlist
@@ -777,29 +1001,121 @@
 
     \SDK is licensed under the Qt Enterprise commercial license. For more information,
     see \l {http://qt.digia.com/licensing}. Evaluation licenses are also available,
-    see \l {http://qt.digia.com/Products/Qt-Enterprise-Embedded}.
+    see \l {product page}{\SDK} on qt.digia.com.
 
     \section1 3rd Party Software Licenses
 
     The third-party licenses used in \SDK are listed in the file
     \c {<INSTALL_DIR>/Licenses/ThirdPartySoftware_Listing.txt}.
 
-    \section2 Embedded Android Images
+    \section1 Embedded Android Images
 
     The embedded Android platform is built from the \e {Android Open Source Project},
     source code available at \l {http://android.googlesource.com/}. The open
     source licenses and notices are collected into the file
     \c {/etc/NOTICE.html.gz} in the target images.
+
+    \section1 Android GNU C++ Run-time Licensing
+
+    The Android platform does not provide a full implementation of the C++ run-time. Instead,
+    apps that depend on features such as STL, exceptions, or RTTI, must include an additional
+    native run-time library that provides the features they need.
+
+    \B2QA uses the GNU libstdc++ library distributed as part of the \e {Android Open Source Project}.
+    This library is included in the images for \B2QA, and will be loaded by the application
+    on start-up to meet the run-time requirements of Qt.
+
+    The GNU C++ run-time is licensed under the
+    \l{http://gcc.gnu.org/onlinedocs/libstdc++/manual/appendix_gpl.html}{GNU General Public License version 3} with
+    an exception which grants permission for run-time linking and usage of the library by an application which
+    would otherwise violate the terms of the main license. For more information about this exception, see
+    \l{http://gcc.gnu.org/onlinedocs/libstdc++/manual/license.html}{the official license page}.
+*/
+
+/*!
+    \page qtee-changelog.html
+    \title ChangeLog
+    \previouspage qtee-customization.html
+    \nextpage qtee-troubleshooting.html
+
+    \section1 \B2Q 2.0.0
+
+    \list
+        \li Release date: Feb. 25, 2014
+    \endlist
+
+    \section2 Changes
+    \b {New Features}:
+    \list
+        \li \B2Q stack was updated to use Qt 5.2.1 on embedded Android and Linux
+        \li Building your own \B2Q embedded Linux stack was enabled
+        \li Emulator graphics performance and quality was improved (GL-streaming)
+        \li BeagleBone Black was added as a reference device
+        \li \l {Qt Virtual Keyboard} was integrated into \B2Q
+        \li \l {Qt Quick Enterprise Controls} was added to the \B2Q stack
+        \li \l {Qt Charts} was added to the \B2Q stack
+        \li \B2Q source code was made available via online installer
+        \li WiFi networking support/configuration were implemented on embedded Android
+        \li Ethernet connectivity was enabled on embedded Android
+    \endlist
+
+    \b {Improvements}:
+    \list
+        \li Updated GDB for embedded Android toolchain
+        \li Enterprise demos (Charts, Enterprise Controls) were added
+        \li Embedded Linux: Moved to use Yocto 1.5 (Dora)
+        \li Demos available as examples in Qt Creator
+        \li Embedded Android emulator updated to Android 4.2.2
+    \endlist
+
+    \b {Fixed Bugs}:
+    \list
+        \li Embedded Android emulator: Missing Mesa headers
+        \li Embedded Linux emulator: Black screen in camera demo
+        \li Emulator tries to load host plugins
+        \li Sensors not working in emulators
+        \li Empty \c HOME environment variable in processes launched by appcontroller
+        \li Embedded Android emulator: C++ debugging fails
+        \li Qt add-ons not installed to host
+    \endlist
+
+    \b {Fixed Known Issues}:
+    \list
+        \li Qt SQL: QML LocalStorage Fails to Connect to Database on Embedded Android
+        \li Qt XML Patterns: Module not Available on embedded Android
+        \li Qt Multimedia: Audio is Muted on Nexus 7
+        \li Unnecessary Warnings Displayed by the Installer
+        \li Virtual Keyboard: Backspace Removes Two Characters
+    \endlist
+
+    \section1 \B2Q 1.0.1
+
+    \list
+        \li Release date: Dec. 5, 2013
+    \endlist
+
+    \section2 Changes
+    \list
+        \li Emulator: Remote control widget version shown together with emulator version
+        \li Emulator: Mouse events are sent instead of touch events
+        \li Emulator: Raster window support added
+        \li Emulator: emulatorproxyd shows its version on startup
+        \li Emulator: Detect some network problems
+        \li Emulator: Fixed issues related to startup
+        \li Emulator: Updated source code license headers
+        \li Emulator: Show all VirtualBox errors
+        \li Emulator: Video playback support on embedded Linux
+    \endlist
 */
 
 /*!
     \page qtee-troubleshooting.html
     \title Troubleshooting
-    \previouspage qtee-customization.html
+    \previouspage qtee-changelog.html
     \nextpage qtee-licenses.html
 
-    \note An updated version of this information may be available in the Digia
-    customer portal, in the \e{Known Issues} section on the \SDK product page.
+    \note An updated version of this information may be available in Digia customer portal,
+    see \l {Known Issues} in \SDK \l {product page}.
 
     \section1 General Issues
 
@@ -864,6 +1180,16 @@
 
     Alternatively, press and hold the power button for 10
     seconds. This will force a reboot.
+
+    \section2 How do I get HDMI output working properly on BeagleBone Black?
+
+    Depending on the HDMI monitor, the cable, and the build variant of
+    the BeagleBone Black device, it may not be able to drive an HDMI display in a
+    stable way; the image may disappear or stutter. These issues are not caused by
+    the \B2Q stack.
+
+    More details and possible solutions can be found
+    \l {http://www.elinux.org/Beagleboard:BeagleBoneBlack_HDMI}{here}.
 
     \section2 Trying to build for the emulator target fails with error message \e{make: i686-android-linux-g++: Command not found}
 

@@ -1,36 +1,7 @@
+# use the global Qt template with modifications to the html footer
+include($QT_INSTALL_DOCS/global/qt-html-templates-offline.qdocconf)
+
 HTML.nobreadcrumbs    = "true"
-
-HTML.stylesheets      = template/style/offline.css
-
-# Copy images used by the template to images folder in output directory
-HTML.extraimages      = template/images/bgrContent.png \
-                        template/images/blu_dot.png \
-                        template/images/btn_next.png \
-                        template/images/btn_prev.png \
-                        template/images/ico_note.png \
-                        template/images/ico_note_attention.png \
-                        template/images/ico_out.png \
-                        template/images/arrow_bc.png \
-                        template/images/home.png
-
-# Add style-related files into qch package
-qhp.extraFiles       += style/offline.css \
-                        images/bgrContent.png \
-                        images/blu_dot.png \
-                        images/btn_next.png \
-                        images/btn_prev.png \
-                        images/ico_note.png \
-                        images/ico_note_attention.png \
-                        images/ico_out.png \
-                        images/home.png \
-                        images/arrow_bc.png
-
-HTML.headerstyles = \
-    "  <link rel=\"stylesheet\" type=\"text/css\" href=\"style/offline.css\" />\n"
-
-HTML.endheader = \
-    "</head>\n" \
-    "<body>\n"
 
 HTML.footer = \
     "  <div class=\"ft\">\n" \
@@ -39,7 +10,7 @@ HTML.footer = \
     "</div> \n" \
     "<div class=\"footer\">\n" \
     "    <p>\n" \
-    "      <acronym title=\"Copyright\">&copy;</acronym> 2013 Digia Plc and/or its\n" \
+    "      <acronym title=\"Copyright\">&copy;</acronym> 2014 Digia Plc and/or its\n" \
     "      subsidiaries.</p>\n" \
     "    <p>\n" \
     "       Licensees holding valid Qt Commercial licenses may use this document in\n" \
@@ -50,5 +21,5 @@ HTML.footer = \
     "      Digia, Qt and their respective logos are trademarks of Digia Plc \n" \
     "      in Finland and/or other countries worldwide. All other trademarks are property\n" \
     "      of their respective owners. <a title=\"Privacy Policy\"\n" \
-    "      href=\"http://en.gitorious.org/privacy_policy/\">Privacy Policy</a></p>\n" \
+    "      href=\"http://qt.digia.com/Digia-Legal-Notice--Privacy-Policy/\">Privacy Policy</a></p>\n" \
     "</div>\n"

@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2013 Digia Plc
+** Copyright (C) 2014 Digia Plc
 ** All rights reserved.
 ** For any questions to Digia, please use the contact form at
 ** http://qt.digia.com/
@@ -20,16 +20,15 @@
 #include <unistd.h>
 #include <QDebug>
 #include <math.h>
-
-#ifdef Q_OS_ANDROID_NO_SDK
-#include <cutils/android_reboot.h>
-#include <hardware/lights.h>
-#include <media/AudioSystem.h>
-#else
 #include <sys/reboot.h>
 #include <QNetworkInterface>
 #include <QHostInfo>
 #include <QFile>
+
+#ifdef Q_OS_ANDROID_NO_SDK
+#include <cutils/properties.h>
+#include <hardware/lights.h>
+#include <media/AudioSystem.h>
 #endif
 
 /*!
@@ -40,11 +39,7 @@
 void QDroidUtils::rebootSystem()
 {
     sync();
-#ifdef Q_OS_ANDROID_NO_SDK
-    (void)android_reboot(ANDROID_RB_RESTART, 0, 0);
-#else
     reboot(RB_AUTOBOOT);
-#endif
     qWarning("reboot returned");
 }
 
@@ -56,11 +51,7 @@ void QDroidUtils::rebootSystem()
 void QDroidUtils::powerOffSystem()
 {
     sync();
-#ifdef Q_OS_ANDROID_NO_SDK
-    (void)android_reboot(ANDROID_RB_POWEROFF, 0, 0);
-#else
     reboot(RB_POWER_OFF);
-#endif
     qWarning("powerOff returned");
 }
 
@@ -234,16 +225,12 @@ bool QDroidUtils::setDisplayBrightness(quint8 value)
 QString QDroidUtils::getIPAddress()
 {
     QStringList addresses;
-#ifdef Q_OS_ANDROID_NO_SDK
-    qDebug("QDroidUtils::getIPAddress()");
-#else
     QNetworkInterface interface = QNetworkInterface::interfaceFromName("eth0");
     QList<QNetworkAddressEntry> entries;
     entries = interface.addressEntries();
     foreach (const QNetworkAddressEntry &entry, entries) {
         addresses.append(entry.ip().toString().split('%').first());
     }
-#endif
     return addresses.join(QStringLiteral(", "));
 }
 
@@ -254,7 +241,10 @@ QString QDroidUtils::getHostname()
 {
     QString hostname;
 #ifdef Q_OS_ANDROID_NO_SDK
-    qDebug("QDroidUtils::getHostname()");
+    char prop_value[PROPERTY_VALUE_MAX];
+    int len = property_get("net.hostname", prop_value, 0);
+    if (len)
+        hostname = QString::fromLocal8Bit(prop_value, len);
 #else
     hostname = QHostInfo::localHostName();
 #endif
@@ -267,7 +257,7 @@ QString QDroidUtils::getHostname()
 bool QDroidUtils::setHostname(QString hostname)
 {
 #ifdef Q_OS_ANDROID_NO_SDK
-    qDebug("QDroidUtils::setHostname()");
+    property_set("net.hostname", hostname.toLocal8Bit().constData());
 #else
     QFile file("/etc/hostname");
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {

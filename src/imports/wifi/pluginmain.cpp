@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2013 Digia Plc
+** Copyright (C) 2014 Digia Plc
 ** All rights reserved.
 ** For any questions to Digia, please use the contact form at
 ** http://qt.digia.com/
@@ -18,11 +18,12 @@
 ****************************************************************************/
 #include "qwifimanager.h"
 
+#include <QtCore/QDir>
+#include <QtCore/QByteArray>
 #include <QtQml/QQmlExtensionPlugin>
 #include <QtQml/qqml.h>
 
-#include <QtCore/QDir>
-#include <QtCore/QByteArray>
+#include <hardware_legacy/wifi.h>
 
 class QWifiGlobal : public QObject
 {
@@ -34,15 +35,20 @@ public:
 
     Q_INVOKABLE bool wifiSupported() const
     {
-        char interface[PROPERTY_VALUE_MAX];
-        property_get("wifi.interface", interface, NULL);
-        // standard linux kernel path
-        QByteArray path;
-        path.append("/sys/class/net/").append(interface);
-        bool interfaceFound = QDir().exists(path.constData());
-        if (!interfaceFound)
-            qWarning() << "QWifiGlobal: could not find wifi interface in " << path;
-        return interfaceFound;
+        bool supported = false;
+        if (wifi_load_driver() == 0 && wifi_start_supplicant(0) == 0) {
+            char interface[PROPERTY_VALUE_MAX];
+            property_get("wifi.interface", interface, NULL);
+            // standard linux kernel path
+            QByteArray path;
+            path.append("/sys/class/net/").append(interface);
+            supported = QDir().exists(path.constData());
+            if (!supported)
+                qWarning() << "QWifiGlobal: could not find wifi interface in " << path;
+        } else {
+            qWarning() << "QWifiGlobal: wifi driver is not available";
+        }
+        return supported;
     }
 };
 

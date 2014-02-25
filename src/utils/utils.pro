@@ -1,5 +1,5 @@
 TARGET = QtDroidUtils
-VERSION = 5
+VERSION = 5.2
 CONFIG += dll warn_on
 
 QT = core network
