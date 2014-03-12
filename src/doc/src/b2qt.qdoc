@@ -253,6 +253,8 @@
 
     \endlist
 
+    \note Do not execute the installer as root user or with sudo.
+
     The installer will let you select a directory where \SDK will be
     installed. In this documentation, the installation directory is referred
     to as \b{\c{<INSTALL_DIR>}}. The default installation directory is
