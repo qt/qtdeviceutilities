@@ -1238,6 +1238,16 @@
 
     See \l{Customization}.
 
+    \section2 C++11 features do not work on Android
+
+    To enable C++11 features in the compiler, add \e{CONFIG += c++11} to the .pro file.
+    On Embedded Linux this will be enough because there the toolchain contains a more
+    recent version of gcc (4.8.x). On Embedded Android however the toolchain is based on
+    gcc 4.6. This offers limited support for C++11 and Qt's own C++11 support is disabled,
+    meaning that adding \e{c++11} to \e{CONFIG} will have no effect. There is still a
+    possibility however to manually enable some level of C++11 support just for the
+    application, by adding \e{QMAKE_CXXFLAGS += -std=c++11} to the .pro file.
+
     \section1 Connectivity Issues
     \section2 I cannot connect to my hardware device via USB
 
