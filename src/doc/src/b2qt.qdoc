@@ -963,6 +963,23 @@
     setting up the development environment for them. Receiving support
     for any other configuration requires a separate service agreement
     between a customer and Digia.
+
+    \section1 Using Network Connection for ADB
+
+    By default, \B2Q uses USB cable for communication between device and Qt Creator.
+    On \B2QL, you can change the device to use ethernet network connection for the
+    communication. To enable network connection, you need to modify file
+    \c /etc/default/adbd located on the devices, and change value of \c USE_ETHERNET
+    to \c 'yes'. This can also be done with \c adb, while the device is still
+    connected via USB.
+
+    \code
+     <INSTALL_DIR>/Tools/b2qt/adb shell sed -i -e 's/USE_ETHERNET=no/USE_ETHERNET=yes/' /etc/default/adbd
+    \endcode
+
+    \note You need to restart the device for this change to take effect.
+
+    \include b2qt-post-install-setup.qdocinc configuring network device
 */
 
 /*!
