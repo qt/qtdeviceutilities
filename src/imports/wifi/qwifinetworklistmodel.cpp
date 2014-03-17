@@ -16,37 +16,37 @@
 ** the contact form at http://qt.digia.com/
 **
 ****************************************************************************/
-#include "qwifinetworklist.h"
+#include "qwifinetworklistmodel.h"
 
 #include <QtCore>
 
 const int ID_NETWORK = (Qt::ItemDataRole) (Qt::UserRole + 1);
 
-QWifiNetworkList::QWifiNetworkList(QWifiManager *manager)
+QWifiNetworkListModel::QWifiNetworkListModel(QWifiManager *manager)
     : m_manager(manager)
 {
 }
 
-QHash<int, QByteArray> QWifiNetworkList::roleNames() const
+QHash<int, QByteArray> QWifiNetworkListModel::roleNames() const
 {
     QHash<int, QByteArray> names;
     names.insert(ID_NETWORK, "network");
     return names;
 }
 
-QVariant QWifiNetworkList::data(const QModelIndex &index, int role) const
+QVariant QWifiNetworkListModel::data(const QModelIndex &index, int role) const
 {
     QWifiNetwork *n = m_networks.at(index.row());
     switch (role) {
         case ID_NETWORK: return QVariant::fromValue((QObject *) n);
     }
 
-    qWarning("QWifiNetworkList::data(), undefined role: %d\n", role);
+    qWarning("QWifiNetworkListModel::data(), undefined role: %d\n", role);
 
     return QVariant();
 }
 
-QWifiNetwork *QWifiNetworkList::networkForSSID(const QByteArray &ssid, int *pos)
+QWifiNetwork *QWifiNetworkListModel::networkForSSID(const QByteArray &ssid, int *pos)
 {
     for (int i=0; i<m_networks.size(); ++i) {
         if (m_networks.at(i)->ssid() == ssid) {
@@ -58,7 +58,7 @@ QWifiNetwork *QWifiNetworkList::networkForSSID(const QByteArray &ssid, int *pos)
     return 0;
 }
 
-void QWifiNetworkList::parseScanResults(const QByteArray &results)
+void QWifiNetworkListModel::parseScanResults(const QByteArray &results)
 {
     QList<QByteArray> lines = results.split('\n');
 

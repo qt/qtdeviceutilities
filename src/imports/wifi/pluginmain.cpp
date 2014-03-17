@@ -68,7 +68,7 @@ public:
         Q_ASSERT(QLatin1String(uri) == QLatin1String("Qt.labs.wifi"));
 
         qmlRegisterType<QWifiManager>(uri, 0, 1, "WifiManager");
-        qmlRegisterType<QWifiNetworkList>();
+        qmlRegisterType<QWifiNetworkListModel>();
         qmlRegisterSingletonType<QWifiGlobal>(uri, 0, 1, "Interface", global_object_wifi);
     }
 };

@@ -25,7 +25,7 @@
 
 #include <cutils/properties.h>
 
-#include "qwifinetworklist.h"
+#include "qwifinetworklistmodel.h"
 
 class QWifiManagerEventThread;
 
@@ -37,7 +37,7 @@ class QWifiManager : public QObject
     Q_PROPERTY(bool backendReady READ isbackendReady NOTIFY backendReadyChanged)
     Q_PROPERTY(bool scanning READ scanning WRITE setScanning NOTIFY scanningChanged)
     Q_PROPERTY(QString connectedSSID READ connectedSSID NOTIFY connectedSSIDChanged)
-    Q_PROPERTY(QWifiNetworkList *networks READ networks CONSTANT)
+    Q_PROPERTY(QWifiNetworkListModel *networks READ networks CONSTANT)
 
 public:
     enum NetworkState {
@@ -50,7 +50,7 @@ public:
     QWifiManager();
     ~QWifiManager();
 
-    QWifiNetworkList *networks() { return &m_networks; }
+    QWifiNetworkListModel *networks() { return &m_networks; }
     QString connectedSSID() const { return m_connectedSSID; }
     bool scanning() const { return m_scanning; }
     void setScanning(bool scanning);
@@ -87,7 +87,7 @@ private:
     friend class QWifiManagerEventThread;
 
     QString m_connectedSSID;
-    QWifiNetworkList m_networks;
+    QWifiNetworkListModel m_networks;
     QWifiManagerEventThread *m_eventThread;
 
     int m_scanTimer;
