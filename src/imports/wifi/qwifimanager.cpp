@@ -119,6 +119,221 @@ public:
     QByteArray m_if;
 };
 
+/*!
+    \qmlmodule Qt.labs.wifi 0.1
+    \title WiFi Module
+    \ingroup b2qt-qmlmodules
+
+    Provides QML types for controlling and accessing information about wireless network interfaces.
+
+    The import command for adding these QML types is:
+
+    \code
+    import Qt.labs.wifi 0.1
+    \endcode
+
+    If the module is imported into a namespace, some additional methods become available through the
+    \l Interface element.
+
+    \code
+    import Qt.labs.wifi 0.1 as Wifi
+    \endcode
+
+*/
+
+/*!
+
+    \qmltype WifiManager
+    \inqmlmodule Qt.labs.wifi
+    \brief WifiManager provides information about the wifi backend and available networks.
+
+    This element is the main interface to the WiFi functionality.
+
+ */
+
+/*!
+    \qmlproperty enumeration WifiManager::networkState
+
+    This property holds the current state of the network connection.
+
+    \list
+    \li \e WifiManager.Disconnected - Not connected to any network
+    \li \e WifiManager.ObtainingIPAddress - Requesting IP address from DHCP server
+    \li \e WifiManager.DhcpRequestFailed - Could not retrieve IP address
+    \li \e WifiManager.Connected - Ready to process network requests
+    \endlist
+*/
+
+/*!
+    \qmlproperty bool WifiManager::backendReady
+
+    This property holds whether or not the backend has been successfully initialized.
+
+    \code
+    WifiManager {
+        id: wifiManager
+        scanning: backendReady
+    }
+
+    Button {
+        id: wifiOnOffButton
+        text: (wifiManager.backendReady) ? "Switch Off" : "Switch On"
+        onClicked: {
+            if (wifiManager.backendReady) {
+                wifiManager.stop()
+            } else {
+                wifiManager.start()
+            }
+        }
+    }
+    \endcode
+*/
+
+/*!
+    \qmlproperty bool WifiManager::scanning
+
+    This property holds whether or not the backend is scanning for WiFi networks. To
+    preserve battery energy, stop scanning for networks once you are done with configuring a network.
+
+    Before starting to scan for networks, you need to initialize the WiFi backend.
+
+    \sa start
+*/
+
+/*!
+    \qmlproperty string WifiManager::connectedSSID
+
+    This property holds the network name.
+*/
+
+/*!
+    \qmlproperty WifiNetworkListModel WifiManager::networks
+
+    This property holds a list of networks that can be sensed by a device and should be used as a
+    data model in ListView. List is updated every 5 seconds.
+
+    WifiNetworkListModel is a simple data model consisting of WifiNetwork objects, accessed with
+    the "network" data role. Instances of WifiNetwork cannot be created directly from the QML system.
+
+    \code
+    WifiManager {
+        id: wifiManager
+        scanning: backendReady
+        Component.onCompleted: start()
+    }
+
+    Component {
+        id: listDelegate
+        Rectangle {
+            id: delegateBackground
+            height: 60
+            width: parent.width
+            color: "#5C5C5C"
+            border.color: "black"
+            border.width: 1
+
+            Text {
+                id: ssidLabel
+                anchors.top: parent.top
+                anchors.left: parent.left
+                anchors.margins: 10
+                font.pixelSize: 20
+                font.bold: true
+                color: "#E6E6E6"
+                text: network.ssid
+            }
+
+            Rectangle {
+                width: Math.max(100 + network.signalStrength, 0) / 100 * parent.width;
+                height: 20
+                radius: 10
+                antialiasing: true
+                anchors.margins: 20
+                anchors.right: parent.right
+                anchors.top: parent.top
+                color: "#BF8888"
+                border.color: "#212126"
+            }
+        }
+    }
+
+
+    ListView {
+        id: networkView
+        anchors.fill: parent
+        model: wifiManager.networks
+        delegate: listDelegate
+    }
+    \endcode
+
+*/
+
+/*!
+    \qmlmethod void WifiManager::start()
+
+    Start an initialization of the WiFi backend.
+
+    \sa stop
+ */
+
+/*!
+    \qmlmethod void WifiManager::stop()
+
+    Stop the WiFi backend and shut down all network functionality.
+
+    \sa start
+ */
+
+/*!
+    \qmlmethod void WifiManager::connect(WifiNetwork network, const string passphrase)
+
+    Connect to network \a network and use passphrase \a passphrase for authentication.
+
+    \sa disconnect, networkState
+ */
+
+/*!
+    \qmlmethod void WifiManager::disconnect()
+
+    Disconnect from currently connected network connection.
+
+    \sa connect, networkState
+ */
+
+/*!
+    \qmlsignal void WifiManager::scanningChanged(bool scanning)
+
+    This signal is emitted when device starts or stops to scan for available wifi networks.
+
+    \sa scanning
+
+*/
+
+/*!
+    \qmlsignal void WifiManager::networkStateChanged()
+
+    This signal is emitted whenever changes in a network state occur.
+
+    \sa networkState
+*/
+
+/*!
+    \qmlsignal void WifiManager::backendReadyChanged()
+
+    This signal is emitted when backend has been successfully initialized or shut down.
+
+    \sa start, stop
+*/
+
+/*!
+    \qmlsignal void WifiManager::connectedSSIDChanged(string ssid)
+
+    This signal is emitted when the device has connected to or disconnected from a network.
+    \a ssid contains the name of the connected network, or an empty string if the network was disconnected.
+
+    \sa connect, disconnect
+*/
+
 QWifiManager::QWifiManager()
     : m_networks(this)
     , m_eventThread(0)

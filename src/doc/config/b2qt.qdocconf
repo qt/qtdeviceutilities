@@ -8,10 +8,12 @@ project                      = QtEnterpriseEmbedded
 description                  = Qt Enterprise Embedded Documentation
 version                      = 2.0.0
 
-sourcedirs                   = ../src
-imagedirs                   += ../images
+sourcedirs                   = ../src \
+                               ../../imports/wifi
 
-sources.fileextensions       = "*.qdoc"
+headerdirs                   = ../../imports/wifi
+
+imagedirs                   += ../images
 
 indexes                      = $QT_INSTALL_DOCS/qtquick/qtquick.index \
                                $QT_INSTALL_DOCS/emulator/emulator.index
