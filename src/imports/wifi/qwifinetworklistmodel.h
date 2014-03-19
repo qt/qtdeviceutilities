@@ -33,10 +33,12 @@ class QWifiNetworkListModel : public QAbstractListModel
 public:
 
     QWifiNetworkListModel(QWifiManager *manager);
+    ~QWifiNetworkListModel();
 
     void parseScanResults(const QByteArray &data);
 
     QWifiNetwork *networkForSSID(const QByteArray &ssid, int *pos);
+    QWifiNetwork *outOfRangeListContains(const QByteArray &ssid);
 
     int rowCount(const QModelIndex &) const { return m_networks.size(); }
     QVariant data(const QModelIndex &index, int role) const;
@@ -46,6 +48,7 @@ public:
 private:
     QWifiManager *m_manager;
     QList<QWifiNetwork *> m_networks;
+    QList<QWifiNetwork *> m_outOfRangeNetworks;
 };
 
 #endif // QWIFINETWORKLISTMODEL_H

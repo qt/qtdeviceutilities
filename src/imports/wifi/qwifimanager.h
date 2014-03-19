@@ -42,6 +42,8 @@ class QWifiManager : public QObject
 public:
     enum NetworkState {
         Disconnected,
+        Authenticating,
+        HandshakeFailed,
         ObtainingIPAddress,
         DhcpRequestFailed,
         Connected
@@ -50,7 +52,7 @@ public:
     QWifiManager();
     ~QWifiManager();
 
-    QWifiNetworkListModel *networks() { return &m_networks; }
+    QWifiNetworkListModel *networks() { return &m_networkListModel; }
     QString connectedSSID() const { return m_connectedSSID; }
     bool scanning() const { return m_scanning; }
     void setScanning(bool scanning);
@@ -65,10 +67,10 @@ public slots:
     void disconnect();
 
 signals:
-    void scanningChanged(bool arg);
-    void networkStateChanged();
+    void scanningChanged(bool scanning);
+    void networkStateChanged(QWifiNetwork *network);
     void backendReadyChanged();
-    void connectedSSIDChanged(const QString &);
+    void connectedSSIDChanged(const QString &ssid);
 
 protected:
     bool event(QEvent *);
@@ -76,8 +78,10 @@ protected:
     void handleConnected();
     void connectToBackend();
     void disconnectFromBackend();
+    void exitEventThread();
     QByteArray call(const char *command) const;
     bool checkedCall(const char *command) const;
+    void updateNetworkState(NetworkState state);
 
 protected slots:
     void connectedToDaemon();
@@ -87,7 +91,7 @@ private:
     friend class QWifiManagerEventThread;
 
     QString m_connectedSSID;
-    QWifiNetworkListModel m_networks;
+    QWifiNetworkListModel m_networkListModel;
     QWifiManagerEventThread *m_eventThread;
 
     int m_scanTimer;
@@ -99,6 +103,8 @@ private:
     QLocalSocket *m_daemonClientSocket;
     QByteArray m_request;
     bool m_exitingEventThread;
+    bool m_startingUp;
+    QWifiNetwork *m_network;
 };
 
 #endif // QWIFIMANAGER_H

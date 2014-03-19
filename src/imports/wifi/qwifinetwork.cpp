@@ -45,7 +45,7 @@
 /*!
     \qmlproperty int WifiNetwork::signalStrength
 
-    This property holds the current strength of a WiFi signal. New readings are
+    This property holds the current strength of a WiFi signal, measured in dBm. New readings are
     taken every 5 seconds.
 
     \sa signalStrengthChanged
@@ -81,19 +81,10 @@
     This signal is emitted whenever signal strength has changed comparing the the
     previous reading, the new signal's strength is \a strength.
 
-    \code
-    function handleStrengthChanged(currentStrength) {
-        if (currentStrength < UNTOLERABLE_SPEED)
-            print("network speed has dropped under " + UNTOLERABLE_SPEED)
-    }
-
-    Component.onCompleted: {
-        network.onSignalStrengthChanged.connect(handleStrengthChanged)
-    }
-    \endcode
 */
 
-QWifiNetwork::QWifiNetwork()
+QWifiNetwork::QWifiNetwork() :
+    m_outOfRange(false)
 {
 }
 
@@ -103,4 +94,11 @@ void QWifiNetwork::setSignalStrength(int strength)
         return;
     m_signalStrength = strength;
     emit signalStrengthChanged(m_signalStrength);
+}
+
+void QWifiNetwork::setOutOfRange(bool outOfRange)
+{
+    if (m_outOfRange == outOfRange)
+        return;
+    m_outOfRange = outOfRange;
 }
