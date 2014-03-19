@@ -369,8 +369,8 @@
     \endlist
 
     \note You must install proprietary drivers for the Nexus 7 to boot
-    correctly. Until then, the screen will only show the "Google" logo,
-    instead of the \B2Q welcome screen or demo.
+    correctly. Until then, the screen will briefly show the "Google" logo and then go black,
+    instead of showing the \B2Q welcome screen or demo.
 
     \section1 Installing Proprietary Drivers
 
