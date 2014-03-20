@@ -34,6 +34,68 @@ const QEvent::Type WIFI_SCAN_RESULTS = (QEvent::Type) (QEvent::User + 2001);
 const QEvent::Type WIFI_CONNECTED = (QEvent::Type) (QEvent::User + 2002);
 
 /*
+ * Work around API differences between Android versions
+ */
+
+static int q_wifi_start_supplicant()
+{
+#if Q_ANDROID_VERSION_MAJOR == 4 && Q_ANDROID_VERSION_MINOR < 1
+    return wifi_start_supplicant();
+#else
+    return wifi_start_supplicant(0);
+#endif
+}
+
+static int q_wifi_stop_supplicant()
+{
+#if Q_ANDROID_VERSION_MAJOR == 4 && Q_ANDROID_VERSION_MINOR < 1
+    return wifi_stop_supplicant();
+#else
+    return wifi_stop_supplicant(0);
+#endif
+}
+
+static int q_wifi_connect_to_supplicant(const char *ifname)
+{
+#if Q_ANDROID_VERSION_MAJOR == 4 && (Q_ANDROID_VERSION_MINOR < 4 && Q_ANDROID_VERSION_MINOR >= 1)
+    return wifi_connect_to_supplicant(ifname);
+#else
+    Q_UNUSED(ifname);
+    return wifi_connect_to_supplicant();
+#endif
+}
+
+static void q_wifi_close_supplicant_connection(const char *ifname)
+{
+#if Q_ANDROID_VERSION_MAJOR == 4 && (Q_ANDROID_VERSION_MINOR < 4 && Q_ANDROID_VERSION_MINOR >= 1)
+    wifi_close_supplicant_connection(ifname);
+#else
+    Q_UNUSED(ifname);
+    wifi_close_supplicant_connection();
+#endif
+}
+
+static int q_wifi_wait_for_event(const char *ifname, char *buf, size_t len)
+{
+#if Q_ANDROID_VERSION_MAJOR == 4 && (Q_ANDROID_VERSION_MINOR < 4 && Q_ANDROID_VERSION_MINOR >= 1)
+    return wifi_wait_for_event(ifname, buf, len);
+#else
+    Q_UNUSED(ifname);
+    return wifi_wait_for_event(buf, len);
+#endif
+}
+
+static int q_wifi_command(const char *ifname, const char *command, char *reply, size_t *reply_len)
+{
+#if Q_ANDROID_VERSION_MAJOR == 4 && (Q_ANDROID_VERSION_MINOR < 4 && Q_ANDROID_VERSION_MINOR >= 1)
+    return wifi_command(ifname, command, reply, reply_len);
+#else
+    Q_UNUSED(ifname);
+    return wifi_command(command, reply, reply_len);
+#endif
+}
+
+/*
  * This function is borrowed from /system/core/libnetutils/dhcp_utils.c
  *
  * Wait for a system property to be assigned a specified value.
@@ -92,7 +154,7 @@ public:
         if (QT_WIFI_DEBUG) qDebug("EventReceiver thread is running");
         char buffer[2048];
         while (1) {
-            int size = wifi_wait_for_event(m_if.constData(), buffer, sizeof(buffer) - 1);
+            int size = q_wifi_wait_for_event(m_if.constData(), buffer, sizeof(buffer) - 1);
             if (size > 0) {
                 buffer[size] = 0;
 
@@ -225,7 +287,7 @@ void QWifiManager::connectToBackend()
         qWarning("QWifiManager: failed to load a driver");
         return;
     }
-    if (wifi_start_supplicant(0) != 0) {
+    if (q_wifi_start_supplicant() != 0) {
         qWarning("QWifiManager: failed to start a supplicant");
         return;
     }
@@ -233,7 +295,7 @@ void QWifiManager::connectToBackend()
         qWarning("QWifiManager: Timed out waiting for supplicant to start");
         return;
     }
-    if (wifi_connect_to_supplicant(m_interface.constData()) == 0) {
+    if (q_wifi_connect_to_supplicant(m_interface.constData()) == 0) {
         m_backendReady = true;
         emit backendReadyChanged();
         property_set(QT_WIFI_BACKEND, "running");
@@ -253,9 +315,9 @@ void QWifiManager::disconnectFromBackend()
     call("SCAN");
     m_eventThread->wait();
 
-    if (wifi_stop_supplicant(0) < 0)
+    if (q_wifi_stop_supplicant() < 0)
         qWarning("QWifiManager: failed to stop supplicant");
-    wifi_close_supplicant_connection(m_interface.constData());
+    q_wifi_close_supplicant_connection(m_interface.constData());
     property_set(QT_WIFI_BACKEND, "stopped");
     m_backendReady = false;
     emit backendReadyChanged();
@@ -283,7 +345,7 @@ QByteArray QWifiManager::call(const char *command) const
 {
     char data[2048];
     size_t len = sizeof(data) - 1;  // -1: room to add a 0-terminator
-    if (wifi_command(m_interface.constData(), command, data, &len) < 0) {
+    if (q_wifi_command(m_interface.constData(), command, data, &len) < 0) {
         qWarning("QWifiManager: call failed: %s", command);
         return QByteArray();
     }
