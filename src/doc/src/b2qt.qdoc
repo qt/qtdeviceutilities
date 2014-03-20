@@ -687,6 +687,53 @@
 */
 
 /*!
+    \target i.MX53 Quick Start Board (embedded Linux)
+    \page qtee-preparing-hardware-imx53qsb.html
+    \title Preparing i.MX53 Quick Start Board
+    \previouspage qtee-installation-guide.html
+    \nextpage qtee-building-and-running.html
+
+    Take the following steps to prepare a
+    \l{http://www.freescale.com/webapp/sps/site/prod_summary.jsp?code=IMX53QSB} {i.MX53 Quick Start Board}
+    for \B2Q.
+
+    \note Ethernet networking is required to connect the device to Qt Creator.
+
+    \note It is important that you repeat the steps in this section after you
+    update \SDK.
+
+    As i.MX53 Quick Start Board is not a \SDK reference board, there is no ready-made
+    image containing a \B2Q stack available. Instead, you must build it yourself using
+    the Yocto recipes and build scripts from the \B2Q source packages.
+    For more information, see \l{Building Your Own Embedded Linux Image}.
+
+    \section1 Preparing an SD Card
+
+    An SD card of at least 512 MB capacity is sufficient.
+
+    \include detect-sd-card-device-name.qdocinc instructions
+
+    \section1 Installing the \B2Q Image
+
+    To write the image to the SD card:
+
+    \code
+        cd <QtBuildDir>
+        sudo deploy.sh /dev/<device_name>
+    \endcode
+
+    After the image has been deployed, insert the SD card, power on the device and check that
+    the \B2Q welcome screen and/or demo appear.
+
+    \section1 Configuring a Device Kit in Qt Creator
+
+    \include b2qt-post-install-setup.qdocinc configuring network device
+
+    You are now ready to start developing for your device. For more information,
+    see \l{Building and Running an Example}.
+*/
+
+/*!
     \page qtee-building-and-running.html
     \title Building and Running an Example
     \previouspage qtee-preparing-hardware.html
@@ -957,6 +1004,19 @@
 
     After \e {embedded-linux/build_image.sh} has finished, you can flash the device with
     the updated image located in the build folder.
+
+    \section2 Configuring Qt Creator
+
+    After you have built the \B2Q stack, you must also set up Qt Creator in order to start
+    developing for your device. The following script does this for you.
+
+    \code
+    <INSTALL_DIR>/Boot2Qt-2.x/sources/b2qt-build-scripts/embedded-common/setup_qtcreator.sh <INSTALL_DIR>/Boot2Qt-2.x/sources/b2qt-build-scripts/embedded-linux/config.raspberrypi
+    \endcode
+
+    This will set up a new kit in Qt Creator, using the toolchain and Qt from
+    your build directory. The new kit is visible under \b Tools > \b Options
+    > \b {Build & Run} > \b Kits.
 
     \section2 Note About Support Services for Yocto Tools
 

@@ -65,7 +65,7 @@
 //! [steps for device kit]
     \list 1
         \li Select \b{Tools > Options > Build & Run > Kits}.
-        \li Select one of the predefined kits starting with \e{Boot2Qt...}
+        \li Select one of the predefined kits starting with \e{Boot to Qt...}
         that matches the type of your device.
         \li Select the correct device in the \b{Device} field.
         \li Select \b{OK}.
