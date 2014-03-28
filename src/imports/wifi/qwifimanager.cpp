@@ -19,10 +19,13 @@
 #include "qwifimanager.h"
 
 #include <QtCore>
-
+#ifdef Q_OS_ANDROID
 #include <hardware_legacy/wifi.h>
 #include <cutils/sockets.h>
 #include <unistd.h>
+#else
+#include <qwifi_elinux.h>
+#endif
 
 static const char SUPPLICANT_SVC[]  = "init.svc.wpa_supplicant";
 static const char WIFI_INTERFACE[]  = "wifi.interface";
@@ -34,6 +37,7 @@ const QEvent::Type WIFI_SCAN_RESULTS = (QEvent::Type) (QEvent::User + 2001);
 const QEvent::Type WIFI_CONNECTED = (QEvent::Type) (QEvent::User + 2002);
 const QEvent::Type WIFI_HANDSHAKE_FAILED = (QEvent::Type) (QEvent::User + 2003);
 
+#ifdef Q_OS_ANDROID
 /*
  * Work around API differences between Android versions
  */
@@ -125,6 +129,7 @@ static int wait_for_property(const char *name, const char *desired_value, int ma
     }
     return -1; /* failure */
 }
+#endif
 
 class QWifiManagerEvent : public QEvent
 {
@@ -410,17 +415,25 @@ QWifiManager::QWifiManager()
     , m_eventThread(0)
     , m_scanTimer(0)
     , m_scanning(false)
+#ifdef Q_OS_ANDROID
     , m_daemonClientSocket(0)
+#endif
     , m_exitingEventThread(false)
     , m_startingUp(true)
     , m_network(0)
 {
+#ifdef Q_OS_ANDROID
     char interface[PROPERTY_VALUE_MAX];
     property_get(WIFI_INTERFACE, interface, NULL);
     m_interface = interface;
-    if (QT_WIFI_DEBUG) qDebug("QWifiManager: using wifi interface: %s", m_interface.constData());
+#else
+    m_interface = "wlan0"; // use envvar for the interface name?
+    m_dhcpRunner = new ProcessRunner(m_interface);
+    QObject::connect(m_dhcpRunner, &ProcessRunner::processFinished, this, &QWifiManager::handleDhcpFinished);
+#endif
+    qDebug("QWifiManager: using wifi interface: %s", m_interface.constData());
     m_eventThread = new QWifiManagerEventThread(this, m_interface);
-
+#ifdef Q_OS_ANDROID
     m_daemonClientSocket = new QLocalSocket;
     int qconnFd = socket_local_client("qconnectivity", ANDROID_SOCKET_NAMESPACE_RESERVED, SOCK_STREAM);
     if (qconnFd != -1) {
@@ -444,15 +457,22 @@ QWifiManager::QWifiManager()
             disconnectFromBackend();
         }
     }
+#else
+    m_backendReady = false;
+    emit backendReadyChanged();
+#endif
 }
 
 QWifiManager::~QWifiManager()
 {
     exitEventThread();
     delete m_eventThread;
+#ifdef Q_OS_ANDROID
     delete m_daemonClientSocket;
+#endif
 }
 
+#ifdef Q_OS_ANDROID
 void QWifiManager::handleDhcpReply()
 {
     if (m_daemonClientSocket->canReadLine()) {
@@ -487,6 +507,14 @@ void QWifiManager::connectedToDaemon()
     m_daemonClientSocket->write(m_request.constData(), m_request.length());
     m_daemonClientSocket->flush();
 }
+#endif
+
+void QWifiManager::handleDhcpFinished()
+{
+    // ### TODO - could be that dhcp request fails, how to determine?
+    updateNetworkState(Connected);
+    call("SAVE_CONFIG");
+}
 
 void QWifiManager::start()
 {
@@ -506,22 +534,31 @@ void QWifiManager::stop()
 
 void QWifiManager::connectToBackend()
 {
+    // ### TODO: maybe it makes sense to move this functions in non-gui thread
+#ifdef Q_OS_ANDROID
     if (!(is_wifi_driver_loaded() || wifi_load_driver() == 0)) {
         qWarning("QWifiManager: failed to load a driver");
         return;
     }
+#else
+    QProcess::execute(QStringLiteral("ifup"), QStringList() << m_interface.constData());
+#endif
     if (q_wifi_start_supplicant() != 0) {
         qWarning("QWifiManager: failed to start a supplicant");
         return;
     }
+#ifdef Q_OS_ANDROID
     if (wait_for_property(SUPPLICANT_SVC, "running", 5) < 0) {
         qWarning("QWifiManager: Timed out waiting for supplicant to start");
         return;
     }
+#endif
     if (q_wifi_connect_to_supplicant(m_interface.constData()) == 0) {
         m_backendReady = true;
         emit backendReadyChanged();
+#ifdef Q_OS_ANDROID
         property_set(QT_WIFI_BACKEND, "running");
+#endif
     } else {
         qWarning("QWifiManager: failed to connect to a supplicant");
         return;
@@ -538,7 +575,12 @@ void QWifiManager::disconnectFromBackend()
     if (q_wifi_stop_supplicant() < 0)
         qWarning("QWifiManager: failed to stop supplicant");
     q_wifi_close_supplicant_connection(m_interface.constData());
+    setScanning(false);
+#ifdef Q_OS_ANDROID
     property_set(QT_WIFI_BACKEND, "stopped");
+#else
+    QProcess::execute(QStringLiteral("ifdown"), QStringList() << m_interface.constData());
+#endif
     m_backendReady = false;
     emit backendReadyChanged();
 }
@@ -633,7 +675,6 @@ void QWifiManager::connect(QWifiNetwork *network, const QString &passphrase)
         return;
     }
     updateNetworkState(Authenticating);
-
     call("DISABLE_NETWORK all");
     if (!m_connectedSSID.isEmpty()) {
         m_connectedSSID.clear();
@@ -695,11 +736,33 @@ void QWifiManager::connect(QWifiNetwork *network, const QString &passphrase)
 void QWifiManager::disconnect()
 {
     call("DISCONNECT");
+#ifdef Q_OS_ANDROID
     QByteArray req = m_interface;
     sendDhcpRequest(req.append(" disconnect"));
+#endif
     m_connectedSSID.clear();
     updateNetworkState(Disconnected);
     emit connectedSSIDChanged(m_connectedSSID);
+}
+
+void ProcessRunner::run()
+{
+    // kill existing udhcpc instance
+    QString filePath = QString("/var/run/udhcpc.").append(m_ifc).append(".pid");
+    QFile pidFile(filePath);
+    if (pidFile.open(QIODevice::ReadOnly)) {
+        QByteArray pid = pidFile.readAll();
+        pidFile.close();
+        QProcess::execute(QStringLiteral("kill"), QStringList() << pid.trimmed().constData());
+    } else {
+        qWarning() << "QWifiManager - Failed to read" << filePath;
+    }
+    QStringList args;
+    args << QStringLiteral("-R") << QStringLiteral("-n") << QStringLiteral("-p")
+         << filePath << QStringLiteral("-i") << m_ifc;
+    // start DHCP client
+    QProcess::execute(QStringLiteral("udhcpc"), args);
+    emit processFinished();
 }
 
 void QWifiManager::handleConnected()
@@ -732,6 +795,10 @@ void QWifiManager::handleConnected()
     }
 
     updateNetworkState(ObtainingIPAddress);
+#ifdef Q_OS_ANDROID
     QByteArray req = m_interface;
     sendDhcpRequest(req.append(" connect"));
+#else
+    m_dhcpRunner->start();
+#endif
 }

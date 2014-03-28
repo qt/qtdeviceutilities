@@ -20,14 +20,31 @@
 #define QWIFIMANAGER_H
 
 #include <QtCore/QObject>
+#include <QtCore/QThread>
 #include <QtCore/QByteArray>
-#include <QtNetwork/QLocalSocket>
 
+#ifdef Q_OS_ANDROID
+#include <QtNetwork/QLocalSocket>
 #include <cutils/properties.h>
+#endif
 
 #include "qwifinetworklistmodel.h"
 
 class QWifiManagerEventThread;
+
+class ProcessRunner : public QThread
+{
+    Q_OBJECT
+public:
+    ProcessRunner(const QByteArray &ifc) : m_ifc(ifc) {}
+    void run();
+
+signals:
+    void processFinished();
+
+private:
+    QByteArray m_ifc;
+};
 
 class QWifiManager : public QObject
 {
@@ -74,21 +91,26 @@ signals:
 
 protected:
     bool event(QEvent *);
-    void sendDhcpRequest(const QByteArray &request);
     void handleConnected();
     void connectToBackend();
     void disconnectFromBackend();
     void exitEventThread();
+
     QByteArray call(const char *command) const;
     bool checkedCall(const char *command) const;
     void updateNetworkState(NetworkState state);
 
 protected slots:
+#if defined(FORCE_MOC)
+    void sendDhcpRequest(const QByteArray &request);
     void connectedToDaemon();
     void handleDhcpReply();
+#endif
+    void handleDhcpFinished();
 
 private:
     friend class QWifiManagerEventThread;
+    friend class ProcessRunner;
 
     QString m_connectedSSID;
     QWifiNetworkListModel m_networkListModel;
@@ -100,7 +122,11 @@ private:
 
     QByteArray m_interface;
     NetworkState m_state;
+#ifdef Q_OS_ANDROID
     QLocalSocket *m_daemonClientSocket;
+#else
+    ProcessRunner *m_dhcpRunner;
+#endif
     QByteArray m_request;
     bool m_exitingEventThread;
     bool m_startingUp;
