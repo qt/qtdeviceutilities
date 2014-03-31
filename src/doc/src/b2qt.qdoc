@@ -51,6 +51,7 @@
         \endlist
         \li \l{Building and Running an Example}
         \li \l{Customization}
+        \li \l{Building Your Own Embedded Linux Image}
         \li \l{ChangeLog}
         \li \l{Troubleshooting}
         \li \l{License Information}
@@ -802,7 +803,7 @@
     \page qtee-customization.html
     \title Customization
     \previouspage qtee-building-and-running.html
-    \nextpage qtee-changelog.html
+    \nextpage qtee-custom-embedded-linux-image.html
 
     \section1 Environment and Input
 
@@ -907,8 +908,13 @@
       change \c /init.rc, or simply rename the \c
       {/system/bin/surfaceflinger} executable.
     \endlist
+*/
 
-    \section1 Building Your Own Embedded Linux Image
+/*!
+    \page qtee-custom-embedded-linux-image.html
+    \title Building Your Own Embedded Linux Image
+    \previouspage qtee-customization.html
+    \nextpage qtee-changelog.html
 
     \B2QL is built using the tools and resources from the \l {Yocto Project},
     and is based on Yocto's reference distribution (\e Poky). You can
@@ -916,7 +922,15 @@
     which packages are included in the build and how the software stack
     is configured.
 
-    \section2 Requirements
+    \section2 Note About Support Services for Yocto Tools
+
+    By default, Digia will only provide customer support for the Yocto
+    recipes on the reference platforms, as delivered with \SDK, and
+    setting up the development environment for them. Receiving support
+    for any other configuration requires a separate service agreement
+    between a customer and Digia.
+
+    \section1 Requirements
 
     You should be familiar with the Yocto tools and the concept of
     \e {recipes}. For more information, see Yocto Project
@@ -938,7 +952,7 @@
     \endcode
     \endlist
 
-    \section2 Setting Up Yocto Build Environment
+    \section1 Setting Up Yocto Build Environment
 
     Run the setup script that initializes the Yocto environment:
 
@@ -947,7 +961,7 @@
     <INSTALL_DIR>/Boot2Qt-2.x/sources/b2qt-yocto-meta/b2qt-init-build-env .
     \endcode
 
-    \section2 Building the Image and Toolchain
+    \section1 Building the Image and Toolchain
 
     After the Yocto environment is set up, you need to configure the
     build environment for your target device. Using Raspberry Pi as
@@ -974,7 +988,7 @@
     \note The generated target image does not yet include Qt libraries,
     you need to build Qt and add it into the image yourself.
 
-    \section2 Building Qt and Addons
+    \section1 Building Qt and Addons
 
     \e {Build scripts} source package contains scripts that can be used to
     build Qt and all additional Qt addons that are part of \B2QL image.
@@ -999,7 +1013,7 @@
     After \e {embedded-linux/build_image.sh} has finished, you can flash the device with
     the updated image located in the build folder.
 
-    \section2 Configuring Qt Creator
+    \section1 Configuring Qt Creator
 
     After you have built the \B2Q stack, you must also set up Qt Creator in order to start
     developing for your device. The following script does this for you.
@@ -1011,14 +1025,6 @@
     This will set up a new kit in Qt Creator, using the toolchain and Qt from
     your build directory. The new kit is visible under \b Tools > \b Options
     > \b {Build & Run} > \b Kits.
-
-    \section2 Note About Support Services for Yocto Tools
-
-    By default, Digia will only provide customer support for the Yocto
-    recipes on the reference platforms, as delivered with \SDK, and
-    setting up the development environment for them. Receiving support
-    for any other configuration requires a separate service agreement
-    between a customer and Digia.
 
     \section1 Using Network Connection for ADB
 
