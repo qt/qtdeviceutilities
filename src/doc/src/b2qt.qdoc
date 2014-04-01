@@ -49,7 +49,10 @@
             \li \l{Preparing BeagleBoard-xM}{BeagleBoard-xM (embedded Linux)}
             \li \l{Preparing Raspberry Pi}{Raspberry Pi Model B (embedded Linux)}
         \endlist
-        \li \l{Building and Running an Example}
+        \li \l{Building and Running Embedded Applications}
+        \list
+            \li \l{Special Build & Run Options}
+        \endlist
         \li \l{Customization}
         \li \l{Building Your Own Embedded Linux Image}
         \li \l{ChangeLog}
@@ -742,9 +745,11 @@
 
 /*!
     \page qtee-building-and-running.html
-    \title Building and Running an Example
+    \title Building and Running Embedded Applications
     \previouspage qtee-preparing-hardware.html
-    \nextpage qtee-customization.html
+    \nextpage qtee-custom-build-steps.html
+
+    \section1 Building and Running an Example
 
     After you complete the installation and configuration steps for \SDK and the
     target devices, you can test the setup by creating a simple \l{Qt Quick}
@@ -820,6 +825,41 @@
 */
 
 /*!
+    \page qtee-custom-build-steps.html
+    \title Special Build & Run Options
+    \previouspage qtee-building-and-running.html
+    \nextpage qtee-customization.html
+
+    Qt Creator allows you to execute custom commands on the embedded device connected
+    to the development host, both during the build process and during deployment of your
+    application.
+
+    \section1 Custom Build Steps
+
+    To add a custom step to be executed during the build:
+
+    \list 1
+        \li In Qt Creator, go to \b Projects > \b {Build Settings}
+        \li Select \b Build configuration for the \e {\B2Q} version you want to customize.
+        \li Click \b {Add Build Step} and select \b {Custom Remote Command (via adb shell)}.
+        \li Enter the command to be executed.
+    \endlist
+
+    \section1 Custom Deployment Steps
+
+    To add a custom step to be executed during deployment:
+
+    \list 1
+        \li In Qt Creator, go to \b Projects > \b {Run Settings}
+        \li Select \b Run configuration for the \e {\B2Q} version you want to customize.
+        \li Click \b {Add Deploy Step} and select \b {Custom Remote Command (via adb shell)}.
+        \li Enter the command to be executed.
+    \endlist
+
+    \sa {Booting to a Custom Application}
+*/
+
+/*!
     \page qtee-customization.html
     \title Customization
     \previouspage qtee-building-and-running.html
@@ -865,8 +905,9 @@
 
     After you have deployed your own application to the device, it will be
     launched on boot, instead of the \B2Q demo launcher. To prevent this
-    behavior, remove the \b {Make this application the default one} step from
-    the \b{Run Settings} for your project in the Qt Creator \b Projects mode.
+    behavior, remove or disable the \b {Make this application the default one}
+    step from the \b{Run Settings} for your project in the Qt Creator \b Projects
+    mode.
 
     To remove your application from the default startup, use the following
     command:
