@@ -122,7 +122,8 @@ public:
 /*!
     \qmlmodule Qt.labs.wifi 0.1
     \title WiFi Module
-    \ingroup b2qt-qmlmodules
+    \ingroup qtee-qmlmodules
+    \brief Controlling wireless network interfaces.
 
     Provides QML types for controlling and accessing information about wireless network interfaces.
 
@@ -139,13 +140,15 @@ public:
     import Qt.labs.wifi 0.1 as Wifi
     \endcode
 
+    \section1 QML Types
 */
 
 /*!
 
     \qmltype WifiManager
     \inqmlmodule Qt.labs.wifi
-    \brief WifiManager provides information about the wifi backend and available networks.
+    \ingroup wifi-qmltypes
+    \brief Provides information about the WiFi backend and available networks.
 
     This element is the main interface to the WiFi functionality.
 

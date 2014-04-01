@@ -56,6 +56,12 @@
         \li \l{Troubleshooting}
         \li \l{License Information}
     \endlist
+
+    \section1 Reference Documentation
+
+    \list
+        \li \l{Add-On QML Types}
+    \endlist
 */
 
 /*!
@@ -1099,6 +1105,7 @@
     \page qtee-licenses.html
     \title License Information
     \previouspage qtee-troubleshooting.html
+    \nextpage qtee-qml-reference.html
 
     \section1 Licensing
 
@@ -1402,4 +1409,19 @@
     Embedded Linux devices can be accessed using user \c{root} and an empty password.
 
 
+*/
+
+/*!
+    \page qtee-qml-reference.html
+    \title Add-On QML Types
+    \previouspage qtee-licenses.html
+
+    The following QML modules are included in the \B2Q stack and provide
+    additional QML types that are useful in an embedded application:
+
+    \annotatedlist qtee-qmlmodules
+
+    \section1 WiFi Module
+
+    \annotatedlist wifi-qmltypes
 */

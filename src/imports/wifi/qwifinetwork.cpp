@@ -21,7 +21,8 @@
 /*!
     \qmltype WifiNetwork
     \inqmlmodule Qt.labs.wifi
-    \brief WifiNetwork represents a single wifi network access point.
+    \ingroup wifi-qmltypes
+    \brief Represents a single WiFi network access point.
 
     Instances of WifiNetwork cannot be created directly from the QML system, use
     WifiManager::networks.

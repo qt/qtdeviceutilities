@@ -28,6 +28,7 @@
 /*!
     \qmltype Interface
     \inqmlmodule Qt.labs.wifi
+    \ingroup wifi-qmltypes
     \brief The Interface element provides the module API.
 
     This element cannot be directly created. It can only be accessed via a namespace import.
@@ -43,7 +44,6 @@
             print("WiFi functionality not available on this device.")
         }
     }
-
     \endcode
 */
 
