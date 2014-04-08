@@ -191,13 +191,13 @@
     install the required packages in recent versions of Ubuntu, use
     the following command in a terminal:
 
-    \code
+    \badcode
         sudo apt-get install g++-multilib zlib1g:i386
     \endcode
 
     For older Ubuntu versions such as 12.04, instead do:
 
-    \code
+    \badcode
         sudo apt-get install g++-multilib ia32-libs
     \endcode
 
@@ -212,14 +212,14 @@
     version of VirtualBox than your distribution does provide.
     You have to add a foreign package source:
 
-    \code
+    \badcode
         wget -q http://download.virtualbox.org/virtualbox/debian/oracle_vbox.asc -O- | sudo apt-key add -
         echo "deb http://download.virtualbox.org/virtualbox/debian $(lsb_release -sc) contrib" | sudo tee /etc/apt/sources.list.d/virtualbox.list
         sudo apt-get update
     \endcode
 
     Now install VirtualBox on your computer
-    \code
+    \badcode
         sudo apt-get install virtualbox-4.3
     \endcode
 
@@ -341,7 +341,7 @@
             \note If the ordinary startup screen appears instead, power off the
             device and try again.
         \li On the development host, enter the following command:
-        \code
+        \badcode
             sudo <INSTALL_DIR>/Tools/b2qt/fastboot oem unlock
         \endcode
         \li Press the power button to confirm that you want to unlock the
@@ -363,7 +363,7 @@
     \li Re-flash the \e{boot}, \e{system}, and \e{userdata} partitions on the
     device, by entering the following commands in the following order:
 
-    \code
+    \badcode
         cd <INSTALL_DIR>
         sudo ./Tools/b2qt/fastboot flash boot Boot2Qt-2.x/nexus7-eAndroid/images/boot.img
         sudo ./Tools/b2qt/fastboot flash system Boot2Qt-2.x/nexus7-eAndroid/images/system.img
@@ -372,7 +372,7 @@
 
     \li Once the flashing is completed successfully, reboot the device:
 
-    \code
+    \badcode
         sudo ./Tools/b2qt/fastboot reboot
     \endcode
 
@@ -387,7 +387,7 @@
     Download the proprietary drivers for your Nexus 7. The following script downloads the third
     party drivers from \l{https://developers.google.com/android/nexus/drivers#grouperjdq39}
     {https://developers.google.com/android/nexus/drivers#grouperjdq39}
-    \code
+    \badcode
         cd <INSTALL_DIR>
         ./Boot2Qt-2.x/nexus7-eAndroid/images/download.sh
     \endcode
@@ -401,7 +401,7 @@
         \li Power on the device and connect it to the development host via USB.
             Also check that the device is \e{not} in fastboot mode.
         \li Run the driver extractors:
-        \code
+        \badcode
             cd Boot2Qt-2.x/nexus7-eAndroid/images/drivers
             ./extract-nvidia-grouper.sh
             ./extract-asus-grouper.sh
@@ -411,11 +411,11 @@
             \note Carefully read the license terms enclosed in each individual
             extractor.
         \li Find out the serial number of the connected Nexus 7 device:
-        \code
+        \badcode
             ./Tools/b2qt/adb devices
         \endcode
         \li Deploy the drivers to your device:
-        \code
+        \badcode
             ./Boot2Qt-2.x/nexus7-eAndroid/images/deploy.sh <serial_number>
         \endcode
     \endlist
@@ -462,7 +462,7 @@
 
     To write the image to the SD card:
 
-    \code
+    \badcode
         cd <INSTALL_DIR>
         sudo Boot2Qt-2.x/beagleboard-eLinux/images/deploy.sh /dev/<device_name>
     \endcode
@@ -519,13 +519,13 @@
 
     \list 1
         \li Extract the downloaded package:
-        \code
+        \badcode
         ~/$ mkdir bd-android
         ~/$ cd bd-android
         ~/bd-android$ tar zxvf ~/Downloads/imx6-jb-20130628.tar.gz
         \endcode
         \li Run device/boundary/mksdcard.sh:
-        \code
+        \badcode
         ~/bd-android$ sudo device/boundary/mksdcard.sh /dev/<device_name>
         ~/bd-android$ sync
         \endcode
@@ -535,7 +535,7 @@
 
     Make sure you have the required tools installed in your development machine:
 
-    \code
+    \badcode
         sudo apt-get install u-boot-tools
     \endcode
 
@@ -544,12 +544,12 @@
 
     \list
         \li \b{\B2QA}
-        \code
+        \badcode
             cd <INSTALL_DIR>
             ./Boot2Qt-2.x/iMX6-eAndroid/images/deploy.sh /dev/<device_name>
         \endcode
         \li \b{\B2QL}
-        \code
+        \badcode
             cd <INSTALL_DIR>
             sudo ./Boot2Qt-2.x/iMX6-eLinux/images/deploy.sh /dev/<device_name>
         \endcode
@@ -601,7 +601,7 @@
 
     To write the image to the SD card:
 
-    \code
+    \badcode
         cd <INSTALL_DIR>
         sudo Boot2Qt-2.x/raspberrypi-eLinux/images/deploy.sh /dev/<device_name>
     \endcode
@@ -653,11 +653,11 @@
 
     \list 1
         \li Extract the downloaded package:
-        \code
+        \badcode
         ~$ tar zxvf ~/Downloads/TI_Android_JB_4.2.2_DevKit_4.1.1_beagleboneblack.tar.gz
         \endcode
         \li Run beagleboneblack/mkmmc-android.sh:
-        \code
+        \badcode
         ~$ cd beagleboneblack
         ~/beagleboneblack$ sudo ./mkmmc-android.sh /dev/<device_name>
         \endcode
@@ -670,12 +670,12 @@
 
     \list
         \li \b{\B2QA}
-        \code
+        \badcode
             cd <INSTALL_DIR>
             ./Boot2Qt-2.x/beaglebone-eAndroid/images/deploy.sh /dev/<device_name>
         \endcode
         \li \b{\B2QL}
-        \code
+        \badcode
             cd <INSTALL_DIR>
             sudo ./Boot2Qt-2.x/beaglebone-eLinux/images/deploy.sh /dev/<device_name>
         \endcode
@@ -727,7 +727,7 @@
 
     To write the image to the SD card:
 
-    \code
+    \badcode
         cd <QtBuildDir>
         sudo deploy.sh /dev/<device_name>
     \endcode
@@ -798,7 +798,7 @@
 
     Open the .pro file and define the \c target.path and \c INSTALLS variables as follows:
 
-    \code
+    \badcode
         target.path = /data/user/qt/$$TARGET
         INSTALLS   += target
     \endcode
@@ -810,7 +810,7 @@
     If the application depends on additional resources (such as QML files and
     images), you need to deploy them as well. For example:
 
-    \code
+    \badcode
         appFiles.files = *.png qml
         appFiles.path  = /data/user/qt/$$TARGET
         INSTALLS      += appFiles
@@ -879,13 +879,13 @@
     On some devices, the root file system (where this file
     resides) is mounted read-only at boot time. To allow modification,
     remount it read-write by entering the following command:
-    \code
+    \badcode
         <INSTALL_DIR>/Tools/b2qt/adb remount
     \endcode
 
     In the \c{appcontroller.conf} file, the input devices are
     specified by the lines similar to these:
-    \code
+    \badcode
         env=QT_QPA_GENERIC_PLUGINS=evdevtouch:/dev/input/event0
     \endcode
 
@@ -911,7 +911,7 @@
 
     To remove your application from the default startup, use the following
     command:
-    \code
+    \badcode
         <INSTALL_DIR>/Tools/b2qt/adb shell appcontroller --remove-default
     \endcode
 
@@ -922,7 +922,7 @@
     to change the default view orientation. The following example shows how to rotate your
     application in QML.
 
-    \code
+    \qml
     import QtQuick 2.0
 
     Item {
@@ -951,7 +951,7 @@
             }
         }
     }
-    \endcode
+    \endqml
 
     \section1 Disabling Screen Composer on Embedded Android
 
@@ -1008,7 +1008,7 @@
             compatible with \B2Q.
         \li Install the dependencies for the Yocto tools. In Ubuntu,
             the following packages are required:
-    \code
+    \badcode
     sudo apt-get install gawk wget git-core diffstat unzip texinfo gcc-multilib build-essential chrpath libsdl1.2-dev xterm
     \endcode
     \endlist
@@ -1017,7 +1017,7 @@
 
     Run the setup script that initializes the Yocto environment:
 
-    \code
+    \badcode
     cd <BuildDir>
     <INSTALL_DIR>/Boot2Qt-2.x/sources/b2qt-yocto-meta/b2qt-init-build-env .
     \endcode
@@ -1028,7 +1028,7 @@
     build environment for your target device. Using Raspberry Pi as
     an example:
 
-    \code
+    \badcode
     export TEMPLATECONF=meta-b2qt/conf
     export MACHINE=raspberrypi
     source poky/oe-init-build-env build-raspberrypi
@@ -1038,7 +1038,7 @@
     and the external toolchain that is used for building the Qt framework and
     applications.
 
-    \code
+    \badcode
     bitbake b2qt-embedded-image
     bitbake meta-toolchain-b2qt-embedded-sdk
     \endcode
@@ -1056,7 +1056,7 @@
     To setup build environment for your target hardware, run the initialization
     script. Using Raspberry Pi as an example:
 
-    \code
+    \badcode
     <INSTALL_DIR>/Boot2Qt-2.x/sources/b2qt-build-scripts/embedded-common/init_build_env.sh <INSTALL_DIR>/Boot2Qt-2.x/sources/b2qt-build-scripts/embedded-linux/config.raspberrypi
     \endcode
 
@@ -1065,7 +1065,7 @@
 
     You can use following scripts to build different parts of the \B2Q stack.
 
-    \code
+    \badcode
     <INSTALL_DIR>/Boot2Qt-2.x/sources/b2qt-build-scripts/embedded-linux/build_qt.sh
     <INSTALL_DIR>/Boot2Qt-2.x/sources/b2qt-build-scripts/embedded-linux/build_extras.sh
     <INSTALL_DIR>/Boot2Qt-2.x/sources/b2qt-build-scripts/embedded-linux/build_image.sh
@@ -1079,7 +1079,7 @@
     After you have built the \B2Q stack, you must also set up Qt Creator in order to start
     developing for your device. The following script does this for you.
 
-    \code
+    \badcode
     <INSTALL_DIR>/Boot2Qt-2.x/sources/b2qt-build-scripts/embedded-common/setup_qtcreator.sh
     \endcode
 
@@ -1096,7 +1096,7 @@
     to \c 'yes'. This can also be done with \c adb, while the device is still
     connected via USB.
 
-    \code
+    \badcode
      <INSTALL_DIR>/Tools/b2qt/adb shell sed -i -e 's/USE_ETHERNET=no/USE_ETHERNET=yes/' /etc/default/adbd
     \endcode
 
@@ -1109,7 +1109,7 @@
     \page qtee-supported-platforms.html
     \title Supported Platforms
     \previouspage qtee-installation-guide.html
-    \nextpage qtee-changelog.html
+    \nextpage qtee-preparing-hardware.html
 
     \section1 Supported Target Devices
 
@@ -1319,7 +1319,7 @@
     download the correct file for your device. Unpack it, and then enter the
     following commands:
 
-    \code
+    \badcode
         <INSTALL_DIR>/Tools/b2qt/adb reboot bootloader
         <INSTALL_DIR>/Tools/b2qt/fastboot -w update <image-file>.zip
     \endcode
@@ -1331,7 +1331,7 @@
 
     Otherwise, make sure the Nexus 7 is connected to the development host, and run
     the following command in a terminal:
-    \code
+    \badcode
         <INSTALL_DIR>/Tools/b2qt/adb shell reboot -p
     \endcode
 
@@ -1361,7 +1361,7 @@
     \section2 Something crashed!
 
     The following command shows the system log:
-    \code
+    \badcode
         <INSTALL_DIR>/Tools/b2qt/adb logcat
     \endcode
 
@@ -1410,7 +1410,7 @@
     command to find to see the serial number of the connected
     devices:
 
-    \code
+    \badcode
         <INSTALL_DIR>/Tools/b2qt/adb devices
     \endcode
 
@@ -1428,18 +1428,18 @@
 
     Check the output of the following command:
 
-    \code
+    \badcode
         <INSTALL_DIR>/Tools/b2qt/adb devices
     \endcode
 
     If the emulator (192.168.56.101) is not listed there, try connecting to it:
 
-    \code
+    \badcode
         <INSTALL_DIR>/Tools/b2qt/adb connect 192.168.56.101
     \endcode
 
     If the emulator is already listed, try disconnecting it:
-    \code
+    \badcode
         <INSTALL_DIR>/Tools/b2qt/adb disconnect 192.168.56.101
     \endcode
 

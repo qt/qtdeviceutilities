@@ -26,7 +26,7 @@
 
         \li Run the following command in a shell:
 
-    \code
+    \badcode
         echo 'SUBSYSTEM=="usb", ATTRS{idVendor}=="18d1", TAG+="udev-acl", TAG+="uaccess"' | sudo tee -a /etc/udev/rules.d/70-boot2qt.rules
     \endcode
 
