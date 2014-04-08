@@ -27,6 +27,10 @@
 
     \annotatedlist qtee-qmlmodules
 
+    \section1 B2Qt Utils Module
+
+    \annotatedlist utils-qmltypes
+
     \section1 WiFi Module
 
     \annotatedlist wifi-qmltypes
