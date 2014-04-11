@@ -17,6 +17,7 @@ imagedirs                   += ../images
 
 indexes                      = $QT_INSTALL_DOCS/qtquick/qtquick.index \
                                $QT_INSTALL_DOCS/qtcore/qtcore.index \
+                               $QT_INSTALL_DOCS/qtserialport/qtserialport.index \
                                $QT_INSTALL_DOCS/emulator/emulator.index
 
 qhp.projects                 = B2Qt

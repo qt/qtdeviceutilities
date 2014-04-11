@@ -1198,6 +1198,60 @@
     \previouspage qtee-customization.html
     \nextpage qtee-troubleshooting.html
 
+    \section1 \B2Q 2.1.0
+
+    \list
+        \li Release date: Apr. 15, 2014
+    \endlist
+
+    \section2 Changes
+    \b {New Features}:
+    \list
+        \li \l {Qt Data Visualization} version 1.0 was added to the \B2Q stack
+        \li \l {Enginio Data Storage} version 1.0 was added to the \B2Q stack
+        \li \l {Qt Quick Enterprise Controls} was updated to version 1.1
+        \li \l {Qt Serial Port} support was added to the \B2Q stack
+        \li Bluetooth on \B2QL: Support for bluez was added
+        \li Added support for building \B2QL for i.MX53 from sources
+    \endlist
+
+    \b {Improvements}:
+    \list
+        \li Qt Creator plugin for \B2Q now supports incremental deployment, custom adb commands
+        \li Adb now easily usable over IP on all devices on \B2QL
+        \li Update new content to device without erasing it first on \B2QL
+        \li All images now contain generally used CA certificates
+        \li Toolchains updated to support Qt WebEngine
+        \li Documentation was added for QML types provided by the \l {WiFi Module}
+        \li Emulator: Debug logging functionality was added
+        \li Various documentation improvements
+        \li \SDK installer error handling was improved
+        \li 3rd party license information was updated
+        \li Launcher Settings application UI was improved
+    \endlist
+
+    \b {Fixed Bugs}:
+    \list
+        \li \B2QL: OpenSSL Heartbleed bug was fixed
+        \li \B2QA: Qt debug symbols were missing
+        \li QEglFSCompositor::render() using incorrect vertices for full-screen quad, resulting in bad texture sampling
+        \li Use damaged rect instead of full texture upload for raster windows
+        \li Emulator: Crash when launching multiple instances
+        \li Emulator: State transitions were not working properly
+        \li \B2QA emulator: C++ debugging was fixed
+        \li Emulators: Qt Quick applications don't exit on Qt.quit()
+        \li Banding was visible on Raspberry Pi
+        \li Qt Creator: adb failed to connect
+        \li QtCreator: Different Virtual Machiness with the same OS were not handled properly
+        \li Qt Creator: Tabstop order in device wizard was incorrect
+        \li Qt 5 Everywhere demo: not all internet radio station were working
+    \endlist
+
+    \b {Fixed Known Issues}:
+    \list
+        \li Embedded Android: Arabic Numbers Not Always Rendered Correctly
+    \endlist
+
     \section1 \B2Q 2.0.0
 
     \list
