@@ -460,7 +460,12 @@
 
     \section1 Installing the \B2Q Image
 
-    To write the image to the SD card:
+    To write the image to the SD card, ensure that no partitions on the
+    SD card are mounted:
+
+    \include detect-sd-card-device-name.qdocinc unmount
+
+    Then,
 
     \badcode
         cd <INSTALL_DIR>
@@ -539,8 +544,13 @@
         sudo apt-get install u-boot-tools
     \endcode
 
-    Then, upgrade the SD card with \B2Q. Use one of the commands below,
-    depending on whether you are developing for embedded Android or Linux:
+    Then, upgrade the SD card with \B2Q. First, ensure that no partitions on the
+    SD card are mounted:
+
+    \include detect-sd-card-device-name.qdocinc unmount
+
+    Then, use one of the commands below, depending on whether you are developing
+    for embedded Android or Linux:
 
     \list
         \li \b{\B2QA}
@@ -599,7 +609,12 @@
 
     \section1 Installing the \B2Q Image
 
-    To write the image to the SD card:
+    To write the image to the SD card, ensure that no partitions on the
+    SD card are mounted:
+
+    \include detect-sd-card-device-name.qdocinc unmount
+
+    Then,
 
     \badcode
         cd <INSTALL_DIR>
@@ -665,8 +680,13 @@
 
     \section1 Installing the \B2Q Image
 
-    Then, upgrade the SD card with \B2Q. Use one of the commands below,
-    depending on whether you are developing for embedded Android or Linux:
+    Then, upgrade the SD card with \B2Q. First, ensure that no partitions on the
+    SD card are mounted:
+
+    \include detect-sd-card-device-name.qdocinc unmount
+
+    Then, use one of the commands below, depending on whether you are developing
+    for embedded Android or Linux:
 
     \list
         \li \b{\B2QA}
@@ -725,7 +745,12 @@
 
     \section1 Installing the \B2Q Image
 
-    To write the image to the SD card:
+    To write the image to the SD card, ensure that no partitions on the
+    SD card are mounted:
+
+    \include detect-sd-card-device-name.qdocinc unmount
+
+    Then,
 
     \badcode
         cd <QtBuildDir>

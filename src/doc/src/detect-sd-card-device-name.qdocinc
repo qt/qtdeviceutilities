@@ -21,7 +21,7 @@
     Plug in the SD card or reader to the development host,
     and use the following command to find out its device name:
 
-    \code
+    \badcode
         lsblk -d
     \endcode
 
@@ -34,12 +34,12 @@
     Typical device names for SD cards include \c {sdb} and
     \c {mmcblk0}. The full device path is \c {/dev/} followed by
     the name.
+//! [instructions]
 
-    To make sure that the SD card is not mounted, enter the following
-    command, where <device_name> is the device name:
-
-    \code
+//! [unmount]
+    \badcode
         umount /dev/<device_name>
     \endcode
-//! [instructions]
+//! [unmount]
+
 */
