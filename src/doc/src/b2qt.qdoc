@@ -1528,6 +1528,11 @@
 
     Embedded Linux devices can be accessed using user \c{root} and an empty password.
 
+    \section2 No sound on Embedded Android devices
+
+    When connecting a headphone or speakers while the device is running, the
+    audio may not be properly routed to the correct output. As a workaround,
+    connect the headphone or speakers before turning on the device.
 
 */
 
