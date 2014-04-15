@@ -25,6 +25,35 @@
 
 #include <hardware_legacy/wifi.h>
 
+/*!
+    \qmltype Interface
+    \inqmlmodule Qt.labs.wifi
+    \ingroup wifi-qmltypes
+    \brief The Interface element provides the module API.
+
+    This element cannot be directly created. It can only be accessed via a namespace import.
+
+    \code
+    import Qt.labs.wifi 0.1
+    import Qt.labs.wifi 0.1 as Wifi
+
+    Component.onCompleted: {
+        if (Wifi.Interface.wifiSupported()) {
+            var component = Qt.createComponent("WifiMenu.qml")
+        } else {
+            print("WiFi functionality not available on this device.")
+        }
+    }
+    \endcode
+*/
+
+/*!
+    \qmlmethod bool Interface::wifiSupported()
+
+    Returns true if the device is WiFi capable (provides a WiFi driver), otherwise returns false.
+*/
+
+
 class QWifiGlobal : public QObject
 {
     Q_OBJECT
@@ -68,7 +97,7 @@ public:
         Q_ASSERT(QLatin1String(uri) == QLatin1String("Qt.labs.wifi"));
 
         qmlRegisterType<QWifiManager>(uri, 0, 1, "WifiManager");
-        qmlRegisterType<QWifiNetworkList>();
+        qmlRegisterType<QWifiNetworkListModel>();
         qmlRegisterSingletonType<QWifiGlobal>(uri, 0, 1, "Interface", global_object_wifi);
     }
 };

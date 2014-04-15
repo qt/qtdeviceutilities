@@ -26,7 +26,7 @@
 
         \li Run the following command in a shell:
 
-    \code
+    \badcode
         echo 'SUBSYSTEM=="usb", ATTRS{idVendor}=="18d1", TAG+="udev-acl", TAG+="uaccess"' | sudo tee -a /etc/udev/rules.d/70-boot2qt.rules
     \endcode
 
@@ -65,7 +65,7 @@
 //! [steps for device kit]
     \list 1
         \li Select \b{Tools > Options > Build & Run > Kits}.
-        \li Select one of the predefined kits starting with \e{Boot2Qt...}
+        \li Select one of the predefined kits starting with \e{Boot to Qt...}
         that matches the type of your device.
         \li Select the correct device in the \b{Device} field.
         \li Select \b{OK}.
