@@ -32,6 +32,7 @@ static bool QT_WIFI_DEBUG = !qgetenv("QT_WIFI_DEBUG").isEmpty();
 
 const QEvent::Type WIFI_SCAN_RESULTS = (QEvent::Type) (QEvent::User + 2001);
 const QEvent::Type WIFI_CONNECTED = (QEvent::Type) (QEvent::User + 2002);
+const QEvent::Type WIFI_HANDSHAKE_FAILED = (QEvent::Type) (QEvent::User + 2003);
 
 /*
  * Work around API differences between Android versions
@@ -151,28 +152,30 @@ public:
     }
 
     void run() {
-        if (QT_WIFI_DEBUG) qDebug("EventReceiver thread is running");
+        if (QT_WIFI_DEBUG) qDebug("WiFi event thread is running");
+        QWifiManagerEvent *event = 0;
         char buffer[2048];
         while (1) {
             int size = q_wifi_wait_for_event(m_if.constData(), buffer, sizeof(buffer) - 1);
             if (size > 0) {
                 buffer[size] = 0;
-
-                if (QT_WIFI_DEBUG) qDebug("EVENT: %s", buffer);
-
-                char *event = &buffer[11];
-                if (strstr(event, "SCAN-RESULTS")) {
-                    if (m_manager->exitingEventThread())
+                event = 0;
+                if (strstr(buffer, "SCAN-RESULTS")) {
+                    if (m_manager->exitingEventThread()) {
+                        if (QT_WIFI_DEBUG) qDebug() << "Exiting WiFi event thread";
                         return;
-                    QWifiManagerEvent *e = new QWifiManagerEvent(WIFI_SCAN_RESULTS);
-                    QCoreApplication::postEvent(m_manager, e);
-                } else if (strstr(event, "CONNECTED")) {
-                    QWifiManagerEvent *e = new QWifiManagerEvent(WIFI_CONNECTED);
-                    QCoreApplication::postEvent(m_manager, e);
-                } else if (strstr(event, "TERMINATING")) {
+                    }
+                    event = new QWifiManagerEvent(WIFI_SCAN_RESULTS);
+                } else if (strstr(buffer, "CONNECTED")) {
+                    event = new QWifiManagerEvent(WIFI_CONNECTED);
+                } else if (strstr(buffer, "Handshake failed")) {
+                    event = new QWifiManagerEvent(WIFI_HANDSHAKE_FAILED);
+                } else if (strstr(buffer, "TERMINATING")) {
                     // stop monitoring for events when supplicant is terminating
                     return;
                 }
+                if (event)
+                    QCoreApplication::postEvent(m_manager, event);
             }
         }
     }
@@ -181,13 +184,236 @@ public:
     QByteArray m_if;
 };
 
+/*!
+    \qmlmodule Qt.labs.wifi 0.1
+    \title WiFi Module
+    \ingroup qtee-qmlmodules
+    \brief Controlling wireless network interfaces.
+
+    Provides QML types for controlling and accessing information about wireless network interfaces.
+
+    The import command for adding these QML types is:
+
+    \code
+    import Qt.labs.wifi 0.1
+    \endcode
+
+    If the module is imported into a namespace, some additional methods become available through the
+    \l Interface element.
+
+    \code
+    import Qt.labs.wifi 0.1 as Wifi
+    \endcode
+
+    \section1 QML Types
+*/
+
+/*!
+
+    \qmltype WifiManager
+    \inqmlmodule Qt.labs.wifi
+    \ingroup wifi-qmltypes
+    \brief Provides information about the WiFi backend and available networks.
+
+    This element is the main interface to the WiFi functionality.
+
+ */
+
+/*!
+    \qmlproperty enumeration WifiManager::networkState
+
+    This property holds the current state of the network connection.
+
+    \list
+    \li \e WifiManager.Disconnected - Not connected to any network
+    \li \e WifiManager.Authenticating - Verifying password with the network provider
+    \li \e WifiManager.HandshakeFailed - Incorrect password provided
+    \li \e WifiManager.ObtainingIPAddress - Requesting IP address from DHCP server
+    \li \e WifiManager.DhcpRequestFailed - Could not retrieve IP address
+    \li \e WifiManager.Connected - Ready to process network requests
+    \endlist
+*/
+
+/*!
+    \qmlproperty bool WifiManager::backendReady
+
+    This property holds whether or not the backend has been successfully initialized.
+
+    \code
+    WifiManager {
+        id: wifiManager
+        scanning: backendReady
+    }
+
+    Button {
+        id: wifiOnOffButton
+        text: (wifiManager.backendReady) ? "Switch Off" : "Switch On"
+        onClicked: {
+            if (wifiManager.backendReady) {
+                wifiManager.stop()
+            } else {
+                wifiManager.start()
+            }
+        }
+    }
+    \endcode
+*/
+
+/*!
+    \qmlproperty bool WifiManager::scanning
+
+    This property holds whether or not the backend is scanning for WiFi networks. To
+    preserve battery energy, stop scanning for networks once you are done with configuring a network.
+
+    Before starting to scan for networks, you need to initialize the WiFi backend.
+
+    \sa start
+*/
+
+/*!
+    \qmlproperty string WifiManager::connectedSSID
+
+    This property holds the network name.
+*/
+
+/*!
+    \qmlproperty WifiNetworkListModel WifiManager::networks
+
+    This property holds a list of networks that can be sensed by a device. Use the returned
+    model as data model in ListView, model is updated every 5 seconds.
+
+    WifiNetworkListModel is a simple data model consisting of WifiNetwork objects, accessed with
+    the "network" data role. Instances of WifiNetwork cannot be created directly from the QML system.
+
+    \code
+    WifiManager {
+        id: wifiManager
+        scanning: backendReady
+        Component.onCompleted: start()
+    }
+
+    Component {
+        id: listDelegate
+        Rectangle {
+            id: delegateBackground
+            height: 60
+            width: parent.width
+            color: "#5C5C5C"
+            border.color: "black"
+            border.width: 1
+
+            Text {
+                id: ssidLabel
+                anchors.top: parent.top
+                anchors.left: parent.left
+                anchors.margins: 10
+                font.pixelSize: 20
+                font.bold: true
+                color: "#E6E6E6"
+                text: network.ssid
+            }
+
+            Rectangle {
+                width: Math.max(100 + network.signalStrength, 0) / 100 * parent.width;
+                height: 20
+                radius: 10
+                antialiasing: true
+                anchors.margins: 20
+                anchors.right: parent.right
+                anchors.top: parent.top
+                color: "#BF8888"
+                border.color: "#212126"
+            }
+        }
+    }
+
+
+    ListView {
+        id: networkView
+        anchors.fill: parent
+        model: wifiManager.networks
+        delegate: listDelegate
+    }
+    \endcode
+
+*/
+
+/*!
+    \qmlmethod void WifiManager::start()
+
+    Start an initialization of the WiFi backend.
+
+    \sa stop
+ */
+
+/*!
+    \qmlmethod void WifiManager::stop()
+
+    Stop the WiFi backend and shut down all network functionality.
+
+    \sa start
+ */
+
+/*!
+    \qmlmethod void WifiManager::connect(WifiNetwork network, const string passphrase)
+
+    Connect to network \a network and use passphrase \a passphrase for authentication.
+
+    \sa disconnect, networkState
+ */
+
+/*!
+    \qmlmethod void WifiManager::disconnect()
+
+    Disconnect from currently connected network connection.
+
+    \sa connect, networkState
+ */
+
+/*!
+    \qmlsignal void WifiManager::scanningChanged(bool scanning)
+
+    This signal is emitted when device starts or stops to scan for available wifi networks.
+
+    \sa scanning
+
+*/
+
+/*!
+    \qmlsignal void WifiManager::networkStateChanged(WifiNetwork network)
+
+    This signal is emitted whenever changes in a network state occur. Network \a network is the
+    the currently active network connection.
+
+    \sa networkState
+*/
+
+/*!
+    \qmlsignal void WifiManager::backendReadyChanged()
+
+    This signal is emitted when backend has been successfully initialized or shut down.
+
+    \sa start, stop
+*/
+
+/*!
+    \qmlsignal void WifiManager::connectedSSIDChanged(string ssid)
+
+    This signal is emitted when the device has connected to or disconnected from a network.
+    \a ssid contains the name of the connected network, or an empty string if the network was disconnected.
+
+    \sa connect, disconnect
+*/
+
 QWifiManager::QWifiManager()
-    : m_networks(this)
+    : m_networkListModel(this)
     , m_eventThread(0)
     , m_scanTimer(0)
     , m_scanning(false)
     , m_daemonClientSocket(0)
     , m_exitingEventThread(false)
+    , m_startingUp(true)
+    , m_network(0)
 {
     char interface[PROPERTY_VALUE_MAX];
     property_get(WIFI_INTERFACE, interface, NULL);
@@ -205,15 +431,15 @@ QWifiManager::QWifiManager()
         qWarning() << "QWifiManager: failed to connect to qconnectivity socket";
     }
     // check if backend has already been initialized
-    char backend_status[PROPERTY_VALUE_MAX];
-    if (property_get(QT_WIFI_BACKEND, backend_status, NULL)) {
-        if (strcmp(backend_status, "running") == 0) {
+    char backendStatus[PROPERTY_VALUE_MAX];
+    if (property_get(QT_WIFI_BACKEND, backendStatus, NULL)) {
+        if (strcmp(backendStatus, "running") == 0) {
             // let it re-connect, in most cases this will see that everything is working properly
             // and will do nothing. Special case is when process has crashed or was killed by a system
             // signal in previous execution, which results in broken connection to a supplicant,
             // connectToBackend will fix it..
             connectToBackend();
-        } else if (strcmp(backend_status, "stopped") == 0) {
+        } else if (strcmp(backendStatus, "stopped") == 0) {
             // same here, cleans up the state
             disconnectFromBackend();
         }
@@ -222,12 +448,7 @@ QWifiManager::QWifiManager()
 
 QWifiManager::~QWifiManager()
 {
-    // exit event thread if it is running
-    if (m_eventThread->isRunning()) {
-        m_exitingEventThread = true;
-        call("SCAN");
-        m_eventThread->wait();
-    }
+    exitEventThread();
     delete m_eventThread;
     delete m_daemonClientSocket;
 }
@@ -239,14 +460,12 @@ void QWifiManager::handleDhcpReply()
         receivedMessage = m_daemonClientSocket->readLine(m_daemonClientSocket->bytesAvailable());
         if (QT_WIFI_DEBUG) qDebug() << "QWifiManager: reply from qconnectivity: " << receivedMessage;
         if (receivedMessage == "success") {
-            m_state = Connected;
-            emit networkStateChanged();
+            updateNetworkState(Connected);
             emit connectedSSIDChanged(m_connectedSSID);
             // Store settings of a working wifi connection
             call("SAVE_CONFIG");
         } else if (receivedMessage == "failed") {
-            m_state = DhcpRequestFailed;
-            emit networkStateChanged();
+            updateNetworkState(DhcpRequestFailed);
         } else {
             qWarning() << "QWifiManager: unknown message: " << receivedMessage;
         }
@@ -272,12 +491,16 @@ void QWifiManager::connectedToDaemon()
 void QWifiManager::start()
 {
     if (QT_WIFI_DEBUG) qDebug("QWifiManager: connecting to the backend");
+    if (m_backendReady)
+        return;
     connectToBackend();
 }
 
 void QWifiManager::stop()
 {
     if (QT_WIFI_DEBUG) qDebug("QWifiManager: shutting down");
+    if (!m_backendReady)
+        return;
     disconnectFromBackend();
 }
 
@@ -306,15 +529,12 @@ void QWifiManager::connectToBackend()
     if (QT_WIFI_DEBUG) qDebug("QWifiManager: started successfully");
     m_exitingEventThread = false;
     m_eventThread->start();
-    handleConnected();
+    call("SCAN");
 }
 
 void QWifiManager::disconnectFromBackend()
 {
-    m_exitingEventThread = true;
-    call("SCAN");
-    m_eventThread->wait();
-
+    exitEventThread();
     if (q_wifi_stop_supplicant() < 0)
         qWarning("QWifiManager: failed to stop supplicant");
     q_wifi_close_supplicant_connection(m_interface.constData());
@@ -323,9 +543,18 @@ void QWifiManager::disconnectFromBackend()
     emit backendReadyChanged();
 }
 
+void QWifiManager::exitEventThread()
+{
+    if (m_eventThread->isRunning()) {
+        m_exitingEventThread = true;
+        call("SCAN");
+        m_eventThread->wait();
+    }
+}
+
 void QWifiManager::setScanning(bool scanning)
 {
-    if (m_scanning == scanning)
+    if (!m_backendReady || m_scanning == scanning)
         return;
 
     m_scanning = scanning;
@@ -361,14 +590,26 @@ bool QWifiManager::checkedCall(const char *command) const
     return call(command).trimmed().toUpper() == "OK";
 }
 
+void QWifiManager::updateNetworkState(NetworkState state)
+{
+    m_state = state;
+    if (m_network)
+        emit networkStateChanged(m_network);
+}
+
 bool QWifiManager::event(QEvent *e)
 {
     switch ((int) e->type()) {
     case WIFI_SCAN_RESULTS:
-        m_networks.parseScanResults(call("SCAN_RESULTS"));
+        m_networkListModel.parseScanResults(call("SCAN_RESULTS"));
+        if (m_startingUp)
+            handleConnected();
         return true;
     case WIFI_CONNECTED:
         handleConnected();
+        break;
+    case WIFI_HANDSHAKE_FAILED:
+        updateNetworkState(HandshakeFailed);
         break;
     case QEvent::Timer: {
         int tid = static_cast<QTimerEvent *>(e)->timerId();
@@ -385,10 +626,13 @@ bool QWifiManager::event(QEvent *e)
 
 void QWifiManager::connect(QWifiNetwork *network, const QString &passphrase)
 {
+    m_network = network;
     if (network->ssid() == m_connectedSSID) {
-        if (QT_WIFI_DEBUG) qDebug("QWifiManager::connect(), already connected to %s", network->ssid().constData());
+        if (QT_WIFI_DEBUG)
+            qDebug("QWifiManager::connect(), already connected to %s", network->ssid().constData());
         return;
     }
+    updateNetworkState(Authenticating);
 
     call("DISABLE_NETWORK all");
     if (!m_connectedSSID.isEmpty()) {
@@ -396,16 +640,13 @@ void QWifiManager::connect(QWifiNetwork *network, const QString &passphrase)
         emit connectedSSIDChanged(m_connectedSSID);
     }
 
-    m_state = ObtainingIPAddress;
-    emit networkStateChanged();
     bool networkKnown = false;
     QByteArray id;
     QByteArray listResult = call("LIST_NETWORKS");
     QList<QByteArray> lines = listResult.split('\n');
     foreach (const QByteArray &line, lines) {
         if (line.contains(network->ssid())) {
-            int networkId = line.toInt();
-            id = QByteArray::number(networkId);
+            id = line.split('\t').at(0);
             networkKnown = true;
             break;
         }
@@ -413,7 +654,7 @@ void QWifiManager::connect(QWifiNetwork *network, const QString &passphrase)
 
     if (!networkKnown) {
         bool ok;
-        QByteArray id = call("ADD_NETWORK").trimmed();
+        id = call("ADD_NETWORK").trimmed();
         id.toInt(&ok);
         if (!ok) {
             qWarning("QWifiManager::connect(), failed to add network");
@@ -456,9 +697,8 @@ void QWifiManager::disconnect()
     call("DISCONNECT");
     QByteArray req = m_interface;
     sendDhcpRequest(req.append(" disconnect"));
-    m_state = Disconnected;
     m_connectedSSID.clear();
-    emit networkStateChanged();
+    updateNetworkState(Disconnected);
     emit connectedSSIDChanged(m_connectedSSID);
 }
 
@@ -466,7 +706,7 @@ void QWifiManager::handleConnected()
 {
     QList<QByteArray> lists = call("LIST_NETWORKS").split('\n');
     QByteArray connectedNetwork;
-    for (int i=1; i<lists.size(); ++i) {
+    for (int i = 1; i < lists.size(); ++i) {
         if (lists.at(i).toUpper().contains("[CURRENT]")) {
             connectedNetwork = lists.at(i);
             break;
@@ -475,8 +715,6 @@ void QWifiManager::handleConnected()
 
     if (connectedNetwork.isEmpty()) {
         if (QT_WIFI_DEBUG) qDebug("QWifiManager::handleConnected: not connected to a network...");
-        m_state = Disconnected;
-        emit networkStateChanged();
         return;
     }
 
@@ -485,6 +723,15 @@ void QWifiManager::handleConnected()
     QList<QByteArray> info = connectedNetwork.split('\t');
     m_connectedSSID = info.at(1);
 
+    if (m_startingUp) {
+        m_startingUp = false;
+        if (!m_network) {
+            int pos = 0; // unused
+            m_network = m_networkListModel.networkForSSID(info.at(1), &pos);
+        }
+    }
+
+    updateNetworkState(ObtainingIPAddress);
     QByteArray req = m_interface;
     sendDhcpRequest(req.append(" connect"));
 }

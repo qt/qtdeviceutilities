@@ -22,8 +22,6 @@
 #include <QtCore/QByteArray>
 #include <QtCore/QObject>
 
-class QWifiManager;
-
 class QWifiNetwork : public QObject
 {
     Q_OBJECT
@@ -48,6 +46,9 @@ public:
     int signalStrength() const { return m_signalStrength; }
     void setSignalStrength(int strength);
 
+    void setOutOfRange(bool outOfRange);
+    bool outOfRange() { return m_outOfRange; }
+
     QByteArray flags() const { return m_flags; }
     void setFlags(const QByteArray &f) { m_flags = f; }
     bool supportsWPA2() const { return m_flags.contains("WPA2"); }
@@ -56,7 +57,7 @@ public:
     bool supportsWPS() const { return m_flags.contains("WPS"); }
 
 signals:
-    void signalStrengthChanged(int arg);
+    void signalStrengthChanged(int strength);
 
 private:
     QByteArray m_bssid;
@@ -64,6 +65,7 @@ private:
     int m_signalStrength;
 
     QByteArray m_flags;
+    bool m_outOfRange;
 };
 
 #endif // QWIFINETWORK_H

@@ -6,20 +6,24 @@ sourceencoding               = UTF-8
 
 project                      = QtEnterpriseEmbedded
 description                  = Qt Enterprise Embedded Documentation
-version                      = 2.0.0
+version                      = 2.1.0
 
-sourcedirs                   = ../src
+sourcedirs                   = ../src \
+                               ../../imports/wifi
+
+headerdirs                   = ../../imports/wifi
+
 imagedirs                   += ../images
 
-sources.fileextensions       = "*.qdoc"
-
 indexes                      = $QT_INSTALL_DOCS/qtquick/qtquick.index \
+                               $QT_INSTALL_DOCS/qtcore/qtcore.index \
+                               $QT_INSTALL_DOCS/qtserialport/qtserialport.index \
                                $QT_INSTALL_DOCS/emulator/emulator.index
 
 qhp.projects                 = B2Qt
 
 qhp.B2Qt.file                = b2qt.qhp
-qhp.B2Qt.namespace           = com.digia.b2qt.200
+qhp.B2Qt.namespace           = com.digia.b2qt.210
 qhp.B2Qt.virtualFolder       = b2qt
 qhp.B2Qt.indexTitle          = Qt Enterprise Embedded Documentation
 qhp.B2Qt.indexRoot           =
@@ -35,3 +39,4 @@ macro.B2QA                   = "\\e {Boot to Qt for embedded Android}"
 macro.B2QL                   = "\\e {Boot to Qt for embedded Linux}"
 
 navigation.landingpage = "Qt Enterprise Embedded"
+navigation.qmltypespage = "Add-On QML Types"

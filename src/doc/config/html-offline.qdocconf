@@ -1,5 +1,7 @@
 # use the global Qt template with modifications to the html footer
 include($QT_INSTALL_DOCS/global/qt-html-templates-offline.qdocconf)
+include($QT_INSTALL_DOCS/global/qt-cpp-defines.qdocconf)
+include($QT_INSTALL_DOCS/global/fileextensions.qdocconf)
 
 HTML.nobreadcrumbs    = "true"
 

@@ -16,55 +16,47 @@
 ** the contact form at http://qt.digia.com/
 **
 ****************************************************************************/
-#include "qwifinetworklist.h"
+#include "qwifinetworklistmodel.h"
 
 #include <QtCore>
 
-const int ID_BSSID = (Qt::ItemDataRole) (Qt::UserRole + 1);
-const int ID_SSID = (Qt::ItemDataRole) (Qt::UserRole + 2);
-const int ID_SIGNAL = (Qt::ItemDataRole) (Qt::UserRole + 3);
-const int ID_WPA2 = (Qt::ItemDataRole) (Qt::UserRole + 4);
-const int ID_WPA = (Qt::ItemDataRole) (Qt::UserRole + 5);
-const int ID_NETWORK = (Qt::ItemDataRole) (Qt::UserRole + 6);
+const int ID_NETWORK = (Qt::ItemDataRole) (Qt::UserRole + 1);
 
-QWifiNetworkList::QWifiNetworkList(QWifiManager *manager)
+QWifiNetworkListModel::QWifiNetworkListModel(QWifiManager *manager)
     : m_manager(manager)
 {
 }
 
-QHash<int, QByteArray> QWifiNetworkList::roleNames() const
+QWifiNetworkListModel::~QWifiNetworkListModel()
+{
+    qDeleteAll(m_networks);
+    qDeleteAll(m_outOfRangeNetworks);
+    m_networks.clear();
+    m_outOfRangeNetworks.clear();
+}
+
+QHash<int, QByteArray> QWifiNetworkListModel::roleNames() const
 {
     QHash<int, QByteArray> names;
-    names.insert(ID_BSSID, "bssid");
-    names.insert(ID_SSID, "ssid");
-    names.insert(ID_SIGNAL, "strength");
-    names.insert(ID_WPA2, "wpa2");
-    names.insert(ID_WPA, "wpa");
     names.insert(ID_NETWORK, "network");
     return names;
 }
 
-QVariant QWifiNetworkList::data(const QModelIndex &index, int role) const
+QVariant QWifiNetworkListModel::data(const QModelIndex &index, int role) const
 {
     QWifiNetwork *n = m_networks.at(index.row());
-
     switch (role) {
-    case ID_BSSID: return n->bssid();
-    case ID_SSID: return n->ssid();
-    case ID_SIGNAL: return n->signalStrength();
-    case ID_WPA2: return n->supportsWPA2();
-    case ID_WPA: return n->supportsWPA();
-    case ID_NETWORK: return QVariant::fromValue((QObject *) n);
+        case ID_NETWORK: return QVariant::fromValue((QObject *) n);
     }
 
-    qWarning("QWifiNetworkList::data(), undefined role: %d\n", role);
+    qWarning("QWifiNetworkListModel::data(), undefined role: %d\n", role);
 
     return QVariant();
 }
 
-QWifiNetwork *QWifiNetworkList::networkForSSID(const QByteArray &ssid, int *pos)
+QWifiNetwork *QWifiNetworkListModel::networkForSSID(const QByteArray &ssid, int *pos)
 {
-    for (int i=0; i<m_networks.size(); ++i) {
+    for (int i = 0; i < m_networks.size(); ++i) {
         if (m_networks.at(i)->ssid() == ssid) {
             if (pos)
                 *pos = i;
@@ -74,21 +66,32 @@ QWifiNetwork *QWifiNetworkList::networkForSSID(const QByteArray &ssid, int *pos)
     return 0;
 }
 
-void QWifiNetworkList::parseScanResults(const QByteArray &results)
+QWifiNetwork *QWifiNetworkListModel::outOfRangeListContains(const QByteArray &ssid)
+{
+    for (int i = 0; i < m_outOfRangeNetworks.length(); ++i)
+        if (m_outOfRangeNetworks.at(i)->ssid() == ssid)
+            return m_outOfRangeNetworks.takeAt(i);
+    return 0;
+}
+
+void QWifiNetworkListModel::parseScanResults(const QByteArray &results)
 {
     QList<QByteArray> lines = results.split('\n');
-
     QSet<QByteArray> sensibleNetworks;
-    for (int i=1; i<lines.size(); ++i) {
+
+    for (int i = 1; i < lines.size(); ++i) {
         QList<QByteArray> info = lines.at(i).split('\t');
         if (info.size() < 5 || info.at(4).isEmpty() || info.at(0).isEmpty())
             continue;
         int pos = 0;
-        if (!sensibleNetworks.contains(info.at(4)))
-            sensibleNetworks.insert(info.at(4));
-        QWifiNetwork *existingNetwork = networkForSSID(info.at(4), &pos);
-        if (!existingNetwork) {
+        sensibleNetworks.insert(info.at(4));
+        QWifiNetwork *knownNetwork = networkForSSID(info.at(4), &pos);
+        if (!knownNetwork)
+            knownNetwork = outOfRangeListContains(info.at(4));
+
+        if (!knownNetwork) {
             QWifiNetwork *network = new QWifiNetwork();
+            network->setOutOfRange(false);
             network->setBssid(info.at(0));
             network->setFlags(info.at(3));
             // signal strength is in dBm
@@ -98,13 +101,23 @@ void QWifiNetworkList::parseScanResults(const QByteArray &results)
             m_networks << network;
             endInsertRows();
         } else {
+            if (knownNetwork->outOfRange()) {
+                // known network has come back into a range
+                knownNetwork->setOutOfRange(false);
+                beginInsertRows(QModelIndex(), m_networks.size(), m_networks.size());
+                m_networks << knownNetwork;
+                endInsertRows();
+                pos = m_networks.length() - 1;
+            }
             // ssids are the same, compare bssids..
-            if (existingNetwork->bssid() == info.at(0)) {
+            if (knownNetwork->bssid() == info.at(0)) {
                 // same access point, simply update the signal strength
-                existingNetwork->setSignalStrength(info.at(2).toInt());
+                knownNetwork->setSignalStrength(info.at(2).toInt());
+                knownNetwork->setOutOfRange(false);
                 dataChanged(createIndex(pos, 0), createIndex(pos, 0));
-            } else if (existingNetwork->signalStrength() < info.at(2).toInt()) {
+            } else if (knownNetwork->signalStrength() < info.at(2).toInt()) {
                 // replace with a stronger access point within the same network
+                m_networks.at(pos)->setOutOfRange(false);
                 m_networks.at(pos)->setBssid(info.at(0));
                 m_networks.at(pos)->setFlags(info.at(3));
                 m_networks.at(pos)->setSignalStrength(info.at(2).toInt());
@@ -113,16 +126,16 @@ void QWifiNetworkList::parseScanResults(const QByteArray &results)
             }
         }
     }
-    // remove networks that have gone out of range
-    for (int i = 0; i < m_networks.size(); ++i) {
+    // remove out-of-range networks from the data model
+    for (int i = 0; i < m_networks.size();) {
         if (!sensibleNetworks.contains(m_networks.at(i)->ssid())) {
             beginRemoveRows(QModelIndex(), i, i);
-            delete m_networks.takeAt(i);
+            QWifiNetwork *n = m_networks.takeAt(i);
+            n->setOutOfRange(true);
+            m_outOfRangeNetworks.append(n);
             endRemoveRows();
         } else {
             ++i;
         }
     }
 }
-
-
