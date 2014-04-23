@@ -44,7 +44,7 @@ static int MIN_RENEWAL_TIME_SECS = 300; // 5 min
 #if Q_ANDROID_VERSION_MAJOR == 4 && Q_ANDROID_VERSION_MINOR < 3
 // this function is defined in android/system/core/libnetutils/dhcp_utils.c
 extern "C" {
-int dhcp_do_request_renew(char *ifname,
+int dhcp_do_request_renew(const char *ifname,
                           char *ipaddr,
                           char *gateway,
                           uint32_t *prefixLength,
