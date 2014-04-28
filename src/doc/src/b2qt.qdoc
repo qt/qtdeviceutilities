@@ -49,11 +49,21 @@
             \li \l{Preparing BeagleBoard-xM}{BeagleBoard-xM (embedded Linux)}
             \li \l{Preparing Raspberry Pi}{Raspberry Pi Model B (embedded Linux)}
         \endlist
-        \li \l{Building and Running an Example}
+        \li \l{Building and Running Embedded Applications}
+        \list
+            \li \l{Special Build & Run Options}
+        \endlist
         \li \l{Customization}
+        \li \l{Building Your Own Embedded Linux Image}
         \li \l{ChangeLog}
         \li \l{Troubleshooting}
         \li \l{License Information}
+    \endlist
+
+    \section1 Reference Documentation
+
+    \list
+        \li \l{Add-On QML Types}
     \endlist
 */
 
@@ -181,13 +191,13 @@
     install the required packages in recent versions of Ubuntu, use
     the following command in a terminal:
 
-    \code
+    \badcode
         sudo apt-get install g++-multilib zlib1g:i386
     \endcode
 
     For older Ubuntu versions such as 12.04, instead do:
 
-    \code
+    \badcode
         sudo apt-get install g++-multilib ia32-libs
     \endcode
 
@@ -202,14 +212,14 @@
     version of VirtualBox than your distribution does provide.
     You have to add a foreign package source:
 
-    \code
+    \badcode
         wget -q http://download.virtualbox.org/virtualbox/debian/oracle_vbox.asc -O- | sudo apt-key add -
         echo "deb http://download.virtualbox.org/virtualbox/debian $(lsb_release -sc) contrib" | sudo tee /etc/apt/sources.list.d/virtualbox.list
         sudo apt-get update
     \endcode
 
     Now install VirtualBox on your computer
-    \code
+    \badcode
         sudo apt-get install virtualbox-4.3
     \endcode
 
@@ -252,6 +262,8 @@
         \li Run the installer and follow its instructions.
 
     \endlist
+
+    \note Do not execute the installer as root user or with sudo.
 
     The installer will let you select a directory where \SDK will be
     installed. In this documentation, the installation directory is referred
@@ -329,7 +341,7 @@
             \note If the ordinary startup screen appears instead, power off the
             device and try again.
         \li On the development host, enter the following command:
-        \code
+        \badcode
             sudo <INSTALL_DIR>/Tools/b2qt/fastboot oem unlock
         \endcode
         \li Press the power button to confirm that you want to unlock the
@@ -351,7 +363,7 @@
     \li Re-flash the \e{boot}, \e{system}, and \e{userdata} partitions on the
     device, by entering the following commands in the following order:
 
-    \code
+    \badcode
         cd <INSTALL_DIR>
         sudo ./Tools/b2qt/fastboot flash boot Boot2Qt-2.x/nexus7-eAndroid/images/boot.img
         sudo ./Tools/b2qt/fastboot flash system Boot2Qt-2.x/nexus7-eAndroid/images/system.img
@@ -360,22 +372,22 @@
 
     \li Once the flashing is completed successfully, reboot the device:
 
-    \code
+    \badcode
         sudo ./Tools/b2qt/fastboot reboot
     \endcode
 
     \endlist
 
     \note You must install proprietary drivers for the Nexus 7 to boot
-    correctly. Until then, the screen will only show the "Google" logo,
-    instead of the \B2Q welcome screen or demo.
+    correctly. Until then, the screen will briefly show the "Google" logo and then go black,
+    instead of showing the \B2Q welcome screen or demo.
 
     \section1 Installing Proprietary Drivers
 
     Download the proprietary drivers for your Nexus 7. The following script downloads the third
     party drivers from \l{https://developers.google.com/android/nexus/drivers#grouperjdq39}
     {https://developers.google.com/android/nexus/drivers#grouperjdq39}
-    \code
+    \badcode
         cd <INSTALL_DIR>
         ./Boot2Qt-2.x/nexus7-eAndroid/images/download.sh
     \endcode
@@ -389,7 +401,7 @@
         \li Power on the device and connect it to the development host via USB.
             Also check that the device is \e{not} in fastboot mode.
         \li Run the driver extractors:
-        \code
+        \badcode
             cd Boot2Qt-2.x/nexus7-eAndroid/images/drivers
             ./extract-nvidia-grouper.sh
             ./extract-asus-grouper.sh
@@ -399,11 +411,11 @@
             \note Carefully read the license terms enclosed in each individual
             extractor.
         \li Find out the serial number of the connected Nexus 7 device:
-        \code
+        \badcode
             ./Tools/b2qt/adb devices
         \endcode
         \li Deploy the drivers to your device:
-        \code
+        \badcode
             ./Boot2Qt-2.x/nexus7-eAndroid/images/deploy.sh <serial_number>
         \endcode
     \endlist
@@ -448,9 +460,14 @@
 
     \section1 Installing the \B2Q Image
 
-    To write the image to the SD card:
+    To write the image to the SD card, ensure that no partitions on the
+    SD card are mounted:
 
-    \code
+    \include detect-sd-card-device-name.qdocinc unmount
+
+    Then,
+
+    \badcode
         cd <INSTALL_DIR>
         sudo Boot2Qt-2.x/beagleboard-eLinux/images/deploy.sh /dev/<device_name>
     \endcode
@@ -507,13 +524,13 @@
 
     \list 1
         \li Extract the downloaded package:
-        \code
+        \badcode
         ~/$ mkdir bd-android
         ~/$ cd bd-android
         ~/bd-android$ tar zxvf ~/Downloads/imx6-jb-20130628.tar.gz
         \endcode
         \li Run device/boundary/mksdcard.sh:
-        \code
+        \badcode
         ~/bd-android$ sudo device/boundary/mksdcard.sh /dev/<device_name>
         ~/bd-android$ sync
         \endcode
@@ -523,21 +540,26 @@
 
     Make sure you have the required tools installed in your development machine:
 
-    \code
+    \badcode
         sudo apt-get install u-boot-tools
     \endcode
 
-    Then, upgrade the SD card with \B2Q. Use one of the commands below,
-    depending on whether you are developing for embedded Android or Linux:
+    Then, upgrade the SD card with \B2Q. First, ensure that no partitions on the
+    SD card are mounted:
+
+    \include detect-sd-card-device-name.qdocinc unmount
+
+    Then, use one of the commands below, depending on whether you are developing
+    for embedded Android or Linux:
 
     \list
         \li \b{\B2QA}
-        \code
+        \badcode
             cd <INSTALL_DIR>
             ./Boot2Qt-2.x/iMX6-eAndroid/images/deploy.sh /dev/<device_name>
         \endcode
         \li \b{\B2QL}
-        \code
+        \badcode
             cd <INSTALL_DIR>
             sudo ./Boot2Qt-2.x/iMX6-eLinux/images/deploy.sh /dev/<device_name>
         \endcode
@@ -587,9 +609,14 @@
 
     \section1 Installing the \B2Q Image
 
-    To write the image to the SD card:
+    To write the image to the SD card, ensure that no partitions on the
+    SD card are mounted:
 
-    \code
+    \include detect-sd-card-device-name.qdocinc unmount
+
+    Then,
+
+    \badcode
         cd <INSTALL_DIR>
         sudo Boot2Qt-2.x/raspberrypi-eLinux/images/deploy.sh /dev/<device_name>
     \endcode
@@ -641,11 +668,11 @@
 
     \list 1
         \li Extract the downloaded package:
-        \code
+        \badcode
         ~$ tar zxvf ~/Downloads/TI_Android_JB_4.2.2_DevKit_4.1.1_beagleboneblack.tar.gz
         \endcode
         \li Run beagleboneblack/mkmmc-android.sh:
-        \code
+        \badcode
         ~$ cd beagleboneblack
         ~/beagleboneblack$ sudo ./mkmmc-android.sh /dev/<device_name>
         \endcode
@@ -653,17 +680,22 @@
 
     \section1 Installing the \B2Q Image
 
-    Then, upgrade the SD card with \B2Q. Use one of the commands below,
-    depending on whether you are developing for embedded Android or Linux:
+    Then, upgrade the SD card with \B2Q. First, ensure that no partitions on the
+    SD card are mounted:
+
+    \include detect-sd-card-device-name.qdocinc unmount
+
+    Then, use one of the commands below, depending on whether you are developing
+    for embedded Android or Linux:
 
     \list
         \li \b{\B2QA}
-        \code
+        \badcode
             cd <INSTALL_DIR>
             ./Boot2Qt-2.x/beaglebone-eAndroid/images/deploy.sh /dev/<device_name>
         \endcode
         \li \b{\B2QL}
-        \code
+        \badcode
             cd <INSTALL_DIR>
             sudo ./Boot2Qt-2.x/beaglebone-eLinux/images/deploy.sh /dev/<device_name>
         \endcode
@@ -685,10 +717,64 @@
 */
 
 /*!
+    \target i.MX53 Quick Start Board (embedded Linux)
+    \page qtee-preparing-hardware-imx53qsb.html
+    \title Preparing i.MX53 Quick Start Board
+    \previouspage qtee-installation-guide.html
+    \nextpage qtee-building-and-running.html
+
+    Take the following steps to prepare a
+    \l{http://www.freescale.com/webapp/sps/site/prod_summary.jsp?code=IMX53QSB} {i.MX53 Quick Start Board}
+    for \B2Q.
+
+    \note Ethernet networking is required to connect the device to Qt Creator.
+
+    \note It is important that you repeat the steps in this section after you
+    update \SDK.
+
+    As i.MX53 Quick Start Board is not a \SDK reference board, there is no ready-made
+    image containing a \B2Q stack available. Instead, you must build it yourself using
+    the Yocto recipes and build scripts from the \B2Q source packages.
+    For more information, see \l{Building Your Own Embedded Linux Image}.
+
+    \section1 Preparing an SD Card
+
+    An SD card of at least 512 MB capacity is sufficient.
+
+    \include detect-sd-card-device-name.qdocinc instructions
+
+    \section1 Installing the \B2Q Image
+
+    To write the image to the SD card, ensure that no partitions on the
+    SD card are mounted:
+
+    \include detect-sd-card-device-name.qdocinc unmount
+
+    Then,
+
+    \badcode
+        cd <QtBuildDir>
+        sudo deploy.sh /dev/<device_name>
+    \endcode
+
+    After the image has been deployed, insert the SD card, power on the device and check that
+    the \B2Q welcome screen and/or demo appear.
+
+    \section1 Configuring a Device Kit in Qt Creator
+
+    \include b2qt-post-install-setup.qdocinc configuring network device
+
+    You are now ready to start developing for your device. For more information,
+    see \l{Building and Running an Example}.
+*/
+
+/*!
     \page qtee-building-and-running.html
-    \title Building and Running an Example
+    \title Building and Running Embedded Applications
     \previouspage qtee-preparing-hardware.html
-    \nextpage qtee-customization.html
+    \nextpage qtee-custom-build-steps.html
+
+    \section1 Building and Running an Example
 
     After you complete the installation and configuration steps for \SDK and the
     target devices, you can test the setup by creating a simple \l{Qt Quick}
@@ -697,7 +783,7 @@
     \list 1
         \li Make sure that your device is powered on and connected to the
             development host.
-        \li In Qt Creator, select \b{File > New File or Project} >
+        \li In Qt Creator, select \b File > \b {New File or Project} >
             \b Applications > \b{Qt Quick Application} > \b{Choose}.
         \li Choose a location for your new project.
         \li In the \b{Qt Quick Component Set} dialog, select \b{Qt Quick 2.0}.
@@ -705,7 +791,7 @@
             devices. You can also select the emulator kit to test running the
             project in the emulator.
         \li Click \b{Next} and finish the wizard.
-        \li In \b{Projects > Build & Run}, select the correct kit for your
+        \li In \b Projects > \b {Build & Run}, select the correct kit for your
             connected device.
         \li To build and run the project, click \inlineimage qtcreator-run.png
     \endlist
@@ -718,7 +804,7 @@
         \li Go to \b Welcome > \b Examples.
         \li Select a \e Boot2Qt Qt version from the drop-down list.
         \li Select a demo you want to build.
-        \li In \b{Projects > Build & Run}, select the correct kit for your
+        \li In \b Projects > \b {Build & Run}, select the correct kit for your
             connected device or emulator.
         \li To build and run the project, click \inlineimage qtcreator-run.png
     \endlist
@@ -726,34 +812,83 @@
     \section1 Setting Up an Already Existing Project for Deployment
 
     New Qt Quick application projects generated by Qt Creator always have the correct
-    settings for deployment on the device or emulator. However, other projects may
-    need some changes.
+    settings for deployment on the device or emulator. However, other projects need
+    some changes. This includes projects created using the
+    \b File > \b {New File or Project} > \b Applications > \b{Qt Widget Application}
+    template.
 
-    As a general rule, application binaries and resources (such as QML files and
-    images) are deployed to the \c {/data/user/qt/<APPLICATION_NAME>} directory.
-    Therefore, the \c path variable for the \c INSTALLS targets needs to be adjusted
-    accordingly in .pro files.
+    As a general rule, application binaries and resources are deployed to the
+    \c {/data/user/qt/<APPLICATION_NAME>} directory. Therefore, the \c path variable for
+    the \c INSTALLS targets needs to be adjusted accordingly in .pro files.
 
-    For example, change the following \c target.path value:
+    Open the .pro file and define the \c target.path and \c INSTALLS variables as follows:
 
-    \code
-        target.path = ...
-        INSTALLS += target
+    \badcode
+        target.path = /data/user/qt/$$TARGET
+        INSTALLS   += target
     \endcode
 
-    to:
+    Above, \c {$$TARGET} expands to the application target (executable) name.
 
-    \code
-        target.path = /data/user/qt/<APPLICATION_NAME>
-        INSTALLS += target
+    \section2 Deploying Application Resources
+
+    If the application depends on additional resources (such as QML files and
+    images), you need to deploy them as well. For example:
+
+    \badcode
+        appFiles.files = *.png qml
+        appFiles.path  = /data/user/qt/$$TARGET
+        INSTALLS      += appFiles
     \endcode
+
+    Above, all PNG images from the application source directory, and the entire
+    \e qml subdirectory are included in the deployment.
+
+    Alternatively, the files used by the application can be stored into the application
+    executable using the \l{The Qt Resource System}{Qt resource system}. This way, simply
+    deploying the application binary is all that's required.
+*/
+
+/*!
+    \page qtee-custom-build-steps.html
+    \title Special Build & Run Options
+    \previouspage qtee-building-and-running.html
+    \nextpage qtee-customization.html
+
+    Qt Creator allows you to execute custom commands on the embedded device connected
+    to the development host, both during the build process and during deployment of your
+    application.
+
+    \section1 Custom Build Steps
+
+    To add a custom step to be executed during the build:
+
+    \list 1
+        \li In Qt Creator, go to \b Projects > \b {Build Settings}
+        \li Select \b Build configuration for the \e {\B2Q} version you want to customize.
+        \li Click \b {Add Build Step} and select \b {Custom Remote Command (via adb shell)}.
+        \li Enter the command to be executed.
+    \endlist
+
+    \section1 Custom Deployment Steps
+
+    To add a custom step to be executed during deployment:
+
+    \list 1
+        \li In Qt Creator, go to \b Projects > \b {Run Settings}
+        \li Select \b Run configuration for the \e {\B2Q} version you want to customize.
+        \li Click \b {Add Deploy Step} and select \b {Custom Remote Command (via adb shell)}.
+        \li Enter the command to be executed.
+    \endlist
+
+    \sa {Booting to a Custom Application}
 */
 
 /*!
     \page qtee-customization.html
     \title Customization
     \previouspage qtee-building-and-running.html
-    \nextpage qtee-changelog.html
+    \nextpage qtee-custom-embedded-linux-image.html
 
     \section1 Environment and Input
 
@@ -769,13 +904,13 @@
     On some devices, the root file system (where this file
     resides) is mounted read-only at boot time. To allow modification,
     remount it read-write by entering the following command:
-    \code
+    \badcode
         <INSTALL_DIR>/Tools/b2qt/adb remount
     \endcode
 
     In the \c{appcontroller.conf} file, the input devices are
     specified by the lines similar to these:
-    \code
+    \badcode
         env=QT_QPA_GENERIC_PLUGINS=evdevtouch:/dev/input/event0
     \endcode
 
@@ -795,12 +930,13 @@
 
     After you have deployed your own application to the device, it will be
     launched on boot, instead of the \B2Q demo launcher. To prevent this
-    behavior, remove the \b {Make this application the default one} step from
-    the \b{Run Settings} for your project in the Qt Creator \b Projects mode.
+    behavior, remove or disable the \b {Make this application the default one}
+    step from the \b{Run Settings} for your project in the Qt Creator \b Projects
+    mode.
 
     To remove your application from the default startup, use the following
     command:
-    \code
+    \badcode
         <INSTALL_DIR>/Tools/b2qt/adb shell appcontroller --remove-default
     \endcode
 
@@ -811,7 +947,7 @@
     to change the default view orientation. The following example shows how to rotate your
     application in QML.
 
-    \code
+    \qml
     import QtQuick 2.0
 
     Item {
@@ -840,7 +976,7 @@
             }
         }
     }
-    \endcode
+    \endqml
 
     \section1 Disabling Screen Composer on Embedded Android
 
@@ -858,8 +994,13 @@
       change \c /init.rc, or simply rename the \c
       {/system/bin/surfaceflinger} executable.
     \endlist
+*/
 
-    \section1 Building Your Own Embedded Linux Image
+/*!
+    \page qtee-custom-embedded-linux-image.html
+    \title Building Your Own Embedded Linux Image
+    \previouspage qtee-customization.html
+    \nextpage qtee-changelog.html
 
     \B2QL is built using the tools and resources from the \l {Yocto Project},
     and is based on Yocto's reference distribution (\e Poky). You can
@@ -867,7 +1008,15 @@
     which packages are included in the build and how the software stack
     is configured.
 
-    \section2 Requirements
+    \section2 Note About Support Services for Yocto Tools
+
+    By default, Digia will only provide customer support for the Yocto
+    recipes on the reference platforms, as delivered with \SDK, and
+    setting up the development environment for them. Receiving support
+    for any other configuration requires a separate service agreement
+    between a customer and Digia.
+
+    \section1 Requirements
 
     You should be familiar with the Yocto tools and the concept of
     \e {recipes}. For more information, see Yocto Project
@@ -884,27 +1033,27 @@
             compatible with \B2Q.
         \li Install the dependencies for the Yocto tools. In Ubuntu,
             the following packages are required:
-    \code
+    \badcode
     sudo apt-get install gawk wget git-core diffstat unzip texinfo gcc-multilib build-essential chrpath libsdl1.2-dev xterm
     \endcode
     \endlist
 
-    \section2 Setting Up Yocto Build Environment
+    \section1 Setting Up Yocto Build Environment
 
     Run the setup script that initializes the Yocto environment:
 
-    \code
-    cd <your/yocto/build/directory>
+    \badcode
+    cd <BuildDir>
     <INSTALL_DIR>/Boot2Qt-2.x/sources/b2qt-yocto-meta/b2qt-init-build-env .
     \endcode
 
-    \section2 Building the Image and Toolchain
+    \section1 Building the Image and Toolchain
 
     After the Yocto environment is set up, you need to configure the
     build environment for your target device. Using Raspberry Pi as
     an example:
 
-    \code
+    \badcode
     export TEMPLATECONF=meta-b2qt/conf
     export MACHINE=raspberrypi
     source poky/oe-init-build-env build-raspberrypi
@@ -914,52 +1063,78 @@
     and the external toolchain that is used for building the Qt framework and
     applications.
 
-    \code
+    \badcode
     bitbake b2qt-embedded-image
     bitbake meta-toolchain-b2qt-embedded-sdk
     \endcode
 
+    The target rootfs image is located in the \c <YoctoBuildDir>/tmp/deploy/images/<target>/b2qt-embedded-image-<target>.tar.gz,
+    and the new toolchain is in \c <YoctoBuildDir>/tmp/deploy/sdk/b2qt-eglibc-x86_64-meta-toolchain-b2qt-embedded-sdk-<target-architecture>-toolchain-1.5.sh
+
     \note The generated target image does not yet include Qt libraries,
     you need to build Qt and add it into the image yourself.
 
-    \section2 Building Qt and Addons
+    \section1 Building Qt and Addons
 
     \e {Build scripts} source package contains scripts that can be used to
     build Qt and all additional Qt addons that are part of \B2QL image.
-    To setup build environment for your target hardware, create new build
-    directory and run the initialization script. Using Raspberry Pi as
-    an example:
+    To setup build environment for your target hardware, run the initialization
+    script. Using Raspberry Pi as an example:
 
-    \code
-    cd <your/qt/build/directory>
+    \badcode
     <INSTALL_DIR>/Boot2Qt-2.x/sources/b2qt-build-scripts/embedded-common/init_build_env.sh <INSTALL_DIR>/Boot2Qt-2.x/sources/b2qt-build-scripts/embedded-linux/config.raspberrypi
     \endcode
 
+    \note You can use the same build directory for Qt and the Yocto image.
+    The toolchain and the target image are then used from the Yocto build directory.
+
     You can use following scripts to build different parts of the \B2Q stack.
 
-    \code
-    <INSTALL_DIR>/Boot2Qt-2.x/sources/b2qt-build-scripts/embedded-linux/build_qt.sh <INSTALL_DIR>/Boot2Qt-2.x/sources/b2qt-build-scripts/embedded-linux/config.raspberrypi
-    <INSTALL_DIR>/Boot2Qt-2.x/sources/b2qt-build-scripts/embedded-linux/build_extras.sh <INSTALL_DIR>/Boot2Qt-2.x/sources/b2qt-build-scripts/embedded-linux/config.raspberrypi
-    <INSTALL_DIR>/Boot2Qt-2.x/sources/b2qt-build-scripts/embedded-linux/build_image.sh <INSTALL_DIR>/Boot2Qt-2.x/sources/b2qt-build-scripts/embedded-linux/config.raspberrypi
+    \badcode
+    <INSTALL_DIR>/Boot2Qt-2.x/sources/b2qt-build-scripts/embedded-linux/build_qt.sh
+    <INSTALL_DIR>/Boot2Qt-2.x/sources/b2qt-build-scripts/embedded-linux/build_extras.sh
+    <INSTALL_DIR>/Boot2Qt-2.x/sources/b2qt-build-scripts/embedded-linux/build_image.sh
     \endcode
 
     After \e {embedded-linux/build_image.sh} has finished, you can flash the device with
     the updated image located in the build folder.
 
-    \section2 Note About Support Services for Yocto Tools
+    \section1 Configuring Qt Creator
 
-    By default, Digia will only provide customer support for the Yocto
-    recipes on the reference platforms, as delivered with \SDK, and
-    setting up the development environment for them. Receiving support
-    for any other configuration requires a separate service agreement
-    between a customer and Digia.
+    After you have built the \B2Q stack, you must also set up Qt Creator in order to start
+    developing for your device. The following script does this for you.
+
+    \badcode
+    <INSTALL_DIR>/Boot2Qt-2.x/sources/b2qt-build-scripts/embedded-common/setup_qtcreator.sh
+    \endcode
+
+    This will set up a new kit in Qt Creator, using the toolchain and Qt from
+    your build directory. The new kit is visible under \b Tools > \b Options
+    > \b {Build & Run} > \b Kits.
+
+    \section1 Using Network Connection for ADB
+
+    By default, \B2Q uses USB cable for communication between device and Qt Creator.
+    On \B2QL, you can change the device to use ethernet network connection for the
+    communication. To enable network connection, you need to modify file
+    \c /etc/default/adbd located on the devices, and change value of \c USE_ETHERNET
+    to \c 'yes'. This can also be done with \c adb, while the device is still
+    connected via USB.
+
+    \badcode
+     <INSTALL_DIR>/Tools/b2qt/adb shell sed -i -e 's/USE_ETHERNET=no/USE_ETHERNET=yes/' /etc/default/adbd
+    \endcode
+
+    \note You need to restart the device for this change to take effect.
+
+    \include b2qt-post-install-setup.qdocinc configuring network device
 */
 
 /*!
     \page qtee-supported-platforms.html
     \title Supported Platforms
     \previouspage qtee-installation-guide.html
-    \nextpage qtee-changelog.html
+    \nextpage qtee-preparing-hardware.html
 
     \section1 Supported Target Devices
 
@@ -996,6 +1171,7 @@
     \page qtee-licenses.html
     \title License Information
     \previouspage qtee-troubleshooting.html
+    \nextpage qtee-qml-reference.html
 
     \section1 Licensing
 
@@ -1014,6 +1190,15 @@
     source code available at \l {http://android.googlesource.com/}. The open
     source licenses and notices are collected into the file
     \c {/etc/NOTICE.html.gz} in the target images.
+
+    \section1 Embedded Linux Images
+
+    The embedded Linux platform is built using tools from the \l {Yocto Project}.
+    The open source licenses and notices are located in
+    \list
+        \li \c /usr/share/common-licenses/license.manifest
+        \li \c /usr/share/licenses/*
+    \endlist
 
     \section1 Android GNU C++ Run-time Licensing
 
@@ -1037,6 +1222,60 @@
     \title ChangeLog
     \previouspage qtee-customization.html
     \nextpage qtee-troubleshooting.html
+
+    \section1 \B2Q 2.1.0
+
+    \list
+        \li Release date: Apr. 15, 2014
+    \endlist
+
+    \section2 Changes
+    \b {New Features}:
+    \list
+        \li \l {Qt Data Visualization} version 1.0 was added to the \B2Q stack
+        \li \l {Enginio Data Storage} version 1.0 was added to the \B2Q stack
+        \li \l {Qt Quick Enterprise Controls} was updated to version 1.1
+        \li \l {Qt Serial Port} support was added to the \B2Q stack
+        \li Bluetooth on \B2QL: Support for bluez was added
+        \li Added support for building \B2QL for i.MX53 from sources
+    \endlist
+
+    \b {Improvements}:
+    \list
+        \li Qt Creator plugin for \B2Q now supports incremental deployment, custom adb commands
+        \li Adb now easily usable over IP on all devices on \B2QL
+        \li Update new content to device without erasing it first on \B2QL
+        \li All images now contain generally used CA certificates
+        \li Toolchains updated to support Qt WebEngine
+        \li Documentation was added for QML types provided by the \l {WiFi Module}
+        \li Emulator: Debug logging functionality was added
+        \li Various documentation improvements
+        \li \SDK installer error handling was improved
+        \li 3rd party license information was updated
+        \li Launcher Settings application UI was improved
+    \endlist
+
+    \b {Fixed Bugs}:
+    \list
+        \li \B2QL: OpenSSL Heartbleed bug was fixed
+        \li \B2QA: Qt debug symbols were missing
+        \li QEglFSCompositor::render() using incorrect vertices for full-screen quad, resulting in bad texture sampling
+        \li Use damaged rect instead of full texture upload for raster windows
+        \li Emulator: Crash when launching multiple instances
+        \li Emulator: State transitions were not working properly
+        \li \B2QA emulator: C++ debugging was fixed
+        \li Emulators: Qt Quick applications don't exit on Qt.quit()
+        \li Banding was visible on Raspberry Pi
+        \li Qt Creator: adb failed to connect
+        \li QtCreator: Different Virtual Machiness with the same OS were not handled properly
+        \li Qt Creator: Tabstop order in device wizard was incorrect
+        \li Qt 5 Everywhere demo: not all internet radio station were working
+    \endlist
+
+    \b {Fixed Known Issues}:
+    \list
+        \li Embedded Android: Arabic Numbers Not Always Rendered Correctly
+    \endlist
 
     \section1 \B2Q 2.0.0
 
@@ -1159,7 +1398,7 @@
     download the correct file for your device. Unpack it, and then enter the
     following commands:
 
-    \code
+    \badcode
         <INSTALL_DIR>/Tools/b2qt/adb reboot bootloader
         <INSTALL_DIR>/Tools/b2qt/fastboot -w update <image-file>.zip
     \endcode
@@ -1171,7 +1410,7 @@
 
     Otherwise, make sure the Nexus 7 is connected to the development host, and run
     the following command in a terminal:
-    \code
+    \badcode
         <INSTALL_DIR>/Tools/b2qt/adb shell reboot -p
     \endcode
 
@@ -1201,7 +1440,7 @@
     \section2 Something crashed!
 
     The following command shows the system log:
-    \code
+    \badcode
         <INSTALL_DIR>/Tools/b2qt/adb logcat
     \endcode
 
@@ -1228,6 +1467,16 @@
 
     See \l{Customization}.
 
+    \section2 C++11 features do not work on Android
+
+    To enable C++11 features in the compiler, add \e{CONFIG += c++11} to the .pro file.
+    On Embedded Linux this will be enough because there the toolchain contains a more
+    recent version of gcc (4.8.x). On Embedded Android however the toolchain is based on
+    gcc 4.6. This offers limited support for C++11 and Qt's own C++11 support is disabled,
+    meaning that adding \e{c++11} to \e{CONFIG} will have no effect. There is still a
+    possibility however to manually enable some level of C++11 support just for the
+    application, by adding \e{QMAKE_CXXFLAGS += -std=c++11} to the .pro file.
+
     \section1 Connectivity Issues
     \section2 I cannot connect to my hardware device via USB
 
@@ -1240,7 +1489,7 @@
     command to find to see the serial number of the connected
     devices:
 
-    \code
+    \badcode
         <INSTALL_DIR>/Tools/b2qt/adb devices
     \endcode
 
@@ -1258,18 +1507,18 @@
 
     Check the output of the following command:
 
-    \code
+    \badcode
         <INSTALL_DIR>/Tools/b2qt/adb devices
     \endcode
 
     If the emulator (192.168.56.101) is not listed there, try connecting to it:
 
-    \code
+    \badcode
         <INSTALL_DIR>/Tools/b2qt/adb connect 192.168.56.101
     \endcode
 
     If the emulator is already listed, try disconnecting it:
-    \code
+    \badcode
         <INSTALL_DIR>/Tools/b2qt/adb disconnect 192.168.56.101
     \endcode
 
@@ -1279,5 +1528,25 @@
 
     Embedded Linux devices can be accessed using user \c{root} and an empty password.
 
+    \section2 No sound on Embedded Android devices
 
+    When connecting a headphone or speakers while the device is running, the
+    audio may not be properly routed to the correct output. As a workaround,
+    connect the headphone or speakers before turning on the device.
+
+*/
+
+/*!
+    \page qtee-qml-reference.html
+    \title Add-On QML Types
+    \previouspage qtee-licenses.html
+
+    The following QML modules are included in the \B2Q stack and provide
+    additional QML types that are useful in an embedded application:
+
+    \annotatedlist qtee-qmlmodules
+
+    \section1 WiFi Module
+
+    \annotatedlist wifi-qmltypes
 */

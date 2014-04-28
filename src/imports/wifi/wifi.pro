@@ -8,12 +8,12 @@ SOURCES += \
     pluginmain.cpp \
     qwifimanager.cpp \
     qwifinetwork.cpp \
-    qwifinetworklist.cpp
+    qwifinetworklistmodel.cpp
 
 HEADERS += \
     qwifimanager.h \
     qwifinetwork.h \
-    qwifinetworklist.h
+    qwifinetworklistmodel.h
 
 LIBS += -lhardware_legacy -lcutils
 

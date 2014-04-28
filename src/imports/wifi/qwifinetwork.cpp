@@ -18,7 +18,73 @@
 ****************************************************************************/
 #include "qwifinetwork.h"
 
-QWifiNetwork::QWifiNetwork()
+/*!
+    \qmltype WifiNetwork
+    \inqmlmodule Qt.labs.wifi
+    \ingroup wifi-qmltypes
+    \brief Represents a single WiFi network access point.
+
+    Instances of WifiNetwork cannot be created directly from the QML system, use
+    WifiManager::networks.
+*/
+
+/*!
+    \qmlproperty string WifiNetwork::bssid
+
+    This property holds basic service set identification of a network, used to uniquely
+    identify BSS.
+
+*/
+
+/*!
+    \qmlproperty string WifiNetwork::ssid
+
+    This property holds a network name. The SSID is the informal (human) name of BSS.
+*/
+
+/*!
+    \qmlproperty int WifiNetwork::signalStrength
+
+    This property holds the current strength of a WiFi signal, measured in dBm. New readings are
+    taken every 5 seconds.
+
+    \sa signalStrengthChanged
+*/
+
+/*!
+    \qmlproperty bool WifiNetwork::supportsWPA
+
+    This property holds whether network access point supports WPA security protocol.
+*/
+
+/*!
+    \qmlproperty bool WifiNetwork::supportsWPA2
+
+    This property holds whether network access point supports WPA2 security protocol.
+*/
+
+/*!
+    \qmlproperty bool WifiNetwork::supportsWEP
+
+    This property holds whether network access point supports WEP security protocol.
+*/
+
+/*!
+    \qmlproperty bool WifiNetwork::supportsWPS
+
+    This property holds whether network access point supports WPS security protocol.
+*/
+
+/*!
+    \qmlsignal void WifiNetwork::signalStrengthChanged(int strength)
+
+    This signal is emitted whenever signal strength has changed comparing the the
+    previous reading, the new signal's strength is \a strength.
+
+*/
+
+QWifiNetwork::QWifiNetwork() :
+    m_outOfRange(false)
 {
 }
 
@@ -28,4 +94,11 @@ void QWifiNetwork::setSignalStrength(int strength)
         return;
     m_signalStrength = strength;
     emit signalStrengthChanged(m_signalStrength);
+}
+
+void QWifiNetwork::setOutOfRange(bool outOfRange)
+{
+    if (m_outOfRange == outOfRange)
+        return;
+    m_outOfRange = outOfRange;
 }
