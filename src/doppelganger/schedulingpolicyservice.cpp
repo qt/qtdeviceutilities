@@ -49,7 +49,7 @@ status_t SchedulingPolicyService::onTransact(uint32_t code, const Parcel &data, 
         int32_t pid = data.readInt32();
         int32_t tid = data.readInt32();
         int32_t prio = data.readInt32();
-        int res = requestPriority(pid, tid, prio);
+        int res = requestPriority_helper(pid, tid, prio);
         reply->writeNoException();
         reply->writeInt32(res);
         return NO_ERROR;
@@ -59,7 +59,16 @@ status_t SchedulingPolicyService::onTransact(uint32_t code, const Parcel &data, 
     }
 }
 
+#if Q_ANDROID_VERSION_MAJOR == 4 && Q_ANDROID_VERSION_MINOR < 3
 int SchedulingPolicyService::requestPriority(int32_t pid, int32_t tid, int32_t prio)
+#else
+int SchedulingPolicyService::requestPriority(int32_t pid, int32_t tid, int32_t prio, bool)
+#endif
+{
+    return requestPriority_helper(pid, tid, prio);
+}
+
+int SchedulingPolicyService::requestPriority_helper(int32_t pid, int32_t tid, int32_t prio)
 {
     if (prio < PRIORITY_MIN || prio > PRIORITY_MAX)
         return PERMISSION_DENIED;
