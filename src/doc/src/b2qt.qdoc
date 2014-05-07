@@ -365,9 +365,9 @@
 
     \badcode
         cd <INSTALL_DIR>
-        sudo ./Tools/b2qt/fastboot flash boot Boot2Qt-2.x/nexus7-eAndroid/images/boot.img
-        sudo ./Tools/b2qt/fastboot flash system Boot2Qt-2.x/nexus7-eAndroid/images/system.img
-        sudo ./Tools/b2qt/fastboot flash userdata Boot2Qt-2.x/nexus7-eAndroid/images/data.img
+        sudo ./Tools/b2qt/fastboot flash boot Boot2Qt-3.x/nexus7-eAndroid/images/boot.img
+        sudo ./Tools/b2qt/fastboot flash system Boot2Qt-3.x/nexus7-eAndroid/images/system.img
+        sudo ./Tools/b2qt/fastboot flash userdata Boot2Qt-3.x/nexus7-eAndroid/images/data.img
     \endcode
 
     \li Once the flashing is completed successfully, reboot the device:
@@ -389,7 +389,7 @@
     {https://developers.google.com/android/nexus/drivers#grouperjdq39}
     \badcode
         cd <INSTALL_DIR>
-        ./Boot2Qt-2.x/nexus7-eAndroid/images/download.sh
+        ./Boot2Qt-3.x/nexus7-eAndroid/images/download.sh
     \endcode
 
     \note Only the version "Android 4.2.2 (JDQ39 to JDQ39E)" works with the
@@ -402,7 +402,7 @@
             Also check that the device is \e{not} in fastboot mode.
         \li Run the driver extractors:
         \badcode
-            cd Boot2Qt-2.x/nexus7-eAndroid/images/drivers
+            cd Boot2Qt-3.x/nexus7-eAndroid/images/drivers
             ./extract-nvidia-grouper.sh
             ./extract-asus-grouper.sh
             ./extract-invensense-grouper.sh
@@ -416,7 +416,7 @@
         \endcode
         \li Deploy the drivers to your device:
         \badcode
-            ./Boot2Qt-2.x/nexus7-eAndroid/images/deploy.sh <serial_number>
+            ./Boot2Qt-3.x/nexus7-eAndroid/images/deploy.sh <serial_number>
         \endcode
     \endlist
 
@@ -469,7 +469,7 @@
 
     \badcode
         cd <INSTALL_DIR>
-        sudo Boot2Qt-2.x/beagleboard-eLinux/images/deploy.sh /dev/<device_name>
+        sudo Boot2Qt-3.x/beagleboard-eLinux/images/deploy.sh /dev/<device_name>
     \endcode
 
     After the image has been deployed, power on the device and check that
@@ -556,12 +556,12 @@
         \li \b{\B2QA}
         \badcode
             cd <INSTALL_DIR>
-            ./Boot2Qt-2.x/iMX6-eAndroid/images/deploy.sh /dev/<device_name>
+            ./Boot2Qt-3.x/iMX6-eAndroid/images/deploy.sh /dev/<device_name>
         \endcode
         \li \b{\B2QL}
         \badcode
             cd <INSTALL_DIR>
-            sudo ./Boot2Qt-2.x/iMX6-eLinux/images/deploy.sh /dev/<device_name>
+            sudo ./Boot2Qt-3.x/iMX6-eLinux/images/deploy.sh /dev/<device_name>
         \endcode
     \endlist
 
@@ -618,7 +618,7 @@
 
     \badcode
         cd <INSTALL_DIR>
-        sudo Boot2Qt-2.x/raspberrypi-eLinux/images/deploy.sh /dev/<device_name>
+        sudo Boot2Qt-3.x/raspberrypi-eLinux/images/deploy.sh /dev/<device_name>
     \endcode
 
     After the image has been deployed, insert the SD card, power on the device and check that
@@ -692,12 +692,12 @@
         \li \b{\B2QA}
         \badcode
             cd <INSTALL_DIR>
-            ./Boot2Qt-2.x/beaglebone-eAndroid/images/deploy.sh /dev/<device_name>
+            ./Boot2Qt-3.x/beaglebone-eAndroid/images/deploy.sh /dev/<device_name>
         \endcode
         \li \b{\B2QL}
         \badcode
             cd <INSTALL_DIR>
-            sudo ./Boot2Qt-2.x/beaglebone-eLinux/images/deploy.sh /dev/<device_name>
+            sudo ./Boot2Qt-3.x/beaglebone-eLinux/images/deploy.sh /dev/<device_name>
         \endcode
     \endlist
 
@@ -1045,7 +1045,7 @@
 
     \badcode
     cd <BuildDir>
-    <INSTALL_DIR>/Boot2Qt-2.x/sources/b2qt-yocto-meta/b2qt-init-build-env .
+    <INSTALL_DIR>/Boot2Qt-3.x/sources/b2qt-yocto-meta/b2qt-init-build-env .
     \endcode
 
     \section1 Building the Image and Toolchain
@@ -1106,7 +1106,7 @@
     script. Using Raspberry Pi as an example:
 
     \badcode
-    <INSTALL_DIR>/Boot2Qt-2.x/sources/b2qt-build-scripts/embedded-common/init_build_env.sh <INSTALL_DIR>/Boot2Qt-2.x/sources/b2qt-build-scripts/embedded-linux/config.raspberrypi
+    <INSTALL_DIR>/Boot2Qt-3.x/sources/b2qt-build-scripts/embedded-common/init_build_env.sh <INSTALL_DIR>/Boot2Qt-3.x/sources/b2qt-build-scripts/embedded-linux/config.raspberrypi
     \endcode
 
     \note You can use the same build directory for Qt and the Yocto image.
@@ -1115,9 +1115,9 @@
     You can use following scripts to build different parts of the \B2Q stack.
 
     \badcode
-    <INSTALL_DIR>/Boot2Qt-2.x/sources/b2qt-build-scripts/embedded-linux/build_qt.sh
-    <INSTALL_DIR>/Boot2Qt-2.x/sources/b2qt-build-scripts/embedded-linux/build_extras.sh
-    <INSTALL_DIR>/Boot2Qt-2.x/sources/b2qt-build-scripts/embedded-linux/build_image.sh
+    <INSTALL_DIR>/Boot2Qt-3.x/sources/b2qt-build-scripts/embedded-linux/build_qt.sh
+    <INSTALL_DIR>/Boot2Qt-3.x/sources/b2qt-build-scripts/embedded-linux/build_extras.sh
+    <INSTALL_DIR>/Boot2Qt-3.x/sources/b2qt-build-scripts/embedded-linux/build_image.sh
     \endcode
 
     After \e {embedded-linux/build_image.sh} has finished, you can flash the device with
@@ -1129,7 +1129,7 @@
     developing for your device. The following script does this for you.
 
     \badcode
-    <INSTALL_DIR>/Boot2Qt-2.x/sources/b2qt-build-scripts/embedded-common/setup_qtcreator.sh
+    <INSTALL_DIR>/Boot2Qt-3.x/sources/b2qt-build-scripts/embedded-common/setup_qtcreator.sh
     \endcode
 
     This will set up a new kit in Qt Creator, using the toolchain and Qt from
