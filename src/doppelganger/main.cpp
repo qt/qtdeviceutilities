@@ -20,6 +20,7 @@
 
 #include "permissioncontroller.h"
 #include "schedulingpolicyservice.h"
+#include "powermanager.h"
 
 using namespace android;
 
@@ -28,5 +29,6 @@ int main(int, char *[])
     sp<ProcessState> proc(ProcessState::self());
     SchedulingPolicyService::instantiate();
     PermissionController::instantiate();
+    PowerManager::instantiate();
     IPCThreadState::self()->joinThreadPool();
 }
