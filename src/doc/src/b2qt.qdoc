@@ -1060,6 +1060,29 @@
     source poky/oe-init-build-env build-raspberrypi
     \endcode
 
+    The following table lists the \c MACHINE values for our reference platforms:
+
+    \table
+    \header
+        \li Board
+        \li MACHINE value
+    \row
+        \li Raspberry Pi
+        \li raspberrypi
+    \row
+        \li BeagleBone Black
+        \li beaglebone
+    \row
+        \li Boundary Devices BD-SL-i.MX6
+        \li nitrogen6x
+    \row
+        \li Freescale SABRE SD i.MX6Quad
+        \li imx6qsabresd
+    \row
+        \li Emulator
+        \li emulator
+    \endtable
+
     Yocto recipes for \B2QL have two main targets to build: The target image,
     and the external toolchain that is used for building the Qt framework and
     applications.
