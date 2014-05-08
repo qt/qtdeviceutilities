@@ -618,8 +618,13 @@ QByteArray QWifiManager::call(const char *command) const
 {
     char data[2048];
     size_t len = sizeof(data) - 1;  // -1: room to add a 0-terminator
-    if (q_wifi_command(m_interface.constData(), command, data, &len) < 0) {
-        qWarning("QWifiManager: call failed: %s", command);
+    QByteArray cmd;
+#if !(Q_ANDROID_VERSION_MAJOR == 4 && Q_ANDROID_VERSION_MINOR < 4)
+    cmd.append("IFNAME=").append(m_interface).append(" ");
+#endif
+    cmd.append(command);
+    if (q_wifi_command(m_interface.constData(), cmd.constData(), data, &len) < 0) {
+        qWarning("QWifiManager: call failed: %s", cmd.constData());
         return QByteArray();
     }
     if (len < sizeof(data))
