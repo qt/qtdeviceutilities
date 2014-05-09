@@ -44,7 +44,7 @@
         \li \l{Preparing Hardware}
         \list
             \li \l{Preparing Nexus 7}{Nexus 7 (2012) (embedded Android)}
-            \li \l{Preparing Sabre Lite i.MX 6}{Sabre Lite i.MX 6 (embedded Android and Linux)}
+            \li \l{Preparing BD-SL-i.MX6}{BD-SL-i.MX6 (embedded Android and Linux)}
             \li \l{Preparing BeagleBone Black}{BeagleBone Black (embedded Android and Linux)}
             \li \l{Preparing BeagleBoard-xM}{BeagleBoard-xM (embedded Linux)}
             \li \l{Preparing Raspberry Pi}{Raspberry Pi Model B (embedded Linux)}
@@ -306,7 +306,7 @@
 
     \list
         \li \l{Nexus 7 (2012) (embedded Android)}
-        \li \l{Sabre Lite i.MX 6 (embedded Android and Linux)}
+        \li \l{BD-SL-i.MX6 (embedded Android and Linux)}
         \li \l{BeagleBone Black (embedded Android and Linux)}
         \li \l{BeagleBoard-xM (embedded Linux)}
         \li \l{Raspberry Pi Model B (embedded Linux)}
@@ -488,19 +488,19 @@
 */
 
 /*!
-    \target Sabre Lite i.MX 6 (embedded Android and Linux)
+    \target BD-SL-i.MX6 (embedded Android and Linux)
     \page qtee-preparing-hardware-imx6.html
-    \title Preparing Sabre Lite i.MX 6
+    \title Preparing BD-SL-i.MX6
     \previouspage qtee-installation-guide.html
 
     Take the following steps to prepare a
-    \l{http://boundarydevices.com/products/sabre-lite-imx6-sbc/}{Sabre
-    Lite i.MX 6} for \B2Q.
+    \l{http://boundarydevices.com/products/sabre-lite-imx6-sbc/}
+    {Boundary Devices BD-SL-i.MX6} (SABRE Lite) for \B2Q.
 
     \note It is important that you repeat the steps in this section after you
     update \SDK.
 
-    The images containing the \B2Q stack for Sabre Lite i.MX 6 are included
+    The images containing the \B2Q stack for BD-SL-i.MX6 are included
     in \SDK, ready to be copied to an SD card.
 
     \section1 Preparing an SD Card
@@ -922,7 +922,7 @@
     devices, such as a keyboard and mouse, have to be connected at boot
     time.
 
-    On some devices, for example the i.MX6 Sabre Lite, the touchscreen device is
+    On some devices, for example the BD-SL-i.MX6, the touchscreen device is
     specified explicitly in \c QT_QPA_GENERIC_PLUGINS. This is necessary because
     the automatic device discovery would fail to find the touchscreen.
 
@@ -1381,7 +1381,7 @@
     Remember to repeat the process of updating also your device with the latest
     version of \B2Q. See \l{Installing Boot to Qt on Target Devices}.
 
-    \section2 Booting Sabre Lite i.MX 6 stops with \e {6x_bootscript not found} error
+    \section2 Booting BD-SL-i.MX6 stops with \e {6x_bootscript not found} error
 
     Check the U-Boot version number. It should start with either \c{2012} or \c{2013}.
     If it is \c{2009.xx}, an upgrade of the bootloader is required. For more
