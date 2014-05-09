@@ -911,7 +911,7 @@
     In the \c{appcontroller.conf} file, the input devices are
     specified by the lines similar to these:
     \badcode
-        env=QT_QPA_GENERIC_PLUGINS=evdevtouch:/dev/input/event0
+        env=QT_QPA_EVDEV_TOUCHSCREEN_PARAMETERS=/dev/input/event0
     \endcode
 
     Usually, you do not need to change this setting. USB input devices, such as
@@ -923,8 +923,9 @@
     time.
 
     On some devices, for example the BD-SL-i.MX6, the touchscreen device is
-    specified explicitly in \c QT_QPA_GENERIC_PLUGINS. This is necessary because
-    the automatic device discovery would fail to find the touchscreen.
+    specified explicitly with \c QT_QPA_EVDEV_TOUCHSCREEN_PARAMETERS. This is
+    necessary because the automatic device discovery would fail to find the
+    touchscreen.
 
     \section1 Booting to a Custom Application
 
