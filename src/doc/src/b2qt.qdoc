@@ -1558,6 +1558,10 @@
     audio may not be properly routed to the correct output. As a workaround,
     connect the headphone or speakers before turning on the device.
 
+    \section2 Qt WebEngine libraries cannot be found when targeting the emulator
+
+    Qt WebEngine is not currently available for the emulators, neither eLinux
+    nor eAndroid. This is planned to be addressed in a later release.
 */
 
 /*!
