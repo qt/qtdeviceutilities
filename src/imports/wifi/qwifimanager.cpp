@@ -456,10 +456,12 @@ QWifiManager::QWifiManager()
             // same here, cleans up the state
             disconnectFromBackend();
         }
+    } else {
+#endif
+        m_backendReady = false;
+        emit backendReadyChanged();
+#ifdef Q_OS_ANDROID
     }
-#else
-    m_backendReady = false;
-    emit backendReadyChanged();
 #endif
 }
 
