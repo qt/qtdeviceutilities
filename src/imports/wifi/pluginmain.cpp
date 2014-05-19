@@ -66,18 +66,19 @@ public:
 
     Q_INVOKABLE bool wifiSupported() const
     {
-        bool supported = false;
-#ifdef Q_OS_ANDROID
-        if (wifi_load_driver() == 0 && wifi_start_supplicant(0) == 0)
-            supported = true;
-        else
-            qWarning() << "QWifiGlobal: wifi driver is not available";
-#else
-        supported = QDir().exists(QStringLiteral("/sys/class/net/wlan0"));
-        if (!supported)
+        bool hasInterface = QDir().exists(QStringLiteral("/sys/class/net/wlan0"));
+        if (!hasInterface)
             qWarning() << "QWifiGlobal: could not find wifi interface in /sys/class/net/";
+#ifdef Q_OS_ANDROID
+        if (hasInterface && wifi_load_driver() == 0 && wifi_start_supplicant(0) == 0) {
+            return true;
+        } else {
+            qWarning() << "QWifiGlobal: wifi driver is not available";
+            return false;
+        }
+#else
+        return hasInterface;
 #endif
-        return supported;
     }
 };
 
