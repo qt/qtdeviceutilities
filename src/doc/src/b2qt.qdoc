@@ -1709,8 +1709,8 @@
     \section2 Widget-based web view is not available
 
     The Qt WebEngine APIs are available only for Qt Quick 2 based applications at the moment.
-    The QWidget-based equivalents, like QWebView, will become supported in future releases.
-    For the time being, use the WebView QML element.
+    The QWidget-based equivalents, like QWebEngineView, will become supported in future releases.
+    For the time being, use the WebEngineView QML element.
 */
 
 /*!
