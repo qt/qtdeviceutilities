@@ -1353,7 +1353,44 @@
     \previouspage qtee-customization.html
     \nextpage qtee-troubleshooting.html
 
-    \section1 \B2Q 2.1.0
+    \section1 \B2Q 3.0.0
+
+    \list
+        \li Release date: May 22, 2014
+    \endlist
+
+    \section2 Changes
+    \b {New Features}:
+    \list
+        \li \B2Q stack was updated to use Qt 5.3 on embedded Android and Linux
+        \li \l {Qt Virtual Keyboard} was updated to version 1.0
+        \li \l {Qt Data Visualization} demo was added
+        \li Qt WebEngine 0.9 support (including WebEngine demo) was added for
+            embedded Android and Linux. However, the Emulator target is
+            currently not supported
+        \li Qt Quick Compiler (Technology Preview) was added to the \B2Q stack
+        \li \l{Preparing Nexus 7 (2013)}{Nexus 7 (2013)} was added as a
+            reference device for embedded Android
+        \li \l{Preparing SABRE SD i.MX6Quad}{Freescale SABRE SD i.MX6Quad} was
+            added as a reference device for embedded Linux
+        \li WiFi networking support and configuration were implemented on
+            embedded Linux
+    \endlist
+
+    \b {Improvements}:
+    \list
+        \li Emulator warnings were improved
+        \li Embedded Linux: Moved to use Yocto 1.6 (Daisy)
+        \li Debug symbols were moved to a separately installable package
+        \li Presentation of \B2Q demos in Qt Creator was improved
+    \endlist
+
+    \b {Fixed Bugs}:
+    \list
+        \li Build scripts: Incorrect path was fixed
+    \endlist
+
+\section1 \B2Q 2.1.0
 
     \list
         \li Release date: Apr. 15, 2014
