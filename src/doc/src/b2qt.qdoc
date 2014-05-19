@@ -1705,6 +1705,12 @@
 
     Qt WebEngine is not currently available for the emulators, neither eLinux
     nor eAndroid. This is planned to be addressed in a later release.
+
+    \section2 Widget-based web view is not available
+
+    The Qt WebEngine APIs are available only for Qt Quick 2 based applications at the moment.
+    The QWidget-based equivalents, like QWebView, will become supported in future releases.
+    For the time being, use the WebView QML element.
 */
 
 /*!
