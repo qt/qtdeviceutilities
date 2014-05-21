@@ -1722,6 +1722,17 @@
     The Qt WebEngine APIs are available only for Qt Quick 2 based applications at the moment.
     The QWidget-based equivalents, like QWebEngineView, will become supported in future releases.
     For the time being, use the WebEngineView QML element.
+
+    \section2 Qt Quick Compiler fails on the emulators
+
+    The Qt Quick Compiler is not yet functional in the emulator environments, and projects
+    are likely fail to build or run with compilation enabled. Support for the emulators
+    will be added in a later release.
+
+    \section2 QML debugging not functional when using Qt Quick Compiler
+
+    QML debugging is not fully functional when the Qt Quick Compiler is enabled. Support
+    for this will be added in a later release.
 */
 
 /*!
