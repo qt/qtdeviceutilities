@@ -114,8 +114,8 @@
             forefront.
 
         \li \b{\B2QL} where the software stack is using the traditional embedded
-            Linux kernel built with the Yocto Poky reference system (Yocto 1.5
-            \e Dora release). The Embedded Linux variant is designed for great
+            Linux kernel built with the Yocto Poky reference system (Yocto 1.6
+            \e Daisy release). The Embedded Linux variant is designed for great
             customization possibilities. It contains only components required in
             the embedded device, resulting in smaller image sizes while keeping
             valuable development tools available.
@@ -509,8 +509,8 @@
     {BeagleBoard-xM} for
     \B2Q.
 
-    \note It is important that you repeat the steps in this section after you
-    update \SDK.
+    \note BeagleBoard-xM is no longer supported in \SDK 3.0. It is still,
+    however, supported and tested under the previous 2.x versions.
 
     The image containing \B2Q stack for BeagleBoard-xM are included in \SDK,
     ready to be copied to an SD card.
@@ -900,7 +900,7 @@
         \li In Qt Creator, select \b File > \b {New File or Project} >
             \b Applications > \b{Qt Quick Application} > \b{Choose}.
         \li Choose a location for your new project.
-        \li In the \b{Qt Quick Component Set} dialog, select \b{Qt Quick 2.0}.
+        \li In the \b{Qt Quick Component Set} dialog, select \b{Qt Quick 2.2}.
         \li In the \b{Kit Selection} dialog, select the kits for your
             devices. You can also select the emulator kit to test running the
             project in the emulator.
@@ -1063,7 +1063,7 @@
     application in QML.
 
     \qml
-    import QtQuick 2.0
+    import QtQuick 2.2
 
     Item {
         id: root
@@ -1224,7 +1224,7 @@
     \endcode
 
     The target rootfs image is located in the \c <YoctoBuildDir>/tmp/deploy/images/<target>/b2qt-embedded-image-<target>.tar.gz,
-    and the new toolchain is in \c <YoctoBuildDir>/tmp/deploy/sdk/b2qt-eglibc-x86_64-meta-toolchain-b2qt-embedded-sdk-<target-architecture>-toolchain-1.5.sh
+    and the new toolchain is in \c <YoctoBuildDir>/tmp/deploy/sdk/b2qt-eglibc-x86_64-meta-toolchain-b2qt-embedded-sdk-<target-architecture>-toolchain-1.6.sh
 
     \note The generated target image does not yet include Qt libraries,
     you need to build Qt and add it into the image yourself.
@@ -1291,11 +1291,14 @@
     \B2Q has been tested to work on the following reference devices:
     \list
         \li \l{http://www.google.com/nexus/7/specs/}{Google/Asus Nexus 7 (2012 and 2013 models)}
-        \li \l{http://beagleboard.org/hardware-xM}{BeagleBoard-xM}
         \li \l{http://beagleboard.org/products/beaglebone%20black}{BeagleBone Black}
         \li \l{http://boundarydevices.com/products/sabre-lite-imx6-sbc/}{Freescale i.MX6 Sabre Lite board (Boundary Devices)}
         \li \l{http://www.raspberrypi.org/faqs}{Raspberry Pi Model B}
     \endlist
+
+    For the \SDK 3.0 release, \l{Preparing BeagleBoard-xM}{BeagleBoard-xM (embedded Linux)}
+    is no longer tested and supported. It is, however, still tested and supported
+    in the earlier 2.x releases.
 
     \section1 Supported Development Environment
 
