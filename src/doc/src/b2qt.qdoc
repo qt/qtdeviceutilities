@@ -329,6 +329,10 @@
     \l{http://www.google.com/nexus/7/specs/}{Nexus 7 (2013)} for
     \B2Q.
 
+    \note The installation process will wipe the device. Make sure to
+    backup any personal data. The device can later be restored to
+    factory state, see \l{Troubleshooting}.
+
     \section1 Enabling Developer Mode
 
     In order to install the \B2Q stack into the Nexus 7, you need to
@@ -381,6 +385,10 @@
     Take the following steps to prepare a
     \l{http://www.google.com/nexus/7/specs/}{Nexus 7 (2012)} for
     \B2Q.
+
+    \note The installation process will wipe the device. Make sure to
+    backup any personal data. The device can later be restored to
+    factory state, see \l{Troubleshooting}.
 
     \section1 Unlocking Nexus 7 (2012) Bootloader
 
