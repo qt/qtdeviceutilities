@@ -307,8 +307,10 @@
     \B2Q stack. These steps vary from device to device:
 
     \list
+        \li \l{Nexus 7 (2013) (embedded Android)}
         \li \l{Nexus 7 (2012) (embedded Android)}
         \li \l{BD-SL-i.MX6 (embedded Android and Linux)}
+        \li \l{SABRE SD i.MX6Quad (embedded Linux)}
         \li \l{BeagleBone Black (embedded Android and Linux)}
         \li \l{BeagleBoard-xM (embedded Linux)}
         \li \l{Raspberry Pi Model B (embedded Linux)}
@@ -1276,33 +1278,50 @@
 
     \section1 Supported Target Devices
 
-    The \B2Q stack can be made to run on a variety of hardware. \B2QA
-    requires hardware that has support for the Android operating system,
-    version 4.0 or later.
+    The \B2Q stack can be made to run on a variety of hardware.
 
     Approximate minimal hardware requirements for running \B2Q are:
     \list
         \li 256 MB of RAM
         \li 500 MHz CPU, 1 GHz preferred for 60-FPS velvet-smooth UI
         \li OpenGL ES 2.0 support
-        \li Android 4.0+ compatible hardware
     \endlist
+
+    \B2QA requires hardware that has support for the Android operating
+    system, version 4.2 or later.
 
     \B2Q has been tested to work on the following reference devices:
     \list
-        \li \l{http://www.google.com/nexus/7/specs/}{Google/Asus Nexus 7 (2012 and 2013 models)}
-        \li \l{http://beagleboard.org/products/beaglebone%20black}{BeagleBone Black}
-        \li \l{http://boundarydevices.com/products/sabre-lite-imx6-sbc/}{Freescale i.MX6 Sabre Lite board (Boundary Devices)}
-        \li \l{http://www.raspberrypi.org/faqs}{Raspberry Pi Model B}
+        \li \l{http://www.google.com/nexus/7/specs/}
+            {Google/Asus Nexus 7 (2012 and 2013 models)}
+        \li \l{http://beagleboard.org/products/beaglebone%20black}
+            {BeagleBone Black}
+        \li \l{http://www.freescale.com/webapp/sps/site/prod_summary.jsp?code=RDIMX6SABREBRD}
+            {Freescale SABRE SD i.MX6Quad}
+        \li \l{http://boundarydevices.com/products/sabre-lite-imx6-sbc/}
+            {BD-SL-i.MX6}
+        \li \l{http://www.raspberrypi.org/faqs}
+            {Raspberry Pi Model B}
     \endlist
 
-    For the \SDK 3.0 release, \l{Preparing BeagleBoard-xM}{BeagleBoard-xM (embedded Linux)}
-    is no longer tested and supported. It is, however, still tested and supported
-    in the earlier 2.x releases.
+    \section2 Legacy Reference Devices
+
+    The following devices are no longer tested or supported by the latest
+    release of \SDK.
+
+    \list
+    \li \l{http://beagleboard.org/hardware-xM}
+            {BeagleBoard-xM}
+        \list
+            \li Starting from \SDK 3.0 release, BeagleBoard-xM is no longer
+            tested and supported. It is, however, still tested and supported
+            in the earlier 2.x releases.
+        \endlist
+    \endlist
 
     \section1 Supported Development Environment
 
-    The development environment supported by \SDK is Ubuntu Linux 64-bit (12.04 LTS or 12.10).
+    The development environment supported by \SDK is Ubuntu Linux 64-bit (12.04 LTS or later).
 
     \sa {Requirements for Development Host}
 
