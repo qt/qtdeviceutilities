@@ -41,18 +41,52 @@ static int MIN_RENEWAL_TIME_SECS = 300; // 5 min
 #define ETH_INTERFACE_HW "eth0"
 #define ETH_INTERFACE_EMULATOR "eth1"
 
+#if Q_ANDROID_VERSION_MAJOR == 4 && Q_ANDROID_VERSION_MINOR < 3
 // this function is defined in android/system/core/libnetutils/dhcp_utils.c
 extern "C" {
 int dhcp_do_request_renew(const char *ifname,
-                    const char *ipaddr,
-                    const char *gateway,
-                    uint32_t *prefixLength,
-                    const char *dns1,
-                    const char *dns2,
-                    const char *server,
-                    uint32_t *lease,
-                    const char *vendorInfo);
+                          char *ipaddr,
+                          char *gateway,
+                          uint32_t *prefixLength,
+                          char *dns1,
+                          char *dns2,
+                          char *server,
+                          uint32_t *lease,
+                          char *vendorInfo);
 }
+#endif
+
+static int q_dhcp_do_request(bool renew,
+                             const char *ifname,
+                             char *ipaddr,
+                             char *gateway,
+                             uint32_t *prefixLength,
+                             char *dns1,
+                             char *dns2,
+                             char *server,
+                             uint32_t *lease,
+                             char *vendorInfo)
+{
+#if Q_ANDROID_VERSION_MAJOR == 4 && Q_ANDROID_VERSION_MINOR < 3
+    if (!renew)
+        return dhcp_do_request(ifname, ipaddr, gateway, prefixLength, dns1, dns2, server, lease, vendorInfo);
+    return dhcp_do_request_renew(ifname, ipaddr, gateway, prefixLength, dns1, dns2, server, lease, vendorInfo);
+#else
+    char *dns[3] = {dns1, dns2, 0};
+    char domain[PROPERTY_VALUE_MAX];
+    char mtu[PROPERTY_VALUE_MAX];
+#if Q_ANDROID_VERSION_MAJOR == 4 && Q_ANDROID_VERSION_MINOR < 4
+    if (!renew)
+        return dhcp_do_request(ifname, ipaddr, gateway, prefixLength, dns, server, lease, vendorInfo);
+    return dhcp_do_request_renew(ifname, ipaddr, gateway, prefixLength, dns, server, lease, vendorInfo);
+#else
+    if (!renew)
+        return dhcp_do_request(ifname, ipaddr, gateway, prefixLength, dns, server, lease, vendorInfo, domain, mtu);
+    return dhcp_do_request_renew(ifname, ipaddr, gateway, prefixLength, dns, server, lease, vendorInfo, domain, mtu);
+#endif
+#endif
+}
+
 
 class LeaseTimer;
 class QConnectivityDaemon : public QObject
@@ -254,8 +288,8 @@ bool QConnectivityDaemon::startDhcp(bool renew, const char *interface)
     char vendorInfo[PROPERTY_VALUE_MAX];
 
     if (renew) {
-        result = dhcp_do_request_renew(interface, ipaddr, gateway, &prefixLength,
-                                      dns1, dns2, server, &lease, vendorInfo);
+        result = q_dhcp_do_request(true, interface, ipaddr, gateway, &prefixLength,
+                                   dns1, dns2, server, &lease, vendorInfo);
     } else {
         // stop any existing DHCP daemon before starting new
         dhcp_stop(interface);
@@ -263,8 +297,8 @@ bool QConnectivityDaemon::startDhcp(bool renew, const char *interface)
         // the device init.rc. Android starts dhcpcd with argument -B which means that
         // we are responsible for renewing a lease before it expires
         ifc_clear_addresses(interface);
-        result = dhcp_do_request(interface, ipaddr, gateway, &prefixLength,
-                                 dns1, dns2, server, &lease, vendorInfo);
+        result = q_dhcp_do_request(false, interface, ipaddr, gateway, &prefixLength,
+                                   dns1, dns2, server, &lease, vendorInfo);
     }
 
     bool success = (result == 0) ? true : false;

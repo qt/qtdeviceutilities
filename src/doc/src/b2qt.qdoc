@@ -43,8 +43,10 @@
         \li \l{Supported Platforms}
         \li \l{Preparing Hardware}
         \list
-            \li \l{Preparing Nexus 7}{Nexus 7 (2012) (embedded Android)}
-            \li \l{Preparing Sabre Lite i.MX 6}{Sabre Lite i.MX 6 (embedded Android and Linux)}
+            \li \l{Preparing Nexus 7 (2013)}{Nexus 7 (2013) (embedded Android)}
+            \li \l{Preparing Nexus 7 (2012)}{Nexus 7 (2012) (embedded Android)}
+            \li \l{Preparing BD-SL-i.MX6}{BD-SL-i.MX6 (embedded Android and Linux)}
+            \li \l{Preparing SABRE SD i.MX6Quad}{SABRE SD i.MX6Quad (embedded Linux)}
             \li \l{Preparing BeagleBone Black}{BeagleBone Black (embedded Android and Linux)}
             \li \l{Preparing BeagleBoard-xM}{BeagleBoard-xM (embedded Linux)}
             \li \l{Preparing Raspberry Pi}{Raspberry Pi Model B (embedded Linux)}
@@ -112,8 +114,8 @@
             forefront.
 
         \li \b{\B2QL} where the software stack is using the traditional embedded
-            Linux kernel built with the Yocto Poky reference system (Yocto 1.5
-            \e Dora release). The Embedded Linux variant is designed for great
+            Linux kernel built with the Yocto Poky reference system (Yocto 1.6
+            \e Daisy release). The Embedded Linux variant is designed for great
             customization possibilities. It contains only components required in
             the embedded device, resulting in smaller image sizes while keeping
             valuable development tools available.
@@ -306,7 +308,7 @@
 
     \list
         \li \l{Nexus 7 (2012) (embedded Android)}
-        \li \l{Sabre Lite i.MX 6 (embedded Android and Linux)}
+        \li \l{BD-SL-i.MX6 (embedded Android and Linux)}
         \li \l{BeagleBone Black (embedded Android and Linux)}
         \li \l{BeagleBoard-xM (embedded Linux)}
         \li \l{Raspberry Pi Model B (embedded Linux)}
@@ -317,9 +319,66 @@
 */
 
 /*!
+    \target Nexus 7 (2013) (embedded Android)
+    \page qtee-preparing-hardware-nexus-7-2013.html
+    \title Preparing Nexus 7 (2013)
+    \previouspage qtee-installation-guide.html
+    \nextpage qtee-building-and-running.html
+
+    Take the following steps to prepare a
+    \l{http://www.google.com/nexus/7/specs/}{Nexus 7 (2013)} for
+    \B2Q.
+
+    \note The installation process will wipe the device. Make sure to
+    backup any personal data. The device can later be restored to
+    factory state, see \l{Troubleshooting}.
+
+    \section1 Enabling Developer Mode
+
+    In order to install the \B2Q stack into the Nexus 7, you need to
+    enable developer mode and USB debugging:
+
+    \list 1
+        \li Power up the device.
+        \li Open the \b{Settings} app and select the \b{About tablet} item.
+        \li Press the \b{Build number} item seven times, until the message "You are now a developer!" appears.
+
+        \li Back in the \b{Settings} menu, select \b{Developer options}.
+        \li Press the \b{USB debugging} item and confirm that you allow USB debugging.
+    \endlist
+
+    You should now be able to establish USB connection to the device as follows.
+
+    \section1 Setting up USB Access
+
+    \include b2qt-post-install-setup.qdocinc setting up usb access
+
+    \section1 Deploying the \B2Q Stack
+
+    Using the \c{adb devices} command, confirm that you have a working
+    connection to the Nexus 7, and that the Nexus 7 is the only
+    connected device. Then run the following command to install the \B2Q stack:
+
+    \badcode
+        cd <INSTALL_DIR>
+        ./Boot2Qt-3.x/nexus7-2013-eAndroid/images/deploy.sh
+    \endcode
+
+    The device will reboot during the process. Do not interact with it
+    or unplug it until the process is fully completed.
+
+    \section1 Configuring a Device Kit in Qt Creator
+
+    \include b2qt-post-install-setup.qdocinc configuring device kit
+
+    You are now ready to start developing for your device. For more information,
+    see \l{Building and Running an Example}.
+*/
+
+/*!
     \target Nexus 7 (2012) (embedded Android)
-    \page qtee-preparing-hardware-nexus-7.html
-    \title Preparing Nexus 7
+    \page qtee-preparing-hardware-nexus-7-2012.html
+    \title Preparing Nexus 7 (2012)
     \previouspage qtee-installation-guide.html
     \nextpage qtee-building-and-running.html
 
@@ -327,7 +386,11 @@
     \l{http://www.google.com/nexus/7/specs/}{Nexus 7 (2012)} for
     \B2Q.
 
-    \section1 Unlocking Nexus 7 Bootloader
+    \note The installation process will wipe the device. Make sure to
+    backup any personal data. The device can later be restored to
+    factory state, see \l{Troubleshooting}.
+
+    \section1 Unlocking Nexus 7 (2012) Bootloader
 
     You must unlock the Nexus 7 Bootloader to be able to install custom
     software. You need to do this only once.
@@ -349,7 +412,7 @@
         \li Wait a few seconds, and check that the text line stating the \c{LOCK STATE} now says \c{UNLOCKED}.
     \endlist
 
-    \section1 Updating a Nexus 7 with \B2Q Images
+    \section1 Updating a Nexus 7 (2012) with \B2Q Images
 
     \note It is important that you repeat the steps in this section after you
     update \SDK.
@@ -365,9 +428,9 @@
 
     \badcode
         cd <INSTALL_DIR>
-        sudo ./Tools/b2qt/fastboot flash boot Boot2Qt-2.x/nexus7-eAndroid/images/boot.img
-        sudo ./Tools/b2qt/fastboot flash system Boot2Qt-2.x/nexus7-eAndroid/images/system.img
-        sudo ./Tools/b2qt/fastboot flash userdata Boot2Qt-2.x/nexus7-eAndroid/images/data.img
+        sudo ./Tools/b2qt/fastboot flash boot Boot2Qt-3.x/nexus7-eAndroid/images/boot.img
+        sudo ./Tools/b2qt/fastboot flash system Boot2Qt-3.x/nexus7-eAndroid/images/system.img
+        sudo ./Tools/b2qt/fastboot flash userdata Boot2Qt-3.x/nexus7-eAndroid/images/data.img
     \endcode
 
     \li Once the flashing is completed successfully, reboot the device:
@@ -389,7 +452,7 @@
     {https://developers.google.com/android/nexus/drivers#grouperjdq39}
     \badcode
         cd <INSTALL_DIR>
-        ./Boot2Qt-2.x/nexus7-eAndroid/images/download.sh
+        ./Boot2Qt-3.x/nexus7-eAndroid/images/download.sh
     \endcode
 
     \note Only the version "Android 4.2.2 (JDQ39 to JDQ39E)" works with the
@@ -402,7 +465,7 @@
             Also check that the device is \e{not} in fastboot mode.
         \li Run the driver extractors:
         \badcode
-            cd Boot2Qt-2.x/nexus7-eAndroid/images/drivers
+            cd Boot2Qt-3.x/nexus7-eAndroid/images/drivers
             ./extract-nvidia-grouper.sh
             ./extract-asus-grouper.sh
             ./extract-invensense-grouper.sh
@@ -416,7 +479,7 @@
         \endcode
         \li Deploy the drivers to your device:
         \badcode
-            ./Boot2Qt-2.x/nexus7-eAndroid/images/deploy.sh <serial_number>
+            ./Boot2Qt-3.x/nexus7-eAndroid/images/deploy.sh <serial_number>
         \endcode
     \endlist
 
@@ -446,8 +509,8 @@
     {BeagleBoard-xM} for
     \B2Q.
 
-    \note It is important that you repeat the steps in this section after you
-    update \SDK.
+    \note BeagleBoard-xM is no longer supported in \SDK 3.0. It is still,
+    however, supported and tested under the previous 2.x versions.
 
     The image containing \B2Q stack for BeagleBoard-xM are included in \SDK,
     ready to be copied to an SD card.
@@ -460,11 +523,16 @@
 
     \section1 Installing the \B2Q Image
 
-    To write the image to the SD card:
+    To write the image to the SD card, ensure that no partitions on the
+    SD card are mounted:
+
+    \include detect-sd-card-device-name.qdocinc unmount
+
+    Then,
 
     \badcode
         cd <INSTALL_DIR>
-        sudo Boot2Qt-2.x/beagleboard-eLinux/images/deploy.sh /dev/<device_name>
+        sudo Boot2Qt-3.x/beagleboard-eLinux/images/deploy.sh /dev/<device_name>
     \endcode
 
     After the image has been deployed, power on the device and check that
@@ -483,19 +551,19 @@
 */
 
 /*!
-    \target Sabre Lite i.MX 6 (embedded Android and Linux)
+    \target BD-SL-i.MX6 (embedded Android and Linux)
     \page qtee-preparing-hardware-imx6.html
-    \title Preparing Sabre Lite i.MX 6
+    \title Preparing BD-SL-i.MX6
     \previouspage qtee-installation-guide.html
 
     Take the following steps to prepare a
-    \l{http://boundarydevices.com/products/sabre-lite-imx6-sbc/}{Sabre
-    Lite i.MX 6} for \B2Q.
+    \l{http://boundarydevices.com/products/sabre-lite-imx6-sbc/}
+    {Boundary Devices BD-SL-i.MX6} (SABRE Lite) for \B2Q.
 
     \note It is important that you repeat the steps in this section after you
     update \SDK.
 
-    The images containing the \B2Q stack for Sabre Lite i.MX 6 are included
+    The images containing the \B2Q stack for BD-SL-i.MX6 are included
     in \SDK, ready to be copied to an SD card.
 
     \section1 Preparing an SD Card
@@ -539,23 +607,79 @@
         sudo apt-get install u-boot-tools
     \endcode
 
-    Then, upgrade the SD card with \B2Q. Use one of the commands below,
-    depending on whether you are developing for embedded Android or Linux:
+    Then, upgrade the SD card with \B2Q. First, ensure that no partitions on the
+    SD card are mounted:
+
+    \include detect-sd-card-device-name.qdocinc unmount
+
+    Then, use one of the commands below, depending on whether you are developing
+    for embedded Android or Linux:
 
     \list
         \li \b{\B2QA}
         \badcode
             cd <INSTALL_DIR>
-            ./Boot2Qt-2.x/iMX6-eAndroid/images/deploy.sh /dev/<device_name>
+            ./Boot2Qt-3.x/iMX6-eAndroid/images/deploy.sh /dev/<device_name>
         \endcode
         \li \b{\B2QL}
         \badcode
             cd <INSTALL_DIR>
-            sudo ./Boot2Qt-2.x/iMX6-eLinux/images/deploy.sh /dev/<device_name>
+            sudo ./Boot2Qt-3.x/iMX6-eLinux/images/deploy.sh /dev/<device_name>
         \endcode
     \endlist
 
     After the installation is complete, insert the SD card, power on the device and check that
+    the \B2Q welcome screen and/or demo appear.
+
+    \section1 Setting up USB Access
+
+    \include b2qt-post-install-setup.qdocinc setting up usb access
+
+    \section1 Configuring a Device Kit in Qt Creator
+
+    \include b2qt-post-install-setup.qdocinc configuring device kit
+
+    You are now ready to start developing for your device. For more information,
+    see \l{Building and Running an Example}.
+*/
+
+/*!
+    \target SABRE SD i.MX6Quad (embedded Linux)
+    \page qtee-preparing-hardware-imx6sabresd.html
+    \title Preparing SABRE SD i.MX6Quad
+    \previouspage qtee-installation-guide.html
+
+    Take the following steps to prepare a
+    \l{http://www.freescale.com/webapp/sps/site/prod_summary.jsp?code=RDIMX6SABREBRD}
+    {Freescale SABRE SD i.MX6Quad} for \B2Q.
+
+    \note It is important that you repeat the steps in this section after you
+    update \SDK.
+
+    The images containing the \B2Q stack for SABRE SD i.MX6Quad are included
+    in \SDK, ready to be copied to an SD card.
+
+    \section1 Preparing an SD Card
+
+    An SD card of at least 512 MB capacity is sufficient.
+
+    \include detect-sd-card-device-name.qdocinc instructions
+
+    \section1 Installing the \B2Q Image
+
+    To write the image to the SD card, ensure that no partitions on the
+    SD card are mounted:
+
+    \include detect-sd-card-device-name.qdocinc unmount
+
+    Then,
+
+    \badcode
+        cd <INSTALL_DIR>
+        sudo Boot2Qt-3.x/imx6sabresd-eLinux/images/deploy.sh /dev/<device_name>
+    \endcode
+
+    After the image has been deployed, insert the SD card, power on the device and check that
     the \B2Q welcome screen and/or demo appear.
 
     \section1 Setting up USB Access
@@ -599,11 +723,16 @@
 
     \section1 Installing the \B2Q Image
 
-    To write the image to the SD card:
+    To write the image to the SD card, ensure that no partitions on the
+    SD card are mounted:
+
+    \include detect-sd-card-device-name.qdocinc unmount
+
+    Then,
 
     \badcode
         cd <INSTALL_DIR>
-        sudo Boot2Qt-2.x/raspberrypi-eLinux/images/deploy.sh /dev/<device_name>
+        sudo Boot2Qt-3.x/raspberrypi-eLinux/images/deploy.sh /dev/<device_name>
     \endcode
 
     After the image has been deployed, insert the SD card, power on the device and check that
@@ -665,19 +794,24 @@
 
     \section1 Installing the \B2Q Image
 
-    Then, upgrade the SD card with \B2Q. Use one of the commands below,
-    depending on whether you are developing for embedded Android or Linux:
+    Then, upgrade the SD card with \B2Q. First, ensure that no partitions on the
+    SD card are mounted:
+
+    \include detect-sd-card-device-name.qdocinc unmount
+
+    Then, use one of the commands below, depending on whether you are developing
+    for embedded Android or Linux:
 
     \list
         \li \b{\B2QA}
         \badcode
             cd <INSTALL_DIR>
-            ./Boot2Qt-2.x/beaglebone-eAndroid/images/deploy.sh /dev/<device_name>
+            ./Boot2Qt-3.x/beaglebone-eAndroid/images/deploy.sh /dev/<device_name>
         \endcode
         \li \b{\B2QL}
         \badcode
             cd <INSTALL_DIR>
-            sudo ./Boot2Qt-2.x/beaglebone-eLinux/images/deploy.sh /dev/<device_name>
+            sudo ./Boot2Qt-3.x/beaglebone-eLinux/images/deploy.sh /dev/<device_name>
         \endcode
     \endlist
 
@@ -725,7 +859,12 @@
 
     \section1 Installing the \B2Q Image
 
-    To write the image to the SD card:
+    To write the image to the SD card, ensure that no partitions on the
+    SD card are mounted:
+
+    \include detect-sd-card-device-name.qdocinc unmount
+
+    Then,
 
     \badcode
         cd <QtBuildDir>
@@ -761,7 +900,7 @@
         \li In Qt Creator, select \b File > \b {New File or Project} >
             \b Applications > \b{Qt Quick Application} > \b{Choose}.
         \li Choose a location for your new project.
-        \li In the \b{Qt Quick Component Set} dialog, select \b{Qt Quick 2.0}.
+        \li In the \b{Qt Quick Component Set} dialog, select \b{Qt Quick 2.2}.
         \li In the \b{Kit Selection} dialog, select the kits for your
             devices. You can also select the emulator kit to test running the
             project in the emulator.
@@ -886,7 +1025,7 @@
     In the \c{appcontroller.conf} file, the input devices are
     specified by the lines similar to these:
     \badcode
-        env=QT_QPA_GENERIC_PLUGINS=evdevtouch:/dev/input/event0
+        env=QT_QPA_EVDEV_TOUCHSCREEN_PARAMETERS=/dev/input/event0
     \endcode
 
     Usually, you do not need to change this setting. USB input devices, such as
@@ -897,9 +1036,10 @@
     devices, such as a keyboard and mouse, have to be connected at boot
     time.
 
-    On some devices, for example the i.MX6 Sabre Lite, the touchscreen device is
-    specified explicitly in \c QT_QPA_GENERIC_PLUGINS. This is necessary because
-    the automatic device discovery would fail to find the touchscreen.
+    On some devices, for example the BD-SL-i.MX6, the touchscreen device is
+    specified explicitly with \c QT_QPA_EVDEV_TOUCHSCREEN_PARAMETERS. This is
+    necessary because the automatic device discovery would fail to find the
+    touchscreen.
 
     \section1 Booting to a Custom Application
 
@@ -923,7 +1063,7 @@
     application in QML.
 
     \qml
-    import QtQuick 2.0
+    import QtQuick 2.2
 
     Item {
         id: root
@@ -969,6 +1109,23 @@
       change \c /init.rc, or simply rename the \c
       {/system/bin/surfaceflinger} executable.
     \endlist
+
+    \section1 Using Network Connection for ADB
+
+    By default, \B2Q uses USB cable for communication between device and Qt Creator.
+    On \B2QL, you can change the device to use ethernet network connection for the
+    communication. To enable network connection, you need to modify file
+    \c /etc/default/adbd located on the devices, and change value of \c USE_ETHERNET
+    to \c 'yes'. This can also be done with \c adb, while the device is still
+    connected via USB.
+
+    \badcode
+     <INSTALL_DIR>/Tools/b2qt/adb shell sed -i -e 's/USE_ETHERNET=no/USE_ETHERNET=yes/' /etc/default/adbd
+    \endcode
+
+    \note You need to restart the device for this change to take effect.
+
+    \include b2qt-post-install-setup.qdocinc configuring network device
 */
 
 /*!
@@ -1019,7 +1176,7 @@
 
     \badcode
     cd <BuildDir>
-    <INSTALL_DIR>/Boot2Qt-2.x/sources/b2qt-yocto-meta/b2qt-init-build-env .
+    <INSTALL_DIR>/Boot2Qt-3.x/sources/b2qt-yocto-meta/b2qt-init-build-env .
     \endcode
 
     \section1 Building the Image and Toolchain
@@ -1034,6 +1191,29 @@
     source poky/oe-init-build-env build-raspberrypi
     \endcode
 
+    The following table lists the \c MACHINE values for our reference platforms:
+
+    \table
+    \header
+        \li Board
+        \li MACHINE value
+    \row
+        \li Raspberry Pi
+        \li raspberrypi
+    \row
+        \li BeagleBone Black
+        \li beaglebone
+    \row
+        \li Boundary Devices BD-SL-i.MX6
+        \li nitrogen6x
+    \row
+        \li Freescale SABRE SD i.MX6Quad
+        \li imx6qsabresd
+    \row
+        \li Emulator
+        \li emulator
+    \endtable
+
     Yocto recipes for \B2QL have two main targets to build: The target image,
     and the external toolchain that is used for building the Qt framework and
     applications.
@@ -1044,7 +1224,7 @@
     \endcode
 
     The target rootfs image is located in the \c <YoctoBuildDir>/tmp/deploy/images/<target>/b2qt-embedded-image-<target>.tar.gz,
-    and the new toolchain is in \c <YoctoBuildDir>/tmp/deploy/sdk/b2qt-eglibc-x86_64-meta-toolchain-b2qt-embedded-sdk-<target-architecture>-toolchain-1.5.sh
+    and the new toolchain is in \c <YoctoBuildDir>/tmp/deploy/sdk/b2qt-eglibc-x86_64-meta-toolchain-b2qt-embedded-sdk-<target-architecture>-toolchain-1.6.sh
 
     \note The generated target image does not yet include Qt libraries,
     you need to build Qt and add it into the image yourself.
@@ -1057,7 +1237,7 @@
     script. Using Raspberry Pi as an example:
 
     \badcode
-    <INSTALL_DIR>/Boot2Qt-2.x/sources/b2qt-build-scripts/embedded-common/init_build_env.sh <INSTALL_DIR>/Boot2Qt-2.x/sources/b2qt-build-scripts/embedded-linux/config.raspberrypi
+    <INSTALL_DIR>/Boot2Qt-3.x/sources/b2qt-build-scripts/embedded-common/init_build_env.sh <INSTALL_DIR>/Boot2Qt-3.x/sources/b2qt-build-scripts/embedded-linux/config.raspberrypi
     \endcode
 
     \note You can use the same build directory for Qt and the Yocto image.
@@ -1066,9 +1246,9 @@
     You can use following scripts to build different parts of the \B2Q stack.
 
     \badcode
-    <INSTALL_DIR>/Boot2Qt-2.x/sources/b2qt-build-scripts/embedded-linux/build_qt.sh
-    <INSTALL_DIR>/Boot2Qt-2.x/sources/b2qt-build-scripts/embedded-linux/build_extras.sh
-    <INSTALL_DIR>/Boot2Qt-2.x/sources/b2qt-build-scripts/embedded-linux/build_image.sh
+    <INSTALL_DIR>/Boot2Qt-3.x/sources/b2qt-build-scripts/embedded-linux/build_qt.sh
+    <INSTALL_DIR>/Boot2Qt-3.x/sources/b2qt-build-scripts/embedded-linux/build_extras.sh
+    <INSTALL_DIR>/Boot2Qt-3.x/sources/b2qt-build-scripts/embedded-linux/build_image.sh
     \endcode
 
     After \e {embedded-linux/build_image.sh} has finished, you can flash the device with
@@ -1080,29 +1260,12 @@
     developing for your device. The following script does this for you.
 
     \badcode
-    <INSTALL_DIR>/Boot2Qt-2.x/sources/b2qt-build-scripts/embedded-common/setup_qtcreator.sh
+    <INSTALL_DIR>/Boot2Qt-3.x/sources/b2qt-build-scripts/embedded-common/setup_qtcreator.sh
     \endcode
 
     This will set up a new kit in Qt Creator, using the toolchain and Qt from
     your build directory. The new kit is visible under \b Tools > \b Options
     > \b {Build & Run} > \b Kits.
-
-    \section1 Using Network Connection for ADB
-
-    By default, \B2Q uses USB cable for communication between device and Qt Creator.
-    On \B2QL, you can change the device to use ethernet network connection for the
-    communication. To enable network connection, you need to modify file
-    \c /etc/default/adbd located on the devices, and change value of \c USE_ETHERNET
-    to \c 'yes'. This can also be done with \c adb, while the device is still
-    connected via USB.
-
-    \badcode
-     <INSTALL_DIR>/Tools/b2qt/adb shell sed -i -e 's/USE_ETHERNET=no/USE_ETHERNET=yes/' /etc/default/adbd
-    \endcode
-
-    \note You need to restart the device for this change to take effect.
-
-    \include b2qt-post-install-setup.qdocinc configuring network device
 */
 
 /*!
@@ -1127,12 +1290,15 @@
 
     \B2Q has been tested to work on the following reference devices:
     \list
-        \li \l{http://www.google.com/nexus/7/specs/}{Google/Asus Nexus 7 (2012)}
-        \li \l{http://beagleboard.org/hardware-xM}{BeagleBoard-xM}
+        \li \l{http://www.google.com/nexus/7/specs/}{Google/Asus Nexus 7 (2012 and 2013 models)}
         \li \l{http://beagleboard.org/products/beaglebone%20black}{BeagleBone Black}
         \li \l{http://boundarydevices.com/products/sabre-lite-imx6-sbc/}{Freescale i.MX6 Sabre Lite board (Boundary Devices)}
         \li \l{http://www.raspberrypi.org/faqs}{Raspberry Pi Model B}
     \endlist
+
+    For the \SDK 3.0 release, \l{Preparing BeagleBoard-xM}{BeagleBoard-xM (embedded Linux)}
+    is no longer tested and supported. It is, however, still tested and supported
+    in the earlier 2.x releases.
 
     \section1 Supported Development Environment
 
@@ -1198,7 +1364,44 @@
     \previouspage qtee-customization.html
     \nextpage qtee-troubleshooting.html
 
-    \section1 \B2Q 2.1.0
+    \section1 \B2Q 3.0.0
+
+    \list
+        \li Release date: May 22, 2014
+    \endlist
+
+    \section2 Changes
+    \b {New Features}:
+    \list
+        \li \B2Q stack was updated to use Qt 5.3 on embedded Android and Linux
+        \li \l {Qt Virtual Keyboard} was updated to version 1.0
+        \li \l {Qt Data Visualization} demo was added
+        \li Qt WebEngine 0.9 support (including WebEngine demo) was added for
+            embedded Android and Linux. However, the Emulator target is
+            currently not supported
+        \li Qt Quick Compiler (Technology Preview) was added to the \B2Q stack
+        \li \l{Preparing Nexus 7 (2013)}{Nexus 7 (2013)} was added as a
+            reference device for embedded Android
+        \li \l{Preparing SABRE SD i.MX6Quad}{Freescale SABRE SD i.MX6Quad} was
+            added as a reference device for embedded Linux
+        \li WiFi networking support and configuration were implemented on
+            embedded Linux
+    \endlist
+
+    \b {Improvements}:
+    \list
+        \li Emulator warnings were improved
+        \li Embedded Linux: Moved to use Yocto 1.6 (Daisy)
+        \li Debug symbols were moved to a separately installable package
+        \li Presentation of \B2Q demos in Qt Creator was improved
+    \endlist
+
+    \b {Fixed Bugs}:
+    \list
+        \li Build scripts: Incorrect path was fixed
+    \endlist
+
+\section1 \B2Q 2.1.0
 
     \list
         \li Release date: Apr. 15, 2014
@@ -1356,7 +1559,7 @@
     Remember to repeat the process of updating also your device with the latest
     version of \B2Q. See \l{Installing Boot to Qt on Target Devices}.
 
-    \section2 Booting Sabre Lite i.MX 6 stops with \e {6x_bootscript not found} error
+    \section2 Booting BD-SL-i.MX6 stops with \e {6x_bootscript not found} error
 
     Check the U-Boot version number. It should start with either \c{2012} or \c{2013}.
     If it is \c{2009.xx}, an upgrade of the bootloader is required. For more
@@ -1503,7 +1706,33 @@
 
     Embedded Linux devices can be accessed using user \c{root} and an empty password.
 
+    \section2 No sound on Embedded Android devices
 
+    When connecting a headphone or speakers while the device is running, the
+    audio may not be properly routed to the correct output. As a workaround,
+    connect the headphone or speakers before turning on the device.
+
+    \section2 Qt WebEngine libraries cannot be found when targeting the emulator
+
+    Qt WebEngine is not currently available for the emulators, neither eLinux
+    nor eAndroid. This is planned to be addressed in a later release.
+
+    \section2 Widget-based web view is not available
+
+    The Qt WebEngine APIs are available only for Qt Quick 2 based applications at the moment.
+    The QWidget-based equivalents, like QWebEngineView, will become supported in future releases.
+    For the time being, use the WebEngineView QML element.
+
+    \section2 Qt Quick Compiler fails on the emulators
+
+    The Qt Quick Compiler is not yet functional in the emulator environments, and projects
+    are likely fail to build or run with compilation enabled. Support for the emulators
+    will be added in a later release.
+
+    \section2 QML debugging not functional when using Qt Quick Compiler
+
+    QML debugging is not fully functional when the Qt Quick Compiler is enabled. Support
+    for this will be added in a later release.
 */
 
 /*!

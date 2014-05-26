@@ -29,6 +29,7 @@
 #include <cutils/properties.h>
 #include <hardware/lights.h>
 #include <media/AudioSystem.h>
+#include <utils/String8.h>
 #endif
 
 /*!
@@ -225,7 +226,7 @@ bool QDroidUtils::setDisplayBrightness(quint8 value)
 QString QDroidUtils::getIPAddress()
 {
     QStringList addresses;
-    QNetworkInterface interface = QNetworkInterface::interfaceFromName("eth0");
+    QNetworkInterface interface = QNetworkInterface::interfaceFromName(QStringLiteral("eth0"));
     QList<QNetworkAddressEntry> entries;
     entries = interface.addressEntries();
     foreach (const QNetworkAddressEntry &entry, entries) {

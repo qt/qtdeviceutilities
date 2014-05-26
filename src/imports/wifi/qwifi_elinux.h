@@ -16,19 +16,19 @@
 ** the contact form at http://qt.digia.com/
 **
 ****************************************************************************/
-#include <binder/IPCThreadState.h>
+#ifndef LOCAL_WIFI_H
+#define LOCAL_WIFI_H
 
-#include "permissioncontroller.h"
-#include "schedulingpolicyservice.h"
-#include "powermanager.h"
+#include <string.h>
 
-using namespace android;
+// This API mirrors Android's Wi-Fi libraries interface [1] and implementation, excluding Android OS specific parts.
+// [1] http://androidxref.com/4.4.2_r2/xref/hardware/libhardware_legacy/include/hardware_legacy/wifi.h
 
-int main(int, char *[])
-{
-    sp<ProcessState> proc(ProcessState::self());
-    SchedulingPolicyService::instantiate();
-    PermissionController::instantiate();
-    PowerManager::instantiate();
-    IPCThreadState::self()->joinThreadPool();
-}
+int q_wifi_command(const char *ifname, const char *command, char *reply, size_t *reply_len);
+int q_wifi_wait_for_event(const char *ifname, char *buf, size_t buflen);
+int q_wifi_connect_to_supplicant(const char *ifname);
+void q_wifi_close_supplicant_connection(const char *ifname);
+int q_wifi_start_supplicant();
+int q_wifi_stop_supplicant();
+
+#endif // LOCAL_WIFI_H
