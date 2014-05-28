@@ -10,11 +10,13 @@ TEMPLATE = app
 SOURCES += main.cpp \
     permissioncontroller.cpp \
     schedulingpolicyservice.cpp \
-    powermanager.cpp
+    powermanager.cpp \
+    appops.cpp
 
 HEADERS += \
     permissioncontroller.h \
     schedulingpolicyservice.h \
-    powermanager.h
+    powermanager.h \
+    appops.h
 
 load(qt_tool)

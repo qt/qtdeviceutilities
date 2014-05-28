@@ -16,21 +16,14 @@
 ** the contact form at http://qt.digia.com/
 **
 ****************************************************************************/
-#include <binder/IPCThreadState.h>
 
-#include "permissioncontroller.h"
-#include "schedulingpolicyservice.h"
-#include "powermanager.h"
-#include "appops.h"
+#ifndef APPOPS_H
+#define APPOPS_H
 
-using namespace android;
-
-int main(int, char *[])
+class AppOps
 {
-    sp<ProcessState> proc(ProcessState::self());
-    SchedulingPolicyService::instantiate();
-    PermissionController::instantiate();
-    PowerManager::instantiate();
-    AppOps::instantiate();
-    IPCThreadState::self()->joinThreadPool();
-}
+public:
+    static void instantiate();
+};
+
+#endif // APPOPS_H
