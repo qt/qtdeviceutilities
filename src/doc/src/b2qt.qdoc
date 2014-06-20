@@ -43,8 +43,7 @@
         \li \l{Supported Platforms}
         \li \l{Preparing Hardware}
         \list
-            \li \l{Preparing Nexus 7 (2013)}{Nexus 7 (2013) (embedded Android)}
-            \li \l{Preparing Nexus 7 (2012)}{Nexus 7 (2012) (embedded Android)}
+            \li \l{Preparing Nexus 7 (2012/2013)}{Nexus 7 (2012/2013) (embedded Android)}
             \li \l{Preparing BD-SL-i.MX6}{BD-SL-i.MX6 (embedded Android and Linux)}
             \li \l{Preparing SABRE SD i.MX6Quad}{SABRE SD i.MX6Quad (embedded Linux)}
             \li \l{Preparing BeagleBone Black}{BeagleBone Black (embedded Android and Linux)}
@@ -307,8 +306,7 @@
     \B2Q stack. These steps vary from device to device:
 
     \list
-        \li \l{Nexus 7 (2013) (embedded Android)}
-        \li \l{Nexus 7 (2012) (embedded Android)}
+        \li \l{Nexus 7 (2012/2013) (embedded Android)}
         \li \l{BD-SL-i.MX6 (embedded Android and Linux)}
         \li \l{SABRE SD i.MX6Quad (embedded Linux)}
         \li \l{BeagleBone Black (embedded Android and Linux)}
@@ -321,24 +319,38 @@
 */
 
 /*!
-    \target Nexus 7 (2013) (embedded Android)
-    \page qtee-preparing-hardware-nexus-7-2013.html
-    \title Preparing Nexus 7 (2013)
+    \target Nexus 7 (2012/2013) (embedded Android)
+    \page qtee-preparing-hardware-nexus-7.html
+    \title Preparing Nexus 7 (2012/2013)
     \previouspage qtee-installation-guide.html
     \nextpage qtee-building-and-running.html
 
     Take the following steps to prepare a
-    \l{http://www.google.com/nexus/7/specs/}{Nexus 7 (2013)} for
+    \l{http://www.google.com/nexus/7/specs/}{Nexus 7 (2012/2013)} for
     \B2Q.
 
     \note The installation process will wipe the device. Make sure to
     backup any personal data. The device can later be restored to
-    factory state, see \l{Troubleshooting}.
+    factory state, see \l{nexus-factory-reset}{Troubleshooting}.
+
+    The Nexus 7 must have the same Android main version (e.g. \c{4.2}
+    or \c{4.4}) as the generic \B2Q eAndroid stack that is to be
+    installed. If needed, you can update the Android version either by
+    using Android's upgrading tool, or by flashing a factory image of
+    the right version. See \l{nexus-factory-reset}{Troubleshooting}.
 
     \section1 Enabling Developer Mode
 
     In order to install the \B2Q stack into the Nexus 7, you need to
-    enable developer mode and USB debugging:
+    enable developer mode and USB debugging. This is only needed for
+    the first time install.
+
+    \note If for some reason the device does not boot up normally, it
+    is also possible to install to a Nexus 7 started up in
+    \c{fastboot} (bootloader) mode (see
+    \l{nexus-factory-reset}{Troubleshooting}). Just skip this section
+    and add the \c{-fastboot} argument to the \c{deploy.sh} command
+    below.
 
     \list 1
         \li Power up the device.
@@ -357,140 +369,32 @@
 
     \section1 Deploying the \B2Q Stack
 
-    Using the \c{adb devices} command, confirm that you have a working
-    connection to the Nexus 7, and that the Nexus 7 is the only
-    connected device. Then run the following command to install the \B2Q stack:
+    Depending on the edition of your Nexus 7 device, use one of the
+    commands below to install the \B2Q stack. Replace \c{X.Y} with the
+    device's Android version number, for example \c{4.2} or \c{4.4}.
 
-    \badcode
-        cd <INSTALL_DIR>
-        ./Boot2Qt-3.x/nexus7-2013-eAndroid/images/deploy.sh
-    \endcode
+    \note The deploy script will check that the connected Nexus device
+    is of the expected type and Android version, and abort the
+    installation if it is not.
+
+    \list
+        \li \b{Nexus 7 (2013):}
+        \badcode
+            cd <INSTALL_DIR>
+            ./Boot2Qt-3.x/generic-X.Y-eAndroid/images/nexus7v2/deploy.sh
+        \endcode
+        \li \b{Nexus 7 (2012):}
+        \badcode
+            cd <INSTALL_DIR>
+            ./Boot2Qt-3.x/generic-X.Y-eAndroid/images/nexus7/deploy.sh
+        \endcode
+    \endlist
+
+    During the installation, the device may ask for confirmation to be
+    unlocked. Press the power button once to confirm.
 
     The device will reboot during the process. Do not interact with it
     or unplug it until the process is fully completed.
-
-    \section1 Configuring a Device Kit in Qt Creator
-
-    \include b2qt-post-install-setup.qdocinc configuring device kit
-
-    You are now ready to start developing for your device. For more information,
-    see \l{Building and Running an Example}.
-*/
-
-/*!
-    \target Nexus 7 (2012) (embedded Android)
-    \page qtee-preparing-hardware-nexus-7-2012.html
-    \title Preparing Nexus 7 (2012)
-    \previouspage qtee-installation-guide.html
-    \nextpage qtee-building-and-running.html
-
-    Take the following steps to prepare a
-    \l{http://www.google.com/nexus/7/specs/}{Nexus 7 (2012)} for
-    \B2Q.
-
-    \note The installation process will wipe the device. Make sure to
-    backup any personal data. The device can later be restored to
-    factory state, see \l{Troubleshooting}.
-
-    \section1 Unlocking Nexus 7 (2012) Bootloader
-
-    You must unlock the Nexus 7 Bootloader to be able to install custom
-    software. You need to do this only once.
-
-    \list 1
-        \li Power off the device.
-        \li Connect the device to the development host with a USB cable.
-        \li To start the Nexus up in \e{fastboot} mode, press the power button
-            for a second, and then keep the \b {Volume Down} key pressed down,
-            until you see a screen with a green robot with its front panel open.
-            \note If the ordinary startup screen appears instead, power off the
-            device and try again.
-        \li On the development host, enter the following command:
-        \badcode
-            sudo <INSTALL_DIR>/Tools/b2qt/fastboot oem unlock
-        \endcode
-        \li Press the power button to confirm that you want to unlock the
-            bootloader when the prompt appears on the Nexus screen.
-        \li Wait a few seconds, and check that the text line stating the \c{LOCK STATE} now says \c{UNLOCKED}.
-    \endlist
-
-    \section1 Updating a Nexus 7 (2012) with \B2Q Images
-
-    \note It is important that you repeat the steps in this section after you
-    update \SDK.
-
-    To update an unlocked Nexus 7 device with a \B2Q image:
-
-    \list 1
-    \li Make sure that the device is in \e{fastboot} mode and that it is
-        connected to the development host via USB.
-
-    \li Re-flash the \e{boot}, \e{system}, and \e{userdata} partitions on the
-    device, by entering the following commands in the following order:
-
-    \badcode
-        cd <INSTALL_DIR>
-        sudo ./Tools/b2qt/fastboot flash boot Boot2Qt-3.x/nexus7-eAndroid/images/boot.img
-        sudo ./Tools/b2qt/fastboot flash system Boot2Qt-3.x/nexus7-eAndroid/images/system.img
-        sudo ./Tools/b2qt/fastboot flash userdata Boot2Qt-3.x/nexus7-eAndroid/images/data.img
-    \endcode
-
-    \li Once the flashing is completed successfully, reboot the device:
-
-    \badcode
-        sudo ./Tools/b2qt/fastboot reboot
-    \endcode
-
-    \endlist
-
-    \note You must install proprietary drivers for the Nexus 7 to boot
-    correctly. Until then, the screen will briefly show the "Google" logo and then go black,
-    instead of showing the \B2Q welcome screen or demo.
-
-    \section1 Installing Proprietary Drivers
-
-    Download the proprietary drivers for your Nexus 7. The following script downloads the third
-    party drivers from \l{https://developers.google.com/android/nexus/drivers#grouperjdq39}
-    {https://developers.google.com/android/nexus/drivers#grouperjdq39}
-    \badcode
-        cd <INSTALL_DIR>
-        ./Boot2Qt-3.x/nexus7-eAndroid/images/download.sh
-    \endcode
-
-    \note Only the version "Android 4.2.2 (JDQ39 to JDQ39E)" works with the
-    current \B2Q image.
-
-    To install the drivers to Nexus 7:
-
-    \list 1
-        \li Power on the device and connect it to the development host via USB.
-            Also check that the device is \e{not} in fastboot mode.
-        \li Run the driver extractors:
-        \badcode
-            cd Boot2Qt-3.x/nexus7-eAndroid/images/drivers
-            ./extract-nvidia-grouper.sh
-            ./extract-asus-grouper.sh
-            ./extract-invensense-grouper.sh
-            cd -
-        \endcode
-            \note Carefully read the license terms enclosed in each individual
-            extractor.
-        \li Find out the serial number of the connected Nexus 7 device:
-        \badcode
-            ./Tools/b2qt/adb devices
-        \endcode
-        \li Deploy the drivers to your device:
-        \badcode
-            ./Boot2Qt-3.x/nexus7-eAndroid/images/deploy.sh <serial_number>
-        \endcode
-    \endlist
-
-    After the installation is complete, power on the device and check that
-    the \B2Q welcome screen and/or demo appear.
-
-    \section1 Setting up USB Access
-
-    \include b2qt-post-install-setup.qdocinc setting up usb access
 
     \section1 Configuring a Device Kit in Qt Creator
 
@@ -621,7 +525,7 @@
         \li \b{\B2QA}
         \badcode
             cd <INSTALL_DIR>
-            ./Boot2Qt-3.x/iMX6-eAndroid/images/deploy.sh /dev/<device_name>
+            ./Boot2Qt-3.x/generic-4.2-eAndroid/images/iMX6/deploy.sh /dev/<device_name>
         \endcode
         \li \b{\B2QL}
         \badcode
@@ -808,7 +712,7 @@
         \li \b{\B2QA}
         \badcode
             cd <INSTALL_DIR>
-            ./Boot2Qt-3.x/beaglebone-eAndroid/images/deploy.sh /dev/<device_name>
+            ./Boot2Qt-3.x/generic-4.2-eAndroid/images/beaglebone/deploy.sh
         \endcode
         \li \b{\B2QL}
         \badcode
@@ -1399,7 +1303,7 @@
             embedded Android and Linux. However, the Emulator target is
             currently not supported
         \li Qt Quick Compiler (Technology Preview) was added to the \B2Q stack
-        \li \l{Preparing Nexus 7 (2013)}{Nexus 7 (2013)} was added as a
+        \li \l{Preparing Nexus 7 (2012/2013)}{Nexus 7 (2013)} was added as a
             reference device for embedded Android
         \li \l{Preparing SABRE SD i.MX6Quad}{Freescale SABRE SD i.MX6Quad} was
             added as a reference device for embedded Linux
@@ -1589,6 +1493,7 @@
         \li \l http://boundarydevices.com/switching-u-boot-versions-on-i-mx6/
     \endlist
 
+    \target nexus-factory-reset
     \section2 How do I restore my Nexus 7 to factory settings?
 
     Go to \l{https://developers.google.com/android/nexus/images} and
