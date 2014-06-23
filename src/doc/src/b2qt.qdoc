@@ -46,6 +46,7 @@
             \li \l{Preparing Nexus 7 (2012/2013)}{Nexus 7 (2012/2013) (embedded Android)}
             \li \l{Preparing BD-SL-i.MX6}{BD-SL-i.MX6 (embedded Android and Linux)}
             \li \l{Preparing SABRE SD i.MX6Quad}{SABRE SD i.MX6Quad (embedded Linux)}
+            \li \l{Preparing Toradex Apalis iMX6}{Toradex Apalis iMX6 (embedded Linux)}
             \li \l{Preparing BeagleBone Black}{BeagleBone Black (embedded Android and Linux)}
             \li \l{Preparing BeagleBoard-xM}{BeagleBoard-xM (embedded Linux)}
             \li \l{Preparing Raspberry Pi}{Raspberry Pi Model B (embedded Linux)}
@@ -309,6 +310,7 @@
         \li \l{Nexus 7 (2012/2013) (embedded Android)}
         \li \l{BD-SL-i.MX6 (embedded Android and Linux)}
         \li \l{SABRE SD i.MX6Quad (embedded Linux)}
+        \li \l{Toradex Apalis iMX6 (embedded Linux)}
         \li \l{BeagleBone Black (embedded Android and Linux)}
         \li \l{BeagleBoard-xM (embedded Linux)}
         \li \l{Raspberry Pi Model B (embedded Linux)}
@@ -595,6 +597,69 @@
     \section1 Configuring a Device Kit in Qt Creator
 
     \include b2qt-post-install-setup.qdocinc configuring device kit
+
+    You are now ready to start developing for your device. For more information,
+    see \l{Building and Running an Example}.
+*/
+
+/*!
+    \target Toradex Apalis iMX6 (embedded Linux)
+    \page qtee-preparing-hardware-apalis-imx6.html
+    \title Preparing Toradex Apalis iMX6
+    \previouspage qtee-installation-guide.html
+
+    Take the following steps to prepare a
+    \l{http://www.toradex.com/products/apalis-arm-computer-modules/freescale-imx-6-computer-module}
+    {Toradex Apalis iMX6} for \B2Q.
+
+    \note It is important that you repeat the steps in this section after you
+    update \SDK.
+
+    The images containing the \B2Q stack for Toradex Apalis iMX6 are included
+    in \SDK, ready to be copied to an SD card.
+
+    \section1 Preparing an SD Card
+
+    An SD card of at least 512 MB capacity is sufficient.
+
+    \include detect-sd-card-device-name.qdocinc instructions
+
+    \section1 Installing the \B2Q Image
+
+    To write the image to the SD card, ensure that no partitions on the
+    SD card are mounted:
+
+    \include detect-sd-card-device-name.qdocinc unmount
+
+    Then,
+
+    \badcode
+        cd <INSTALL_DIR>
+        sudo Boot2Qt-3.x/apalis-imx6-eLinux/images/deploy.sh /dev/<device_name>
+    \endcode
+
+    By default, the Toradex Apalis iMX6 boots from its internal eMMC. In order to boot from
+    the external SD card, the U-Boot environment needs to be updated. Connect a serial cable
+    to the device and enter into the U-Boot environment by pressing any key before the autoboot.
+    Enter following lines into U-Boot:
+
+    \badcode
+        setenv bootcmd 'run sdboot ; echo sdboot failed ; run emmcboot ; echo ; echo emmcboot failed ; run nfsboot ; echo ; echo nfsboot failed ; usb start ;setenv stdout serial,vga ; setenv stdin serial,usbkbd'
+        setenv sdboot 'run setup; setenv bootargs ${defargs} ${sdargs} ${setupargs} ${vidargs};echo Booting from SD card in 8bit slot...; fatload mmc 2:1 10800000 uImage && bootm 10800000'
+        setenv sdargs 'ip=off root=/dev/mmcblk1p2 rw,noatime rootfstype=ext3 rootwait'
+        saveenv
+    \endcode
+
+    New U-Boot command are now stored into the device, and you can start \B2Q. For more information
+    about the boot process on Toredex Apalis iMX6, see
+    \l{http://developer.toradex.com/software-resources/arm-family/linux/linux-booting}{Toradex Linux Booting}
+
+    After the image has been deployed, insert the SD card, power on the device and check that
+    the \B2Q welcome screen and/or demo appear.
+
+    \section1 Configuring a Device Kit in Qt Creator
+
+    \include b2qt-post-install-setup.qdocinc configuring network device
 
     You are now ready to start developing for your device. For more information,
     see \l{Building and Running an Example}.
@@ -1116,6 +1181,9 @@
         \li Freescale SABRE SD i.MX6Quad
         \li imx6qsabresd
     \row
+        \li Toradex Apalis iMX6
+        \li apalis-imx6
+    \row
         \li Emulator
         \li emulator
     \endtable
@@ -1204,6 +1272,8 @@
             {Freescale SABRE SD i.MX6Quad}
         \li \l{http://boundarydevices.com/products/sabre-lite-imx6-sbc/}
             {BD-SL-i.MX6}
+        \li \l{http://www.toradex.com/products/apalis-arm-computer-modules/freescale-imx-6-computer-module}
+            {Toradex Apalis iMX6}
         \li \l{http://www.raspberrypi.org/faqs}
             {Raspberry Pi Model B}
     \endlist
