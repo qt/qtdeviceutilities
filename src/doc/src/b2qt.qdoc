@@ -1248,9 +1248,13 @@
     \previouspage qtee-installation-guide.html
     \nextpage qtee-preparing-hardware.html
 
-    \section1 Supported Target Devices
+    \section1 Supported Reference Devices
 
-    The \B2Q stack can be made to run on a variety of hardware.
+    The \B2Q stack can be made to run on a variety of hardware. For \SDK license
+    holders, tooling is provided to customize the contents of the stack as well
+    as to take it into desired production hardware. For more information on how
+    to customize the stack for embedded Linux, see
+    \l {Building Your Own Embedded Linux Image}.
 
     Approximate minimal hardware requirements for running \B2Q are:
     \list
@@ -1262,7 +1266,8 @@
     \B2QA requires hardware that has support for the Android operating
     system, version 4.2 or later.
 
-    \B2Q has been tested to work on the following reference devices:
+    \B2Q software stack is provided pre-built, tested and supported for the
+    following hardware:
     \list
         \li \l{http://www.google.com/nexus/7/specs/}
             {Google/Asus Nexus 7 (2012 and 2013 models)}
