@@ -290,7 +290,7 @@
 
     \section1 6. Configuring a Device Kit in Qt Creator
 
-    \include b2qt-post-install-setup.qdocinc configuring device kit
+    \include b2qt-post-install-setup.qdocinc configuring device kit android linux
 
     You are now ready to start developing for your device.
     For more information, see \l{Building and Running an Example}.
@@ -400,7 +400,7 @@
 
     \section1 Configuring a Device Kit in Qt Creator
 
-    \include b2qt-post-install-setup.qdocinc configuring device kit
+    \include b2qt-post-install-setup.qdocinc configuring device kit android
 
     You are now ready to start developing for your device. For more information,
     see \l{Building and Running an Example}.
@@ -545,7 +545,7 @@
 
     \section1 Configuring a Device Kit in Qt Creator
 
-    \include b2qt-post-install-setup.qdocinc configuring device kit
+    \include b2qt-post-install-setup.qdocinc configuring device kit android linux
 
     You are now ready to start developing for your device. For more information,
     see \l{Building and Running an Example}.
@@ -795,7 +795,7 @@
 
     \section1 Configuring a Device Kit in Qt Creator
 
-    \include b2qt-post-install-setup.qdocinc configuring device kit
+    \include b2qt-post-install-setup.qdocinc configuring device kit android linux
 
     You are now ready to start developing for your device. For more information,
     see \l{Building and Running an Example}.
