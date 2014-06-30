@@ -1362,6 +1362,47 @@
     \previouspage qtee-customization.html
     \nextpage qtee-troubleshooting.html
 
+    \section1 \B2Q 3.1.0
+
+    \list
+        \li Release date: July 3, 2014
+    \endlist
+
+    \section2 Changes
+    \b {New Features}:
+    \list
+        \li Boot to Qt stack was updated to use Qt 5.3.1 on embedded Android
+            and Linux.
+        \li Added a generic solution for injecting \B2QA stack into devices
+            running Android version 4.2.2 or later.
+        \li \l {Preparing Toradex Apalis iMX6}{Toradex Apalis iMX6} was added
+            as a reference device.
+        \li \l {Qt Data Visualization} was updated to version 1.1.
+        \li \l {Qt Charts} was updated to version 1.4.
+        \li \l {Qt Virtual Keyboard} was update to version 1.1.
+    \endlist
+
+    \b {Improvements}:
+    \list
+        \li Added translucent widget windows support to eglfs.
+        \li Changed \e appcontroller to print status messages to stdout.
+        \li Switched to use symbolic links for GL-streaming library, instead
+            of having multiple copies.
+        \li Fixed C++ debugging issues and improved performance on embedded
+            Android.
+        \li Updated the content of \e About \e {\SDK} demo.
+        \li Improved Sensors and Media Player examples.
+    \endlist
+
+    \b {Fixed Bugs}:
+    \list
+        \li Fixed WiFi not working on Nexus 7 (2013).
+        \li BeagleBone Black: Fixed C++ debugging failing on embedded Android.
+        \li BeagleBone Black: embedded Linux did not include USB serial drivers.
+        \li Fixed JavaScript crash on ARM (QTBUG-39289).
+        \li Removed useless warnings about setMask when using Qt Widgets.
+    \endlist
+
     \section1 \B2Q 3.0.0
 
     \list
