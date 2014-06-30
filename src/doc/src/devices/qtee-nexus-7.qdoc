@@ -1,0 +1,103 @@
+/****************************************************************************
+**
+** Copyright (C) 2014 Digia Plc
+** All rights reserved.
+** For any questions to Digia, please use the contact form at
+** http://qt.digia.com/
+**
+** This file is part of Qt Enterprise Embedded.
+**
+** Licensees holding valid Qt Enterprise licenses may use this file in
+** accordance with the Qt Enterprise License Agreement provided with the
+** Software or, alternatively, in accordance with the terms contained in
+** a written agreement between you and Digia.
+**
+** If you have questions regarding the use of this file, please use
+** the contact form at http://qt.digia.com/
+**
+****************************************************************************/
+/*!
+    \target Nexus 7 (2012/2013) (embedded Android)
+    \page qtee-preparing-hardware-nexus-7.html
+    \title Preparing Nexus 7 (2012/2013)
+    \previouspage qtee-installation-guide.html
+    \nextpage qtee-building-and-running.html
+
+    Take the following steps to prepare a
+    \l{http://www.google.com/nexus/7/specs/}{Nexus 7 (2012/2013)} for
+    \B2Q.
+
+    \note The installation process will wipe the device. Make sure to
+    backup any personal data. The device can later be restored to
+    factory state, see \l{nexus-factory-reset}{Troubleshooting}.
+
+    The Nexus 7 must have the same Android main version (e.g. \c{4.2}
+    or \c{4.4}) as the generic \B2Q eAndroid stack that is to be
+    installed. If needed, you can update the Android version either by
+    using Android's upgrading tool, or by flashing a factory image of
+    the right version. See \l{nexus-factory-reset}{Troubleshooting}.
+
+    \section1 Enabling Developer Mode
+
+    In order to install the \B2Q stack into the Nexus 7, you need to
+    enable developer mode and USB debugging. This is only needed for
+    the first time install.
+
+    \note If for some reason the device does not boot up normally, it
+    is also possible to install to a Nexus 7 started up in
+    \c{fastboot} (bootloader) mode (see
+    \l{nexus-factory-reset}{Troubleshooting}). Just skip this section
+    and add the \c{-fastboot} argument to the \c{deploy.sh} command
+    below.
+
+    \list 1
+        \li Power up the device.
+        \li Open the \b{Settings} app and select the \b{About tablet} item.
+        \li Press the \b{Build number} item seven times, until the message "You are now a developer!" appears.
+
+        \li Back in the \b{Settings} menu, select \b{Developer options}.
+        \li Press the \b{USB debugging} item and confirm that you allow USB debugging.
+    \endlist
+
+    You should now be able to establish USB connection to the device as follows.
+
+    \section1 Setting up USB Access
+
+    \include b2qt-post-install-setup.qdocinc setting up usb access
+
+    \section1 Deploying the \B2Q Stack
+
+    Depending on the edition of your Nexus 7 device, use one of the
+    commands below to install the \B2Q stack. Replace \c{X.Y} with the
+    device's Android version number, for example \c{4.2} or \c{4.4}.
+
+    \note The deploy script will check that the connected Nexus device
+    is of the expected type and Android version, and abort the
+    installation if it is not.
+
+    \list
+        \li \b{Nexus 7 (2013):}
+        \badcode
+            cd <INSTALL_DIR>
+            ./Boot2Qt-3.x/generic-X.Y-eAndroid/images/nexus7v2/deploy.sh
+        \endcode
+        \li \b{Nexus 7 (2012):}
+        \badcode
+            cd <INSTALL_DIR>
+            ./Boot2Qt-3.x/generic-X.Y-eAndroid/images/nexus7/deploy.sh
+        \endcode
+    \endlist
+
+    During the installation, the device may ask for confirmation to be
+    unlocked. Press the power button once to confirm.
+
+    The device will reboot during the process. Do not interact with it
+    or unplug it until the process is fully completed.
+
+    \section1 Configuring a Device Kit in Qt Creator
+
+    \include b2qt-post-install-setup.qdocinc configuring device kit android
+
+    You are now ready to start developing for your device. For more information,
+    see \l{Building and Running an Example}.
+*/

@@ -1,0 +1,68 @@
+/****************************************************************************
+**
+** Copyright (C) 2014 Digia Plc
+** All rights reserved.
+** For any questions to Digia, please use the contact form at
+** http://qt.digia.com/
+**
+** This file is part of Qt Enterprise Embedded.
+**
+** Licensees holding valid Qt Enterprise licenses may use this file in
+** accordance with the Qt Enterprise License Agreement provided with the
+** Software or, alternatively, in accordance with the terms contained in
+** a written agreement between you and Digia.
+**
+** If you have questions regarding the use of this file, please use
+** the contact form at http://qt.digia.com/
+**
+****************************************************************************/
+
+/*!
+    \page qtee-licenses.html
+    \title License Information
+    \previouspage qtee-troubleshooting.html
+    \nextpage qtee-qml-reference.html
+
+    \section1 Licensing
+
+    \SDK is licensed under the Qt Enterprise commercial license. For more information,
+    see \l {http://qt.digia.com/licensing}. Evaluation licenses are also available,
+    see \l {product page}{\SDK} on qt.digia.com.
+
+    \section1 3rd Party Software Licenses
+
+    The third-party licenses used in \SDK are listed in the file
+    \c {<INSTALL_DIR>/Licenses/ThirdPartySoftware_Listing.txt}.
+
+    \section1 Embedded Android Images
+
+    The embedded Android platform is built from the \e {Android Open Source Project},
+    source code available at \l {http://android.googlesource.com/}. The open
+    source licenses and notices are collected into the file
+    \c {/etc/NOTICE.html.gz} in the target images.
+
+    \section1 Embedded Linux Images
+
+    The embedded Linux platform is built using tools from the \l {Yocto Project}.
+    The open source licenses and notices are located in
+    \list
+        \li \c /usr/share/common-licenses/license.manifest
+        \li \c /usr/share/licenses/*
+    \endlist
+
+    \section1 Android GNU C++ Run-time Licensing
+
+    The Android platform does not provide a full implementation of the C++ run-time. Instead,
+    apps that depend on features such as STL, exceptions, or RTTI, must include an additional
+    native run-time library that provides the features they need.
+
+    \B2QA uses the GNU libstdc++ library distributed as part of the \e {Android Open Source Project}.
+    This library is included in the images for \B2QA, and will be loaded by the application
+    on start-up to meet the run-time requirements of Qt.
+
+    The GNU C++ run-time is licensed under the
+    \l{http://gcc.gnu.org/onlinedocs/libstdc++/manual/appendix_gpl.html}{GNU General Public License version 3} with
+    an exception which grants permission for run-time linking and usage of the library by an application which
+    would otherwise violate the terms of the main license. For more information about this exception, see
+    \l{http://gcc.gnu.org/onlinedocs/libstdc++/manual/license.html}{the official license page}.
+*/

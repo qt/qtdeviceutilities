@@ -1,0 +1,166 @@
+/****************************************************************************
+**
+** Copyright (C) 2014 Digia Plc
+** All rights reserved.
+** For any questions to Digia, please use the contact form at
+** http://qt.digia.com/
+**
+** This file is part of Qt Enterprise Embedded.
+**
+** Licensees holding valid Qt Enterprise licenses may use this file in
+** accordance with the Qt Enterprise License Agreement provided with the
+** Software or, alternatively, in accordance with the terms contained in
+** a written agreement between you and Digia.
+**
+** If you have questions regarding the use of this file, please use
+** the contact form at http://qt.digia.com/
+**
+****************************************************************************/
+
+/*!
+    \contentspage{index.html}{Qt Enterprise Embedded}
+    \page index.html
+    \nextpage qtee-overview.html
+    \title Qt Enterprise Embedded
+
+    \SDK provides a fully-integrated solution to get you started immediately
+    with software development on your embedded device with a tailored user
+    experience for embedded Linux and embedded Android. \SDK contains the tools
+    you need for fast, easy, and fully-integrated embedded device application
+    development. It comes with \B2Q, a light-weight UI stack for embedded
+    systems, and the Qt Creator integrated development environment (IDE) with
+    preconfigured build targets for hardware platforms, as well as an emulator
+    for testing the applications.
+
+    \e{\b{IMPORTANT:} Make sure to follow the \l{Installation Guide}
+    closely!}
+
+    \section1 Contents
+
+    \list
+        \li \l{About Qt Enterprise Embedded}
+        \li \l{Installation Guide}
+        \li \l{Supported Platforms}
+        \li \l{Preparing Hardware}
+        \list
+            \li \l{Preparing Nexus 7 (2012/2013)}{Nexus 7 (2012/2013) (embedded Android)}
+            \li \l{Preparing BD-SL-i.MX6}{BD-SL-i.MX6 (embedded Android and Linux)}
+            \li \l{Preparing SABRE SD i.MX6Quad}{SABRE SD i.MX6Quad (embedded Linux)}
+            \li \l{Preparing Toradex Apalis iMX6}{Toradex Apalis iMX6 (embedded Linux)}
+            \li \l{Preparing BeagleBone Black}{BeagleBone Black (embedded Android and Linux)}
+            \li \l{Preparing BeagleBoard-xM}{BeagleBoard-xM (embedded Linux)}
+            \li \l{Preparing Raspberry Pi}{Raspberry Pi Model B (embedded Linux)}
+        \endlist
+        \li \l{Building and Running Embedded Applications}
+        \list
+            \li \l{Special Build & Run Options}
+        \endlist
+        \li \l{Customization}
+        \li \l{Building Your Own Embedded Linux Image}
+        \li \l{ChangeLog}
+        \li \l{Troubleshooting}
+        \li \l{License Information}
+    \endlist
+
+    \section1 Reference Documentation
+
+    \list
+        \li \l{Add-On QML Types}
+    \endlist
+*/
+
+/*!
+    \contentspage{index.html}{Qt Enterprise Embedded}
+    \page qtee-overview.html
+    \previouspage index.html
+    \nextpage qtee-installation-guide.html
+
+    \title About Qt Enterprise Embedded
+
+    \SDK has two main parts:
+
+    \list
+        \li Development environment that is installed on a Linux development
+            desktop by using an online installer
+        \li \B2Q
+    \endlist
+
+    \section1 About the Development Environment
+
+    The development is done with the Qt Enterprise libraries and device
+    deployment can be done with one click directly from Qt Creator to a device
+    connected via USB. Alternatively, you can deploy the application locally
+    directly to the \B2Q Emulator that is running the full target software stack
+    as in the device.
+
+    As with any Qt based application, the same application can be deployed to
+    desktop and mobile OS targets as well.
+
+    \section1 About \B2Q
+
+    \e{\b{\B2Q}} is a light-weight, Qt-optimized, full software stack for
+    embedded systems that is installed into the actual target device. This is
+    done by flashing the device's memory card or internal memory directly with a
+    pre-built image that comes with the development environment.
+
+    \B2Q supports two different operating systems:
+
+    \list
+        \li \b{\B2QA} where the software stack is based on the Android Kernel
+            (version 4.1 or higher) and selected  middleware. It includes a lean
+            software stack where Qt/QML replaces the top Java graphical layer
+            and removes the Zygote process layer as well the Android home screen
+            enabling better and faster development where modern UIs are at the
+            forefront.
+
+        \li \b{\B2QL} where the software stack is using the traditional embedded
+            Linux kernel built with the Yocto Poky reference system (Yocto 1.6
+            \e Daisy release). The Embedded Linux variant is designed for great
+            customization possibilities. It contains only components required in
+            the embedded device, resulting in smaller image sizes while keeping
+            valuable development tools available.
+    \endlist
+
+    Both versions have been tested and verified on a number of different
+    hardware configurations. \B2Q support is not limited to the devices used
+    as reference platforms, it can be made to run on a variety of hardware.
+
+    \section1 About Qt
+
+    \l{http://qt.digia.com/}{Qt} is a full development framework with tools
+    designed to streamline the creation of applications and user interfaces
+    for desktop, embedded, and mobile platforms.
+
+    \list
+        \li \b{Qt Framework} - intuitive APIs for C++
+            and CSS/JavaScript-like programming with
+            \b{Qt Quick} for rapid UI
+            creation
+        \li \b{Qt Creator IDE} - powerful cross-platform integrated development
+            environment, including UI designer tools and on-device debugging
+        \li \b{Tools and toolchains} - internationalization support, embedded
+            toolchains and more.
+    \endlist
+
+    With Qt, you can reuse code efficiently to target multiple platforms
+    with one code base. The modular C++ class library and development tools
+    enable developers to create applications for one platform and easily
+    build and run to deploy also on other platforms.
+
+
+    \section1 \B2Q vs Qt for Android
+
+    \image b2qt-vs-qt-for-android.png
+
+    \e{\b{Qt for Android}} is a port of the Qt Framework to be used for application
+    development on the Android platform. Its purpose is to enable development
+    of applications that can run on Android devices. For developers writing
+    applications for the Android ecosystem, Qt for Android is the right choice.
+
+    \b{\B2QA} tries to strip down the Android
+    stack to the bare minimum, relying only on basic Linux
+    features. The majority of the Android stack, such as
+    \e{Dalvik virtual machine} is not running in \B2Q,
+    resulting in faster startup times, lower memory consumption and
+    overall better performance.
+*/

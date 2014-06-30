@@ -1,0 +1,45 @@
+/****************************************************************************
+**
+** Copyright (C) 2014 Digia Plc
+** All rights reserved.
+** For any questions to Digia, please use the contact form at
+** http://qt.digia.com/
+**
+** This file is part of Qt Enterprise Embedded.
+**
+** Licensees holding valid Qt Enterprise licenses may use this file in
+** accordance with the Qt Enterprise License Agreement provided with the
+** Software or, alternatively, in accordance with the terms contained in
+** a written agreement between you and Digia.
+**
+** If you have questions regarding the use of this file, please use
+** the contact form at http://qt.digia.com/
+**
+****************************************************************************/
+/*!
+//! [instructions]
+    Plug in the SD card or reader to the development host,
+    and use the following command to find out its device name:
+
+    \badcode
+        lsblk -d
+    \endcode
+
+    Removable devices such as SD cards have the value '1' in
+    the \e RM column.
+
+    \warning Make sure to select the correct device, because selecting
+    the wrong one can result in a wiped hard drive.
+
+    Typical device names for SD cards include \c {sdb} and
+    \c {mmcblk0}. The full device path is \c {/dev/} followed by
+    the name.
+//! [instructions]
+
+//! [unmount]
+    \badcode
+        umount /dev/<device_name>
+    \endcode
+//! [unmount]
+
+*/

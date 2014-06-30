@@ -1,0 +1,101 @@
+/****************************************************************************
+**
+** Copyright (C) 2014 Digia Plc
+** All rights reserved.
+** For any questions to Digia, please use the contact form at
+** http://qt.digia.com/
+**
+** This file is part of Qt Enterprise Embedded.
+**
+** Licensees holding valid Qt Enterprise licenses may use this file in
+** accordance with the Qt Enterprise License Agreement provided with the
+** Software or, alternatively, in accordance with the terms contained in
+** a written agreement between you and Digia.
+**
+** If you have questions regarding the use of this file, please use
+** the contact form at http://qt.digia.com/
+**
+****************************************************************************/
+/*!
+    \target BeagleBone Black (embedded Android and Linux)
+    \page qtee-preparing-hardware-beaglebone.html
+    \title Preparing BeagleBone Black
+    \previouspage qtee-installation-guide.html
+
+    Take the following steps to prepare a
+    \l{http://beagleboard.org/products/beaglebone%20black}{BeagleBone Black} for \B2Q.
+
+    \note It is important that you repeat the steps in this section after you
+    update \SDK.
+
+    The images containing the \B2Q stack for BeagleBone Black are included
+    in \SDK, ready to be copied to an SD card.
+
+    \section1 Preparing an SD Card
+
+    For \B2QA, an SD card of at least 2 GB capacity is needed. For \B2QL,
+    a card of at least 512 MB capacity is sufficient.
+
+    \include detect-sd-card-device-name.qdocinc instructions
+
+    \section1 Installing the Android image
+
+    \e{If installing} \B2QL, \e{you can skip this step and proceed to}
+    \l{Installing the Boot to Qt Image}.
+
+    Download the package \e{TI_Android_JB_4.2.2_DevKit_4.1.1_beagleboneblack.tar.gz} from
+    \l{http://downloads.ti.com/sitara_android/esd/TI_Android_DevKit/TI_Android_JB_4_2_2_DevKit_4_1_1/index_FDS.html}
+    {Texas Instruments} (search for \e {BeagleBone Black} in the list of download packages).
+
+    Use the following commands to create an SD card containing the
+    downloaded image:
+
+    \list 1
+        \li Extract the downloaded package:
+        \badcode
+        ~$ tar zxvf ~/Downloads/TI_Android_JB_4.2.2_DevKit_4.1.1_beagleboneblack.tar.gz
+        \endcode
+        \li Run beagleboneblack/mkmmc-android.sh:
+        \badcode
+        ~$ cd beagleboneblack
+        ~/beagleboneblack$ sudo ./mkmmc-android.sh /dev/<device_name>
+        \endcode
+    \endlist
+
+    \section1 Installing the \B2Q Image
+
+    Then, upgrade the SD card with \B2Q. First, ensure that no partitions on the
+    SD card are mounted:
+
+    \include detect-sd-card-device-name.qdocinc unmount
+
+    Then, use one of the commands below, depending on whether you are developing
+    for embedded Android or Linux:
+
+    \list
+        \li \b{\B2QA}
+        \badcode
+            cd <INSTALL_DIR>
+            ./Boot2Qt-3.x/generic-4.2-eAndroid/images/beaglebone/deploy.sh
+        \endcode
+        \li \b{\B2QL}
+        \badcode
+            cd <INSTALL_DIR>
+            sudo ./Boot2Qt-3.x/beaglebone-eLinux/images/deploy.sh /dev/<device_name>
+        \endcode
+    \endlist
+
+    After the installation is complete, insert the SD card, power on the device and check that
+    the \B2Q welcome screen and/or demo appear.
+
+    \section1 Setting up USB Access
+
+    \include b2qt-post-install-setup.qdocinc setting up usb access
+
+    \section1 Configuring a Device Kit in Qt Creator
+
+    \include b2qt-post-install-setup.qdocinc configuring device kit android linux
+
+    You are now ready to start developing for your device. For more information,
+    see \l{Building and Running an Example}.
+*/

@@ -1,0 +1,110 @@
+/****************************************************************************
+**
+** Copyright (C) 2014 Digia Plc
+** All rights reserved.
+** For any questions to Digia, please use the contact form at
+** http://qt.digia.com/
+**
+** This file is part of Qt Enterprise Embedded.
+**
+** Licensees holding valid Qt Enterprise licenses may use this file in
+** accordance with the Qt Enterprise License Agreement provided with the
+** Software or, alternatively, in accordance with the terms contained in
+** a written agreement between you and Digia.
+**
+** If you have questions regarding the use of this file, please use
+** the contact form at http://qt.digia.com/
+**
+****************************************************************************/
+/*!
+    \target BD-SL-i.MX6 (embedded Android and Linux)
+    \page qtee-preparing-hardware-imx6.html
+    \title Preparing BD-SL-i.MX6
+    \previouspage qtee-installation-guide.html
+
+    Take the following steps to prepare a
+    \l{http://boundarydevices.com/products/sabre-lite-imx6-sbc/}
+    {Boundary Devices BD-SL-i.MX6} (SABRE Lite) for \B2Q.
+
+    \note It is important that you repeat the steps in this section after you
+    update \SDK.
+
+    The images containing the \B2Q stack for BD-SL-i.MX6 are included
+    in \SDK, ready to be copied to an SD card.
+
+    \section1 Preparing an SD Card
+
+    For \B2QA, an SD card of at least 4 GB capacity is needed. For \B2QL,
+    a card of at least 512 MB capacity is sufficient.
+
+    \include detect-sd-card-device-name.qdocinc instructions
+
+    \section1 Installing the Android image
+
+    \e{If installing} \B2QL, \e{you can skip this step and proceed to}
+    \l{Installing the Boot to Qt Image}.
+
+    Download the package \e{imx6-jb-20130628.tar.gz} from
+    \l{http://boundarydevices.com/android-jellybean-on-i-mx6-with-no-disclaimers/}{Boundary
+    Devices Android Jellybean i.MX6 images} (registration required).
+
+    Use the following commands to create an SD card containing the
+    downloaded image:
+
+    \list 1
+        \li Extract the downloaded package:
+        \badcode
+        ~/$ mkdir bd-android
+        ~/$ cd bd-android
+        ~/bd-android$ tar zxvf ~/Downloads/imx6-jb-20130628.tar.gz
+        \endcode
+        \li Run device/boundary/mksdcard.sh:
+        \badcode
+        ~/bd-android$ sudo device/boundary/mksdcard.sh /dev/<device_name>
+        ~/bd-android$ sync
+        \endcode
+    \endlist
+
+    \section1 Installing the \B2Q Image
+
+    Make sure you have the required tools installed in your development machine:
+
+    \badcode
+        sudo apt-get install u-boot-tools
+    \endcode
+
+    Then, upgrade the SD card with \B2Q. First, ensure that no partitions on the
+    SD card are mounted:
+
+    \include detect-sd-card-device-name.qdocinc unmount
+
+    Then, use one of the commands below, depending on whether you are developing
+    for embedded Android or Linux:
+
+    \list
+        \li \b{\B2QA}
+        \badcode
+            cd <INSTALL_DIR>
+            ./Boot2Qt-3.x/generic-4.2-eAndroid/images/iMX6/deploy.sh /dev/<device_name>
+        \endcode
+        \li \b{\B2QL}
+        \badcode
+            cd <INSTALL_DIR>
+            sudo ./Boot2Qt-3.x/iMX6-eLinux/images/deploy.sh /dev/<device_name>
+        \endcode
+    \endlist
+
+    After the installation is complete, insert the SD card, power on the device and check that
+    the \B2Q welcome screen and/or demo appear.
+
+    \section1 Setting up USB Access
+
+    \include b2qt-post-install-setup.qdocinc setting up usb access
+
+    \section1 Configuring a Device Kit in Qt Creator
+
+    \include b2qt-post-install-setup.qdocinc configuring device kit android linux
+
+    You are now ready to start developing for your device. For more information,
+    see \l{Building and Running an Example}.
+*/

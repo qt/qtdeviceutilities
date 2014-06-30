@@ -1,0 +1,106 @@
+/****************************************************************************
+**
+** Copyright (C) 2014 Digia Plc
+** All rights reserved.
+** For any questions to Digia, please use the contact form at
+** http://qt.digia.com/
+**
+** This file is part of Qt Enterprise Embedded.
+**
+** Licensees holding valid Qt Enterprise licenses may use this file in
+** accordance with the Qt Enterprise License Agreement provided with the
+** Software or, alternatively, in accordance with the terms contained in
+** a written agreement between you and Digia.
+**
+** If you have questions regarding the use of this file, please use
+** the contact form at http://qt.digia.com/
+**
+****************************************************************************/
+
+/*!
+    \page qtee-preparing-hardware.html
+    \title Preparing Hardware
+    \previouspage qtee-supported-platforms.html
+    \nextpage qtee-building-and-running.html
+
+    Before you can deploy and test your Qt application on hardware, you must
+    flash the target device with an image that contains the
+    \B2Q stack. These steps vary from device to device:
+
+    \list
+        \li \l{Nexus 7 (2012/2013) (embedded Android)}
+        \li \l{BD-SL-i.MX6 (embedded Android and Linux)}
+        \li \l{SABRE SD i.MX6Quad (embedded Linux)}
+        \li \l{Toradex Apalis iMX6 (embedded Linux)}
+        \li \l{BeagleBone Black (embedded Android and Linux)}
+        \li \l{BeagleBoard-xM (embedded Linux)}
+        \li \l{Raspberry Pi Model B (embedded Linux)}
+    \endlist
+
+    If you use only the emulator, you can skip this step
+    and continue straight to \l {Building and Running an Example}.
+*/
+
+/*!
+    \page qtee-supported-platforms.html
+    \title Supported Platforms
+    \previouspage qtee-installation-guide.html
+    \nextpage qtee-preparing-hardware.html
+
+    \section1 Supported Reference Devices
+
+    The \B2Q stack can be made to run on a variety of hardware. For \SDK license
+    holders, tooling is provided to customize the contents of the stack as well
+    as to take it into desired production hardware. For more information on how
+    to customize the stack for embedded Linux, see
+    \l {Building Your Own Embedded Linux Image}.
+
+    Approximate minimal hardware requirements for running \B2Q are:
+    \list
+        \li 256 MB of RAM
+        \li 500 MHz CPU, 1 GHz preferred for 60-FPS velvet-smooth UI
+        \li OpenGL ES 2.0 support
+    \endlist
+
+    \B2QA requires hardware that has support for the Android operating
+    system, version 4.2 or later.
+
+    \B2Q software stack is provided pre-built, tested and supported for the
+    following hardware:
+    \list
+        \li \l{http://www.google.com/nexus/7/specs/}
+            {Google/Asus Nexus 7 (2012 and 2013 models)}
+        \li \l{http://beagleboard.org/products/beaglebone%20black}
+            {BeagleBone Black}
+        \li \l{http://www.freescale.com/webapp/sps/site/prod_summary.jsp?code=RDIMX6SABREBRD}
+            {Freescale SABRE SD i.MX6Quad}
+        \li \l{http://boundarydevices.com/products/sabre-lite-imx6-sbc/}
+            {BD-SL-i.MX6}
+        \li \l{http://www.toradex.com/products/apalis-arm-computer-modules/freescale-imx-6-computer-module}
+            {Toradex Apalis iMX6}
+        \li \l{http://www.raspberrypi.org/faqs}
+            {Raspberry Pi Model B}
+    \endlist
+
+    \section2 Legacy Reference Devices
+
+    The following devices are no longer tested or supported by the latest
+    release of \SDK.
+
+    \list
+    \li \l{http://beagleboard.org/hardware-xM}
+            {BeagleBoard-xM}
+        \list
+            \li Starting from \SDK 3.0 release, BeagleBoard-xM is no longer
+            tested and supported. It is, however, still tested and supported
+            in the earlier 2.x releases.
+        \endlist
+    \endlist
+
+    \section1 Supported Development Environment
+
+    The development environment supported by \SDK is Ubuntu Linux 64-bit (12.04 LTS or later).
+
+    \sa {Requirements for Development Host}
+
+*/

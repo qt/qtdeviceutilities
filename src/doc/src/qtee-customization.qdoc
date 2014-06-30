@@ -1,0 +1,148 @@
+/****************************************************************************
+**
+** Copyright (C) 2014 Digia Plc
+** All rights reserved.
+** For any questions to Digia, please use the contact form at
+** http://qt.digia.com/
+**
+** This file is part of Qt Enterprise Embedded.
+**
+** Licensees holding valid Qt Enterprise licenses may use this file in
+** accordance with the Qt Enterprise License Agreement provided with the
+** Software or, alternatively, in accordance with the terms contained in
+** a written agreement between you and Digia.
+**
+** If you have questions regarding the use of this file, please use
+** the contact form at http://qt.digia.com/
+**
+****************************************************************************/
+
+/*!
+    \page qtee-customization.html
+    \title Customization
+    \previouspage qtee-building-and-running.html
+    \nextpage qtee-custom-embedded-linux-image.html
+
+    \section1 Environment and Input
+
+    By default, the basic environment variables and startup options of
+    \B2Q applications are set in the file \c
+    {/system/bin/appcontroller.conf} in embedded Android devices and
+    in \c{/etc/appcontroller.conf} in embedded Linux devices.
+
+    You can customize this file if you target a hardware device that
+    has other input devices than the ones that the \B2Q stack is configured
+    for by default.
+
+    On some devices, the root file system (where this file
+    resides) is mounted read-only at boot time. To allow modification,
+    remount it read-write by entering the following command:
+    \badcode
+        <INSTALL_DIR>/Tools/b2qt/adb remount
+    \endcode
+
+    In the \c{appcontroller.conf} file, the input devices are
+    specified by the lines similar to these:
+    \badcode
+        env=QT_QPA_EVDEV_TOUCHSCREEN_PARAMETERS=/dev/input/event0
+    \endcode
+
+    Usually, you do not need to change this setting. USB input devices, such as
+    keyboards and mice, are automatically recognized. The mouse pointer is shown
+    automatically if a mouse is connected.
+
+    However, hotplugging may not work, which means that the input
+    devices, such as a keyboard and mouse, have to be connected at boot
+    time.
+
+    On some devices, for example the BD-SL-i.MX6, the touchscreen device is
+    specified explicitly with \c QT_QPA_EVDEV_TOUCHSCREEN_PARAMETERS. This is
+    necessary because the automatic device discovery would fail to find the
+    touchscreen.
+
+    \section1 Booting to a Custom Application
+
+    After you have deployed your own application to the device, it will be
+    launched on boot, instead of the \B2Q demo launcher. To prevent this
+    behavior, remove or disable the \b {Make this application the default one}
+    step from the \b{Run Settings} for your project in the Qt Creator \b Projects
+    mode.
+
+    To remove your application from the default startup, use the following
+    command:
+    \badcode
+        <INSTALL_DIR>/Tools/b2qt/adb shell appcontroller --remove-default
+    \endcode
+
+    \section1 Switching Between Portrait and Landscape Views
+
+    Depending on device screen dimensions and application requirements, it might
+    be desirable
+    to change the default view orientation. The following example shows how to rotate your
+    application in QML.
+
+    \qml
+    import QtQuick 2.2
+
+    Item {
+        id: root
+        width: 800
+        height: 1280
+        // Container element for rotating
+        Rectangle {
+            id: main
+            // Swap the width and height of the root item
+            width: root.height
+            height: root.width
+            anchors.centerIn: parent
+            // Rotate 90 degrees clockwise around transformOrigin
+            rotation: 90
+            // The rotated content
+            Text {
+                text: qsTr("Hello World")
+                anchors.centerIn: parent
+            }
+            MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                    Qt.quit();
+                }
+            }
+        }
+    }
+    \endqml
+
+    \section1 Disabling Screen Composer on Embedded Android
+
+    By default, the \B2Q stack uses Android's screen composer, \e
+    Surfaceflinger. It is required for Qt Multimedia functionality,
+    i.e. video playback and camera. If that functionality is not
+    required, Surfaceflinger may be disabled. This can in some
+    situations improve performance.
+
+    \list 1
+      \li Edit \c {/system/bin/appcontroller.conf} to set the value of
+      the environment variable \c QT_QPA_EGLFS_NO_SURFACEFLINGER to \c
+      1 instead of \c 0.
+      \li Disable the startup of \c surfaceflinger at boot-up. Either
+      change \c /init.rc, or simply rename the \c
+      {/system/bin/surfaceflinger} executable.
+    \endlist
+
+    \section1 Using Network Connection for ADB
+
+    By default, \B2Q uses USB cable for communication between device and Qt Creator.
+    On \B2QL, you can change the device to use ethernet network connection for the
+    communication. To enable network connection, you need to modify file
+    \c /etc/default/adbd located on the devices, and change value of \c USE_ETHERNET
+    to \c 'yes'. This can also be done with \c adb, while the device is still
+    connected via USB.
+
+    \badcode
+     <INSTALL_DIR>/Tools/b2qt/adb shell sed -i -e 's/USE_ETHERNET=no/USE_ETHERNET=yes/' /etc/default/adbd
+    \endcode
+
+    \note You need to restart the device for this change to take effect.
+
+    \include b2qt-post-install-setup.qdocinc configuring network device
+*/

@@ -1,0 +1,255 @@
+/****************************************************************************
+**
+** Copyright (C) 2014 Digia Plc
+** All rights reserved.
+** For any questions to Digia, please use the contact form at
+** http://qt.digia.com/
+**
+** This file is part of Qt Enterprise Embedded.
+**
+** Licensees holding valid Qt Enterprise licenses may use this file in
+** accordance with the Qt Enterprise License Agreement provided with the
+** Software or, alternatively, in accordance with the terms contained in
+** a written agreement between you and Digia.
+**
+** If you have questions regarding the use of this file, please use
+** the contact form at http://qt.digia.com/
+**
+****************************************************************************/
+
+/*!
+    \page qtee-troubleshooting.html
+    \title Troubleshooting
+    \previouspage qtee-changelog.html
+    \nextpage qtee-licenses.html
+
+    \note An updated version of this information may be available in Digia customer portal,
+    see \l {Known Issues} in \SDK \l {product page}.
+
+    \section1 General Issues
+
+    \section2 I have problems deploying/launching the application in Qt Creator
+
+    Check that the device is properly connected to the development host via USB
+    or Ethernet (depending on the device).
+    See \l{Connectivity Issues}.
+
+    If using the emulator, see \l{Installing VirtualBox}.
+
+    \section2 I have problems deploying/launching a Qt or Qt Quick example application
+
+    Because of a technical peculiarity in \c{qmake}, it is not
+    possible to get correct deployment setup for any application that
+    is placed inside a Qt source code tree.
+
+    The workaround is to copy the example sources to a location
+    outside the Qt source tree, and open this copy of the example
+    application instead.
+
+    \section2 I have problems launching or running applications on hardware after updating the SDK
+
+    Remember to repeat the process of updating also your device with the latest
+    version of \B2Q. See \l{Installing Boot to Qt on Target Devices}.
+
+    \section2 Booting BD-SL-i.MX6 stops with \e {6x_bootscript not found} error
+
+    Check the U-Boot version number. It should start with either \c{2012} or \c{2013}.
+    If it is \c{2009.xx}, an upgrade of the bootloader is required. For more
+    information, see:
+
+    \list
+        \li \l http://boundarydevices.com/6q_bootscript/
+        \li \l http://boundarydevices.com/switching-u-boot-versions-on-i-mx6/
+    \endlist
+
+    \target nexus-factory-reset
+    \section2 How do I restore my Nexus 7 to factory settings?
+
+    Go to \l{https://developers.google.com/android/nexus/images} and
+    download the correct file for your device. Unpack it, and then enter the
+    following commands:
+
+    \badcode
+        <INSTALL_DIR>/Tools/b2qt/adb reboot bootloader
+        <INSTALL_DIR>/Tools/b2qt/fastboot -w update <image-file>.zip
+    \endcode
+
+    \section2 How do I shut down the Nexus 7?
+
+    If the \B2Q demo launcher is running, start the \b {Launcher
+    Settings} app, and select \b {Shut Down} to power off the device.
+
+    Otherwise, make sure the Nexus 7 is connected to the development host, and run
+    the following command in a terminal:
+    \badcode
+        <INSTALL_DIR>/Tools/b2qt/adb shell reboot -p
+    \endcode
+
+    If the device is in the fastboot mode, use the volume button to display the
+    \b {Power off} option and press the power button to power off the device.
+
+    Alternatively, press and hold the power button for 10
+    seconds. This will force a reboot.
+
+    \section2 How do I get HDMI output working properly on BeagleBone Black?
+
+    Depending on the HDMI monitor, the cable, and the build variant of
+    the BeagleBone Black device, it may not be able to drive an HDMI display in a
+    stable way; the image may disappear or stutter. These issues are not caused by
+    the \B2Q stack.
+
+    More details and possible solutions can be found
+    \l {http://www.elinux.org/Beagleboard:BeagleBoneBlack_HDMI}{here}.
+
+    \section2 Trying to build for the emulator target fails with error message \e{make: i686-android-linux-g++: Command not found}
+
+    You need to install support libraries in order to run 32-bit programs in a
+    64-bit Linux operating system.
+
+    See \l{Installing 32-bit Support Libraries}.
+
+    \section2 Something crashed!
+
+    The following command shows the system log:
+    \badcode
+        <INSTALL_DIR>/Tools/b2qt/adb logcat
+    \endcode
+
+    \note When terminating an application from Qt Creator, you may see the
+    message \e {Terminating application. Error running process: Process crashed}.
+    This is normal and does not indicate a problem in your code; a SIGTERM
+    signal is sent to the application, and Qt interprets it as a crash.
+
+    \section2 Mouse or touch input does not work
+
+    See \l{Customization}.
+
+    \note Hotplugging does not currently work, and therefore, any input device
+    must be present at boot time to be recognized.
+
+    \section2 Application stops with \e{EGLFS: OpenGL windows cannot be mixed with others.}
+
+    OpenGL and Qt Quick 2 applications can only have one
+    fullscreen window existing at a time. Trying to create another
+    OpenGL window, or trying to mix an OpenGL window with a raster one
+    will display the above message and abort the application.
+
+    \note For raster windows (software rendered content based on QWidget or
+    QPainter), there is no such limitation.
+
+    \section2 I cannot edit the contents of appcontroller.conf on the device
+
+    The file system where this file is located may be mounted as read-only.
+
+    See \l{Customization}.
+
+    \section2 C++11 features do not work on Android
+
+    To enable C++11 features in the compiler, add \e{CONFIG += c++11} to the .pro file.
+    On Embedded Linux this will be enough because there the toolchain contains a more
+    recent version of gcc (4.8.x). On Embedded Android however the toolchain is based on
+    gcc 4.6. This offers limited support for C++11 and Qt's own C++11 support is disabled,
+    meaning that adding \e{c++11} to \e{CONFIG} will have no effect. There is still a
+    possibility however to manually enable some level of C++11 support just for the
+    application, by adding \e{QMAKE_CXXFLAGS += -std=c++11} to the .pro file.
+
+    \section1 Connectivity Issues
+    \section2 I cannot connect to my hardware device via USB
+
+    See \l{5. Setting up USB Access to Embedded Devices}.
+
+    \section2 adb fails with "error: more than one device and emulator"
+
+    You have to specify which Android device you want \c{adb} to talk
+    to, using adb's \c{-s <serial-number>} option. Use the following
+    command to find to see the serial number of the connected
+    devices:
+
+    \badcode
+        <INSTALL_DIR>/Tools/b2qt/adb devices
+    \endcode
+
+    \section2 The emulator cannot connect to the Internet
+
+    By default, the VirtualBox is configured to use a host-only network, so external
+    connections do not work in the emulator.
+
+    You may be able to enable Internet connectivity with another
+    virtual network adapter in NAT mode by adapting
+    \l{http://askubuntu.com/questions/293816/in-virtualbox-how-do-i-set-up-host-only-virtual-machines-that-can-access-the-in}{these}
+    instructions.
+
+    \section2 The emulator is stuck in \e{Waiting for display data} or fails to start properly
+
+    Check the output of the following command:
+
+    \badcode
+        <INSTALL_DIR>/Tools/b2qt/adb devices
+    \endcode
+
+    If the emulator (192.168.56.101) is not listed there, try connecting to it:
+
+    \badcode
+        <INSTALL_DIR>/Tools/b2qt/adb connect 192.168.56.101
+    \endcode
+
+    If the emulator is already listed, try disconnecting it:
+    \badcode
+        <INSTALL_DIR>/Tools/b2qt/adb disconnect 192.168.56.101
+    \endcode
+
+    And then close the emulator and retry.
+
+    \section2 What are the user and password to access my embedded Linux device?
+
+    Embedded Linux devices can be accessed using user \c{root} and an empty password.
+
+    \section2 No sound on Embedded Android devices
+
+    When connecting a headphone or speakers while the device is running, the
+    audio may not be properly routed to the correct output. As a workaround,
+    connect the headphone or speakers before turning on the device.
+
+    \section2 Qt WebEngine libraries cannot be found when targeting the emulator
+
+    Qt WebEngine is not currently available for the emulators, neither eLinux
+    nor eAndroid. This is planned to be addressed in a later release.
+
+    \section2 Widget-based web view is not available
+
+    The Qt WebEngine APIs are available only for Qt Quick 2 based applications at the moment.
+    The QWidget-based equivalents, like QWebEngineView, will become supported in future releases.
+    For the time being, use the WebEngineView QML element.
+
+    \section2 Qt Quick Compiler fails on the emulators
+
+    The Qt Quick Compiler is not yet functional in the emulator environments, and projects
+    are likely fail to build or run with compilation enabled. Support for the emulators
+    will be added in a later release.
+
+    \section2 QML debugging not functional when using Qt Quick Compiler
+
+    QML debugging is not fully functional when the Qt Quick Compiler is enabled. Support
+    for this will be added in a later release.
+
+
+    \section2 Boundary Devices Android Jellybean i.MX6 image deploying issues
+
+    On some hosts running the mksdcard.sh script results in the following failure messages:
+
+    \badcode
+    Cannot find device with major:minor 8:20: No such device
+    cp: target ‘/media/BOOT/’ is not a directory
+    \endcode
+
+    This means that flashing an sdcard has failed, even if the scripts seemingly runs to the end.
+    The issue can be worked around by adding "sleep" call before "udisks --mount" loop (search at
+    the end of the script):
+
+    \badcode
+    sleep 2
+    for n in 1 2 4 ; do
+       udisks --mount ${diskname}${prefix}${n}
+    done
+    \endcode
+*/
