@@ -1621,6 +1621,11 @@
         <INSTALL_DIR>/Tools/b2qt/adb logcat
     \endcode
 
+    \note When terminating an application from Qt Creator, you may see the
+    message \e {Terminating application. Error running process: Process crashed}.
+    This is normal and does not indicate a problem in your code; a SIGTERM
+    signal is sent to the application, and Qt interprets it as a crash.
+
     \section2 Mouse or touch input does not work
 
     See \l{Customization}.
