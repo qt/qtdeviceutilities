@@ -1779,6 +1779,28 @@
 
     QML debugging is not fully functional when the Qt Quick Compiler is enabled. Support
     for this will be added in a later release.
+
+
+    \section2 Boundary Devices Android Jellybean i.MX6 image deploying issues
+
+    On some hosts running the mksdcard.sh script results in the following failure messages:
+
+    \badcode
+    Cannot find device with major:minor 8:20: No such device
+    cp: target ‘/media/BOOT/’ is not a directory
+    \endcode
+
+    This means that flashing an sdcard has failed, even if the scripts seemingly runs to the end.
+    The issue can be worked around by adding "sleep" call before "udisks --mount" loop (search at
+    the end of the script):
+
+    \badcode
+    sleep 2
+    for n in 1 2 4 ; do
+       udisks --mount ${diskname}${prefix}${n}
+    done
+    \endcode
+
 */
 
 /*!
