@@ -871,7 +871,8 @@
         \li In Qt Creator, select \b File > \b {New File or Project} >
             \b Applications > \b{Qt Quick Application} > \b{Choose}.
         \li Choose a location for your new project.
-        \li In the \b{Qt Quick Component Set} dialog, select \b{Qt Quick 2.2}.
+        \li In the \b{Qt Quick Component Set} dialog, select \b{Qt Quick 2.2}
+            or \b{Qt Quick 2.2 Boot2Qt}.
         \li In the \b{Kit Selection} dialog, select the kits for your
             devices. You can also select the emulator kit to test running the
             project in the emulator.
