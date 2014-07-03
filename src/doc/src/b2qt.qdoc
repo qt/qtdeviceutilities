@@ -1419,7 +1419,7 @@
         \li Qt WebEngine 0.9 support (including WebEngine demo) was added for
             embedded Android and Linux. However, the Emulator target is
             currently not supported
-        \li Qt Quick Compiler (Technology Preview) was added to the \B2Q stack
+        \li \l {Qt Quick Compiler} (Technology Preview) was added to the \B2Q stack
         \li \l{Preparing Nexus 7 (2012/2013)}{Nexus 7 (2013)} was added as a
             reference device for embedded Android
         \li \l{Preparing SABRE SD i.MX6Quad}{Freescale SABRE SD i.MX6Quad} was

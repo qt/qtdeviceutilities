@@ -33,23 +33,28 @@
 */
 
 /*!
-    \externalpage http://qt.digia.com/Product/Qt-Enterprise-Features/Advanced-Data-Visualization/
+    \externalpage http://qt.digia.com/Product/Qt-Enterprise/Advanced-Data-Visualization/
     \title Qt Data Visualization
 */
 
 /*!
-    \externalpage http://qt.digia.com/Product/Qt-Enterprise-Features/Qt-Quick-Enterprise-Controls/
+    \externalpage http://qt.digia.com/Product/Qt-Enterprise/Qt-Quick-Enterprise-Controls/
     \title Qt Quick Enterprise Controls
 */
 
 /*!
-    \externalpage http://qt.digia.com/Product/Qt-Enterprise-Features/Qt-Virtual-Keyboard/
+    \externalpage http://qt.digia.com/Product/Qt-Enterprise/Qt-Virtual-Keyboard/
     \title Qt Virtual Keyboard
 */
 
 /*!
-    \externalpage http://qt.digia.com/Product/Qt-Enterprise-Features/Charts/
+    \externalpage http://qt.digia.com/Product/Qt-Enterprise/Charts/
     \title Qt Charts
+*/
+
+/*!
+    \externalpage http://qt.digia.com/Product/Qt-Enterprise/Qt-Quick-Compiler/
+    \title Qt Quick Compiler
 */
 
 /*!
