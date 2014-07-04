@@ -43,10 +43,10 @@
         \li \l{Supported Platforms}
         \li \l{Preparing Hardware}
         \list
-            \li \l{Preparing Nexus 7 (2013)}{Nexus 7 (2013) (embedded Android)}
-            \li \l{Preparing Nexus 7 (2012)}{Nexus 7 (2012) (embedded Android)}
+            \li \l{Preparing Nexus 7 (2012/2013)}{Nexus 7 (2012/2013) (embedded Android)}
             \li \l{Preparing BD-SL-i.MX6}{BD-SL-i.MX6 (embedded Android and Linux)}
             \li \l{Preparing SABRE SD i.MX6Quad}{SABRE SD i.MX6Quad (embedded Linux)}
+            \li \l{Preparing Toradex Apalis iMX6}{Toradex Apalis iMX6 (embedded Linux)}
             \li \l{Preparing BeagleBone Black}{BeagleBone Black (embedded Android and Linux)}
             \li \l{Preparing BeagleBoard-xM}{BeagleBoard-xM (embedded Linux)}
             \li \l{Preparing Raspberry Pi}{Raspberry Pi Model B (embedded Linux)}
@@ -290,7 +290,7 @@
 
     \section1 6. Configuring a Device Kit in Qt Creator
 
-    \include b2qt-post-install-setup.qdocinc configuring device kit
+    \include b2qt-post-install-setup.qdocinc configuring device kit android linux
 
     You are now ready to start developing for your device.
     For more information, see \l{Building and Running an Example}.
@@ -307,8 +307,10 @@
     \B2Q stack. These steps vary from device to device:
 
     \list
-        \li \l{Nexus 7 (2012) (embedded Android)}
+        \li \l{Nexus 7 (2012/2013) (embedded Android)}
         \li \l{BD-SL-i.MX6 (embedded Android and Linux)}
+        \li \l{SABRE SD i.MX6Quad (embedded Linux)}
+        \li \l{Toradex Apalis iMX6 (embedded Linux)}
         \li \l{BeagleBone Black (embedded Android and Linux)}
         \li \l{BeagleBoard-xM (embedded Linux)}
         \li \l{Raspberry Pi Model B (embedded Linux)}
@@ -319,24 +321,38 @@
 */
 
 /*!
-    \target Nexus 7 (2013) (embedded Android)
-    \page qtee-preparing-hardware-nexus-7-2013.html
-    \title Preparing Nexus 7 (2013)
+    \target Nexus 7 (2012/2013) (embedded Android)
+    \page qtee-preparing-hardware-nexus-7.html
+    \title Preparing Nexus 7 (2012/2013)
     \previouspage qtee-installation-guide.html
     \nextpage qtee-building-and-running.html
 
     Take the following steps to prepare a
-    \l{http://www.google.com/nexus/7/specs/}{Nexus 7 (2013)} for
+    \l{http://www.google.com/nexus/7/specs/}{Nexus 7 (2012/2013)} for
     \B2Q.
 
     \note The installation process will wipe the device. Make sure to
     backup any personal data. The device can later be restored to
-    factory state, see \l{Troubleshooting}.
+    factory state, see \l{nexus-factory-reset}{Troubleshooting}.
+
+    The Nexus 7 must have the same Android main version (e.g. \c{4.2}
+    or \c{4.4}) as the generic \B2Q eAndroid stack that is to be
+    installed. If needed, you can update the Android version either by
+    using Android's upgrading tool, or by flashing a factory image of
+    the right version. See \l{nexus-factory-reset}{Troubleshooting}.
 
     \section1 Enabling Developer Mode
 
     In order to install the \B2Q stack into the Nexus 7, you need to
-    enable developer mode and USB debugging:
+    enable developer mode and USB debugging. This is only needed for
+    the first time install.
+
+    \note If for some reason the device does not boot up normally, it
+    is also possible to install to a Nexus 7 started up in
+    \c{fastboot} (bootloader) mode (see
+    \l{nexus-factory-reset}{Troubleshooting}). Just skip this section
+    and add the \c{-fastboot} argument to the \c{deploy.sh} command
+    below.
 
     \list 1
         \li Power up the device.
@@ -355,144 +371,36 @@
 
     \section1 Deploying the \B2Q Stack
 
-    Using the \c{adb devices} command, confirm that you have a working
-    connection to the Nexus 7, and that the Nexus 7 is the only
-    connected device. Then run the following command to install the \B2Q stack:
+    Depending on the edition of your Nexus 7 device, use one of the
+    commands below to install the \B2Q stack. Replace \c{X.Y} with the
+    device's Android version number, for example \c{4.2} or \c{4.4}.
 
-    \badcode
-        cd <INSTALL_DIR>
-        ./Boot2Qt-3.x/nexus7-2013-eAndroid/images/deploy.sh
-    \endcode
+    \note The deploy script will check that the connected Nexus device
+    is of the expected type and Android version, and abort the
+    installation if it is not.
+
+    \list
+        \li \b{Nexus 7 (2013):}
+        \badcode
+            cd <INSTALL_DIR>
+            ./Boot2Qt-3.x/generic-X.Y-eAndroid/images/nexus7v2/deploy.sh
+        \endcode
+        \li \b{Nexus 7 (2012):}
+        \badcode
+            cd <INSTALL_DIR>
+            ./Boot2Qt-3.x/generic-X.Y-eAndroid/images/nexus7/deploy.sh
+        \endcode
+    \endlist
+
+    During the installation, the device may ask for confirmation to be
+    unlocked. Press the power button once to confirm.
 
     The device will reboot during the process. Do not interact with it
     or unplug it until the process is fully completed.
 
     \section1 Configuring a Device Kit in Qt Creator
 
-    \include b2qt-post-install-setup.qdocinc configuring device kit
-
-    You are now ready to start developing for your device. For more information,
-    see \l{Building and Running an Example}.
-*/
-
-/*!
-    \target Nexus 7 (2012) (embedded Android)
-    \page qtee-preparing-hardware-nexus-7-2012.html
-    \title Preparing Nexus 7 (2012)
-    \previouspage qtee-installation-guide.html
-    \nextpage qtee-building-and-running.html
-
-    Take the following steps to prepare a
-    \l{http://www.google.com/nexus/7/specs/}{Nexus 7 (2012)} for
-    \B2Q.
-
-    \note The installation process will wipe the device. Make sure to
-    backup any personal data. The device can later be restored to
-    factory state, see \l{Troubleshooting}.
-
-    \section1 Unlocking Nexus 7 (2012) Bootloader
-
-    You must unlock the Nexus 7 Bootloader to be able to install custom
-    software. You need to do this only once.
-
-    \list 1
-        \li Power off the device.
-        \li Connect the device to the development host with a USB cable.
-        \li To start the Nexus up in \e{fastboot} mode, press the power button
-            for a second, and then keep the \b {Volume Down} key pressed down,
-            until you see a screen with a green robot with its front panel open.
-            \note If the ordinary startup screen appears instead, power off the
-            device and try again.
-        \li On the development host, enter the following command:
-        \badcode
-            sudo <INSTALL_DIR>/Tools/b2qt/fastboot oem unlock
-        \endcode
-        \li Press the power button to confirm that you want to unlock the
-            bootloader when the prompt appears on the Nexus screen.
-        \li Wait a few seconds, and check that the text line stating the \c{LOCK STATE} now says \c{UNLOCKED}.
-    \endlist
-
-    \section1 Updating a Nexus 7 (2012) with \B2Q Images
-
-    \note It is important that you repeat the steps in this section after you
-    update \SDK.
-
-    To update an unlocked Nexus 7 device with a \B2Q image:
-
-    \list 1
-    \li Make sure that the device is in \e{fastboot} mode and that it is
-        connected to the development host via USB.
-
-    \li Re-flash the \e{boot}, \e{system}, and \e{userdata} partitions on the
-    device, by entering the following commands in the following order:
-
-    \badcode
-        cd <INSTALL_DIR>
-        sudo ./Tools/b2qt/fastboot flash boot Boot2Qt-3.x/nexus7-eAndroid/images/boot.img
-        sudo ./Tools/b2qt/fastboot flash system Boot2Qt-3.x/nexus7-eAndroid/images/system.img
-        sudo ./Tools/b2qt/fastboot flash userdata Boot2Qt-3.x/nexus7-eAndroid/images/data.img
-    \endcode
-
-    \li Once the flashing is completed successfully, reboot the device:
-
-    \badcode
-        sudo ./Tools/b2qt/fastboot reboot
-    \endcode
-
-    \endlist
-
-    \note You must install proprietary drivers for the Nexus 7 to boot
-    correctly. Until then, the screen will briefly show the "Google" logo and then go black,
-    instead of showing the \B2Q welcome screen or demo.
-
-    \section1 Installing Proprietary Drivers
-
-    Download the proprietary drivers for your Nexus 7. The following script downloads the third
-    party drivers from \l{https://developers.google.com/android/nexus/drivers#grouperjdq39}
-    {https://developers.google.com/android/nexus/drivers#grouperjdq39}
-    \badcode
-        cd <INSTALL_DIR>
-        ./Boot2Qt-3.x/nexus7-eAndroid/images/download.sh
-    \endcode
-
-    \note Only the version "Android 4.2.2 (JDQ39 to JDQ39E)" works with the
-    current \B2Q image.
-
-    To install the drivers to Nexus 7:
-
-    \list 1
-        \li Power on the device and connect it to the development host via USB.
-            Also check that the device is \e{not} in fastboot mode.
-        \li Run the driver extractors:
-        \badcode
-            cd Boot2Qt-3.x/nexus7-eAndroid/images/drivers
-            ./extract-nvidia-grouper.sh
-            ./extract-asus-grouper.sh
-            ./extract-invensense-grouper.sh
-            cd -
-        \endcode
-            \note Carefully read the license terms enclosed in each individual
-            extractor.
-        \li Find out the serial number of the connected Nexus 7 device:
-        \badcode
-            ./Tools/b2qt/adb devices
-        \endcode
-        \li Deploy the drivers to your device:
-        \badcode
-            ./Boot2Qt-3.x/nexus7-eAndroid/images/deploy.sh <serial_number>
-        \endcode
-    \endlist
-
-    After the installation is complete, power on the device and check that
-    the \B2Q welcome screen and/or demo appear.
-
-    \section1 Setting up USB Access
-
-    \include b2qt-post-install-setup.qdocinc setting up usb access
-
-    \section1 Configuring a Device Kit in Qt Creator
-
-    \include b2qt-post-install-setup.qdocinc configuring device kit
+    \include b2qt-post-install-setup.qdocinc configuring device kit android
 
     You are now ready to start developing for your device. For more information,
     see \l{Building and Running an Example}.
@@ -619,7 +527,7 @@
         \li \b{\B2QA}
         \badcode
             cd <INSTALL_DIR>
-            ./Boot2Qt-3.x/iMX6-eAndroid/images/deploy.sh /dev/<device_name>
+            ./Boot2Qt-3.x/generic-4.2-eAndroid/images/iMX6/deploy.sh /dev/<device_name>
         \endcode
         \li \b{\B2QL}
         \badcode
@@ -637,7 +545,7 @@
 
     \section1 Configuring a Device Kit in Qt Creator
 
-    \include b2qt-post-install-setup.qdocinc configuring device kit
+    \include b2qt-post-install-setup.qdocinc configuring device kit android linux
 
     You are now ready to start developing for your device. For more information,
     see \l{Building and Running an Example}.
@@ -676,7 +584,7 @@
 
     \badcode
         cd <INSTALL_DIR>
-        sudo Boot2Qt-3.x/imx6sabresd-eLinux/images/deploy.sh /dev/<device_name>
+        sudo Boot2Qt-3.x/imx6qsabresd-eLinux/images/deploy.sh /dev/<device_name>
     \endcode
 
     After the image has been deployed, insert the SD card, power on the device and check that
@@ -689,6 +597,69 @@
     \section1 Configuring a Device Kit in Qt Creator
 
     \include b2qt-post-install-setup.qdocinc configuring device kit
+
+    You are now ready to start developing for your device. For more information,
+    see \l{Building and Running an Example}.
+*/
+
+/*!
+    \target Toradex Apalis iMX6 (embedded Linux)
+    \page qtee-preparing-hardware-apalis-imx6.html
+    \title Preparing Toradex Apalis iMX6
+    \previouspage qtee-installation-guide.html
+
+    Take the following steps to prepare a
+    \l{http://www.toradex.com/products/apalis-arm-computer-modules/freescale-imx-6-computer-module}
+    {Toradex Apalis iMX6} for \B2Q.
+
+    \note It is important that you repeat the steps in this section after you
+    update \SDK.
+
+    The images containing the \B2Q stack for Toradex Apalis iMX6 are included
+    in \SDK, ready to be copied to an SD card.
+
+    \section1 Preparing an SD Card
+
+    An SD card of at least 512 MB capacity is sufficient.
+
+    \include detect-sd-card-device-name.qdocinc instructions
+
+    \section1 Installing the \B2Q Image
+
+    To write the image to the SD card, ensure that no partitions on the
+    SD card are mounted:
+
+    \include detect-sd-card-device-name.qdocinc unmount
+
+    Then,
+
+    \badcode
+        cd <INSTALL_DIR>
+        sudo Boot2Qt-3.x/apalis-imx6-eLinux/images/deploy.sh /dev/<device_name>
+    \endcode
+
+    By default, the Toradex Apalis iMX6 boots from its internal eMMC. In order to boot from
+    the external SD card, the U-Boot environment needs to be updated. Connect a serial cable
+    to the device and enter into the U-Boot environment by pressing any key before the autoboot.
+    Enter following lines into U-Boot:
+
+    \badcode
+        setenv bootcmd 'run sdboot ; echo sdboot failed ; run emmcboot ; echo ; echo emmcboot failed ; run nfsboot ; echo ; echo nfsboot failed ; usb start ;setenv stdout serial,vga ; setenv stdin serial,usbkbd'
+        setenv sdboot 'run setup; setenv bootargs ${defargs} ${sdargs} ${setupargs} ${vidargs};echo Booting from SD card in 8bit slot...; fatload mmc 2:1 10800000 uImage && bootm 10800000'
+        setenv sdargs 'ip=off root=/dev/mmcblk1p2 rw,noatime rootfstype=ext3 rootwait'
+        saveenv
+    \endcode
+
+    New U-Boot command are now stored into the device, and you can start \B2Q. For more information
+    about the boot process on Toredex Apalis iMX6, see
+    \l{http://developer.toradex.com/software-resources/arm-family/linux/linux-booting}{Toradex Linux Booting}
+
+    After the image has been deployed, insert the SD card, power on the device and check that
+    the \B2Q welcome screen and/or demo appear.
+
+    \section1 Configuring a Device Kit in Qt Creator
+
+    \include b2qt-post-install-setup.qdocinc configuring network device
 
     You are now ready to start developing for your device. For more information,
     see \l{Building and Running an Example}.
@@ -806,7 +777,7 @@
         \li \b{\B2QA}
         \badcode
             cd <INSTALL_DIR>
-            ./Boot2Qt-3.x/beaglebone-eAndroid/images/deploy.sh /dev/<device_name>
+            ./Boot2Qt-3.x/generic-4.2-eAndroid/images/beaglebone/deploy.sh
         \endcode
         \li \b{\B2QL}
         \badcode
@@ -824,7 +795,7 @@
 
     \section1 Configuring a Device Kit in Qt Creator
 
-    \include b2qt-post-install-setup.qdocinc configuring device kit
+    \include b2qt-post-install-setup.qdocinc configuring device kit android linux
 
     You are now ready to start developing for your device. For more information,
     see \l{Building and Running an Example}.
@@ -1210,6 +1181,9 @@
         \li Freescale SABRE SD i.MX6Quad
         \li imx6qsabresd
     \row
+        \li Toradex Apalis iMX6
+        \li apalis-imx6
+    \row
         \li Emulator
         \li emulator
     \endtable
@@ -1274,35 +1248,59 @@
     \previouspage qtee-installation-guide.html
     \nextpage qtee-preparing-hardware.html
 
-    \section1 Supported Target Devices
+    \section1 Supported Reference Devices
 
-    The \B2Q stack can be made to run on a variety of hardware. \B2QA
-    requires hardware that has support for the Android operating system,
-    version 4.0 or later.
+    The \B2Q stack can be made to run on a variety of hardware. For \SDK license
+    holders, tooling is provided to customize the contents of the stack as well
+    as to take it into desired production hardware. For more information on how
+    to customize the stack for embedded Linux, see
+    \l {Building Your Own Embedded Linux Image}.
 
     Approximate minimal hardware requirements for running \B2Q are:
     \list
         \li 256 MB of RAM
         \li 500 MHz CPU, 1 GHz preferred for 60-FPS velvet-smooth UI
         \li OpenGL ES 2.0 support
-        \li Android 4.0+ compatible hardware
     \endlist
 
-    \B2Q has been tested to work on the following reference devices:
+    \B2QA requires hardware that has support for the Android operating
+    system, version 4.2 or later.
+
+    \B2Q software stack is provided pre-built, tested and supported for the
+    following hardware:
     \list
-        \li \l{http://www.google.com/nexus/7/specs/}{Google/Asus Nexus 7 (2012 and 2013 models)}
-        \li \l{http://beagleboard.org/products/beaglebone%20black}{BeagleBone Black}
-        \li \l{http://boundarydevices.com/products/sabre-lite-imx6-sbc/}{Freescale i.MX6 Sabre Lite board (Boundary Devices)}
-        \li \l{http://www.raspberrypi.org/faqs}{Raspberry Pi Model B}
+        \li \l{http://www.google.com/nexus/7/specs/}
+            {Google/Asus Nexus 7 (2012 and 2013 models)}
+        \li \l{http://beagleboard.org/products/beaglebone%20black}
+            {BeagleBone Black}
+        \li \l{http://www.freescale.com/webapp/sps/site/prod_summary.jsp?code=RDIMX6SABREBRD}
+            {Freescale SABRE SD i.MX6Quad}
+        \li \l{http://boundarydevices.com/products/sabre-lite-imx6-sbc/}
+            {BD-SL-i.MX6}
+        \li \l{http://www.toradex.com/products/apalis-arm-computer-modules/freescale-imx-6-computer-module}
+            {Toradex Apalis iMX6}
+        \li \l{http://www.raspberrypi.org/faqs}
+            {Raspberry Pi Model B}
     \endlist
 
-    For the \SDK 3.0 release, \l{Preparing BeagleBoard-xM}{BeagleBoard-xM (embedded Linux)}
-    is no longer tested and supported. It is, however, still tested and supported
-    in the earlier 2.x releases.
+    \section2 Legacy Reference Devices
+
+    The following devices are no longer tested or supported by the latest
+    release of \SDK.
+
+    \list
+    \li \l{http://beagleboard.org/hardware-xM}
+            {BeagleBoard-xM}
+        \list
+            \li Starting from \SDK 3.0 release, BeagleBoard-xM is no longer
+            tested and supported. It is, however, still tested and supported
+            in the earlier 2.x releases.
+        \endlist
+    \endlist
 
     \section1 Supported Development Environment
 
-    The development environment supported by \SDK is Ubuntu Linux 64-bit (12.04 LTS or 12.10).
+    The development environment supported by \SDK is Ubuntu Linux 64-bit (12.04 LTS or later).
 
     \sa {Requirements for Development Host}
 
@@ -1364,6 +1362,47 @@
     \previouspage qtee-customization.html
     \nextpage qtee-troubleshooting.html
 
+    \section1 \B2Q 3.1.0
+
+    \list
+        \li Release date: July 3, 2014
+    \endlist
+
+    \section2 Changes
+    \b {New Features}:
+    \list
+        \li Boot to Qt stack was updated to use Qt 5.3.1 on embedded Android
+            and Linux.
+        \li Added a generic solution for injecting \B2QA stack into devices
+            running Android version 4.2.2 or later.
+        \li \l {Preparing Toradex Apalis iMX6}{Toradex Apalis iMX6} was added
+            as a reference device.
+        \li \l {Qt Data Visualization} was updated to version 1.1.
+        \li \l {Qt Charts} was updated to version 1.4.
+        \li \l {Qt Virtual Keyboard} was update to version 1.1.
+    \endlist
+
+    \b {Improvements}:
+    \list
+        \li Added translucent widget windows support to eglfs.
+        \li Changed \e appcontroller to print status messages to stdout.
+        \li Switched to use symbolic links for GL-streaming library, instead
+            of having multiple copies.
+        \li Fixed C++ debugging issues and improved performance on embedded
+            Android.
+        \li Updated the content of \e About \e {\SDK} demo.
+        \li Improved Sensors and Media Player examples.
+    \endlist
+
+    \b {Fixed Bugs}:
+    \list
+        \li Fixed WiFi not working on Nexus 7 (2013).
+        \li BeagleBone Black: Fixed C++ debugging failing on embedded Android.
+        \li BeagleBone Black: embedded Linux did not include USB serial drivers.
+        \li Fixed JavaScript crash on ARM (QTBUG-39289).
+        \li Removed useless warnings about setMask when using Qt Widgets.
+    \endlist
+
     \section1 \B2Q 3.0.0
 
     \list
@@ -1380,7 +1419,7 @@
             embedded Android and Linux. However, the Emulator target is
             currently not supported
         \li Qt Quick Compiler (Technology Preview) was added to the \B2Q stack
-        \li \l{Preparing Nexus 7 (2013)}{Nexus 7 (2013)} was added as a
+        \li \l{Preparing Nexus 7 (2012/2013)}{Nexus 7 (2013)} was added as a
             reference device for embedded Android
         \li \l{Preparing SABRE SD i.MX6Quad}{Freescale SABRE SD i.MX6Quad} was
             added as a reference device for embedded Linux
@@ -1570,6 +1609,7 @@
         \li \l http://boundarydevices.com/switching-u-boot-versions-on-i-mx6/
     \endlist
 
+    \target nexus-factory-reset
     \section2 How do I restore my Nexus 7 to factory settings?
 
     Go to \l{https://developers.google.com/android/nexus/images} and
@@ -1621,6 +1661,11 @@
     \badcode
         <INSTALL_DIR>/Tools/b2qt/adb logcat
     \endcode
+
+    \note When terminating an application from Qt Creator, you may see the
+    message \e {Terminating application. Error running process: Process crashed}.
+    This is normal and does not indicate a problem in your code; a SIGTERM
+    signal is sent to the application, and Qt interprets it as a crash.
 
     \section2 Mouse or touch input does not work
 

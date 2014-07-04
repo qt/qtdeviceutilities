@@ -1,2 +1,3 @@
 module Qt.labs.wifi
 plugin qwifimodule
+typeinfo plugins.qmltypes
