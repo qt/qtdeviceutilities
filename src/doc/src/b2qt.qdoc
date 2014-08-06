@@ -645,7 +645,7 @@
 
     \badcode
         setenv bootcmd 'run sdboot ; echo sdboot failed ; run emmcboot ; echo ; echo emmcboot failed ; run nfsboot ; echo ; echo nfsboot failed ; usb start ;setenv stdout serial,vga ; setenv stdin serial,usbkbd'
-        setenv sdboot 'run setup; setenv bootargs ${defargs} ${sdargs} ${setupargs} ${vidargs};echo Booting from SD card in 8bit slot...; fatload mmc 2:1 10800000 uImage && bootm 10800000'
+        setenv sdboot 'run setup; setenv bootargs ${defargs} ${sdargs} ${setupargs} ${vidargs};echo Booting from SD card in 4bit slot...; fatload mmc 2:1 10800000 uImage && bootm 10800000'
         setenv sdargs 'ip=off root=/dev/mmcblk1p2 rw,noatime rootfstype=ext3 rootwait'
         saveenv
     \endcode
