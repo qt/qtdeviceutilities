@@ -1363,6 +1363,19 @@
     \previouspage qtee-customization.html
     \nextpage qtee-troubleshooting.html
 
+    \section1 \B2Q 3.1.1
+
+    \list
+        \li Release date: Aug 20, 2014
+    \endlist
+
+    \section2 Changes
+    \b {Fixed Bugs}:
+    \list
+        \li \l {Building Your Own Embedded Linux Image}:
+        fixed issues that caused the Yocto build process to fail.
+    \endlist
+
     \section1 \B2Q 3.1.0
 
     \list
