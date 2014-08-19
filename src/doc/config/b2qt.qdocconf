@@ -6,7 +6,7 @@ sourceencoding               = UTF-8
 
 project                      = QtEnterpriseEmbedded
 description                  = Qt Enterprise Embedded Documentation
-version                      = 3.1.0
+version                      = 3.1.1
 
 sourcedirs                   = ../src \
                                ../../imports/wifi
@@ -23,7 +23,7 @@ indexes                      = $QT_INSTALL_DOCS/qtquick/qtquick.index \
 qhp.projects                 = B2Qt
 
 qhp.B2Qt.file                = b2qt.qhp
-qhp.B2Qt.namespace           = com.digia.b2qt.310
+qhp.B2Qt.namespace           = com.digia.b2qt.311
 qhp.B2Qt.virtualFolder       = b2qt
 qhp.B2Qt.indexTitle          = Qt Enterprise Embedded Documentation
 qhp.B2Qt.indexRoot           =
