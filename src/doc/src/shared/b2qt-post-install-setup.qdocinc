@@ -34,7 +34,7 @@
     cable. If the device is already connected, disconnect and reconnect the USB
     cable after running the command above.
 
-        \li On \B2QA, you can confirm that the connection is working by running
+        \li You can confirm that the connection is working by running
     the following shell command:
 
     \code

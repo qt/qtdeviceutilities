@@ -41,7 +41,7 @@
     \section1 Installing the Android image
 
     \e{If installing} \B2QL, \e{you can skip this step and proceed to}
-    \l{Installing the Boot to Qt Image}.
+    \l{#Installing the Boot to Qt Image}{Installing the Boot to Qt Image}.
 
     Download the package \e{TI_Android_JB_4.2.2_DevKit_4.1.1_beagleboneblack.tar.gz} from
     \l{http://downloads.ti.com/sitara_android/esd/TI_Android_DevKit/TI_Android_JB_4_2_2_DevKit_4_1_1/index_FDS.html}

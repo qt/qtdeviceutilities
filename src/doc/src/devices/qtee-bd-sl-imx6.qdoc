@@ -42,7 +42,7 @@
     \section1 Installing the Android image
 
     \e{If installing} \B2QL, \e{you can skip this step and proceed to}
-    \l{Installing the Boot to Qt Image}.
+    \l{#Installing the Boot to Qt Image}{Installing the Boot to Qt Image}.
 
     Download the package \e{imx6-jb-20130628.tar.gz} from
     \l{http://boundarydevices.com/android-jellybean-on-i-mx6-with-no-disclaimers/}{Boundary
