@@ -1,0 +1,160 @@
+/****************************************************************************
+**
+** Copyright (C) 2014 Digia Plc
+** All rights reserved.
+** For any questions to Digia, please use the contact form at
+** http://qt.digia.com/
+**
+** This file is part of Qt Enterprise Embedded.
+**
+** Licensees holding valid Qt Enterprise licenses may use this file in
+** accordance with the Qt Enterprise License Agreement provided with the
+** Software or, alternatively, in accordance with the terms contained in
+** a written agreement between you and Digia.
+**
+** If you have questions regarding the use of this file, please use
+** the contact form at http://qt.digia.com/
+**
+****************************************************************************/
+/*!
+    \page qtee-custom-embedded-linux-image.html
+    \title Building Your Own Embedded Linux Image
+    \previouspage qtee-customization.html
+    \nextpage qtee-changelog.html
+
+    \B2QL is built using the tools and resources from the \l {Yocto Project},
+    and is based on Yocto's reference distribution (\e Poky). You can
+    use the same tools to build custom \B2Q images, and have control over
+    which packages are included in the build and how the software stack
+    is configured.
+
+    \section2 Note About Support Services for Yocto Tools
+
+    By default, Digia will only provide customer support for the Yocto
+    recipes on the reference platforms, as delivered with \SDK, and
+    setting up the development environment for them. Receiving support
+    for any other configuration requires a separate service agreement
+    between a customer and Digia.
+
+    \section1 Requirements
+
+    You should be familiar with the Yocto tools and the concept of
+    \e {recipes}. For more information, see Yocto Project
+    \l{https://www.yoctoproject.org/documentation/current}{documentation}.
+
+    To get started, you need the following:
+
+    \list
+        \li Install the \B2Q \e source packages. You can
+            find these by running the \e MaintenanceTool application
+            located in the \SDK installation directory and selecting
+            \e {Package Manager}. The \e {Yocto meta layer} package
+            contains the additional recipes required to make the image
+            compatible with \B2Q.
+        \li Install the dependencies for the Yocto tools. In Ubuntu,
+            the following packages are required:
+    \badcode
+    sudo apt-get install gawk wget git-core diffstat unzip texinfo gcc-multilib build-essential chrpath libsdl1.2-dev xterm
+    \endcode
+    \endlist
+
+    \section1 Setting Up Yocto Build Environment
+
+    Run the setup script that initializes the Yocto environment:
+
+    \badcode
+    cd <BuildDir>
+    <INSTALL_DIR>/Boot2Qt-3.x/sources/b2qt-yocto-meta/b2qt-init-build-env .
+    \endcode
+
+    \section1 Building the Image and Toolchain
+
+    After the Yocto environment is set up, you need to configure the
+    build environment for your target device. Using Raspberry Pi as
+    an example:
+
+    \badcode
+    export TEMPLATECONF=meta-b2qt/conf
+    export MACHINE=raspberrypi
+    source poky/oe-init-build-env build-raspberrypi
+    \endcode
+
+    The following table lists the \c MACHINE values for our reference platforms:
+
+    \table
+    \header
+        \li Board
+        \li MACHINE value
+    \row
+        \li Raspberry Pi
+        \li raspberrypi
+    \row
+        \li BeagleBone Black
+        \li beaglebone
+    \row
+        \li Boundary Devices BD-SL-i.MX6
+        \li nitrogen6x
+    \row
+        \li Freescale SABRE SD i.MX6Quad
+        \li imx6qsabresd
+    \row
+        \li Toradex Apalis iMX6
+        \li apalis-imx6
+    \row
+        \li Emulator
+        \li emulator
+    \endtable
+
+    Yocto recipes for \B2QL have two main targets to build: The target image,
+    and the external toolchain that is used for building the Qt framework and
+    applications.
+
+    \badcode
+    bitbake b2qt-embedded-image
+    bitbake meta-toolchain-b2qt-embedded-sdk
+    \endcode
+
+    The target rootfs image is located in the \c <YoctoBuildDir>/tmp/deploy/images/<target>/b2qt-embedded-image-<target>.tar.gz,
+    and the new toolchain is in \c <YoctoBuildDir>/tmp/deploy/sdk/b2qt-eglibc-x86_64-meta-toolchain-b2qt-embedded-sdk-<target-architecture>-toolchain-1.6.sh
+
+    \note The generated target image does not yet include Qt libraries,
+    you need to build Qt and add it into the image yourself.
+
+    \section1 Building Qt and Addons
+
+    \e {Build scripts} source package contains scripts that can be used to
+    build Qt and all additional Qt addons that are part of \B2QL image.
+    To setup build environment for your target hardware, run the initialization
+    script. Using Raspberry Pi as an example:
+
+    \badcode
+    <INSTALL_DIR>/Boot2Qt-3.x/sources/b2qt-build-scripts/embedded-common/init_build_env.sh <INSTALL_DIR>/Boot2Qt-3.x/sources/b2qt-build-scripts/embedded-linux/config.raspberrypi
+    \endcode
+
+    \note You can use the same build directory for Qt and the Yocto image.
+    The toolchain and the target image are then used from the Yocto build directory.
+
+    You can use following scripts to build different parts of the \B2Q stack.
+
+    \badcode
+    <INSTALL_DIR>/Boot2Qt-3.x/sources/b2qt-build-scripts/embedded-linux/build_qt.sh
+    <INSTALL_DIR>/Boot2Qt-3.x/sources/b2qt-build-scripts/embedded-linux/build_extras.sh
+    <INSTALL_DIR>/Boot2Qt-3.x/sources/b2qt-build-scripts/embedded-linux/build_image.sh
+    \endcode
+
+    After \e {embedded-linux/build_image.sh} has finished, you can flash the device with
+    the updated image located in the build folder.
+
+    \section1 Configuring Qt Creator
+
+    After you have built the \B2Q stack, you must also set up Qt Creator in order to start
+    developing for your device. The following script does this for you.
+
+    \badcode
+    <INSTALL_DIR>/Boot2Qt-3.x/sources/b2qt-build-scripts/embedded-common/setup_qtcreator.sh
+    \endcode
+
+    This will set up a new kit in Qt Creator, using the toolchain and Qt from
+    your build directory. The new kit is visible under \b Tools > \b Options
+    > \b {Build & Run} > \b Kits.
+*/

@@ -88,14 +88,15 @@ void QWifiNetworkListModel::parseScanResults(const QByteArray &results)
         QWifiNetwork *knownNetwork = networkForSSID(info.at(4), &pos);
         if (!knownNetwork)
             knownNetwork = outOfRangeListContains(info.at(4));
-
+        // signal strength is in dBm. Deprecated, but still widely used "wext"
+        // wifi driver reports positive values for signal strength, we workaround that.
+        int signalStrength = qAbs(info.at(2).trimmed().toInt()) * -1;
         if (!knownNetwork) {
             QWifiNetwork *network = new QWifiNetwork();
             network->setOutOfRange(false);
             network->setBssid(info.at(0));
             network->setFlags(info.at(3));
-            // signal strength is in dBm
-            network->setSignalStrength(info.at(2).toInt());
+            network->setSignalStrength(signalStrength);
             network->setSsid(info.at(4));
             beginInsertRows(QModelIndex(), m_networks.size(), m_networks.size());
             m_networks << network;
@@ -112,15 +113,15 @@ void QWifiNetworkListModel::parseScanResults(const QByteArray &results)
             // ssids are the same, compare bssids..
             if (knownNetwork->bssid() == info.at(0)) {
                 // same access point, simply update the signal strength
-                knownNetwork->setSignalStrength(info.at(2).toInt());
+                knownNetwork->setSignalStrength(signalStrength);
                 knownNetwork->setOutOfRange(false);
                 dataChanged(createIndex(pos, 0), createIndex(pos, 0));
-            } else if (knownNetwork->signalStrength() < info.at(2).toInt()) {
+            } else if (knownNetwork->signalStrength() < signalStrength) {
                 // replace with a stronger access point within the same network
                 m_networks.at(pos)->setOutOfRange(false);
                 m_networks.at(pos)->setBssid(info.at(0));
                 m_networks.at(pos)->setFlags(info.at(3));
-                m_networks.at(pos)->setSignalStrength(info.at(2).toInt());
+                m_networks.at(pos)->setSignalStrength(signalStrength);
                 m_networks.at(pos)->setSsid(info.at(4));
                 dataChanged(createIndex(pos, 0), createIndex(pos, 0));
             }

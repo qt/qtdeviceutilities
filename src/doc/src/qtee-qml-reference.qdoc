@@ -16,19 +16,19 @@
 ** the contact form at http://qt.digia.com/
 **
 ****************************************************************************/
-#include <binder/IPCThreadState.h>
 
-#include "permissioncontroller.h"
-#include "schedulingpolicyservice.h"
-#include "powermanager.h"
+/*!
+    \page qtee-qml-reference.html
+    \title Add-On QML Types
+    \previouspage qtee-licenses.html
 
-using namespace android;
+    The following QML modules are included in the \B2Q stack and provide
+    additional QML types that are useful in an embedded application:
 
-int main(int, char *[])
-{
-    sp<ProcessState> proc(ProcessState::self());
-    SchedulingPolicyService::instantiate();
-    PermissionController::instantiate();
-    PowerManager::instantiate();
-    IPCThreadState::self()->joinThreadPool();
-}
+    \annotatedlist qtee-qmlmodules
+
+    \section1 WiFi Module
+
+    \annotatedlist wifi-qmltypes
+*/
+

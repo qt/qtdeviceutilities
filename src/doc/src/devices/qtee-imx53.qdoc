@@ -1,0 +1,70 @@
+/****************************************************************************
+**
+** Copyright (C) 2014 Digia Plc
+** All rights reserved.
+** For any questions to Digia, please use the contact form at
+** http://qt.digia.com/
+**
+** This file is part of Qt Enterprise Embedded.
+**
+** Licensees holding valid Qt Enterprise licenses may use this file in
+** accordance with the Qt Enterprise License Agreement provided with the
+** Software or, alternatively, in accordance with the terms contained in
+** a written agreement between you and Digia.
+**
+** If you have questions regarding the use of this file, please use
+** the contact form at http://qt.digia.com/
+**
+****************************************************************************/
+/*!
+    \target i.MX53 Quick Start Board (embedded Linux)
+    \page qtee-preparing-hardware-imx53qsb.html
+    \title Preparing i.MX53 Quick Start Board
+    \previouspage qtee-installation-guide.html
+    \nextpage qtee-building-and-running.html
+
+    Take the following steps to prepare a
+    \l{http://www.freescale.com/webapp/sps/site/prod_summary.jsp?code=IMX53QSB} {i.MX53 Quick Start Board}
+    for \B2Q.
+
+    \note Ethernet networking is required to connect the device to Qt Creator.
+
+    \note It is important that you repeat the steps in this section after you
+    update \SDK.
+
+    As i.MX53 Quick Start Board is not a \SDK reference board, there is no ready-made
+    image containing a \B2Q stack available. Instead, you must build it yourself using
+    the Yocto recipes and build scripts from the \B2Q source packages.
+    For more information, see \l{Building Your Own Embedded Linux Image}.
+
+    \section1 Preparing an SD Card
+
+    An SD card of at least 512 MB capacity is sufficient.
+
+    \include detect-sd-card-device-name.qdocinc instructions
+
+    \section1 Installing the \B2Q Image
+
+    To write the image to the SD card, ensure that no partitions on the
+    SD card are mounted:
+
+    \include detect-sd-card-device-name.qdocinc unmount
+
+    Then,
+
+    \badcode
+        cd <QtBuildDir>
+        sudo deploy.sh /dev/<device_name>
+    \endcode
+
+    After the image has been deployed, insert the SD card, power on the device and check that
+    the \B2Q welcome screen and/or demo appear.
+
+    \section1 Configuring a Device Kit in Qt Creator
+
+    \include b2qt-post-install-setup.qdocinc configuring network device
+
+    You are now ready to start developing for your device. For more information,
+    see \l{Building and Running an Example}.
+*/
+

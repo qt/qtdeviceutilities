@@ -225,14 +225,20 @@ bool QDroidUtils::setDisplayBrightness(quint8 value)
  */
 QString QDroidUtils::getIPAddress()
 {
-    QStringList addresses;
-    QNetworkInterface interface = QNetworkInterface::interfaceFromName(QStringLiteral("eth0"));
-    QList<QNetworkAddressEntry> entries;
-    entries = interface.addressEntries();
-    foreach (const QNetworkAddressEntry &entry, entries) {
-        addresses.append(entry.ip().toString().split('%').first());
+    QList<QNetworkInterface> availableInterfaces = QNetworkInterface::allInterfaces();
+    if (availableInterfaces.length() > 0) {
+        foreach (const QNetworkInterface &interface, availableInterfaces) {
+            if (interface.flags() & QNetworkInterface::IsRunning
+                && (interface.flags() & QNetworkInterface::IsLoopBack) == 0) {
+                QList<QNetworkAddressEntry> entries = interface.addressEntries();
+                QStringList addresses;
+                foreach (const QNetworkAddressEntry &entry, entries)
+                    addresses.append(entry.ip().toString().split('%').first());
+                return addresses.join(QStringLiteral(", "));
+            }
+        }
     }
-    return addresses.join(QStringLiteral(", "));
+    return QString();
 }
 
 /*!

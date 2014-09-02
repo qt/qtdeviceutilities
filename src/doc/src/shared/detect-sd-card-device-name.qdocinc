@@ -16,19 +16,30 @@
 ** the contact form at http://qt.digia.com/
 **
 ****************************************************************************/
-#include <binder/IPCThreadState.h>
+/*!
+//! [instructions]
+    Plug in the SD card or reader to the development host,
+    and use the following command to find out its device name:
 
-#include "permissioncontroller.h"
-#include "schedulingpolicyservice.h"
-#include "powermanager.h"
+    \badcode
+        lsblk -d
+    \endcode
 
-using namespace android;
+    Removable devices such as SD cards have the value '1' in
+    the \e RM column.
 
-int main(int, char *[])
-{
-    sp<ProcessState> proc(ProcessState::self());
-    SchedulingPolicyService::instantiate();
-    PermissionController::instantiate();
-    PowerManager::instantiate();
-    IPCThreadState::self()->joinThreadPool();
-}
+    \warning Make sure to select the correct device, because selecting
+    the wrong one can result in a wiped hard drive.
+
+    Typical device names for SD cards include \c {sdb} and
+    \c {mmcblk0}. The full device path is \c {/dev/} followed by
+    the name.
+//! [instructions]
+
+//! [unmount]
+    \badcode
+        umount /dev/<device_name>
+    \endcode
+//! [unmount]
+
+*/

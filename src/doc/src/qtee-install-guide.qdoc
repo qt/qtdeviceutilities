@@ -1,0 +1,149 @@
+/****************************************************************************
+**
+** Copyright (C) 2014 Digia Plc
+** All rights reserved.
+** For any questions to Digia, please use the contact form at
+** http://qt.digia.com/
+**
+** This file is part of Qt Enterprise Embedded.
+**
+** Licensees holding valid Qt Enterprise licenses may use this file in
+** accordance with the Qt Enterprise License Agreement provided with the
+** Software or, alternatively, in accordance with the terms contained in
+** a written agreement between you and Digia.
+**
+** If you have questions regarding the use of this file, please use
+** the contact form at http://qt.digia.com/
+**
+****************************************************************************/
+
+/*!
+    \page qtee-installation-guide.html
+    \title Installation Guide
+    \previouspage qtee-overview.html
+    \nextpage qtee-supported-platforms.html
+
+    To successfully set up \SDK, you must closely follow the instructions in
+    this section and perform all the described tasks.
+
+    In case of problems, see the \l{Troubleshooting} information and the
+    \l {Known Issues} in \SDK \l {product page}.
+
+    \target Requirements for Development Host
+    \section1 Requirements for Development Host
+
+    A 64-bit Linux system is required to install and use \SDK. Instructions
+    in this documentation assume Ubuntu Linux 64-bit 12.04 LTS or later.
+    Other Linux distributions may work, but have not been tested. C/C++ build
+    essentials must be installed.
+
+    \target Installing 32-bit Support Libraries
+    \section1 1. Installing 32-bit Support Libraries
+
+    Some of the build tools in \SDK are 32-bit programs, and on 64-bit
+    systems they require support libraries for running 32-bit code. To
+    install the required packages in recent versions of Ubuntu, use
+    the following command in a terminal:
+
+    \badcode
+        sudo apt-get install g++-multilib zlib1g:i386
+    \endcode
+
+    For older Ubuntu versions such as 12.04, instead do:
+
+    \badcode
+        sudo apt-get install g++-multilib ia32-libs
+    \endcode
+
+    \target Installing VirtualBox
+    \section1 2. Installing VirtualBox
+
+    The \B2Q emulator in \SDK relies on VirtualBox virtualization software. You can
+    download it from \l{https://www.virtualbox.org/wiki/Linux_Downloads} or
+    install it via distribution tools.
+
+    If you have older Ubuntu versions such as 12.04 you have to install a newer
+    version of VirtualBox than your distribution does provide.
+    You have to add a foreign package source:
+
+    \badcode
+        wget -q http://download.virtualbox.org/virtualbox/debian/oracle_vbox.asc -O- | sudo apt-key add -
+        echo "deb http://download.virtualbox.org/virtualbox/debian $(lsb_release -sc) contrib" | sudo tee /etc/apt/sources.list.d/virtualbox.list
+        sudo apt-get update
+    \endcode
+
+    Now install VirtualBox on your computer
+    \badcode
+        sudo apt-get install virtualbox-4.3
+    \endcode
+
+    To configure VirtualBox:
+
+    \list 1
+        \li Start the VirtualBox user interface.
+        \li Select \b{File > Preferences} > \b{Network} to open VirtualBox
+            network settings.
+        \li Create a new network named \e{vboxnet0} and edit its properties:
+
+        \list 1
+            \li Change the IPv4 address to \c{192.168.56.1} and the IPv4 network
+                 mask to \c{255.255.255.0}.
+            \li In the \b{DCHP Server} tab, select the \b{Enable Server} check
+                box.
+            \li Change the server address to \c{192.168.56.1}.
+            \li Change both the lower and upper address bounds to
+                \c{192.168.56.101}.
+        \endlist
+    \endlist
+
+    If a firewall is enabled on the development host, it needs to
+    allow TCP and UDP packets between your host and the virtual
+    machine.
+
+    \section1 3. Installing \SDK
+
+    \list 1
+
+        \li Download the binary \SDK installer, and make sure it is executable
+            by using one of the following methods:
+
+    \list
+        \li Enter the \c{chmod +x <filename>} command.
+        \li Right-click the file, and select \b{Properties} >
+            \b{Permissions} > \b{Allow executing file as program}.
+    \endlist
+
+        \li Run the installer and follow its instructions.
+
+    \endlist
+
+    \note Do not execute the installer as root user or with sudo.
+
+    The installer will let you select a directory where \SDK will be
+    installed. In this documentation, the installation directory is referred
+    to as \b{\c{<INSTALL_DIR>}}. The default installation directory is
+    \tt{~/Qt}.
+
+    \target Installing Boot to Qt on Target Devices
+    \section1 4. Install \B2Q on Target Devices
+
+    \e{If you target only the emulator, you can skip this step.}
+
+    Before you can deploy and test your Qt application on hardware, you must
+    flash the target device with an image that contains the
+    \B2Q stack. The steps vary from device to device. Follow the instructions
+    specific to your device in \l {Preparing Hardware}.
+
+    \section1 5. Setting up USB Access to Embedded Devices
+
+    \e{If you target only the emulator, you can skip this step.}
+
+    \include b2qt-post-install-setup.qdocinc setting up usb access
+
+    \section1 6. Configuring a Device Kit in Qt Creator
+
+    \include b2qt-post-install-setup.qdocinc configuring device kit android linux
+
+    You are now ready to start developing for your device.
+    For more information, see \l{Building and Running an Example}.
+*/

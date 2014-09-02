@@ -65,7 +65,8 @@ static int q_dhcp_do_request(bool renew,
                              char *dns2,
                              char *server,
                              uint32_t *lease,
-                             char *vendorInfo)
+                             char *vendorInfo,
+                             char *domain)
 {
 #if Q_ANDROID_VERSION_MAJOR == 4 && Q_ANDROID_VERSION_MINOR < 3
     if (!renew)
@@ -73,7 +74,6 @@ static int q_dhcp_do_request(bool renew,
     return dhcp_do_request_renew(ifname, ipaddr, gateway, prefixLength, dns1, dns2, server, lease, vendorInfo);
 #else
     char *dns[3] = {dns1, dns2, 0};
-    char domain[PROPERTY_VALUE_MAX];
     char mtu[PROPERTY_VALUE_MAX];
 #if Q_ANDROID_VERSION_MAJOR == 4 && Q_ANDROID_VERSION_MINOR < 4
     if (!renew)
@@ -123,6 +123,11 @@ private:
     LeaseTimer *m_leaseTimer;
     bool m_isEmulator;
     QByteArray m_ethInterface;
+    // android initializes services in a separate threads, therefore it is
+    // not guaranteed that the netd socket will be ready at the time when qconnectivity
+    // is starting up - we try to reconnect again after 2 second intervals. This
+    // variable holds the maximum attempt count (chosen arbitrarily).
+    int m_attemptCount;
 };
 
 class LeaseTimer : public QTimer
@@ -153,7 +158,12 @@ private:
 };
 
 QConnectivityDaemon::QConnectivityDaemon()
-    : m_netdSocket(0), m_serverSocket(0), m_linkUp(false), m_leaseTimer(0), m_isEmulator(isEmulator())
+    : m_netdSocket(0),
+      m_serverSocket(0),
+      m_linkUp(false),
+      m_leaseTimer(0),
+      m_isEmulator(isEmulator()),
+      m_attemptCount(12)
 {
     qDebug() << "starting QConnectivityDaemon...";
     if (!m_isEmulator) {
@@ -194,26 +204,34 @@ bool QConnectivityDaemon::isEmulator() const
 
 void QConnectivityDaemon::initNetdConnection()
 {
-    if (ethernetSupported()) {
-        static int attemptCount = 12;
-        int netdFd = socket_local_client("netd", ANDROID_SOCKET_NAMESPACE_RESERVED, SOCK_STREAM);
-        if (netdFd != -1) {
-            qDebug() << "QConnectivityDaemon: connected to netd socket";
-            m_netdSocket = new QLocalSocket(this);
-            m_netdSocket->setSocketDescriptor(netdFd);
-            connect(m_netdSocket, SIGNAL(readyRead()), this, SLOT(handleNetdEvent()));
-            connect(m_netdSocket, SIGNAL(error(QLocalSocket::LocalSocketError)),
-                    this, SLOT(handleError(QLocalSocket::LocalSocketError)));
-            // down-up sequence generates "linkstate" events, which we can use to setup
-            // our daemon on initial startup or on daemon restarts
-            sendCommand(QByteArray("0 interface setcfg ").append(m_ethInterface).append(" down").constData());
-            sendCommand(QByteArray("0 interface setcfg ").append(m_ethInterface).append(" up").constData());
-        } else {
-            qWarning() << "QConnectivityDaemon: failed to connect to netd socket";
-            if (--attemptCount != 0)
-                QTimer::singleShot(2000, this, SLOT(initNetdConnection()));
-        }
+    int netdFd = socket_local_client("netd", ANDROID_SOCKET_NAMESPACE_RESERVED, SOCK_STREAM);
+    if (netdFd != -1) {
+        qDebug() << "QConnectivityDaemon: connected to netd socket";
+        m_netdSocket = new QLocalSocket(this);
+        m_netdSocket->setSocketDescriptor(netdFd);
+        connect(m_netdSocket, SIGNAL(readyRead()), this, SLOT(handleNetdEvent()));
+        connect(m_netdSocket, SIGNAL(error(QLocalSocket::LocalSocketError)),
+                this, SLOT(handleError(QLocalSocket::LocalSocketError)));
+    } else {
+        qWarning() << "QConnectivityDaemon: failed to connect to netd socket";
+        if (--m_attemptCount != 0)
+            QTimer::singleShot(2000, this, SLOT(initNetdConnection()));
+        return;
     }
+    if (ethernetSupported()) {
+        // down-up sequence generates "linkstate" events, which we can use to setup
+        // our daemon on initial startup (device boot) or on daemon restarts
+        sendCommand(QByteArray("0 interface setcfg ").append(m_ethInterface).append(" down").constData());
+        sendCommand(QByteArray("0 interface setcfg ").append(m_ethInterface).append(" up").constData());
+    }
+    char wifiInterface[PROPERTY_VALUE_MAX];
+    property_get("wifi.interface", wifiInterface, NULL);
+    if (wifiInterface)
+        // reload wifi firmware
+        sendCommand(QByteArray("0 softap fwreload ").append(wifiInterface).append(" STA").constData());
+    // disable firewall - this setting seems to be enabled only when using "Always-on VPN"
+    // mode on Android phones, see setLockdownTracker() in ConnectivityService.java
+    sendCommand("0 firewall disable");
 }
 
 void QConnectivityDaemon::setHostnamePropery(const char *interface) const
@@ -240,6 +258,10 @@ void QConnectivityDaemon::setHostnamePropery(const char *interface) const
 
 void QConnectivityDaemon::sendCommand(const char *command) const
 {
+    if (!m_netdSocket) {
+        qDebug() << "QConnectivityDaemon: netd socket is not ready!";
+        return;
+    }
     qDebug() << "QConnectivityDaemon: sending command - " << command;
     // netd expects "\0" terminated commands...
     m_netdSocket->write(command, qstrlen(command) + 1);
@@ -286,10 +308,11 @@ bool QConnectivityDaemon::startDhcp(bool renew, const char *interface)
     char  server[PROPERTY_VALUE_MAX];
     quint32 lease = 0;
     char vendorInfo[PROPERTY_VALUE_MAX];
+    char domain[PROPERTY_VALUE_MAX] = {0};
 
     if (renew) {
         result = q_dhcp_do_request(true, interface, ipaddr, gateway, &prefixLength,
-                                   dns1, dns2, server, &lease, vendorInfo);
+                                   dns1, dns2, server, &lease, vendorInfo, domain);
     } else {
         // stop any existing DHCP daemon before starting new
         dhcp_stop(interface);
@@ -298,7 +321,7 @@ bool QConnectivityDaemon::startDhcp(bool renew, const char *interface)
         // we are responsible for renewing a lease before it expires
         ifc_clear_addresses(interface);
         result = q_dhcp_do_request(false, interface, ipaddr, gateway, &prefixLength,
-                                   dns1, dns2, server, &lease, vendorInfo);
+                                   dns1, dns2, server, &lease, vendorInfo, domain);
     }
 
     bool success = (result == 0) ? true : false;
@@ -315,6 +338,16 @@ bool QConnectivityDaemon::startDhcp(bool renew, const char *interface)
 
             ifc_configure(interface, _ipaddr.s_addr, prefixLength,
                           _gateway.s_addr, _dns1.s_addr, _dns2.s_addr);
+
+            // set DNS servers for interface - see NetworkManagementService.java
+            if (domain[0]) {
+                QByteArray dnsForInterface("0 resolver setifdns ");
+                dnsForInterface.append(interface).append(" ").append(domain).append(" ");
+                dnsForInterface.append(dns1).append(" ").append(dns2);
+                sendCommand(dnsForInterface.constData());
+            }
+            // set default interface for DNS - see NetworkManagementService.java
+            sendCommand(QByteArray("0 resolver setdefaultif ").append(interface).constData());
 
             property_set("net.dns1", dns1);
             property_set("net.dns2", dns2);
