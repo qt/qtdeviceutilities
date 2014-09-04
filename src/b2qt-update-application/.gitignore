@@ -1,0 +1,4 @@
+Makefile
+b2qt-update-application
+moc_*.cpp
+*.o
