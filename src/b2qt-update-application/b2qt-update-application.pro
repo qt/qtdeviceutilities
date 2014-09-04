@@ -12,3 +12,5 @@ HEADERS += \
            update.h
 
 LIBS += -lcrypto
+INSTALLS += target
+target.path = /usr/bin
