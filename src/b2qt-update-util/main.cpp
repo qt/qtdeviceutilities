@@ -27,6 +27,9 @@
 
 bool mount_boot()
 {
+    // In some cases the boot partition is already mounted somewhere else.
+    // Mounting it again is no problem but data loss will happen.
+    QProcess::execute("umount", QStringList() << "/dev/mmcblk0p1"); // Ignore return value
     return QProcess::execute("mount", QStringList() << "/dev/mmcblk0p1" << "/boot") == 0;
 }
 
