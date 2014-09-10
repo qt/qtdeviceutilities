@@ -134,6 +134,9 @@ int main(int argc, char **argv)
             return start_update(QString());
         else
             return start_update(args.takeFirst());
+    } else if (arg == "version") {
+        printf("Version %s, SHA1 %s\n", GIT_VERSION, GIT_HASH);
+        return 0;
     } else {
         usage();
         return 1;

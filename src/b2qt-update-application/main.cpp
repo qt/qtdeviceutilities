@@ -115,6 +115,7 @@ QStringList find_usb_storage()
 int main(int argc, char **argv)
 {
     QCoreApplication app(argc, argv);
+    printf("Version %s, SHA1 %s\n", GIT_VERSION, GIT_HASH);
 
     mount(QString(), "/", "remount,rw");
     execute("mkdir", QStringList() << "-p" << "/mnt/boot");
