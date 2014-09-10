@@ -1,20 +1,18 @@
-TARGET = QtDroidUtils
-VERSION = 5.2
+load(qt_build_config)
+
+TARGET = B2QtUtils
+VERSION = 1.0
 CONFIG += dll warn_on
 
 QT = core network
-#QT = core-private gui-private qml-private quick-private
-#QT_PRIVATE = v8-private
 
-#DEFINES   += QT_NO_URL_CAST_FROM_STRING QT_NO_INTEGER_EVENT_COORDINATES
-
-MODULE = droidutils
+MODULE = b2qtutils
 load(qt_module)
 
 android: LIBS += -lmedia -lhardware -lcutils -lutils
 
 HEADERS += \
-    $$PWD/qdroidutils.h
+    $$PWD/b2qtdevice.h
 
 SOURCES += \
-    $$PWD/qdroidutils.cpp
+    $$PWD/b2qtdevice.cpp

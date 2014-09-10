@@ -1,14 +1,10 @@
 CXX_MODULE = qml
-TARGET  = qtdroidutilsplugin
-TARGETPATH = QtDroid/Utils
+TARGET  = b2qtutilsplugin
+TARGETPATH = B2Qt/Utils
 IMPORT_VERSION = 1.0
 
-QT += qml
+QT += qml b2qtutils
 
 SOURCES += plugin.cpp
-
-### kludge
-INCLUDEPATH += $$PWD/../../../include
-LIBS += -L$$PWD/../../../lib -lQt5DroidUtils
 
 load(qml_plugin)

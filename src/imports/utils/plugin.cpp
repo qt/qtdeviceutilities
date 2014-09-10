@@ -16,32 +16,32 @@
 ** the contact form at http://qt.digia.com/
 **
 ****************************************************************************/
-#include <QtDroidUtils/qdroidutils.h>
+#include <b2qtdevice.h>
 #include <QtQml>
 
 static QObject *module_api_factory(QQmlEngine *engine, QJSEngine *scriptEngine)
 {
    Q_UNUSED(engine)
    Q_UNUSED(scriptEngine)
-   QDroidUtils *api = new QDroidUtils();
+   B2QtDevice *api = new B2QtDevice();
 
    return api;
 }
 
-class QDroidUtilsPlugin : public QQmlExtensionPlugin
+class B2QtUtilsPlugin : public QQmlExtensionPlugin
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface")
 
 public:
-    QDroidUtilsPlugin()
+    B2QtUtilsPlugin()
     {
     }
 
     void registerTypes(const char *uri)
     {
-        Q_ASSERT(QLatin1String(uri) == "QtDroid.Utils");
-        qmlRegisterSingletonType<QDroidUtils>(uri, 1, 0, "DroidUtils", module_api_factory);
+        Q_ASSERT(QLatin1String(uri) == "B2Qt.Utils");
+        qmlRegisterSingletonType<B2QtDevice>(uri, 1, 0, "B2QtDevice", module_api_factory);
     }
 };
 

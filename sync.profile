@@ -1,5 +1,5 @@
 %modules = ( # path to module name map
-    "QtDroidUtils" => "$basedir/src/utils"
+    "B2QtUtils" => "$basedir/src/utils"
 );
 %moduleheaders = ( # restrict the module headers to those found in relative path
 );
