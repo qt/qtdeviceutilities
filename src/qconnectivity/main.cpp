@@ -163,7 +163,7 @@ QConnectivityDaemon::QConnectivityDaemon()
       m_linkUp(false),
       m_leaseTimer(0),
       m_isEmulator(isEmulator()),
-      m_attemptCount(12)
+      m_attemptCount(50)
 {
     qDebug() << "starting QConnectivityDaemon...";
     if (!m_isEmulator) {
@@ -213,9 +213,9 @@ void QConnectivityDaemon::initNetdConnection()
         connect(m_netdSocket, SIGNAL(error(QLocalSocket::LocalSocketError)),
                 this, SLOT(handleError(QLocalSocket::LocalSocketError)));
     } else {
-        qWarning() << "QConnectivityDaemon: failed to connect to netd socket";
+        qWarning() << "QConnectivityDaemon: failed to connect to netd socket, reattempting...";
         if (--m_attemptCount != 0)
-            QTimer::singleShot(2000, this, SLOT(initNetdConnection()));
+            QTimer::singleShot(200, this, SLOT(initNetdConnection()));
         return;
     }
     if (ethernetSupported()) {
@@ -224,11 +224,6 @@ void QConnectivityDaemon::initNetdConnection()
         sendCommand(QByteArray("0 interface setcfg ").append(m_ethInterface).append(" down").constData());
         sendCommand(QByteArray("0 interface setcfg ").append(m_ethInterface).append(" up").constData());
     }
-    char wifiInterface[PROPERTY_VALUE_MAX];
-    property_get("wifi.interface", wifiInterface, NULL);
-    if (wifiInterface)
-        // reload wifi firmware
-        sendCommand(QByteArray("0 softap fwreload ").append(wifiInterface).append(" STA").constData());
     // disable firewall - this setting seems to be enabled only when using "Always-on VPN"
     // mode on Android phones, see setLockdownTracker() in ConnectivityService.java
     sendCommand("0 firewall disable");
@@ -271,10 +266,8 @@ void QConnectivityDaemon::sendCommand(const char *command) const
 void QConnectivityDaemon::handleInterfaceChange(const QList<QByteArray> &message)
 {
     // Format: "Code Iface linkstate <name> <up/down>"
-    if (message.size() < 5) {
-        qWarning() << "QConnectivityDaemon: broken command";
+    if (message.size() < 5)
         return;
-    }
 
     if (message.at(2) == "linkstate" && message.at(3) == m_ethInterface) {
         if (message.at(4) == "up") {

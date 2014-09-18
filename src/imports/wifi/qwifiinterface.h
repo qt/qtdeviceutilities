@@ -16,31 +16,25 @@
 ** the contact form at http://qt.digia.com/
 **
 ****************************************************************************/
-#include "qwifimanager.h"
-#include "qwifiinterface.h"
+#ifndef QWIFIINTERFACE_H
+#define QWIFIINTERFACE_H
 
-#include <QtQml/QQmlExtensionPlugin>
-#include <QtQml/qqml.h>
+#include <QtCore/QDir>
+#include <QtCore/QDebug>
+#ifdef Q_OS_ANDROID
+#include <hardware_legacy/wifi.h>
+#include <cutils/properties.h>
+#endif
 
-static QObject *global_object_wifi(QQmlEngine *, QJSEngine *)
-{
-    return new QWifiInterface;
-}
-
-class QWifiPlugin : public QQmlExtensionPlugin
+class QWifiInterface : public QObject
 {
     Q_OBJECT
-    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface/1.0")
-
 public:
-    virtual void registerTypes(const char *uri)
-    {
-        Q_ASSERT(QLatin1String(uri) == QLatin1String("Qt.labs.wifi"));
+    explicit QWifiInterface(QObject *parent = 0)
+        : QObject(parent) {}
+    ~QWifiInterface() {}
 
-        qmlRegisterType<QWifiManager>(uri, 0, 1, "WifiManager");
-        qmlRegisterType<QWifiNetworkListModel>();
-        qmlRegisterSingletonType<QWifiInterface>(uri, 0, 1, "Interface", global_object_wifi);
-    }
+    Q_INVOKABLE bool wifiSupported() const;
 };
 
-#include "pluginmain.moc"
+#endif // QWIFIHELPERS_H
