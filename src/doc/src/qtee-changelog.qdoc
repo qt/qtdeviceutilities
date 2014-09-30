@@ -3,7 +3,7 @@
 ** Copyright (C) 2014 Digia Plc
 ** All rights reserved.
 ** For any questions to Digia, please use the contact form at
-** http://qt.digia.com/
+** http://www.qt.io
 **
 ** This file is part of Qt Enterprise Embedded.
 **
@@ -13,7 +13,7 @@
 ** a written agreement between you and Digia.
 **
 ** If you have questions regarding the use of this file, please use
-** the contact form at http://qt.digia.com/
+** the contact form at http://www.qt.io
 **
 ****************************************************************************/
 

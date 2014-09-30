@@ -3,7 +3,7 @@
 ** Copyright (C) 2014 Digia Plc
 ** All rights reserved.
 ** For any questions to Digia, please use the contact form at
-** http://qt.digia.com/
+** http://www.qt.io
 **
 ** This file is part of Qt Enterprise Embedded.
 **
@@ -13,7 +13,7 @@
 ** a written agreement between you and Digia.
 **
 ** If you have questions regarding the use of this file, please use
-** the contact form at http://qt.digia.com/
+** the contact form at http://www.qt.io
 **
 ****************************************************************************/
 
@@ -26,8 +26,8 @@
     \section1 Licensing
 
     \SDK is licensed under the Qt Enterprise commercial license. For more information,
-    see \l {http://qt.digia.com/licensing}. Evaluation licenses are also available,
-    see \l {product page}{\SDK} on qt.digia.com.
+    see \l {http://www.qt.io/licensing}. Evaluation licenses are also available,
+    see \l {product page}{\SDK} on www.qt.io.
 
     \section1 3rd Party Software Licenses
 

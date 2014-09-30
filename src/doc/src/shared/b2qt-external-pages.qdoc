@@ -3,7 +3,7 @@
 ** Copyright (C) 2014 Digia Plc
 ** All rights reserved.
 ** For any questions to Digia, please use the contact form at
-** http://qt.digia.com/
+** http://www.qt.io
 **
 ** This file is part of Qt Enterprise Embedded.
 **
@@ -13,17 +13,17 @@
 ** a written agreement between you and Digia.
 **
 ** If you have questions regarding the use of this file, please use
-** the contact form at http://qt.digia.com/
+** the contact form at http://www.qt.io
 **
 ****************************************************************************/
 
 /*!
-    \externalpage http://qt.digia.com/Product/Qt-Enterprise-Embedded/Supported-Modules-and-Known-Issues/
+    \externalpage http://www.qt.io/Product/Qt-Enterprise-Embedded/Supported-Modules-and-Known-Issues/
     \title Known Issues
 */
 
 /*!
-    \externalpage http://qt.digia.com/Product/Qt-Enterprise-Embedded/
+    \externalpage http://www.qt.io/Product/Qt-Enterprise-Embedded/
     \title product page
 */
 
@@ -33,27 +33,27 @@
 */
 
 /*!
-    \externalpage http://qt.digia.com/Product/Qt-Enterprise/Advanced-Data-Visualization/
+    \externalpage http://www.qt.io/qt-features
     \title Qt Data Visualization
 */
 
 /*!
-    \externalpage http://qt.digia.com/Product/Qt-Enterprise/Qt-Quick-Enterprise-Controls/
+    \externalpage http://www.qt.io/qt-features
     \title Qt Quick Enterprise Controls
 */
 
 /*!
-    \externalpage http://qt.digia.com/Product/Qt-Enterprise/Qt-Virtual-Keyboard/
+    \externalpage http://www.qt.io/qt-features
     \title Qt Virtual Keyboard
 */
 
 /*!
-    \externalpage http://qt.digia.com/Product/Qt-Enterprise/Charts/
+    \externalpage http://www.qt.io/qt-features
     \title Qt Charts
 */
 
 /*!
-    \externalpage http://qt.digia.com/Product/Qt-Enterprise/Qt-Quick-Compiler/
+    \externalpage http://www.qt.io/qt-features
     \title Qt Quick Compiler
 */
 
