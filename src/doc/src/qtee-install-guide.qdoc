@@ -26,8 +26,7 @@
     To successfully set up \SDK, you must closely follow the instructions in
     this section and perform all the described tasks.
 
-    In case of problems, see the \l{Troubleshooting} information and the
-    \l {Known Issues} in \SDK \l {product page}.
+    In case of problems, see \l{Troubleshooting}.
 
     \target Requirements for Development Host
     \section1 Requirements for Development Host

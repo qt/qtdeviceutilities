@@ -23,9 +23,6 @@
     \previouspage qtee-changelog.html
     \nextpage qtee-licenses.html
 
-    \note An updated version of this information may be available in Digia customer portal,
-    see \l {Known Issues} in \SDK \l {product page}.
-
     \section1 General Issues
 
     \section2 I have problems deploying/launching the application in Qt Creator
