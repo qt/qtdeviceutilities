@@ -41,6 +41,10 @@
     source licenses and notices are collected into the file
     \c {/etc/NOTICE.html.gz} in the target images.
 
+    \B2QA installs additional 3rd party software on top of standard Android images. The listing
+    of licensed files and corresponding license information are located in \c {/system/licenses}
+    directory in the target images.
+
     \section1 Embedded Linux Images
 
     The embedded Linux platform is built using tools from the \l {Yocto Project}.
