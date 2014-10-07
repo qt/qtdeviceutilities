@@ -62,11 +62,29 @@
 
     \section1 Booting to a Custom Application
 
-    After you have deployed your own application to the device, it will be
-    launched on boot, instead of the \B2Q demo launcher. To prevent this
-    behavior, remove or disable the \b {Make this application the default one}
-    step from the \b{Run Settings} for your project in the Qt Creator \b Projects
-    mode.
+    By default, the \e {\B2Q demo launcher} is configured to run on startup.
+
+    To have your application launch on boot:
+
+    \list
+        \li Go to \b Projects > \b {Run Settings}.
+        \li Under \b Deployment, click on \b {Add Deploy Step}, and select
+            \b {Make this application the default one}.
+        \li Re-deploy your project. In \b Edit mode, right-click on the
+            project and select \b Deploy, or simply click
+            \inlineimage qtcreator-run.png
+            (\b{Run}).
+    \endlist
+
+    Your application will now be launched on the next device reboot.
+
+    Alternatively, you can also use the following command:
+    \badcode
+    <INSTALL_DIR>/Tools/b2qt/adb shell appcontroller --make-default <path>
+    \endcode
+
+    Above, \c{<path>} is the install path of your application binary on the
+    device.
 
     To remove your application from the default startup, use the following
     command:
