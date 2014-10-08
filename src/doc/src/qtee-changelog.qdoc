@@ -23,6 +23,47 @@
     \previouspage qtee-customization.html
     \nextpage qtee-troubleshooting.html
 
+    \section1 \B2Q 3.2.0
+
+    \list
+        \li Release date: Oct 14, 2014
+    \endlist
+
+    \section2 Changes
+    \b {New Features}:
+    \list
+        \li \B2Q stack was updated to use Qt 5.3.2 on embedded Android
+            and Linux.
+        \li \l {Qt Quick Enterprise Controls} was updated to version 1.2.
+        \li \l {Qt Quick Compiler} was updated to version 1.1.
+        \li \l {Qt Virtual Keyboard} was update to version 1.2.
+    \endlist
+
+    \b {Improvements}:
+    \list
+        \li Fonts are now deployed as part of the build process of base images.
+        \li Deployed missing font to enable Hindi layout for virtual keyboard.
+        \li Reduced downloaded package sizes by stripping out debug symbols
+            from Qt host tools.
+        \li Deployed applications no longer \l{Booting to a Custom Application}
+            {launch automatically on reboot}, unless explicitly set.
+        \li Modified \e {Qt demo launcher} to use all available screen space
+            for flicking between applications.
+        \li Improved resolution of \e {Qt demo launcher} application preview
+            images.
+        \li Added an option in \e {Launcher Settings} to apply a \e {"Retro"}
+            style for the virtual keyboard.
+        \li Made the \e {Display FPS} option in \e {Launcher Settings}
+            persistent.
+        \li Updated the \e {Qt 5 Everywhere} demo.
+    \endlist
+
+    \b {Fixed Bugs}:
+    \list
+        \li Fixed Qt WebEngine demo freezing on embedded Android.
+
+    \endlist
+
     \section1 \B2Q 3.1.1
 
     \list
