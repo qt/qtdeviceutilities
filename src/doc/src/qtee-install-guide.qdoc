@@ -62,9 +62,9 @@
     download it from \l{https://www.virtualbox.org/wiki/Linux_Downloads} or
     install it via distribution tools.
 
-    If you have older Ubuntu versions such as 12.04 you have to install a newer
-    version of VirtualBox than your distribution does provide.
-    You have to add a foreign package source:
+    If you are running an older Ubuntu system such as 12.04, the version of
+    VirtualBox provided by the distribution is not recent enough. To install a
+    newer version, first add a foreign package source:
 
     \badcode
         wget -q http://download.virtualbox.org/virtualbox/debian/oracle_vbox.asc -O- | sudo apt-key add -
@@ -72,7 +72,7 @@
         sudo apt-get update
     \endcode
 
-    Now install VirtualBox on your computer
+    Then, install VirtualBox on your computer:
     \badcode
         sudo apt-get install virtualbox-4.3
     \endcode
