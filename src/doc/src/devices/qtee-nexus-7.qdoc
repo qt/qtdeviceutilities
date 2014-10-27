@@ -79,12 +79,12 @@
         \li \b{Nexus 7 (2013):}
         \badcode
             cd <INSTALL_DIR>
-            ./Boot2Qt-3.x/generic-X.Y-eAndroid/images/nexus7v2/deploy.sh
+            ./Boot2Qt-4.x/generic-X.Y-eAndroid/images/nexus7v2/deploy.sh
         \endcode
         \li \b{Nexus 7 (2012):}
         \badcode
             cd <INSTALL_DIR>
-            ./Boot2Qt-3.x/generic-X.Y-eAndroid/images/nexus7/deploy.sh
+            ./Boot2Qt-4.x/generic-X.Y-eAndroid/images/nexus7/deploy.sh
         \endcode
     \endlist
 

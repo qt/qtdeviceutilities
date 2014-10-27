@@ -50,7 +50,7 @@
 
     \badcode
         cd <INSTALL_DIR>
-        sudo Boot2Qt-3.x/beagleboard-eLinux/images/deploy.sh /dev/<device_name>
+        sudo Boot2Qt-4.x/beagleboard-eLinux/images/deploy.sh /dev/<device_name>
     \endcode
 
     After the image has been deployed, power on the device and check that

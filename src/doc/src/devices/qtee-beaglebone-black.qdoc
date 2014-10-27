@@ -76,12 +76,12 @@
         \li \b{\B2QA}
         \badcode
             cd <INSTALL_DIR>
-            ./Boot2Qt-3.x/generic-4.2-eAndroid/images/beaglebone/deploy.sh
+            ./Boot2Qt-4.x/generic-4.2-eAndroid/images/beaglebone/deploy.sh
         \endcode
         \li \b{\B2QL}
         \badcode
             cd <INSTALL_DIR>
-            sudo ./Boot2Qt-3.x/beaglebone-eLinux/images/deploy.sh /dev/<device_name>
+            sudo ./Boot2Qt-4.x/beaglebone-eLinux/images/deploy.sh /dev/<device_name>
         \endcode
     \endlist
 
