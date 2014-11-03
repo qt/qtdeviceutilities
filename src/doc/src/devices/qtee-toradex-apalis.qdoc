@@ -53,16 +53,27 @@
     \endcode
 
     By default, the Toradex Apalis iMX6 boots from its internal eMMC. In order to boot from
-    the external SD card, the U-Boot environment needs to be updated. Connect a serial cable
+    the external SD card, the U-Boot needs to be updated. Connect a serial cable
     to the device and enter into the U-Boot environment by pressing any key before the autoboot.
-    Enter following lines into U-Boot:
+    Enter following commands into U-Boot:
 
     \badcode
-        setenv bootcmd 'run sdboot ; echo sdboot failed ; run emmcboot ; echo ; echo emmcboot failed ; run nfsboot ; echo ; echo nfsboot failed ; usb start ;setenv stdout serial,vga ; setenv stdin serial,usbkbd'
-        setenv sdboot 'run setup; setenv bootargs ${defargs} ${sdargs} ${setupargs} ${vidargs};echo Booting from SD card in 4bit slot...; fatload mmc 2:1 10800000 uImage && bootm 10800000'
-        setenv sdargs 'ip=off root=/dev/mmcblk1p2 rw,noatime rootfstype=ext3 rootwait'
+        setenv drive 2
+        setenv setupdate 'fatload mmc ${drive}:1 ${loadaddr} flash_mmc.img; source'
+
+        run setupdate
+        run update_uboot
+    \endcode
+
+    Reset or power cycle the device to start the new U-Boot.
+    To reset the U-Boot environment to new default values, enter the following commands
+    in the U-Boot command line
+
+    \badcode
+        env default -a
         saveenv
     \endcode
+
 
     New U-Boot command are now stored into the device, and you can start \B2Q. For more information
     about the boot process on Toredex Apalis iMX6, see
