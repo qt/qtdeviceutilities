@@ -31,7 +31,7 @@
 
     \annotatedlist utils-qmltypes
 
-    \section1 WiFi Module
+    \section1 B2Qt Wifi Module
 
     \annotatedlist wifi-qmltypes
 */

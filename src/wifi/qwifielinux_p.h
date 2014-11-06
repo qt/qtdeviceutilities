@@ -19,9 +19,15 @@
 #ifndef LOCAL_WIFI_H
 #define LOCAL_WIFI_H
 
+#include <QtCore/QLoggingCategory>
+
 #include <string.h>
 
-// This API mirrors Android's Wi-Fi libraries interface [1] and implementation, excluding Android OS specific parts.
+QT_BEGIN_NAMESPACE
+
+Q_DECLARE_LOGGING_CATEGORY(B2QT_WIFI)
+
+// This API mirrors Android's Wi-Fi libraries interface [1] and parts of implementation.
 // [1] http://androidxref.com/4.4.2_r2/xref/hardware/libhardware_legacy/include/hardware_legacy/wifi.h
 
 int q_wifi_command(const char *ifname, const char *command, char *reply, size_t *reply_len);
@@ -30,5 +36,7 @@ int q_wifi_connect_to_supplicant(const char *ifname);
 void q_wifi_close_supplicant_connection(const char *ifname);
 int q_wifi_start_supplicant();
 int q_wifi_stop_supplicant();
+
+QT_END_NAMESPACE
 
 #endif // LOCAL_WIFI_H

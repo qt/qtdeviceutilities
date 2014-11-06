@@ -20,35 +20,38 @@
 #define QWIFINETWORKLISTMODEL_H
 
 #include <QtCore/QAbstractListModel>
+#include <QtCore/QVariant>
 #include <QtCore/QList>
+#include <QtCore/QHash>
+#include <QtCore/QLoggingCategory>
 
-#include "qwifinetwork.h"
+QT_BEGIN_NAMESPACE
 
-class QWifiManager;
+Q_DECLARE_LOGGING_CATEGORY(B2QT_WIFI)
+
+class QWifiNetwork;
 
 class QWifiNetworkListModel : public QAbstractListModel
 {
     Q_OBJECT
-
 public:
-
-    QWifiNetworkListModel(QWifiManager *manager);
-    ~QWifiNetworkListModel();
-
-    void parseScanResults(const QByteArray &data);
-
-    QWifiNetwork *networkForSSID(const QByteArray &ssid, int *pos);
-    QWifiNetwork *outOfRangeListContains(const QByteArray &ssid);
+    explicit QWifiNetworkListModel(QObject *parent = 0);
+    virtual ~QWifiNetworkListModel();
 
     int rowCount(const QModelIndex &) const { return m_networks.size(); }
     QVariant data(const QModelIndex &index, int role) const;
-
     QHash<int,QByteArray> roleNames() const;
 
+    void parseScanResults(const QString &data);
+    QWifiNetwork *networkForSSID(const QString &ssid);
+    QWifiNetwork *networkForSSID(const QString &ssid, int *pos);
+    QWifiNetwork *outOfRangeListContains(const QString &ssid);
+
 private:
-    QWifiManager *m_manager;
     QList<QWifiNetwork *> m_networks;
     QList<QWifiNetwork *> m_outOfRangeNetworks;
 };
+
+QT_END_NAMESPACE
 
 #endif // QWIFINETWORKLISTMODEL_H

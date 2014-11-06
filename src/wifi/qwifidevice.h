@@ -16,25 +16,29 @@
 ** the contact form at http://www.qt.io
 **
 ****************************************************************************/
-#ifndef QWIFIINTERFACE_H
-#define QWIFIINTERFACE_H
+#ifndef QWIFIDEVICE_H
+#define QWIFIDEVICE_H
 
-#include <QtCore/QDir>
-#include <QtCore/QDebug>
-#ifdef Q_OS_ANDROID
-#include <hardware_legacy/wifi.h>
-#include <cutils/properties.h>
-#endif
+#include <QtCore/QObject>
+#include <QtCore/QByteArray>
+#include <QtCore/QLoggingCategory>
 
-class QWifiInterface : public QObject
+QT_BEGIN_NAMESPACE
+
+Q_DECLARE_LOGGING_CATEGORY(B2QT_WIFI)
+
+class Q_DECL_EXPORT QWifiDevice : public QObject
 {
     Q_OBJECT
 public:
-    explicit QWifiInterface(QObject *parent = 0)
-        : QObject(parent) {}
-    ~QWifiInterface() {}
+    explicit QWifiDevice();
+    virtual ~QWifiDevice();
 
-    Q_INVOKABLE bool wifiSupported() const;
+    Q_INVOKABLE static bool wifiSupported();
+    static QByteArray wifiInterfaceName();
+    static void setWifiInterfaceName(const QByteArray &name);
 };
 
-#endif // QWIFIHELPERS_H
+QT_END_NAMESPACE
+
+#endif // QWIFIDEVICE_H

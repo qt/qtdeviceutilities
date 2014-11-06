@@ -1,5 +1,6 @@
 %modules = ( # path to module name map
-    "B2QtUtils" => "$basedir/src/utils"
+    "B2QtUtils" => "$basedir/src/utils",
+    "B2QtWifi" => "$basedir/src/wifi"
 );
 %moduleheaders = ( # restrict the module headers to those found in relative path
 );

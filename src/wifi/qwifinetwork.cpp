@@ -16,20 +16,24 @@
 ** the contact form at http://www.qt.io
 **
 ****************************************************************************/
-#include "qwifinetwork.h"
+#include "qwifinetwork_p.h"
+
+QT_BEGIN_NAMESPACE
 
 /*!
     \qmltype WifiNetwork
-    \inqmlmodule Qt.labs.wifi
+    \inqmlmodule QtWifi
     \ingroup wifi-qmltypes
     \brief Represents a single WiFi network access point.
 
-    Instances of WifiNetwork cannot be created directly from the QML system, use
-    WifiManager::networks.
+    WifiNetwork provides a various information about WiFi network, like network
+    name, siganl strength and supported security protocols. Instances of WifiNetwork cannot
+    be created directly from the QML system, see WifiManager::networks.
 */
 
 /*!
     \qmlproperty string WifiNetwork::bssid
+    \readonly
 
     This property holds basic service set identification of a network, used to uniquely
     identify BSS.
@@ -38,12 +42,14 @@
 
 /*!
     \qmlproperty string WifiNetwork::ssid
+    \readonly
 
     This property holds a network name. The SSID is the informal (human) name of BSS.
 */
 
 /*!
     \qmlproperty int WifiNetwork::signalStrength
+    \readonly
 
     This property holds the current strength of a WiFi signal, measured in dBm. New readings are
     taken every 5 seconds.
@@ -53,24 +59,28 @@
 
 /*!
     \qmlproperty bool WifiNetwork::supportsWPA
+    \readonly
 
     This property holds whether network access point supports WPA security protocol.
 */
 
 /*!
     \qmlproperty bool WifiNetwork::supportsWPA2
+    \readonly
 
     This property holds whether network access point supports WPA2 security protocol.
 */
 
 /*!
     \qmlproperty bool WifiNetwork::supportsWEP
+    \readonly
 
     This property holds whether network access point supports WEP security protocol.
 */
 
 /*!
     \qmlproperty bool WifiNetwork::supportsWPS
+    \readonly
 
     This property holds whether network access point supports WPS security protocol.
 */
@@ -83,22 +93,29 @@
 
 */
 
-QWifiNetwork::QWifiNetwork() :
-    m_outOfRange(false)
+QWifiNetwork::QWifiNetwork(QObject *parent)
+    : QObject(parent)
+    , m_isOutOfRange(false)
 {
+}
+
+QWifiNetwork::~QWifiNetwork()
+{
+}
+
+void QWifiNetwork::setSsid(const QString &ssid)
+{
+    m_ssid = ssid;
 }
 
 void QWifiNetwork::setSignalStrength(int strength)
 {
-    if (m_signalStrength == strength)
-        return;
     m_signalStrength = strength;
-    emit signalStrengthChanged(m_signalStrength);
 }
 
 void QWifiNetwork::setOutOfRange(bool outOfRange)
 {
-    if (m_outOfRange == outOfRange)
-        return;
-    m_outOfRange = outOfRange;
+    m_isOutOfRange = outOfRange;
 }
+
+QT_END_NAMESPACE

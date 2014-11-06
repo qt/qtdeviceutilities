@@ -16,9 +16,11 @@
 ** the contact form at http://www.qt.io
 **
 ****************************************************************************/
-#include "qwifi_elinux.h"
+#include "qwifielinux_p.h"
+#include "qwifidevice.h"
 
-#include <QtCore/QDebug>
+#include <QtCore/QFile>
+#include <QtCore/QProcess>
 
 #include "wpa-supplicant/wpa_ctrl.h"
 
@@ -26,18 +28,17 @@
 #include <unistd.h>
 #include <sys/socket.h>
 
-static const char SUPP_CONFIG_FILE[]    = "/etc/wpa_supplicant.conf";
-static const char IFACE_DIR[]           = "/var/run/wpa_supplicant/";
-static const char WIFI[]                = "wlan0";
+QT_BEGIN_NAMESPACE
+
+const char SUPP_CONFIG_FILE[] = "/etc/wpa_supplicant.conf";
+const char IFACE_DIR[] = "/var/run/wpa_supplicant/";
+const char WPA_EVENT_IGNORE[] = "CTRL-EVENT-IGNORE ";
 
 static struct wpa_ctrl *ctrl_conn;
 static struct wpa_ctrl *monitor_conn;
 // socket pair used to exit from a blocking read
 static int exit_sockets[2];
-
-static const char IFNAME[] = "IFNAME=";
-#define IFNAMELEN (sizeof(IFNAME) - 1)
-static const char WPA_EVENT_IGNORE[] = "CTRL-EVENT-IGNORE ";
+QByteArray ctrlInterface;
 
 int wifi_connect_on_socket_path(const char *path);
 int wifi_ctrl_recv(char *reply, size_t *reply_len);
@@ -47,30 +48,80 @@ void wifi_close_sockets();
 
 int q_wifi_start_supplicant()
 {
-    // NOTE: supplicant started when bringing up the wifi interface in
-    // QWifiManager::connectToBackend() by:
-    // QProcess::execute(QStringLiteral("ifup")
+    // #### TODO - if "/etc/wpa_supplicant/driver.$IFACE" exists, read driver name from there
+    QByteArray ifc = QWifiDevice::wifiInterfaceName();
+    QString driver(QStringLiteral("wext"));
+    QString pidFile = QLatin1String("/var/run/wpa_supplicant." + ifc + ".pid");
 
-    /* Clear out any stale socket files that might be left over. */
-    //wpa_ctrl_cleanup();
-    /* Reset sockets used for exiting from hung state */
+    QStringList arg;
+    arg << QStringLiteral("--start") << QStringLiteral("--quiet") << QStringLiteral("--name");
+    arg << QStringLiteral("wpa_supplicant") << QStringLiteral("--startas");
+    arg << QStringLiteral("/usr/sbin/wpa_supplicant") << QStringLiteral("--pidfile") << pidFile;
+    arg << QStringLiteral("--") << QStringLiteral("-B") << QStringLiteral("-P") << pidFile;
+    arg << QStringLiteral("-i") << QLatin1String(ifc) << QStringLiteral("-c");
+    arg << QLatin1String(SUPP_CONFIG_FILE) << QStringLiteral("-D") << driver;
+
+    QProcess ssDaemon;
+    ssDaemon.start(QStringLiteral("start-stop-daemon"), arg);
+    ssDaemon.waitForFinished();
+    if (ssDaemon.exitStatus() != QProcess::NormalExit && ssDaemon.exitCode() != 0) {
+        qCWarning(B2QT_WIFI) << "failed to start a supplicant process!";
+        return -1;
+    }
+
+    QFile configFile;
+    configFile.setFileName(QLatin1String(SUPP_CONFIG_FILE));
+    if (configFile.exists() && configFile.open(QFile::ReadOnly)) {
+        ctrlInterface.clear();
+        while (!configFile.atEnd()) {
+            QByteArray line = configFile.readLine().trimmed();
+            if (line.startsWith("ctrl_interface")) {
+                ctrlInterface = line.mid(16);
+                break;
+            }
+        }
+        configFile.close();
+        if (!ctrlInterface.isEmpty()) {
+            // if the interface socket exists, then wpa_supplicant was invoked successfully
+            if (!QFile(QLatin1String(ctrlInterface + "/" + ifc)).exists())
+                return -1;
+        } else {
+            qCWarning(B2QT_WIFI) << "ctrl_interface is not set in " << SUPP_CONFIG_FILE;
+            return -1;
+        }
+    } else {
+        qCWarning(B2QT_WIFI) << "could not find/read wpa_supplicant configuration file in" << SUPP_CONFIG_FILE;
+        return -1;
+    }
+    // reset sockets used for exiting from hung state
     exit_sockets[0] = exit_sockets[1] = -1;
     return 0;
 }
 
 int q_wifi_stop_supplicant()
 {
-    // NOTE: supplicant stopped when bringing down the wifi
-    // interface in QWifiManager::disconnectFromBackend() by:
-    // QProcess::execute(QStringLiteral("ifdown")
+    QByteArray ifc = QWifiDevice::wifiInterfaceName();
+    QString pidFile = QLatin1String("/var/run/wpa_supplicant." + ifc + ".pid");
+    QStringList arg;
+    arg << QStringLiteral("--stop") << QStringLiteral("--quiet") << QStringLiteral("--name");
+    arg << QStringLiteral("wpa_supplicant") << QStringLiteral("--pidfile") << pidFile;
+    QProcess ssDaemon;
+    ssDaemon.start(QStringLiteral("start-stop-daemon"), arg);
+    ssDaemon.waitForFinished();
+    if (ssDaemon.exitStatus() != QProcess::NormalExit && ssDaemon.exitCode() != 0) {
+        qCWarning(B2QT_WIFI) << "failed to stop a supplicant process!";
+        return -1;
+    }
+
+    QFile::remove(QLatin1String(ctrlInterface + "/" + ifc));
+    QFile::remove(pidFile);
     return 0;
 }
 
 int q_wifi_connect_to_supplicant(const char *ifname)
 {
-    Q_UNUSED(ifname);
     static char path[4096];
-    snprintf(path, sizeof(path), "%s/%s", IFACE_DIR, WIFI);
+    snprintf(path, sizeof(path), "%s/%s", IFACE_DIR, ifname);
     return wifi_connect_on_socket_path(path);
 }
 
@@ -79,8 +130,8 @@ int wifi_connect_on_socket_path(const char *path)
     // establishes the control and monitor socket connections on the interface
     ctrl_conn = wpa_ctrl_open(path);
     if (ctrl_conn == NULL) {
-        qWarning("Unable to open connection to supplicant on \"%s\": %s",
-             path, strerror(errno));
+        qCWarning(B2QT_WIFI, "Unable to open connection to supplicant on \"%s\": %s",
+                  path, strerror(errno));
         return -1;
     }
     monitor_conn = wpa_ctrl_open(path);
@@ -130,14 +181,14 @@ int wifi_wait_on_socket(char *buf, size_t buflen)
     }
 
     if (result < 0) {
-        qWarning("wifi_ctrl_recv failed: %s\n", strerror(errno));
+        qCWarning(B2QT_WIFI, "wifi_ctrl_recv failed: %s", strerror(errno));
         return snprintf(buf, buflen, WPA_EVENT_TERMINATING " - recv error");
     }
     buf[nread] = '\0';
     /* Check for EOF on the socket */
     if (result == 0 && nread == 0) {
         /* Fabricate an event to pass up */
-        qWarning("Received EOF on supplicant socket\n");
+        qCWarning(B2QT_WIFI, "Received EOF on supplicant socket");
         return snprintf(buf, buflen, WPA_EVENT_TERMINATING " - signal 0 received");
     }
     /*
@@ -152,7 +203,7 @@ int wifi_wait_on_socket(char *buf, size_t buflen)
      * to us, so strip it off.
      */
 
-    if (strncmp(buf, IFNAME, IFNAMELEN) == 0) {
+    if (strncmp(buf, "IFNAME=", (sizeof("IFNAME=") - 1)) == 0) {
         match = strchr(buf, ' ');
         if (match != NULL) {
             if (match[1] == '<') {
@@ -170,11 +221,11 @@ int wifi_wait_on_socket(char *buf, size_t buflen)
         if (match != NULL) {
             nread -= (match + 1 - buf);
             memmove(buf, match + 1, nread + 1);
-            //qWarning("supplicant generated event without interface - %s\n", buf);
+            //qCWarning(B2QT_WIFI, "supplicant generated event without interface - %s", buf);
         }
     } else {
         /* let the event go as is! */
-        qWarning("supplicant generated event without interface and without message level - %s\n", buf);
+        qCWarning(B2QT_WIFI, "supplicant generated event without interface and without message level - %s", buf);
     }
 
     return nread;
@@ -193,7 +244,7 @@ int wifi_ctrl_recv(char *reply, size_t *reply_len)
     rfds[1].events |= POLLIN;
     res = TEMP_FAILURE_RETRY(poll(rfds, 2, -1));
     if (res < 0) {
-        qWarning("Error poll = %d", res);
+        qCWarning(B2QT_WIFI, "Error poll = %d", res);
         return res;
     }
     if (rfds[0].revents & POLLIN) {
@@ -210,12 +261,12 @@ int wifi_send_command(const char *cmd, char *reply, size_t *reply_len)
 {
     int ret;
     if (ctrl_conn == NULL) {
-        qWarning("Not connected to wpa_supplicant - \"%s\" command dropped.\n", cmd);
+        qCWarning(B2QT_WIFI, "Not connected to wpa_supplicant - \"%s\" command dropped.", cmd);
         return -1;
     }
     ret = wpa_ctrl_request(ctrl_conn, cmd, strlen(cmd), reply, reply_len, NULL);
     if (ret == -2) {
-        qWarning("'%s' command timed out.\n", cmd);
+        qCWarning(B2QT_WIFI, "'%s' command timed out.", cmd);
         /* unblocks the monitor receive socket for termination */
         TEMP_FAILURE_RETRY(write(exit_sockets[0], "T", 1));
         return -2;
@@ -262,3 +313,5 @@ void wifi_close_sockets()
         exit_sockets[1] = -1;
     }
 }
+
+QT_END_NAMESPACE

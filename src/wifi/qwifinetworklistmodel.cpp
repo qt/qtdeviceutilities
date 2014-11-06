@@ -16,14 +16,19 @@
 ** the contact form at http://www.qt.io
 **
 ****************************************************************************/
-#include "qwifinetworklistmodel.h"
+#include "qwifinetworklistmodel_p.h"
+#include "qwifinetwork_p.h"
 
-#include <QtCore>
+#include "qwifimanager.h"
 
-const int ID_NETWORK = (Qt::ItemDataRole) (Qt::UserRole + 1);
+#include <QtCore/QSet>
+#include <QtCore/QString>
+#include <QtCore/QByteArray>
 
-QWifiNetworkListModel::QWifiNetworkListModel(QWifiManager *manager)
-    : m_manager(manager)
+QT_BEGIN_NAMESPACE
+
+QWifiNetworkListModel::QWifiNetworkListModel(QObject *parent)
+    : QAbstractListModel(parent)
 {
 }
 
@@ -38,23 +43,56 @@ QWifiNetworkListModel::~QWifiNetworkListModel()
 QHash<int, QByteArray> QWifiNetworkListModel::roleNames() const
 {
     QHash<int, QByteArray> names;
-    names.insert(ID_NETWORK, "network");
+    names.insert(QWifiManager::SSIDRole, "ssid");
+    names.insert(QWifiManager::BSSIDRole, "bssid");
+    names.insert(QWifiManager::SignalRole, "signalStrength");
+    names.insert(QWifiManager::WPARole, "supportsWPA");
+    names.insert(QWifiManager::WPA2Role, "supportsWPA2");
+    names.insert(QWifiManager::WEPRole, "supportsWEP");
+    names.insert(QWifiManager::WPSRole, "supportsWPS");
     return names;
 }
 
 QVariant QWifiNetworkListModel::data(const QModelIndex &index, int role) const
 {
     QWifiNetwork *n = m_networks.at(index.row());
-    switch (role) {
-        case ID_NETWORK: return QVariant::fromValue((QObject *) n);
-    }
 
-    qWarning("QWifiNetworkListModel::data(), undefined role: %d\n", role);
+    switch (role) {
+    case QWifiManager::SSIDRole:
+        return n->ssid();
+        break;
+    case QWifiManager::BSSIDRole:
+        return n->bssid();
+        break;
+    case QWifiManager::SignalRole:
+        return n->signalStrength();
+        break;
+    case QWifiManager::WPARole:
+        return n->supportsWPA();
+        break;
+    case QWifiManager::WPA2Role:
+        return n->supportsWPA2();
+        break;
+    case QWifiManager::WEPRole:
+        return n->supportsWEP();
+        break;
+    case QWifiManager::WPSRole:
+        return n->supportsWPS();
+        break;
+    default:
+        break;
+    }
 
     return QVariant();
 }
 
-QWifiNetwork *QWifiNetworkListModel::networkForSSID(const QByteArray &ssid, int *pos)
+QWifiNetwork *QWifiNetworkListModel::networkForSSID(const QString &ssid)
+{
+    int pos = 0; // unused
+    return networkForSSID(ssid, &pos);
+}
+
+QWifiNetwork *QWifiNetworkListModel::networkForSSID(const QString &ssid, int *pos)
 {
     for (int i = 0; i < m_networks.size(); ++i) {
         if (m_networks.at(i)->ssid() == ssid) {
@@ -66,7 +104,7 @@ QWifiNetwork *QWifiNetworkListModel::networkForSSID(const QByteArray &ssid, int 
     return 0;
 }
 
-QWifiNetwork *QWifiNetworkListModel::outOfRangeListContains(const QByteArray &ssid)
+QWifiNetwork *QWifiNetworkListModel::outOfRangeListContains(const QString &ssid)
 {
     for (int i = 0; i < m_outOfRangeNetworks.length(); ++i)
         if (m_outOfRangeNetworks.at(i)->ssid() == ssid)
@@ -74,20 +112,22 @@ QWifiNetwork *QWifiNetworkListModel::outOfRangeListContains(const QByteArray &ss
     return 0;
 }
 
-void QWifiNetworkListModel::parseScanResults(const QByteArray &results)
+void QWifiNetworkListModel::parseScanResults(const QString &results)
 {
-    QList<QByteArray> lines = results.split('\n');
-    QSet<QByteArray> sensibleNetworks;
+    QStringList lines = results.split('\n');
+    QSet<QString> sensibleNetworks;
 
     for (int i = 1; i < lines.size(); ++i) {
-        QList<QByteArray> info = lines.at(i).split('\t');
+        QStringList info = lines.at(i).split('\t');
         if (info.size() < 5 || info.at(4).isEmpty() || info.at(0).isEmpty())
             continue;
         int pos = 0;
-        sensibleNetworks.insert(info.at(4));
-        QWifiNetwork *knownNetwork = networkForSSID(info.at(4), &pos);
+
+        QString ssid = info.at(4);
+        sensibleNetworks.insert(ssid);
+        QWifiNetwork *knownNetwork = networkForSSID(ssid, &pos);
         if (!knownNetwork)
-            knownNetwork = outOfRangeListContains(info.at(4));
+            knownNetwork = outOfRangeListContains(ssid);
         // signal strength is in dBm. Deprecated, but still widely used "wext"
         // wifi driver reports positive values for signal strength, we workaround that.
         int signalStrength = qAbs(info.at(2).trimmed().toInt()) * -1;
@@ -97,12 +137,12 @@ void QWifiNetworkListModel::parseScanResults(const QByteArray &results)
             network->setBssid(info.at(0));
             network->setFlags(info.at(3));
             network->setSignalStrength(signalStrength);
-            network->setSsid(info.at(4));
+            network->setSsid(ssid);
             beginInsertRows(QModelIndex(), m_networks.size(), m_networks.size());
             m_networks << network;
             endInsertRows();
         } else {
-            if (knownNetwork->outOfRange()) {
+            if (knownNetwork->isOutOfRange()) {
                 // known network has come back into a range
                 knownNetwork->setOutOfRange(false);
                 beginInsertRows(QModelIndex(), m_networks.size(), m_networks.size());
@@ -122,7 +162,7 @@ void QWifiNetworkListModel::parseScanResults(const QByteArray &results)
                 m_networks.at(pos)->setBssid(info.at(0));
                 m_networks.at(pos)->setFlags(info.at(3));
                 m_networks.at(pos)->setSignalStrength(signalStrength);
-                m_networks.at(pos)->setSsid(info.at(4));
+                m_networks.at(pos)->setSsid(ssid);
                 dataChanged(createIndex(pos, 0), createIndex(pos, 0));
             }
         }
@@ -140,3 +180,5 @@ void QWifiNetworkListModel::parseScanResults(const QByteArray &results)
         }
     }
 }
+
+QT_END_NAMESPACE

@@ -16,15 +16,22 @@
 ** the contact form at http://www.qt.io
 **
 ****************************************************************************/
-#include "qwifimanager.h"
-#include "qwifiinterface.h"
+#include <B2QtWifi/QWifiManager>
+#include <B2QtWifi/QWifiDevice>
+#include <B2QtWifi/QWifiConfiguration>
 
-#include <QtQml/QQmlExtensionPlugin>
-#include <QtQml/qqml.h>
+#include <QtQml>
 
-static QObject *global_object_wifi(QQmlEngine *, QJSEngine *)
+QT_BEGIN_NAMESPACE
+
+static QObject *globalWifiDevice(QQmlEngine *, QJSEngine *)
 {
-    return new QWifiInterface;
+    return new QWifiDevice;
+}
+
+static QObject *globalWifiManager(QQmlEngine *, QJSEngine *)
+{
+    return QWifiManager::instance();
 }
 
 class QWifiPlugin : public QQmlExtensionPlugin
@@ -35,12 +42,15 @@ class QWifiPlugin : public QQmlExtensionPlugin
 public:
     virtual void registerTypes(const char *uri)
     {
-        Q_ASSERT(QLatin1String(uri) == QLatin1String("Qt.labs.wifi"));
+        Q_ASSERT(QLatin1String(uri) == QLatin1String("B2Qt.Wifi"));
 
-        qmlRegisterType<QWifiManager>(uri, 0, 1, "WifiManager");
-        qmlRegisterType<QWifiNetworkListModel>();
-        qmlRegisterSingletonType<QWifiInterface>(uri, 0, 1, "Interface", global_object_wifi);
+        qmlRegisterType<QAbstractListModel>();
+        qmlRegisterSingletonType<QWifiManager>(uri, 1, 0, "WifiManager", globalWifiManager);
+        qmlRegisterSingletonType<QWifiDevice>(uri, 1, 0, "WifiDevice", globalWifiDevice);
+        qmlRegisterType<QWifiConfiguration>(uri, 1, 0, "WifiConfiguration");
     }
 };
+
+QT_END_NAMESPACE
 
 #include "pluginmain.moc"
