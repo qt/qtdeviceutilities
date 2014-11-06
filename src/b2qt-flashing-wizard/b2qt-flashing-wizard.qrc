@@ -1,0 +1,18 @@
+<RCC>
+    <qresource>
+        <file>logo.png</file>
+        <file>background.png</file>
+        <file>watermark.png</file>
+        <file>data/apalis-imx6-eLinux.progress</file>
+        <file>data/beaglebone-4.2-eAndroid.progress</file>
+        <file>data/beaglebone-eLinux.progress</file>
+        <file>data/iMX6-4.2-eAndroid.progress</file>
+        <file>data/iMX6-eLinux.progress</file>
+        <file>data/imx6qsabresd-eLinux.progress</file>
+        <file>data/nexus7-4.4-eAndroid-adb.progress</file>
+        <file>data/nexus7-4.4-eAndroid-fastboot.progress</file>
+        <file>data/nexus7v2-4.4-eAndroid-adb.progress</file>
+        <file>data/nexus7v2-4.4-eAndroid-fastboot.progress</file>
+        <file>data/raspberrypi-eLinux.progress</file>
+    </qresource>
+</RCC>
