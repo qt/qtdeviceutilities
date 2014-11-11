@@ -31,3 +31,5 @@ HEADERS += \
           scriptwriter.h \
 
 RESOURCES += b2qt-flashing-wizard.qrc
+INSTALLS += target
+target.path = /bin
