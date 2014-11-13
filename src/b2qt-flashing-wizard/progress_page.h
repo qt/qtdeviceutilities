@@ -24,6 +24,7 @@
 class QLabel;
 class Actor;
 class QTextEdit;
+class QPushButton;
 
 class ProgressPage : public QWizardPage
 {
@@ -39,12 +40,16 @@ public slots:
     void progress(const QString &step);
     void finished();
     void addDetails(QByteArray newData);
+    void toggleDetails();
+    void copyDetailsToClipboard();
 
 private:
     QLabel *mProgress;
     Actor *mActor;
     bool mFinished;
     QTextEdit *mTextEdit;
+    QPushButton *mToggleDetailsButton;
+    QPushButton *mCopyToClipboardButton;
 };
 
 #endif // PROGRESS_PAGE_H

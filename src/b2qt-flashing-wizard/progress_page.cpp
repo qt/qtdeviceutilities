@@ -19,6 +19,8 @@
 
 #include "progress_page.h"
 #include "actor.h"
+#include <QApplication>
+#include <QClipboard>
 #include <QDebug>
 #include <QLabel>
 #include <QLayout>
@@ -32,19 +34,25 @@ ProgressPage::ProgressPage(QWidget *parent)
     , mActor(0)
     , mFinished(false)
     , mTextEdit(new QTextEdit(this))
+    , mToggleDetailsButton(new QPushButton(this))
+    , mCopyToClipboardButton(new QPushButton(this))
 {
     setTitle("Disk creation");
     setSubTitle("Progress of writing the disk");
     setLayout(new QVBoxLayout(this));
     mProgress->setText(tr("Starting"));
     layout()->addWidget(mProgress);
-    QPushButton *button = new QPushButton(this);
-    button->setText("Show details");
-    layout()->addWidget(button);
+    mToggleDetailsButton->setText("Show details");
+    layout()->addWidget(mToggleDetailsButton);
     layout()->addWidget(mTextEdit);
-    QPushButton *copy = new QPushButton(this);
-    copy->setText("Copy to clipboard");
-    layout()->addWidget(copy);
+    mCopyToClipboardButton->setText("Copy to clipboard");
+    layout()->addWidget(mCopyToClipboardButton);
+
+    mTextEdit->hide();
+    mCopyToClipboardButton->hide();
+
+    connect(mToggleDetailsButton, &QPushButton::clicked, this, &ProgressPage::toggleDetails);
+    connect(mCopyToClipboardButton, &QPushButton::clicked, this, &ProgressPage::copyDetailsToClipboard);
 }
 
 ProgressPage::~ProgressPage()
@@ -87,4 +95,22 @@ void ProgressPage::addDetails(QByteArray newData)
 {
     newData.replace(0x08 /* backspace */, ' ');
     mTextEdit->append(QString::fromLocal8Bit(newData));
+}
+
+void ProgressPage::toggleDetails()
+{
+    if (mTextEdit->isHidden()) {
+        mTextEdit->show();
+        mCopyToClipboardButton->show();
+        mToggleDetailsButton->setText("Hide details");
+    } else {
+        mTextEdit->hide();
+        mCopyToClipboardButton->hide();
+        mToggleDetailsButton->setText("Show details");
+    }
+}
+
+void ProgressPage::copyDetailsToClipboard()
+{
+    QApplication::clipboard()->setText(mTextEdit->toPlainText());
 }
