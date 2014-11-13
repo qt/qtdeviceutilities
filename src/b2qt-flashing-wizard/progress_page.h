@@ -21,7 +21,7 @@
 #define PROGRESS_PAGE_H
 
 #include <QWizardPage>
-class QProgressBar;
+class QLabel;
 class Actor;
 class QTextEdit;
 
@@ -36,20 +36,15 @@ public:
     void setActor(Actor *actor);
 
 public slots:
-    void progress(unsigned int, unsigned int, unsigned int);
+    void progress(const QString &step);
     void finished();
     void addDetails(QByteArray newData);
 
-private slots:
-    void progressTimeout();
-
 private:
-    QProgressBar* mProgress;
+    QLabel *mProgress;
     Actor *mActor;
     bool mFinished;
     QTextEdit *mTextEdit;
-    int mNextProgress;
-    QTimer *mTimer;
 };
 
 #endif // PROGRESS_PAGE_H

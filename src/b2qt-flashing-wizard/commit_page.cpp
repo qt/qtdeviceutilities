@@ -86,47 +86,36 @@ void CommitPage::initializePage()
         i->setScriptFile(G_SDKDIR + G_version + "/" + G_platform + "-" + G_os + "/images/" + G_board + "/deploy.sh");
         i->setAdditionalArgs(QStringList() << G_device << "--verbose");
         i->setEnvironment("VERBOSE","1");
-        i->setProgressFile(":data/iMX6-4.2-eAndroid.progress");
         mActor = i;
     } else if (G_platform == "iMX6" && G_os == "eLinux") {
         ScriptWriter *i = new ScriptWriter(this);
         i->setScriptFile(G_SDKDIR + G_version + "/" + G_platform + "-" + G_os + "/images/deploy.sh");
         i->setAdditionalArgs(QStringList() << G_device << "--verbose");
         i->setEnvironment("VERBOSE","1");
-        i->setProgressFile(":data/iMX6-eLinux.progress");
         mActor = i;
     } else if (G_platform == "beaglebone" && G_os == "eLinux") {
         ScriptWriter *i = new ScriptWriter(this);
         i->setScriptFile(G_SDKDIR + G_version + "/" + G_platform + "-" + G_os + "/images/deploy.sh");
         i->setAdditionalArgs(QStringList() << G_device << "--verbose");
-        i->setProgressFile("/tmp/foo");
         i->setEnvironment("VERBOSE","1");
-        i->setProgressFile(":data/beaglebone-eLinux.progress");
         mActor = i;
     } else if (G_platform == "generic-4.4" && G_os == "eAndroid" && G_board == "beaglebone") {
         ScriptWriter *i = new ScriptWriter(this);
         i->setScriptFile(G_SDKDIR + G_version + "/" + G_platform + "-" + G_os + "/images/" + G_board + "/deploy.sh");
         i->setAdditionalArgs(QStringList() << G_device << "--verbose");
         i->setEnvironment("VERBOSE","1");
-        i->setProgressFile(":data/beaglebone-4.2-eAndroid.progress");
         mActor = i;
     } else if (G_platform == "generic-4.4" && G_os == "eAndroid" && G_board == "nexus7v2") {
         ScriptWriter *i = new ScriptWriter(this);
         i->setScriptFile(G_SDKDIR + G_version + "/" + G_platform + "-" + G_os + "/images/" + G_board + "/deploy.sh");
-        if (G_mode == "fastboot") {
-            i->setProgressFile(":data/nexus7v2-4.4-eAndroid-fastboot.progress");
+        if (G_mode == "fastboot")
             i->setAdditionalArgs(QStringList() << "-fastboot");
-        } else
-            i->setProgressFile(":data/nexus7v2-4.4-eAndroid-adb.progress");
         mActor = i;
     } else if (G_platform == "generic-4.4" && G_os == "eAndroid" && G_board == "nexus7") {
         ScriptWriter *i = new ScriptWriter(this);
         i->setScriptFile(G_SDKDIR + G_version + "/" + G_platform + "-" + G_os + "/images/" + G_board + "/deploy.sh");
-        if (G_mode == "fastboot") {
+        if (G_mode == "fastboot")
             i->setAdditionalArgs(QStringList() << "-fastboot");
-            i->setProgressFile(":data/nexus7-4.4-eAndroid-fastboot.progress");
-        } else
-            i->setProgressFile(":data/nexus7-4.4-eAndroid-adb.progress");
         mActor = i;
     } else if (G_platform == "generic-4.2" && G_os == "eAndroid" && G_board == "nexus7") {
         ScriptWriter *i = new ScriptWriter(this);
@@ -139,21 +128,18 @@ void CommitPage::initializePage()
         i->setScriptFile(G_SDKDIR + G_version + "/" + G_platform + "-" + G_os + "/images/deploy.sh");
         i->setAdditionalArgs(QStringList() << G_device << "--verbose");
         i->setEnvironment("VERBOSE","1");
-        i->setProgressFile(":data/raspberrypi-eLinux.progress");
         mActor = i;
     } else if (G_platform == "imx6qsabresd" && G_os == "eLinux") {
         ScriptWriter *i = new ScriptWriter(this);
         i->setScriptFile(G_SDKDIR + G_version + "/" + G_platform + "-" + G_os + "/images/deploy.sh");
         i->setAdditionalArgs(QStringList() << G_device << "--verbose");
         i->setEnvironment("VERBOSE","1");
-        i->setProgressFile(":data/imx6qsabresd-eLinux.progress");
         mActor = i;
     } else if (G_platform == "apalis-imx6" && G_os == "eLinux") {
         ScriptWriter *i = new ScriptWriter(this);
         i->setScriptFile(G_SDKDIR + G_version + "/" + G_platform + "-" + G_os + "/images/deploy.sh");
         i->setAdditionalArgs(QStringList() << G_device << "--verbose");
         i->setEnvironment("VERBOSE","1");
-        i->setProgressFile(":data/apalis-imx6-eLinux.progress");
         mActor = i;
     } else {
         mError->setText("Unsupported platform combination");

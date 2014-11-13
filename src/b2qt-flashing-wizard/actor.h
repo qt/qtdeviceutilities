@@ -33,7 +33,7 @@ public:
     virtual void start() = 0;
 
 signals:
-    void progress(unsigned int percent, unsigned int nextProgress, unsigned int milliseconds);
+    void progress(const QString &step);
     void finished();
     void details(const QByteArray &);
 };

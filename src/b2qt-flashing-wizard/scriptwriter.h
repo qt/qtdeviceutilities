@@ -32,7 +32,6 @@ public:
     ScriptWriter(QObject *parent);
     virtual ~ScriptWriter();
     void setScriptFile(const QString &fileName);
-    void setProgressFile(const QString &fileName);
     bool ready(QString &) const;
     void start();
     void setEnvironment(const QString &key, const QString &value);
@@ -44,11 +43,8 @@ private slots:
     void processError(QProcess::ProcessError);
 
 private:
-    QList<QPair<bool,qint32> > mTimings;
     QString mScriptName;
     QProcess mProcess;
-    qint32 mLastProgress;
-    QElapsedTimer *mElapsed;
     QStringList mAdditionalArgs;
     bool mDebug;
 };

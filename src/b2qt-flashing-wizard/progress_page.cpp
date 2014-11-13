@@ -20,7 +20,7 @@
 #include "progress_page.h"
 #include "actor.h"
 #include <QDebug>
-#include <QProgressBar>
+#include <QLabel>
 #include <QLayout>
 #include <QPushButton>
 #include <QTextEdit>
@@ -28,19 +28,16 @@
 
 ProgressPage::ProgressPage(QWidget *parent)
     : QWizardPage(parent)
-    , mProgress(new QProgressBar(this))
+    , mProgress(new QLabel(this))
     , mActor(0)
     , mFinished(false)
     , mTextEdit(new QTextEdit(this))
-    , mNextProgress(0)
-    , mTimer(new QTimer(this))
 {
     setTitle("Disk creation");
     setSubTitle("Progress of writing the disk");
     setLayout(new QVBoxLayout(this));
+    mProgress->setText(tr("Starting"));
     layout()->addWidget(mProgress);
-    mProgress->setMaximum(0);
-    mProgress->setMinimum(0);
     QPushButton *button = new QPushButton(this);
     button->setText("Show details");
     layout()->addWidget(button);
@@ -48,8 +45,6 @@ ProgressPage::ProgressPage(QWidget *parent)
     QPushButton *copy = new QPushButton(this);
     copy->setText("Copy to clipboard");
     layout()->addWidget(copy);
-
-    connect(mTimer, &QTimer::timeout, this, &ProgressPage::progressTimeout);
 }
 
 ProgressPage::~ProgressPage()
@@ -63,42 +58,17 @@ bool ProgressPage::isComplete() const
 
 void ProgressPage::initializePage()
 {
-    qDebug() << Q_FUNC_INFO;
     Q_ASSERT(mActor);
     mActor->start();
 }
 
-void ProgressPage::progressTimeout()
+void ProgressPage::progress(const QString &step)
 {
-    int value = mProgress->value();
-    ++value;
-    if (value > mNextProgress)
-        value = mNextProgress;
-
-    mProgress->setValue(value);
-}
-
-void ProgressPage::progress(unsigned int progress, unsigned int nextProgress, unsigned int milliseconds)
-{
-    if (nextProgress < progress)
-        qFatal("Error");
-
-    mNextProgress = nextProgress;
-    mProgress->setMaximum(100);
-
-    if (milliseconds && nextProgress != progress) {
-        mTimer->setInterval(milliseconds / (nextProgress-progress));
-        mTimer->start();
-    } else
-        mTimer->stop();
-
-    qDebug() << "progress" << progress;
-    mProgress->setValue(progress);
+    mProgress->setText(step);
 }
 
 void ProgressPage::finished()
 {
-    qDebug() << Q_FUNC_INFO;
     mFinished = true;
     emit completeChanged();
     wizard()->next(); // progress to next page automatically
@@ -108,9 +78,9 @@ void ProgressPage::setActor(Actor *actor)
 {
     Q_ASSERT(actor);
     mActor = actor;
-    connect(actor, &Actor::progress, this, &ProgressPage::progress);
     connect(actor, &Actor::finished, this, &ProgressPage::finished);
     connect(actor, &Actor::details, this, &ProgressPage::addDetails);
+    connect(actor, &Actor::progress, this, &ProgressPage::progress);
 }
 
 void ProgressPage::addDetails(QByteArray newData)
