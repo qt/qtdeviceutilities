@@ -18,6 +18,16 @@
 ****************************************************************************/
 
 /*!
+    \externalpage http://doc.qt.io/
+    \title Qt reference documentation
+*/
+
+/*!
+    \externalpage http://doc.qt.io/qt-5/android-support.html
+    \title Qt for Android
+*/
+
+/*!
     \externalpage http://www.qt.io/qt-for-device-creation/
     \title product page
 */
@@ -55,4 +65,9 @@
 /*!
     \externalpage https://www.yoctoproject.org/
     \title Yocto Project
+*/
+
+/*!
+    \externalpage http://blog.qt.digia.com/blog/2014/07/04/making-an-android-device-boot-to-qt/
+    \title Android Injection
 */
