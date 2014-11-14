@@ -35,6 +35,7 @@ public:
 signals:
     void progress(const QString &step);
     void finished();
+    void failed(const QString &message);
     void details(const QByteArray &);
 };
 

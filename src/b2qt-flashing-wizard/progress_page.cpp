@@ -82,11 +82,19 @@ void ProgressPage::finished()
     wizard()->next(); // progress to next page automatically
 }
 
+void ProgressPage::failed(const QString &message)
+{
+    mFinished = false;
+    emit completeChanged();
+    mProgress->setText(message);
+}
+
 void ProgressPage::setActor(Actor *actor)
 {
     Q_ASSERT(actor);
     mActor = actor;
     connect(actor, &Actor::finished, this, &ProgressPage::finished);
+    connect(actor, &Actor::failed, this, &ProgressPage::failed);
     connect(actor, &Actor::details, this, &ProgressPage::addDetails);
     connect(actor, &Actor::progress, this, &ProgressPage::progress);
 }

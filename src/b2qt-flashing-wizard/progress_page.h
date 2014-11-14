@@ -39,6 +39,7 @@ public:
 public slots:
     void progress(const QString &step);
     void finished();
+    void failed(const QString &step);
     void addDetails(QByteArray newData);
     void toggleDetails();
     void copyDetailsToClipboard();

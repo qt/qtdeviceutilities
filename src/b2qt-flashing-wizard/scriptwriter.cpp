@@ -118,13 +118,8 @@ void ScriptWriter::readOutput()
 
 void ScriptWriter::processFinished(int exitCode, QProcess::ExitStatus exitStatus)
 {
-    if (exitStatus != QProcess::NormalExit) {
-        qWarning("process crashed");
-        return;
-    }
-
-    if (exitCode != 0) {
-        qWarning("process failed");
+    if (exitStatus != QProcess::NormalExit || exitCode != 0) {
+        emit failed("Image creation failed");
         return;
     }
     emit finished();
