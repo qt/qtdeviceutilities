@@ -3,7 +3,7 @@
 ** Copyright (C) 2014 Digia Plc
 ** All rights reserved.
 ** For any questions to Digia, please use the contact form at
-** http://qt.digia.com/
+** http://www.qt.io
 **
 ** This file is part of Qt Enterprise Embedded.
 **
@@ -13,10 +13,11 @@
 ** a written agreement between you and Digia.
 **
 ** If you have questions regarding the use of this file, please use
-** the contact form at http://qt.digia.com/
+** the contact form at http://www.qt.io
 **
 ****************************************************************************/
 #include "qwifimanager.h"
+#include "qwifiinterface.h"
 
 #include <QtCore>
 #ifdef Q_OS_ANDROID
@@ -422,6 +423,10 @@ QWifiManager::QWifiManager()
     , m_startingUp(true)
     , m_network(0)
 {
+    if (!QWifiInterface().wifiSupported())
+        // give a warning about API misuse
+        qWarning() << "WifiManager may not work as expected on this device. Use the API provided by QtWifi "
+                      "library to verify if device has support for Wi-Fi before creating an instance of WifiManager!";
 #ifdef Q_OS_ANDROID
     char interface[PROPERTY_VALUE_MAX];
     property_get(WIFI_INTERFACE, interface, NULL);

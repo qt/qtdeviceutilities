@@ -3,7 +3,7 @@
 ** Copyright (C) 2014 Digia Plc
 ** All rights reserved.
 ** For any questions to Digia, please use the contact form at
-** http://qt.digia.com/
+** http://www.qt.io
 **
 ** This file is part of Qt Enterprise Embedded.
 **
@@ -13,7 +13,7 @@
 ** a written agreement between you and Digia.
 **
 ** If you have questions regarding the use of this file, please use
-** the contact form at http://qt.digia.com/
+** the contact form at http://www.qt.io
 **
 ****************************************************************************/
 
@@ -82,7 +82,79 @@
             {Raspberry Pi Model B}
     \endlist
 
-    \section2 Legacy Reference Devices
+    \section2 Supported Features on Reference Devices
+
+    The following features are supported without any modification on the
+    pre-built images available for the reference devices:
+
+    \table
+    \header \li Feature
+            \li BD-SL-i.MX6 (Linux)
+            \li Raspberry Pi B (Linux)
+            \li BeagleBone Black (Linux)
+            \li Nexus 7 (2012) (Android)
+            \li Nexus 7 (2013) (Android)
+
+    \row    \li USB Serial
+            \li \image ok
+            \li \image ok
+            \li
+            \li
+            \li
+
+    \row    \li WiFi
+            \li
+            \li \inlineimage ok
+                \sup 1
+            \li
+            \li \image ok
+            \li \image ok
+
+    \row    \li Touch Display
+            \li \image ok
+            \li
+            \li
+            \li \image ok
+            \li \image ok
+
+    \row    \li Video Playback
+            \li \image ok
+            \li
+            \li
+            \li \image ok
+            \li \image ok
+
+    \row    \li HDMI Output
+            \li
+            \li \image ok
+            \li \image ok
+            \li
+            \li
+
+    \row    \li Kernel Version
+            \li 3.10.17
+            \li 3.10.30
+            \li 3.12.17
+            \li
+            \li 3.4.0
+
+    \row    \li Display Resolution
+            \li
+            \li \list \li 640x480 \li 1280x720 \li 1600x1200 \endlist
+            \li \list \li 1280x720 \endlist
+            \li \list \li 1280x800 \endlist
+            \li \list \li 1920x1200 \endlist
+    \endtable
+
+    \b Notes:
+
+    \list 1
+        \li A driver for the WiFi adapter must be present in the kernel, and
+            the adapter must be connected to the Raspberry Pi before booting
+            up the device.
+    \endlist
+
+    \section1 Legacy Reference Devices
 
     The following devices are no longer tested or supported by the latest
     release of \SDK.

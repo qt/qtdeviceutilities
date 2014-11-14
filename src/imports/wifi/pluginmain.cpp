@@ -3,7 +3,7 @@
 ** Copyright (C) 2014 Digia Plc
 ** All rights reserved.
 ** For any questions to Digia, please use the contact form at
-** http://qt.digia.com/
+** http://www.qt.io
 **
 ** This file is part of Qt Enterprise Embedded.
 **
@@ -13,78 +13,18 @@
 ** a written agreement between you and Digia.
 **
 ** If you have questions regarding the use of this file, please use
-** the contact form at http://qt.digia.com/
+** the contact form at http://www.qt.io
 **
 ****************************************************************************/
 #include "qwifimanager.h"
+#include "qwifiinterface.h"
 
-#include <QtCore/QDir>
-#include <QtCore/QDebug>
-#include <QtCore/QByteArray>
 #include <QtQml/QQmlExtensionPlugin>
 #include <QtQml/qqml.h>
 
-#ifdef Q_OS_ANDROID
-#include <hardware_legacy/wifi.h>
-#endif
-/*!
-    \qmltype Interface
-    \inqmlmodule Qt.labs.wifi
-    \ingroup wifi-qmltypes
-    \brief The Interface element provides the module API.
-
-    This element cannot be directly created. It can only be accessed via a namespace import.
-
-    \code
-    import Qt.labs.wifi 0.1
-    import Qt.labs.wifi 0.1 as Wifi
-
-    Component.onCompleted: {
-        if (Wifi.Interface.wifiSupported()) {
-            var component = Qt.createComponent("WifiMenu.qml")
-        } else {
-            print("WiFi functionality not available on this device.")
-        }
-    }
-    \endcode
-*/
-
-/*!
-    \qmlmethod bool Interface::wifiSupported()
-
-    Returns true if the device is WiFi capable (provides a WiFi driver), otherwise returns false.
-*/
-
-
-class QWifiGlobal : public QObject
-{
-    Q_OBJECT
-public:
-    explicit QWifiGlobal(QObject *parent = 0)
-        : QObject(parent) {}
-    ~QWifiGlobal() {}
-
-    Q_INVOKABLE bool wifiSupported() const
-    {
-        bool hasInterface = QDir().exists(QStringLiteral("/sys/class/net/wlan0"));
-        if (!hasInterface)
-            qWarning() << "QWifiGlobal: could not find wifi interface in /sys/class/net/";
-#ifdef Q_OS_ANDROID
-        if (hasInterface && wifi_load_driver() == 0 && wifi_start_supplicant(0) == 0) {
-            return true;
-        } else {
-            qWarning() << "QWifiGlobal: wifi driver is not available";
-            return false;
-        }
-#else
-        return hasInterface;
-#endif
-    }
-};
-
 static QObject *global_object_wifi(QQmlEngine *, QJSEngine *)
 {
-    return new QWifiGlobal;
+    return new QWifiInterface;
 }
 
 class QWifiPlugin : public QQmlExtensionPlugin
@@ -99,7 +39,7 @@ public:
 
         qmlRegisterType<QWifiManager>(uri, 0, 1, "WifiManager");
         qmlRegisterType<QWifiNetworkListModel>();
-        qmlRegisterSingletonType<QWifiGlobal>(uri, 0, 1, "Interface", global_object_wifi);
+        qmlRegisterSingletonType<QWifiInterface>(uri, 0, 1, "Interface", global_object_wifi);
     }
 };
 

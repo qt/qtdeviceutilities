@@ -7,13 +7,15 @@ IMPORT_VERSION = 0.1
 HEADERS += \
     qwifimanager.h \
     qwifinetwork.h \
-    qwifinetworklistmodel.h
+    qwifinetworklistmodel.h \
+    qwifiinterface.h
 
 SOURCES += \
     pluginmain.cpp \
     qwifimanager.cpp \
     qwifinetwork.cpp \
-    qwifinetworklistmodel.cpp
+    qwifinetworklistmodel.cpp \
+    qwifiinterface.cpp
 
 android: {
     LIBS += -lhardware_legacy -lcutils
