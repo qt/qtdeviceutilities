@@ -148,8 +148,10 @@
     ./build_image.sh
     \endcode
 
-    After \e {build_image.sh} has finished, you can flash the device with
-    the updated image located in the build folder.
+    After \e {build_image.sh} has finished, you can write the updated image to your SD card:
+    \badcode
+    sudo ./deploy.sh /dev/<device_name>
+    \endcode
 
     \section1 Configuring Qt Creator
 
