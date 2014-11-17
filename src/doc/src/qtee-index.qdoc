@@ -45,7 +45,7 @@
         \li \l{Preparing Hardware}
         \list
             \li \l{Preparing Nexus 7 (2012/2013)}{Nexus 7 (2012/2013) (embedded Android)}
-            \li \l{Preparing BD-SL-i.MX6}{BD-SL-i.MX6 (embedded Android and Linux)}
+            \li \l{Boundary Devices i.MX6 Boards}
             \li \l{Preparing SABRE SD i.MX6Quad}{SABRE SD i.MX6Quad (embedded Linux)}
             \li \l{Preparing Toradex Apalis iMX6}{Toradex Apalis iMX6 (embedded Linux)}
             \li \l{Preparing BeagleBone Black}{BeagleBone Black (embedded Android and Linux)}

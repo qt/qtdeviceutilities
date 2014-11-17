@@ -29,7 +29,7 @@
 
     \list
         \li \l{Nexus 7 (2012/2013) (embedded Android)}
-        \li \l{BD-SL-i.MX6 (embedded Android and Linux)}
+        \li \l{Boundary Devices i.MX6 Boards}
         \li \l{SABRE SD i.MX6Quad (embedded Linux)}
         \li \l{Toradex Apalis iMX6 (embedded Linux)}
         \li \l{BeagleBone Black (embedded Android and Linux)}
@@ -68,14 +68,14 @@
     \B2Q software stack is provided pre-built, tested and supported for the
     following hardware:
     \list
+        \li \l{http://boundarydevices.com/product-selector-guide/}
+            {Boundary Devices i.MX6 Boards}
         \li \l{http://www.google.com/nexus/7/specs/}
             {Google/Asus Nexus 7 (2012 and 2013 models)}
         \li \l{http://beagleboard.org/products/beaglebone%20black}
             {BeagleBone Black}
         \li \l{http://www.freescale.com/webapp/sps/site/prod_summary.jsp?code=RDIMX6SABREBRD}
             {Freescale SABRE SD i.MX6Quad}
-        \li \l{http://boundarydevices.com/products/sabre-lite-imx6-sbc/}
-            {BD-SL-i.MX6}
         \li \l{http://www.toradex.com/products/apalis-arm-computer-modules/freescale-imx-6-computer-module}
             {Toradex Apalis iMX6}
         \li \l{http://www.raspberrypi.org/faqs}
@@ -89,7 +89,7 @@
 
     \table
     \header \li Feature
-            \li BD-SL-i.MX6 (Linux)
+            \li Boundary Devices i.MX6 Boards (Linux)
             \li Raspberry Pi B (Linux)
             \li BeagleBone Black (Linux)
             \li Nexus 7 (2012) (Android)

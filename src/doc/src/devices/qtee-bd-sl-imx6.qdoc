@@ -17,19 +17,30 @@
 **
 ****************************************************************************/
 /*!
-    \target BD-SL-i.MX6 (embedded Android and Linux)
     \page qtee-preparing-hardware-imx6.html
-    \title Preparing BD-SL-i.MX6
+    \title Boundary Devices i.MX6 Boards
     \previouspage qtee-installation-guide.html
 
-    Take the following steps to prepare a
-    \l{http://boundarydevices.com/products/sabre-lite-imx6-sbc/}
-    {Boundary Devices BD-SL-i.MX6} (SABRE Lite) for \B2Q.
+    Take the following steps when preparing these boards for \B2Q:
+
+    \list
+        \li \l{http://boundarydevices.com/products/sabre-lite-imx6-sbc/}
+            {Boundary Devices BD-SL-i.MX6 (SABRE Lite)}
+            (embedded Android and Linux)
+        \li \l{http://boundarydevices.com/product/nitrogen6x-copy/}
+            {Boundary Devices Nitrogen6X} (embedded Linux only)
+        \li \l{http://boundarydevices.com/product/nitrogen6_lite/}
+            {Boundary Devices Nitrogen6_Lite} (embedded Linux only)
+        \li \l{http://boundarydevices.com/product/nitrogen6max/}
+            {Boundary Devices Nitrogen6_MAX} (embedded Linux only)
+        \li \l{http://boundarydevices.com/product/nitrogen6x-som/}
+            {Boundary Devices Nitrogen6X_SOM} (embedded Linux only)
+    \endlist
 
     \note It is important that you repeat the steps in this section after you
     update \SDK.
 
-    The images containing the \B2Q stack for BD-SL-i.MX6 are included
+    The images containing the \B2Q stack for the device are included
     in \SDK, ready to be copied to an SD card.
 
     \section1 Preparing an SD Card
