@@ -82,9 +82,13 @@
     After the image has been deployed, insert the SD card, power on the device and check that
     the \B2Q welcome screen and/or demo appear.
 
+    \section1 Setting up USB Access
+
+    \include b2qt-post-install-setup.qdocinc setting up usb access
+
     \section1 Configuring a Device Kit in Qt Creator
 
-    \include b2qt-post-install-setup.qdocinc configuring network device
+    \include b2qt-post-install-setup.qdocinc configuring device kit
 
     You are now ready to start developing for your device. For more information,
     see \l{Building and Running an Example}.
