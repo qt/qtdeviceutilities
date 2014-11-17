@@ -16,23 +16,25 @@
 ** the contact form at http://www.qt.io
 **
 ****************************************************************************/
-#ifndef EANDROIDACCELEROMETER_H
-#define EANDROIDACCELEROMETER_H
+#ifndef QWIFIINTERFACE_H
+#define QWIFIINTERFACE_H
 
-#include <eandroidbasesensor.h>
+#include <QtCore/QDir>
+#include <QtCore/QDebug>
+#ifdef Q_OS_ANDROID
+#include <hardware_legacy/wifi.h>
+#include <cutils/properties.h>
+#endif
 
-#include <QtSensors/QAccelerometerReading>
-
-class EAndroidAccelerometer : public EAndroidBaseSensor
+class QWifiInterface : public QObject
 {
     Q_OBJECT
 public:
-    EAndroidAccelerometer(int type, QSensor *sensor);
-    ~EAndroidAccelerometer();
-    void processEvent(sensors_event_t &event);
+    explicit QWifiInterface(QObject *parent = 0)
+        : QObject(parent) {}
+    ~QWifiInterface() {}
 
-private:
-    QAccelerometerReading m_reading;
+    Q_INVOKABLE bool wifiSupported() const;
 };
 
-#endif // EANDROIDACCELEROMETER_H
+#endif // QWIFIHELPERS_H
