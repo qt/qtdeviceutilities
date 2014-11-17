@@ -21,11 +21,38 @@
     \page qtee-troubleshooting.html
     \title Troubleshooting
     \previouspage qtee-changelog.html
-    \nextpage qtee-licenses.html
+    \nextpage qtee-known-issues.html
+
+    See also the list of \l {Known Issues}.
+
+    \table
+    \header \li \b {General Issues}
+    \row \li \l{ts-01}{I have problems deploying/launching the application in Qt Creator}
+    \row \li \l{ts-02}{I have problems deploying/launching a Qt or Qt Quick example application}
+    \row \li \l{ts-03}{I have problems launching or running applications on hardware after updating the SDK}
+    \row \li \l{ts-04}{Booting BD-SL-i.MX6 stops with '6x_bootscript not found' error}
+    \row \li \l{nexus-factory-reset}{How do I restore my Nexus 7 to factory settings}
+    \row \li \l{ts-06}{How do I shut down the Nexus 7?}
+    \row \li \l{ts-07}{How do I get HDMI output working properly on BeagleBone Black?}
+    \row \li \l{ts-08}{Trying to build for the emulator target fails with error message 'make: i686-android-linux-g++: Command not found'}
+    \row \li \l{ts-09}{Something crashed!}
+    \row \li \l{ts-10}{Mouse or touch input does not work}
+    \row \li \l{ts-11}{Application stops with 'EGLFS: OpenGL windows cannot be mixed with others.'}
+    \row \li \l{ts-12}{I cannot edit the contents of appcontroller.conf on the device}
+    \row \li \l{ts-13}{C++11 features do not work on Android}
+    \header \li \b {Connectivity Issues}
+    \row \li \l{ts-14}{I cannot connect to my hardware device via USB}
+    \row \li \l{ts-15}{adb fails with "error: more than one device and emulator"}
+    \row \li \l{ts-16}{The emulator cannot connect to the Internet}
+    \row \li \l{ts-17}{The emulator is stuck in \e{Waiting for display data} or fails to start properly}
+    \row \li \l{ts-18}{What are the user and password to access my embedded Linux device?}
+    \row \li \l{ts-19}{Boundary Devices Android Jellybean i.MX6 image deployment issues}
+    \endtable
 
     \section1 General Issues
 
-    \section2 I have problems deploying/launching the application in Qt Creator
+    \target ts-01
+    \b{I have problems deploying/launching the application in Qt Creator}
 
     Check that the device is properly connected to the development host via USB
     or Ethernet (depending on the device).
@@ -33,7 +60,8 @@
 
     If using the emulator, see \l{Installing VirtualBox}.
 
-    \section2 I have problems deploying/launching a Qt or Qt Quick example application
+    \target ts-02
+    \b{I have problems deploying/launching a Qt or Qt Quick example application}
 
     Because of a technical peculiarity in \c{qmake}, it is not
     possible to get correct deployment setup for any application that
@@ -43,12 +71,14 @@
     outside the Qt source tree, and open this copy of the example
     application instead.
 
-    \section2 I have problems launching or running applications on hardware after updating the SDK
+    \target ts-03
+    \b{I have problems launching or running applications on hardware after updating the SDK}
 
     Remember to repeat the process of updating also your device with the latest
     version of \B2Q. See \l{Installing Boot to Qt on Target Devices}.
 
-    \section2 Booting BD-SL-i.MX6 stops with \e {6x_bootscript not found} error
+    \target ts-04
+    \b{Booting BD-SL-i.MX6 stops with '6x_bootscript not found' error}
 
     Check the U-Boot version number. It should start with either \c{2012} or \c{2013}.
     If it is \c{2009.xx}, an upgrade of the bootloader is required. For more
@@ -60,7 +90,7 @@
     \endlist
 
     \target nexus-factory-reset
-    \section2 How do I restore my Nexus 7 to factory settings?
+    \b{How do I restore my Nexus 7 to factory settings}
 
     Go to \l{https://developers.google.com/android/nexus/images} and
     download the correct file for your device. Unpack it, and then enter the
@@ -71,7 +101,8 @@
         <INSTALL_DIR>/Tools/b2qt/fastboot -w update <image-file>.zip
     \endcode
 
-    \section2 How do I shut down the Nexus 7?
+    \target ts-06
+    \b{How do I shut down the Nexus 7?}
 
     If the \B2Q demo launcher is running, start the \b {Launcher
     Settings} app, and select \b {Shut Down} to power off the device.
@@ -88,7 +119,8 @@
     Alternatively, press and hold the power button for 10
     seconds. This will force a reboot.
 
-    \section2 How do I get HDMI output working properly on BeagleBone Black?
+    \target ts-07
+    \b{How do I get HDMI output working properly on BeagleBone Black?}
 
     Depending on the HDMI monitor, the cable, and the build variant of
     the BeagleBone Black device, it may not be able to drive an HDMI display in a
@@ -98,14 +130,16 @@
     More details and possible solutions can be found
     \l {http://www.elinux.org/Beagleboard:BeagleBoneBlack_HDMI}{here}.
 
-    \section2 Trying to build for the emulator target fails with error message \e{make: i686-android-linux-g++: Command not found}
+    \target ts-08
+    \b{Trying to build for the emulator target fails with error message 'make: i686-android-linux-g++: Command not found'}
 
     You need to install support libraries in order to run 32-bit programs in a
     64-bit Linux operating system.
 
     See \l{Installing 32-bit Support Libraries}.
 
-    \section2 Something crashed!
+    \target ts-09
+    \b{Something crashed!}
 
     The following command shows the system log:
     \badcode
@@ -117,14 +151,16 @@
     This is normal and does not indicate a problem in your code; a SIGTERM
     signal is sent to the application, and Qt interprets it as a crash.
 
-    \section2 Mouse or touch input does not work
+    \target ts-10
+    \b{Mouse or touch input does not work}
 
     See \l{Customization}.
 
     \note Hotplugging does not currently work, and therefore, any input device
     must be present at boot time to be recognized.
 
-    \section2 Application stops with \e{EGLFS: OpenGL windows cannot be mixed with others.}
+    \target ts-11
+    \b{Application stops with 'EGLFS: OpenGL windows cannot be mixed with others.'}
 
     OpenGL and Qt Quick 2 applications can only have one
     fullscreen window existing at a time. Trying to create another
@@ -134,13 +170,15 @@
     \note For raster windows (software rendered content based on QWidget or
     QPainter), there is no such limitation.
 
-    \section2 I cannot edit the contents of appcontroller.conf on the device
+    \target ts-12
+    \b{I cannot edit the contents of appcontroller.conf on the device}
 
     The file system where this file is located may be mounted as read-only.
 
     See \l{Customization}.
 
-    \section2 C++11 features do not work on Android
+    \target ts-13
+    \b{C++11 features do not work on Android}
 
     To enable C++11 features in the compiler, add \e{CONFIG += c++11} to the .pro file.
     On Embedded Linux this will be enough because there the toolchain contains a more
@@ -151,11 +189,13 @@
     application, by adding \e{QMAKE_CXXFLAGS += -std=c++11} to the .pro file.
 
     \section1 Connectivity Issues
-    \section2 I cannot connect to my hardware device via USB
+    \target ts-14
+    \b{I cannot connect to my hardware device via USB}
 
     See \l{5. Setting up USB Access to Embedded Devices}.
 
-    \section2 adb fails with "error: more than one device and emulator"
+    \target ts-15
+    \b{adb fails with "error: more than one device and emulator"}
 
     You have to specify which Android device you want \c{adb} to talk
     to, using adb's \c{-s <serial-number>} option. Use the following
@@ -166,7 +206,8 @@
         <INSTALL_DIR>/Tools/b2qt/adb devices
     \endcode
 
-    \section2 The emulator cannot connect to the Internet
+    \target ts-16
+    \b{The emulator cannot connect to the Internet}
 
     By default, the VirtualBox is configured to use a host-only network, so external
     connections do not work in the emulator.
@@ -176,7 +217,8 @@
     \l{http://askubuntu.com/questions/293816/in-virtualbox-how-do-i-set-up-host-only-virtual-machines-that-can-access-the-in}{these}
     instructions.
 
-    \section2 The emulator is stuck in \e{Waiting for display data} or fails to start properly
+    \target ts-17
+    \b{The emulator is stuck in \e{Waiting for display data} or fails to start properly}
 
     Check the output of the following command:
 
@@ -197,40 +239,13 @@
 
     And then close the emulator and retry.
 
-    \section2 What are the user and password to access my embedded Linux device?
+    \target ts-18
+    \b{What are the user and password to access my embedded Linux device?}
 
     Embedded Linux devices can be accessed using user \c{root} and an empty password.
 
-    \section2 No sound on Embedded Android devices
-
-    When connecting a headphone or speakers while the device is running, the
-    audio may not be properly routed to the correct output. As a workaround,
-    connect the headphone or speakers before turning on the device.
-
-    \section2 Qt WebEngine libraries cannot be found when targeting the emulator
-
-    Qt WebEngine is not currently available for the emulators, neither eLinux
-    nor eAndroid. This is planned to be addressed in a later release.
-
-    \section2 Widget-based web view is not available
-
-    The Qt WebEngine APIs are available only for Qt Quick 2 based applications at the moment.
-    The QWidget-based equivalents, like QWebEngineView, will become supported in future releases.
-    For the time being, use the WebEngineView QML element.
-
-    \section2 Qt Quick Compiler fails on the emulators
-
-    The Qt Quick Compiler is not yet functional in the emulator environments, and projects
-    are likely fail to build or run with compilation enabled. Support for the emulators
-    will be added in a later release.
-
-    \section2 QML debugging not functional when using Qt Quick Compiler
-
-    QML debugging is not fully functional when the Qt Quick Compiler is enabled. Support
-    for this will be added in a later release.
-
-
-    \section2 Boundary Devices Android Jellybean i.MX6 image deploying issues
+    \target ts-19
+    \b{Boundary Devices Android Jellybean i.MX6 image deployment issues}
 
     On some hosts running the mksdcard.sh script results in the following failure messages:
 
@@ -239,8 +254,8 @@
     cp: target ‘/media/BOOT/’ is not a directory
     \endcode
 
-    This means that flashing an sdcard has failed, even if the scripts seemingly runs to the end.
-    The issue can be worked around by adding "sleep" call before "udisks --mount" loop (search at
+    This means that flashing an SD card has failed, even if the scripts seemingly runs to the end.
+    The issue can be worked around by adding \c sleep call before \c {udisks --mount} loop (search at
     the end of the script):
 
     \badcode
@@ -249,4 +264,160 @@
        udisks --mount ${diskname}${prefix}${n}
     done
     \endcode
+*/
+
+/*!
+    \page qtee-known-issues.html
+    \title Known Issues
+    \previouspage qtee-troubleshooting.html
+    \nextpage qtee-licenses.html
+
+    \table
+    \header \li \b {Common Issues}
+    \row \li \l{ki-01}{Qt Sensors: Sensor Support Depends on Hardware}
+    \row \li \l{ki-02}{Qt WebEngine: Widget-based Web View not Available}
+    \row \li \l{ki-03}{Qt WebKit: No Support on Embedded Android}
+    \row \li \l{ki-04}{No Sound on Embedded Android Devices}
+    \row \li \l{ki-05}{Limited Support for Multiple Top-Level Windows}
+    \row \li \l{ki-06}{QML Debugging not Functional with Qt Quick Compiler}
+    \header \li \b {Device-Specific Issues}
+    \row \li \l{ki-07}{Sabre Lite i.MX6: Device Stops Working After Disconnecting the Micro-USB Cable}
+    \row \li \l{ki-08}{Sabre Lite i.MX6: Internet Radio Demo Causes Device to Freeze}
+    \row \li \l{ki-09}{BeagleBone Black: No Qt Multimedia Support}
+    \row \li \l{ki-10}{BeagleBone Black: C++ Debugging Fails on Embedded Android}
+    \row \li \l{ki-11}{BeagleBone Black: Unstable HDMI output}
+    \header \li \b {Emulator-Specific Issues}
+    \row \li \l{ki-12}{Networking on Embedded Android Emulator}
+    \row \li \l{ki-13}{Qt WebEngine not Available for Emulator}
+    \row \li \l{ki-14}{Qt Quick Compiler Fails on Emulator}
+    \row \li \l{ki-15}{Switching Between Emulators from Different Boot to Qt Versions}
+    \row \li \l{ki-16}{Emulator: Limited Support for Qt Multimedia}
+    \row \li \l{ki-17}{Emulator: Broken Virtual Keyboard Layout}
+    \endtable
+
+    \section1 Common Issues
+
+    \target ki-01
+    \b{Qt Sensors: Sensor Support Depends on Hardware}
+
+    With the sole exception of Nexus 7, reference devices have no built-in sensor hardware.
+    \note Sensors can be tested on emulator targets.
+
+    \target ki-02
+    \b{Qt WebEngine: Widget-based Web View not Available}
+
+    The \l{Qt WebEngine} API are available only for Qt Quick 2 based applications at the moment.
+    The QWidget-based equivalent, such as QWebEngineView, will become supported in a future
+    release. For the time being, use the WebEngineView QML type.
+
+    \target ki-03
+    \b{Qt WebKit: No Support on Embedded Android}
+
+    Qt WebKit currently does not build on embedded Android.
+
+    \target ki-04
+    \b{No Sound on Embedded Android Devices}
+
+    When connecting a headphone or speakers while the device is running, the
+    audio may not be properly routed to the correct output. As a workaround,
+    connect the headphone or speakers before turning on the device.
+
+    \target ki-05
+    \b{Limited Support for Multiple Top-Level Windows}
+
+    OpenGL and Qt Quick 2 applications can only have one full screen window existing at a time.
+    Trying to create another OpenGL window, or trying to mix an OpenGL window with a raster one
+    will display an error message and abort the application.
+
+    \note Raster windows (software rendered content based on \c QWidget or \c QPainter) do not
+          have this limitation.
+
+    \target ki-06
+    \b{QML Debugging not Functional with Qt Quick Compiler}
+
+    QML debugging is not fully functional when Qt Quick Compiler is enabled. Support
+    for this is planned for a later release.
+
+    \section1 Device-Specific Issues
+
+    \target ki-07
+    \b{Sabre Lite i.MX6: Device Stops Working After Disconnecting the Micro-USB Cable}
+
+    The device does not respond to touch input after connecting to a host computer via USB, and
+    then disconnecting the Micro-USB cable.
+
+    \target ki-08
+    \b{Sabre Lite i.MX6: Internet Radio Demo Causes Device to Freeze}
+
+    Trying to start playback in Internet Radio application from Qt 5 Everywhere demo causes the
+    device to not react to touch input on embedded Android.
+
+    \target ki-09
+    \b{BeagleBone Black: No Qt Multimedia Support}
+
+    Qt Multimedia features (audio and video playback) do not currently work on BeagleBone Black
+    device. This issue affects both embedded Android and Linux.
+
+    \target ki-10
+    \b{BeagleBone Black: C++ Debugging Fails on Embedded Android}
+
+    Trying to debug C++ code fails on BeagleBone Black on embedded Android.
+
+    \note QML debugging works, provided that C++ debugging is disabled in Qt Creator project
+          settings.
+
+    \target ki-11
+    \b{BeagleBone Black: Unstable HDMI output}
+
+    Depending on the HDMI monitor, the cable used, and the build variant of the BeagleBone Black
+    device, it may not be able to drive the an HDMI display in a stable way; the image may
+    disappear or stutter. These issues are not caused by the Boot to Qt stack. More details and
+    possible solutions can be found at \l {http://elinux.org/Beagleboard:BeagleBoneBlack_HDMI}.
+
+    \section1 Emulator-Specific Issues
+
+    \target ki-12
+    \b{Networking on Embedded Android Emulator}
+
+    Internet access on embedded Android emulator may not work by default, as the dhcpcd daemon
+    unnecessarily adds a default route for the eth0 interface. As a workaround, this route can
+    be removed manually. Start the emulator, and use the following command:
+
+    \badcode
+    <INSTALL_DIR>/Tools/b2qt/adb shell ip route del default dev eth0
+    \endcode
+
+    \target ki-13
+    \b{Qt WebEngine not Available for Emulator}
+
+    \l{Qt WebEngine} is not currently available for the emulators, neither embedded Linux
+    nor embedded Android. This is planned to be addressed in a later release.
+
+    \target ki-14
+    \b{Qt Quick Compiler Fails on Emulator}
+
+    The Qt Quick Compiler is not yet functional in the emulator environment, and projects
+    are likely to fail to build or run when compilation is enabled. Support for the
+    emulators is planned for a later release.
+
+    \target ki-15
+    \b{Switching Between Emulators from Different Boot to Qt Versions}
+
+    Switching between multiple Boot to Qt virtual machines is likely to introduce instability,
+    emulator startup problems and graphical issues. To avoid these problems, close the previous
+    emulator before launching a new one.
+
+    \target ki-16
+    \b{Emulator: Limited Support for Qt Multimedia}
+
+    The emulator for embedded Android does not properly support multimedia functionality
+    (playback of audio and video, accessing camera).
+
+    \target ki-17
+    \b{Emulator: Broken Virtual Keyboard Layout}
+
+    When switching between supported languages, the virtual keyboard in emulators sometimes
+    displays an inconsistent/broken layout. This happens only the first time after booting up
+    an emulator, after restarting the application that uses the virtual keyboard the issue is no
+    longer observed.
 */
