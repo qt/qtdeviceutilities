@@ -26,6 +26,7 @@
 
 int main(int argc, char **argv)
 {
+    printf("Version %s, SHA1 %s\n", GIT_VERSION, GIT_HASH);
     QApplication app(argc, argv);
 //    qDebug() << QStyleFactory::keys();
     QStyle *style = QStyleFactory::create("Fusion");
