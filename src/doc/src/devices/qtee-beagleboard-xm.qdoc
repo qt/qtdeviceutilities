@@ -35,7 +35,7 @@
 
     \section1 Preparing an SD Card
 
-    An SD card of at least 512 MB capacity is needed.
+    An SD card of at least 1 GB capacity is needed.
 
     \include detect-sd-card-device-name.qdocinc instructions
 

@@ -35,7 +35,7 @@
     \section1 Preparing an SD Card
 
     For \B2QA, an SD card of at least 4 GB capacity is needed. For \B2QL,
-    a card of at least 512 MB capacity is sufficient.
+    a card of at least 1 GB capacity is sufficient.
 
     \include detect-sd-card-device-name.qdocinc instructions
 
