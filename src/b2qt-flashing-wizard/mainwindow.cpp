@@ -27,6 +27,7 @@
 #include "finish_page.h"
 #include <QDebug>
 #include <QDir>
+#include <QCoreApplication>
 
 QString G_platform; // generic-4.4 / iMX6
 QString G_version; // Boot2Qt version
@@ -44,7 +45,7 @@ MainWindow::MainWindow()
     setPixmap(QWizard::WatermarkPixmap, QPixmap(":watermark.png"));
     G_SDKDIR = qgetenv("SDKDIR");
     if (G_SDKDIR.isEmpty())
-        G_SDKDIR = QDir::currentPath();
+        G_SDKDIR = QDir::cleanPath(QCoreApplication::applicationDirPath() + "/../..");
     if (!G_SDKDIR.endsWith('/'))
         G_SDKDIR.append('/');
 
