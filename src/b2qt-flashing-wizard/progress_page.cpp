@@ -40,6 +40,7 @@ ProgressPage::ProgressPage(QWidget *parent)
     setTitle("Disk creation");
     setSubTitle("Progress of writing the disk");
     setLayout(new QVBoxLayout(this));
+    mProgress->setWordWrap(true);
     mProgress->setText(tr("Starting"));
     layout()->addWidget(mProgress);
     mToggleDetailsButton->setText("Show details");
