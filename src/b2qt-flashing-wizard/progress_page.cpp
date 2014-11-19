@@ -38,10 +38,10 @@ ProgressPage::ProgressPage(QWidget *parent)
     , mCopyToClipboardButton(new QPushButton(this))
 {
     setTitle(tr("Disk Creation"));
-    setSubTitle(tr("Progress of writing to the disk"));
+    setSubTitle(tr("Writing the hardware platform image to the disk"));
     setLayout(new QVBoxLayout(this));
     mProgress->setWordWrap(true);
-    mProgress->setText(tr("Starting"));
+    mProgress->setText(tr("Preparing the disk device..."));
     layout()->addWidget(mProgress);
     mToggleDetailsButton->setText(tr("Show details"));
     layout()->addWidget(mToggleDetailsButton);
