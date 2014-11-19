@@ -100,7 +100,6 @@ void ScriptWriter::start()
     mProcess.start(args.takeFirst(), args);
     if (!mProcess.waitForStarted())
         qFatal("Failed to start script");
-    mProcess.write("y\n");
 }
 
 void ScriptWriter::readOutput()

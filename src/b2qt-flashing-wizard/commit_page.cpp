@@ -84,25 +84,25 @@ void CommitPage::initializePage()
     if (G_platform == "generic-4.2" && G_os == "eAndroid" && G_board == "iMX6") {
         ScriptWriter *i = new ScriptWriter(this);
         i->setScriptFile(G_SDKDIR + G_version + "/" + G_platform + "-" + G_os + "/images/" + G_board + "/deploy.sh");
-        i->setAdditionalArgs(QStringList() << G_device << "--verbose");
+        i->setAdditionalArgs(QStringList() << "-y" <<G_device << "--verbose");
         i->setEnvironment("VERBOSE","1");
         mActor = i;
     } else if (G_platform == "iMX6" && G_os == "eLinux") {
         ScriptWriter *i = new ScriptWriter(this);
         i->setScriptFile(G_SDKDIR + G_version + "/" + G_platform + "-" + G_os + "/images/deploy.sh");
-        i->setAdditionalArgs(QStringList() << G_device << "--verbose");
+        i->setAdditionalArgs(QStringList() << "-y" <<G_device << "--verbose");
         i->setEnvironment("VERBOSE","1");
         mActor = i;
     } else if (G_platform == "beaglebone" && G_os == "eLinux") {
         ScriptWriter *i = new ScriptWriter(this);
         i->setScriptFile(G_SDKDIR + G_version + "/" + G_platform + "-" + G_os + "/images/deploy.sh");
-        i->setAdditionalArgs(QStringList() << G_device << "--verbose");
+        i->setAdditionalArgs(QStringList() << "-y" <<G_device << "--verbose");
         i->setEnvironment("VERBOSE","1");
         mActor = i;
     } else if (G_platform == "generic-4.4" && G_os == "eAndroid" && G_board == "beaglebone") {
         ScriptWriter *i = new ScriptWriter(this);
         i->setScriptFile(G_SDKDIR + G_version + "/" + G_platform + "-" + G_os + "/images/" + G_board + "/deploy.sh");
-        i->setAdditionalArgs(QStringList() << G_device << "--verbose");
+        i->setAdditionalArgs(QStringList() << "-y" <<G_device << "--verbose");
         i->setEnvironment("VERBOSE","1");
         mActor = i;
     } else if (G_platform == "generic-4.4" && G_os == "eAndroid" && G_board == "nexus7v2") {
@@ -126,19 +126,19 @@ void CommitPage::initializePage()
     } else if (G_platform == "raspberrypi" && G_os == "eLinux") {
         ScriptWriter *i = new ScriptWriter(this);
         i->setScriptFile(G_SDKDIR + G_version + "/" + G_platform + "-" + G_os + "/images/deploy.sh");
-        i->setAdditionalArgs(QStringList() << G_device << "--verbose");
+        i->setAdditionalArgs(QStringList() << "-y" << G_device << "--verbose");
         i->setEnvironment("VERBOSE","1");
         mActor = i;
     } else if (G_platform == "imx6qsabresd" && G_os == "eLinux") {
         ScriptWriter *i = new ScriptWriter(this);
         i->setScriptFile(G_SDKDIR + G_version + "/" + G_platform + "-" + G_os + "/images/deploy.sh");
-        i->setAdditionalArgs(QStringList() << G_device << "--verbose");
+        i->setAdditionalArgs(QStringList() << "-y" <<G_device << "--verbose");
         i->setEnvironment("VERBOSE","1");
         mActor = i;
     } else if (G_platform == "apalis-imx6" && G_os == "eLinux") {
         ScriptWriter *i = new ScriptWriter(this);
         i->setScriptFile(G_SDKDIR + G_version + "/" + G_platform + "-" + G_os + "/images/deploy.sh");
-        i->setAdditionalArgs(QStringList() << G_device << "--verbose");
+        i->setAdditionalArgs(QStringList() << "-y" <<G_device << "--verbose");
         i->setEnvironment("VERBOSE","1");
         mActor = i;
     } else {
