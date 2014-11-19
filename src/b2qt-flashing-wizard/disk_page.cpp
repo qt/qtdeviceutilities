@@ -40,8 +40,8 @@ DiskPage::DiskPage(QWidget *parent)
     , mError(createErrorLabel(this))
     , mLayout(new QVBoxLayout(this))
 {
-    setTitle("Disk selection");
-    setSubTitle("Select a disk to be used");
+    setTitle(tr("Disk"));
+    setSubTitle(tr("Select a disk to be used"));
     mLayout->addWidget(mListWidget);
     mLayout->addSpacerItem(new QSpacerItem(40,40,QSizePolicy::Minimum, QSizePolicy::Expanding));
     mLayout->addWidget(mError);
@@ -161,21 +161,24 @@ void DiskPage::updateDeviceList()
         if (!currentDevices.contains(di.path))
               continue;
 
-        QString text = "<h3>%1</h3><table style=\"margin-left:10px\"><tr><td>Size</td><td style=\"padding-left:10\">%2</td></tr><tr><td>Removable</td><td style=\"padding-left:10\">%3</td><tr><td>Mounted</td><td style=\"padding-left:10\">%4</td></tr></table>";
+        QString text = tr("<h3>%1</h3><table style=\"margin-left:10px\"><tr><td>Size</td>"
+          "<td style=\"padding-left:10\">%2</td></tr><tr><td>Removable</td>"
+          "<td style=\"padding-left:10\">%3</td><tr><td>Mounted</td>"
+          "<td style=\"padding-left:10\">%4</td></tr></table>");
         double size = di.logicalBlockSize * di.blocks;
         QString sizeText;
 
         if (size < 1000) {
-            sizeText = QString::number(size) + QLatin1String(" B");
+            sizeText = QString::number(size) + tr(" B");
         } else if (size < 1000000) {
-            sizeText = QString::number(size / 1000) + QLatin1String(" KB");
+            sizeText = QString::number(size / 1000) + tr(" KB");
         } else if (size < 1000000000) {
-            sizeText = QString::number(size / 1000000) + QLatin1String(" MB");
+            sizeText = QString::number(size / 1000000) + tr(" MB");
         } else {
-            sizeText = QString::number(qRound(size / 1000 / 1000 / 1000)) + QLatin1String(" GB");
+            sizeText = QString::number(qRound(size / 1000 / 1000 / 1000)) + tr(" GB");
         }
 
-        text = text.arg(di.name, sizeText, di.removable?QLatin1String("yes"):QLatin1String("no"), di.mountPoint.isEmpty()?"no":di.mountPoint);
+        text = text.arg(di.name, sizeText, di.removable?tr("yes"):tr("no"), di.mountPoint.isEmpty()?tr("no"):di.mountPoint);
 
         mDiskInfo[di.path] = di;
         if (mListItems.contains(di.path)) {
@@ -197,7 +200,7 @@ void DiskPage::updateDeviceList()
     }
 
     if (mListWidget->count() == 0)
-        mError->setText("No suitable disk device found. Insert device now.");
+        mError->setText(tr("No suitable disk device found. Connect a device."));
     else
         mError->setText("");
 
@@ -223,7 +226,7 @@ bool DiskPage::validatePage()
 
     if (!di.mountPoint.isEmpty()) {
         // Ask the user before unmount
-        if (QMessageBox::Ok != QMessageBox::warning(this, "Unmount action", "The disk you selected is mounted at " + di.mountPoint + ". It will be unmounted now.", QMessageBox::Ok | QMessageBox::Cancel))
+        if (QMessageBox::Ok != QMessageBox::warning(this, tr("Unmount action"), tr("The disk you selected is mounted at '%1'. It will be unmounted now.").arg(di.mountPoint), QMessageBox::Ok | QMessageBox::Cancel))
             return false;
 
         QStringList args = elevate();
@@ -231,7 +234,7 @@ bool DiskPage::validatePage()
 
         int rc = QProcess::execute(args.takeFirst(), args);
         if (rc != 0) {
-            QMessageBox::critical(this, "Unmount failed", "Could not umount the disk.");
+            QMessageBox::critical(this, tr("Unmount failed"), tr("Could not umount the disk."));
             return false;
         }
     }

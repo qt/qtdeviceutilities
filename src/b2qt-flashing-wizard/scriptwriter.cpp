@@ -49,29 +49,29 @@ void ScriptWriter::setScriptFile(const QString &fileName)
 bool ScriptWriter::ready(QString &error) const
 {
     if (mScriptName.isEmpty()) {
-        error = "File name is empty";
+        error = tr("File name is empty");
         return false;
     }
 
     QFileInfo file(mScriptName);
     if (!file.exists()) {
-        error = "File does not exist: " + mScriptName;
+        error = tr("File does not exist: %1").arg(mScriptName);
         return false;
     }
     if (!file.isFile()) {
-        error = "File " + mScriptName + " is not a file";
+        error = tr("File %1 is not a file").arg(mScriptName);
         return false;
     }
     if (!file.isReadable()) {
-        error = "File is not readable";
+        error = tr("File is not readable");
         return false;
     }
     if (!file.isExecutable()) {
-        error = "File is not executable";
+        error = tr("File is not executable");
         return false;
     }
     if (file.size() == 0) {
-        error = "File is empty";
+        error = tr("File is empty");
         return false;
     }
 
@@ -119,7 +119,7 @@ void ScriptWriter::readOutput()
 void ScriptWriter::processFinished(int exitCode, QProcess::ExitStatus exitStatus)
 {
     if (exitStatus != QProcess::NormalExit || exitCode != 0) {
-        emit failed("Image creation failed");
+        emit failed(tr("Image creation failed"));
         return;
     }
     emit finished();

@@ -42,8 +42,8 @@ DevicePage::DevicePage(QWidget *parent)
     , mError(createErrorLabel(this))
     , mLayout(new QVBoxLayout(this))
 {
-    setTitle("Device selection");
-    setSubTitle("Select a device to be used");
+    setTitle(tr("Device"));
+    setSubTitle(tr("Select a device to be used"));
     mLayout->addWidget(mListWidget);
     mLayout->addSpacerItem(new QSpacerItem(40,40,QSizePolicy::Minimum, QSizePolicy::Expanding));
     mLayout->addWidget(mError);

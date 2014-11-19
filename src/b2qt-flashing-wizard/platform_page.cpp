@@ -55,8 +55,8 @@ PlatformPage::PlatformPage(QWidget *parent)
     , mError(createErrorLabel(this))
     , mLayout(new QVBoxLayout(this))
 {
-    setTitle("Platform");
-    setSubTitle("Select a platform to create a disk for");
+    setTitle(tr("Platform"));
+    setSubTitle(tr("Select a platform to create a disk for"));
     mLayout->addSpacerItem(new QSpacerItem(40,40,QSizePolicy::Minimum, QSizePolicy::Expanding));
     mLayout->addWidget(mError);
     setLayout(mLayout);
@@ -73,11 +73,11 @@ bool PlatformPage::isComplete() const
         return false;
 
     if (data[0] == "nexus7") {
-       mError->setText("The selected platform is currently not supported.");
+       mError->setText(tr("The selected platform is not supported."));
        return false;
     }
     if (data[0] == "iMX6" && data[1] == "eAndroid") {
-       mError->setText("The selected platform is currently not supported.");
+       mError->setText(tr("The selected platform is not supported."));
        return false;
     }
 
@@ -140,7 +140,8 @@ void PlatformPage::initializePage()
         }
     }
     if (mButtons.isEmpty()) {
-        mError->setText("No suitable platform found.\nMake sure you have installed at least one hardware platform.");
+        mError->setText(tr("No suitable platform found in '%1'.\nMake sure you have"
+                           "installed at least one hardware platform.").arg(G_SDKDIR));
     }
 }
 

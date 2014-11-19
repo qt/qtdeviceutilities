@@ -37,16 +37,16 @@ ProgressPage::ProgressPage(QWidget *parent)
     , mToggleDetailsButton(new QPushButton(this))
     , mCopyToClipboardButton(new QPushButton(this))
 {
-    setTitle("Disk creation");
-    setSubTitle("Progress of writing the disk");
+    setTitle(tr("Disk Creation"));
+    setSubTitle(tr("Progress of writing to the disk"));
     setLayout(new QVBoxLayout(this));
     mProgress->setWordWrap(true);
     mProgress->setText(tr("Starting"));
     layout()->addWidget(mProgress);
-    mToggleDetailsButton->setText("Show details");
+    mToggleDetailsButton->setText(tr("Show details"));
     layout()->addWidget(mToggleDetailsButton);
     layout()->addWidget(mTextEdit);
-    mCopyToClipboardButton->setText("Copy to clipboard");
+    mCopyToClipboardButton->setText(tr("Copy to clipboard"));
     layout()->addWidget(mCopyToClipboardButton);
 
     mTextEdit->hide();
@@ -111,11 +111,11 @@ void ProgressPage::toggleDetails()
     if (mTextEdit->isHidden()) {
         mTextEdit->show();
         mCopyToClipboardButton->show();
-        mToggleDetailsButton->setText("Hide details");
+        mToggleDetailsButton->setText(tr("Hide details"));
     } else {
         mTextEdit->hide();
         mCopyToClipboardButton->hide();
-        mToggleDetailsButton->setText("Show details");
+        mToggleDetailsButton->setText(tr("Show details"));
     }
 }
 

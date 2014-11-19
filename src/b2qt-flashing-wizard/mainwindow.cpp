@@ -40,7 +40,8 @@ QString G_mode; // adb or fastboot
 MainWindow::MainWindow()
     : QWizard()
 {
-    setPixmap(QWizard::LogoPixmap, QPixmap(":logo.png"));
+    setWindowTitle(tr("Boot to Qt Flashing Wizard"));
+    setPixmap(QWizard::LogoPixmap, QPixmap(":logo.png").scaled(64, 64, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
     setPixmap(QWizard::BackgroundPixmap, QPixmap(":background.png"));
     setPixmap(QWizard::WatermarkPixmap, QPixmap(":watermark.png"));
     G_SDKDIR = qgetenv("SDKDIR");

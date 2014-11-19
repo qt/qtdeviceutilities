@@ -23,9 +23,9 @@
 IntroductionPage::IntroductionPage(QWidget *parent)
     : QWizardPage(parent)
 {
-    setTitle("Introduction");
+    setTitle(tr("Boot to Qt Flashing Wizard"));
 //    setSubTitle(" ");
-    new QLabel("This wizard helps you setting up a Boot to Qt device", this);
+    new QLabel(tr("The wizard helps you set up your device"), this);
 }
 
 IntroductionPage::~IntroductionPage()

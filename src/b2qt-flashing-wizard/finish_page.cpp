@@ -24,8 +24,8 @@ FinishPage::FinishPage(QWidget *parent)
     : QWizardPage(parent)
 {
     setCommitPage(true);
-    setTitle("Finish");
-    new QLabel("Setting up a Boot to Qt device completed.", this);
+    setTitle(tr("Finish"));
+    new QLabel(tr("The Qt device setup is complete."), this);
 }
 
 FinishPage::~FinishPage()

@@ -42,10 +42,10 @@ CommitPage::CommitPage(QWidget *parent)
     , mLayout(new QVBoxLayout(this))
     , mComplete(false)
 {
-    setButtonText(QWizard::CommitButton, "Write");
+    setButtonText(QWizard::CommitButton, tr("Write"));
     setCommitPage(true);
-    setTitle("Confirm action");
-    setSubTitle("Confirm the action to be done");
+    setTitle(tr("Confirm Action"));
+    setSubTitle(tr("Confirm the action to continue."));
     mLayout->addWidget(mText);
     mLayout->addSpacerItem(new QSpacerItem(40,40,QSizePolicy::Minimum, QSizePolicy::Expanding));
     mLayout->addWidget(mError);
@@ -75,7 +75,7 @@ void CommitPage::initializePage()
 {
     qDebug() << "platform:" << G_platform << "version:" << G_version << "os:" << G_os
              << "device:" << G_device << "board:" << G_board << "mode:" << G_mode;
-    QString text("Write %1-%2 (%3) to device %4.");
+    QString text(tr("Write %1-%2 (%3) to device %4."));
     mText->setText(text.arg(G_platform, G_os, G_version, G_device));
     mComplete = true;
 
@@ -142,7 +142,7 @@ void CommitPage::initializePage()
         i->setEnvironment("VERBOSE","1");
         mActor = i;
     } else {
-        mError->setText("Unsupported platform combination");
+        mError->setText(tr("Unsupported platform combination"));
         mComplete = false;
     }
 }
