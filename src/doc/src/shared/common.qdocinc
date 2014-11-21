@@ -28,3 +28,17 @@
             target hardware
     \endlist
 //! [overview-list]
+
+//! [wizard]
+    \b {Install Using the Flashing Wizard}
+
+    \SDK includes an easy to use application for setting up a supported
+    device for \B2Q. In Qt Creator, select \b Tools > \b {Flash \B2Q Device}
+    and follow the step-by-step instructions.
+
+    Alternatively, you can install the image from the command line using
+    the instructions below.
+
+    \b {Install from the Command Line}
+//! [wizard]
+*/

@@ -67,6 +67,8 @@
 
     \section1 Deploying the \B2Q Stack
 
+    \include common.qdocinc wizard
+
     Depending on the edition of your Nexus 7 device, use one of the
     commands below to install the \B2Q stack. Replace \c{X.Y} with the
     device's Android version number, for example \c{4.2} or \c{4.4}.

@@ -40,6 +40,8 @@
 
     \section1 Installing the \B2Q Image
 
+    \include common.qdocinc wizard
+
     To write the image to the SD card, ensure that no partitions on the
     SD card are mounted:
 
@@ -75,9 +77,9 @@
     \endcode
 
 
-    New U-Boot command are now stored into the device, and you can start \B2Q. For more information
+    New U-Boot commands are now stored into the device, and you can start \B2Q. For more information
     about the boot process on Toredex Apalis iMX6, see
-    \l{http://developer.toradex.com/software-resources/arm-family/linux/linux-booting}{Toradex Linux Booting}
+    \l{http://developer.toradex.com/software-resources/arm-family/linux/linux-booting}{Toradex Linux Booting}.
 
     After the image has been deployed, insert the SD card, power on the device and check that
     the \B2Q welcome screen and/or demo appear.

@@ -50,7 +50,7 @@
 
     \include detect-sd-card-device-name.qdocinc instructions
 
-    \section1 Installing the Android image
+    \section1 Installing the Android Image
 
     \e{If installing} \B2QL, \e{you can skip this step and proceed to}
     \l{#Installing the Boot to Qt Image}{Installing the Boot to Qt Image}.
@@ -77,6 +77,8 @@
     \endlist
 
     \section1 Installing the \B2Q Image
+
+    \include common.qdocinc wizard
 
     Make sure you have the required tools installed in your development machine:
 

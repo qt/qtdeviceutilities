@@ -45,6 +45,8 @@
 
     \section1 Installing the \B2Q Image
 
+    \include common.qdocinc wizard
+
     To write the image to the SD card, ensure that no partitions on the
     SD card are mounted:
 
