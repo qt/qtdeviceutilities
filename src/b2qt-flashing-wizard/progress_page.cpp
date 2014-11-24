@@ -24,6 +24,7 @@
 #include <QDebug>
 #include <QLabel>
 #include <QLayout>
+#include <QProgressBar>
 #include <QPushButton>
 #include <QTextEdit>
 #include <QTimer>
@@ -40,6 +41,9 @@ ProgressPage::ProgressPage(QWidget *parent)
     setTitle(tr("Disk Creation"));
     setSubTitle(tr("Writing the hardware platform image to the disk"));
     setLayout(new QVBoxLayout(this));
+    QProgressBar *progressBar = new QProgressBar(this);
+    progressBar->setRange(0, 0);
+    layout()->addWidget(progressBar);
     mProgress->setWordWrap(true);
     mProgress->setText(tr("Preparing the disk device..."));
     layout()->addWidget(mProgress);
