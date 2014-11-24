@@ -20,13 +20,14 @@
 #include "device_page.h"
 #include "common.h"
 #include "mainwindow.h" // for Page_ enum
-#include <QRadioButton>
-#include <QLayout>
 #include <QDebug>
 #include <QDir>
-#include <QListWidget>
 #include <QLabel>
+#include <QLayout>
+#include <QListWidget>
+#include <QMessageBox>
 #include <QProcess>
+#include <QRadioButton>
 #include <QTimer>
 
 extern QString G_SDKDIR;
@@ -254,6 +255,12 @@ bool DevicePage::validatePage()
 
     DeviceInfo deviceInfo = mDeviceInfo[serial];
     if (deviceInfo.state != "ready") {
+        QMessageBox::critical(this, tr("Wrong device status"), tr("The selected device is not ready."));
+        return false;
+    }
+
+    if (deviceInfo.name.toLower() != G_board.toLower()) {
+        QMessageBox::critical(this, tr("Wrong device type"), tr("The selected device is not compatible for this platform."));
         return false;
     }
 
