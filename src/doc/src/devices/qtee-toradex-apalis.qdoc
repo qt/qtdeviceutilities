@@ -86,6 +86,15 @@
 
     \section1 Setting up USB Access
 
+    The \e {Ixora Carrier Board} on Toradex Apalis iMX6 includes a USB 2.0 port
+    that can be used for an \c adb connection between the device and the
+    development host, provided it's configured for USB OTG. To enable USB OTG
+    connectivity, ensure that jumper JP2, located next to the USB ports, is open.
+
+    For more information, see datasheet for
+    \l{https://www.toradex.com/products/carrier-boards/ixora-carrier-board}
+    {Ixora Carrier Board}.
+
     \include b2qt-post-install-setup.qdocinc setting up usb access
 
     \section1 Configuring a Device Kit in Qt Creator
