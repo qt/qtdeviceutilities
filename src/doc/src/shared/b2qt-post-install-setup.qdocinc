@@ -38,10 +38,10 @@
     the following shell command:
 
     \code
-        <INSTALL_DIR>/Tools/b2qt/adb devices
+        <INSTALL_DIR>/Tools/b2qt/adb devices -l
     \endcode
 
-    The output should be a list of connected Android devices,
+    The output should be a list of connected \B2Q (and Android) devices,
     identified with a serial number and a name. If your device is missing from
     the list, or the serial number is \c{??????}, the connection is
     not working properly. Check that the device is powered on, and disconnect
