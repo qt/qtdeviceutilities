@@ -32,7 +32,7 @@
         \li \l{Boundary Devices i.MX6 Boards}
         \li \l{SABRE SD i.MX6Quad (embedded Linux)}
         \li \l{Toradex Apalis iMX6 (embedded Linux)}
-        \li \l{BeagleBone Black (embedded Android and Linux)}
+        \li \l{BeagleBone Black (embedded Linux)}
         \li \l{BeagleBoard-xM (embedded Linux)}
         \li \l{Raspberry Pi Model B (embedded Linux)}
     \endlist
@@ -63,7 +63,9 @@
     \endlist
 
     \B2QA requires hardware that has support for the Android operating
-    system, version 4.2 or later.
+    system, version 4.2 or later. For rapid prototyping or feasibility testing,
+    it is possible to install it on most programmable Android devices using
+    \l {Android injection}.
 
     \B2Q software stack is provided pre-built, tested and supported for the
     following hardware:
@@ -166,6 +168,15 @@
             \li Starting from \SDK 3.0 release, BeagleBoard-xM is no longer
             tested and supported. It is, however, still tested and supported
             in the earlier 2.x releases.
+        \endlist
+    \li \l{http://beagleboard.org/products/beaglebone%20black}
+            {BeagleBone Black} (embedded Android)
+        \list
+            \li Starting from \SDK 4.0 release, the embedded Android platform
+            is no longer tested and supported on the BeagleBone Black. It is,
+            however, still tested and supported in the earlier 3.x releases.
+            Also, it possible to install \B2QA on it using \l {Android injection}.
+            Note: Embedded Linux is still supported on the BeagleBone Black.
         \endlist
     \endlist
 
