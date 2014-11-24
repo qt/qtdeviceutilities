@@ -156,8 +156,9 @@
 
     See \l{Customization}.
 
-    \note Hotplugging does not currently work, and therefore, any input device
-    must be present at boot time to be recognized.
+    \note Hotplugging does not currently work on Embedded Android, and therefore,
+    any input device must be present at boot time to be recognized. On Embedded Linux
+    hotplugging is usually supported for mouse and keyboard devices.
 
     \target ts-11
     \b{Application stops with 'EGLFS: OpenGL windows cannot be mixed with others.'}
