@@ -60,6 +60,33 @@
     necessary because the automatic device discovery would fail to find the
     touchscreen.
 
+    \section1 Switching to tslib for Resistive Touchscreens
+
+    For touchscreens that do not provide modern multitouch capabilities it may
+    be necessary to use the \c tslib library instead of relying on direct event
+    device access and the Linux kernel's multitouch protocol. This also allows
+    calibration and is more suitable for resistive touchscreens that are often used
+    in an industrial setting.
+
+    To enable \c tslib, add the following line to \c /etc/appcontroller.conf on the device:
+
+    \badcode
+        env=QT_QPA_GENERIC_PLUGINS=tslib
+    \endcode
+
+    In some cases it will be necessary to disable the built-in input handlers in
+    case they interfere with \c tslib. To do this, add the following line to
+    \c /etc/appcontroller.conf on the device. Once this is done, no input device
+    handling is in use by default. Instead, the necessary plugins have to be
+    specified in \c QT_QPA_GENERIC_PLUGINS.
+
+    \badcode
+        env=QT_QPA_EGLFS_DISABLE_INPUT=1
+    \endcode
+
+    \note The \c tslib plugin provides no multitouch events (QTouchEvent). It
+    only generates mouse events (QMouseEvent).
+
     \section1 Booting to a Custom Application
 
     By default, the \e {\B2Q demo launcher} is configured to run on startup.
