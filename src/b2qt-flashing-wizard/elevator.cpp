@@ -37,7 +37,7 @@ QStringList elevate()
     if (QFile::exists("/usr/bin/kdesu")) {
         rc << "/usr/bin/kdesu" << "-u" << "root" << "-t" << "--noignorebutton" << "--"; // @ARGS
     } else if (QFile::exists("/usr/bin/gksu")) {
-        rc << "/usr/bin/gksu" << "-m" << "message" << "-u" << "root" << "--"; // @ARGS
+        rc << "/usr/bin/gksu" << "--sudo-mode" << "-u" << "root" << "--"; // @ARGS
 //    } else if (!QFile::exists("/usr/lib/ssh/x11-ssh-askpass")) {
 //        // SUDO_ASKPASS = @askpass-tool;
 //        qDebug() << "askpass";
