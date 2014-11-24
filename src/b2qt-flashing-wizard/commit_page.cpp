@@ -108,20 +108,26 @@ void CommitPage::initializePage()
     } else if (G_platform == "generic-4.4" && G_os == "eAndroid" && G_board == "nexus7v2") {
         ScriptWriter *i = new ScriptWriter(this);
         i->setScriptFile(G_SDKDIR + G_version + "/" + G_platform + "-" + G_os + "/images/" + G_board + "/deploy.sh");
+        QStringList args("-y");
         if (G_mode == "fastboot")
-            i->setAdditionalArgs(QStringList() << "-fastboot");
+            args << "-fastboot";
+        i->setAdditionalArgs(args);
         mActor = i;
     } else if (G_platform == "generic-4.4" && G_os == "eAndroid" && G_board == "nexus7") {
         ScriptWriter *i = new ScriptWriter(this);
         i->setScriptFile(G_SDKDIR + G_version + "/" + G_platform + "-" + G_os + "/images/" + G_board + "/deploy.sh");
+        QStringList args("-y");
         if (G_mode == "fastboot")
-            i->setAdditionalArgs(QStringList() << "-fastboot");
+            args << "-fastboot";
+        i->setAdditionalArgs(args);
         mActor = i;
     } else if (G_platform == "generic-4.2" && G_os == "eAndroid" && G_board == "nexus7") {
         ScriptWriter *i = new ScriptWriter(this);
         i->setScriptFile(G_SDKDIR + G_version + "/" + G_platform + "-" + G_os + "/images/" + G_board + "/deploy.sh");
+        QStringList args("-y");
         if (G_mode == "fastboot")
-            i->setAdditionalArgs(QStringList() << "-fastboot");
+            args << "-fastboot";
+        i->setAdditionalArgs(args);
         mActor = i;
     } else if (G_platform == "raspberrypi" && G_os == "eLinux") {
         ScriptWriter *i = new ScriptWriter(this);
