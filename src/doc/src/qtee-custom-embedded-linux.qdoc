@@ -51,11 +51,11 @@
             \e {Package Manager}. The \e {Yocto meta layer} package
             contains the additional recipes required to make the image
             compatible with \B2Q.
-        \li Install the dependencies for the Yocto tools. In Ubuntu,
-            the following packages are required:
-    \badcode
-    sudo apt-get install gawk wget git-core diffstat unzip texinfo gcc-multilib build-essential chrpath libsdl1.2-dev xterm
-    \endcode
+        \li Install the dependencies for the Yocto tools and build
+            scripts. In Ubuntu, the following packages are required:
+            \badcode
+            sudo apt-get install gawk wget git-core diffstat unzip p7zip texinfo gcc-multilib build-essential chrpath libsdl1.2-dev xterm
+            \endcode
     \endlist
 
     \section1 Setting Up Yocto Build Environment
