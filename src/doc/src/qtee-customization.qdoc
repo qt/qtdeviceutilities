@@ -119,6 +119,76 @@
         <INSTALL_DIR>/Tools/b2qt/adb shell appcontroller --remove-default
     \endcode
 
+    \section1 Configuring Display Resolution
+
+    Steps for configuring a custom resolution depend on the device
+    and display.
+
+    \b {i.MX6 Devices}
+
+    The resolution can be changed by modifying the file \c 6x_bootscript
+    on the boot partition of the SD card.
+
+    First, strip off the header from the file:
+
+    \badcode
+    dd if=6x_bootscript of=my_bootscript ibs=72 skip=1
+    \endcode
+
+    Open the file in a text editor, and edit the following line(s),
+    depending on your display:
+
+    \table
+    \header \li Display \li Line to Edit
+    \row \li HDMI
+         \li line 79:\br
+             \c {video=mxcfb${nextcon}:dev=hdmi,1280x720M@60,if=RGB24}
+    \row \li Freescale
+         \li line 88:\br
+             \c {video=mxcfb${nextcon}:dev=ldb,LDB-XGA,if=RGB666}
+    \row \li ft5x06
+         \li lines 101 to 104:\br
+             \c {video=mxcfb${nextcon}:dev=ldb,1280x800MR@60,if=RGB666}\br
+             \c {video=mxcfb${nextcon}:dev=ldb,1024x600M@60,if=RGB666}
+    \row \li ILI210x
+         \li line 122:\br
+             \c {video=mxcfb${nextcon}:dev=ldb,1024x600M@60,if=RGB666}
+    \row \li Other Displays
+         \li lines 135 to 137:\br
+             \c {display="320x240MR@60,if=RGB24";}\br
+             \c {display="CLAA-WVGA,if=RGB666";}
+    \endtable
+
+    Save the file and call \c mkimage with following parameters:
+
+    \badcode
+    mkimage -A arm -O linux -T script -C none -a 0 -e 0 -n "boot script" -d my_bootscript 6x_bootscript
+    \endcode
+
+    Finally, copy the file back onto the SD card.
+
+    \b {BeagleBone Black}
+
+    Edit the file \c uEnv.txt and add the following line to set a custom resolution:
+    \badcode
+    video=HDMI-A-1:640x480@60
+    \endcode
+
+    Unfortunately, \c 1280x720@60 is currently the only resolution supported for BeagleBone Black.
+
+    \b {Raspberry Pi}
+
+    By default, the resolution is chosen automatically depending on the connected monitor.
+    To select specific display settings, edit the file \c config.txt on the boot
+    partition of the SD card.
+
+    Scroll down to the \c {"hdmi_mode"} section and search the table for the mode you
+    want to set. Uncomment the line at the end of the section and set the value to the
+    one you picked from the table. Save the file and reboot the device.
+
+    For more information, see the Raspberry Pi documentation on
+    \l{http://www.raspberrypi.org/documentation/configuration/config-txt.md}{config.txt}.
+
     \section1 Switching Between Portrait and Landscape Views
 
     Depending on device screen dimensions and application requirements, it might
