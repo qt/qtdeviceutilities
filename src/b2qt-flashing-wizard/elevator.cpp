@@ -34,15 +34,9 @@ QStringList elevate()
         return rc;
     }
 
-    if (QFile::exists("/usr/bin/kdesu")) {
-        rc << "/usr/bin/kdesu" << "-u" << "root" << "-t" << "--noignorebutton" << "--"; // @ARGS
-    } else if (QFile::exists("/usr/bin/gksu")) {
-        rc << "/usr/bin/gksu" << "--sudo-mode" << "-u" << "root" << "--"; // @ARGS
-//    } else if (!QFile::exists("/usr/lib/ssh/x11-ssh-askpass")) {
-//        // SUDO_ASKPASS = @askpass-tool;
-//        qDebug() << "askpass";
-//        rc << "sudo" << "-A" << "--"; // @ARGS
-    }
+    if (QFile::exists("/usr/bin/pkexec"))
+        rc << "/usr/bin/pkexec"; // @ARGS
+
     return rc;
 }
 
