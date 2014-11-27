@@ -96,6 +96,22 @@
     Alternatively, the files used by the application can be stored into the application
     executable using the \l{The Qt Resource System}{Qt resource system}. This way, simply
     deploying the application binary is all that's required.
+
+    \section1 Using Qt Quick Controls
+
+    The \B2Q stack supports the full set of Qt modules, including \l {Qt Quick Controls}.
+    However, a number of UI controls from that module are implemented in a way that's
+    currently not supported:
+
+    \list
+        \li ComboBox
+        \li \l Menu and MenuBar
+    \endlist
+
+    These controls attempt to open a new top-level window, while in \B2Q, Qt Quick
+    applications can only have a single fullscreen window existing at a time.
+
+    See the related entry in \l{ts-11}{Troubleshooting}.
 */
 
 /*!

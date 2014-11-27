@@ -21,7 +21,8 @@ indexes                      = $QT_INSTALL_DOCS/qtquick/qtquick.index \
                                $QT_INSTALL_DOCS/qtcore/qtcore.index \
                                $QT_INSTALL_DOCS/qtserialport/qtserialport.index \
                                $QT_INSTALL_DOCS/emulator/emulator.index \
-                               $QT_INSTALL_DOCS/qtwebengine/qtwebengine.index
+                               $QT_INSTALL_DOCS/qtwebengine/qtwebengine.index \
+                               $QT_INSTALL_DOCS/qtquickcontrols/qtquickcontrols.index
 
 qhp.projects                 = B2Qt
 
