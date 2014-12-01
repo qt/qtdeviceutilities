@@ -48,6 +48,7 @@
             \li \l{Boundary Devices i.MX6 Boards}
             \li \l{Preparing SABRE SD i.MX6Quad}{SABRE SD i.MX6Quad (embedded Linux)}
             \li \l{Preparing Toradex Apalis iMX6}{Toradex Apalis iMX6 (embedded Linux)}
+            \li \l{Preparing Toradex Colibri VF50 and VF61}{Toradex Colibri VF50 and VF61 (embedded Linux)}
             \li \l{Preparing ArchiTech Tibidabo}{ArchiTech Tibidabo (embedded Linux)}
             \li \l{Preparing BeagleBone Black}{BeagleBone Black (embedded Linux)}
             \li \l{Preparing Raspberry Pi}{Raspberry Pi Model B (embedded Linux)}
