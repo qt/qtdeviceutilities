@@ -16,29 +16,17 @@
 ** the contact form at http://www.qt.io
 **
 ****************************************************************************/
+import QtQuick 2.3
+import QtQuick.Window 2.2
 
-/*!
-    \page qtee-module-reference.html
-    \title Add-On Modules
-    \previouspage qtee-licenses.html
+Window {
+    visible: true
+    width: Screen.width
+    height: Screen.height
+    color: "#D9D9D9"
 
-    The following modules included in the \B2Q stack, provide
-    additional API that are useful for an embedded application:
+    WifiScanner {}
 
-    \annotatedlist qtee-modules
-
-    \section1 B2Qt Utils Module
-
-    \annotatedlist utils-qmltypes
-
-    \section1 B2Qt Wifi Module
-
-    \section2 QML Types
-
-    \annotatedlist wifi-qmltypes
-
-    \section2 C++ Classes
-
-    \annotatedlist wifi-cppclasses
-*/
-
+    // disable the above line before enabling WifiConnectionHandler
+    // WifiConnectionHandler {}
+}

@@ -16,29 +16,15 @@
 ** the contact form at http://www.qt.io
 **
 ****************************************************************************/
+#include <QGuiApplication>
+#include <QQmlApplicationEngine>
 
-/*!
-    \page qtee-module-reference.html
-    \title Add-On Modules
-    \previouspage qtee-licenses.html
+int main(int argc, char *argv[])
+{
+    QGuiApplication app(argc, argv);
 
-    The following modules included in the \B2Q stack, provide
-    additional API that are useful for an embedded application:
+    QQmlApplicationEngine engine;
+    engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
 
-    \annotatedlist qtee-modules
-
-    \section1 B2Qt Utils Module
-
-    \annotatedlist utils-qmltypes
-
-    \section1 B2Qt Wifi Module
-
-    \section2 QML Types
-
-    \annotatedlist wifi-qmltypes
-
-    \section2 C++ Classes
-
-    \annotatedlist wifi-cppclasses
-*/
-
+    return app.exec();
+}

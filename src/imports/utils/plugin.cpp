@@ -21,8 +21,15 @@
 
 /*!
     \qmlmodule B2Qt.Utils 1.0
-    \title B2Qt Utils Module
+    \title B2Qt Utils QML Module
     \ingroup qtee-qmlmodules
+    \brief A collection of utility functions, accessible from QML.
+*/
+
+/*!
+    \page b2qt-addon-utils.html
+    \title B2Qt Utils Module
+    \ingroup qtee-modules
     \brief A collection of utility functions, accessible from QML.
 
     Provides various utility functions for controlling an embedded
@@ -41,6 +48,8 @@
           the platforms.
 
     \section1 QML Types
+
+    \annotatedlist utils-qmltypes
 */
 
 /*!

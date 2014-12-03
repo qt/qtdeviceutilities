@@ -27,73 +27,6 @@
 
 QT_BEGIN_NAMESPACE
 
-/*!
-    \qmlmodule QtWifi 1.0
-    \title QtWifi Module
-    \ingroup qtee-qmlmodules
-    \brief A module for managing wireless network connectivity.
-
-    Provides QML types for controlling WiFi networks - handling WiFi backend initialization,
-    retrieving information from nearby WiFi access points, setting up and bringing down WiFi
-    connections, querying DHCP server for IP address.
-
-    The import command for adding these QML types is:
-
-    \code
-    import QtWifi 1.0
-    \endcode
-
-    \section1 API Reference
-*/
-
-/*!
-
-    \qmltype WifiManager
-    \inqmlmodule QtWifi
-    \ingroup wifi-qmltypes
-    \brief Main interface to the WiFi functionality.
-
-    WifiManager is a singleton type that provides information about the WiFi backend and
-    available networks, use it to control the WiFi backend, scan for wireless networks
-    and connect to selected network. WifiManager provides events for backend and network
-    state changes.
-
- */
-
-/*!
-    \qmlsignal void WifiManager::networkStateChanged(NetworkState networkState)
-
-    This signal is emitted whenever changes in a network state occur. The network name for
-    which the state changes events are send can be obtained from currentSSID.
-
-    \sa networkState
-*/
-
-/*!
-    \qmlsignal void WifiManager::backendStateChanged(BackendState backendState)
-
-    This signal is emitted whenever changes in a backend state occur.
-
-    \sa start, stop
-*/
-
-/*!
-    \qmlsignal void WifiManager::currentSSIDChanged(string currentSSID)
-
-    This signal is emitted when switching between different WiFi networks.
-
-    \sa start, stop
-*/
-
-/*!
-    \qmlsignal void WifiManager::scanningChanged(bool scanning)
-
-    This signal is emitted when device starts or stops to scan for available wifi networks.
-
-    \sa scanning
-
-*/
-
 // must be in the same order as in enum {} definiton
 const char *nsText[] = { "Disconnected", "Authenticating", "HandshakeFailed",
                          "ObtainingIPAddress", "DhcpRequestFailed", "Connected" };
@@ -259,8 +192,105 @@ void QWifiManagerPrivate::updateLastError(const QString &error)
     emit q->lastErrorChanged(m_lastError);
 }
 
+/*!
+    \class QWifiManager
+    \inmodule B2Qt.Wifi.Cpp
+    \ingroup wifi-cppclasses
+    \brief Enables an application to be Wifi-capable.
+
+    QWifiManager is a singleton class that handles Wifi-related tasks. You can
+    use QWifiManager to control the Wifi backend, scan for Wifi access points,
+    and connect to a wireless network.
+
+    QWifiManager packs the scan results in a list-based data model, which can
+    be used with Qt's Model/View classes. Information about a Wifi network can
+    be accessed using the QWifiManager::Roles data roles.
+ */
+
+/*!
+    \enum QWifiManager::NetworkState
+
+    Describes current state of the network connection.
+
+    \value Disconnected Not connected to any network
+    \value Authenticating Verifying password with the network provider
+    \value HandshakeFailed Incorrect password provided
+    \value ObtainingIPAddress Requesting IP address from DHCP server
+    \value DhcpRequestFailed Could not retrieve IP address
+    \value Connected Ready to process network requests
+ */
+
+/*!
+    \enum QWifiManager::BackendState
+
+    Describes current state of the Wifi backend.
+
+    \value Initializing Wireless supplicant is starting up
+    \value Running Supplicant is initialized and ready to process commands
+    \value Terminating Shutting down wireless supplicant
+    \value NotRunning Wireless supplicant process is not running
+ */
+
+/*!
+    \enum QWifiManager::Roles
+
+    Data roles supported by the data model returned from QWifiManager::networks()
+
+    \value SSID informal (human) name of a Wifi network (QString)
+    \value BSSID basic service set identification of a network, used to uniquely identify BSS (QString)
+    \value SignalStrength strength of a Wifi signal, measured in dBm (int)
+    \value WPASupported holds whether network access point supports WPA security protocol (QString)
+    \value WPA2Supported holds whether network access point supports WPA2 security protocol (QString)
+    \value WEPSupported holds whether network access point supports WEP security protocol (QString)
+    \value WPSSupported holds whether network access point supports WPS security protocol (QString)
+ */
+
+/*!
+    \fn QWifiManager::networkStateChanged(NetworkState networkState)
+
+    This signal is emitted whenever the network state changes. The network name
+    for which the signal is emitted, can be obtained from currentSSID.
+
+    \sa NetworkState, currentSSID()
+ */
+
+/*!
+    \fn QWifiManager::backendStateChanged(BackendState backendState)
+
+    This signal is emitted whenever the backend state changes.
+
+    \sa start(), stop()
+ */
+
+/*!
+    \fn QWifiManager::currentSSIDChanged(string currentSSID)
+
+    This signal is emitted when switching between different Wifi networks.
+
+    \sa start(), stop()
+ */
+
+/*!
+    \fn QWifiManager::scanningChanged(bool scanning)
+
+    This signal is emitted when device starts or stops to scan for available Wifi networks.
+
+    \sa isScanning()
+ */
+
+/*!
+    \fn QWifiManager::lastErrorChanged(const string error)
+
+    This signal is emitted if some internal process has failed, \a error contains
+    a message on what has failed.
+
+    \sa connect()
+ */
 
 QWifiManager* QWifiManager::m_instance = 0;
+/*!
+    Returns a singleton instance of QWifiManager.
+*/
 QWifiManager* QWifiManager::instance()
 {
     if (!m_instance)
@@ -287,6 +317,9 @@ QWifiManager::QWifiManager()
     d->updateWifiState();
 }
 
+/*!
+    Destroys the QWifiManager singleton instance.
+ */
 QWifiManager::~QWifiManager()
 {
     Q_D(QWifiManager);
@@ -296,17 +329,15 @@ QWifiManager::~QWifiManager()
 }
 
 /*!
-    \qmlproperty WifiNetworkListModel WifiManager::networks
-    \readonly
+    \property QWifiManager::networks
+    \brief a list-based data model of networks
 
-    This property holds a list of networks that can be sensed by a device. Use the returned
-    model as data model in ListView, model is updated every 5 seconds.
+    Returns a list-based data model of networks that can be sensed by a device.
+    Model can be used with Qt's Model/View classes such as QListView. Data in
+    the model is updated every 5 seconds if scanning is enabled.
 
-    WifiNetworkListModel is a simple data model consisting of WifiNetwork objects, accessed with
-    the "network" data role name. Instances of WifiNetwork cannot be created directly from the QML system.
-
+    \sa isScanning()
 */
-
 QAbstractListModel *QWifiManager::networks() const
 {
     Q_D(const QWifiManager);
@@ -314,13 +345,13 @@ QAbstractListModel *QWifiManager::networks() const
 }
 
 /*!
-    \qmlproperty string WifiManager::currentSSID
-    \readonly
+    \property QWifiManager::currentSSID
+    \brief a network name of the last selected network
 
-    This property holds the network name for which the networkState changes events are sent or
-    or an empty string when there is no active network.
+    The network for which the NetworkState change signals are emitted.
+    Property can contain an empty string when there is no active network
+    connection.
 */
-
 QString QWifiManager::currentSSID() const
 {
     Q_D(const QWifiManager);
@@ -328,21 +359,11 @@ QString QWifiManager::currentSSID() const
 }
 
 /*!
-    \qmlproperty enumeration WifiManager::networkState
-    \readonly
+    \property QWifiManager::networkState
+    \brief the current network state
 
-    This property holds the current state of the network connection.
-
-    \list
-    \li \e WifiManager.Disconnected - Not connected to any network
-    \li \e WifiManager.Authenticating - Verifying password with the network provider
-    \li \e WifiManager.HandshakeFailed - Incorrect password provided
-    \li \e WifiManager.ObtainingIPAddress - Requesting IP address from DHCP server
-    \li \e WifiManager.DhcpRequestFailed - Could not retrieve IP address
-    \li \e WifiManager.Connected - Ready to process network requests
-    \endlist
+    Returns the current network state.
 */
-
 QWifiManager::NetworkState QWifiManager::networkState() const
 {
     Q_D(const QWifiManager);
@@ -350,19 +371,11 @@ QWifiManager::NetworkState QWifiManager::networkState() const
 }
 
 /*!
-    \qmlproperty enumeration WifiManager::backendState
-    \readonly
+    \property QWifiManager::backendState
+    \brief the current backend state.
 
-    This property holds the current state of the WiFi backend.
-
-    \list
-    \li \e WifiManager.Initializing - Wireless supplicant is starting up
-    \li \e WifiManager.Running - Supplicant is initialized and ready to process commands
-    \li \e WifiManager.Terminating - Shutting down wireless supplicant
-    \li \e WifiManager.NotRunning - Wireless supplicant process is not running
-    \endlist
+    Returns the current backend state.
 */
-
 QWifiManager::BackendState QWifiManager::backendState() const
 {
     Q_D(const QWifiManager);
@@ -370,14 +383,11 @@ QWifiManager::BackendState QWifiManager::backendState() const
 }
 
 /*!
-    \qmlmethod void WifiManager::start()
-
-    Start the WiFi backend. This function returns immediately, the backendState
+    Start the Wifi backend. This function returns immediately, the BackendState
     change events are delivered asynchronously.
 
-    \sa stop, backendState
- */
-
+    \sa stop(), BackendState
+*/
 void QWifiManager::start()
 {
     Q_D(QWifiManager);
@@ -385,47 +395,35 @@ void QWifiManager::start()
 }
 
 /*!
-    \qmlmethod void WifiManager::stop()
+    Stop the Wifi backend. Closes the open network connection if any.
+    This function returns immediately, and the BackendState change events are
+    delivered asynchronously.
 
-    Stop the WiFi backend and if connected to any network shut down network connection.
-    This function returns immediately, the backendState change events are delivered asynchronously.
-
-    \sa start, backendState
- */
-
+    \sa start(), BackendState
+*/
 void QWifiManager::stop()
 {
     Q_D(QWifiManager);
     d->m_wifiController->call(QWifiController::TerminateBackend);
 }
 
-void QWifiManager::handleBackendStateChanged(BackendState backendState)
-{
-    Q_D(QWifiManager);
-    switch (backendState) {
-    case Running:
-        d->m_setCurrentSSID = true;
-        break;
-    case NotRunning:
-        d->updateNetworkState(Disconnected);
-        break;
-    default:
-        break;
-    }
-    d->updateBackendState(backendState);
-}
+/*!
+    \property QWifiManager::scanning
+    \brief whether the backend is scanning for Wifi networks.
 
-void QWifiManager::handleDhcpRequestFinished(const QString &status)
+    Sets whether to scan the environment for Wifi access points.
+
+    To preserve battery energy, set this property to false when scanning is not required.
+    When enabled, new readings are taken every 5 seconds.
+
+    \note You must initialize the Wifi backend to scan for networks.
+
+    \sa start()
+*/
+bool QWifiManager::isScanning() const
 {
-    Q_D(QWifiManager);
-    qCDebug(B2QT_WIFI) << "handleDhcpRequestFinished: " << status << " for " << d->m_currentSSID;
-    if (status == QLatin1String("success")) {
-        d->emitCurrentSSIDChanged();
-        d->updateNetworkState(Connected);
-        d->call(QStringLiteral("SAVE_CONFIG"));
-    } else {
-        d->updateNetworkState(DhcpRequestFailed);
-    }
+    Q_D(const QWifiManager);
+    return d->m_scanning;
 }
 
 void QWifiManager::setScanning(bool scanning)
@@ -446,22 +444,14 @@ void QWifiManager::setScanning(bool scanning)
 }
 
 /*!
-    \qmlproperty bool WifiManager::scanning
+    \property QWifiManager::lastError
+    \brief a QString containing the last error message set by QWifiManager.
 
-    This property holds whether or not the backend is scanning for WiFi networks. To
-    preserve battery energy, set this property to false when scanning is not required.
+    Returns a QString containing the last error message set by QWifiManager.
+    This helps in diagnosing the internal process failures.
 
-    Before starting to scan for networks, you need to initialize the WiFi backend.
-
-    \sa start
+    \sa connect()
 */
-
-bool QWifiManager::scanning() const
-{
-    Q_D(const QWifiManager);
-    return d->m_scanning;
-}
-
 QString QWifiManager::lastError() const
 {
     Q_D(const QWifiManager);
@@ -502,15 +492,14 @@ bool QWifiManager::event(QEvent *event)
     return QObject::event(event);
 }
 
-
 /*!
-    \qmlmethod void WifiManager::connect(WifiNetwork network, string passphrase)
+    Connect a device to a network using the \a config network configuration.
+    This method returns \c true if the network with the provided configuration
+    could be successfully added by the backend or \c false on failure.
+    Use lastError() to obtain the error message on failure.
 
-    Connect to network \a network and use passphrase \a passphrase for authentication.
-
-    \sa disconnect, networkState
- */
-
+    \sa disconnect(), NetworkState, lastError()
+*/
 bool QWifiManager::connect(QWifiConfiguration *config)
 {
     Q_D(QWifiManager);
@@ -583,18 +572,44 @@ bool QWifiManager::connect(QWifiConfiguration *config)
 }
 
 /*!
-    \qmlmethod void WifiManager::disconnect()
-
     Disconnect from currently connected network connection.
 
-    \sa connect, networkState
+    \sa connect(), networkState()
 */
-
 void QWifiManager::disconnect()
 {
     Q_D(QWifiManager);
     d->call(QStringLiteral("DISCONNECT"));
     d->m_wifiController->call(QWifiController::StopDhcp);
+}
+
+void QWifiManager::handleBackendStateChanged(BackendState backendState)
+{
+    Q_D(QWifiManager);
+    switch (backendState) {
+    case Running:
+        d->m_setCurrentSSID = true;
+        break;
+    case NotRunning:
+        d->updateNetworkState(Disconnected);
+        break;
+    default:
+        break;
+    }
+    d->updateBackendState(backendState);
+}
+
+void QWifiManager::handleDhcpRequestFinished(const QString &status)
+{
+    Q_D(QWifiManager);
+    qCDebug(B2QT_WIFI) << "handleDhcpRequestFinished: " << status << " for " << d->m_currentSSID;
+    if (status == QLatin1String("success")) {
+        d->emitCurrentSSIDChanged();
+        d->updateNetworkState(Connected);
+        d->call(QStringLiteral("SAVE_CONFIG"));
+    } else {
+        d->updateNetworkState(DhcpRequestFailed);
+    }
 }
 
 QT_END_NAMESPACE

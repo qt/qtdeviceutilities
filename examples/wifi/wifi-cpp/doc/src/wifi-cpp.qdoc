@@ -1,0 +1,97 @@
+/****************************************************************************
+**
+** Copyright (C) 2014 Digia Plc
+** All rights reserved.
+** For any questions to Digia, please use the contact form at
+** http://www.qt.io
+**
+** This file is part of Qt Enterprise Embedded.
+**
+** Licensees holding valid Qt Enterprise licenses may use this file in
+** accordance with the Qt Enterprise License Agreement provided with the
+** Software or, alternatively, in accordance with the terms contained in
+** a written agreement between you and Digia.
+**
+** If you have questions regarding the use of this file, please use
+** the contact form at http://www.qt.io
+**
+****************************************************************************/
+/*!
+    \title Getting Started with B2Qt.Wifi in C++
+    \example wifi/wifi-cpp
+    \ingroup wifi-examples
+    \brief Guide to getting started with B2Qt.Wifi using C++.
+
+    \section1 Preparing the Application
+
+    Use the following \c include statement to access the C++ classes:
+
+    \code
+    #include <B2QtWifi>
+    \endcode
+
+    Before building your application, add the following statement to your
+    \c .pro file to link against the B2Qt.Wifi library:
+
+    \code
+    QT += b2qtwifi
+    \endcode
+
+    This guide will demonstrate how to create a Qt Widget-based application
+    that utilizes the B2Qt.Wifi API to set up a wifi network connection. We
+    will start by looking at how to scan for wifi access points, and how to
+    display and process this data in the application. At the end of the guide
+    we will show how to connect directly to a known wifi network configuration.
+
+    \image wifi-cpp.jpg
+
+    \section1 Listing Wifi Networks
+
+    First we need to set up QListView widget which we will use to list wifi
+    networks that can be detected by the device. The detected network access
+    points are packed as a list-based data model and can be retrieved using
+    QWifiManager::networks. Here we also set a custom item delegate and
+    connect to two QWifiManager signals.
+
+    \snippet wifi/wifi-cpp/main.cpp 0
+
+    \section1 Creating a Delegate
+
+    The Wifi network model has many data roles that describe the different
+    properties of Wifi network. This data can be used by an application to list
+    detailed network information and/or to create QWifiConfiguration objects.
+    In this example we are interested in the network name. In the paint()
+    method we check if the network name is equal to the currently active
+    network connection, and append appropriate network state information.
+
+    \snippet wifi/wifi-cpp/main.cpp 1
+
+    \section1 Connecting to a Selected Network
+
+    On press of the \uicontrol Connect button, connetToNetwork() slot gets
+    invoked. In this slot we query network properties for the selected network
+    and create a QWifiConfiguration object, which we later pass to the
+    QWifiManager::connect function to set up a connection. During this
+    operation any changes in the network state is reported by QWifiManager
+    asynchronously.
+
+    \snippet wifi/wifi-cpp/main.cpp 2
+
+    We use QWifiManager::NetworkState change event handler to trigger the
+    repainting of the delegate. This way, we can present a current network
+    state to the user.
+
+    \snippet wifi/wifi-cpp/main.cpp 4
+
+    \section1 Connecting To a Known Network
+
+    If you already know the network configuration beforehand, you can skip the
+    network scanning, listing and selection steps. This can be a valid use-case
+    for devices that do not change their physical location.
+
+    QWifiManager::BackendState change events are reported asynchronously, so we
+    must connect the signal to a slot that connects to the network access point
+    after the backend initialization is complete.
+
+    \snippet wifi/wifi-cpp/main.cpp 3
+ */

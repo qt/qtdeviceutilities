@@ -38,7 +38,7 @@ public:
 
     void setSsid(const QString &ssid);
     QString ssid() const;
-    void setPassphrase(const QString &psk);
+    void setPassphrase(const QString &passphrase);
     QString passphrase() const;
     void setProtocol(const QString &protocol);
     QString protocol() const;

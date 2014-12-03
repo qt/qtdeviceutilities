@@ -43,13 +43,13 @@ QWifiNetworkListModel::~QWifiNetworkListModel()
 QHash<int, QByteArray> QWifiNetworkListModel::roleNames() const
 {
     QHash<int, QByteArray> names;
-    names.insert(QWifiManager::SSIDRole, "ssid");
-    names.insert(QWifiManager::BSSIDRole, "bssid");
-    names.insert(QWifiManager::SignalRole, "signalStrength");
-    names.insert(QWifiManager::WPARole, "supportsWPA");
-    names.insert(QWifiManager::WPA2Role, "supportsWPA2");
-    names.insert(QWifiManager::WEPRole, "supportsWEP");
-    names.insert(QWifiManager::WPSRole, "supportsWPS");
+    names.insert(QWifiManager::SSID, "ssid");
+    names.insert(QWifiManager::BSSID, "bssid");
+    names.insert(QWifiManager::SignalStrength, "signalStrength");
+    names.insert(QWifiManager::WPASupported, "supportsWPA");
+    names.insert(QWifiManager::WPA2Supported, "supportsWPA2");
+    names.insert(QWifiManager::WEPSupported, "supportsWEP");
+    names.insert(QWifiManager::WPSSupported, "supportsWPS");
     return names;
 }
 
@@ -58,25 +58,25 @@ QVariant QWifiNetworkListModel::data(const QModelIndex &index, int role) const
     QWifiNetwork *n = m_networks.at(index.row());
 
     switch (role) {
-    case QWifiManager::SSIDRole:
+    case QWifiManager::SSID:
         return n->ssid();
         break;
-    case QWifiManager::BSSIDRole:
+    case QWifiManager::BSSID:
         return n->bssid();
         break;
-    case QWifiManager::SignalRole:
+    case QWifiManager::SignalStrength:
         return n->signalStrength();
         break;
-    case QWifiManager::WPARole:
+    case QWifiManager::WPASupported:
         return n->supportsWPA();
         break;
-    case QWifiManager::WPA2Role:
+    case QWifiManager::WPA2Supported:
         return n->supportsWPA2();
         break;
-    case QWifiManager::WEPRole:
+    case QWifiManager::WEPSupported:
         return n->supportsWEP();
         break;
-    case QWifiManager::WPSRole:
+    case QWifiManager::WPSSupported:
         return n->supportsWPS();
         break;
     default:

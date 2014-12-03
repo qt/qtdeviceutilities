@@ -28,44 +28,25 @@
 QT_BEGIN_NAMESPACE
 
 /*!
-    \qmltype WifiDevice
-    \inqmlmodule QtWifi
-    \ingroup wifi-qmltypes
-    \brief Represents a physical device
+    \class QWifiDevice
+    \inmodule B2Qt.Wifi.Cpp
+    \ingroup wifi-cppclasses
+    \brief Represents a physical device.
 
-    Use this element to query if a device is WiFi capable before attempting
-    to use functionality of WifiManager.
+    Use this class to query if a device is Wifi capable, before attempting
+    to use the functionality of QWifiManager.
 
-    \qml
-    import QtWifi 1.0
+    \code
+    QWifiManager *m_wifiManager = 0;
+    if (QWifiDevice::wifiSupported())
+        m_wifiManager = QWifiManager::instance();
 
-    GroupBox {
-        id: wifiOptions
-        title: "Wifi"
-        visible: false
-
-        Component.onCompleted: {
-            if (WifiDevice.wifiSupported()) {
-                var component = Qt.createComponent("WifiGroupBox.qml")
-                var wifi = component.createObject(wifiOptions.contentItem)
-                if (wifi)
-                    wifiOptions.visible = true
-            } else {
-                print("WiFi functionality not available on this device.")
-            }
-        }
+    if (m_wifiManager) {
+        m_wifiManager->start();
+        // and other wifi related code
     }
-    \endqml
-*/
-
-/*!
-    \qmlmethod bool QWifiDevice::wifiSupported()
-
-    Returns true if the device is WiFi capable - WiFi driver and firmware has been
-    successfully loaded by the system, otherwise returns false.
-
-    \sa wifiInterfaceName
-*/
+    \endcode
+ */
 
 QWifiDevice::QWifiDevice()
 {
@@ -75,6 +56,10 @@ QWifiDevice::~QWifiDevice()
 {
 }
 
+/*!
+    Returns \a true if a device is Wifi capable - Wifi driver and firmware has been
+    successfully loaded by the system, otherwise returns \a false.
+*/
 bool QWifiDevice::wifiSupported()
 {
 #ifdef Q_OS_ANDROID_NO_SDK
@@ -108,18 +93,15 @@ bool QWifiDevice::wifiSupported()
 }
 
 /*!
-    \fn QByteArray QWifiDevice::wifiInterfaceName()
+    Returns Wifi interface name.
 
-    Returns WiFi interface name.
+    \note On Android, the Wifi interface name is read from "wifi.interface"
+    system property. On Linux, it is read from the \c B2QT_WIFI_INTERFACE
+    environment variable if it is set, otherwise, the default interface
+    name ("\e{wlan0}") is used.
 
-    \note On Android WiFi interface name is read from "wifi.interface" system property.
-    On Linux WiFi interface name is read from B2QT_WIFI_INTERFACE environmental variable if
-    it is set. The default interface name is "wlan0" if reading the designated places does not
-    provide an interface name.
-
-    /sa setWifiInterfaceName
-*/
-
+    \sa setWifiInterfaceName()
+ */
 QByteArray QWifiDevice::wifiInterfaceName()
 {
     QByteArray ifc;
@@ -135,11 +117,10 @@ QByteArray QWifiDevice::wifiInterfaceName()
 }
 
 /*!
-    \fn void QWifiDevice::setWifiInterfaceName(const QByteArray &name)
+    A conveniece method to set the Wifi interface name.
 
-    A conveniece method for settings WiFi interface name.
-*/
-
+    \sa wifiInterfaceName()
+ */
 void QWifiDevice::setWifiInterfaceName(const QByteArray &name)
 {
 #ifdef Q_OS_ANDROID_NO_SDK

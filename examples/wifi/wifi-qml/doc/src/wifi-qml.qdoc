@@ -1,0 +1,85 @@
+/****************************************************************************
+**
+** Copyright (C) 2014 Digia Plc
+** All rights reserved.
+** For any questions to Digia, please use the contact form at
+** http://www.qt.io
+**
+** This file is part of Qt Enterprise Embedded.
+**
+** Licensees holding valid Qt Enterprise licenses may use this file in
+** accordance with the Qt Enterprise License Agreement provided with the
+** Software or, alternatively, in accordance with the terms contained in
+** a written agreement between you and Digia.
+**
+** If you have questions regarding the use of this file, please use
+** the contact form at http://www.qt.io
+**
+****************************************************************************/
+/*!
+
+    \title Getting Started with B2Qt.Wifi in QML
+    \example wifi/wifi-qml
+    \ingroup wifi-examples
+    \brief Guide to getting started with B2Qt.Wifi using QML.
+
+    \section1 Preparing the Application
+
+    Use the following \c import statement in the QML files to access the B2Qt.Wifi QML types:
+
+    \code
+    import B2Qt.Wifi 1.0
+    \endcode
+
+    This guide will demonstrate how to create a QML based application that utilizes
+    B2Qt.Wifi API to set up a wifi network connection. We will start by looking at how to scan the
+    surroundings for wifi access points and how to display and process this data in the application.
+    At the end of the guide we will show how to connect directly to a known wifi network configuration.
+
+    \image wifi-qml.jpg
+
+    \section1 Listing Wifi Networks
+
+    First we need to set up ListView which we will use to list wifi networks
+    that can be sensed by the device. The sensed network access points are packed as a list-based
+    data model and can be retrieved from WifiManager::networks. Here we also set a custom item
+    delegate and connect to WifiManager::networkStateChanged signal.
+
+    \snippet wifi/wifi-qml/WifiScanner.qml 0
+
+    \section1 Creating a Delegate
+
+    The wifi network model has many data roles that describe the different properties of wifi networks.
+    This data can be used by an application to list detailed network information and/or to set up
+    WifiConfiguration objects. We use these network data roles in our delegate for listing
+    ssid, bssid, supported security protocols and for signal strengh representation.
+
+    \snippet wifi/wifi-qml/WifiScanner.qml 1
+
+    \section1 Connecting To a Selected Network
+
+    WifiConfiguration element will be used to describe the network that we want to connect to,
+    selected from the network list.
+
+    \snippet wifi/wifi-qml/WifiScanner.qml 2
+
+    When \uicontrol Connect button is clicked we set the network name and password properties on
+    the \c config and pass it to WifiManager::connect, which sets up a wifi connection behind-the-scenes.
+    During this operation or whenever there are changes in the network state, QWifiManager provides
+    asynchronous QWifiManager::NetworkState change events.
+
+    \snippet wifi/wifi-qml/WifiScanner.qml 3
+
+    \section1 Connecting To a Known Network
+
+    If you are not interested in scanning the environment for wifi network access points and you already
+    know the network configuration beforehand, the network scanning, listing and selection steps can be
+    entirely skipped. This can be a valid use-case for devices that won't be changing their physical location.
+
+    QWifiManager::BackendState change events are delivered asynchronously. Therefore we have to add a signal handler
+    that will connect to the network access point after the backend initialization process has been completed,
+    if the backend is not already in the initialized state at the time of running this code.
+
+    \snippet wifi/wifi-qml/WifiConnectionHandler.qml 0
+
+ */

@@ -179,7 +179,7 @@
         \li Update new content to device without erasing it first on \B2QL
         \li All images now contain generally used CA certificates
         \li Toolchains updated to support Qt WebEngine
-        \li Documentation was added for QML types provided by the \l {QtWifi Module}
+        \li Documentation was added for QML types provided by the \l {B2Qt.Wifi Module}
         \li Emulator: Debug logging functionality was added
         \li Various documentation improvements
         \li \SDK installer error handling was improved

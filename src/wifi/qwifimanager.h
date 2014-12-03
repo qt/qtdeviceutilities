@@ -42,7 +42,7 @@ class Q_DECL_EXPORT QWifiManager : public QObject
     Q_ENUMS(BackendState)
     Q_PROPERTY(NetworkState networkState READ networkState NOTIFY networkStateChanged)
     Q_PROPERTY(BackendState backendState READ backendState NOTIFY backendStateChanged)
-    Q_PROPERTY(bool scanning READ scanning WRITE setScanning NOTIFY scanningChanged)
+    Q_PROPERTY(bool scanning READ isScanning WRITE setScanning NOTIFY scanningChanged)
     Q_PROPERTY(QString currentSSID READ currentSSID NOTIFY currentSSIDChanged)
     Q_PROPERTY(QString lastError READ lastError NOTIFY lastErrorChanged)
     Q_PROPERTY(QAbstractListModel *networks READ networks CONSTANT)
@@ -64,13 +64,13 @@ public:
     };
 
     enum Roles {
-        SSIDRole = Qt::UserRole + 1,
-        BSSIDRole = Qt::UserRole + 2,
-        SignalRole = Qt::UserRole + 3,
-        WPARole = Qt::UserRole + 4,
-        WPA2Role = Qt::UserRole + 5,
-        WEPRole = Qt::UserRole + 6,
-        WPSRole = Qt::UserRole + 7
+        SSID           = Qt::UserRole + 1,
+        BSSID          = Qt::UserRole + 2,
+        SignalStrength = Qt::UserRole + 3,
+        WPASupported   = Qt::UserRole + 4,
+        WPA2Supported  = Qt::UserRole + 5,
+        WEPSupported   = Qt::UserRole + 6,
+        WPSSupported   = Qt::UserRole + 7
     };
 
     static QWifiManager *instance();
@@ -78,7 +78,7 @@ public:
 
     QAbstractListModel *networks() const;
     QString currentSSID() const;
-    bool scanning() const;
+    bool isScanning() const;
     void setScanning(bool scanning);
     NetworkState networkState() const;
     BackendState backendState() const;

@@ -4,15 +4,18 @@ naturallanguage              = en_US
 outputencoding               = UTF-8
 sourceencoding               = UTF-8
 
-project                      = QtEnterpriseEmbedded
+project                      = QtForDeviceCreation
 description                  = Qt for Device Creation
 version                      = 4.0.0
 
 sourcedirs                   = ../src \
                                ../../imports/wifi \
-                               ../../imports/utils
+                               ../../imports/utils \
+                               ../../wifi
 
-headerdirs                   = ../../imports/wifi
+headerdirs                  += ../../wifi
+
+exampledirs +=                 ../../../examples
 
 imagedirs                   += ../images
 
@@ -43,4 +46,6 @@ macro.B2QA                   = "\\e {Boot to Qt for embedded Android}"
 macro.B2QL                   = "\\e {Boot to Qt for embedded Linux}"
 
 navigation.landingpage = "Qt for Device Creation"
-navigation.qmltypespage = "Add-On QML Types"
+navigation.qmltypespage = "Add-On Modules"
+
+Cpp.ignoreDirectives        += Q_DECLARE_LOGGING_CATEGORY
