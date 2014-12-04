@@ -98,14 +98,23 @@
         \li BeagleBone Black
         \li beaglebone
     \row
-        \li Boundary Devices BD-SL-i.MX6
+        \li Boundary Devices i.MX6 Boards
         \li nitrogen6x
     \row
         \li Freescale SABRE SD i.MX6Quad
         \li imx6qsabresd
     \row
+        \li Freescale SABRE SD i.MX6Dual
+        \li imx6dlsabresd
+    \row
         \li Toradex Apalis iMX6
         \li apalis-imx6
+    \row
+        \li Toradex Colibri VF
+        \li colibri-vf
+    \row
+        \li SILICA ArchiTech Tibidabo
+        \li tibidabo
     \row
         \li Emulator
         \li emulator
