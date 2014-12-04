@@ -68,7 +68,14 @@
     <INSTALL_DIR>/Boot2Qt-4.x/sources/b2qt-yocto-meta/b2qt-init-build-env init --device raspberrypi
     \endcode
 
-    For more command line options, see:
+    \c b2qt-init-build-env has the following additional command line options:
+    \list
+    \li \c list-devices: show all supported devices that can be used for a \B2Q build
+    \li \c mirror: create a local mirror of the yocto repositories. This enables you to use the same
+    repository downloads for multiple build environments, when initializing with \c{init --reference <mirror path>}.
+    \endlist
+
+    For all command line options, see:
 
     \badcode
     <INSTALL_DIR>/Boot2Qt-4.x/sources/b2qt-yocto-meta/b2qt-init-build-env help
