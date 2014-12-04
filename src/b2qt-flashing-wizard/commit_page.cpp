@@ -141,6 +141,12 @@ void CommitPage::initializePage()
         i->setAdditionalArgs(QStringList() << "-y" <<G_device << "--verbose");
         i->setEnvironment("VERBOSE","1");
         mActor = i;
+    } else if (G_platform == "imx6dsabresd" && G_os == "eLinux") {
+        ScriptWriter *i = new ScriptWriter(this);
+        i->setScriptFile(G_SDKDIR + G_version + "/imx6qsabresd-" + G_os + "/images/deploy.sh");
+        i->setAdditionalArgs(QStringList() << "-y" <<G_device << "--verbose" << "--uboot" << "u-boot-imx6dlsabresd.imx");
+        i->setEnvironment("VERBOSE","1");
+        mActor = i;
     } else if (G_platform == "apalis-imx6" && G_os == "eLinux") {
         ScriptWriter *i = new ScriptWriter(this);
         i->setScriptFile(G_SDKDIR + G_version + "/" + G_platform + "-" + G_os + "/images/deploy.sh");
@@ -148,6 +154,12 @@ void CommitPage::initializePage()
         i->setEnvironment("VERBOSE","1");
         mActor = i;
     } else if (G_platform == "tibidabo" && G_os == "eLinux") {
+        ScriptWriter *i = new ScriptWriter(this);
+        i->setScriptFile(G_SDKDIR + G_version + "/" + G_platform + "-" + G_os + "/images/deploy.sh");
+        i->setAdditionalArgs(QStringList() << "-y" <<G_device << "--verbose");
+        i->setEnvironment("VERBOSE","1");
+        mActor = i;
+    } else if (G_platform == "colibri-vf" && G_os == "eLinux") {
         ScriptWriter *i = new ScriptWriter(this);
         i->setScriptFile(G_SDKDIR + G_version + "/" + G_platform + "-" + G_os + "/images/deploy.sh");
         i->setAdditionalArgs(QStringList() << "-y" <<G_device << "--verbose");

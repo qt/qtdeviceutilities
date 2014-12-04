@@ -130,12 +130,32 @@ void PlatformPage::initializePage()
                 }
 
             } else if (os == "eAndroid" || os == "eLinux") {
-                QRadioButton *button = new QRadioButton;
-                button->setText(j + " (" + i + ")");
-                mLayout->insertWidget(0, button);
-                connect(button, &QRadioButton::toggled, this, &PlatformPage::itemSelected);
-                mButtons.append(button);
-                mButtonData.insert(button, QStringList() << name << os << i << name);
+                // Will be fixed with http://qt-gerrit.it.local/#change,7842
+                if (name == "imx6qsabresd") {
+                  {
+                    QRadioButton *button = new QRadioButton;
+                    button->setText(j + " (" + i + ")");
+                    mLayout->insertWidget(0, button);
+                    connect(button, &QRadioButton::toggled, this, &PlatformPage::itemSelected);
+                    mButtons.append(button);
+                    mButtonData.insert(button, QStringList() << name << os << i << name);
+                  }
+                  {
+                    QRadioButton *button = new QRadioButton;
+                    button->setText("imx6dsabresd-eLinux (" + i + ")");
+                    mLayout->insertWidget(0, button);
+                    connect(button, &QRadioButton::toggled, this, &PlatformPage::itemSelected);
+                    mButtons.append(button);
+                    mButtonData.insert(button, QStringList() << "imx6dsabresd" << os << i << name);
+                  }
+                } else {
+                  QRadioButton *button = new QRadioButton;
+                  button->setText(j + " (" + i + ")");
+                  mLayout->insertWidget(0, button);
+                  connect(button, &QRadioButton::toggled, this, &PlatformPage::itemSelected);
+                  mButtons.append(button);
+                  mButtonData.insert(button, QStringList() << name << os << i << name);
+                }
             }
         }
     }
