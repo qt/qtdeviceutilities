@@ -46,7 +46,8 @@
         \list
             \li \l{Preparing Nexus 7 (2012/2013)}{Nexus 7 (2012/2013) (embedded Android)}
             \li \l{Boundary Devices i.MX6 Boards}
-            \li \l{Preparing SABRE SD i.MX6Quad}{SABRE SD i.MX6Quad (embedded Linux)}
+            \li \l{Preparing SABRE SD i.MX6}{SABRE SD i.MX6Quad (embedded Linux)}
+            \li \l{Preparing SABRE SD i.MX6}{SABRE SD i.MX6Dual (embedded Linux)}
             \li \l{Preparing Toradex Apalis iMX6}{Toradex Apalis iMX6 (embedded Linux)}
             \li \l{Preparing Toradex Colibri VF50 and VF61}{Toradex Colibri VF50 and VF61 (embedded Linux)}
             \li \l{Preparing ArchiTech Tibidabo}{ArchiTech Tibidabo (embedded Linux)}

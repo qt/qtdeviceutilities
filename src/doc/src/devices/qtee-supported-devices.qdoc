@@ -31,6 +31,7 @@
         \li \l{Nexus 7 (2012/2013) (embedded Android)}
         \li \l{Boundary Devices i.MX6 Boards}
         \li \l{SABRE SD i.MX6Quad (embedded Linux)}
+        \li \l{SABRE SD i.MX6Dual (embedded Linux)}
         \li \l{Toradex Apalis iMX6 (embedded Linux)}
         \li \l{Toradex Colibri VF50 and VF61 (embedded Linux)}
         \li \l{ArchiTech Tibidabo (embedded Linux)}
@@ -79,6 +80,8 @@
             {BeagleBone Black}
         \li \l{http://www.freescale.com/webapp/sps/site/prod_summary.jsp?code=RDIMX6SABREBRD}
             {Freescale SABRE SD i.MX6Quad}
+        \li \l{http://www.freescale.com/webapp/sps/site/prod_summary.jsp?code=RDIMX6SABREBRD}
+            {Freescale SABRE SD i.MX6Dual}
         \li \l{http://www.toradex.com/products/apalis-arm-computer-modules/freescale-imx-6-computer-module}
             {Toradex Apalis iMX6}
         \li \l{https://www.toradex.com/products/colibri-arm-computer-modules/freescale-vybrid-VF5xx-computer-module}

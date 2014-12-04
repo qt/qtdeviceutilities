@@ -136,7 +136,7 @@
         \li \l {Qt Quick Compiler} (Technology Preview) was added to the \B2Q stack
         \li \l{Preparing Nexus 7 (2012/2013)}{Nexus 7 (2013)} was added as a
             reference device for embedded Android
-        \li \l{Preparing SABRE SD i.MX6Quad}{Freescale SABRE SD i.MX6Quad} was
+        \li \l{Preparing SABRE SD i.MX6}{Freescale SABRE SD i.MX6Quad} was
             added as a reference device for embedded Linux
         \li WiFi networking support and configuration were implemented on
             embedded Linux
