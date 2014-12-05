@@ -18,10 +18,9 @@
 ****************************************************************************/
 
 /*!
-    \contentspage{index.html}{Qt for Device Creation}
     \page index.html
     \nextpage qtee-overview.html
-    \title Qt for Device Creation
+    \title Qt 5.4 for Device Creation
 
     With commercially licensed Qt for device creation, you get a fully-integrated
     solution to get you started immediately with software development on your
@@ -74,7 +73,6 @@
 */
 
 /*!
-    \contentspage{index.html}{Qt for Device Creation}
     \page qtee-overview.html
     \previouspage index.html
     \nextpage qtee-about-b2qt.html
@@ -120,7 +118,6 @@
 */
 
 /*!
-    \contentspage{index.html}{Qt for Device Creation}
     \page qtee-about-b2qt.html
     \previouspage qtee-overview.html
     \nextpage qtee-installation-guide.html
