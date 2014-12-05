@@ -254,7 +254,7 @@
     connected via USB.
 
     \badcode
-     <INSTALL_DIR>/Tools/b2qt/adb shell sed -i -e 's/USE_ETHERNET=no/USE_ETHERNET=yes/' /etc/default/adbd
+     <INSTALL_DIR>/Tools/b2qt/adb shell "sed -i -e 's/USE_ETHERNET=no/USE_ETHERNET=yes/' /etc/default/adbd; sync"
     \endcode
 
     \note You need to restart the device for this change to take effect.
