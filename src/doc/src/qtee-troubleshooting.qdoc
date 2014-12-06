@@ -281,6 +281,7 @@
     \row \li \l{ki-04}{No Sound on Embedded Android Devices}
     \row \li \l{ki-05}{Limited Support for Multiple Top-Level Windows}
     \row \li \l{ki-06}{QML Debugging not Functional with Qt Quick Compiler}
+    \row \li \l{ki-18}{Multi-process Support with the Wayland Windowing System}
     \header \li \b {Device-Specific Issues}
     \row \li \l{ki-07}{BD-SL-i.MX6: Device Stops Working After Disconnecting the Micro-USB Cable}
     \row \li \l{ki-08}{BD-SL-i.MX6: Internet Radio Demo Causes Device to Freeze}
@@ -414,4 +415,32 @@
     displays an inconsistent/broken layout. This happens only the first time after booting up
     an emulator, after restarting the application that uses the virtual keyboard the issue is no
     longer observed.
+
+    \target ki-18
+    \b{Multi-process Support with the Wayland Windowing System}
+
+    Wayland support is currently in an experimental stage. On i.MX6-based devices it is
+    possible to run the Weston compositor and run Qt applications as Wayland clients. The
+    main limitations are:
+
+    \list 1
+        \li Graphical performance is limited. This is especially true when running
+        multiple applications at the same time. Tearing and various rendering glitches can
+        also be expected. Future versions of the vendor-provided graphics drivers and
+        board support packages are expected to improve on this.
+
+        \li Touch input will not be functional in Qt applications. This will be corrected
+        in the upcoming releases.
+
+        \li The Qt Virtual Keyboard is fully functional but will show up on a per-window
+        basis inside the application window. A global virtual keyboard solution using
+        Wayland's text input protocol will be available in the future.
+
+        \li The compositor will likely crash in certain situations. The stability is
+        expected to be improved in newer versions of Weston and the vendor-provided BSP.
+
+        \li Tooling: running and especially debugging applications from Qt Creator may
+        have issues when the applications are running as Wayland clients. Support for this
+        will be improved in future releases.
+    \endlist
 */
