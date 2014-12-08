@@ -285,15 +285,12 @@
     \header \li \b {Device-Specific Issues}
     \row \li \l{ki-07}{BD-SL-i.MX6: Device Stops Working After Disconnecting the Micro-USB Cable}
     \row \li \l{ki-08}{BD-SL-i.MX6: Internet Radio Demo Causes Device to Freeze}
-    \row \li \l{ki-10}{BeagleBone Black: C++ Debugging Fails on Embedded Android}
     \row \li \l{ki-11}{BeagleBone Black: Unstable HDMI output}
     \header \li \b {Emulator-Specific Issues}
     \row \li \l{ki-12}{Networking on Embedded Android Emulator}
     \row \li \l{ki-13}{Qt WebEngine not Available for Emulator}
-    \row \li \l{ki-14}{Qt Quick Compiler Fails on Emulator}
     \row \li \l{ki-15}{Switching Between Emulators from Different Boot to Qt Versions}
     \row \li \l{ki-16}{Emulator: Limited Support for Qt Multimedia}
-    \row \li \l{ki-17}{Emulator: Broken Virtual Keyboard Layout}
     \endtable
 
     \section1 Common Issues
@@ -353,14 +350,6 @@
     Trying to start playback in Internet Radio application from Qt 5 Everywhere demo causes the
     device to not react to touch input on embedded Android.
 
-    \target ki-10
-    \b{BeagleBone Black: C++ Debugging Fails on Embedded Android}
-
-    Trying to debug C++ code fails on BeagleBone Black on embedded Android.
-
-    \note QML debugging works, provided that C++ debugging is disabled in Qt Creator project
-          settings.
-
     \target ki-11
     \b{BeagleBone Black: Unstable HDMI output}
 
@@ -388,13 +377,6 @@
     \l{Qt WebEngine} is not currently available for the emulators, neither embedded Linux
     nor embedded Android. This is planned to be addressed in a later release.
 
-    \target ki-14
-    \b{Qt Quick Compiler Fails on Emulator}
-
-    The Qt Quick Compiler is not yet functional in the emulator environment, and projects
-    are likely to fail to build or run when compilation is enabled. Support for the
-    emulators is planned for a later release.
-
     \target ki-15
     \b{Switching Between Emulators from Different Boot to Qt Versions}
 
@@ -407,14 +389,6 @@
 
     The emulator for embedded Android does not properly support multimedia functionality
     (playback of audio and video, accessing camera).
-
-    \target ki-17
-    \b{Emulator: Broken Virtual Keyboard Layout}
-
-    When switching between supported languages, the virtual keyboard in emulators sometimes
-    displays an inconsistent/broken layout. This happens only the first time after booting up
-    an emulator, after restarting the application that uses the virtual keyboard the issue is no
-    longer observed.
 
     \target ki-18
     \b{Multi-process Support with the Wayland Windowing System}
