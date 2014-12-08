@@ -136,14 +136,13 @@
     online installer.
 
     \table
-    \header \li Device \li eLinux \li eAndroid \li Support Responsible \li Notes
+    \header \li Device \li eLinux \li eAndroid \li Notes
     \row \li \l{http://www.google.com/nexus/7/specs/}
             {Google Nexus 7 (2012)}\br
             Nvidia Tegra 3 SoC (1.3 GHz Quad-Core ARM\br
             Cortex A9, Nvidia GeForce ULP GPU, 1GB RAM)
          \li
          \li \image ok
-         \li The Qt Company
          \li
     \row \li \l{http://boundarydevices.com/product-selector-guide/}
             {Boundary Devices i.MX6 Boards}\br
@@ -151,7 +150,6 @@
             Vivante GC2000 GPU
          \li \image ok
          \li
-         \li Boundary Devices
          \li Since 4.0
     \row \li \l{http://www.silica.com/product/architech-tibidabo.html}
             {SILICA ArchiTech Tibidabo}\br
@@ -159,7 +157,6 @@
             2GB DDR3, 128MB NOR, Vivante GC2000 GPU
          \li \image ok
          \li
-         \li The Qt Company
          \li Since 4.0
     \row \li \l{http://www.toradex.com/products/apalis-arm-computer-modules/freescale-imx-6-computer-module}
             {Toradex Apalis iMX6}\br
@@ -167,7 +164,6 @@
             1GB DDR3, 4GB eMMC, Vivante GC2000 GPU
          \li \image ok
          \li
-         \li The Qt Company
          \li
     \row \li \l{http://www.raspberrypi.org/faqs}
             {Raspberry Pi Model B}\br
@@ -175,16 +171,14 @@
             @250MHz GPU, 512 MB (shared with GPU) RAM
          \li \image ok
          \li
-         \li The Qt Company
          \li
-    \header \li Devices Without GPU \li \li \li \li
+    \header \li Devices Without GPU \li \li \li
     \row \li \l{https://www.toradex.com/products/colibri-arm-computer-modules/freescale-vybrid-VF6xx-computer-module}
              {Toradex Colibri VF61}\br
              Dual-core (ARM Cortex-A5 + ARM Cortex-M4)\br
              solution with 1 MB on-chip SRAM
          \li \image ok
          \li
-         \li The Qt Company
          \li Since 4.0
     \endtable
 
