@@ -282,9 +282,8 @@
     \row \li \l{ki-05}{Limited Support for Multiple Top-Level Windows}
     \row \li \l{ki-06}{QML Debugging not Functional with Qt Quick Compiler}
     \header \li \b {Device-Specific Issues}
-    \row \li \l{ki-07}{Sabre Lite i.MX6: Device Stops Working After Disconnecting the Micro-USB Cable}
-    \row \li \l{ki-08}{Sabre Lite i.MX6: Internet Radio Demo Causes Device to Freeze}
-    \row \li \l{ki-09}{BeagleBone Black: No Qt Multimedia Support}
+    \row \li \l{ki-07}{BD-SL-i.MX6: Device Stops Working After Disconnecting the Micro-USB Cable}
+    \row \li \l{ki-08}{BD-SL-i.MX6: Internet Radio Demo Causes Device to Freeze}
     \row \li \l{ki-10}{BeagleBone Black: C++ Debugging Fails on Embedded Android}
     \row \li \l{ki-11}{BeagleBone Black: Unstable HDMI output}
     \header \li \b {Emulator-Specific Issues}
@@ -342,22 +341,16 @@
     \section1 Device-Specific Issues
 
     \target ki-07
-    \b{Sabre Lite i.MX6: Device Stops Working After Disconnecting the Micro-USB Cable}
+    \b{BD-SL-i.MX6: Device Stops Working After Disconnecting the Micro-USB Cable}
 
     The device does not respond to touch input after connecting to a host computer via USB, and
     then disconnecting the Micro-USB cable.
 
     \target ki-08
-    \b{Sabre Lite i.MX6: Internet Radio Demo Causes Device to Freeze}
+    \b{BD-SL-i.MX6: Internet Radio Demo Causes Device to Freeze}
 
     Trying to start playback in Internet Radio application from Qt 5 Everywhere demo causes the
     device to not react to touch input on embedded Android.
-
-    \target ki-09
-    \b{BeagleBone Black: No Qt Multimedia Support}
-
-    Qt Multimedia features (audio and video playback) do not currently work on BeagleBone Black
-    device. This issue affects both embedded Android and Linux.
 
     \target ki-10
     \b{BeagleBone Black: C++ Debugging Fails on Embedded Android}
