@@ -38,27 +38,27 @@
 */
 
 /*!
-    \externalpage http://www.qt.io/qt-features
+    \externalpage http://doc.qt.io/QtDataVisualization
     \title Qt Data Visualization
 */
 
 /*!
-    \externalpage http://www.qt.io/qt-features
+    \externalpage http://doc.qt.io/QtQuickEnterpriseControls
     \title Qt Quick Enterprise Controls
 */
 
 /*!
-    \externalpage http://www.qt.io/qt-features
+    \externalpage http://doc.qt.io/QtVirtualKeyboard
     \title Qt Virtual Keyboard
 */
 
 /*!
-    \externalpage http://www.qt.io/qt-features
+    \externalpage http://doc.qt.io/QtCharts
     \title Qt Charts
 */
 
 /*!
-    \externalpage http://www.qt.io/qt-features
+    \externalpage http://doc.qt.io/QtQuickCompiler
     \title Qt Quick Compiler
 */
 
@@ -70,4 +70,9 @@
 /*!
     \externalpage http://blog.qt.digia.com/blog/2014/07/04/making-an-android-device-boot-to-qt/
     \title Android Injection
+*/
+
+/*!
+    \externalpage http://doc.qt.io/QtQuick2DRenderer
+    \title Qt Quick 2D Renderer
 */
