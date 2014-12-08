@@ -23,6 +23,58 @@
     \previouspage qtee-customization.html
     \nextpage qtee-troubleshooting.html
 
+    \section1 \B2Q 4.0.0
+    \list
+        \li Release date: Dec 09, 2014
+    \endlist
+
+    \section2 Changes
+    \b{New Features}:
+    \list
+        \li \B2Q stack was updated to use Qt 5.4.0 on embedded Android
+            and Linux.
+        \li \l {Qt Charts} was updated to version 2.0.
+        \li \l {Qt Quick Enterprise Controls} was updated to version 1.3.
+        \li \l {Qt Quick Compiler} was updated to version 2.0.
+        \li \l {Qt Data Visualization} was updated to version 1.2
+        \li Added support for devices without OpenGL capabilities
+            with \l {Qt Quick 2D Renderer}
+        \li New reference devices:
+        \list
+            \li Toradex Colibri VF50 (GPU-less, using Qt Quick 2D Renderer)
+            \li Toradex Colibri VF61 (GPU-less, using Qt Quick 2D Renderer)
+            \li Boundary Devices i.MX6 Boards (Nitrogen6, Nitrogen6X)
+            \li Freescale SABRE SD i.MX6Dual
+            \li SILICA ArchiTech Tibidabo
+        \endlist
+    \endlist
+
+    \b {Improvements}:
+
+    \list
+        \li Updated Qt Multimedia plugin on embedded Android
+        \li Graduated Wifi module to B2Qt.Wifi 1.0 and C++ API
+        \li Refactored DroidUtils module to B2Qt.Utils 1.0
+        \li Added cape support for BeagleBone Black
+        \li Added \B2Q Flashing Wizard, a GUI application for easy device setup
+        \li Improved \e {Build Your Own Stack} scripts to clone only the
+            meta-layer required for the target device, instead of cloning them
+            all.
+        \li Improved look and feel of \B2Q project templates
+        \li Removed Qt WebKit from the builds in favor of Qt WebEngine
+        \li Enabled tslib plugin to be built and deployed by default
+        \li Added experimental multi-process support with the Wayland windowing system
+        \li Documentation improvements
+    \endlist
+
+    \b {Fixed Bugs}:
+    \list
+        \li eLinux emulator: Added gstreamer plugin required for video playback
+        \li Fixed updating IP address/hostname of a \B2Q device in Qt Creator settings
+        \li Fixed missing/incomplete debugging information on Nexus 7 (2013), for
+            both C++ and QML.
+    \endlist
+
     \section1 \B2Q 3.2.0
 
     \list
