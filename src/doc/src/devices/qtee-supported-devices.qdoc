@@ -237,62 +237,119 @@
     pre-built images available for the reference devices:
 
     \table
-    \header \li Feature
-            \li Boundary Devices i.MX6 Boards (Linux)
-            \li Raspberry Pi B (Linux)
-            \li BeagleBone Black (Linux)
-            \li Nexus 7 (2012) (Android)
-            \li Nexus 7 (2013) (Android)
+    \header \li Device
+            \li Touchscreen
+            \li ADB via Network
+            \li ADB via USB
+            \li HDMI
+            \li Video Playback
+            \li Virtual Keyboard
+            \li Qt WiFi Module
+            \li B2Qt Utils Module
+            \li Notes
 
-    \row    \li USB Serial
+    \header \li Group 1 \li \li \li \li \li \li \li \li
+    \row    \li Freescale SABRE SD i.MX6
+            \li \image ok
+            \li \image ok
             \li \image ok
             \li \image ok
             \li
-            \li
-            \li
-
-    \row    \li WiFi
-            \li
-            \li \inlineimage ok
-                \sup 1
-            \li
             \li \image ok
-            \li \image ok
-
-    \row    \li Touch Display
-            \li \image ok
-            \li
-            \li
-            \li \image ok
-            \li \image ok
-
-    \row    \li Video Playback
-            \li \image ok
-            \li
-            \li
-            \li \image ok
-            \li \image ok
-
-    \row    \li HDMI Output
-            \li
             \li \image ok
             \li \image ok
             \li
+    \row    \li BoagleBone Black
+            \li \image ok
+            \li \image ok
+            \li \image ok
+            \li \image ok
             \li
-
-    \row    \li Kernel Version
-            \li 3.10.17
-            \li 3.10.30
-            \li 3.12.17
+            \li \image ok
+            \li \image ok
+            \li \image ok
             \li
-            \li 3.4.0
-
-    \row    \li Display Resolution
+    \row    \li Google Nexus 7 (2013)
+            \li \image ok
+            \li \image ok
+            \li \image ok
+            \li \image ok
+            \li \image ok
+            \li \image ok
+            \li \image ok
+            \li \image ok
             \li
-            \li \list \li 640x480 \li 1280x720 \li 1600x1200 \endlist
-            \li \list \li 1280x720 \endlist
-            \li \list \li 1280x800 \endlist
-            \li \list \li 1920x1200 \endlist
+    \row    \li Toradex Colibri VF50
+            \li \image ok
+            \li \image ok
+            \li \image ok
+            \li
+            \li
+            \li \image ok
+            \li \image ok
+            \li \image ok
+            \li [2]
+    \header \li Group 2 \li \li \li \li \li \li \li \li
+    \row    \li Google Nexus 7 (2012)
+            \li \image ok
+            \li \image ok
+            \li \image ok
+            \li \image ok
+            \li
+            \li \image ok
+            \li \image ok
+            \li \image ok
+            \li
+    \row    \li Boundary Devices i.MX6 Boards
+            \li \image ok
+            \li \image ok
+            \li \image ok
+            \li \image ok
+            \li
+            \li \image ok
+            \li \image ok
+            \li \image ok
+            \li
+    \row    \li SILICA ArchiTech Tibidabo
+            \li \image ok
+            \li \image ok
+            \li \image ok
+            \li \image ok
+            \li \image ok
+            \li \image ok
+            \li \image ok
+            \li \image ok
+            \li
+    \row    \li Toradex Apalis i.MX6
+            \li \image ok
+            \li \image ok
+            \li \image ok
+            \li \image ok
+            \li
+            \li \image ok
+            \li \image ok
+            \li \image ok
+            \li
+    \row    \li Raspberry Pi Model B
+            \li \image ok
+            \li \image ok
+            \li
+            \li \image ok
+            \li
+            \li \image ok
+            \li \image ok
+            \li \image ok
+            \li [1]
+    \row    \li Toradex Colibri VF61
+            \li \image ok
+            \li \image ok
+            \li \image ok
+            \li
+            \li
+            \li \image ok
+            \li \image ok
+            \li \image ok
+            \li [2]
     \endtable
 
     \b Notes:
@@ -301,6 +358,8 @@
         \li A driver for the WiFi adapter must be present in the kernel, and
             the adapter must be connected to the Raspberry Pi before booting
             up the device.
+        \li Toradex Colibri VF50 and VF61 do not have a GPU, and therefore
+            use \l {Qt Quick 2D Renderer}.
     \endlist
 
     \section1 Supported Development Environment
