@@ -21,16 +21,13 @@
 #include "scriptwriter.h"
 #include "progress_page.h"
 #include "mainwindow.h"
+#include "platforminfo.h"
 #include <QDebug>
 #include <QVBoxLayout>
 #include <QLabel>
 
-extern QString G_platform;
-extern QString G_version;
-extern QString G_os;
+extern PlatformInfo G_platforminfo;
 extern QString G_device;
-extern QString G_board;
-extern QString G_SDKDIR;
 extern QString G_mode;
 QLabel *createErrorLabel(QWidget *parent);
 
@@ -73,102 +70,32 @@ bool CommitPage::isComplete() const
 
 void CommitPage::initializePage()
 {
-    qDebug() << "platform:" << G_platform << "version:" << G_version << "os:" << G_os
-             << "device:" << G_device << "board:" << G_board << "mode:" << G_mode;
+    qDebug() << "platform:" << G_platforminfo.platform << "version:" << G_platforminfo.version
+             << "os:" << G_platforminfo.os << "board:" << G_platforminfo.board
+             << "deploycommand:" << G_platforminfo.deployCommand << "deployarguments:" << G_platforminfo.deployArguments
+             << "device:" << G_device <<  "mode:" << G_mode;
+
     QString text(tr("Write %1-%2 (%3) to device %4."));
-    mText->setText(text.arg(G_platform, G_os, G_version, G_device));
+    mText->setText(text.arg(G_platforminfo.platform, G_platforminfo.os, G_platforminfo.version, G_device));
     mComplete = true;
 
-    qDebug() << "os:" << G_os << "platform:" << G_platform << "device:" << G_device;
+    ScriptWriter *i = new ScriptWriter(this);
+    i->setScriptFile(G_platforminfo.deployCommand);
+    i->setRootFlag(G_platforminfo.asroot);
 
-    if (G_platform == "generic-4.2" && G_os == "eAndroid" && G_board == "iMX6") {
-        ScriptWriter *i = new ScriptWriter(this);
-        i->setScriptFile(G_SDKDIR + G_version + "/" + G_platform + "-" + G_os + "/images/" + G_board + "/deploy.sh");
-        i->setAdditionalArgs(QStringList() << "-y" <<G_device << "--verbose");
-        i->setEnvironment("VERBOSE","1");
-        mActor = i;
-    } else if (G_platform == "iMX6" && G_os == "eLinux") {
-        ScriptWriter *i = new ScriptWriter(this);
-        i->setScriptFile(G_SDKDIR + G_version + "/" + G_platform + "-" + G_os + "/images/deploy.sh");
-        i->setAdditionalArgs(QStringList() << "-y" <<G_device << "--verbose");
-        i->setEnvironment("VERBOSE","1");
-        mActor = i;
-    } else if (G_platform == "beaglebone" && G_os == "eLinux") {
-        ScriptWriter *i = new ScriptWriter(this);
-        i->setScriptFile(G_SDKDIR + G_version + "/" + G_platform + "-" + G_os + "/images/deploy.sh");
-        i->setAdditionalArgs(QStringList() << "-y" <<G_device << "--verbose");
-        i->setEnvironment("VERBOSE","1");
-        mActor = i;
-    } else if (G_platform == "generic-4.4" && G_os == "eAndroid" && G_board == "beaglebone") {
-        ScriptWriter *i = new ScriptWriter(this);
-        i->setScriptFile(G_SDKDIR + G_version + "/" + G_platform + "-" + G_os + "/images/" + G_board + "/deploy.sh");
-        i->setAdditionalArgs(QStringList() << "-y" <<G_device << "--verbose");
-        i->setEnvironment("VERBOSE","1");
-        mActor = i;
-    } else if (G_platform == "generic-4.4" && G_os == "eAndroid" && G_board == "nexus7v2") {
-        ScriptWriter *i = new ScriptWriter(this);
-        i->setScriptFile(G_SDKDIR + G_version + "/" + G_platform + "-" + G_os + "/images/" + G_board + "/deploy.sh");
-        QStringList args("-y");
-        if (G_mode == "fastboot")
-            args << "-fastboot";
-        i->setAdditionalArgs(args);
-        mActor = i;
-    } else if (G_platform == "generic-4.4" && G_os == "eAndroid" && G_board == "nexus7") {
-        ScriptWriter *i = new ScriptWriter(this);
-        i->setScriptFile(G_SDKDIR + G_version + "/" + G_platform + "-" + G_os + "/images/" + G_board + "/deploy.sh");
-        QStringList args("-y");
-        if (G_mode == "fastboot")
-            args << "-fastboot";
-        i->setAdditionalArgs(args);
-        mActor = i;
-    } else if (G_platform == "generic-4.2" && G_os == "eAndroid" && G_board == "nexus7") {
-        ScriptWriter *i = new ScriptWriter(this);
-        i->setScriptFile(G_SDKDIR + G_version + "/" + G_platform + "-" + G_os + "/images/" + G_board + "/deploy.sh");
-        QStringList args("-y");
-        if (G_mode == "fastboot")
-            args << "-fastboot";
-        i->setAdditionalArgs(args);
-        mActor = i;
-    } else if (G_platform == "raspberrypi" && G_os == "eLinux") {
-        ScriptWriter *i = new ScriptWriter(this);
-        i->setScriptFile(G_SDKDIR + G_version + "/" + G_platform + "-" + G_os + "/images/deploy.sh");
-        i->setAdditionalArgs(QStringList() << "-y" << G_device << "--verbose");
-        i->setEnvironment("VERBOSE","1");
-        mActor = i;
-    } else if (G_platform == "imx6qsabresd" && G_os == "eLinux") {
-        ScriptWriter *i = new ScriptWriter(this);
-        i->setScriptFile(G_SDKDIR + G_version + "/" + G_platform + "-" + G_os + "/images/deploy.sh");
-        i->setAdditionalArgs(QStringList() << "-y" <<G_device << "--verbose");
-        i->setEnvironment("VERBOSE","1");
-        mActor = i;
-    } else if (G_platform == "imx6dsabresd" && G_os == "eLinux") {
-        ScriptWriter *i = new ScriptWriter(this);
-        i->setScriptFile(G_SDKDIR + G_version + "/imx6qsabresd-" + G_os + "/images/deploy.sh");
-        i->setAdditionalArgs(QStringList() << "-y" <<G_device << "--verbose" << "--uboot" << "u-boot-imx6dlsabresd.imx");
-        i->setEnvironment("VERBOSE","1");
-        mActor = i;
-    } else if (G_platform == "apalis-imx6" && G_os == "eLinux") {
-        ScriptWriter *i = new ScriptWriter(this);
-        i->setScriptFile(G_SDKDIR + G_version + "/" + G_platform + "-" + G_os + "/images/deploy.sh");
-        i->setAdditionalArgs(QStringList() << "-y" <<G_device << "--verbose");
-        i->setEnvironment("VERBOSE","1");
-        mActor = i;
-    } else if (G_platform == "tibidabo" && G_os == "eLinux") {
-        ScriptWriter *i = new ScriptWriter(this);
-        i->setScriptFile(G_SDKDIR + G_version + "/" + G_platform + "-" + G_os + "/images/deploy.sh");
-        i->setAdditionalArgs(QStringList() << "-y" <<G_device << "--verbose");
-        i->setEnvironment("VERBOSE","1");
-        mActor = i;
-    } else if (G_platform == "colibri-vf" && G_os == "eLinux") {
-        ScriptWriter *i = new ScriptWriter(this);
-        i->setScriptFile(G_SDKDIR + G_version + "/" + G_platform + "-" + G_os + "/images/deploy.sh");
-        i->setAdditionalArgs(QStringList() << "-y" <<G_device << "--verbose");
-        i->setEnvironment("VERBOSE","1");
-        mActor = i;
-    } else {
-        mError->setText(tr("Unsupported platform combination"));
-        mComplete = false;
+    QStringList args;
+    foreach (QString a, G_platforminfo.deployArguments) {
+        if (a == "@DEVICE@")
+            a = G_device;
+        args << a;
     }
+
+    if (G_platforminfo.board.startsWith("nexus7") && G_mode == "fastboot")
+        args << "-fastboot";
+
+    i->setAdditionalArgs(args);
+    i->setEnvironment("VERBOSE","1");
+    mActor = i;
 }
 
 bool CommitPage::validatePage()

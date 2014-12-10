@@ -17,35 +17,23 @@
 **
 ****************************************************************************/
 
-#ifndef PLATFORM_PAGE_H
-#define PLATFORM_PAGE_H
+#ifndef PLATFORMINFO_H
+#define PLATFORMINFO_H
 
-#include "platforminfo.h"
-#include <QWizardPage>
-class QRadioButton;
-class QLabel;
-class QVBoxLayout;
+#include <QStringList>
 
-class PlatformPage : public QWizardPage
-{
-    Q_OBJECT
+class PlatformInfo {
 public:
-    PlatformPage(QWidget *parent = 0);
-    virtual ~PlatformPage();
-    bool isComplete() const;
-    void initializePage();
-    bool validatePage();
-    int nextId() const;
-
-private slots:
-    void itemSelected();
-
-private:
-    PlatformInfo buttonData() const;
-
-    QList<QRadioButton*> mButtons;
-    QLabel *mError;
-    QVBoxLayout *mLayout;
+      PlatformInfo() : asroot(false) { }
+      QString name; // Display name
+      QString platform; // generic-4.4 / iMX6
+      QString os; // eAndroid / eLinux
+      QString board; // nexus7v2,nexus7, etc...
+      QString deployCommand; // script
+      QStringList deployArguments;
+      QString androidversion;
+      QString version; // Boot2Qt version
+      bool asroot; // script needs root privileges
 };
 
-#endif // PLATFORM_PAGE_H
+#endif // PLATFORMINFO_H

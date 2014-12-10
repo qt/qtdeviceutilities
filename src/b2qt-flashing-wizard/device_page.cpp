@@ -20,6 +20,7 @@
 #include "device_page.h"
 #include "common.h"
 #include "mainwindow.h" // for Page_ enum
+#include "platforminfo.h"
 #include <QDebug>
 #include <QDir>
 #include <QLabel>
@@ -32,7 +33,7 @@
 
 extern QString G_SDKDIR;
 extern QString G_device;
-extern QString G_board;
+extern PlatformInfo G_platforminfo;
 extern QString G_mode;
 
 QLabel *createErrorLabel(QWidget *parent);
@@ -259,13 +260,13 @@ bool DevicePage::validatePage()
         return false;
     }
 
-    if (deviceInfo.name.toLower() != G_board.toLower()) {
+    if (deviceInfo.name.toLower() != G_platforminfo.board.toLower()) {
         QMessageBox::critical(this, tr("Wrong device type"), tr("The selected device is not compatible for this platform."));
         return false;
     }
 
     G_device = deviceInfo.serial;
-    G_board  = deviceInfo.name.toLower();
+    G_platforminfo.board  = deviceInfo.name.toLower();
     G_mode = deviceInfo.mode;
     return true;
 }

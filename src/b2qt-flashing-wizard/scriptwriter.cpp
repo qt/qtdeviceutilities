@@ -32,6 +32,7 @@
 ScriptWriter::ScriptWriter(QObject *parent)
     : Actor(parent)
     , mDebug(false)
+    , mRoot(false)
 {
     mProcess.setProcessChannelMode(QProcess::MergedChannels);
     mDebug = qEnvironmentVariableIsSet("DEBUG");
@@ -84,17 +85,13 @@ void ScriptWriter::start()
     connect(&mProcess, (void (QProcess::*)(QProcess::ProcessError))&QProcess::error, this, &ScriptWriter::processError);
     connect(&mProcess, (void (QProcess::*)(int, QProcess::ExitStatus))&QProcess::finished, this, &ScriptWriter::processFinished);
 
-    // Due to some random convenience output in the deploy scripts "set -x" has to be used to synchronize
-    QStringList args = elevate() << "/bin/sh" << "-x" << mScriptName << mAdditionalArgs;
+    QStringList args;
+
+    if (mRoot)
+        args << elevate();
+    args << "/bin/sh" << "-x" << mScriptName << mAdditionalArgs;
     qDebug() << "Executing" << args;
 
-/*    QProcessEnvironment pe ;
-    QString var = qgetenv("XDG_SESSION_COOKIE");
-    pe.insert("XDG_SESSION_COOKIE", var);
-    var = qgetenv("HOME");
-    pe.insert("HOME", var);
-    mProcess.setProcessEnvironment(pe);
-    */
     mProcess.setProcessEnvironment(QProcessEnvironment::systemEnvironment());
 
     mProcess.start(args.takeFirst(), args);
@@ -139,4 +136,9 @@ void ScriptWriter::setEnvironment(const QString &key, const QString &value)
 void ScriptWriter::setAdditionalArgs(const QStringList &args)
 {
     mAdditionalArgs = args;
+}
+
+void ScriptWriter::setRootFlag(bool value)
+{
+    mRoot = value;
 }

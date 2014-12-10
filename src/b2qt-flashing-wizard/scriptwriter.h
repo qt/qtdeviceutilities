@@ -36,6 +36,7 @@ public:
     void start();
     void setEnvironment(const QString &key, const QString &value);
     void setAdditionalArgs(const QStringList &);
+    void setRootFlag(bool);
 
 private slots:
     void readOutput();
@@ -47,6 +48,7 @@ private:
     QProcess mProcess;
     QStringList mAdditionalArgs;
     bool mDebug;
+    bool mRoot;
 };
 
 #endif // SCRIPTWRITER_H

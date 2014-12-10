@@ -29,13 +29,10 @@
 #include <QDir>
 #include <QCoreApplication>
 
-QString G_platform; // generic-4.4 / iMX6
-QString G_version; // Boot2Qt version
-QString G_os; // eAndroid / eLinux
-QString G_device; // serial number or SD Card
-QString G_board; // nexus7v2,nexus7, etc...
+PlatformInfo G_platforminfo;
 QString G_SDKDIR; // install directory
 QString G_mode; // adb or fastboot
+QString G_device;
 
 MainWindow::MainWindow()
     : QWizard()
