@@ -49,3 +49,5 @@ navigation.landingpage = "Qt 5.4 for Device Creation"
 navigation.qmltypespage = "Add-On Modules"
 
 Cpp.ignoreDirectives        += Q_DECLARE_LOGGING_CATEGORY
+
+HTML.stylesheets            += style/qt5-sidebar.html
