@@ -30,11 +30,11 @@
 
     \section2 Note About Support Services for Yocto Tools
 
-    By default, Digia will only provide customer support for the Yocto
+    By default, The Qt Company will only provide customer support for the Yocto
     recipes on the reference platforms, as delivered with \SDK, and
     setting up the development environment for them. Receiving support
     for any other configuration requires a separate service agreement
-    between a customer and Digia.
+    between a customer and The Qt Company.
 
     \section1 Requirements
 
