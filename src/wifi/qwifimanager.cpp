@@ -205,7 +205,7 @@ void QWifiManagerPrivate::updateLastError(const QString &error)
     QWifiManager packs the scan results in a list-based data model, which can
     be used with Qt's Model/View classes. Information about a Wifi network can
     be accessed using the QWifiManager::Roles data roles.
- */
+*/
 
 /*!
     \enum QWifiManager::NetworkState
@@ -218,7 +218,7 @@ void QWifiManagerPrivate::updateLastError(const QString &error)
     \value ObtainingIPAddress Requesting IP address from DHCP server
     \value DhcpRequestFailed Could not retrieve IP address
     \value Connected Ready to process network requests
- */
+*/
 
 /*!
     \enum QWifiManager::BackendState
@@ -229,7 +229,7 @@ void QWifiManagerPrivate::updateLastError(const QString &error)
     \value Running Supplicant is initialized and ready to process commands
     \value Terminating Shutting down wireless supplicant
     \value NotRunning Wireless supplicant process is not running
- */
+*/
 
 /*!
     \enum QWifiManager::Roles
@@ -243,51 +243,10 @@ void QWifiManagerPrivate::updateLastError(const QString &error)
     \value WPA2Supported holds whether network access point supports WPA2 security protocol (QString)
     \value WEPSupported holds whether network access point supports WEP security protocol (QString)
     \value WPSSupported holds whether network access point supports WPS security protocol (QString)
- */
-
-/*!
-    \fn QWifiManager::networkStateChanged(NetworkState networkState)
-
-    This signal is emitted whenever the network state changes. The network name
-    for which the signal is emitted, can be obtained from currentSSID.
-
-    \sa NetworkState, currentSSID()
- */
-
-/*!
-    \fn QWifiManager::backendStateChanged(BackendState backendState)
-
-    This signal is emitted whenever the backend state changes.
-
-    \sa start(), stop()
- */
-
-/*!
-    \fn QWifiManager::currentSSIDChanged(string currentSSID)
-
-    This signal is emitted when switching between different Wifi networks.
-
-    \sa start(), stop()
- */
-
-/*!
-    \fn QWifiManager::scanningChanged(bool scanning)
-
-    This signal is emitted when device starts or stops to scan for available Wifi networks.
-
-    \sa isScanning()
- */
-
-/*!
-    \fn QWifiManager::lastErrorChanged(const string error)
-
-    This signal is emitted if some internal process has failed, \a error contains
-    a message on what has failed.
-
-    \sa connect()
- */
+*/
 
 QWifiManager* QWifiManager::m_instance = 0;
+
 /*!
     Returns a singleton instance of QWifiManager.
 */
@@ -458,6 +417,7 @@ QString QWifiManager::lastError() const
     return d->m_lastError;
 }
 
+/*! \reimp */
 bool QWifiManager::event(QEvent *event)
 {
     Q_D(QWifiManager);

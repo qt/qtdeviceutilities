@@ -57,8 +57,8 @@ QWifiDevice::~QWifiDevice()
 }
 
 /*!
-    Returns \a true if a device is Wifi capable - Wifi driver and firmware has been
-    successfully loaded by the system, otherwise returns \a false.
+    Returns \c true if a device is Wifi capable - Wifi driver and firmware has been
+    successfully loaded by the system, otherwise returns \c false.
 */
 bool QWifiDevice::wifiSupported()
 {
@@ -117,7 +117,7 @@ QByteArray QWifiDevice::wifiInterfaceName()
 }
 
 /*!
-    A conveniece method to set the Wifi interface name.
+    A conveniece method to set the Wifi interface \a name.
 
     \sa wifiInterfaceName()
  */
