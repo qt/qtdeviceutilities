@@ -51,12 +51,18 @@ QWifiConfigurationPrivate::QWifiConfigurationPrivate(QWifiConfiguration *config)
     establishing a connection.
  */
 
+/*!
+    Constructs a configuration object with parent \a parent.
+*/
 QWifiConfiguration::QWifiConfiguration(QObject *parent)
     : QObject(parent)
     , d_ptr(new QWifiConfigurationPrivate(this))
 {
 }
 
+/*!
+    Destroys the configuration object.
+*/
 QWifiConfiguration::~QWifiConfiguration()
 {
     delete d_ptr;
