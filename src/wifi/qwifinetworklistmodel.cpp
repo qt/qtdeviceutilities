@@ -18,6 +18,7 @@
 ****************************************************************************/
 #include "qwifinetworklistmodel_p.h"
 #include "qwifinetwork_p.h"
+#include "qwifiutils_p.h"
 
 #include "qwifimanager.h"
 
@@ -123,7 +124,7 @@ void QWifiNetworkListModel::parseScanResults(const QString &results)
             continue;
         int pos = 0;
 
-        QString ssid = info.at(4);
+        QString ssid = QWifiUtils::decodeHexEncoded(info.at(4));
         sensibleNetworks.insert(ssid);
         QWifiNetwork *knownNetwork = networkForSSID(ssid, &pos);
         if (!knownNetwork)

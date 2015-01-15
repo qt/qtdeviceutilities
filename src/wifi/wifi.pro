@@ -16,7 +16,8 @@ HEADERS += \
     $$PWD/qwifinetworklistmodel_p.h \
     $$PWD/qwificontroller_p.h \
     $$PWD/qwifidevice.h \
-    $$PWD/qwificonfiguration.h
+    $$PWD/qwificonfiguration.h \
+    $$PWD/qwifiutils_p.h
 
 SOURCES += \
     $$PWD/qwifimanager.cpp \
@@ -24,7 +25,8 @@ SOURCES += \
     $$PWD/qwifinetworklistmodel.cpp \
     $$PWD/qwificontroller.cpp \
     $$PWD/qwifidevice.cpp \
-    $$PWD/qwificonfiguration.cpp
+    $$PWD/qwificonfiguration.cpp \
+    $$PWD/qwifiutils.cpp
 
 android: {
     LIBS += -lhardware_legacy -lcutils

@@ -33,7 +33,7 @@
 
 #ifdef Q_OS_ANDROID_NO_SDK
 /*
- * Work API differences between Android versions
+ * Workaround API differences between Android versions
  */
 int q_wifi_start_supplicant()
 {

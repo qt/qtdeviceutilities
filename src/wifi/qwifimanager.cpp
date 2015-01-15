@@ -20,6 +20,8 @@
 #include "qwifinetworklistmodel_p.h"
 #include "qwifinetwork_p.h"
 #include "qwifimanager_p.h"
+#include "qwifiutils_p.h"
+
 #include "qwifidevice.h"
 
 #include <QtCore/QFile>
@@ -98,7 +100,7 @@ void QWifiManagerPrivate::handleConnected()
     if (connectedNetwork.isEmpty())
         return;
 
-    m_currentSSID = connectedNetwork.split('\t').at(1);
+    m_currentSSID = QWifiUtils::decodeHexEncoded(connectedNetwork.split('\t').at(1));
     qCDebug(B2QT_WIFI) << "connected network: " << m_currentSSID;
     updateNetworkState(QWifiManager::ObtainingIPAddress);
     m_wifiController->call(QWifiController::AcquireIPAddress);
@@ -167,20 +169,21 @@ QString QWifiManagerPrivate::call(const QString &command)
     actualCommand.prepend(prefix);
 #endif
 #endif
-    if (q_wifi_command(m_interface, actualCommand.toLatin1(), data, &len) < 0) {
-        qCDebug(B2QT_WIFI) << "call to supplicant failed: " << actualCommand;
+    qCDebug(B2QT_WIFI) << "call command: " << actualCommand.toLocal8Bit();
+    if (q_wifi_command(m_interface, actualCommand.toLocal8Bit(), data, &len) < 0) {
+        qCDebug(B2QT_WIFI) << "call to supplicant failed!";
         return QString();
     }
     if (len < sizeof(data))
         data[len] = 0;
 
     QString result = QLatin1String(data);
-    return result;
+    return result.trimmed();
 }
 
 bool QWifiManagerPrivate::checkedCall(const QString &command)
 {
-    return call(command).trimmed().toUpper() == QLatin1String("OK");
+    return call(command).toUpper() == QLatin1String("OK");
 }
 
 void QWifiManagerPrivate::updateLastError(const QString &error)
@@ -472,11 +475,12 @@ bool QWifiManager::connect(QWifiConfiguration *config)
     d->m_currentSSID = config->ssid();
     bool networkKnown = false;
     QString id;
-    QString listResult = d->call(QStringLiteral("LIST_NETWORKS"));
-    QStringList lines = listResult.split('\n');
-    foreach (const QString &line, lines) {
-        if (line.contains(d->m_currentSSID)) {
-            id = line.split('\t').at(0);
+    const QStringList configuredNetworks = d->call(QStringLiteral("LIST_NETWORKS")).split('\n');
+    for (int i = 1; i < configuredNetworks.length(); ++i) {
+        const QStringList networkFields = configuredNetworks.at(i).split('\t');
+        const QString ssid = QWifiUtils::decodeHexEncoded(networkFields.at(1));
+        if (ssid == d->m_currentSSID) {
+            id = networkFields.at(0);
             networkKnown = true;
             break;
         }
@@ -484,7 +488,7 @@ bool QWifiManager::connect(QWifiConfiguration *config)
 
     if (!networkKnown) {
         bool ok;
-        id = d->call(QStringLiteral("ADD_NETWORK")).trimmed();
+        id = d->call(QStringLiteral("ADD_NETWORK"));
         id.toInt(&ok);
         if (!ok) {
             d->updateLastError(QStringLiteral("failed to add network!"));
