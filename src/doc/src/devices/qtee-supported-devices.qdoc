@@ -108,6 +108,12 @@
          \li \image ok
          \li \image ok
     \header \li Devices Without GPU \li \li
+    \row \li \l{https://www.toradex.com/products/colibri-arm-computer-modules/freescale-vybrid-VF6xx-computer-module}
+             {Toradex Colibri VF61}\br
+             Dual-core (ARM Cortex-A5 + ARM Cortex-M4)\br
+             solution with 1 MB on-chip SRAM
+         \li \image ok
+         \li
     \row \li \l{https://www.toradex.com/products/colibri-arm-computer-modules/freescale-vybrid-VF5xx-computer-module}
             {Toradex Colibri VF50}\br
             Single-core (ARM Cortex-A5) solution with 1.5 MB on-chip SRAM
@@ -160,13 +166,6 @@
             {Raspberry Pi Model B}\br
             700 Mhz ARM11, Broadcom videocode IV\br
             @250MHz GPU, 512 MB (shared with GPU) RAM
-         \li \image ok
-         \li
-    \header \li Devices Without GPU \li \li
-    \row \li \l{https://www.toradex.com/products/colibri-arm-computer-modules/freescale-vybrid-VF6xx-computer-module}
-             {Toradex Colibri VF61}\br
-             Dual-core (ARM Cortex-A5 + ARM Cortex-M4)\br
-             solution with 1 MB on-chip SRAM
          \li \image ok
          \li
     \endtable
@@ -269,6 +268,17 @@
             \li \image ok
             \li \image ok
             \li
+    \row    \li Toradex Colibri VF61
+            \li \image ok
+            \li \image ok
+            \li \image ok
+            \li
+            \li
+            \li \image ok
+            \li \image ok
+            \li \image ok
+            \li
+            \li \image ok
     \row    \li Toradex Colibri VF50
             \li \image ok
             \li \image ok
@@ -336,17 +346,6 @@
             \li \image ok
             \li \image ok
             \li
-    \row    \li Toradex Colibri VF61
-            \li \image ok
-            \li \image ok
-            \li \image ok
-            \li
-            \li
-            \li \image ok
-            \li \image ok
-            \li \image ok
-            \li
-            \li \image ok
     \endtable
 
     \section1 Supported Development Environment
