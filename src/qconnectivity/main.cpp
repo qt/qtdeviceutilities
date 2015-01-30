@@ -26,17 +26,14 @@
 #include <netutils/dhcp.h>
 #include <netutils/ifc.h>
 
+Q_LOGGING_CATEGORY(B2QT_QCONNECTIVITY, "qt.b2qt.qconnectivity")
+
 // Code values come from android/system/netd/ResponseCode.h
-static const int InterfaceChange = 600;
-
-static const char UNIQUE_HOSTNAME[] = "net.hostname";
-
-static bool QT_CONNECTIVITY_DEBUG = !qgetenv("QT_CONNECTIVITY_DEBUG").isEmpty();
-static bool QT_USE_EXPIRED_LEASE = !qgetenv("QT_USE_EXPIRED_LEASE").isEmpty();
-
+const int InterfaceChange = 600;
+const char UNIQUE_HOSTNAME[] = "net.hostname";
 // sanity check a renewal time, lower value than
 // this might indicate a badly configured DHCP server
-static int MIN_RENEWAL_TIME_SECS = 300; // 5 min
+const int MIN_RENEWAL_TIME_SECS = 300; // 5 min
 
 #define ETH_INTERFACE_HW "eth0"
 #define ETH_INTERFACE_EMULATOR "eth1"
@@ -165,7 +162,9 @@ QConnectivityDaemon::QConnectivityDaemon()
       m_isEmulator(isEmulator()),
       m_attemptCount(50)
 {
-    qDebug() << "starting QConnectivityDaemon...";
+    QLoggingCategory::setFilterRules(QStringLiteral("qt.b2qt.qconnectivity=true"));
+    qCDebug(B2QT_QCONNECTIVITY) << "starting QConnectivityDaemon...";
+
     if (!m_isEmulator) {
         m_ethInterface = ETH_INTERFACE_HW;
         m_leaseTimer = new LeaseTimer(this);
@@ -178,9 +177,9 @@ QConnectivityDaemon::QConnectivityDaemon()
             if (m_serverSocket->listen(serverFd))
                 connect(m_serverSocket, SIGNAL(newConnection()), this, SLOT(handleNewConnection()));
             else
-                qWarning() << "QConnectivityDaemon: not able to listen on the server socket...";
+                qCWarning(B2QT_QCONNECTIVITY) << "not able to listen on the server socket...";
         } else {
-            qWarning() << "QConnectivityDaemon: failed to open qconnectivity server socket";
+            qCWarning(B2QT_QCONNECTIVITY) << "failed to open qconnectivity server socket";
         }
     } else {
         m_ethInterface = ETH_INTERFACE_EMULATOR;
@@ -197,7 +196,7 @@ bool QConnectivityDaemon::isEmulator() const
         isEmulator = content.contains("platform=emulator");
         conf.close();
     } else {
-        qWarning() << "Failed to read appcontroller.conf";
+        qCWarning(B2QT_QCONNECTIVITY) << "Failed to read appcontroller.conf";
     }
     return isEmulator;
 }
@@ -206,16 +205,17 @@ void QConnectivityDaemon::initNetdConnection()
 {
     int netdFd = socket_local_client("netd", ANDROID_SOCKET_NAMESPACE_RESERVED, SOCK_STREAM);
     if (netdFd != -1) {
-        qDebug() << "QConnectivityDaemon: connected to netd socket";
+        qCDebug(B2QT_QCONNECTIVITY) << "connected to netd socket";
         m_netdSocket = new QLocalSocket(this);
         m_netdSocket->setSocketDescriptor(netdFd);
         connect(m_netdSocket, SIGNAL(readyRead()), this, SLOT(handleNetdEvent()));
         connect(m_netdSocket, SIGNAL(error(QLocalSocket::LocalSocketError)),
                 this, SLOT(handleError(QLocalSocket::LocalSocketError)));
     } else {
-        qWarning() << "QConnectivityDaemon: failed to connect to netd socket, reattempting...";
         if (--m_attemptCount != 0)
             QTimer::singleShot(200, this, SLOT(initNetdConnection()));
+        else
+            qCWarning(B2QT_QCONNECTIVITY) << "failed to connect to netd socket!";
         return;
     }
     if (ethernetSupported()) {
@@ -245,7 +245,7 @@ void QConnectivityDaemon::setHostnamePropery(const char *interface) const
             QByteArray macAddress(hwaddr, sizeof(hwaddr));
             property_set(UNIQUE_HOSTNAME, macAddress.toHex().prepend("b2qt-").constData());
         } else {
-            qWarning() << "QConnectivityDaemon: failed to get MAC address";
+            qCWarning(B2QT_QCONNECTIVITY) << "failed to get MAC address";
         }
         ifc_close();
     }
@@ -254,10 +254,10 @@ void QConnectivityDaemon::setHostnamePropery(const char *interface) const
 void QConnectivityDaemon::sendCommand(const char *command) const
 {
     if (!m_netdSocket) {
-        qDebug() << "QConnectivityDaemon: netd socket is not ready!";
+        qCDebug(B2QT_QCONNECTIVITY) << "netd socket is not ready!";
         return;
     }
-    qDebug() << "QConnectivityDaemon: sending command - " << command;
+    qCDebug(B2QT_QCONNECTIVITY) << "sending command - " << command;
     // netd expects "\0" terminated commands...
     m_netdSocket->write(command, qstrlen(command) + 1);
     m_netdSocket->flush();
@@ -288,7 +288,7 @@ void QConnectivityDaemon::handleInterfaceChange(const QList<QByteArray> &message
 
 bool QConnectivityDaemon::startDhcp(bool renew, const char *interface)
 {
-    qDebug() << "QConnectivityDaemon: startDhcp [ renew" << renew << "] "
+    qCDebug(B2QT_QCONNECTIVITY) << "startDhcp [ renew" << renew << "] "
              << "interface: " << interface;
     setHostnamePropery(interface);
 
@@ -319,7 +319,7 @@ bool QConnectivityDaemon::startDhcp(bool renew, const char *interface)
 
     bool success = (result == 0) ? true : false;
     if (success) {
-        qDebug() << "\nipaddr: " << ipaddr << "\nprefixLength: " << prefixLength
+        qCDebug(B2QT_QCONNECTIVITY) << "\nipaddr: " << ipaddr << "\nprefixLength: " << prefixLength
                  << "\ngateway: " << gateway << "\ndns1: " << dns1 << "\ndns2: " << dns2;
 
         if (!renew) {
@@ -332,13 +332,17 @@ bool QConnectivityDaemon::startDhcp(bool renew, const char *interface)
             ifc_configure(interface, _ipaddr.s_addr, prefixLength,
                           _gateway.s_addr, _dns1.s_addr, _dns2.s_addr);
 
-            // set DNS servers for interface - see NetworkManagementService.java
-            if (domain[0]) {
-                QByteArray dnsForInterface("0 resolver setifdns ");
-                dnsForInterface.append(interface).append(" ").append(domain).append(" ");
-                dnsForInterface.append(dns1).append(" ").append(dns2);
-                sendCommand(dnsForInterface.constData());
-            }
+            // set DNS servers and domain for interface - see NetworkManagementService.java
+            QByteArray dnsForInterface("0 resolver setifdns ");
+            dnsForInterface.append(interface).append(" ");
+            if (domain[0])
+                dnsForInterface.append(domain);
+            else
+                dnsForInterface.append(" ");
+            dnsForInterface.append(" ");
+            dnsForInterface.append(dns1).append(" ").append(dns2);
+            sendCommand(dnsForInterface.constData());
+
             // set default interface for DNS - see NetworkManagementService.java
             sendCommand(QByteArray("0 resolver setdefaultif ").append(interface).constData());
 
@@ -348,7 +352,7 @@ bool QConnectivityDaemon::startDhcp(bool renew, const char *interface)
 
         if (!m_isEmulator && lease >= 0) {
             if (lease < MIN_RENEWAL_TIME_SECS) {
-                qWarning() << "QConnectivityDaemon: DHCP server proposes lease time " << lease
+                qCWarning(B2QT_QCONNECTIVITY) << "DHCP server proposes lease time " << lease
                            << "seconds. We will use" << MIN_RENEWAL_TIME_SECS << " seconds instead.";
                 lease = MIN_RENEWAL_TIME_SECS;
             }
@@ -359,14 +363,14 @@ bool QConnectivityDaemon::startDhcp(bool renew, const char *interface)
             m_leaseTimer->start(lease * 480);
         }
     } else {
-        qWarning("QConnectivityDaemon: DHCP request failed - %s", dhcp_get_errmsg());
+        qCWarning(B2QT_QCONNECTIVITY, "DHCP request failed - %s", dhcp_get_errmsg());
         if (renew) {
             // If it fails to renew a lease (faulty server, proxy?) we re-connect.
             // Some users might prefer to use expired lease over having interrupt
             // in network connection
-            if (QT_USE_EXPIRED_LEASE)
+            if (qEnvironmentVariableIsSet("QT_USE_EXPIRED_LEASE"))
                 return true;
-            qDebug() << "QConnectivityDaemon: attempting to re-connect...";
+            qCDebug(B2QT_QCONNECTIVITY) << "attempting to re-connect...";
             stopDhcp(interface);
             startDhcp(false, interface);
         }
@@ -376,7 +380,7 @@ bool QConnectivityDaemon::startDhcp(bool renew, const char *interface)
 
 void QConnectivityDaemon::stopDhcp(const char *interface)
 {
-    qDebug() << "QConnectivityDaemon: stopDhcp: " << interface;
+    qCDebug(B2QT_QCONNECTIVITY) << "stopDhcp: " << interface;
     ifc_clear_addresses(interface);
     dhcp_stop(interface);
     if (!m_isEmulator && m_leaseTimer->isActive())
@@ -392,8 +396,7 @@ bool QConnectivityDaemon::ethernetSupported() const
 void QConnectivityDaemon::handleNetdEvent()
 {
     QByteArray data = m_netdSocket->readAll();
-    if (QT_CONNECTIVITY_DEBUG)
-        qDebug() << "QConnectivityDaemon: netd event: " << data;
+    qCDebug(B2QT_QCONNECTIVITY) << "netd event: " << data;
     if (data.endsWith('\0'))
         data.chop(1);
 
@@ -415,7 +418,7 @@ void QConnectivityDaemon::handleRequest()
     if (requester->canReadLine()) {
         QByteArray request = requester->readLine(requester->bytesAvailable());
 
-        qDebug() << "QConnectivityDaemon: received a request: " << request;
+        qCDebug(B2QT_QCONNECTIVITY) << "received a request: " << request;
         QList<QByteArray> cmd = request.split(' ');
         if (cmd.size() < 2)
             return;
@@ -452,13 +455,13 @@ void QConnectivityDaemon::sendReply(QLocalSocket *requester, const QByteArray &r
 
 void QConnectivityDaemon::updateLease()
 {
-    qDebug() << "QConnectivityDaemon: updating lease";
+    qCDebug(B2QT_QCONNECTIVITY) << "updating lease";
     startDhcp(true, m_leaseTimer->interface().constData());
 }
 
 void QConnectivityDaemon::handleError(QLocalSocket::LocalSocketError /*socketError*/) const
 {
-    qWarning() << "QConnectivityDaemon: QLocalSocket::LocalSocketError";
+    qCWarning(B2QT_QCONNECTIVITY) << "QLocalSocket::LocalSocketError";
 }
 
 int main(int argc, char *argv[])
