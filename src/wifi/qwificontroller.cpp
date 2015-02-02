@@ -272,12 +272,12 @@ void QWifiController::initializeBackend()
 {
     qCDebug(B2QT_WIFI) << "initializing wifi backend";
     emit backendStateChanged(QWifiManager::Initializing);
-
+    bool initFailed = false;
 #ifdef Q_OS_ANDROID_NO_SDK
     qCDebug(B2QT_WIFI) << "initialize driver";
     if (!(is_wifi_driver_loaded() || wifi_load_driver() == 0)) {
         qCWarning(B2QT_WIFI) << "failed to load a driver";
-        return;
+        initFailed = true;
     }
 #else
     qCDebug(B2QT_WIFI) << "run ifconfig (up)";
@@ -286,16 +286,19 @@ void QWifiController::initializeBackend()
     ifconfig.waitForFinished();
     if (ifconfig.exitStatus() != QProcess::NormalExit && ifconfig.exitCode() != 0) {
         qCWarning(B2QT_WIFI) << "failed to bring up wifi interface!";
-        return;
+        initFailed = true;
     }
 #endif
-    resetSupplicantSocket();
-    startWifiEventThread();
-    qCDebug(B2QT_WIFI) << "wifi backend started successfully";
-    emit backendStateChanged(QWifiManager::Running);
+    if (!initFailed && resetSupplicantSocket()) {
+        startWifiEventThread();
+        qCDebug(B2QT_WIFI) << "wifi backend started successfully";
+        emit backendStateChanged(QWifiManager::Running);
+    } else {
+        emit backendStateChanged(QWifiManager::NotRunning);
+    }
 }
 
-void QWifiController::resetSupplicantSocket() const
+bool QWifiController::resetSupplicantSocket() const
 {
     qCDebug(B2QT_WIFI) << "reset supplicant socket";
     // close down the previous connection to supplicant if
@@ -306,19 +309,20 @@ void QWifiController::resetSupplicantSocket() const
     qCDebug(B2QT_WIFI) << "start supplicant";
     if (q_wifi_start_supplicant() != 0) {
         qCWarning(B2QT_WIFI) << "failed to start a supplicant!";
-        return;
+        return false;
     }
 #ifdef Q_OS_ANDROID_NO_SDK
     if (wait_for_property("init.svc.wpa_supplicant", "running", 5) < 0) {
         qCWarning(B2QT_WIFI) << "timed out waiting for supplicant to start!";
-        return;
+        return false;
     }
 #endif
     qCDebug(B2QT_WIFI) << "connect to supplicant";
     if (q_wifi_connect_to_supplicant(m_interface) != 0) {
         qCWarning(B2QT_WIFI) << "failed to connect to a supplicant!";
-        return;
+        return false;
     }
+    return true;
 }
 
 void QWifiController::terminateBackend()
@@ -334,10 +338,8 @@ void QWifiController::terminateBackend()
     QProcess ifconfig;
     ifconfig.start(QStringLiteral("ifconfig"), QStringList() << QLatin1String(m_interface) << QStringLiteral("down"));
     ifconfig.waitForFinished();
-    if (ifconfig.exitStatus() != QProcess::NormalExit && ifconfig.exitCode() != 0) {
+    if (ifconfig.exitStatus() != QProcess::NormalExit && ifconfig.exitCode() != 0)
         qCWarning(B2QT_WIFI) << "failed to bring down wifi interface!";
-        return;
-    }
 #endif
     stopDhcp();
     qCDebug(B2QT_WIFI) << "wifi backend stopped successfully";

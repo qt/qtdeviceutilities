@@ -83,7 +83,7 @@ public:
     void startWifiEventThread();
     void acquireIPAddress();
     void stopDhcp() const;
-    void resetSupplicantSocket() const;
+    bool resetSupplicantSocket() const;
 
 signals:
     void backendStateChanged(QWifiManager::BackendState backendState);
