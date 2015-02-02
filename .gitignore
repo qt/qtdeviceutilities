@@ -1,0 +1,9 @@
+*.moc
+*.obj
+*.pro.user*
+*.qmlproject.user*
+Makefile*
+.qmake.cache
+
+# Vim temporary files
+.*.swp
