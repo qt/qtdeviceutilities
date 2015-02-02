@@ -31,10 +31,12 @@ public:
     QString m_ssid;
     QString m_psk;
     QString m_protocol;
+    bool m_ssidHidden;
 };
 
 QWifiConfigurationPrivate::QWifiConfigurationPrivate(QWifiConfiguration *config)
     : q_ptr(config)
+    , m_ssidHidden(false)
 {
 }
 
@@ -117,6 +119,28 @@ void QWifiConfiguration::setProtocol(const QString &protocol)
 {
     Q_D(QWifiConfiguration);
     d->m_protocol = protocol;
+}
+
+/*!
+    \property QWifiConfiguration::ssidHidden
+    \brief Holds whether a Wifi access point broadcasts its SSID
+
+    If a Wifi access point does not broadcast its SSID, setting this
+    property to \c true ensures that the Wifi backend can detect the
+    specified network.
+
+    By default this property is set to \c false.
+*/
+bool QWifiConfiguration::isSsidHidden() const
+{
+    Q_D(const QWifiConfiguration);
+    return d->m_ssidHidden;
+}
+
+void QWifiConfiguration::setSsidHidden(bool hidden)
+{
+    Q_D(QWifiConfiguration);
+    d->m_ssidHidden = hidden;
 }
 
 QT_END_NAMESPACE

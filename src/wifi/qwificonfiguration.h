@@ -32,6 +32,7 @@ class Q_DECL_EXPORT QWifiConfiguration : public QObject
     Q_PROPERTY(QString ssid READ ssid WRITE setSsid)
     Q_PROPERTY(QString passphrase READ passphrase WRITE setPassphrase)
     Q_PROPERTY(QString protocol READ protocol WRITE setProtocol)
+    Q_PROPERTY(bool ssidHidden READ isSsidHidden WRITE setSsidHidden)
 public:
     explicit QWifiConfiguration(QObject *parent = 0);
     virtual ~QWifiConfiguration();
@@ -42,6 +43,8 @@ public:
     QString passphrase() const;
     void setProtocol(const QString &protocol);
     QString protocol() const;
+    void setSsidHidden(bool hidden);
+    bool isSsidHidden() const;
 
 private:
     Q_DISABLE_COPY(QWifiConfiguration)

@@ -322,6 +322,15 @@ QT_BEGIN_NAMESPACE
     WPA is used by default if property is not set, supported values are: WPA, WPA2, WEP, WPS.
 */
 
+/*!
+    \qmlproperty bool WifiConfiguration::ssidHidden
+
+    If a Wifi access point does not broadcast its SSID, setting this property
+    to \c true ensures that the Wifi backend can detect the specified network.
+
+    By default this property is set to \c false.
+*/
+
 static QObject *globalWifiDevice(QQmlEngine *, QJSEngine *)
 {
     return new QWifiDevice;

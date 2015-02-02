@@ -506,7 +506,11 @@ bool QWifiManager::connect(QWifiConfiguration *config)
     QString key_mgmt;
     QString protocol = config->protocol().toUpper();
     QString psk = config->passphrase();
+
+    // --------------------- configure network ------------------------------
     // ref: http://w1.fi/cgit/hostap/plain/wpa_supplicant/wpa_supplicant.conf
+    // ref: https://www.freebsd.org/cgi/man.cgi?wpa_supplicant.conf
+    // ----------------------------------------------------------------------
     if (protocol.isEmpty() || protocol.contains(QStringLiteral("WPA"))) {
         // ### todo - password length has limits (see IEEE 802.11), we need to check
         // for those limits here. Supplicant gives only a meaningless "fail" message.
@@ -520,6 +524,10 @@ bool QWifiManager::connect(QWifiConfiguration *config)
         // open network
         key_mgmt = QLatin1String("NONE");
     }
+
+    if (config->isSsidHidden())
+        ok = ok && d->checkedCall(setNetworkCommand + QLatin1String(" scan_ssid 1"));
+
     ok = ok && d->checkedCall(setNetworkCommand + QLatin1String(" key_mgmt ") + key_mgmt);
     if (!ok) {
         if (!networkKnown)
