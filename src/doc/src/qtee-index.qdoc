@@ -79,7 +79,7 @@
 
     \title Overview
 
-    The development package that you get with Qt for device creation consists of:
+    The development package that you get with \SDK consists of:
 
     \include common.qdocinc overview-list
 
@@ -99,6 +99,28 @@
     module.
 
     For overview about Qt libraries see the \l {Qt reference documentation}.
+
+    \section1 Additional Embedded Libraries and Value-Add Components
+
+    In addition to the Boot to Qt stack and a comprehensive development
+    environment, \SDK comes with a set of components that bring new features and
+    speed up the creation of high-performing, modern UI embedded applications:
+
+    \list
+        \li \l {Qt Virtual Keyboard} - complete virtual keyboard solution with
+            word-prediction and multiple languages supported.
+        \li \l {Qt Quick Enterprise Controls} - a set of advanced UI controls
+            with an industry-specific look-and-feel.
+        \li \l {Qt Quick Compiler} - enables compiling .qml source files into
+            application binaries, improving load times and security for code
+            assets.
+        \li \l {Qt Charts} - UI Components for displaying visually pleasing
+            charts, driven by static or dynamic data models.
+        \li \l {Qt Data Visualization} - UI Components for creating stunning 3D
+            data visualizations.
+        \li \l {Qt Quick 2D Renderer} - enables Qt Quick UIs on GPU-less
+            devices.
+    \endlist
 
     \section1 About the Development Environment
 
@@ -178,28 +200,6 @@
     hardware configurations. Usage of \B2Q is not limited to the devices used as
     \l {Supported Platforms}{reference platforms}, it can be made to run on a
     variety of hardware.
-
-    \section1 Additional Embedded Libraries and Value-Add Components
-
-    In addition to the Boot to Qt stack and a comprehensive development
-    environment, \SDK comes with a set of components that bring new features and
-    speed up the creation of high-performing, modern UI embedded applications:
-
-    \list
-        \li \l {Qt Virtual Keyboard} - complete virtual keyboard solution with
-            word-prediction and multiple languages supported.
-        \li \l {Qt Quick Enterprise Controls} - a set of advanced UI controls
-            with an industry-specific look-and-feel.
-        \li \l {Qt Quick Compiler} - enables compiling .qml source files into
-            application binaries, improving load times and security for code
-            assets.
-        \li \l {Qt Charts} - UI Components for displaying visually pleasing
-            charts, driven by static or dynamic data models.
-        \li \l {Qt Data Visualization} - UI Components for creating stunning 3D
-            data visualizations.
-        \li \l {Qt Quick 2D Renderer} - enables Qt Quick UIs on GPU-less
-            devices.
-    \endlist
 
     \section1 Build-Your-Own-Stack Tooling
 
