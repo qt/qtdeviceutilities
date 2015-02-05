@@ -24,6 +24,7 @@
 #include <QNetworkInterface>
 #include <QHostInfo>
 #include <QFile>
+#include <QDirIterator>
 
 #ifdef Q_OS_ANDROID_NO_SDK
 #include <cutils/properties.h>
@@ -70,6 +71,50 @@ void B2QtDevice::powerOff()
 }
 
 
+class LightDevice
+{
+public:
+    QString name;
+    QString deviceFile;
+    quint8 value;
+    uint maxValue;
+};
+
+static QList<LightDevice> lightDevices;
+static bool lightDevicesInitialized = false;
+
+static void initLightDevices()
+{
+    if (lightDevicesInitialized)
+        return;
+    QDirIterator it(QStringLiteral("/sys/class/backlight"));
+    while (it.hasNext()) {
+        LightDevice ld;
+        ld.deviceFile = it.next() + QStringLiteral("/brightness");
+        QFile maxFile(it.filePath() + QStringLiteral("/max_brightness"));
+        if (!maxFile.open(QIODevice::ReadOnly))
+            continue;
+        bool ok = false;
+        ld.maxValue = maxFile.read(10).simplified().toUInt(&ok);
+        if (!ok || !ld.maxValue)
+            continue;
+        QFile valFile(ld.deviceFile);
+        if (!valFile.open(QIODevice::ReadOnly))
+            continue;
+        ok = false;
+        uint val = valFile.read(10).simplified().toUInt(&ok);
+        if (!ok)
+            continue;
+        // map max->max as that is a common case, otherwise choose a reasonable value
+        ld.value = (val == ld.maxValue) ? 255 : (val * 256)/(ld.maxValue+1);
+        ld.name = it.fileName();
+        lightDevices.append(ld);
+    }
+    if (!lightDevices.isEmpty())
+        knownBrightness = lightDevices.at(0).value;
+    lightDevicesInitialized = true;
+}
+
 /*!
  * Sets the display brightness (i.e. the intensity of the backlight)
  * to \a value. A value of 255 requests maximum brightness, while 0 requests
@@ -99,13 +144,21 @@ bool B2QtDevice::setDisplayBrightness(quint8 value)
         return false;
 
     device->common.close(&device->common);
-    knownBrightness = value;
-    emit displayBrightnessChanged(value);
-    return true;
 #else
-    Q_UNUSED(value);
-    return false;
+    initLightDevices();
+    for (int i = 0; i < lightDevices.size(); i++) {
+        LightDevice &ld = lightDevices[i];
+        QFile devFile(ld.deviceFile);
+        if (!devFile.open(QIODevice::WriteOnly))
+            continue;
+        // Maps only 0 to 0, since 0 often means "off"; other values are degrees of "on".
+        uint newVal = value ? 1 + ((value * ld.maxValue) / 256) : 0;
+        devFile.write(QByteArray::number(newVal));
+        ld.value = value;
+    }
 #endif
+    knownBrightness = value;
+    return true;
 }
 
 
@@ -115,6 +168,7 @@ bool B2QtDevice::setDisplayBrightness(quint8 value)
  */
 quint8 B2QtDevice::displayBrightness() const
 {
+#ifdef Q_OS_ANDROID_NO_SDK
     QFile sysFile(QStringLiteral("/sys/class/leds/lcd-backlight/brightness"));
     if (sysFile.open(QIODevice::ReadOnly | QIODevice::Unbuffered)) {
         bool ok = false;
@@ -122,6 +176,10 @@ quint8 B2QtDevice::displayBrightness() const
         if (ok)
             knownBrightness = qBound(0, sysVal, 255);
     }
+#else
+    initLightDevices();
+#endif
+
     return knownBrightness;
 }
 
