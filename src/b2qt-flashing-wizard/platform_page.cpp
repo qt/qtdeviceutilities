@@ -66,6 +66,8 @@ PlatformPage::~PlatformPage()
 
 bool PlatformPage::isComplete() const
 {
+    if (mButtons.isEmpty() || buttonData().name.isEmpty())
+          return false;
     return true;
 }
 
