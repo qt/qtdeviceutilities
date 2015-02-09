@@ -62,6 +62,20 @@ class QWifiEventThread;
 class QLocalSocket;
 #endif
 
+class QWifiEvent : public QEvent
+{
+public:
+    QWifiEvent(QEvent::Type type, const QString &data = QString())
+        : QEvent(type)
+        , m_data(data)
+    {
+    }
+    QString data() const { return m_data; }
+
+private:
+    QString m_data;
+};
+
 class QWifiController : public QThread
 {
     Q_OBJECT

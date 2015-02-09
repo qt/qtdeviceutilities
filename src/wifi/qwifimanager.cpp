@@ -42,7 +42,6 @@ QWifiManagerPrivate::QWifiManagerPrivate(QWifiManager *manager)
         , m_interface(QWifiDevice::wifiInterfaceName())
         , m_backendState(QWifiManager::NotRunning)
         , m_networkState(QWifiManager::Disconnected)
-        , m_setCurrentSSID(true)
 {
     qCDebug(B2QT_WIFI) << "using wifi interface: " << m_interface;
 }
@@ -53,54 +52,29 @@ QWifiManagerPrivate::~QWifiManagerPrivate()
     delete m_networkListModel;
 }
 
-QString QWifiManagerPrivate::getConnectedNetwork()
-{
-    QStringList lists = call(QStringLiteral("LIST_NETWORKS")).split('\n');
-    QString connectedNetwork;
-    for (int i = 1; i < lists.size(); ++i) {
-        if (lists.at(i).toUpper().contains(QStringLiteral("[CURRENT]"))) {
-            connectedNetwork = lists.at(i);
-            break;
-        }
-    }
-    return connectedNetwork;
-}
-
-void QWifiManagerPrivate::emitCurrentSSIDChanged()
+void QWifiManagerPrivate::setCurrentSSID(const QString &ssid)
 {
     Q_Q(QWifiManager);
-    if (m_previousSSID != m_currentSSID) {
-        qCDebug(B2QT_WIFI) << "current SSID: " << m_previousSSID << " -> " << m_currentSSID;
-        m_previousSSID = m_currentSSID;
-        emit q->currentSSIDChanged(m_currentSSID);
-    }
+    qCDebug(B2QT_WIFI) << "current SSID: " << m_currentSSID << " -> " << ssid;
+    if (m_currentSSID == ssid)
+        return;
+
+    m_currentSSID = ssid;
+    emit q->currentSSIDChanged(m_currentSSID);
 }
 
-void QWifiManagerPrivate::setCurrentSSID()
+void QWifiManagerPrivate::handleAuthenticating(QWifiEvent *event)
 {
-    qCDebug(B2QT_WIFI, "setCurrentSSID");
-    m_setCurrentSSID = false;
-    QString connectedNetwork = getConnectedNetwork();
-    if (!connectedNetwork.isEmpty()) {
-        QString ssid = connectedNetwork.split('\t').at(1);
-        QWifiNetwork *network = m_networkListModel->networkForSSID(ssid);
-        if (network) {
-            m_currentSSID = network->ssid();
-            emitCurrentSSIDChanged();
-            if (call(QStringLiteral("STATUS")).contains(QStringLiteral("wpa_state=COMPLETED")))
-                updateNetworkState(QWifiManager::Connected);
-        }
-    }
+    QString data = event->data().trimmed();
+    QString ssid = data.mid(data.indexOf(QLatin1String("SSID")) + 6);
+    ssid = ssid.left(ssid.lastIndexOf(QLatin1Char('\'')));
+
+    setCurrentSSID(QWifiUtils::decodeHexEncoded(ssid));
+    updateNetworkState(QWifiManager::Authenticating);
 }
 
 void QWifiManagerPrivate::handleConnected()
 {
-    qCDebug(B2QT_WIFI, "handleConnected");
-    QString connectedNetwork = getConnectedNetwork();
-    if (connectedNetwork.isEmpty())
-        return;
-
-    m_currentSSID = QWifiUtils::decodeHexEncoded(connectedNetwork.split('\t').at(1));
     qCDebug(B2QT_WIFI) << "connected network: " << m_currentSSID;
     updateNetworkState(QWifiManager::ObtainingIPAddress);
     m_wifiController->call(QWifiController::AcquireIPAddress);
@@ -426,8 +400,6 @@ bool QWifiManager::event(QEvent *event)
     switch ((int) event->type()) {
     case WIFI_SCAN_RESULTS:
         d->m_networkListModel->parseScanResults(d->call(QStringLiteral("SCAN_RESULTS")));
-        if (d->m_setCurrentSSID || d->m_currentSSID.isEmpty())
-            d->setCurrentSSID();
         return true;
     case WIFI_CONNECTED:
         d->handleConnected();
@@ -436,11 +408,10 @@ bool QWifiManager::event(QEvent *event)
         d->handleDisconneced();
         return true;
     case WIFI_AUTHENTICATING:
-        d->updateNetworkState(Authenticating);
-        d->emitCurrentSSIDChanged();
+        d->handleAuthenticating(static_cast<QWifiEvent *>(event));
         return true;
     case WIFI_HANDSHAKE_FAILED:
-        d->updateNetworkState(HandshakeFailed);
+        d->updateNetworkState(QWifiManager::HandshakeFailed);
         return true;
     case QEvent::Timer: {
         int tid = static_cast<QTimerEvent *>(event)->timerId();
@@ -471,8 +442,8 @@ bool QWifiManager::connect(QWifiConfiguration *config)
     }
 
     d->call(QStringLiteral("DISABLE_NETWORK all"));
+    d->setCurrentSSID(config->ssid());
 
-    d->m_currentSSID = config->ssid();
     bool networkKnown = false;
     QString id;
     const QStringList configuredNetworks = d->call(QStringLiteral("LIST_NETWORKS")).split('\n');
@@ -558,9 +529,6 @@ void QWifiManager::handleBackendStateChanged(BackendState backendState)
 {
     Q_D(QWifiManager);
     switch (backendState) {
-    case Running:
-        d->m_setCurrentSSID = true;
-        break;
     case NotRunning:
         d->updateNetworkState(Disconnected);
         break;
@@ -575,7 +543,6 @@ void QWifiManager::handleDhcpRequestFinished(const QString &status)
     Q_D(QWifiManager);
     qCDebug(B2QT_WIFI) << "handleDhcpRequestFinished: " << status << " for " << d->m_currentSSID;
     if (status == QLatin1String("success")) {
-        d->emitCurrentSSIDChanged();
         d->updateNetworkState(Connected);
         d->call(QStringLiteral("SAVE_CONFIG"));
     } else {

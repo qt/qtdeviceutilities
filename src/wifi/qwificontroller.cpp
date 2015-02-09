@@ -129,21 +129,6 @@ QT_BEGIN_NAMESPACE
 
 Q_LOGGING_CATEGORY(B2QT_WIFI, "qt.b2qt.wifi")
 
-class QWifiManagerEvent : public QEvent
-{
-public:
-    QWifiManagerEvent(QEvent::Type type, const QByteArray &data = QByteArray())
-        : QEvent(type)
-        , m_data(data)
-    {
-    }
-
-    QByteArray data() const { return m_data; }
-
-private:
-    QByteArray m_data;
-};
-
 class QWifiEventThread : public QThread
 {
 public:
@@ -155,7 +140,7 @@ public:
 
     void run() {
         qCDebug(B2QT_WIFI) << "running wifi event thread";
-        QWifiManagerEvent *event = 0;
+        QWifiEvent *event = 0;
         char buffer[2048];
         forever {
             int size = q_wifi_wait_for_event(m_interface, buffer, sizeof(buffer) - 1);
@@ -163,21 +148,24 @@ public:
                 buffer[size] = 0;
                 event = 0;
                 qCDebug(B2QT_WIFI) << "[event]: " << buffer;
+
                 if (m_controller->isWifiThreadExitRequested()) {
                     qCDebug(B2QT_WIFI) << "exit wifi event thread";
                     return;
                 }
+
                 if (strstr(buffer, "SCAN-RESULTS")) {
-                    event = new QWifiManagerEvent(WIFI_SCAN_RESULTS);
+                    event = new QWifiEvent(WIFI_SCAN_RESULTS);
                 } else if (strstr(buffer, "CTRL-EVENT-CONNECTED")) {
-                    event = new QWifiManagerEvent(WIFI_CONNECTED);
+                    event = new QWifiEvent(WIFI_CONNECTED);
                 } else if (strstr(buffer, "CTRL-EVENT-DISCONNECTED")) {
-                    event = new QWifiManagerEvent(WIFI_DISCONNECTED);
+                    event = new QWifiEvent(WIFI_DISCONNECTED);
                 } else if (strstr(buffer, "Trying to associate")) {
-                    event = new QWifiManagerEvent(WIFI_AUTHENTICATING);
+                    event = new QWifiEvent(WIFI_AUTHENTICATING, QLatin1String(buffer));
                 } else if (strstr(buffer, "Handshake failed")) {
-                    event = new QWifiManagerEvent(WIFI_HANDSHAKE_FAILED);
+                    event = new QWifiEvent(WIFI_HANDSHAKE_FAILED);
                 }
+
                 if (event)
                     QCoreApplication::postEvent(m_controller->wifiManager(), event);
             }

@@ -125,6 +125,9 @@ void QWifiNetworkListModel::parseScanResults(const QString &results)
         int pos = 0;
 
         QString ssid = QWifiUtils::decodeHexEncoded(info.at(4));
+        if (ssid.isEmpty())
+            continue;
+
         sensibleNetworks.insert(ssid);
         QWifiNetwork *knownNetwork = networkForSSID(ssid, &pos);
         if (!knownNetwork)

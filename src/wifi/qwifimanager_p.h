@@ -25,6 +25,8 @@
 
 QT_BEGIN_NAMESPACE
 
+class QWifiEvent;
+
 class QWifiManagerPrivate
 {
     Q_DECLARE_PUBLIC(QWifiManager)
@@ -33,11 +35,10 @@ public:
     virtual ~QWifiManagerPrivate();
 
     // methods
-    QString getConnectedNetwork();
-    void setCurrentSSID();
-    void emitCurrentSSIDChanged();
+    void setCurrentSSID(const QString &ssid);
     void handleConnected();
     void handleDisconneced();
+    void handleAuthenticating(QWifiEvent *event);
 
     void updateNetworkState(QWifiManager::NetworkState networkState);
     void updateBackendState(QWifiManager::BackendState backendState);
@@ -57,9 +58,7 @@ public:
     QByteArray m_interface;
     QWifiManager::BackendState m_backendState;
     QWifiManager::NetworkState m_networkState;
-    bool m_setCurrentSSID;
     QString m_currentSSID;
-    QString m_previousSSID;
     QString m_lastError;
 };
 
