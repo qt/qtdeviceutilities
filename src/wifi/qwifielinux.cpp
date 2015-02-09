@@ -38,7 +38,6 @@ static struct wpa_ctrl *ctrl_conn;
 static struct wpa_ctrl *monitor_conn;
 // socket pair used to exit from a blocking read
 static int exit_sockets[2];
-QByteArray ctrlInterface;
 
 int wifi_connect_on_socket_path(const char *path);
 int wifi_ctrl_recv(char *reply, size_t *reply_len);
@@ -46,12 +45,33 @@ int wifi_wait_on_socket(char *buf, size_t buflen);
 int wifi_send_command(const char *cmd, char *reply, size_t *reply_len);
 void wifi_close_sockets();
 
+QByteArray controlInterfacePath()
+{
+    QByteArray path;
+    QFile configFile;
+    configFile.setFileName(QLatin1String(SUPP_CONFIG_FILE));
+    if (configFile.open(QFile::ReadOnly)) {
+        while (!configFile.atEnd()) {
+            QByteArray line = configFile.readLine().trimmed();
+            if (line.startsWith("ctrl_interface")) {
+                path = line.mid(16);
+                if (path.isEmpty())
+                    qCWarning(B2QT_WIFI) << "ctrl_interface is not set in " << SUPP_CONFIG_FILE;
+                break;
+            }
+        }
+        configFile.close();
+    } else {
+        qCWarning(B2QT_WIFI) << "could not find/read wpa_supplicant configuration file in" << SUPP_CONFIG_FILE;
+    }
+    return path;
+}
+
 int q_wifi_start_supplicant()
 {
-    // #### TODO - if "/etc/wpa_supplicant/driver.$IFACE" exists, read driver name from there
     QByteArray ifc = QWifiDevice::wifiInterfaceName();
-    QString driver(QStringLiteral("wext"));
     QString pidFile = QLatin1String("/var/run/wpa_supplicant." + ifc + ".pid");
+    QString driver(QStringLiteral("nl80211,wext"));
 
     QStringList arg;
     arg << QStringLiteral("--start") << QStringLiteral("--quiet") << QStringLiteral("--name");
@@ -64,33 +84,14 @@ int q_wifi_start_supplicant()
     QProcess ssDaemon;
     ssDaemon.start(QStringLiteral("start-stop-daemon"), arg);
     ssDaemon.waitForFinished();
-    if (ssDaemon.exitStatus() != QProcess::NormalExit && ssDaemon.exitCode() != 0) {
-        qCWarning(B2QT_WIFI) << "failed to start a supplicant process!";
-        return -1;
-    }
 
-    QFile configFile;
-    configFile.setFileName(QLatin1String(SUPP_CONFIG_FILE));
-    if (configFile.exists() && configFile.open(QFile::ReadOnly)) {
-        ctrlInterface.clear();
-        while (!configFile.atEnd()) {
-            QByteArray line = configFile.readLine().trimmed();
-            if (line.startsWith("ctrl_interface")) {
-                ctrlInterface = line.mid(16);
-                break;
-            }
-        }
-        configFile.close();
-        if (!ctrlInterface.isEmpty()) {
-            // if the interface socket exists, then wpa_supplicant was invoked successfully
-            if (!QFile(QLatin1String(ctrlInterface + "/" + ifc)).exists())
-                return -1;
-        } else {
-            qCWarning(B2QT_WIFI) << "ctrl_interface is not set in " << SUPP_CONFIG_FILE;
-            return -1;
-        }
-    } else {
-        qCWarning(B2QT_WIFI) << "could not find/read wpa_supplicant configuration file in" << SUPP_CONFIG_FILE;
+    QByteArray path = controlInterfacePath();
+    if (path.isEmpty())
+        return -1;
+
+    // if the interface socket exists then wpa-supplicant was invoked successfully
+    if (!QFile(QLatin1String(path + "/" + ifc)).exists()) {
+        qCWarning(B2QT_WIFI) << "failed to invoke wpa_supplicant!\n" << ssDaemon.readAll();
         return -1;
     }
     // reset sockets used for exiting from hung state
@@ -102,19 +103,28 @@ int q_wifi_stop_supplicant()
 {
     QByteArray ifc = QWifiDevice::wifiInterfaceName();
     QString pidFile = QLatin1String("/var/run/wpa_supplicant." + ifc + ".pid");
-    QStringList arg;
-    arg << QStringLiteral("--stop") << QStringLiteral("--quiet") << QStringLiteral("--name");
-    arg << QStringLiteral("wpa_supplicant") << QStringLiteral("--pidfile") << pidFile;
-    QProcess ssDaemon;
-    ssDaemon.start(QStringLiteral("start-stop-daemon"), arg);
-    ssDaemon.waitForFinished();
-    if (ssDaemon.exitStatus() != QProcess::NormalExit && ssDaemon.exitCode() != 0) {
-        qCWarning(B2QT_WIFI) << "failed to stop a supplicant process!";
-        return -1;
+
+    if (QFile(pidFile).exists()) {
+        QStringList arg;
+        arg << QStringLiteral("--stop") << QStringLiteral("--quiet") << QStringLiteral("--name");
+        arg << QStringLiteral("wpa_supplicant") << QStringLiteral("--pidfile") << pidFile;
+
+        QProcess ssDaemon;
+        ssDaemon.start(QStringLiteral("start-stop-daemon"), arg);
+        ssDaemon.waitForFinished();
+        if (ssDaemon.exitStatus() != QProcess::NormalExit) {
+            qCWarning(B2QT_WIFI) << "failed to stop a supplicant process!\n" << ssDaemon.readAll();;
+            return -1;
+        }
+
+        QByteArray path = controlInterfacePath();
+        if (path.isEmpty())
+            return -1;
+
+        QFile::remove(QLatin1String(path + "/" + ifc));
+        QFile::remove(pidFile);
     }
 
-    QFile::remove(QLatin1String(ctrlInterface + "/" + ifc));
-    QFile::remove(pidFile);
     return 0;
 }
 
