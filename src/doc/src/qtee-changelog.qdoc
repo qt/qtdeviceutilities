@@ -23,6 +23,35 @@
     \previouspage qtee-customization.html
     \nextpage qtee-troubleshooting.html
 
+    \section1 \B2Q 4.1.0
+    \list
+        \li Release date: Feb 19, 2015
+    \endlist
+
+    \section2 Changes
+    \b{New Features}:
+    \list
+        \li \B2Q stack was updated to use Qt 5.4.1 on embedded Android
+            and Linux.
+    \endlist
+
+    \b {Improvements}:
+
+    \list
+        \li Enabled \e adb daemon listening to both USB and network connections
+            simultaneously in embedded Linux
+        \li Enabled D-Bus session bus on boot
+        \li Implemented better support for compiling projects using embedded
+            Linux toolchains without Qt Creator
+        \li Documentation improvements
+    \endlist
+
+    \b {Fixed Bugs}:
+    \list
+        \li \e {Build Your Own Stack}: Fixed add-on modules built into the image
+            not being included in the generated Qt Creator custom Kit
+    \endlist
+
     \section1 \B2Q 4.0.0
     \list
         \li Release date: Dec 10, 2014
