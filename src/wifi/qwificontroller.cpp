@@ -278,7 +278,6 @@ void QWifiController::initializeBackend()
     }
 #endif
     if (!initFailed && resetSupplicantSocket()) {
-        startWifiEventThread();
         qCDebug(B2QT_WIFI) << "wifi backend started successfully";
         emit backendStateChanged(QWifiManager::Running);
     } else {
@@ -286,11 +285,10 @@ void QWifiController::initializeBackend()
     }
 }
 
-bool QWifiController::resetSupplicantSocket() const
+bool QWifiController::resetSupplicantSocket()
 {
     qCDebug(B2QT_WIFI) << "reset supplicant socket";
-    // close down the previous connection to supplicant if
-    // one exists before re-connecting.
+    exitWifiEventThread();
     if (q_wifi_stop_supplicant() < 0)
         qCWarning(B2QT_WIFI) << "failed to stop supplicant!";
     q_wifi_close_supplicant_connection(m_interface);
@@ -310,6 +308,7 @@ bool QWifiController::resetSupplicantSocket() const
         qCWarning(B2QT_WIFI) << "failed to connect to a supplicant!";
         return false;
     }
+    startWifiEventThread();
     return true;
 }
 
@@ -345,7 +344,8 @@ void QWifiController::exitWifiEventThread()
     if (m_eventThread->isRunning()) {
         m_exitEventThread = true;
         m_managerPrivate->call(QStringLiteral("SCAN"));
-        m_eventThread->wait();
+        if (!m_eventThread->wait(8000))
+            qCWarning(B2QT_WIFI, "timed out waiting for wifi event thread to exit!");
     }
 }
 

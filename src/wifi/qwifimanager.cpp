@@ -123,10 +123,8 @@ void QWifiManagerPrivate::updateWifiState()
     if (ps.readAll().contains("wpa_supplicant"))
         supplicantRunning = true;
 #endif
-    if (supplicantRunning && m_wifiController->resetSupplicantSocket()) {
-        m_wifiController->startWifiEventThread();
+    if (supplicantRunning && m_wifiController->resetSupplicantSocket())
         m_backendState = QWifiManager::Running;
-    }
 }
 
 QString QWifiManagerPrivate::call(const QString &command)

@@ -97,7 +97,7 @@ public:
     void startWifiEventThread();
     void acquireIPAddress();
     void stopDhcp() const;
-    bool resetSupplicantSocket() const;
+    bool resetSupplicantSocket();
 
 signals:
     void backendStateChanged(QWifiManager::BackendState backendState);
