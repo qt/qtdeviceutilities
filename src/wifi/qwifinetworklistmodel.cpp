@@ -132,9 +132,16 @@ void QWifiNetworkListModel::parseScanResults(const QString &results)
         QWifiNetwork *knownNetwork = networkForSSID(ssid, &pos);
         if (!knownNetwork)
             knownNetwork = outOfRangeListContains(ssid);
-        // signal strength is in dBm. Deprecated, but still widely used "wext"
-        // wifi driver reports positive values for signal strength, we workaround that.
-        int signalStrength = qAbs(info.at(2).trimmed().toInt()) * -1;
+
+        int signalStrength = info.at(2).trimmed().toInt();
+        if (signalStrength < 0) {
+            // signal is reported in dBm, rough conversion: best = -40, worst = -100
+            int val = qAbs(qMax(-100, qMin(signalStrength, -40)) + 40); // clamp and normalize to 0
+            signalStrength = 100 - (int) ((100.0 * (double) val) / 60.0);
+        } else if (signalStrength > 100) {
+            qCWarning(B2QT_WIFI) << "unexpected value for a signal level: " << signalStrength;
+        }
+
         if (!knownNetwork) {
             QWifiNetwork *network = new QWifiNetwork();
             network->setOutOfRange(false);

@@ -212,11 +212,11 @@ void QWifiManagerPrivate::updateLastError(const QString &error)
 
     \value SSID informal (human) name of a Wifi network (QString)
     \value BSSID basic service set identification of a network, used to uniquely identify BSS (QString)
-    \value SignalStrength strength of a Wifi signal, measured in dBm (int)
-    \value WPASupported holds whether network access point supports WPA security protocol (QString)
-    \value WPA2Supported holds whether network access point supports WPA2 security protocol (QString)
-    \value WEPSupported holds whether network access point supports WEP security protocol (QString)
-    \value WPSSupported holds whether network access point supports WPS security protocol (QString)
+    \value SignalStrength strength of a Wifi signal represented as percentage (0-100) (int)
+    \value WPASupported holds whether network access point supports WPA security protocol (bool)
+    \value WPA2Supported holds whether network access point supports WPA2 security protocol (bool)
+    \value WEPSupported holds whether network access point supports WEP security protocol (bool)
+    \value WPSSupported holds whether network access point supports WPS security protocol (bool)
 */
 
 QWifiManager* QWifiManager::m_instance = 0;

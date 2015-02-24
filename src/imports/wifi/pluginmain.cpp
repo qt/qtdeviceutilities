@@ -93,13 +93,13 @@ QT_BEGIN_NAMESPACE
     interface, accessed with the following roles:
 
     \list
-    \li \e ssid - informal (human) name of a Wifi network
-    \li \e bssid - basic service set identification of a network, used to uniquely identify BSS
-    \li \e signalStrength - strength of a Wifi signal, measured in dBm
-    \li \e supportsWPA - holds whether network access point supports WPA security protocol
-    \li \e supportsWPA2 - holds whether network access point supports WPA2 security protocol
-    \li \e supportsWEP - holds whether network access point supports WEP security protocol
-    \li \e supportsWPS - holds whether network access point supports WPS security protocol
+    \li \e ssid - informal (human) name of a Wifi network (string)
+    \li \e bssid - basic service set identification of a network, used to uniquely identify BSS (string)
+    \li \e signalStrength - strength of a Wifi signal represented as percentage (0-100) (int)
+    \li \e supportsWPA - holds whether network access point supports WPA security protocol (bool)
+    \li \e supportsWPA2 - holds whether network access point supports WPA2 security protocol (bool)
+    \li \e supportsWEP - holds whether network access point supports WEP security protocol (bool)
+    \li \e supportsWPS - holds whether network access point supports WPS security protocol (bool)
     \endlist
  */
 
