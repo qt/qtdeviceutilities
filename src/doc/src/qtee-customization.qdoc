@@ -71,21 +71,17 @@
     To enable \c tslib, add the following line to \c /etc/appcontroller.conf on the device:
 
     \badcode
-        env=QT_QPA_GENERIC_PLUGINS=tslib
-    \endcode
-
-    In some cases it will be necessary to disable the built-in input handlers in
-    case they interfere with \c tslib. To do this, add the following line to
-    \c /etc/appcontroller.conf on the device. Once this is done, no input device
-    handling is in use by default. Instead, the necessary plugins have to be
-    specified in \c QT_QPA_GENERIC_PLUGINS.
-
-    \badcode
-        env=QT_QPA_EGLFS_DISABLE_INPUT=1
+        env=QT_QPA_EGLFS_TSLIB=1
     \endcode
 
     \note The \c tslib plugin provides no multitouch events (QTouchEvent). It
     only generates mouse events (QMouseEvent).
+
+    If necessary, the device can be specified explicitly by setting \c TSLIB_TSDEVICE:
+
+    \badcode
+        env=TSLIB_TSDEVICE=/dev/input/event1
+    \endcode
 
     \section1 Booting to a Custom Application
 
