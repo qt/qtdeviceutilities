@@ -117,13 +117,14 @@ int q_wifi_stop_supplicant()
             return -1;
         }
 
-        QByteArray path = controlInterfacePath();
-        if (path.isEmpty())
-            return -1;
-
-        QFile::remove(QLatin1String(path + "/" + ifc));
         QFile::remove(pidFile);
     }
+
+    QByteArray path = controlInterfacePath();
+    if (path.isEmpty())
+        return -1;
+
+    QFile::remove(QLatin1String(path + "/" + ifc));
 
     return 0;
 }
