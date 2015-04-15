@@ -26,6 +26,7 @@
 #include <QLayout>
 #include <QProgressBar>
 #include <QPushButton>
+#include <QScrollBar>
 #include <QTextEdit>
 #include <QTimer>
 
@@ -37,13 +38,14 @@ ProgressPage::ProgressPage(QWidget *parent)
     , mTextEdit(new QTextEdit(this))
     , mToggleDetailsButton(new QPushButton(this))
     , mCopyToClipboardButton(new QPushButton(this))
+    , mProgressBar(0)
 {
     setTitle(tr("Disk Creation"));
     setSubTitle(tr("Writing the hardware platform image to the disk"));
     setLayout(new QVBoxLayout(this));
-    QProgressBar *progressBar = new QProgressBar(this);
-    progressBar->setRange(0, 0);
-    layout()->addWidget(progressBar);
+    mProgressBar = new QProgressBar(this);
+    mProgressBar->setRange(0, 0);
+    layout()->addWidget(mProgressBar);
     mProgress->setWordWrap(true);
     mProgress->setText(tr("Preparing the disk device..."));
     layout()->addWidget(mProgress);
@@ -91,6 +93,14 @@ void ProgressPage::failed(const QString &message)
 {
     mFinished = false;
     emit completeChanged();
+    showDetails();
+    mProgressBar->setEnabled(false);
+    mProgressBar->setRange(0, 100);
+    mProgressBar->setValue(100);
+    mProgressBar->setFormat("");
+
+    // Scroll to bottom
+    mTextEdit->verticalScrollBar()->setValue(mTextEdit->verticalScrollBar()->maximum());
     mProgress->setText(message);
 }
 
@@ -110,17 +120,26 @@ void ProgressPage::addDetails(QByteArray newData)
     mTextEdit->append(QString::fromLocal8Bit(newData));
 }
 
+void ProgressPage::showDetails()
+{
+    mTextEdit->show();
+    mCopyToClipboardButton->show();
+    mToggleDetailsButton->setText(tr("Hide details"));
+}
+
+void ProgressPage::hideDetails()
+{
+    mTextEdit->hide();
+    mCopyToClipboardButton->hide();
+    mToggleDetailsButton->setText(tr("Show details"));
+}
+
 void ProgressPage::toggleDetails()
 {
-    if (mTextEdit->isHidden()) {
-        mTextEdit->show();
-        mCopyToClipboardButton->show();
-        mToggleDetailsButton->setText(tr("Hide details"));
-    } else {
-        mTextEdit->hide();
-        mCopyToClipboardButton->hide();
-        mToggleDetailsButton->setText(tr("Show details"));
-    }
+    if (mTextEdit->isHidden())
+        showDetails();
+    else
+        hideDetails();
 }
 
 void ProgressPage::copyDetailsToClipboard()
