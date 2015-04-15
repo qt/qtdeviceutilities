@@ -42,6 +42,7 @@ public slots:
     void finished();
     void failed(const QString &step);
     void addDetails(QByteArray newData);
+    void addErrorDetails(QByteArray newData);
     void showDetails();
     void hideDetails();
     void toggleDetails();

@@ -111,13 +111,32 @@ void ProgressPage::setActor(Actor *actor)
     connect(actor, &Actor::finished, this, &ProgressPage::finished);
     connect(actor, &Actor::failed, this, &ProgressPage::failed);
     connect(actor, &Actor::details, this, &ProgressPage::addDetails);
+    connect(actor, &Actor::errorDetails, this, &ProgressPage::addErrorDetails);
     connect(actor, &Actor::progress, this, &ProgressPage::progress);
+}
+
+static void commonDetailReplacements(QByteArray &data)
+{
+    data.replace(0x08 /* backspace */, ' ');
 }
 
 void ProgressPage::addDetails(QByteArray newData)
 {
-    newData.replace(0x08 /* backspace */, ' ');
-    mTextEdit->append(QString::fromLocal8Bit(newData));
+    commonDetailReplacements(newData);
+    mTextEdit->insertPlainText(QString::fromLocal8Bit(newData));
+}
+
+void ProgressPage::addErrorDetails(QByteArray newData)
+{
+    if (newData.startsWith('+')) {
+          addDetails(newData);
+          return;
+    }
+    commonDetailReplacements(newData);
+    QColor c = mTextEdit->textColor();
+    mTextEdit->setTextColor(Qt::red);
+    mTextEdit->insertPlainText(QString::fromLocal8Bit(newData));
+    mTextEdit->setTextColor(c);
 }
 
 void ProgressPage::showDetails()
