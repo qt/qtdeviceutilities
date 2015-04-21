@@ -26,15 +26,14 @@
     \list
         \li \l{http://boundarydevices.com/products/sabre-lite-imx6-sbc/}
             {Boundary Devices BD-SL-i.MX6 (SABRE Lite)}
-            (embedded Android and Linux)
         \li \l{http://boundarydevices.com/product/nitrogen6x-copy/}
-            {Boundary Devices Nitrogen6X} (embedded Linux only)
+            {Boundary Devices Nitrogen6X}
         \li \l{http://boundarydevices.com/product/nitrogen6_lite/}
-            {Boundary Devices Nitrogen6_Lite} (embedded Linux only)
+            {Boundary Devices Nitrogen6_Lite}
         \li \l{http://boundarydevices.com/product/nitrogen6max/}
-            {Boundary Devices Nitrogen6_MAX} (embedded Linux only)
+            {Boundary Devices Nitrogen6_MAX}
         \li \l{http://boundarydevices.com/product/nitrogen6x-som/}
-            {Boundary Devices Nitrogen6X_SOM} (embedded Linux only)
+            {Boundary Devices Nitrogen6X_SOM}
     \endlist
 
     \note It is important that you repeat the steps in this section after you
@@ -45,36 +44,9 @@
 
     \section1 Preparing an SD Card
 
-    For \B2QA, an SD card of at least 4 GB capacity is needed. For \B2QL,
-    a card of at least 1 GB capacity is sufficient.
+    For \B2QL, an SD card of at least 1 GB capacity is needed.
 
     \include detect-sd-card-device-name.qdocinc instructions
-
-    \section1 Installing the Android Image
-
-    \e{If installing} \B2QL, \e{you can skip this step and proceed to}
-    \l{#Installing the Boot to Qt Image}{Installing the Boot to Qt Image}.
-
-    Download the package \e{imx6-jb-20130628.tar.gz} from
-    \l{http://boundarydevices.com/android-jellybean-on-i-mx6-with-no-disclaimers/}{Boundary
-    Devices Android Jellybean i.MX6 images} (registration required).
-
-    Use the following commands to create an SD card containing the
-    downloaded image:
-
-    \list 1
-        \li Extract the downloaded package:
-        \badcode
-        ~/$ mkdir bd-android
-        ~/$ cd bd-android
-        ~/bd-android$ tar zxvf ~/Downloads/imx6-jb-20130628.tar.gz
-        \endcode
-        \li Run device/boundary/mksdcard.sh:
-        \badcode
-        ~/bd-android$ sudo device/boundary/mksdcard.sh /dev/<device_name>
-        ~/bd-android$ sync
-        \endcode
-    \endlist
 
     \section1 Installing the \B2Q Image
 
@@ -91,21 +63,12 @@
 
     \include detect-sd-card-device-name.qdocinc unmount
 
-    Then, use one of the commands below, depending on whether you are developing
-    for embedded Android or Linux:
+    Then, use the following command to install the embedded Linux image:
 
-    \list
-        \li \b{\B2QA}
-        \badcode
-            cd <INSTALL_DIR>
-            ./Boot2Qt-4.x/generic-4.2-eAndroid/images/iMX6/deploy.sh /dev/<device_name>
-        \endcode
-        \li \b{\B2QL}
-        \badcode
-            cd <INSTALL_DIR>
-            sudo ./Boot2Qt-4.x/iMX6-eLinux/images/deploy.sh /dev/<device_name>
-        \endcode
-    \endlist
+    \badcode
+        cd <INSTALL_DIR>
+        sudo ./Boot2Qt-4.x/iMX6-eLinux/images/deploy.sh /dev/<device_name>
+    \endcode
 
     After the installation is complete, insert the SD card, power on the device and check that
     the \B2Q welcome screen and/or demo appear.
@@ -116,7 +79,7 @@
 
     \section1 Configuring a Device Kit in Qt Creator
 
-    \include b2qt-post-install-setup.qdocinc configuring device kit android linux
+    \include b2qt-post-install-setup.qdocinc configuring device kit linux
 
     You are now ready to start developing for your device. For more information,
     see \l{Building and Running an Example}.

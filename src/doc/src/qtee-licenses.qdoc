@@ -34,17 +34,6 @@
     The third-party licenses used in \SDK are listed in the file
     \c {<INSTALL_DIR>/Licenses/ThirdPartySoftware_Listing.txt}.
 
-    \section1 Embedded Android Images
-
-    The embedded Android platform is built from the \e {Android Open Source Project},
-    source code available at \l {http://android.googlesource.com/}. The open
-    source licenses and notices are collected into the file
-    \c {/etc/NOTICE.html.gz} in the target images.
-
-    \B2QA installs additional 3rd party software on top of standard Android images. The listing
-    of licensed files and corresponding license information are located in \c {/system/licenses}
-    directory in the target images.
-
     \section1 Embedded Linux Images
 
     The embedded Linux platform is built using tools from the \l {Yocto Project}.
@@ -53,20 +42,4 @@
         \li \c /usr/share/common-licenses/license.manifest
         \li \c /usr/share/licenses/*
     \endlist
-
-    \section1 Android GNU C++ Run-time Licensing
-
-    The Android platform does not provide a full implementation of the C++ run-time. Instead,
-    apps that depend on features such as STL, exceptions, or RTTI, must include an additional
-    native run-time library that provides the features they need.
-
-    \B2QA uses the GNU libstdc++ library distributed as part of the \e {Android Open Source Project}.
-    This library is included in the images for \B2QA, and will be loaded by the application
-    on start-up to meet the run-time requirements of Qt.
-
-    The GNU C++ run-time is licensed under the
-    \l{http://gcc.gnu.org/onlinedocs/libstdc++/manual/appendix_gpl.html}{GNU General Public License version 3} with
-    an exception which grants permission for run-time linking and usage of the library by an application which
-    would otherwise violate the terms of the main license. For more information about this exception, see
-    \l{http://gcc.gnu.org/onlinedocs/libstdc++/manual/license.html}{the official license page}.
 */

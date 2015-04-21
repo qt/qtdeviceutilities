@@ -75,25 +75,6 @@
 //! [steps for device kit]
 //! [configuring device kit]
 
-//! [android steps for dev kit]
-    \list 1
-        \li Select \b{Tools > Options > Build & Run > Kits}.
-        \li Select the kit with the correct Android version
-            (for example, \e {generic-4.2}).
-        \li Select the correct device in the \b{Device} field.
-        \li Select \b{OK}.
-    \endlist
-
-    If you have more than one development device that use the same Android
-    version, clone the \e generic kit and rename it after the physical device:
-
-    \list 1
-        \li Select the generic Android kit and then \b Clone.
-        \li Select the correct device in the \b{Device} field.
-        \li Edit the name of the cloned kit and press \b OK.
-    \endlist
-//! [android steps for dev kit]
-
 //! [configuring network device]
     After you have prepared the hardware, you must set up the development tools
     in Qt Creator for your device. Connect your device to the network via an
@@ -115,18 +96,8 @@
 
 //! [configuring network device]
 
-//! [configuring device kit android]
+//! [configuring device kit linux]
     \include b2qt-post-install-setup.qdocinc common config device kit
-    \include b2qt-post-install-setup.qdocinc android steps for dev kit
-//! [configuring device kit android]
-
-//! [configuring device kit android linux]
-    \include b2qt-post-install-setup.qdocinc common config device kit
-    \list
-        \li \b{\B2QL}
-            \include b2qt-post-install-setup.qdocinc steps for device kit
-        \li \b{\B2QA}
-            \include b2qt-post-install-setup.qdocinc android steps for dev kit
-    \endlist
-//! [configuring device kit android linux]
+    \include b2qt-post-install-setup.qdocinc steps for device kit
+//! [configuring device kit linux]
 */

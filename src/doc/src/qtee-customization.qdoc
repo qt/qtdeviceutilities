@@ -26,9 +26,8 @@
     \section1 Environment and Input
 
     By default, the basic environment variables and startup options of
-    \B2Q applications are set in the file \c
-    {/system/bin/appcontroller.conf} in embedded Android devices and
-    in \c{/etc/appcontroller.conf} in embedded Linux devices.
+    \B2Q applications are set in \c{/etc/appcontroller.conf} on embedded Linux
+    devices.
 
     You can customize this file if you target a hardware device that
     has other input devices than the ones that the \B2Q stack is configured
@@ -94,7 +93,7 @@
         \li Under \b Deployment, click on \b {Add Deploy Step}, and select
             \b {Make this application the default one}.
         \li Re-deploy your project. In \b Edit mode, right-click on the
-            project and select \b Deploy, or simply click
+            project and select \b Deploy, or click
             \inlineimage qtcreator-run.png
             (\b{Run}).
     \endlist
@@ -106,7 +105,7 @@
     <INSTALL_DIR>/Tools/b2qt/adb shell appcontroller --make-default <path>
     \endcode
 
-    Above, \c{<path>} is the install path of your application binary on the
+    Where \c{<path>} is the install path of your application binary on the
     device.
 
     To remove your application from the default startup, use the following
@@ -222,23 +221,6 @@
         }
     }
     \endqml
-
-    \section1 Disabling Screen Composer on Embedded Android
-
-    By default, the \B2Q stack uses Android's screen composer, \e
-    Surfaceflinger. It is required for Qt Multimedia functionality,
-    i.e. video playback and camera. If that functionality is not
-    required, Surfaceflinger may be disabled. This can in some
-    situations improve performance.
-
-    \list 1
-      \li Edit \c {/system/bin/appcontroller.conf} to set the value of
-      the environment variable \c QT_QPA_EGLFS_NO_SURFACEFLINGER to \c
-      1 instead of \c 0.
-      \li Disable the startup of \c surfaceflinger at boot-up. Either
-      change \c /init.rc, or simply rename the \c
-      {/system/bin/surfaceflinger} executable.
-    \endlist
 
     \section1 Using Network Connection for ADB
 

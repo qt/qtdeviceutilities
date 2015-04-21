@@ -22,11 +22,10 @@
     \nextpage qtee-overview.html
     \title Qt 5.4 for Device Creation
 
-    With commercially licensed Qt for device creation, you get a fully-integrated
-    solution to get you started immediately with software development on your
-    embedded device with a tailored user experience for embedded Linux and
-    embedded Android. Qt libraries can also be manually configured to other
-    operating systems or custom software stacks.
+    \e {Qt for Device Creation} is a commercial offering, providing a
+    fully-integrated solution for creating embedded Linux-based products. It
+    provides the complete toolchain required for faster software development,
+    enabling quicker time-to-market.
 
     The Qt development environment for device creation consists of:
 
@@ -44,7 +43,6 @@
         \li \l{Supported Platforms}
         \li \l{Preparing Hardware}
         \list
-            \li \l{Preparing Nexus 7 (2012/2013)}{Nexus 7 (2012/2013) (embedded Android)}
             \li \l{Boundary Devices i.MX6 Boards}
             \li \l{Preparing SABRE SD i.MX6}{SABRE SD i.MX6Quad (embedded Linux)}
             \li \l{Preparing SABRE SD i.MX6}{SABRE SD i.MX6Dual (embedded Linux)}
@@ -101,26 +99,24 @@
 
     For overview about Qt libraries see the \l {Qt reference documentation}.
 
-    \section1 Additional Embedded Libraries and Value-Add Components
+    \section1 Additional Embedded Libraries and Value-Adds
 
     In addition to the Boot to Qt stack and a comprehensive development
-    environment, \SDK comes with a set of components that bring new features and
-    speed up the creation of high-performing, modern UI embedded applications:
+    environment, \SDK comes with a set of components that speed up the creation
+    of responsive embedded applications with modern UI:
 
     \list
         \li \l {Qt Virtual Keyboard} - complete virtual keyboard solution with
-            word-prediction and multiple languages supported.
+            word-prediction and multiple languages support.
         \li \l {Qt Quick Enterprise Controls} - a set of advanced UI controls
             with an industry-specific look-and-feel.
-        \li \l {Qt Quick Compiler} - enables compiling .qml source files into
-            application binaries, improving load times and security for code
-            assets.
+        \li \l {Qt Quick Compiler} - a QML complier that helps in securing the
+            code assets, and enables improved load time.
         \li \l {Qt Charts} - UI Components for displaying visually pleasing
             charts, driven by static or dynamic data models.
         \li \l {Qt Data Visualization} - UI Components for creating stunning 3D
             data visualizations.
-        \li \l {Qt Quick 2D Renderer} - enables Qt Quick UIs on GPU-less
-            devices.
+        \li \l {Qt Quick 2D Renderer} - Qt Quick renderer for GPU-less devices.
     \endlist
 
     \section1 About the Development Environment
@@ -148,9 +144,9 @@
     \title About Boot to Qt
 
     \e{\b{\B2Q}} is a light-weight, Qt-optimized, full software stack for
-    embedded systems that is installed into the actual target device. This is
-    done by flashing the device's memory card or internal memory directly with a
-    pre-built image that comes with the online installer.
+    embedded Linux systems that is installed into the actual target device.
+    This is done by flashing the device's memory card or internal memory
+    directly with a pre-built image that comes with the online installer.
     See the \l{Installation Guide} for details.
 
     \B2Q is ideal for the following use cases:
@@ -158,46 +154,21 @@
     \list
         \li Evaluating Qt on real embedded environment using one of the provided
             reference images.
-        \li Getting an immediately working embedded development environment up
-            and running as a starting point to production development. Later,
-            the stack can be customized to production with
+        \li Getting the embedded development environment up and running in no
+            time. Later, the stack can be customized to production with
             \e Build-Your-Own-Stack tooling, including proprietary Yocto Project
             recipes.
-        \li Creating embedded devices from off-the-shelf programmable Android
-            devices using \l {Android injection}.
     \endlist
 
     \image build-your-own-stack.png
 
-    Boot to Qt supports two different operating systems:
-
-    \b{\B2QL}\br
     \B2QL is using the traditional embedded Linux
     kernel built with the Yocto Poky reference system (Yocto 1.6 Daisy release).
     The embedded Linux variant is designed for great customization possibilities.
     It contains only components required in the embedded device, resulting in
     smaller image sizes while keeping valuable development tools available.
 
-    \b{\B2QA}\br
-    The embedded Android stack provides an easy way to create a full embedded
-    device using off-the-shelf programmable Android devices,
-    making the device run stripped-down, Qt-optimized OS and middleware stack.
-    The device will then become an embedded device running Qt applications,
-    instead of running the Android OS with Android applications.
-
-    For just creating applications using the Qt libraries that run on the native
-    Android OS, see \l {Qt for Android} in Qt reference documentation.
-
-    \B2QA tries to strip down the Android stack to the
-    bare minimum, relying only on basic Linux features. The majority of the
-    Android stack, such as Dalvik virtual machine is not running in Boot to Qt,
-    resulting in faster startup times, lower memory consumption and overall
-    better performance.
-
-    The embedded Android stack can be installed into programmable Android
-    devices that are based on Android version 4.2 or higher.
-
-    Both versions of \B2Q have been tested and verified on a number of different
+    \B2Q have been tested and verified on a number of different
     hardware configurations. Usage of \B2Q is not limited to the devices used as
     \l {Supported Platforms}{reference platforms}, it can be made to run on a
     variety of hardware.
@@ -207,8 +178,7 @@
     \B2QL is built using the tools and resources from the \l {Yocto Project},
     and is based on Yocto's reference distribution (\e Poky). You can
     use the same tools to build custom \B2Q images, and have control over
-    which packages are included in the build and how the software stack
-    is configured.
+    the packages included in the build and configure the software stack.
 
     The process consist of three parts: Building the \B2Q image and the
     external toolchain, building Qt libraries and add-ons, and configuring
@@ -221,7 +191,6 @@
     \section1 Emulator
 
     The \l {Emulator Manual}{emulator} running a \B2Q image enables you to
-    test and debug applications in an environment practically identical to
-    that of the device, without having a real device connected to the
-    development host.
+    test and debug applications in an environment identical to that of the
+    device, without having a real device connected to the development host.
 */
