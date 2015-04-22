@@ -140,9 +140,6 @@ void PlatformPage::initializePage()
         foreach (const QString j, dir2.entryList(QDir::Dirs | QDir::NoDotAndDotDot)) {
             if (j.startsWith("emulator-"))
                 continue;
-            QStringList token = j.split('-');
-            QString os = token.takeLast();
-            QString name = token.join("-");
 
             loadDeployConfig(dir2.absoluteFilePath(j) + "/images/deploy.conf", i);
         }
