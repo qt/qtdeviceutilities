@@ -127,10 +127,16 @@ void PlatformPage::initializePage()
 
     QDir dir(G_SDKDIR);
     foreach (const QString i, dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot)) {
-        if (!i.startsWith("Boot2Qt-"))
-          continue;
-
         QDir dir2(dir.absoluteFilePath(i));
+
+        if (i.startsWith("Boot2Qt-")) {
+            // nothing
+        } else if (dir2.exists("Boot2Qt")) {
+            dir2 = dir2.absoluteFilePath("Boot2Qt");
+        } else {
+            continue;
+        }
+
         foreach (const QString j, dir2.entryList(QDir::Dirs | QDir::NoDotAndDotDot)) {
             if (j.startsWith("emulator-"))
                 continue;
