@@ -62,9 +62,8 @@
     Enter following commands into U-Boot:
 
     \badcode
-        set bootcmd 'run sdboot; run ubiboot; run nfsboot;'
-        set sddtbload 'setenv dtbparam; load mmc 0:2 ${fdt_addr_r} /boot/${soc}-colibri-${fdt_board}.dtb && setenv dtbparam ${fdt_addr_r}'
-        save
+        run setupdate
+        run update_uboot
     \endcode
 
     Reset or power cycle the device to continue.
