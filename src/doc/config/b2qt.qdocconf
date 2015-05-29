@@ -6,7 +6,7 @@ sourceencoding               = UTF-8
 
 project                      = QtForDeviceCreation
 description                  = Qt 5.4 for Device Creation
-version                      = 4.1.0
+version                      = 4.2.0
 
 sourcedirs                   = ../src \
                                ../../imports/wifi \
@@ -30,7 +30,7 @@ indexes                      = $QT_INSTALL_DOCS/qtquick/qtquick.index \
 qhp.projects                 = B2Qt
 
 qhp.B2Qt.file                = b2qt.qhp
-qhp.B2Qt.namespace           = com.digia.b2qt.410
+qhp.B2Qt.namespace           = com.digia.b2qt.420
 qhp.B2Qt.virtualFolder       = b2qt
 qhp.B2Qt.indexTitle          = Qt 5.4 for Device Creation
 qhp.B2Qt.indexRoot           =
