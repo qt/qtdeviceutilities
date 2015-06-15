@@ -66,6 +66,20 @@
     * On GPU-less hardware, \l {Qt Quick 2D Renderer} can replace the
     OpenGL ES 2.0 requirement (with some limitations on graphics capabilities).
 
+    \section1 Support Lifecycle Policy
+
+    The Qt Company will continue providing support for this release of \SDK
+    two years after the release date of a version that supercedes it.
+
+    Release dates and support end-of-life dates for each version are listed
+    in the ChangeLog.
+
+    \section2 Emulator Support
+
+    Support for the emulator is limited to the \SDK release and pre-compiled
+    emulator images it shipped with. Using the emulator application to run
+    images from previous releases is not supported.
+
     \section1 Supported Device Groups
 
     The reference devices are divided into three groups, based on level

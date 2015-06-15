@@ -49,6 +49,7 @@
     \section1 \B2Q 4.1.0
     \list
         \li Release date: Feb 24, 2015
+        \li Supported until: Jun 02, 2017
     \endlist
 
     \section2 Changes
@@ -78,6 +79,7 @@
     \section1 \B2Q 4.0.0
     \list
         \li Release date: Dec 10, 2014
+        \li Supported until: Feb 19, 2017
     \endlist
 
     \section2 Changes
@@ -131,6 +133,7 @@
 
     \list
         \li Release date: Oct 14, 2014
+        \li Supported until: Dec 10, 2016
     \endlist
 
     \section2 Changes
@@ -172,6 +175,7 @@
 
     \list
         \li Release date: Aug 20, 2014
+        \li Supported until: Oct 14, 2016
     \endlist
 
     \section2 Changes
@@ -184,7 +188,8 @@
     \section1 \B2Q 3.1.0
 
     \list
-        \li Release date: July 3, 2014
+        \li Release date: July 03, 2014
+        \li Supported until: Aug 20, 2016
     \endlist
 
     \section2 Changes
@@ -226,6 +231,7 @@
 
     \list
         \li Release date: May 22, 2014
+        \li Supported until: July 03, 2016
     \endlist
 
     \section2 Changes
@@ -262,6 +268,7 @@
 
     \list
         \li Release date: Apr. 15, 2014
+        \li Supported until: May 22, 2016
     \endlist
 
     \section2 Changes
@@ -316,6 +323,7 @@
 
     \list
         \li Release date: Feb. 25, 2014
+        \li Supported until: Apr. 15, 2016
     \endlist
 
     \section2 Changes
@@ -366,6 +374,7 @@
 
     \list
         \li Release date: Dec. 5, 2013
+        \li Supported until: Feb. 25, 2016
     \endlist
 
     \section2 Changes
