@@ -140,7 +140,7 @@ void PlatformPage::initializePage()
         }
     }
     if (platforms.isEmpty()) {
-        mError->setText(tr("No suitable platform found in '%1'.\nMake sure you have"
+        mError->setText(tr("No suitable platform found in '%1'.\nMake sure you have "
                            "installed at least one hardware platform.").arg(G_SDKDIR));
     }
 
