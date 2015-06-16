@@ -127,7 +127,8 @@ void DiskPage::updateDeviceList()
             iter.next();
             const DiskInfo &di = iter.value();
 
-            if (di.logicalBlockSize == 0 || di.blocks == 0 || di.name.startsWith("ram")) {
+            if (di.logicalBlockSize == 0 || di.blocks == 0 || di.name.startsWith("ram")
+                || di.name.startsWith("sr") || di.name.startsWith("fd") {
                 iter.remove();
                 continue;
             }
