@@ -122,8 +122,9 @@ static void initLightDevices()
  *
  * Returns true on success.
  */
-bool B2QtDevice::setDisplayBrightness(quint8 value)
+bool B2QtDevice::setDisplayBrightness(int v)
 {
+    quint8 value = qBound(0, v, 255);
 #ifdef Q_OS_ANDROID_NO_SDK
     const struct hw_module_t* module = 0;
     if (hw_get_module(LIGHTS_HARDWARE_MODULE_ID, &module))
@@ -166,7 +167,7 @@ bool B2QtDevice::setDisplayBrightness(quint8 value)
  * Returns the current backlight intensity.
  * \sa setDisplayBrightness
  */
-quint8 B2QtDevice::displayBrightness() const
+int B2QtDevice::displayBrightness() const
 {
 #ifdef Q_OS_ANDROID_NO_SDK
     QFile sysFile(QStringLiteral("/sys/class/leds/lcd-backlight/brightness"));

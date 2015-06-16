@@ -25,7 +25,7 @@ class Q_DECL_EXPORT B2QtDevice : public QObject
 {
     Q_OBJECT
 
-    Q_PROPERTY(quint8 displayBrightness READ displayBrightness WRITE setDisplayBrightness NOTIFY displayBrightnessChanged)
+    Q_PROPERTY(int displayBrightness READ displayBrightness WRITE setDisplayBrightness NOTIFY displayBrightnessChanged)
     Q_PROPERTY(QString hostname READ hostname WRITE setHostname NOTIFY hostnameChanged)
     Q_PROPERTY(QString ipAddress READ getIPAddress NOTIFY ipAddressChanged)
     Q_PROPERTY(int masterVolume READ masterVolume WRITE setMasterVolume NOTIFY masterVolumeChanged)
@@ -34,7 +34,7 @@ public:
     B2QtDevice(QObject *parent = 0);
     ~B2QtDevice();
 
-    quint8 displayBrightness() const;
+    int displayBrightness() const;
     QString hostname() const;
     QString getIPAddress() const;
     int masterVolume() const;
@@ -45,12 +45,12 @@ public Q_SLOTS:
     void reboot();
     void powerOff();
 
-    bool setDisplayBrightness(quint8 value);
+    bool setDisplayBrightness(int value);
     bool setHostname(const QString &name);
     void setMasterVolume(int volume);
 
 signals:
-    void displayBrightnessChanged(quint8 newValue);
+    void displayBrightnessChanged(int newValue);
     void hostnameChanged(const QString &newName);
     void ipAddressChanged(const QString &newAddress);
     void masterVolumeChanged(int newVolume);
