@@ -39,7 +39,8 @@ public:
     void setRootFlag(bool);
 
 private slots:
-    void readOutput();
+    void readStandardOutput();
+    void readStandardError();
     void processFinished(int, QProcess::ExitStatus);
     void processError(QProcess::ProcessError);
 

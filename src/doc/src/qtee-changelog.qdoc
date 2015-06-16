@@ -23,9 +23,32 @@
     \previouspage qtee-customization.html
     \nextpage qtee-troubleshooting.html
 
+    \section1 Boot to Qt 4.2.0
+    \list
+        \li Release date: Jun 02, 2015
+    \endlist
+
+    \section2 Changes
+
+    \b{New Features}:
+    \list
+        \li \B2Q stack was updated to use Qt 5.4.2 on embedded Android
+            and Linux.
+        \li \l {Qt Virtual Keyboard} was updated to version 1.3.0.
+        \li Enabled Chinese (Pinyin), Korean (Hangul) and Japanese (OpenWnn)
+            input methods for Qt Virtual Keyboard.
+    \endlist
+
+    \b {Improvements}:
+    \list
+        \li Boot to Qt Flashing Wizard: Improved error messages for flashing failures.
+        \li Toradex Colibri VF and Apalis iMX6 images updated to use the latest
+            release (v2.3).
+    \endlist
+
     \section1 \B2Q 4.1.0
     \list
-        \li Release date: Feb 19, 2015
+        \li Release date: Feb 24, 2015
     \endlist
 
     \section2 Changes

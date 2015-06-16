@@ -37,6 +37,7 @@ signals:
     void finished();
     void failed(const QString &message);
     void details(const QByteArray &);
+    void errorDetails(const QByteArray &);
 };
 
 #endif // ACTOR_H

@@ -56,15 +56,14 @@
         sudo Boot2Qt-4.x/colibri-vf-eLinux/images/deploy.sh /dev/<device_name>
     \endcode
 
-    By default, the Toradex Colibri-VF devices boot from their internal eMMC. In order to boot from
+    By default, the Toradex Colibri VF devices boot from their internal NAND memory. In order to boot from
     an external SD card, the U-Boot needs to be modified. Connect a serial cable
     to the device and enter into the U-Boot environment by pressing any key before the autoboot.
     Enter following commands into U-Boot:
 
     \badcode
-        set bootcmd 'run sdboot; run ubiboot; run nfsboot;'
-        set sdboot 'run setup; setenv bootargs ${defargs} ${mmcargs} ${mtdparts} ${setupargs} ${vidargs}; echo Booting from MMC/SD card...; mmc part 0; fatload mmc 0:1 ${loadaddr} zImage && bootz'
-        save
+        run setupdate
+        run update_uboot
     \endcode
 
     Reset or power cycle the device to continue.
