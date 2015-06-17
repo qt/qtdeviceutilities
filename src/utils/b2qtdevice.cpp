@@ -460,3 +460,167 @@ void B2QtDevice::initAudio()
     setStreamVolume(EnforcedAudibleAudioStream, 100);
 #endif
 }
+
+class PhysicalScreenSize : public QObject
+{
+    Q_OBJECT
+
+public:
+    PhysicalScreenSize();
+
+    void setSize(int inches);
+    int size() const { return physScreenSizeInch; }
+    bool enabled() const;
+    void setEnabled(bool enable);
+
+private slots:
+    void onTimeout();
+
+private:
+    void read(const QString &filename);
+    void write(bool includePhysSize = true);
+    void write(const QString &filename, bool includePhysSize = true);
+
+    bool physScreenSizeEnabled;
+    int physScreenSizeInch;
+    QTimer physWriteTimer;
+};
+
+Q_GLOBAL_STATIC(PhysicalScreenSize, physScreenSize)
+
+PhysicalScreenSize::PhysicalScreenSize()
+    : physScreenSizeEnabled(false), physScreenSizeInch(7)
+{
+    physWriteTimer.setSingleShot(true);
+    physWriteTimer.setInterval(1000);
+    QObject::connect(&physWriteTimer, SIGNAL(timeout()), this, SLOT(onTimeout()));
+
+    read(QStringLiteral("/etc/appcontroller.conf"));
+    read(QStringLiteral("/var/lib/b2qt/appcontroller.conf.d/physical_screen_size.conf"));
+}
+
+void PhysicalScreenSize::read(const QString &filename)
+{
+    QFile f(filename);
+    if (!f.open(QIODevice::ReadOnly | QIODevice::Text))
+        return;
+
+    int physScreenWidth = 154, physScreenHeight = 90;
+    int found = 0;
+    while (!f.atEnd()) {
+        QByteArray line = f.readLine().trimmed();
+        if (line.startsWith(QByteArrayLiteral("env="))) {
+            QByteArrayList values = line.split('=');
+            if (values.count() == 3) {
+                bool ok;
+                if (values[1] == QByteArrayLiteral("QT_QPA_EGLFS_PHYSICAL_WIDTH")) {
+                    int val = values[2].toInt(&ok);
+                    if (ok) {
+                        ++found;
+                        physScreenWidth = val;
+                    }
+                } else if (values[1] == QByteArrayLiteral("QT_QPA_EGLFS_PHYSICAL_HEIGHT")) {
+                    int val = values[2].toInt(&ok);
+                    if (ok) {
+                        ++found;
+                        physScreenHeight = val;
+                    }
+                }
+            }
+        }
+    }
+    if (found == 2)
+        physScreenSizeEnabled = true;
+
+    const qreal diagMM = qSqrt(physScreenWidth * physScreenWidth + physScreenHeight * physScreenHeight);
+    physScreenSizeInch = int(diagMM / 25.4);
+}
+
+void PhysicalScreenSize::onTimeout()
+{
+    write();
+}
+
+void PhysicalScreenSize::write(bool includePhysSize)
+{
+    QDir(QStringLiteral("/var/lib")).mkpath(QStringLiteral("b2qt/appcontroller.conf.d"));
+    write(QStringLiteral("/var/lib/b2qt/appcontroller.conf.d/physical_screen_size.conf"), includePhysSize);
+}
+
+void PhysicalScreenSize::write(const QString &filename, bool includePhysSize)
+{
+    QFile f(filename);
+
+    QByteArrayList lines;
+    if (f.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        while (!f.atEnd()) {
+            QByteArray line = f.readLine().trimmed();
+            if (!line.startsWith(QByteArrayLiteral("env=QT_QPA_EGLFS_PHYSICAL_WIDTH="))
+                && !line.startsWith(QByteArrayLiteral("env=QT_QPA_EGLFS_PHYSICAL_HEIGHT=")))
+                lines.append(line);
+        }
+        f.close();
+    }
+
+    if (!f.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text))
+        return;
+
+    const qreal diagMM = physScreenSizeInch * 25.4;
+    // Assume 16:9 aspect ratio
+    const int physScreenHeight = int(diagMM / 1.975);
+    const int physScreenWidth = int(physScreenHeight * 1.777);
+
+    foreach (const QByteArray &line, lines)
+        f.write(line + QByteArrayLiteral("\n"));
+
+    if (includePhysSize)
+        f.write(QByteArrayLiteral("env=QT_QPA_EGLFS_PHYSICAL_WIDTH=") + QByteArray::number(physScreenWidth)
+                + QByteArrayLiteral("\nenv=QT_QPA_EGLFS_PHYSICAL_HEIGHT=") + QByteArray::number(physScreenHeight)
+                + QByteArrayLiteral("\n"));
+}
+
+void PhysicalScreenSize::setSize(int inches)
+{
+    physScreenSizeInch = inches;
+    physWriteTimer.start();
+}
+
+bool PhysicalScreenSize::enabled() const
+{
+    return physScreenSizeEnabled;
+}
+
+void PhysicalScreenSize::setEnabled(bool enable)
+{
+    physScreenSizeEnabled = enable;
+    // Rewrite appcontroller.conf with or without the physical width/height lines.
+    write(enable);
+}
+
+int B2QtDevice::physicalScreenSizeInch() const
+{
+    return physScreenSize()->size();
+}
+
+void B2QtDevice::setPhysicalScreenSizeInch(int inches)
+{
+    if (physScreenSize()->size() != inches) {
+        physScreenSize()->setSize(inches);
+        emit physicalScreenSizeInchChanged(inches);
+    }
+}
+
+bool B2QtDevice::physicalScreenSizeOverride() const
+{
+    return physScreenSize()->enabled();
+}
+
+void B2QtDevice::setPhysicalScreenSizeOverride(bool enable)
+{
+    if (physScreenSize()->enabled() != enable) {
+        physScreenSize()->setEnabled(enable);
+        emit physicalScreenSizeOverrideChanged(enable);
+    }
+}
+
+#include "b2qtdevice.moc"

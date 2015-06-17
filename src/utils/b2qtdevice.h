@@ -29,6 +29,8 @@ class Q_DECL_EXPORT B2QtDevice : public QObject
     Q_PROPERTY(QString hostname READ hostname WRITE setHostname NOTIFY hostnameChanged)
     Q_PROPERTY(QString ipAddress READ getIPAddress NOTIFY ipAddressChanged)
     Q_PROPERTY(int masterVolume READ masterVolume WRITE setMasterVolume NOTIFY masterVolumeChanged)
+    Q_PROPERTY(int physicalScreenSizeInch READ physicalScreenSizeInch WRITE setPhysicalScreenSizeInch NOTIFY physicalScreenSizeInchChanged)
+    Q_PROPERTY(bool physicalScreenSizeOverride READ physicalScreenSizeOverride WRITE setPhysicalScreenSizeOverride NOTIFY physicalScreenSizeOverrideChanged)
 
 public:
     B2QtDevice(QObject *parent = 0);
@@ -38,6 +40,8 @@ public:
     QString hostname() const;
     QString getIPAddress() const;
     int masterVolume() const;
+    int physicalScreenSizeInch() const;
+    bool physicalScreenSizeOverride() const;
 
     void initAudio();
 
@@ -48,12 +52,16 @@ public Q_SLOTS:
     bool setDisplayBrightness(int value);
     bool setHostname(const QString &name);
     void setMasterVolume(int volume);
+    void setPhysicalScreenSizeInch(int inches);
+    void setPhysicalScreenSizeOverride(bool enable);
 
 signals:
     void displayBrightnessChanged(int newValue);
     void hostnameChanged(const QString &newName);
     void ipAddressChanged(const QString &newAddress);
     void masterVolumeChanged(int newVolume);
+    void physicalScreenSizeInchChanged(int newInches);
+    void physicalScreenSizeOverrideChanged(bool newValue);
 };
 
 #endif // B2QTDEVICE_H
