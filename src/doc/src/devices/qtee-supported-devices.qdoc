@@ -35,7 +35,7 @@
         \li \l{Toradex Colibri VF50 and VF61 (embedded Linux)}
         \li \l{ArchiTech Tibidabo (embedded Linux)}
         \li \l{BeagleBone Black (embedded Linux)}
-        \li \l{Raspberry Pi Model B (embedded Linux)}
+        \li \l{Raspberry Pi 2 Model B (embedded Linux)}
     \endlist
 
     If you use only the emulator, you can skip this step
@@ -139,10 +139,10 @@
             Freescale® i.MX 6Q ARM Cortex™-A9 @1 GHz,\br
             1GB DDR3, 4GB eMMC, Vivante GC2000 GPU
          \li \image ok
-    \row \li \l{http://www.raspberrypi.org/faqs}
-            {Raspberry Pi Model B}\br
-            700 Mhz ARM11, Broadcom videocode IV\br
-            @250MHz GPU, 512 MB (shared with GPU) RAM
+    \row \li \l{https://www.raspberrypi.org/products/raspberry-pi-2-model-b/}
+            {Raspberry Pi 2 Model B}\br
+            900 Mhz ARM Cortex™-A7, Broadcom VideoCore IV\br
+            @250MHz GPU, 1GB LPDDR2 SDRAM
          \li \image ok
     \endtable
 
@@ -156,24 +156,26 @@
     The Qt Company for consultancy services.
 
     \table
-    \header \li Device \li eLinux \li Notes
+    \header \li Device \li eLinux
     \row \li \l{http://beagleboard.org/hardware-xM}
              {BeagleBoard-xM}\br
              1GHz ARM Cortex A8, PowerVR SGX530 GPU,\br
              512MB RAM
          \li \image ok
-         \li
     \row \li \l{http://processors.wiki.ti.com/index.php/AM335x_Starter_Kit}
              {Sitara AM335x Starter Kit}\br
              720 MHZ ARM Cortex™-A8 Starter Kit\br
              with 4.3-inch LCD touchscreen
          \li \image ok
-         \li
     \row \li \l{http://www.freescale.com/webapp/sps/site/prod_summary.jsp?code=IMX53QSB}
              {Freescale® iMX53 Quick Start Board}\br
              1GHz ARM Cortex™-A8
          \li \image ok
-         \li
+    \row \li \l{https://www.raspberrypi.org/products/model-b/}
+            {Raspberry Pi Model B}\br
+            700 Mhz ARM11, Broadcom VideoCore IV\br
+            @250MHz GPU, 512 MB (shared with GPU) RAM
+         \li \image ok
     \endtable
 
     \section2 Supported Features on Reference Devices
@@ -273,7 +275,7 @@
             \li \image ok
             \li \image ok
             \li
-    \row    \li Raspberry Pi Model B
+    \row    \li Raspberry Pi 2
             \li \image ok
             \li \image ok
             \li

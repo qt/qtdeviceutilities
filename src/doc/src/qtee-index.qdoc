@@ -50,7 +50,7 @@
             \li \l{Preparing Toradex Colibri VF50 and VF61}{Toradex Colibri VF50 and VF61 (embedded Linux)}
             \li \l{Preparing ArchiTech Tibidabo}{ArchiTech Tibidabo (embedded Linux)}
             \li \l{Preparing BeagleBone Black}{BeagleBone Black (embedded Linux)}
-            \li \l{Preparing Raspberry Pi}{Raspberry Pi Model B (embedded Linux)}
+            \li \l{Preparing Raspberry Pi 2}{Raspberry Pi 2 Model B (embedded Linux)}
         \endlist
         \li \l{Building and Running Embedded Applications}
         \list
