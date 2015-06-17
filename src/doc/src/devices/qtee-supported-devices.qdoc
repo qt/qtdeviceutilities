@@ -60,8 +60,11 @@
     \list
         \li 256 MB of RAM
         \li 500 MHz CPU, 1 GHz preferred for 60-FPS velvet-smooth UI
-        \li OpenGL ES 2.0 support
+        \li OpenGL ES 2.0 support *
     \endlist
+
+    * On GPU-less hardware, \l {Qt Quick 2D Renderer} can replace the
+    OpenGL ES 2.0 requirement (with some limitations on graphics capabilities).
 
     \section1 Supported Device Groups
 
@@ -186,7 +189,7 @@
             \li HDMI
             \li HW Accelerated \br Video Playback
             \li Virtual Keyboard
-            \li Qt WiFi Module
+            \li B2Qt WiFi Module
             \li B2Qt Utils Module
             \li OpenGL ES 2.0
             \li Qt Quick \br 2D Renderer

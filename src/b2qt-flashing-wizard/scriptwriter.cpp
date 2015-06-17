@@ -34,7 +34,6 @@ ScriptWriter::ScriptWriter(QObject *parent)
     , mDebug(false)
     , mRoot(false)
 {
-    mProcess.setProcessChannelMode(QProcess::MergedChannels);
     mDebug = qEnvironmentVariableIsSet("DEBUG");
 }
 
@@ -81,7 +80,8 @@ bool ScriptWriter::ready(QString &error) const
 
 void ScriptWriter::start()
 {
-    connect(&mProcess, &QProcess::readyReadStandardOutput, this, &ScriptWriter::readOutput);
+    connect(&mProcess, &QProcess::readyReadStandardOutput, this, &ScriptWriter::readStandardOutput);
+    connect(&mProcess, &QProcess::readyReadStandardError, this, &ScriptWriter::readStandardError);
     connect(&mProcess, (void (QProcess::*)(QProcess::ProcessError))&QProcess::error, this, &ScriptWriter::processError);
     connect(&mProcess, (void (QProcess::*)(int, QProcess::ExitStatus))&QProcess::finished, this, &ScriptWriter::processFinished);
 
@@ -99,7 +99,7 @@ void ScriptWriter::start()
         qFatal("Failed to start script");
 }
 
-void ScriptWriter::readOutput()
+void ScriptWriter::readStandardOutput()
 {
     QByteArray ba = mProcess.readAllStandardOutput();
     QList<QByteArray> baList = ba.split('\n');
@@ -110,6 +110,12 @@ void ScriptWriter::readOutput()
     }
 
     emit details(ba);
+}
+
+void ScriptWriter::readStandardError()
+{
+    QByteArray ba = mProcess.readAllStandardError();
+    emit errorDetails(ba);
 }
 
 void ScriptWriter::processFinished(int exitCode, QProcess::ExitStatus exitStatus)
