@@ -56,7 +56,7 @@
 
     \badcode
         cd <INSTALL_DIR>
-        sudo Boot2Qt-4.x/imx6qsabresd-eLinux/images/deploy.sh /dev/<device_name>
+        sudo 5.5/Boot2Qt/imx6qsabresd-eLinux/images/deploy.sh /dev/<device_name>
     \endcode
 
     To deploy the image on \b {i.MX6Dual}, you need to enter an additional boot
@@ -64,7 +64,7 @@
 
     \badcode
         cd <INSTALL_DIR>
-        sudo Boot2Qt-4.x/imx6qsabresd-eLinux/images/deploy.sh --uboot u-boot-imx6dlsabresd.imx /dev/<device_name>
+        sudo 5.5/Boot2Qt/imx6qsabresd-eLinux/images/deploy.sh --uboot u-boot-imx6dlsabresd.imx /dev/<device_name>
     \endcode
 
     After the image has been deployed, insert the SD card, power on the device and check that

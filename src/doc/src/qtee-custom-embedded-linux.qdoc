@@ -68,7 +68,7 @@
 
     \badcode
     cd <BuildDir>
-    <INSTALL_DIR>/Boot2Qt-4.x/sources/b2qt-yocto-meta/b2qt-init-build-env init --device raspberrypi
+    <INSTALL_DIR>/5.5/Boot2Qt/sources/b2qt-yocto-meta/b2qt-init-build-env init --device raspberrypi
     \endcode
 
     \c b2qt-init-build-env has the following additional command line options:
@@ -81,7 +81,7 @@
     For all command line options, see:
 
     \badcode
-    <INSTALL_DIR>/Boot2Qt-4.x/sources/b2qt-yocto-meta/b2qt-init-build-env help
+    <INSTALL_DIR>/5.5/Boot2Qt/sources/b2qt-yocto-meta/b2qt-init-build-env help
     \endcode
 
     \section1 Building the Image and Toolchain
@@ -153,7 +153,7 @@
     script. Using Raspberry Pi as an example:
 
     \badcode
-    <INSTALL_DIR>/Boot2Qt-4.x/sources/b2qt-build-scripts/embedded-common/init_build_env.sh <INSTALL_DIR>/Boot2Qt-4.x/sources/b2qt-build-scripts/embedded-linux/config.raspberrypi
+    <INSTALL_DIR>/5.5/Boot2Qt/sources/b2qt-build-scripts/embedded-common/init_build_env.sh <INSTALL_DIR>/5.5/Boot2Qt/sources/b2qt-build-scripts/embedded-linux/config.raspberrypi
     \endcode
 
     \note You can use the same build directory for Qt and the Yocto image.
@@ -178,7 +178,7 @@
     developing for your device. The following script does this for you.
 
     \badcode
-    <INSTALL_DIR>/Boot2Qt-4.x/sources/b2qt-build-scripts/embedded-common/setup_qtcreator.sh
+    <INSTALL_DIR>/5.5/Boot2Qt/sources/b2qt-build-scripts/embedded-common/setup_qtcreator.sh
     \endcode
 
     This will set up a new kit in Qt Creator, using the toolchain and Qt from

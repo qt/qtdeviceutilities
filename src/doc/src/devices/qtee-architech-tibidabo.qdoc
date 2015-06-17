@@ -49,7 +49,7 @@
 
     \badcode
         cd <INSTALL_DIR>
-        sudo ./Boot2Qt-4.x/tibidabo-eLinux/images/deploy.sh /dev/<device_name>
+        sudo 5.5/Boot2Qt/tibidabo-eLinux/images/deploy.sh /dev/<device_name>
     \endcode
 
     After the installation is complete, insert the SD card, power on the device and check that

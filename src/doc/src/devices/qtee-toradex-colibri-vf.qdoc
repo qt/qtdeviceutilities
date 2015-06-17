@@ -53,7 +53,7 @@
 
     \badcode
         cd <INSTALL_DIR>
-        sudo Boot2Qt-4.x/colibri-vf-eLinux/images/deploy.sh /dev/<device_name>
+        sudo 5.5/Boot2Qt/colibri-vf-eLinux/images/deploy.sh /dev/<device_name>
     \endcode
 
     By default, the Toradex Colibri VF devices boot from their internal NAND memory. In order to boot from
