@@ -122,6 +122,7 @@ void PlatformPage::initializePage()
 {
     mError->clear();
 
+    platforms.clear();
     qDeleteAll(mButtons);
     mButtons.clear();
 
