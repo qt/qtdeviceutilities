@@ -123,6 +123,9 @@
         \li Toradex Apalis iMX6
         \li apalis-imx6
     \row
+        \li Toradex Colibri iMX6
+        \li colibri-imx6
+    \row
         \li Toradex Colibri VF
         \li colibri-vf
     \row
