@@ -533,7 +533,7 @@ void PhysicalScreenSize::read(const QString &filename)
         physScreenSizeEnabled = true;
 
     const qreal diagMM = qSqrt(physScreenWidth * physScreenWidth + physScreenHeight * physScreenHeight);
-    physScreenSizeInch = int(diagMM / 25.4);
+    physScreenSizeInch = qRound(diagMM / 25.4);
 }
 
 void PhysicalScreenSize::onTimeout()
@@ -567,8 +567,8 @@ void PhysicalScreenSize::write(const QString &filename, bool includePhysSize)
 
     const qreal diagMM = physScreenSizeInch * 25.4;
     // Assume 16:9 aspect ratio
-    const int physScreenHeight = int(diagMM / 1.975);
-    const int physScreenWidth = int(physScreenHeight * 1.777);
+    const int physScreenHeight = qRound(diagMM / 1.975);
+    const int physScreenWidth = qRound(physScreenHeight * 1.777);
 
     foreach (const QByteArray &line, lines)
         f.write(line + QByteArrayLiteral("\n"));
