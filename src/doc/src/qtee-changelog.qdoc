@@ -23,6 +23,43 @@
     \previouspage qtee-customization.html
     \nextpage qtee-troubleshooting.html
 
+    \section1 Boot to Qt 5.5.0
+    \list
+        \li Release date: Jul 01, 2015
+    \endlist
+
+    \section2 Changes
+
+    \b{Deprecated Platforms}:
+    \list
+        \li Support for the embedded Android platform was deprecated.
+    \endlist
+
+    \b{New Features}:
+    \list
+        \li \B2Q stack was updated to use Qt 5.5.0.
+        \li New reference devices:
+        \list
+            \li Toradex Colibri iMX6
+            \li Raspberry Pi 2
+        \endlist
+        \li \l {Qt Charts} was updated to version 2.0.1.
+        \li \l {Qt Data Visualization} was updated to version 1.2.1.
+        \li \l {Qt Quick Compiler} was updated to version 3.0.0.
+    \endlist
+
+    \b {Improvements}:
+    \list
+        \li Adopted a new versioning scheme that follows the version of Qt.
+        \li Added a new demo: Planets example from Qt Canvas3D module.
+        \li Updated the emulator to support custom screen sizes and aspect
+            ratios.
+        \li Added a slider in \B2Q demo settings to override the physical
+            screen size.
+        \li Added experimental support for building Qt 5 using Yocto and
+            meta-qt5 layer.
+    \endlist
+
     \section1 Boot to Qt 4.2.0
     \list
         \li Release date: Jun 02, 2015
