@@ -184,6 +184,20 @@
     For more information, see the Raspberry Pi documentation on
     \l{http://www.raspberrypi.org/documentation/configuration/config-txt.md}{config.txt}.
 
+    \section1 Configuring the physical screen size for scalable user interfaces
+
+    The \e {\B2Q demo launcher} and Qt Quick Controls scale automatically to screens of
+    different sizes, from 7" touchscreens to 60" or larger TVs to ensure readability and
+    touch friendliness. For this, Qt has to know the physical dimensions of the screen. By
+    default it tries to query these values from the framebuffer devices. Many kernel
+    drivers do not provide this information, however.
+
+    To override and manually set a desired screen size, go the Launcher Settings view and
+    check the \e {Override physical screen size} checkbox. Adjust the slider to the
+    desired size. The aspect ratio is assumed to be 16:9. Then tap the reboot button or
+    restart your application. The controls will adjust their sizes based on the new
+    settings.
+
     \section1 Switching Between Portrait and Landscape Views
 
     Depending on device screen dimensions and application requirements, it might
