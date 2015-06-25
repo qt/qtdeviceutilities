@@ -73,6 +73,33 @@
     After the installation is complete, insert the SD card, power on the device and check that
     the \B2Q welcome screen and/or demo appear.
 
+    \b {Setup for Nitrogen6_Lite Device}
+
+    The boot script requires the environment variables, \c dtbname and \c gpumem, to identify
+    the device as Nitrogen6_Lite. Otherwise, the device is booted with the default GPU
+    memory setting of 512MiB, which is more than what is available on the Nitrogen_Lite devices
+    (128MibB).
+
+    Use one of the two following options to enable the scripts boot the device
+    with correct GPU memory setting:
+
+    \list
+     \li Write a \c uEnv.txt file on to the boot partition of SD card with the following
+         content:
+
+         \badcode
+             gpumem=67108864
+             dtbname=imx6dl-nit6xlite.dtb
+         \endcode
+
+     \li Access the device's console and run the following commands on the U-Boot prompt:
+         \badcode
+             U-Boot > setenv gpumem 67108864
+             U-Boot > setenv dtbname imx6dl-nit6xlite.dtb
+             U-Boot > saveenv
+         \endcode
+    \endlist
+
     \section1 Setting up USB Access
 
     \include b2qt-post-install-setup.qdocinc setting up usb access
