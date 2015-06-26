@@ -84,6 +84,7 @@ int q_wifi_start_supplicant()
     QProcess ssDaemon;
     ssDaemon.start(QStringLiteral("start-stop-daemon"), arg);
     ssDaemon.waitForFinished();
+    qCDebug(B2QT_WIFI) << ssDaemon.readAll();
 
     QByteArray path = controlInterfacePath();
     if (path.isEmpty())
@@ -125,6 +126,11 @@ int q_wifi_stop_supplicant()
         return -1;
 
     QFile::remove(QLatin1String(path + "/" + ifc));
+
+    // workaround for QTEE-957
+    QProcess killall;
+    killall.start(QStringLiteral("killall"), QStringList() << QStringLiteral("-9") << QStringLiteral("wpa_supplicant"));
+    killall.waitForFinished();
 
     return 0;
 }
