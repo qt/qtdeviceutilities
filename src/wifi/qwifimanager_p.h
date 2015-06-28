@@ -20,6 +20,7 @@
 #define QWIFIMANAGER_P_H
 
 #include "qwifimanager.h"
+#include "qwifidevice.h"
 
 #include <QtCore/QString>
 
@@ -52,6 +53,7 @@ public:
     QWifiManager *const q_ptr;
     QWifiController *m_wifiController;
     QWifiNetworkListModel *m_networkListModel;
+    QWifiDevice *m_device;
 
     int m_scanTimer;
     bool m_scanning;

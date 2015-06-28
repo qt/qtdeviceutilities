@@ -37,6 +37,7 @@ const char *bsText[] = { "Initializing", "Running", "Terminating", "NotRunning" 
 QWifiManagerPrivate::QWifiManagerPrivate(QWifiManager *manager)
         : q_ptr(manager)
         , m_networkListModel(new QWifiNetworkListModel())
+        , m_device(new QWifiDevice())
         , m_scanTimer(0)
         , m_scanning(false)
         , m_interface(QWifiDevice::wifiInterfaceName())
@@ -50,6 +51,7 @@ QWifiManagerPrivate::~QWifiManagerPrivate()
 {
     delete m_wifiController;
     delete m_networkListModel;
+    delete m_device;
 }
 
 void QWifiManagerPrivate::setCurrentSSID(const QString &ssid)

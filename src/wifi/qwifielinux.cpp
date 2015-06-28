@@ -30,7 +30,10 @@
 
 QT_BEGIN_NAMESPACE
 
-const char SUPP_CONFIG_FILE[] = "/etc/wpa_supplicant.conf";
+// TODO: When cleaning up the library from Android code move this into a proper class
+// (QWifiDevice?) since we won't depend on C style API from Android anymore.
+
+const char SUPP_CONFIG_FILE[] = "/etc/wpa_supplicant.qtwifi.conf";
 const char IFACE_DIR[] = "/var/run/wpa_supplicant/";
 const char WPA_EVENT_IGNORE[] = "CTRL-EVENT-IGNORE ";
 

@@ -27,6 +27,39 @@
 
 QT_BEGIN_NAMESPACE
 
+class QWifiDevicePrivate
+{
+    Q_DECLARE_PUBLIC(QWifiDevice)
+public:
+    QWifiDevicePrivate(QWifiDevice *device);
+
+    // methods
+    void createSupplicantConfig();
+    // member variables
+    QWifiDevice *const q_ptr;
+};
+
+QWifiDevicePrivate::QWifiDevicePrivate(QWifiDevice *device)
+    : q_ptr(device)
+{
+}
+
+void QWifiDevicePrivate::createSupplicantConfig()
+{
+    QFile supplicantConfig(QStringLiteral("/etc/wpa_supplicant.qtwifi.conf"));
+    if (supplicantConfig.exists())
+        return;
+
+    if (supplicantConfig.open(QIODevice::WriteOnly)) {
+        supplicantConfig.write("ctrl_interface=/var/run/wpa_supplicant\n"
+                               "ctrl_interface_group=0\n"
+                               "update_config=1\n");
+    } else {
+        qCWarning(B2QT_WIFI) << "failed to create supplicant configuration file.";
+    }
+}
+
+
 /*!
     \class QWifiDevice
     \inmodule B2Qt.Wifi.Cpp
@@ -49,7 +82,9 @@ QT_BEGIN_NAMESPACE
  */
 
 QWifiDevice::QWifiDevice()
+    : d_ptr(new QWifiDevicePrivate(this))
 {
+    d_ptr->createSupplicantConfig();
 }
 
 QWifiDevice::~QWifiDevice()

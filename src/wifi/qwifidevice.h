@@ -23,6 +23,8 @@
 #include <QtCore/QByteArray>
 #include <QtCore/QLoggingCategory>
 
+class QWifiDevicePrivate;
+
 QT_BEGIN_NAMESPACE
 
 Q_DECLARE_LOGGING_CATEGORY(B2QT_WIFI)
@@ -37,6 +39,11 @@ public:
     Q_INVOKABLE static bool wifiSupported();
     static QByteArray wifiInterfaceName();
     static void setWifiInterfaceName(const QByteArray &name);
+
+private:
+    Q_DISABLE_COPY(QWifiDevice)
+    Q_DECLARE_PRIVATE(QWifiDevice)
+    QWifiDevicePrivate *const d_ptr;
 };
 
 QT_END_NAMESPACE
