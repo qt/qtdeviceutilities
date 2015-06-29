@@ -57,7 +57,7 @@ QByteArray controlInterfacePath()
         while (!configFile.atEnd()) {
             QByteArray line = configFile.readLine().trimmed();
             if (line.startsWith("ctrl_interface")) {
-                path = line.mid(16);
+                path = line.mid(15);
                 if (path.isEmpty())
                     qCWarning(B2QT_WIFI) << "ctrl_interface is not set in " << SUPP_CONFIG_FILE;
                 break;
