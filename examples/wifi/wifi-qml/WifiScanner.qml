@@ -85,6 +85,7 @@ Item {
         anchors.topMargin: 30
         anchors.left: parent.left
         anchors.right: parent.right
+        anchors.bottom: parent.bottom
         visible: false
         clip: true
 
@@ -111,6 +112,11 @@ Item {
             target: WifiManager
             onNetworkStateChanged: networkView.setNetworkStateText(networkState)
         }
+
+        Component.onCompleted: {
+            if (WifiManager.backendState == WifiManager.Running)
+                networkView.visible = true
+        }
     }
     //! [0]
     //! [2]
@@ -129,7 +135,6 @@ Item {
             height: expanded ? (connected ? connectedExpandedHeight : expandedHeight) : notExpandedHeight
             width: parent.width
             clip: true
-            color: "#5C5C5C"
             border.color: "black"
             border.width: 1
 
@@ -146,7 +151,6 @@ Item {
                 anchors.leftMargin: 10
                 font.pixelSize: 26
                 font.bold: true
-                color: "#E6E6E6"
                 text: isCurrentNetwork ? ssid + networkView.networkStateText : ssid
                 Component.onCompleted: networkView.setNetworkStateText(WifiManager.networkState)
             }
@@ -158,7 +162,6 @@ Item {
                 anchors.margins: 5
                 anchors.leftMargin: 30
                 text: bssid
-                color: "#E6E6E6"
                 font.pixelSize: ssidLabel.font.pixelSize * 0.8
             }
 
@@ -171,28 +174,20 @@ Item {
                      + (supportsWPA ? "WPA " : "")
                      + (supportsWEP ? "WEP " : "")
                      + (supportsWPS ? "WPS " : "");
-                color: "#E6E6E6"
                 font.pixelSize: ssidLabel.font.pixelSize * 0.8
                 font.italic: true
             }
 
-            Rectangle {
+            ProgressBar {
                 id: signalStrengthBar
-                height: 15
-                radius: 20
-                antialiasing: true
+                height: 20
+                width: networkBox.width * 0.5
                 anchors.margins: 10
                 anchors.right: parent.right
                 anchors.top: parent.top
-                color: "#BF8888"
-                border.color: "#212126"
-                property int strengthBarWidth: Math.max(100 + signalStrength, 0) / 100 * parent.width
-                onStrengthBarWidthChanged: {
-                    if (strengthBarWidth > parent.width * 0.55)
-                        signalStrengthBar.width = parent.width * 0.55
-                    else
-                        signalStrengthBar.width = strengthBarWidth
-                }
+                minimumValue: 0
+                maximumValue: 100
+                value : signalStrength
             }
             //! [1]
             MouseArea {
