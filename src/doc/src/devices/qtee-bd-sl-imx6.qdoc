@@ -67,7 +67,7 @@
 
     \badcode
         cd <INSTALL_DIR>
-        sudo 5.5/Boot2Qt/iMX6-eLinux/images/deploy.sh /dev/<device_name>
+        sudo 5.5/Boot2Qt/nitrogen6x-eLinux/images/deploy.sh /dev/<device_name>
     \endcode
 
     After the installation is complete, insert the SD card, power on the device and check that
