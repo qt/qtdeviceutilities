@@ -25,6 +25,8 @@
 #include <QHostInfo>
 #include <QFile>
 #include <QDirIterator>
+#include <QTimer>
+#include <QtCore/qmath.h>
 
 #ifdef Q_OS_ANDROID_NO_SDK
 #include <cutils/properties.h>
