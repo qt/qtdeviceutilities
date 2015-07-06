@@ -25,106 +25,6 @@
 #include <QtCore/QByteArray>
 #include <QtCore/QFile>
 
-#ifdef Q_OS_ANDROID_NO_SDK
-#include <QtNetwork/QLocalSocket>
-#include <cutils/sockets.h>
-#include <unistd.h>
-#endif
-
-#ifdef Q_OS_ANDROID_NO_SDK
-/*
- * Workaround API differences between Android versions
- */
-int q_wifi_start_supplicant()
-{
-#if Q_ANDROID_VERSION_MAJOR == 4 && Q_ANDROID_VERSION_MINOR < 1
-    return wifi_start_supplicant();
-#else
-    return wifi_start_supplicant(0);
-#endif
-}
-
-int q_wifi_stop_supplicant()
-{
-#if Q_ANDROID_VERSION_MAJOR == 4 && Q_ANDROID_VERSION_MINOR < 1
-    return wifi_stop_supplicant();
-#else
-    return wifi_stop_supplicant(0);
-#endif
-}
-
-int q_wifi_connect_to_supplicant(const char *ifname)
-{
-#if Q_ANDROID_VERSION_MAJOR == 4 && (Q_ANDROID_VERSION_MINOR < 4 && Q_ANDROID_VERSION_MINOR >= 1)
-    return wifi_connect_to_supplicant(ifname);
-#else
-    Q_UNUSED(ifname);
-    return wifi_connect_to_supplicant();
-#endif
-}
-
-void q_wifi_close_supplicant_connection(const char *ifname)
-{
-#if Q_ANDROID_VERSION_MAJOR == 4 && (Q_ANDROID_VERSION_MINOR < 4 && Q_ANDROID_VERSION_MINOR >= 1)
-    wifi_close_supplicant_connection(ifname);
-#else
-    Q_UNUSED(ifname);
-    wifi_close_supplicant_connection();
-#endif
-}
-
-int q_wifi_wait_for_event(const char *ifname, char *buf, size_t len)
-{
-#if Q_ANDROID_VERSION_MAJOR == 4 && (Q_ANDROID_VERSION_MINOR < 4 && Q_ANDROID_VERSION_MINOR >= 1)
-    return wifi_wait_for_event(ifname, buf, len);
-#else
-    Q_UNUSED(ifname);
-    return wifi_wait_for_event(buf, len);
-#endif
-}
-
-int q_wifi_command(const char *ifname, const char *command, char *reply, size_t *reply_len)
-{
-#if Q_ANDROID_VERSION_MAJOR == 4 && (Q_ANDROID_VERSION_MINOR < 4 && Q_ANDROID_VERSION_MINOR >= 1)
-    return wifi_command(ifname, command, reply, reply_len);
-#else
-    Q_UNUSED(ifname);
-    return wifi_command(command, reply, reply_len);
-#endif
-}
-
-/*
- * This function is borrowed from /system/core/libnetutils/dhcp_utils.c
- *
- * Wait for a system property to be assigned a specified value.
- * If desired_value is NULL, then just wait for the property to
- * be created with any value. maxwait is the maximum amount of
- * time in seconds to wait before giving up.
- */
-const int NAP_TIME = 200; // wait for 200ms at a time when polling for property values
-int wait_for_property(const char *name, const char *desired_value, int maxwait)
-{
-    char value[PROPERTY_VALUE_MAX] = {'\0'};
-    int maxnaps = (maxwait * 1000) / NAP_TIME;
-
-    if (maxnaps < 1) {
-        maxnaps = 1;
-    }
-
-    while (maxnaps-- > 0) {
-        usleep(NAP_TIME * 1000);
-        if (property_get(name, value, NULL)) {
-            if (desired_value == NULL ||
-                    strcmp(value, desired_value) == 0) {
-                return 0;
-            }
-        }
-    }
-    return -1; /* failure */
-}
-
-#endif // Q_OS_ANDROID_NO_SDK
-
 QT_BEGIN_NAMESPACE
 
 Q_LOGGING_CATEGORY(B2QT_WIFI, "qt.b2qt.wifi")
@@ -182,46 +82,23 @@ QWifiController::QWifiController(QWifiManager *manager, QWifiManagerPrivate *man
     m_manager(manager),
     m_managerPrivate(managerPrivate),
     m_exitEventThread(false),
-#ifdef Q_OS_ANDROID_NO_SDK
-    m_qcSocket(0),
-#endif
     m_eventThread(0)
 {
     m_interface = QWifiDevice::wifiInterfaceName();
     m_eventThread = new QWifiEventThread(this);
 
     qRegisterMetaType<QWifiManager::BackendState>("QWifiManager::BackendState");
-#ifdef Q_OS_ANDROID_NO_SDK
-    qRegisterMetaType<QAbstractSocket::SocketState>("QAbstractSocket::SocketState");
-#endif
 }
 
 QWifiController::~QWifiController()
 {
     exitWifiEventThread();
     delete m_eventThread;
-#ifdef Q_OS_ANDROID_NO_SDK
-    delete m_qcSocket;
-#endif
-}
-
-void QWifiController::allocateOnThisThread()
-{
-#ifdef Q_OS_ANDROID_NO_SDK
-    m_qcSocket = new QLocalSocket;
-    int qcFd = socket_local_client("qconnectivity", ANDROID_SOCKET_NAMESPACE_RESERVED, SOCK_STREAM);
-    if (qcFd != -1) {
-        m_qcSocket->setSocketDescriptor(qcFd);
-    } else {
-        qCWarning(B2QT_WIFI) << "failed to get file descriptor of a qconnectivity socket!";
-    }
-#endif
 }
 
 void QWifiController::run()
 {
     qCDebug(B2QT_WIFI) << "running wifi backend controller thread";
-    allocateOnThisThread();
     Method method;
     forever {
         m_methodsMutex.lock();
@@ -260,23 +137,15 @@ void QWifiController::initializeBackend()
 {
     qCDebug(B2QT_WIFI) << "initializing wifi backend";
     emit backendStateChanged(QWifiManager::Initializing);
-    bool initFailed = false;
-#ifdef Q_OS_ANDROID_NO_SDK
-    qCDebug(B2QT_WIFI) << "initialize driver";
-    if (!(is_wifi_driver_loaded() || wifi_load_driver() == 0)) {
-        qCWarning(B2QT_WIFI) << "failed to load a driver";
-        initFailed = true;
-    }
-#else
     qCDebug(B2QT_WIFI) << "run ifconfig (up)";
     QProcess ifconfig;
     ifconfig.start(QStringLiteral("ifconfig"), QStringList() << QLatin1String(m_interface) << QStringLiteral("up"));
     ifconfig.waitForFinished();
+    bool initFailed = false;
     if (ifconfig.exitStatus() != QProcess::NormalExit && ifconfig.exitCode() != 0) {
         qCWarning(B2QT_WIFI) << "failed to bring up wifi interface!";
         initFailed = true;
     }
-#endif
     if (!initFailed && resetSupplicantSocket()) {
         qCDebug(B2QT_WIFI) << "wifi backend started successfully";
         emit backendStateChanged(QWifiManager::Running);
@@ -297,12 +166,6 @@ bool QWifiController::resetSupplicantSocket()
         qCWarning(B2QT_WIFI) << "failed to start a supplicant!";
         return false;
     }
-#ifdef Q_OS_ANDROID_NO_SDK
-    if (wait_for_property("init.svc.wpa_supplicant", "running", 5) < 0) {
-        qCWarning(B2QT_WIFI) << "timed out waiting for supplicant to start!";
-        return false;
-    }
-#endif
     qCDebug(B2QT_WIFI) << "connect to supplicant";
     if (q_wifi_connect_to_supplicant(m_interface) != 0) {
         qCWarning(B2QT_WIFI) << "failed to connect to a supplicant!";
@@ -320,14 +183,14 @@ void QWifiController::terminateBackend()
     if (q_wifi_stop_supplicant() < 0)
         qCWarning(B2QT_WIFI) << "failed to stop supplicant!";
     q_wifi_close_supplicant_connection(m_interface);
-#ifndef Q_OS_ANDROID_NO_SDK
+
     qCDebug(B2QT_WIFI) << "run ifconfig (down)";
     QProcess ifconfig;
     ifconfig.start(QStringLiteral("ifconfig"), QStringList() << QLatin1String(m_interface) << QStringLiteral("down"));
     ifconfig.waitForFinished();
     if (ifconfig.exitStatus() != QProcess::NormalExit && ifconfig.exitCode() != 0)
         qCWarning(B2QT_WIFI) << "failed to bring down wifi interface!";
-#endif
+
     stopDhcp();
     qCDebug(B2QT_WIFI) << "wifi backend stopped successfully";
     emit backendStateChanged(QWifiManager::NotRunning);
@@ -349,66 +212,25 @@ void QWifiController::exitWifiEventThread()
     }
 }
 
-#ifdef Q_OS_ANDROID_NO_SDK
-bool QWifiController::getQConnectivityReply()
-{
-    bool arrived = false;
-    if (m_qcSocket->canReadLine()) {
-        arrived = true;
-        QByteArray received = m_qcSocket->readLine(m_qcSocket->bytesAvailable());
-        if (received != "success" && received != "failed") {
-            qCWarning(B2QT_WIFI) << "unknown message: " << received;
-            received = "failed";
-        }
-        emit dhcpRequestFinished(QLatin1String(received));
-    }
-    return arrived;
-}
-#else
 void QWifiController::killDhcpProcess(const QString &path) const
 {
     QFile pidFile(path);
-    if (pidFile.exists()) {
-        pidFile.open(QIODevice::ReadOnly);
-        QByteArray pid = pidFile.readAll();
-        QProcess kill;
-        kill.start(QStringLiteral("kill"), QStringList() << QLatin1String(pid.trimmed()));
-        kill.waitForFinished();
-        if (kill.exitStatus() != QProcess::NormalExit && kill.exitCode() != 0)
-            qCWarning(B2QT_WIFI) << "killing dhcp process failed!";
+    if (!pidFile.exists() || !pidFile.open(QIODevice::ReadOnly)) {
+        qCWarning(B2QT_WIFI) << "could not read pid file: " << path;
+        return;
     }
-    pidFile.close();
+
+    QByteArray pid = pidFile.readAll();
+    QProcess kill;
+    kill.start(QStringLiteral("kill"), QStringList() << QStringLiteral("-9") << QLatin1String(pid.trimmed()));
+    kill.waitForFinished();
+    if (kill.exitStatus() != QProcess::NormalExit && kill.exitCode() != 0)
+        qCWarning(B2QT_WIFI) << "killing dhcp process failed!";
 }
-#endif
 
 void QWifiController::acquireIPAddress()
 {
     qCDebug(B2QT_WIFI, "acquireIPAddress");
-#ifdef Q_OS_ANDROID_NO_SDK
-    QByteArray request = m_interface + " connect\n";
-    m_qcSocket->abort();
-    m_qcSocket->connectToServer(QStringLiteral(ANDROID_SOCKET_DIR "/qconnectivity"));
-    bool timeout = false;
-    if (m_qcSocket->waitForConnected()) {
-        m_qcSocket->write(request, request.length());
-        m_qcSocket->flush();
-        do {
-            if (m_qcSocket->waitForReadyRead()) {
-                if (getQConnectivityReply())
-                    break;
-            } else {
-                timeout = true;
-                qCWarning(B2QT_WIFI) << "waiting a message from qconnectivity timed out!";
-                break;
-            }
-        } while (true);
-    } else {
-        timeout = true;
-        qCWarning(B2QT_WIFI) << "connecting to qconnectivity server socket timed out!";
-    }
-    if (timeout)
-        emit dhcpRequestFinished(QStringLiteral("failed"));
-#else
     QString filePath = QLatin1String("/var/run/udhcpc." + m_interface + ".pid");
     killDhcpProcess(filePath);
     QStringList args;
@@ -426,26 +248,13 @@ void QWifiController::acquireIPAddress()
         status = QLatin1String("failed");
 
     emit dhcpRequestFinished(status);
-#endif
 }
 
 void QWifiController::stopDhcp() const
 {
     qCDebug(B2QT_WIFI, "stopDhcp");
-#ifdef Q_OS_ANDROID_NO_SDK
-    QByteArray request = m_interface + " disconnect\n";
-    m_qcSocket->abort();
-    m_qcSocket->connectToServer(QStringLiteral(ANDROID_SOCKET_DIR "/qconnectivity"));
-    if (m_qcSocket->waitForConnected()) {
-        m_qcSocket->write(request, request.length());
-        m_qcSocket->flush();
-    } else {
-        qCWarning(B2QT_WIFI) << "connecting to qconnectivity server socket timed out!";
-    }
-#else
     QString filePath = QLatin1String("/var/run/udhcpc." + m_interface + ".pid");
     killDhcpProcess(filePath);
-#endif
 }
 
 QT_END_NAMESPACE

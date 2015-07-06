@@ -28,26 +28,11 @@
 #include <QtCore/QWaitCondition>
 #include <QtCore/QLoggingCategory>
 
-#ifdef Q_OS_ANDROID_NO_SDK
-#include <hardware_legacy/wifi.h>
-#include <cutils/properties.h>
-#else
 #include "qwifielinux_p.h"
-#endif
 
 QT_BEGIN_NAMESPACE
 
 Q_DECLARE_LOGGING_CATEGORY(B2QT_WIFI)
-
-#ifdef Q_OS_ANDROID_NO_SDK
-int q_wifi_start_supplicant();
-int q_wifi_stop_supplicant();
-int q_wifi_connect_to_supplicant(const char *ifname);
-void q_wifi_close_supplicant_connection(const char *ifname);
-int q_wifi_wait_for_event(const char *ifname, char *buf, size_t len);
-int q_wifi_command(const char *ifname, const char *command, char *reply, size_t *reply_len);
-int wait_for_property(const char *name, const char *desired_value, int maxwait);
-#endif
 
 const QEvent::Type WIFI_SCAN_RESULTS = (QEvent::Type) (QEvent::User + 2001);
 const QEvent::Type WIFI_CONNECTED = (QEvent::Type) (QEvent::User + 2002);
@@ -58,9 +43,6 @@ const QEvent::Type WIFI_DISCONNECTED = (QEvent::Type) (QEvent::User + 2005);
 class QWifiManager;
 class QWifiManagerPrivate;
 class QWifiEventThread;
-#ifdef Q_OS_ANDROID_NO_SDK
-class QLocalSocket;
-#endif
 
 class QWifiEvent : public QEvent
 {
@@ -108,21 +90,13 @@ protected:
     void initializeBackend();
     void terminateBackend();
     void exitWifiEventThread();
-    void allocateOnThisThread();
-#ifdef Q_OS_ANDROID_NO_SDK
-    bool getQConnectivityReply();
-#else
     void killDhcpProcess(const QString &path) const;
-#endif
 
 private:
     QWifiManager *m_manager;
     QWifiManagerPrivate *const m_managerPrivate;
     bool m_exitEventThread;
     QByteArray m_interface;
-#ifdef Q_OS_ANDROID_NO_SDK
-    QLocalSocket *m_qcSocket;
-#endif
     QVector<Method> m_methods;
     QWifiEventThread *m_eventThread;
     QMutex m_methodsMutex;

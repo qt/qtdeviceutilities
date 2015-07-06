@@ -111,20 +111,10 @@ void QWifiManagerPrivate::updateBackendState(QWifiManager::BackendState backendS
 
 void QWifiManagerPrivate::updateWifiState()
 {
-    bool supplicantRunning = false;
-#ifdef Q_OS_ANDROID_NO_SDK
-    char supplicantState[PROPERTY_VALUE_MAX];
-    if (property_get("init.svc.wpa_supplicant", supplicantState, 0)) {
-        if (strcmp(supplicantState, "running") == 0)
-            supplicantRunning = true;
-    }
-#else
     QProcess ps;
     ps.start(QStringLiteral("ps"));
     ps.waitForFinished();
-    if (ps.readAll().contains("wpa_supplicant"))
-        supplicantRunning = true;
-#endif
+    bool supplicantRunning = ps.readAll().contains("wpa_supplicant");
     if (supplicantRunning && m_wifiController->resetSupplicantSocket())
         m_backendState = QWifiManager::Running;
 }
@@ -137,12 +127,6 @@ QString QWifiManagerPrivate::call(const QString &command)
     char data[2048];
     size_t len = sizeof(data) - 1; // -1: room to add a 0-terminator
     QString actualCommand = command;
-#ifdef Q_OS_ANDROID_NO_SDK
-#if !(Q_ANDROID_VERSION_MAJOR == 4 && Q_ANDROID_VERSION_MINOR < 4)
-    QString prefix = QLatin1String("IFNAME=" + m_interface + " ");
-    actualCommand.prepend(prefix);
-#endif
-#endif
     qCDebug(B2QT_WIFI) << "call command: " << actualCommand.toLocal8Bit();
     if (q_wifi_command(m_interface, actualCommand.toLocal8Bit(), data, &len) < 0) {
         qCDebug(B2QT_WIFI) << "call to supplicant failed!";
@@ -371,7 +355,7 @@ void QWifiManager::setScanning(bool scanning)
     emit scanningChanged(d->m_scanning);
     if (d->m_scanning) {
         d->call(QStringLiteral("SCAN"));
-        // ### TODO android has property for this - wifi.supplicant_scan_interval
+        // ### TODO expose this with a property
         d->m_scanTimer = startTimer(5000);
     } else {
         killTimer(d->m_scanTimer);

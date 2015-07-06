@@ -17,7 +17,8 @@ HEADERS += \
     $$PWD/qwificontroller_p.h \
     $$PWD/qwifidevice.h \
     $$PWD/qwificonfiguration.h \
-    $$PWD/qwifiutils_p.h
+    $$PWD/qwifiutils_p.h \
+    $$PWD/qwifielinux_p.h
 
 SOURCES += \
     $$PWD/qwifimanager.cpp \
@@ -26,20 +27,12 @@ SOURCES += \
     $$PWD/qwificontroller.cpp \
     $$PWD/qwifidevice.cpp \
     $$PWD/qwificonfiguration.cpp \
-    $$PWD/qwifiutils.cpp
+    $$PWD/qwifiutils.cpp \
+    $$PWD/qwifielinux.cpp \
+    $$[QT_SYSROOT]/usr/include/wpa-supplicant/wpa_ctrl.c \
+    $$[QT_SYSROOT]/usr/include/wpa-supplicant/os_unix.c
 
-android: {
-    LIBS += -lhardware_legacy -lcutils
-} else {
-    DEFINES += \
-           CONFIG_CTRL_IFACE \
-           CONFIG_CTRL_IFACE_UNIX
+DEFINES += \
+       CONFIG_CTRL_IFACE \
+       CONFIG_CTRL_IFACE_UNIX
 
-    HEADERS += \
-           $$PWD/qwifielinux_p.h
-
-    SOURCES += \
-           $$PWD/qwifielinux.cpp \
-           $$[QT_SYSROOT]/usr/include/wpa-supplicant/wpa_ctrl.c \
-           $$[QT_SYSROOT]/usr/include/wpa-supplicant/os_unix.c
-}
