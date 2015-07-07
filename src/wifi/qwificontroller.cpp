@@ -18,7 +18,11 @@
 ****************************************************************************/
 #include "qwificontroller_p.h"
 #include "qwifimanager_p.h"
+#include "qwifisupplicant_p.h"
 #include "qwifidevice.h"
+
+#include <sys/types.h>
+#include <signal.h>
 
 #include <QtCore/QCoreApplication>
 #include <QtCore/QProcess>
@@ -35,7 +39,6 @@ public:
     QWifiEventThread(QWifiController *controller)
         : m_controller(controller)
     {
-        m_interface = QWifiDevice::wifiInterfaceName();
     }
 
     void run() {
@@ -43,7 +46,7 @@ public:
         QWifiEvent *event = 0;
         char buffer[2048];
         forever {
-            int size = q_wifi_wait_for_event(m_interface, buffer, sizeof(buffer) - 1);
+            int size = m_controller->supplicant()->waitForEvent(buffer, sizeof(buffer) - 1);
             if (size > 0) {
                 buffer[size] = 0;
                 event = 0;
@@ -74,7 +77,6 @@ public:
 
 private:
     QWifiController *m_controller;
-    QByteArray m_interface;
 };
 
 
@@ -82,11 +84,10 @@ QWifiController::QWifiController(QWifiManager *manager, QWifiManagerPrivate *man
     m_manager(manager),
     m_managerPrivate(managerPrivate),
     m_exitEventThread(false),
-    m_eventThread(0)
+    m_interface(QWifiDevice::wifiInterfaceName()),
+    m_eventThread(new QWifiEventThread(this)),
+    m_supplicant(new QWifiSupplicant(this))
 {
-    m_interface = QWifiDevice::wifiInterfaceName();
-    m_eventThread = new QWifiEventThread(this);
-
     qRegisterMetaType<QWifiManager::BackendState>("QWifiManager::BackendState");
 }
 
@@ -126,7 +127,7 @@ void QWifiController::run()
     }
 }
 
-void QWifiController::call(Method method)
+void QWifiController::asyncCall(Method method)
 {
     QMutexLocker locker(&m_methodsMutex);
     m_methods.append(method);
@@ -158,16 +159,16 @@ bool QWifiController::resetSupplicantSocket()
 {
     qCDebug(B2QT_WIFI) << "reset supplicant socket";
     exitWifiEventThread();
-    if (q_wifi_stop_supplicant() < 0)
+    if (!m_supplicant->stopSupplicant())
         qCWarning(B2QT_WIFI) << "failed to stop supplicant!";
-    q_wifi_close_supplicant_connection(m_interface);
+    m_supplicant->closeSupplicantConnection();
     qCDebug(B2QT_WIFI) << "start supplicant";
-    if (q_wifi_start_supplicant() != 0) {
+    if (!m_supplicant->startSupplicant()) {
         qCWarning(B2QT_WIFI) << "failed to start a supplicant!";
         return false;
     }
     qCDebug(B2QT_WIFI) << "connect to supplicant";
-    if (q_wifi_connect_to_supplicant(m_interface) != 0) {
+    if (!m_supplicant->connectToSupplicant()) {
         qCWarning(B2QT_WIFI) << "failed to connect to a supplicant!";
         return false;
     }
@@ -180,9 +181,9 @@ void QWifiController::terminateBackend()
     qCDebug(B2QT_WIFI) << "terminating wifi backend";
     emit backendStateChanged(QWifiManager::Terminating);
     exitWifiEventThread();
-    if (q_wifi_stop_supplicant() < 0)
+    if (!m_supplicant->stopSupplicant())
         qCWarning(B2QT_WIFI) << "failed to stop supplicant!";
-    q_wifi_close_supplicant_connection(m_interface);
+    m_supplicant->closeSupplicantConnection();
 
     qCDebug(B2QT_WIFI) << "run ifconfig (down)";
     QProcess ifconfig;
@@ -215,17 +216,22 @@ void QWifiController::exitWifiEventThread()
 void QWifiController::killDhcpProcess(const QString &path) const
 {
     QFile pidFile(path);
-    if (!pidFile.exists() || !pidFile.open(QIODevice::ReadOnly)) {
-        qCWarning(B2QT_WIFI) << "could not read pid file: " << path;
+    if (!pidFile.exists())
+        return;
+
+    if (!pidFile.open(QIODevice::ReadOnly)) {
+        qCWarning(B2QT_WIFI) << "could not open pid file: " << path;
         return;
     }
 
-    QByteArray pid = pidFile.readAll();
-    QProcess kill;
-    kill.start(QStringLiteral("kill"), QStringList() << QStringLiteral("-9") << QLatin1String(pid.trimmed()));
-    kill.waitForFinished();
-    if (kill.exitStatus() != QProcess::NormalExit && kill.exitCode() != 0)
-        qCWarning(B2QT_WIFI) << "killing dhcp process failed!";
+    bool ok;
+    int pid = pidFile.readAll().trimmed().toInt(&ok);
+    if (!ok) {
+        qCWarning(B2QT_WIFI) << "pid is not a number!";
+        return;
+    }
+
+    kill(pid, 9);
 }
 
 void QWifiController::acquireIPAddress()

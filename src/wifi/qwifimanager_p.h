@@ -53,7 +53,6 @@ public:
     QWifiManager *const q_ptr;
     QWifiController *m_wifiController;
     QWifiNetworkListModel *m_networkListModel;
-    QWifiDevice *m_device;
 
     int m_scanTimer;
     bool m_scanning;

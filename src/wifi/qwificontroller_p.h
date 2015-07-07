@@ -28,8 +28,6 @@
 #include <QtCore/QWaitCondition>
 #include <QtCore/QLoggingCategory>
 
-#include "qwifielinux_p.h"
-
 QT_BEGIN_NAMESPACE
 
 Q_DECLARE_LOGGING_CATEGORY(B2QT_WIFI)
@@ -43,6 +41,7 @@ const QEvent::Type WIFI_DISCONNECTED = (QEvent::Type) (QEvent::User + 2005);
 class QWifiManager;
 class QWifiManagerPrivate;
 class QWifiEventThread;
+class QWifiSupplicant;
 
 class QWifiEvent : public QEvent
 {
@@ -73,13 +72,14 @@ public:
     explicit QWifiController(QWifiManager *manager, QWifiManagerPrivate *managerPrivate);
     ~QWifiController();
 
-    void call(Method method);
+    void asyncCall(Method method);
     QWifiManager *wifiManager() const { return m_manager; }
     bool isWifiThreadExitRequested() const { return m_exitEventThread; }
     void startWifiEventThread();
     void acquireIPAddress();
     void stopDhcp() const;
     bool resetSupplicantSocket();
+    QWifiSupplicant *supplicant() const { return m_supplicant; }
 
 signals:
     void backendStateChanged(QWifiManager::BackendState backendState);
@@ -101,6 +101,7 @@ private:
     QWifiEventThread *m_eventThread;
     QMutex m_methodsMutex;
     QWaitCondition methodCallRequested;
+    QWifiSupplicant *m_supplicant;
 };
 
 QT_END_NAMESPACE

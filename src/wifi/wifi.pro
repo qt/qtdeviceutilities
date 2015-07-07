@@ -17,8 +17,7 @@ HEADERS += \
     $$PWD/qwificontroller_p.h \
     $$PWD/qwifidevice.h \
     $$PWD/qwificonfiguration.h \
-    $$PWD/qwifiutils_p.h \
-    $$PWD/qwifielinux_p.h
+    $$PWD/qwifisupplicant_p.h
 
 SOURCES += \
     $$PWD/qwifimanager.cpp \
@@ -27,8 +26,7 @@ SOURCES += \
     $$PWD/qwificontroller.cpp \
     $$PWD/qwifidevice.cpp \
     $$PWD/qwificonfiguration.cpp \
-    $$PWD/qwifiutils.cpp \
-    $$PWD/qwifielinux.cpp \
+    $$PWD/qwifisupplicant.cpp \
     $$[QT_SYSROOT]/usr/include/wpa-supplicant/wpa_ctrl.c \
     $$[QT_SYSROOT]/usr/include/wpa-supplicant/os_unix.c
 

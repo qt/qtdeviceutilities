@@ -18,7 +18,7 @@
 ****************************************************************************/
 #include "qwifinetworklistmodel_p.h"
 #include "qwifinetwork_p.h"
-#include "qwifiutils_p.h"
+#include "qwifisupplicant_p.h"
 
 #include "qwifimanager.h"
 
@@ -124,7 +124,7 @@ void QWifiNetworkListModel::parseScanResults(const QString &results)
             continue;
         int pos = 0;
 
-        QString ssid = QWifiUtils::decodeHexEncoded(info.at(4));
+        QString ssid = QWifiSupplicant::decodeHexEncoded(info.at(4));
         if (ssid.isEmpty())
             continue;
 

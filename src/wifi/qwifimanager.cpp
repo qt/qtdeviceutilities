@@ -20,7 +20,7 @@
 #include "qwifinetworklistmodel_p.h"
 #include "qwifinetwork_p.h"
 #include "qwifimanager_p.h"
-#include "qwifiutils_p.h"
+#include "qwifisupplicant_p.h"
 
 #include "qwifidevice.h"
 
@@ -36,8 +36,7 @@ const char *bsText[] = { "Initializing", "Running", "Terminating", "NotRunning" 
 
 QWifiManagerPrivate::QWifiManagerPrivate(QWifiManager *manager)
         : q_ptr(manager)
-        , m_networkListModel(new QWifiNetworkListModel())
-        , m_device(new QWifiDevice())
+        , m_networkListModel(new QWifiNetworkListModel(manager))
         , m_scanTimer(0)
         , m_scanning(false)
         , m_interface(QWifiDevice::wifiInterfaceName())
@@ -50,8 +49,6 @@ QWifiManagerPrivate::QWifiManagerPrivate(QWifiManager *manager)
 QWifiManagerPrivate::~QWifiManagerPrivate()
 {
     delete m_wifiController;
-    delete m_networkListModel;
-    delete m_device;
 }
 
 void QWifiManagerPrivate::setCurrentSSID(const QString &ssid)
@@ -71,7 +68,7 @@ void QWifiManagerPrivate::handleAuthenticating(QWifiEvent *event)
     QString ssid = data.mid(data.indexOf(QLatin1String("SSID")) + 6);
     ssid = ssid.left(ssid.lastIndexOf(QLatin1Char('\'')));
 
-    setCurrentSSID(QWifiUtils::decodeHexEncoded(ssid));
+    setCurrentSSID(QWifiSupplicant::decodeHexEncoded(ssid));
     updateNetworkState(QWifiManager::Authenticating);
 }
 
@@ -79,7 +76,7 @@ void QWifiManagerPrivate::handleConnected()
 {
     qCDebug(B2QT_WIFI) << "connected network: " << m_currentSSID;
     updateNetworkState(QWifiManager::ObtainingIPAddress);
-    m_wifiController->call(QWifiController::AcquireIPAddress);
+    m_wifiController->asyncCall(QWifiController::AcquireIPAddress);
 }
 
 void QWifiManagerPrivate::handleDisconneced()
@@ -124,19 +121,14 @@ QString QWifiManagerPrivate::call(const QString &command)
     if (m_backendState != QWifiManager::Running)
         return QString();
 
-    char data[2048];
-    size_t len = sizeof(data) - 1; // -1: room to add a 0-terminator
-    QString actualCommand = command;
-    qCDebug(B2QT_WIFI) << "call command: " << actualCommand.toLocal8Bit();
-    if (q_wifi_command(m_interface, actualCommand.toLocal8Bit(), data, &len) < 0) {
+    QByteArray reply;
+    bool success = m_wifiController->supplicant()->sendCommand(command, &reply);
+    if (!success) {
         qCDebug(B2QT_WIFI) << "call to supplicant failed!";
         return QString();
     }
-    if (len < sizeof(data))
-        data[len] = 0;
 
-    QString result = QLatin1String(data);
-    return result.trimmed();
+    return QLatin1String(reply.trimmed());
 }
 
 bool QWifiManagerPrivate::checkedCall(const QString &command)
@@ -242,7 +234,7 @@ QWifiManager::QWifiManager()
 QWifiManager::~QWifiManager()
 {
     Q_D(QWifiManager);
-    d->m_wifiController->call(QWifiController::ExitEventLoop);
+    d->m_wifiController->asyncCall(QWifiController::ExitEventLoop);
     d->m_wifiController->wait();
     delete d_ptr;
 }
@@ -310,7 +302,7 @@ QWifiManager::BackendState QWifiManager::backendState() const
 void QWifiManager::start()
 {
     Q_D(QWifiManager);
-    d->m_wifiController->call(QWifiController::InitializeBackend);
+    d->m_wifiController->asyncCall(QWifiController::InitializeBackend);
 }
 
 /*!
@@ -323,7 +315,7 @@ void QWifiManager::start()
 void QWifiManager::stop()
 {
     Q_D(QWifiManager);
-    d->m_wifiController->call(QWifiController::TerminateBackend);
+    d->m_wifiController->asyncCall(QWifiController::TerminateBackend);
 }
 
 /*!
@@ -433,7 +425,7 @@ bool QWifiManager::connect(QWifiConfiguration *config)
     const QStringList configuredNetworks = d->call(QStringLiteral("LIST_NETWORKS")).split('\n');
     for (int i = 1; i < configuredNetworks.length(); ++i) {
         const QStringList networkFields = configuredNetworks.at(i).split('\t');
-        const QString ssid = QWifiUtils::decodeHexEncoded(networkFields.at(1));
+        const QString ssid = QWifiSupplicant::decodeHexEncoded(networkFields.at(1));
         if (ssid == d->m_currentSSID) {
             id = networkFields.at(0);
             networkKnown = true;
@@ -467,7 +459,7 @@ bool QWifiManager::connect(QWifiConfiguration *config)
     // ref: https://www.freebsd.org/cgi/man.cgi?wpa_supplicant.conf
     // ----------------------------------------------------------------------
     if (protocol.isEmpty() || protocol.contains(QStringLiteral("WPA"))) {
-        // ### todo - password length has limits (see IEEE 802.11), we need to check
+        // ### TODO - password length has limits (see IEEE 802.11), we need to check
         // for those limits here. Supplicant gives only a meaningless "fail" message.
         ok = ok && d->checkedCall(setNetworkCommand + QLatin1String(" psk ") + q + psk + q);
         key_mgmt = QLatin1String("WPA-PSK");
@@ -506,7 +498,7 @@ void QWifiManager::disconnect()
 {
     Q_D(QWifiManager);
     d->call(QStringLiteral("DISCONNECT"));
-    d->m_wifiController->call(QWifiController::StopDhcp);
+    d->m_wifiController->asyncCall(QWifiController::StopDhcp);
 }
 
 void QWifiManager::handleBackendStateChanged(BackendState backendState)
