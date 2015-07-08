@@ -9,8 +9,6 @@ QT = core network
 MODULE = b2qtutils
 load(qt_module)
 
-android: LIBS += -lmedia -lhardware -lcutils -lutils
-
 HEADERS += \
     $$PWD/b2qtdevice.h
 

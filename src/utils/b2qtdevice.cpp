@@ -28,13 +28,6 @@
 #include <QTimer>
 #include <QtCore/qmath.h>
 
-#ifdef Q_OS_ANDROID_NO_SDK
-#include <cutils/properties.h>
-#include <hardware/lights.h>
-#include <media/AudioSystem.h>
-#include <utils/String8.h>
-#endif
-
 // When we can't query directly, at least remember what we have set it to
 static quint8 knownBrightness = 255;
 
@@ -127,27 +120,6 @@ static void initLightDevices()
 bool B2QtDevice::setDisplayBrightness(int v)
 {
     quint8 value = qBound(0, v, 255);
-#ifdef Q_OS_ANDROID_NO_SDK
-    const struct hw_module_t* module = 0;
-    if (hw_get_module(LIGHTS_HARDWARE_MODULE_ID, &module))
-        return false;
-    if (!module || !module->methods || !module->methods->open)
-        return false;
-
-    struct light_device_t* device = 0;
-    if (module->methods->open(module, LIGHT_ID_BACKLIGHT, (struct hw_device_t**)&device))
-        return false;
-    if (!device || !device->set_light || !device->common.close)
-        return false;
-
-    struct light_state_t state;
-    memset(&state, 0, sizeof(light_state_t));
-    state.color = 0xff000000 | (value << 16) | (value << 8) | value;
-    if (!device->set_light(device, &state))
-        return false;
-
-    device->common.close(&device->common);
-#else
     initLightDevices();
     for (int i = 0; i < lightDevices.size(); i++) {
         LightDevice &ld = lightDevices[i];
@@ -159,7 +131,6 @@ bool B2QtDevice::setDisplayBrightness(int v)
         devFile.write(QByteArray::number(newVal));
         ld.value = value;
     }
-#endif
     knownBrightness = value;
     return true;
 }
@@ -171,18 +142,7 @@ bool B2QtDevice::setDisplayBrightness(int v)
  */
 int B2QtDevice::displayBrightness() const
 {
-#ifdef Q_OS_ANDROID_NO_SDK
-    QFile sysFile(QStringLiteral("/sys/class/leds/lcd-backlight/brightness"));
-    if (sysFile.open(QIODevice::ReadOnly | QIODevice::Unbuffered)) {
-        bool ok = false;
-        int sysVal = sysFile.read(3).simplified().toInt(&ok);
-        if (ok)
-            knownBrightness = qBound(0, sysVal, 255);
-    }
-#else
     initLightDevices();
-#endif
-
     return knownBrightness;
 }
 
@@ -210,14 +170,7 @@ QString B2QtDevice::getIPAddress() const
 QString B2QtDevice::hostname() const
 {
     QString name;
-#ifdef Q_OS_ANDROID_NO_SDK
-    char prop_value[PROPERTY_VALUE_MAX];
-    int len = property_get("net.hostname", prop_value, 0);
-    if (len)
-        name = QString::fromLocal8Bit(prop_value, len);
-#else
     name = QHostInfo::localHostName();
-#endif
     return name;
 }
 
@@ -227,9 +180,6 @@ QString B2QtDevice::hostname() const
  */
 bool B2QtDevice::setHostname(const QString &name)
 {
-#ifdef Q_OS_ANDROID_NO_SDK
-    property_set("net.hostname", name.toLocal8Bit().constData());
-#else
     QByteArray lname = name.toLocal8Bit();
     if (::sethostname(lname.constData(), lname.length())) {
         qWarning("Could not set system hostname");
@@ -243,7 +193,7 @@ bool B2QtDevice::setHostname(const QString &name)
     }
     file.write(lname.append('\n'));
     file.close();
-#endif
+
     emit hostnameChanged(name);
     return true;
 }
@@ -255,17 +205,7 @@ bool B2QtDevice::setHostname(const QString &name)
  */
 void B2QtDevice::setMasterVolume(int volume)
 {
-#ifdef Q_OS_ANDROID_NO_SDK
-    android::status_t rc;
-    volume = qBound(0, volume, 100);
-    rc = android::AudioSystem::setMasterVolume(android::AudioSystem::linearToLog(volume));
-    if (rc != android::NO_ERROR)
-        qWarning() << Q_FUNC_INFO << "Error while setting audio properties.";
-    else
-        emit masterVolumeChanged(volume);
-#else
     Q_UNUSED(volume)
-#endif
 }
 
 
@@ -275,174 +215,9 @@ void B2QtDevice::setMasterVolume(int volume)
  */
 int B2QtDevice::masterVolume() const
 {
-    float volume = 0;
-#ifdef Q_OS_ANDROID_NO_SDK
-    android::status_t rc;
-    rc = android::AudioSystem::getMasterVolume(&volume);
-    if (rc != android::NO_ERROR)
-        qWarning() << Q_FUNC_INFO << "Error while getting audio properties.";
-#endif
-    return qBound(0, qRound(volume), 100);
+    return 0;
 }
 
-#ifdef Q_OS_ANDROID_NO_SDK
-// Android audio handling
-
-enum AudioOrientation {
-    LandscapeAudioOrientation,
-    PortraitAudioOrientation,
-    SquareAudioOrientation,
-    UndefinedAudioOrientation,
-};
-
-enum AudioStreamType {
-    DefaultAudioStream = -1,
-    VoiceCallAudioStream = 0,
-    SystemAudioStream = 1,
-    RingAudioStream = 2,
-    MusicAudioStream = 3,
-    AlarmAudioStream = 4,
-    NotificationAudioStream = 5,
-    BluetoothAudioStream    = 6,
-    EnforcedAudibleAudioStream = 7,
-    DTMFAudioStream = 8,
-    TTSAudioStream = 9
-};
-
-
-/*
-    \enum AudioStreamType
-    \value DefaultAudioStream
-           The default audio stream
-
-    \value VoiceCallAudioStream
-           The audio stream for phone calls
-
-    \value SystemAudioStream
-           The audio stream for system sounds
-
-    \value RingAudioStream
-           The audio stream for the phone ring
-
-    \value AlarmAudioStream
-           The audio stream for alarms
-
-    \value NotificationAudioStream
-           The audio stream for notifications
-
-    \value BluetoothAudioStream
-           The audio stream for audio transmitted over bluetooth
-
-    \value EnforcedAudibleAudioStream
-           Sounds that cannot be muted by user and must be routed to speaker
-
-    \value DTMFAudioStream
-           The audio stream for DTMF Tones
-
-    \value TTSAudioStream
-           The audio stream for text-to-speech
-*/
-
-/*
- * Sets the volume for a specific audio \a stream type to \a volume.
- * The volume can range from 0 to 100 and is linear.
- * All streams of the specified type will be affected.
- *
- * \sa setMasterVolume()
- * \sa setStreamMute()
- */
-void setStreamVolume(AudioStreamType streamType, int volume)
-{
-    android::status_t rc;
-    volume = qBound(0, volume, 100);
-    rc = android::AudioSystem::setStreamVolume(audio_stream_type_t(streamType),
-                                          android::AudioSystem::linearToLog(volume), 0);
-    if (rc != android::NO_ERROR)
-        qWarning() << Q_FUNC_INFO << "Error while setting audio properties.";
-}
-
-/*
- * Mutes all audio \a streams of type \a streamType.
- *
- * \sa setStreamVolume()
- * \sa setMasterMute()
- */
-void setStreamMute(AudioStreamType streamType, bool mute)
-{
-    android::status_t rc;
-    rc = android::AudioSystem::setStreamMute(audio_stream_type_t(streamType), mute);
-    if (rc != android::NO_ERROR)
-        qWarning() << Q_FUNC_INFO << "Error while setting audio properties.";
-}
-
-void setOrientationForAudioSystem(AudioOrientation orientation)
-{
-    QString orientationString = QStringLiteral("undefined");
-    switch (orientation) {
-    case LandscapeAudioOrientation:
-        orientationString = QStringLiteral("landscape");
-        break;
-    case PortraitAudioOrientation:
-        orientationString = QStringLiteral("portrait");
-        break;
-    case SquareAudioOrientation:
-        orientationString = QStringLiteral("square");
-        break;
-    default:
-        break;
-    }
-    android::AudioSystem::setParameters(0, android::String8(QStringLiteral("orientation=%2")
-                                                            .arg(orientationString).toLatin1().constData()));
-}
-
-
-/*!
- * Sets the master mute to \a mute. Setting it to true will disable all
- * sounds on the device.
- *
- * \sa setMasterVolume()
- * \sa setStreamMute()
- */
-void setMasterMute(bool mute)
-{
-
-    android::status_t rc;
-    rc = android::AudioSystem::setMasterMute(mute);
-    if (rc != android::NO_ERROR)
-        qWarning() << Q_FUNC_INFO << "Error while setting audio properties.";
-}
-
-bool masterMute()
-{
-    bool mute = false;
-    android::status_t rc;
-    rc = android::AudioSystem::getMasterMute(&mute);
-    if (rc != android::NO_ERROR)
-        qWarning() << Q_FUNC_INFO << "Error while getting audio properties.";
-    return mute;
-}
-
-float streamVolume(AudioStreamType stream)
-{
-    float volume = NAN;
-    android::status_t rc;
-    rc = android::AudioSystem::getStreamVolume(audio_stream_type_t(stream), &volume, 0);
-    if (rc != android::NO_ERROR)
-        qWarning() << Q_FUNC_INFO << "Error while getting audio properties.";
-    return volume;
-}
-
-bool streamMute(AudioStreamType stream)
-{
-    bool mute = false;
-    android::status_t rc;
-    rc = android::AudioSystem::getStreamMute(audio_stream_type_t(stream), &mute);
-    if (rc != android::NO_ERROR)
-        qWarning() << Q_FUNC_INFO << "Error while getting audio properties.";
-    return mute;
-}
-
-#endif
 
 /*!
  * Initializes the audio subsystem, setting the volume to max.
@@ -450,18 +225,8 @@ bool streamMute(AudioStreamType stream)
  */
 void B2QtDevice::initAudio()
 {
-#ifdef Q_OS_ANDROID_NO_SDK
-    // Set the audio orientation to something to force the HW driver to reconfigure
-    // audio routing (workaround for bug on Nexus 7)
-    setOrientationForAudioSystem(LandscapeAudioOrientation);
-    setMasterVolume(100);
-    setMasterMute(false);
-    setStreamVolume(SystemAudioStream, 100);
-    setStreamVolume(MusicAudioStream, 100);
-    setStreamVolume(NotificationAudioStream, 100);
-    setStreamVolume(EnforcedAudibleAudioStream, 100);
-#endif
 }
+
 
 class PhysicalScreenSize : public QObject
 {
