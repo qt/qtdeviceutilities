@@ -22,6 +22,7 @@
     \nextpage qtee-overview.html
     \title Qt 5.5 for Device Creation
 
+    \welcome
     \e {Qt for Device Creation} is a commercial offering, providing a
     fully-integrated solution for creating embedded Linux-based products. It
     provides the complete toolchain required for faster software development,

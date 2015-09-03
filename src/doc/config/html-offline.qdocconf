@@ -5,6 +5,9 @@ include($QT_INSTALL_DOCS/global/fileextensions.qdocconf)
 
 HTML.nobreadcrumbs    = "true"
 
+# \welcome macro is used in online docs, no output in offline mode
+macro.welcome.HTML    = "\n"
+
 HTML.footer = \
     "  <div class=\"ft\">\n" \
     "    <span></span>\n" \
