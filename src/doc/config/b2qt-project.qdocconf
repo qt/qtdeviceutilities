@@ -1,6 +1,6 @@
 project                      = QtForDeviceCreation
 description                  = Qt 5.5 for Device Creation
-version                      = 5.5.0
+version                      = 5.5.1
 
 sourcedirs                  += ../src \
                                ../../imports/wifi \
@@ -24,7 +24,7 @@ indexes                      = $QT_INSTALL_DOCS/qtquick/qtquick.index \
 qhp.projects                 = B2Qt
 
 qhp.B2Qt.file                = b2qt.qhp
-qhp.B2Qt.namespace           = com.digia.b2qt.550
+qhp.B2Qt.namespace           = com.digia.b2qt.551
 qhp.B2Qt.virtualFolder       = b2qt
 qhp.B2Qt.indexTitle          = Qt 5.5 for Device Creation
 qhp.B2Qt.indexRoot           =
