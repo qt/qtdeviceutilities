@@ -23,12 +23,28 @@
     \previouspage qtee-customization.html
     \nextpage qtee-troubleshooting.html
 
+    \section1 Boot to Qt 5.5.1
+    \list
+        \li Release date: Sep 24, 2015
+    \endlist
+
+    \b{New Features}:
+    \list
+        \li \B2Q stack was updated to use Qt 5.5.1.
+        \li New reference device: Kontron SMARC-sAMX6i
+    \endlist
+
+    \b{Improvements}:
+    \list
+        \li Enabled \l {Qt Quick Compiler} to run on add-on components.
+        \li Improved The Planets demo to work better on small displays.
+    \endlist
+
     \section1 Boot to Qt 5.5.0
     \list
         \li Release date: Jul 01, 2015
+        \li Supported until: Sep 24, 2017
     \endlist
-
-    \section2 Changes
 
     \b{Deprecated Platforms}:
     \list
@@ -63,9 +79,8 @@
     \section1 Boot to Qt 4.2.0
     \list
         \li Release date: Jun 02, 2015
+        \li Supported until: Jul 01, 2017
     \endlist
-
-    \section2 Changes
 
     \b{New Features}:
     \list
@@ -89,7 +104,6 @@
         \li Supported until: Jun 02, 2017
     \endlist
 
-    \section2 Changes
     \b{New Features}:
     \list
         \li \B2Q stack was updated to use Qt 5.4.1 on embedded Android
@@ -119,7 +133,6 @@
         \li Supported until: Feb 19, 2017
     \endlist
 
-    \section2 Changes
     \b{New Features}:
     \list
         \li \B2Q stack was updated to use Qt 5.4.0 on embedded Android
@@ -173,7 +186,6 @@
         \li Supported until: Dec 10, 2016
     \endlist
 
-    \section2 Changes
     \b {New Features}:
     \list
         \li \B2Q stack was updated to use Qt 5.3.2 on embedded Android
@@ -215,7 +227,6 @@
         \li Supported until: Oct 14, 2016
     \endlist
 
-    \section2 Changes
     \b {Fixed Bugs}:
     \list
         \li \l {Building Your Own Embedded Linux Image}:
@@ -229,7 +240,6 @@
         \li Supported until: Aug 20, 2016
     \endlist
 
-    \section2 Changes
     \b {New Features}:
     \list
         \li Boot to Qt stack was updated to use Qt 5.3.1 on embedded Android
@@ -271,7 +281,6 @@
         \li Supported until: July 03, 2016
     \endlist
 
-    \section2 Changes
     \b {New Features}:
     \list
         \li \B2Q stack was updated to use Qt 5.3 on embedded Android and Linux
@@ -308,7 +317,6 @@
         \li Supported until: May 22, 2016
     \endlist
 
-    \section2 Changes
     \b {New Features}:
     \list
         \li \l {Qt Data Visualization} version 1.0 was added to the \B2Q stack
@@ -363,7 +371,6 @@
         \li Supported until: Apr. 15, 2016
     \endlist
 
-    \section2 Changes
     \b {New Features}:
     \list
         \li \B2Q stack was updated to use Qt 5.2.1 on embedded Android and Linux
@@ -414,7 +421,6 @@
         \li Supported until: Feb. 25, 2016
     \endlist
 
-    \section2 Changes
     \list
         \li Emulator: Remote control widget version shown together with emulator version
         \li Emulator: Mouse events are sent instead of touch events
