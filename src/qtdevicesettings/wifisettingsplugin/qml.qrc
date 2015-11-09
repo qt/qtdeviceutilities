@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>WifiManagerView.qml</file>
+        <file>WifiSignalMonitor.qml</file>
+        <file>WifiSelectorDelegate.qml</file>
+    </qresource>
+</RCC>

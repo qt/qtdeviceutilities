@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/">
+        <file>../icons/Chevron-left_black_1x.png</file>
+        <file>../icons/Power_black_1x.png</file>
+        <file>../icons/Display_qt_6x.png</file>
+        <file>../icons/Clock_qt_6x.png</file>
+        <file>../icons/Flag_qt_6x.png</file>
+        <file>../icons/World_qt_6x.png</file>
+        <file>../icons/Audio_qt_6x.png</file>
+        <file>../icons/Bluetooth_qt_6x.png</file>
+    </qresource>
+</RCC>

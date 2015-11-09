@@ -1,0 +1,16 @@
+<RCC>
+    <qresource prefix="/">
+        <file>../icons/Bluetooth_qt_1x.png</file>
+        <file>../icons/Camcorder_qt_1x.png</file>
+        <file>../icons/Camera_qt_1x.png</file>
+        <file>../icons/Clock_qt_1x.png</file>
+        <file>../icons/Headphones_qt_1x.png</file>
+        <file>../icons/Heartbeat_qt_1x.png</file>
+        <file>../icons/Keyboard_qt_1x.png</file>
+        <file>../icons/Laptop_qt_1x.png</file>
+        <file>../icons/Microphone_qt_1x.png</file>
+        <file>../icons/MobilePhone_qt_1x.png</file>
+        <file>../icons/Mouse_qt_1x.png</file>
+        <file>../icons/Tablet_qt_1x.png</file>
+   </qresource>
+</RCC>

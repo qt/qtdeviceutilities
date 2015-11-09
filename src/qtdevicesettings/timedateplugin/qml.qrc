@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>TimeDate.qml</file>
+        <file>AnalogClock.qml</file>
+        <file>TimezonesView.qml</file>
+    </qresource>
+</RCC>

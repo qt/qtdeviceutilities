@@ -1,0 +1,5 @@
+module com.theqtcompany.settings.common
+TextLabel 1.0 TextLabel.qml
+IconButton 1.0 IconButton.qml
+CustomCombobox 1.0 CustomCombobox.qml
+FlatStyledDropdownDelegate 1.0 FlatStyledDropdownDelegate.qml

@@ -1,0 +1,21 @@
+<RCC>
+    <qresource prefix="/">
+        <file>imports/Settings/Back.png</file>
+        <file>imports/Settings/Chevron-left.png</file>
+        <file>imports/Settings/Chevron-right.png</file>
+        <file>imports/Settings/Circle-x.png</file>
+        <file>imports/Settings/Cogs.png</file>
+        <file>imports/Settings/Connections.png</file>
+        <file>imports/Settings/Display.png</file>
+        <file>imports/Settings/Lock.png</file>
+        <file>imports/Settings/Plus.png</file>
+        <file>imports/Settings/Settings.png</file>
+        <file>imports/Settings/Wifi.png</file>
+        <file>imports/Settings/World.png</file>
+        <file>imports/Settings/Wrench.png</file>
+        <file>imports/Settings/Chevron-left-med.png</file>
+        <file>imports/Settings/Chevron-left-big.png</file>
+        <file>imports/Settings/Settings-big.png</file>
+        <file>imports/Settings/Connections-big.png</file>
+    </qresource>
+</RCC>

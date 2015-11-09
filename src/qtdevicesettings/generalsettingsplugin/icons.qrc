@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>../icons/Volume_down_qt_1x.png</file>
+        <file>../icons/Volume_mute_qt_1x.png</file>
+        <file>../icons/Volume_up_qt_1x.png</file>
+    </qresource>
+</RCC>

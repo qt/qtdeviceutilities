@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>../icons/Wifi_lightgray_2x.png</file>
+        <file>../icons/WifiAnim_black_2x.png</file>
+        <file>../icons/Alert_yellow_1x.png</file>
+    </qresource>
+</RCC>

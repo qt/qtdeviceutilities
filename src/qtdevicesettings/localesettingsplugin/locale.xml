@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<node name="/Service" xmlns:tp="http://telepathy.freedesktop.org/wiki/DbusSpec#extensions-v0">
+<node>
+ <interface name="org.freedesktop.locale1">
+  <property name="Locale" type="as" access="read"/>
+  <method name="SetLocale">
+   <arg name="locale" type="as" direction="in"/>
+   <arg name="user_interaction" type="b" direction="in"/>
+  </method>
+ </interface>
+</node>
+
