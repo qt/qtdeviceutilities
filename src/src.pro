@@ -4,5 +4,4 @@ SUBDIRS += \
     utils \
     wifi \
     imports \
-    doc \
-    b2qt-update-util
+    doc
