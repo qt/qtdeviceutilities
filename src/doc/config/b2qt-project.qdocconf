@@ -14,12 +14,17 @@ exampledirs +=                 ../../../examples
 imagedirs                   += ../images
 
 indexes                      = $QT_INSTALL_DOCS/qtquick/qtquick.index \
+                               $QT_INSTALL_DOCS/qtqml/qtqml.index \
+                               $QT_INSTALL_DOCS/qtdoc/qtdoc.index \
                                $QT_INSTALL_DOCS/qtgui/qtgui.index \
                                $QT_INSTALL_DOCS/qtcore/qtcore.index \
                                $QT_INSTALL_DOCS/qtserialport/qtserialport.index \
                                $QT_INSTALL_DOCS/emulator/emulator.index \
                                $QT_INSTALL_DOCS/qtwebengine/qtwebengine.index \
                                $QT_INSTALL_DOCS/qtquickcontrols/qtquickcontrols.index
+
+# Listing qmake.index as part of 'indexes' fails, add a dependency as workaround
+depends                      = qmake
 
 qhp.projects                 = B2Qt
 

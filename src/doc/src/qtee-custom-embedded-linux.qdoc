@@ -20,7 +20,7 @@
     \page qtee-custom-embedded-linux-image.html
     \title Building Your Own Embedded Linux Image
     \previouspage qtee-customization.html
-    \nextpage qtee-changelog.html
+    \nextpage qtee-static-linking.html
 
     \B2QL is built using the tools and resources from the \l {Yocto Project},
     and is based on Yocto's reference distribution (\e Poky). You can
