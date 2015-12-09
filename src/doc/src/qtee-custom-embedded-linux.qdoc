@@ -63,12 +63,12 @@
 
     \section1 Setting Up Yocto Build Environment
 
-    Run the setup script that initializes the Yocto environment. Using Raspberry Pi as
-    an example:
+    Run the setup script that initializes the Yocto environment. Using Freescale
+    SABRE SD i.MX6Quad as an example:
 
     \badcode
     cd <BuildDir>
-    <INSTALL_DIR>/5.5/Boot2Qt/sources/b2qt-yocto-meta/b2qt-init-build-env init --device raspberrypi
+    <INSTALL_DIR>/5.5/Boot2Qt/sources/b2qt-yocto-meta/b2qt-init-build-env init --device imx6qsabresd
     \endcode
 
     \c b2qt-init-build-env has the following additional command line options:
@@ -87,11 +87,10 @@
     \section1 Building the Image and Toolchain
 
     After the Yocto environment is set up, you need to configure the
-    build environment for your target device. Using Raspberry Pi as
-    an example:
+    build environment for your target device:
 
     \badcode
-    export MACHINE=raspberrypi
+    export MACHINE=imx6qsabresd
     source ./setup-environment.sh
     \endcode
 
@@ -156,10 +155,10 @@
     \e {Build scripts} source package contains scripts that can be used to
     build Qt and all additional Qt addons that are part of \B2QL image.
     To setup build environment for your target hardware, run the initialization
-    script. Using Raspberry Pi as an example:
+    script. For example:
 
     \badcode
-    <INSTALL_DIR>/5.5/Boot2Qt/sources/b2qt-build-scripts/embedded-common/init_build_env.sh <INSTALL_DIR>/5.5/Boot2Qt/sources/b2qt-build-scripts/embedded-linux/config.raspberrypi
+    <INSTALL_DIR>/5.5/Boot2Qt/sources/b2qt-build-scripts/embedded-common/init_build_env.sh <INSTALL_DIR>/5.5/Boot2Qt/sources/b2qt-build-scripts/embedded-linux/config.imx6qsabresd
     \endcode
 
     \note You can use the same build directory for Qt and the Yocto image.
