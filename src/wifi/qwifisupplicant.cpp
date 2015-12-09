@@ -305,9 +305,9 @@ int QWifiSupplicant::receiveEvent(char *reply, size_t *reply_len)
     Decode wpa_supplicant encoded string, see file hostapd/src/utils/common.c
     in git://w1.fi/hostap.git repository.
 
-    For Ascii encoded string, any octet < 32 or > 127 is encoded as a "\x"
+    For Ascii encoded string, any octet < 32 or > 127 is encoded as a "\\x"
     followed by the hex representation of the octet. Exception chars are ",
-    \, \e, \n, \r, \t which are escaped by a backslash
+    \\, \\e, \\n, \\r, \\t which are escaped by a backslash
 
  */
 QString QWifiSupplicant::decodeHexEncoded(const QString &encoded)
