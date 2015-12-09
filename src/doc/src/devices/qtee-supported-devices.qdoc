@@ -98,28 +98,23 @@
     the Qt online installer.
 
     \table
-    \header \li Devices with GPU \li eLinux
+    \header \li Devices with GPU
     \row \li \l{http://www.freescale.com/webapp/sps/site/prod_summary.jsp?code=RDIMX6SABREBRD}
              {Freescale® SABRE SD i.MX6} (Freescale® i.MX6)\br
              ARM Cortex A9, Vivante GC2000 GPU, 1GB RAM
-         \li \image ok
     \row \li \l{http://beagleboard.org/products/beaglebone%20black}
             {BeagleBone Black}\br
             TIAM335x 1GHz ARM® Cortex-A8, 512 MB RAM
-         \li \image ok
     \row \li \b{\B2Q Emulator}\br
          Included in the development environment
-         \li \image ok
-    \header \li Devices Without GPU \li
+    \header \li Devices Without GPU
     \row \li \l{https://www.toradex.com/products/colibri-arm-computer-modules/freescale-vybrid-VF6xx-computer-module}
              {Toradex Colibri VF61}\br
              Dual-core (ARM Cortex-A5 + ARM Cortex-M4)\br
              solution with 1 MB on-chip SRAM
-         \li \image ok
     \row \li \l{https://www.toradex.com/products/colibri-arm-computer-modules/freescale-vybrid-VF5xx-computer-module}
             {Toradex Colibri VF50}\br
             Single-core (ARM Cortex-A5) solution with 1.5 MB on-chip SRAM
-         \li \image ok
     \endtable
 
     \section2 Group 2
@@ -138,33 +133,28 @@
     online installer.
 
     \table
-    \header \li Devices with GPU \li eLinux
+    \header \li Devices with GPU
     \row \li \l{http://boundarydevices.com/product-selector-guide/}
             {Boundary Devices i.MX6 Boards}\br
             Freescale® i.MX 6 based devices with\br
             Vivante GC2000 GPU
-         \li \image ok
     \row \li \l{http://www.silica.com/product/architech-tibidabo.html}
             {SILICA ArchiTech Tibidabo}\br
             Freescale® i.MX 6Q ARM Cortex™-A9 @800 MHz,\br
             2GB DDR3, 128MB NOR, Vivante GC2000 GPU
-         \li \image ok
     \row \li \l{http://www.toradex.com/products/apalis-arm-computer-modules/freescale-imx-6-computer-module}
             {Toradex Apalis iMX6}\br
             Freescale® i.MX 6Q ARM Cortex™-A9 @1 GHz,\br
             1GB DDR3, 4GB eMMC, Vivante GC2000 GPU
-         \li \image ok
      \row \li \l{http://developer.toradex.com/product-selector/colibri-imx6}
             {Toradex Colibri iMX6}\br
             Freescale® i.MX6S or i.MX6DL ARM Cortex™-A9 @800MHz - 1GHz,\br
             256MB (single core), 512MB (dual core) DDR3, 4GB eMMC,\br
             Vivante 2D/3D GPU
-         \li \image ok
     \row \li \l{https://www.raspberrypi.org/products/raspberry-pi-2-model-b/}
             {Raspberry Pi 2 Model B}\br
             900 Mhz ARM Cortex™-A7, Broadcom VideoCore IV\br
             @250MHz GPU, 1GB LPDDR2 SDRAM
-         \li \image ok
     \endtable
 
     \section2 Group 3
@@ -177,26 +167,22 @@
     The Qt Company for consultancy services.
 
     \table
-    \header \li Device \li eLinux
+    \header \li Device
     \row \li \l{http://beagleboard.org/hardware-xM}
              {BeagleBoard-xM}\br
              1GHz ARM Cortex A8, PowerVR SGX530 GPU,\br
              512MB RAM
-         \li \image ok
     \row \li \l{http://processors.wiki.ti.com/index.php/AM335x_Starter_Kit}
              {Sitara AM335x Starter Kit}\br
              720 MHZ ARM Cortex™-A8 Starter Kit\br
              with 4.3-inch LCD touchscreen
-         \li \image ok
     \row \li \l{http://www.freescale.com/webapp/sps/site/prod_summary.jsp?code=IMX53QSB}
              {Freescale® iMX53 Quick Start Board}\br
              1GHz ARM Cortex™-A8
-         \li \image ok
     \row \li \l{https://www.raspberrypi.org/products/model-b/}
             {Raspberry Pi Model B}\br
             700 Mhz ARM11, Broadcom VideoCore IV\br
             @250MHz GPU, 512 MB (shared with GPU) RAM
-         \li \image ok
     \endtable
 
     \section2 Supported Features on Reference Devices
