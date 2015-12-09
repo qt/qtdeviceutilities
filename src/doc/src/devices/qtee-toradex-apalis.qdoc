@@ -51,7 +51,7 @@
 
     \badcode
         cd <INSTALL_DIR>
-        sudo 5.5/Boot2Qt/apalis-imx6-eLinux/images/deploy.sh /dev/<device_name>
+        sudo dd bs=4k if=5.6/Boot2Qt/apalis-imx6/images/b2qt-embedded-qt5-image-apalis-imx6.img of=/dev/<device_name>
     \endcode
 
     By default, the Toradex Apalis iMX6 boots from its internal eMMC. In order to boot from

@@ -68,7 +68,7 @@
 
     \badcode
     cd <BuildDir>
-    <INSTALL_DIR>/5.5/Boot2Qt/sources/b2qt-yocto-meta/b2qt-init-build-env init --device imx6qsabresd
+    <INSTALL_DIR>/5.6/Boot2Qt/sources/b2qt-yocto-meta/b2qt-init-build-env init --device imx6qsabresd
     \endcode
 
     \c b2qt-init-build-env has the following additional command line options:
@@ -81,7 +81,7 @@
     For all command line options, see:
 
     \badcode
-    <INSTALL_DIR>/5.5/Boot2Qt/sources/b2qt-yocto-meta/b2qt-init-build-env help
+    <INSTALL_DIR>/5.6/Boot2Qt/sources/b2qt-yocto-meta/b2qt-init-build-env help
     \endcode
 
     \section1 Building the Image and Toolchain
@@ -158,7 +158,7 @@
     script. For example:
 
     \badcode
-    <INSTALL_DIR>/5.5/Boot2Qt/sources/b2qt-build-scripts/embedded-common/init_build_env.sh <INSTALL_DIR>/5.5/Boot2Qt/sources/b2qt-build-scripts/embedded-linux/config.imx6qsabresd
+    <INSTALL_DIR>/5.6/Boot2Qt/sources/b2qt-build-scripts/embedded-common/init_build_env.sh <INSTALL_DIR>/5.6/Boot2Qt/sources/b2qt-build-scripts/embedded-linux/config.imx6qsabresd
     \endcode
 
     \note You can use the same build directory for Qt and the Yocto image.
@@ -183,7 +183,7 @@
     developing for your device. The following script does this for you.
 
     \badcode
-    <INSTALL_DIR>/5.5/Boot2Qt/sources/b2qt-build-scripts/embedded-common/setup_qtcreator.sh
+    <INSTALL_DIR>/5.6/Boot2Qt/sources/b2qt-build-scripts/embedded-common/setup_qtcreator.sh
     \endcode
 
     This will set up a new kit in Qt Creator, using the toolchain and Qt from

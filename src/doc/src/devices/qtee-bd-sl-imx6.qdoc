@@ -67,7 +67,7 @@
 
     \badcode
         cd <INSTALL_DIR>
-        sudo 5.5/Boot2Qt/nitrogen6x-eLinux/images/deploy.sh /dev/<device_name>
+        sudo dd bs=4k if=5.6/Boot2Qt/nitrogen6x/images/b2qt-embedded-qt5-image-nitrogen6x.img of=/dev/<device_name>
     \endcode
 
     After the installation is complete, insert the SD card, power on the device and check that
