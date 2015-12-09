@@ -83,9 +83,9 @@
     \list 1
         \li Select \b{Tools > Options > Devices > Add}.
         \li Select \b{Boot2Qt Device} > \b{Start Wizard}.
-        \li Enter the device name and network address. You can check the device
-            address in the \e{Launcher Settings} when the device is running the
-            \B2Q demo.
+        \li Enter the device name and network address (IPv4). You can check the
+            device address in the \e{Launcher Settings} when the device is running
+            the \B2Q demo.
         \li Select \b{Finish}.
     \endlist
 
