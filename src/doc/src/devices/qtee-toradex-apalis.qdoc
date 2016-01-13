@@ -17,7 +17,7 @@
 **
 ****************************************************************************/
 /*!
-    \target Toradex Apalis iMX6 (embedded Linux)
+    \keyword Toradex Apalis iMX6
     \page qtee-preparing-hardware-apalis-imx6.html
     \title Preparing Toradex Apalis iMX6
     \previouspage qtee-installation-guide.html

@@ -17,7 +17,7 @@
 **
 ****************************************************************************/
 /*!
-    \target Raspberry Pi 2 Model B (embedded Linux)
+    \keyword Raspberry Pi 2 Model B
     \page qtee-preparing-hardware-rasberrypi.html
     \title Preparing Raspberry Pi 2
     \previouspage qtee-installation-guide.html

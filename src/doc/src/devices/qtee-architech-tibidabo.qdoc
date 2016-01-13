@@ -17,7 +17,7 @@
 **
 ****************************************************************************/
 /*!
-    \target ArchiTech Tibidabo (embedded Linux)
+    \keyword ArchiTech Tibidabo
     \page qtee-preparing-hardware-tibidabo.html
     \title Preparing ArchiTech Tibidabo
     \previouspage qtee-installation-guide.html

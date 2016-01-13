@@ -17,7 +17,7 @@
 **
 ****************************************************************************/
 /*!
-    \target Toradex Colibri iMX6 (embedded Linux)
+    \keyword Toradex Colibri iMX6
     \page qtee-preparing-hardware-colibri-imx6.html
     \title Preparing Toradex Colibri iMX6
     \previouspage qtee-installation-guide.html

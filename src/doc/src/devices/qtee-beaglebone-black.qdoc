@@ -17,7 +17,7 @@
 **
 ****************************************************************************/
 /*!
-    \target BeagleBone Black (embedded Linux)
+    \keyword BeagleBone Black
     \page qtee-preparing-hardware-beaglebone.html
     \title Preparing BeagleBone Black
     \previouspage qtee-installation-guide.html

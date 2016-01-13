@@ -17,7 +17,7 @@
 **
 ****************************************************************************/
 /*!
-    \target SABRE SD i.MX6Quad (embedded Linux)
+    \keyword SABRE SD i.MX6Quad
     \page qtee-preparing-hardware-imx6sabresd.html
     \title Preparing SABRE SD i.MX6Quad
     \previouspage qtee-installation-guide.html

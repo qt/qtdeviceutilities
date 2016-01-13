@@ -17,7 +17,7 @@
 **
 ****************************************************************************/
 /*!
-    \target i.MX53 Quick Start Board (embedded Linux)
+    \keyword i.MX53 Quick Start Board
     \page qtee-preparing-hardware-imx53qsb.html
     \title Preparing i.MX53 Quick Start Board
     \previouspage qtee-installation-guide.html

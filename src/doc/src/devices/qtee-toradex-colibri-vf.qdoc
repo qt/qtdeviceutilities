@@ -17,7 +17,7 @@
 **
 ****************************************************************************/
 /*!
-    \target Toradex Colibri VF50 and VF61 (embedded Linux)
+    \keyword Toradex Colibri VF50 and VF61
     \page qtee-preparing-hardware-colibri-vf.html
     \title Preparing Toradex Colibri VF50 and VF61
     \previouspage qtee-installation-guide.html
