@@ -51,7 +51,7 @@
 
     \badcode
         cd <INSTALL_DIR>
-        sudo 5.5/Boot2Qt/apalis-imx6-eLinux/images/deploy.sh /dev/<device_name>
+        sudo dd bs=4k if=5.6/Boot2Qt/smarc-samx6i/images/b2qt-embedded-qt5-image-smarc-samx6i.img of=/dev/<device_name>
     \endcode
 
     By default, the Kontron SMARC-sAMX6i boots from its internal eMMC. In order to boot from
