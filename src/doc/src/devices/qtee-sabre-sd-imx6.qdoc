@@ -18,18 +18,13 @@
 ****************************************************************************/
 /*!
     \target SABRE SD i.MX6Quad (embedded Linux)
-    \target SABRE SD i.MX6Dual (embedded Linux)
     \page qtee-preparing-hardware-imx6sabresd.html
-    \title Preparing SABRE SD i.MX6
+    \title Preparing SABRE SD i.MX6Quad
     \previouspage qtee-installation-guide.html
 
     Take the following steps to prepare
     \l {http://www.freescale.com/webapp/sps/site/prod_summary.jsp?code=RDIMX6SABREBRD}
-    {Freescale SABRE SD i.MX6} boards for \B2Q:
-    \list
-        \li Freescale SABRE SD i.MX6Quad
-        \li Freescale SABRE SD i.MX6Dual
-    \endlist
+    {Freescale SABRE SD i.MX6Quad} for \B2Q:
 
     \note It is important that you repeat the steps in this section after you
     update \SDK.
@@ -52,19 +47,11 @@
 
     \include detect-sd-card-device-name.qdocinc unmount
 
-    To deploy the image on \b {i.MX6Quad}, enter the following commands:
+    To deploy the image, enter the following commands:
 
     \badcode
         cd <INSTALL_DIR>
         sudo dd bs=4k if=5.6/Boot2Qt/imx6qsabresd/images/b2qt-embedded-qt5-image-imx6qsabresd.img of=/dev/<device_name>
-    \endcode
-
-    To deploy the image on \b {i.MX6Dual}, you need to enter an additional boot
-    argument:
-
-    \badcode
-        cd <INSTALL_DIR>
-        sudo 5.6/Boot2Qt/imx6qsabresd-eLinux/images/deploy.sh --uboot u-boot-imx6dlsabresd.imx /dev/<device_name>
     \endcode
 
     After the image has been deployed, insert the SD card, power on the device and check that

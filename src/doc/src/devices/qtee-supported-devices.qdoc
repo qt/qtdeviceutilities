@@ -30,7 +30,6 @@
     \list
         \li \l{Boundary Devices i.MX6 Boards}
         \li \l{SABRE SD i.MX6Quad (embedded Linux)}
-        \li \l{SABRE SD i.MX6Dual (embedded Linux)}
         \li \l{Toradex Apalis iMX6 (embedded Linux)}
         \li \l{Toradex Colibri iMX6 (embedded Linux)}
         \li \l{Toradex Colibri VF50 and VF61 (embedded Linux)}
@@ -100,8 +99,8 @@
     \table
     \header \li Devices with GPU
     \row \li \l{http://www.freescale.com/webapp/sps/site/prod_summary.jsp?code=RDIMX6SABREBRD}
-             {Freescale® SABRE SD i.MX6} (Freescale® i.MX6)\br
-             ARM Cortex A9, Vivante GC2000 GPU, 1GB RAM
+             {Freescale® SABRE SD i.MX6Quad} (Freescale® i.MX6)\br
+             4x ARM Cortex A9, Vivante GC2000 GPU, 1GB RAM
     \row \li \l{http://beagleboard.org/products/beaglebone%20black}
             {BeagleBone Black}\br
             TIAM335x 1GHz ARM® Cortex-A8, 512 MB RAM
@@ -168,6 +167,9 @@
 
     \table
     \header \li Device
+    \row \li \l{http://www.freescale.com/webapp/sps/site/prod_summary.jsp?code=RDIMX6SABREBRD}
+             {Freescale® SABRE SD i.MX6Dual} (Freescale® i.MX6)\br
+             2x ARM Cortex A9, Vivante GC2000 GPU, 1GB RAM
     \row \li \l{http://beagleboard.org/hardware-xM}
              {BeagleBoard-xM}\br
              1GHz ARM Cortex A8, PowerVR SGX530 GPU,\br
