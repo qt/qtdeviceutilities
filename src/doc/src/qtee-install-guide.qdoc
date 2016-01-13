@@ -82,7 +82,7 @@
         \li Start the VirtualBox user interface.
         \li Select \b{File > Preferences} > \b{Network} to open VirtualBox
             network settings.
-        \li Create a new network named \e{vboxnet0} and edit its properties:
+        \li Create a new host-only network named \e{vboxnet0} and edit its properties:
 
         \list 1
             \li Change the IPv4 address to \c{192.168.56.1} and the IPv4 network

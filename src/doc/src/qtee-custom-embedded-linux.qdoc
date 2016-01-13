@@ -84,6 +84,9 @@
     <INSTALL_DIR>/5.6/Boot2Qt/sources/b2qt-yocto-meta/b2qt-init-build-env help
     \endcode
 
+    \note Support for Kontron SMARC-sAMX6i requires additional Yocto Board Support Package that is
+    downloadable from \l{http://emdcustomersection.kontron.com/?page_id=2750}{Kontron Customer Section}.
+
     \section1 Building the Image and Toolchain
 
     After the Yocto environment is set up, you need to configure the
@@ -130,6 +133,9 @@
     \row
         \li SILICA ArchiTech Tibidabo
         \li tibidabo
+    \row
+        \li Kontron SMARC-sAMX6i
+        \li smarc-smax6i
     \row
         \li Emulator
         \li emulator

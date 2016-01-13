@@ -1,0 +1,88 @@
+/****************************************************************************
+**
+** Copyright (C) 2014 Digia Plc
+** All rights reserved.
+** For any questions to Digia, please use the contact form at
+** http://www.qt.io
+**
+** This file is part of Qt Enterprise Embedded.
+**
+** Licensees holding valid Qt Enterprise licenses may use this file in
+** accordance with the Qt Enterprise License Agreement provided with the
+** Software or, alternatively, in accordance with the terms contained in
+** a written agreement between you and Digia.
+**
+** If you have questions regarding the use of this file, please use
+** the contact form at http://www.qt.io
+**
+****************************************************************************/
+/*!
+    \keyword Kontron SMARC-sAMX6i
+    \page qtee-preparing-hardware-smarc-samx6i.html
+    \title Preparing Kontron SMARC-sAMX6i
+    \previouspage qtee-installation-guide.html
+
+    Take the following steps to prepare a
+    \l{http://www.kontron.com/products/boards-and-standard-form-factors/smarc/smarc-samx6i.html}
+    {Kontron SMARC-sAMX6i} for \B2Q.
+
+    \note It is important that you repeat the steps in this section after you
+    update \SDK.
+
+    The images containing the \B2Q stack for Kontron SMARC-sAMX6i are included
+    in \SDK, ready to be copied to an SD card.
+
+    \section1 Preparing an SD Card
+
+    An SD card of at least 1 GB capacity is sufficient.
+
+    \include detect-sd-card-device-name.qdocinc instructions
+
+    \section1 Installing the \B2Q Image
+
+    \include common.qdocinc wizard
+
+    To write the image to the SD card, ensure that no partitions on the
+    SD card are mounted:
+
+    \include detect-sd-card-device-name.qdocinc unmount
+
+    Then,
+
+    \badcode
+        cd <INSTALL_DIR>
+        sudo 5.5/Boot2Qt/apalis-imx6-eLinux/images/deploy.sh /dev/<device_name>
+    \endcode
+
+    By default, the Kontron SMARC-sAMX6i boots from its internal eMMC. In order to boot from
+    the external SD card, the U-Boot environment needs to be updated. Connect a serial cable
+    to the device and enter into the U-Boot environment by pressing any key before the autoboot.
+    Enter following commands into U-Boot:
+
+    \badcode
+        setenv mmcdev 1
+        setenv mmcpart 2
+        setenv bootcmd 'mmc dev ${mmcdev}; if mmc rescan; then if run loadfdt; then if run loaduimage; then run mmcboot; else run netboot; fi; else run netboot; fi; else run netboot; fi;'
+        setenv uimage /boot/uImage
+        setenv fdtfile /boot/imx6q-smx6-lcd.dtb
+        setenv mmcroot /dev/mmcblk0p2 rootwait rw
+        setenv mmcargs 'setenv bootargs video=mxcfb0:dev=hdmi,1280x720M@60,if=RGB24 fbmem=28M console=${console},${baudrate} root=${mmcroot}'
+        saveenv
+    \endcode
+
+    New U-Boot commands are now stored into the device, and you can start \B2Q.
+
+    After the image has been deployed, insert the SD card, power on the device and check that
+    the \B2Q welcome screen and/or demo appear.
+
+    \section1 Setting up USB Access
+
+    \include b2qt-post-install-setup.qdocinc setting up usb access
+
+    \section1 Configuring a Device Kit in Qt Creator
+
+    \include b2qt-post-install-setup.qdocinc configuring device kit
+
+    You are now ready to start developing for your device. For more information,
+    see \l{Building and Running an Example}.
+*/

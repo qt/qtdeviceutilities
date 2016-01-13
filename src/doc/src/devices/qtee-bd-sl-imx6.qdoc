@@ -100,6 +100,29 @@
          \endcode
     \endlist
 
+    \b {Setup for 1280×800 displays}
+
+    Boundary Devices offers 1280x800 LCD touch panels that require changes in U-Boot environment
+    variable to be correctly identified.
+
+    Use one of the two following options to enable the scripts boot the device
+    with correct display panel setting:
+
+    \list
+     \li Write a \c uEnv.txt file on to the boot partition of SD card with the following
+         content:
+
+         \badcode
+             panel=LDB-WXGA
+         \endcode
+
+     \li Access the device's console and run the following commands on the U-Boot prompt:
+         \badcode
+             U-Boot > setenv panel LDB-WXGA
+             U-Boot > saveenv
+         \endcode
+    \endlist
+
     \section1 Setting up USB Access
 
     \include b2qt-post-install-setup.qdocinc setting up usb access

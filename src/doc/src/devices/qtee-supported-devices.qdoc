@@ -34,6 +34,7 @@
         \li \l{Toradex Colibri iMX6}
         \li \l{Toradex Colibri VF50 and VF61}
         \li \l{ArchiTech Tibidabo}
+        \li \l{Kontron SMARC-sAMX6i}
         \li \l{BeagleBone Black}
         \li \l{Raspberry Pi 2 Model B}
     \endlist
@@ -150,6 +151,10 @@
             Freescale® i.MX6S or i.MX6DL ARM Cortex™-A9 @800MHz - 1GHz,\br
             256MB (single core), 512MB (dual core) DDR3, 4GB eMMC,\br
             Vivante 2D/3D GPU
+    \row \li \l{http://www.kontron.com/products/boards-and-standard-form-factors/smarc/smarc-samx6i.html}
+            {Kontron SMARC-sAMX6i}\br
+            Freescale® i.MX 6 ARM Cortex™-A9 @800MHz - 1.2GHz,\br
+            2GB DDR3, 2-64GB eMMC, Vivante GC2000 GPU
     \row \li \l{https://www.raspberrypi.org/products/raspberry-pi-2-model-b/}
             {Raspberry Pi 2 Model B}\br
             900 Mhz ARM Cortex™-A7, Broadcom VideoCore IV\br
@@ -274,6 +279,17 @@
             \li \image ok
             \li
     \row    \li Toradex Apalis/Colibri i.MX6
+            \li \image ok
+            \li \image ok
+            \li \image ok
+            \li \image ok
+            \li \image ok
+            \li \image ok
+            \li \image ok
+            \li \image ok
+            \li \image ok
+            \li
+    \row    \li Kontron SMARC-sAMX6i
             \li \image ok
             \li \image ok
             \li \image ok
