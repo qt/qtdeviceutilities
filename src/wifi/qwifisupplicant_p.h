@@ -43,12 +43,10 @@ public:
     void closeSupplicantConnection();
     int waitForEvent(char *buf, size_t buflen);
     bool sendCommand(const QString &command, QByteArray *reply);
-    static QString decodeHexEncoded(const QString &encoded);
+    static QString decodeSsid(const QString &encoded);
 
 protected:
     int receiveEvent(char *reply, size_t *reply_len);
-    static int hex2num(char c);
-    static int hex2byte(const char *hex);
 
 private:
     wpa_ctrl *ctrl_conn;

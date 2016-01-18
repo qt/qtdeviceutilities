@@ -124,7 +124,7 @@ void QWifiNetworkListModel::parseScanResults(const QString &results)
             continue;
         int pos = 0;
 
-        QString ssid = QWifiSupplicant::decodeHexEncoded(info.at(4));
+        QString ssid = QWifiSupplicant::decodeSsid(info.at(4));
         if (ssid.isEmpty())
             continue;
 

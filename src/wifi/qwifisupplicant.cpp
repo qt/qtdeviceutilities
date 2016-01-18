@@ -300,22 +300,32 @@ int QWifiSupplicant::receiveEvent(char *reply, size_t *reply_len)
     return -2;
 }
 
-/*! \internal
- *
-    Decode wpa_supplicant encoded string, see file hostapd/src/utils/common.c
-    in git://w1.fi/hostap.git repository.
-
-    For Ascii encoded string, any octet < 32 or > 127 is encoded as a "\\x"
-    followed by the hex representation of the octet. Exception chars are ",
-    \\, \\e, \\n, \\r, \\t which are escaped by a backslash
-
- */
-QString QWifiSupplicant::decodeHexEncoded(const QString &encoded)
+static inline int hex2num(char c)
 {
-    int maxlen = encoded.size() + 1;
-    QByteArray buf;
-    buf.resize(maxlen);
-    const char *pos = encoded.toLocal8Bit().constData();
+    if (c >= '0' && c <= '9')
+        return c - '0';
+    if (c >= 'a' && c <= 'f')
+        return c - 'a' + 10;
+    if (c >= 'A' && c <= 'F')
+        return c - 'A' + 10;
+    return -1;
+}
+
+static inline int hex2byte(const char *hex)
+{
+    int a, b;
+    a = hex2num(*hex++);
+    if (a < 0)
+        return -1;
+    b = hex2num(*hex++);
+    if (b < 0)
+        return -1;
+    return (a << 4) | b;
+}
+
+static inline int printf_decode(char *buf, int maxlen, const char *str)
+{
+    const char *pos = str;
     int len = 0;
     int val;
 
@@ -391,30 +401,24 @@ QString QWifiSupplicant::decodeHexEncoded(const QString &encoded)
     if (maxlen > len)
         buf[len] = '\0';
 
-    return QString::fromUtf8(buf);
+    return len;
 }
 
-int QWifiSupplicant::hex2num(char c)
-{
-    if (c >= '0' && c <= '9')
-        return c - '0';
-    if (c >= 'a' && c <= 'f')
-        return c - 'a' + 10;
-    if (c >= 'A' && c <= 'F')
-        return c - 'A' + 10;
-    return -1;
-}
+/*! \internal
+ *
+    Decode wpa_supplicant encoded string, see file hostapd/src/utils/common.c
+    in git://w1.fi/hostap.git repository.
 
-int QWifiSupplicant::hex2byte(const char *hex)
+    For Ascii encoded string, any octet < 32 or > 127 is encoded as a "\\x"
+    followed by the hex representation of the octet. Exception chars are ",
+    \\, \\e, \\n, \\r, \\t which are escaped by a backslash
+
+ */
+QString QWifiSupplicant::decodeSsid(const QString &encoded)
 {
-    int a, b;
-    a = hex2num(*hex++);
-    if (a < 0)
-        return -1;
-    b = hex2num(*hex++);
-    if (b < 0)
-        return -1;
-    return (a << 4) | b;
+    static char ssid[2048];
+    printf_decode(ssid, sizeof(ssid), encoded.toLatin1().constData());
+    return QString::fromUtf8(ssid);
 }
 
 QT_END_NAMESPACE

@@ -68,7 +68,7 @@ void QWifiManagerPrivate::handleAuthenticating(QWifiEvent *event)
     QString ssid = data.mid(data.indexOf(QLatin1String("SSID")) + 6);
     ssid = ssid.left(ssid.lastIndexOf(QLatin1Char('\'')));
 
-    setCurrentSSID(QWifiSupplicant::decodeHexEncoded(ssid));
+    setCurrentSSID(QWifiSupplicant::decodeSsid(ssid));
     updateNetworkState(QWifiManager::Authenticating);
 }
 
@@ -425,7 +425,7 @@ bool QWifiManager::connect(QWifiConfiguration *config)
     const QStringList configuredNetworks = d->call(QStringLiteral("LIST_NETWORKS")).split('\n');
     for (int i = 1; i < configuredNetworks.length(); ++i) {
         const QStringList networkFields = configuredNetworks.at(i).split('\t');
-        const QString ssid = QWifiSupplicant::decodeHexEncoded(networkFields.at(1));
+        const QString ssid = QWifiSupplicant::decodeSsid(networkFields.at(1));
         if (ssid == d->m_currentSSID) {
             id = networkFields.at(0);
             networkKnown = true;
