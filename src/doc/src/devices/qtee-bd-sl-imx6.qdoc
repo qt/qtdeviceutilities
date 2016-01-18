@@ -73,6 +73,21 @@
     After the installation is complete, insert the SD card, power on the device and check that
     the \B2Q welcome screen and/or demo appear.
 
+    \b {Updating U-Boot}
+
+    If you are updating from an older image, you may also need to update the version of U-Boot on the device.
+    The prebuilt image already contains U-Boot versions for most of the device variants from Boundary Devices,
+    but the update needs to be done manually when first starting the device. Correct device type is selected by
+    setting the \c uboot_defconfig U-Boot environment variable. More information available from
+    \l{https://boundarydevices.com/compiling-latest-u-boot-for-i-mx6-2015-edition/}{Boundary Devices}.
+
+    Access the device's console and run the following commands on the U-Boot prompt:
+
+    \badcode
+        setenv uboot_defconfig <device type>
+        run upgradeu
+    \endcode
+
     \b {Setup for Nitrogen6_Lite Device}
 
     The boot script requires the environment variables, \c dtbname and \c gpumem, to identify
@@ -96,29 +111,6 @@
          \badcode
              U-Boot > setenv gpumem 67108864
              U-Boot > setenv dtbname imx6dl-nit6xlite.dtb
-             U-Boot > saveenv
-         \endcode
-    \endlist
-
-    \b {Setup for 1280×800 displays}
-
-    Boundary Devices offers 1280x800 LCD touch panels that require changes in U-Boot environment
-    variable to be correctly identified.
-
-    Use one of the two following options to enable the scripts boot the device
-    with correct display panel setting:
-
-    \list
-     \li Write a \c uEnv.txt file on to the boot partition of SD card with the following
-         content:
-
-         \badcode
-             panel=LDB-WXGA
-         \endcode
-
-     \li Access the device's console and run the following commands on the U-Boot prompt:
-         \badcode
-             U-Boot > setenv panel LDB-WXGA
              U-Boot > saveenv
          \endcode
     \endlist
