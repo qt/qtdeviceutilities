@@ -110,6 +110,11 @@ void QWifiManagerPrivate::updateWifiState()
 {
     QProcess ps;
     ps.start(QStringLiteral("ps"));
+    if (!ps.waitForStarted()) {
+        updateLastError(ps.program() + QLatin1String(": ") + ps.errorString());
+        return;
+    }
+
     ps.waitForFinished();
     bool supplicantRunning = ps.readAll().contains("wpa_supplicant");
     if (supplicantRunning && m_wifiController->resetSupplicantSocket())
@@ -124,7 +129,7 @@ QString QWifiManagerPrivate::call(const QString &command)
     QByteArray reply;
     bool success = m_wifiController->supplicant()->sendCommand(command, &reply);
     if (!success) {
-        qCDebug(B2QT_WIFI) << "call to supplicant failed!";
+        qCDebug(B2QT_WIFI) << "call to supplicant failed";
         return QString();
     }
 
@@ -216,7 +221,7 @@ QWifiManager::QWifiManager()
 
     if (!QWifiDevice::wifiSupported())
         qCWarning(B2QT_WIFI) << "WifiManager may not work as expected on this device. Use the API provided by QtWifi "
-                      "library to verify if device has support for Wi-Fi before creating an instance of wifi manager!";
+                      "library to verify if device has support for Wi-Fi before creating an instance of wifi manager";
 
     d->m_wifiController = new QWifiController(this, d_ptr);
     QObject::connect(d->m_wifiController, &QWifiController::backendStateChanged,
@@ -413,7 +418,7 @@ bool QWifiManager::connect(QWifiConfiguration *config)
 {
     Q_D(QWifiManager);
     if (d->m_backendState != Running) {
-        qCWarning(B2QT_WIFI) << "start wifi backend before calling connect() !";
+        qCWarning(B2QT_WIFI) << "start wifi backend before calling connect()";
         return false;
     }
 
@@ -438,7 +443,7 @@ bool QWifiManager::connect(QWifiConfiguration *config)
         id = d->call(QStringLiteral("ADD_NETWORK"));
         id.toInt(&ok);
         if (!ok) {
-            d->updateLastError(QStringLiteral("failed to add network!"));
+            d->updateLastError(QStringLiteral("failed to add network"));
             return false;
         }
     }

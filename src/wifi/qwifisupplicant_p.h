@@ -30,11 +30,13 @@ QT_BEGIN_NAMESPACE
 Q_DECLARE_LOGGING_CATEGORY(B2QT_WIFI)
 Q_DECLARE_LOGGING_CATEGORY(B2QT_WIFI_VERBOSE)
 
+class QWifiManagerPrivate;
+
 class QWifiSupplicant : public QObject
 {
     Q_OBJECT
 public:
-    explicit QWifiSupplicant(QObject *parent = 0);
+    explicit QWifiSupplicant(QObject *parent, QWifiManagerPrivate *managerPrivate);
 
     void createSupplicantConfig() const;
     bool startSupplicant();
@@ -53,6 +55,7 @@ private:
     wpa_ctrl *monitor_conn;
     int exit_sockets[2];
     QByteArray interface;
+    QWifiManagerPrivate *const m_managerPrivate;
 };
 
 QT_END_NAMESPACE
