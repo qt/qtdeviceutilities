@@ -139,6 +139,11 @@ void QWifiController::initializeBackend()
     qCDebug(B2QT_WIFI) << "initializing wifi backend";
     emit backendStateChanged(QWifiManager::Initializing);
 
+    QProcess rfkill;
+    rfkill.start(QStringLiteral("rfkill"),
+                 QStringList() << QStringLiteral("unblock") << QStringLiteral("wifi"));
+    rfkill.waitForFinished();
+
     QProcess ifconfig;
     ifconfig.start(QStringLiteral("ifconfig"),
                    QStringList() << QLatin1String(m_interface) << QStringLiteral("up"));
