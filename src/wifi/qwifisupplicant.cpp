@@ -126,6 +126,12 @@ bool QWifiSupplicant::stopSupplicant()
     return true;
 }
 
+/*! \internal
+ *
+    wpa_supplicant socket communication code (Apache License 2.0) with few modifications
+    from https://android.googlesource.com/platform/hardware/libhardware_legacy/
+
+ */
 bool QWifiSupplicant::connectToSupplicant()
 {
     static char path[4096];
