@@ -21,6 +21,7 @@
 
 #include <QObject>
 #include <QByteArray>
+#include <QLoggingCategory>
 
 #include "wpa-supplicant/wpa_ctrl.h"
 
