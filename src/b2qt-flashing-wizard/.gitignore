@@ -1,5 +1,0 @@
-*.o
-Makefile
-b2qt-wand
-qrc_*.cpp
-moc_*.cpp
