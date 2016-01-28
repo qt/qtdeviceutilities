@@ -33,26 +33,51 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
+import QtQuick 2.5
 
-#include <QtQml/QQmlExtensionPlugin>
-#include <QtQml/qqml.h>
-#include <qcoreapplication.h>
+Item {
+    id: root
 
-class WifiSettingsQmlPlugin : public QQmlExtensionPlugin
-{
-    Q_OBJECT
-    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface")
+    property bool scanning: false
+    property int signalStrength: 100
+    property bool connected: false
 
-public:
-    void registerTypes(const char *uri)
-    {
-        Q_ASSERT(QLatin1String(uri) == QLatin1String("com.theqtcompany.settings.wifi"));
-        const QString prefix = "qrc:";
-        qmlRegisterType(QUrl(prefix + "WifiManagerView.qml"), uri, 1, 0, "WifiManagerView");
-        qmlRegisterType(QUrl(prefix + "WifiSignalMonitor.qml"), uri, 1, 0, "WifiSignalMonitor");
-        qmlRegisterType(QUrl(prefix + "WifiSelectorDelegate.qml"), uri, 1, 0, "WifiSelectorDelegate");
+    onSignalStrengthChanged: {
+        sprite.visible = true;
 
+        if (signalStrength < 10) {
+            sprite.visible = false;
+        }
+        else if (signalStrength < 30) {
+            sprite.currentFrame = 0;
+        }
+        else if (signalStrength < 60) {
+            sprite.currentFrame = 1;
+        }
+        else if (signalStrength < 80) {
+            sprite.currentFrame = 2;
+        }
+        else if (signalStrength <= 100) {
+            sprite.currentFrame = 3;
+        }
     }
-};
 
-#include "plugin.moc"
+    Image {
+        anchors.fill: parent
+        source: "Wifi_lightgray_2x.png"
+    }
+
+    AnimatedSprite {
+        id: sprite
+        anchors.fill: parent
+        source: connected ? "WifiAnim_qt_2x.png" : "WifiAnim_black_2x.png"
+        frameDuration: 500
+        frameCount: 4
+        currentFrame: 3
+        frameSync: false
+        frameWidth: 32
+        frameHeight: 32
+        loops: 40
+        running: scanning
+    }
+}

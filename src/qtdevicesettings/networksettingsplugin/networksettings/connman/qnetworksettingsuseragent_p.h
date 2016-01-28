@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2015 The Qt Company Ltd.
+** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: http://www.qt.io/licensing/
 **
 ** This file is part of the Qt Device Utilities module of the Qt Toolkit.
@@ -33,32 +33,43 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-#include "networksettingsplugin_plugin.h"
-#include "qnetworksettings.h"
-#include "qnetworksettingsmanager.h"
-#include "qnetworksettingsservice.h"
+#ifndef QNETWORKSETTINGSUSERAGENTPRIVATE_H
+#define QNETWORKSETTINGSUSERAGENTPRIVATE_H
+
+#include <QtCore/QObject>
+#include <QtDBus/QtDBus>
 #include "qnetworksettingsuseragent.h"
 
-#include <qqml.h>
-#include <QQmlEngine>
-#include <QQmlContext>
+QT_BEGIN_NAMESPACE
+class QByteArray;
+template<class T> class QList;
+template<class Key, class Value> class QMap;
+class QString;
+class QStringList;
+class QVariant;
+QT_END_NAMESPACE
 
-template <typename T>
-QObject *instance(QQmlEngine *engine, QJSEngine *) {
-    T *t = new T(engine);
-    t->setObjectName(T::staticMetaObject.className());
-    return t;
-}
+const QString AgentPath("/ConnmanAgent");
 
-void NetworksettingspluginPlugin::registerTypes(const char *uri)
+class QNetworkSettingsUserAgentPrivate : public QDBusAbstractAdaptor
 {
-    Q_ASSERT(QLatin1String(uri) == QLatin1String("com.theqtcompany.settings.network"));
-    qmlRegisterUncreatableType<QNetworkSettingsService>(uri, 1, 0, "NetworkService", "Cannot be instantiated directly.");
-    qmlRegisterUncreatableType<QNetworkSettingsIPv4>(uri, 1, 0, "NetworkSettingsIPv4", "Cannot be instantiated directly.");
-    qmlRegisterUncreatableType<QNetworkSettingsIPv6>(uri, 1, 0, "NetworkSettingsIPv6", "Cannot be instantiated directly.");
-    qmlRegisterUncreatableType<QNetworkSettingsProxy>(uri, 1, 0, "NetworkSettingsProxy", "Cannot be instantiated directly.");
-    qmlRegisterUncreatableType<QNetworkSettingsType>(uri, 1, 0, "NetworkSettingsType", "Cannot be instantiated directly.");
-    qmlRegisterUncreatableType<QNetworkSettingsState>(uri, 1, 0, "NetworkSettingsState", "Cannot be instantiated directly.");
-    qmlRegisterSingletonType<QNetworkSettingsManager>(uri, 1, 0, "NetworkSettingsManager", &instance<QNetworkSettingsManager>);
-    qmlRegisterSingletonType<QNetworkSettingsUserAgent>(uri, 1, 0, "NetworkSettingsUserAgent", &instance<QNetworkSettingsUserAgent>);
-}
+    Q_OBJECT
+    Q_CLASSINFO("D-Bus Interface", "net.connman.Agent")
+    Q_DECLARE_PUBLIC(QNetworkSettingsUserAgent)
+public:
+    QNetworkSettingsUserAgentPrivate(QNetworkSettingsUserAgent *parent=0);
+    void setUserCredentials(const QString& aUsername, const QString& aPassword);
+    void cancel();
+    void release();
+public Q_SLOTS: // Dbus methods
+    void ReportError(const QDBusObjectPath &path, const QString &param);
+    QVariantMap RequestInput(const QDBusObjectPath &path, const QVariantMap &params,
+                             const QDBusMessage &message);
+    void registerAgent();
+private:
+    QNetworkSettingsUserAgent *q_ptr;
+    QDBusMessage m_reply;
+    bool m_pendingReply;
+};
+
+#endif // QNETWORKSETTINGSUSERAGENTPRIVATE_H

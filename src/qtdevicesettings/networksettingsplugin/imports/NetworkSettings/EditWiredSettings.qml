@@ -90,15 +90,15 @@ Item {
 
                         ListElement {
                             text: "DHCP"
-                            method: IPv4Config.Dhcp
+                            method: NetworkSettingsIPv4.Dhcp
                         }
                         ListElement {
                             text: "Manual"
-                            method: IPv4Config.Manual
+                            method: NetworkSettingsIPv4.Manual
                         }
                         ListElement {
                             text: "Off"
-                            method: IPv4Config.Off
+                            method: NetworkSettingsIPv4.Off
                         }
                     }
 
@@ -125,7 +125,7 @@ Item {
 
                     Column {
                         spacing: Math.round(10 * Flat.FlatStyle.scaleFactor)
-                        visible: service.ipv4.method === IPv4Config.Dhcp
+                        visible: service.ipv4.method === NetworkSettingsIPv4.Dhcp
 
                         Row {
                             spacing: Math.round(10 * Flat.FlatStyle.scaleFactor)
@@ -166,7 +166,7 @@ Item {
 
                     Column {
                         spacing: Math.round(10 * Flat.FlatStyle.scaleFactor)
-                        visible: service.ipv4.method === IPv4Config.Manual
+                        visible: service.ipv4.method === NetworkSettingsIPv4.Manual
 
                         Row {
                             spacing: Math.round(10 * Flat.FlatStyle.scaleFactor)
@@ -234,15 +234,15 @@ Item {
 
                         ListElement {
                             text: qsTr("Auto")
-                            method: IPv6Config.Auto
+                            method: NetworkSettingsIPv6.Auto
                         }
                         ListElement {
                             text: qsTr("Manual")
-                            method: IPv6Config.Manual
+                            method: NetworkSettingsIPv6.Manual
                         }
                         ListElement {
                             text: qsTr("Off")
-                            method: IPv6Config.Off
+                            method: NetworkSettingsIPv6.Off
                         }
                     }
 
@@ -268,7 +268,7 @@ Item {
 
                     Column {
                         spacing: Math.round(10 * Flat.FlatStyle.scaleFactor)
-                        visible: service.ipv6.method === IPv6Config.Auto
+                        visible: service.ipv6.method === NetworkSettingsIPv6.Auto
                         Row {
                             spacing: Math.round(10 * Flat.FlatStyle.scaleFactor)
                             TextLabel {
@@ -308,7 +308,7 @@ Item {
 
                     Column {
                         spacing: Math.round(10 * Flat.FlatStyle.scaleFactor)
-                        visible: service.ipv6.method === IPv6Config.Manual
+                        visible: service.ipv6.method === NetworkSettingsIPv6.Manual
                         Row {
                             spacing: Math.round(10 * Flat.FlatStyle.scaleFactor)
                             TextLabel {
@@ -497,15 +497,15 @@ Item {
 
                         ListElement {
                             text: qsTr("Direct")
-                            method: ProxyConfig.Direct
+                            method: NetworkSettingsProxy.Direct
                         }
                         ListElement {
                             text: qsTr("Auto")
-                            method: ProxyConfig.Auto
+                            method: NetworkSettingsProxy.Auto
                         }
                         ListElement {
                             text: qsTr("Manual")
-                            method: ProxyConfig.Manual
+                            method: NetworkSettingsProxy.Manual
                         }
                     }
 
@@ -531,9 +531,10 @@ Item {
 
                     Row {
                         spacing: Math.round(10 * Flat.FlatStyle.scaleFactor)
-                        visible: service.proxy.method !== ProxyConfig.Direct
+                        visible: service.proxy.method !== NetworkSettingsProxy.Direct
                         TextLabel {
-                            text: service.proxy.method === ProxyConfig.Manual ? qsTr("Proxy address") : qsTr("Automatic configuration URL")
+                            text: service.proxy.method === NetworkSettingsProxy.Manual ? qsTr("Proxy address") : qsTr("Automatic configuration URL")
+
                             width: content.titleWidth
                             horizontalAlignment: Text.AlignRight
                         }
@@ -546,7 +547,7 @@ Item {
                     }
                     Row {
                         spacing: Math.round(10 * Flat.FlatStyle.scaleFactor)
-                        visible: service.proxy.method === ProxyConfig.Manual
+                        visible: service.proxy.method === NetworkSettingsProxy.Manual
 
                         TextLabel {
                             text: qsTr("No proxy for")
@@ -632,7 +633,7 @@ Item {
             }
             if (proxyChanged) {
                 proxyUrl.accepted();
-                service.setupProxyConfig();
+                service.setupNetworkSettingsProxy();
             }
             stackView.pop();
         }

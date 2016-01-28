@@ -33,32 +33,39 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-#include "networksettingsplugin_plugin.h"
-#include "qnetworksettings.h"
 #include "qnetworksettingsmanager.h"
 #include "qnetworksettingsservice.h"
-#include "qnetworksettingsuseragent.h"
+#include "qnetworksettingsservicemodel.h"
+#include "qnetworksettingsinterfacemodel.h"
+#include "qnetworksettingsmanager_p.h"
+#include <QStringListModel>
 
-#include <qqml.h>
-#include <QQmlEngine>
-#include <QQmlContext>
-
-template <typename T>
-QObject *instance(QQmlEngine *engine, QJSEngine *) {
-    T *t = new T(engine);
-    t->setObjectName(T::staticMetaObject.className());
-    return t;
+QNetworkSettingsManager::QNetworkSettingsManager(QObject *parent) :
+   QObject(parent)
+   ,d_ptr(new QNetworkSettingsManagerPrivate(this))
+{
 }
 
-void NetworksettingspluginPlugin::registerTypes(const char *uri)
+QAbstractItemModel* QNetworkSettingsManager::services()
 {
-    Q_ASSERT(QLatin1String(uri) == QLatin1String("com.theqtcompany.settings.network"));
-    qmlRegisterUncreatableType<QNetworkSettingsService>(uri, 1, 0, "NetworkService", "Cannot be instantiated directly.");
-    qmlRegisterUncreatableType<QNetworkSettingsIPv4>(uri, 1, 0, "NetworkSettingsIPv4", "Cannot be instantiated directly.");
-    qmlRegisterUncreatableType<QNetworkSettingsIPv6>(uri, 1, 0, "NetworkSettingsIPv6", "Cannot be instantiated directly.");
-    qmlRegisterUncreatableType<QNetworkSettingsProxy>(uri, 1, 0, "NetworkSettingsProxy", "Cannot be instantiated directly.");
-    qmlRegisterUncreatableType<QNetworkSettingsType>(uri, 1, 0, "NetworkSettingsType", "Cannot be instantiated directly.");
-    qmlRegisterUncreatableType<QNetworkSettingsState>(uri, 1, 0, "NetworkSettingsState", "Cannot be instantiated directly.");
-    qmlRegisterSingletonType<QNetworkSettingsManager>(uri, 1, 0, "NetworkSettingsManager", &instance<QNetworkSettingsManager>);
-    qmlRegisterSingletonType<QNetworkSettingsUserAgent>(uri, 1, 0, "NetworkSettingsUserAgent", &instance<QNetworkSettingsUserAgent>);
+    Q_D(QNetworkSettingsManager);
+    return &d->m_serviceFilter;
+}
+
+QAbstractItemModel* QNetworkSettingsManager::interfaces()
+{
+    Q_D(QNetworkSettingsManager);
+    return &d->m_interfaceModel;
+}
+
+QNetworkSettingsService* QNetworkSettingsManager::getService(const QString& name, const int type)
+{
+    Q_D(QNetworkSettingsManager);
+
+    foreach (QNetworkSettingsService* service, d->m_serviceModel.getModel()) {
+        if (service->name() == name && service->type() == type) {
+            return service;
+        }
+    }
+    return NULL;
 }

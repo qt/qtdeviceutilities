@@ -5,7 +5,6 @@ SUBDIRS += \
     generalsettingsplugin \
     timedateplugin \
     settingsui \
-    wifisettingsplugin \
     localesettingsplugin \
     bluetoothsettingsplugin \
 

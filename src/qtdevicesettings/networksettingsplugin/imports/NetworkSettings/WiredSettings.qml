@@ -45,10 +45,12 @@ Item {
     anchors.fill: parent
     anchors.margins: Math.round(20 * Flat.FlatStyle.scaleFactor)
     property bool editMode: false
+    property var service: null
+    property string title: qsTr("Network");
 
-    onVisibleChanged: {
-        if (visible)
-            titlebar.title = qsTr("Network");
+    Component.onCompleted: {
+        NetworkSettingsManager.services.type = NetworkSettingsType.Wired;
+        root.service = NetworkSettingsManager.services.itemFromRow(0);
     }
 
     ListModel {
@@ -56,15 +58,15 @@ Item {
 
         ListElement {
             text: "DHCP"
-            method: IPv4Config.Dhcp
+            method: NetworkSettingsIPv4.Dhcp
         }
         ListElement {
             text: "Manual"
-            method: IPv4Config.Manual
+            method: NetworkSettingsIPv4.Manual
         }
         ListElement {
             text: "Off"
-            method: IPv4Config.Off
+            method: NetworkSettingsIPv4.Off
         }
     }
 
@@ -85,7 +87,7 @@ Item {
                     model: methodsModel
                     Component.onCompleted: selectedIndex = service.ipv4.method
                     onSelectedIndexChanged : {
-                        if (model.get(selectedIndex).method !== IPv4Config.Dhcp) {
+                        if (model.get(selectedIndex).method !== NetworkSettingsIPv4.Dhcp) {
                             service.ipv4.method = model.get(selectedIndex).method;
                             editMode = true;
                         }
@@ -104,7 +106,7 @@ Item {
             }
 
             Row {
-                visible: service.ipv4.method !== IPv4Config.Off
+                visible: service.ipv4.method !== NetworkSettingsIPv4.Off
                 TextLabel {
                     text: qsTr("IP Address: ")
                 }
@@ -121,7 +123,7 @@ Item {
             }
 
             Row {
-                visible: service.ipv4.method !== IPv4Config.Off
+                visible: service.ipv4.method !== NetworkSettingsIPv4.Off
                 TextLabel {
                     text: qsTr("Mask: ")
                 }
@@ -138,7 +140,7 @@ Item {
             }
 
             Row {
-                visible: service.ipv4.method !== IPv4Config.Off
+                visible: service.ipv4.method !== NetworkSettingsIPv4.Off
                 TextLabel {
                     text: qsTr("Router: ")
                 }
@@ -155,7 +157,7 @@ Item {
             }
 
             Row {
-                visible: service.ipv4.method !== IPv4Config.Off
+                visible: service.ipv4.method !== NetworkSettingsIPv4.Off
                 TextLabel {
                     text: qsTr("DNS server: ")
                 }
@@ -197,7 +199,7 @@ Item {
                 text: qsTr("Edit")
                 visible: !editMode
 
-                onClicked: stackView.push( { item : Qt.resolvedUrl("EditWiredSettings.qml"),  properties : { service: service } } )
+                onClicked: stackView.push({item: Qt.resolvedUrl("EditWiredSettings.qml"), properties: {service: root.service}});
             }
         }
     }

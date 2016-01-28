@@ -33,32 +33,27 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-#include "networksettingsplugin_plugin.h"
-#include "qnetworksettings.h"
-#include "qnetworksettingsmanager.h"
-#include "qnetworksettingsservice.h"
-#include "qnetworksettingsuseragent.h"
+#ifndef QNETWORKSETTINGSUSERAGENT_H
+#define QNETWORKSETTINGSUSERAGENT_H
 
-#include <qqml.h>
-#include <QQmlEngine>
-#include <QQmlContext>
+#include <QObject>
 
-template <typename T>
-QObject *instance(QQmlEngine *engine, QJSEngine *) {
-    T *t = new T(engine);
-    t->setObjectName(T::staticMetaObject.className());
-    return t;
-}
+QT_FORWARD_DECLARE_CLASS(QNetworkSettingsUserAgentPrivate)
 
-void NetworksettingspluginPlugin::registerTypes(const char *uri)
+class QNetworkSettingsUserAgent : public QObject
 {
-    Q_ASSERT(QLatin1String(uri) == QLatin1String("com.theqtcompany.settings.network"));
-    qmlRegisterUncreatableType<QNetworkSettingsService>(uri, 1, 0, "NetworkService", "Cannot be instantiated directly.");
-    qmlRegisterUncreatableType<QNetworkSettingsIPv4>(uri, 1, 0, "NetworkSettingsIPv4", "Cannot be instantiated directly.");
-    qmlRegisterUncreatableType<QNetworkSettingsIPv6>(uri, 1, 0, "NetworkSettingsIPv6", "Cannot be instantiated directly.");
-    qmlRegisterUncreatableType<QNetworkSettingsProxy>(uri, 1, 0, "NetworkSettingsProxy", "Cannot be instantiated directly.");
-    qmlRegisterUncreatableType<QNetworkSettingsType>(uri, 1, 0, "NetworkSettingsType", "Cannot be instantiated directly.");
-    qmlRegisterUncreatableType<QNetworkSettingsState>(uri, 1, 0, "NetworkSettingsState", "Cannot be instantiated directly.");
-    qmlRegisterSingletonType<QNetworkSettingsManager>(uri, 1, 0, "NetworkSettingsManager", &instance<QNetworkSettingsManager>);
-    qmlRegisterSingletonType<QNetworkSettingsUserAgent>(uri, 1, 0, "NetworkSettingsUserAgent", &instance<QNetworkSettingsUserAgent>);
-}
+    Q_OBJECT
+public:
+    explicit QNetworkSettingsUserAgent(QObject *parent = 0);
+    Q_INVOKABLE void setUserCredentials(const QString& username, const QString& passphrase);
+    Q_INVOKABLE void cancelInput();
+signals:
+    void showUserCredentialsInput();
+    void error();
+private:
+    QNetworkSettingsUserAgentPrivate *d_ptr;
+
+    Q_DISABLE_COPY(QNetworkSettingsUserAgent)
+    Q_DECLARE_PRIVATE(QNetworkSettingsUserAgent)
+};
+#endif // QNETWORKSETTINGSUSERAGENT_H

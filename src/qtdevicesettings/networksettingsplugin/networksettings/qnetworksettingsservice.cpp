@@ -33,135 +33,115 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-#include "networksettingsmanager.h"
-#include "connman/networksettingsmanager_linux_p.h"
-#include <QStringListModel>
 
-NetworkService::NetworkService(const QString& aServiceId, QObject* parent) :
+#include "qnetworksettingsservice.h"
+#include "qnetworksettingsservice_p.h"
+
+QNetworkSettingsService::QNetworkSettingsService(const QString& aServiceId, QObject* parent) :
    QObject(parent)
-  ,d_ptr(new NetworkServicePrivate(aServiceId, this))
+  ,d_ptr(new QNetworkSettingsServicePrivate(aServiceId, this))
 {
 
 }
 
-QString NetworkService::name() const
+QString QNetworkSettingsService::id() const
 {
-    Q_D(const NetworkService);
+    Q_D(const QNetworkSettingsService);
+    return d->m_id;
+}
+
+QString QNetworkSettingsService::name() const
+{
+    Q_D(const QNetworkSettingsService);
     return d->m_name;
 }
 
-NetworkState::States NetworkService::state()
+QNetworkSettingsState::States QNetworkSettingsService::state()
 {
-    Q_D(NetworkService);
+    Q_D(QNetworkSettingsService);
     return d->m_state.state();
 }
 
-NetworkType::Types NetworkService::type()
+QNetworkSettingsType::Types QNetworkSettingsService::type()
 {
-    Q_D(NetworkService);
+    Q_D(QNetworkSettingsService);
     return d->m_type.type();
 }
 
-IPv4Config* NetworkService::ipv4()
+QNetworkSettingsIPv4* QNetworkSettingsService::ipv4()
 {
-    Q_D(NetworkService);
+    Q_D(QNetworkSettingsService);
     return &d->m_ipv4config;
 }
 
-IPv6Config* NetworkService::ipv6()
+QNetworkSettingsIPv6* QNetworkSettingsService::ipv6()
 {
-    Q_D(NetworkService);
+    Q_D(QNetworkSettingsService);
     return &d->m_ipv6config;
 }
 
-ProxyConfig* NetworkService::proxy()
+QNetworkSettingsProxy* QNetworkSettingsService::proxy()
 {
-    Q_D(NetworkService);
+    Q_D(QNetworkSettingsService);
     return &d->m_proxyConfig;
 }
 
-QAbstractItemModel* NetworkService::domains()
+QNetworkSettingsWireless* QNetworkSettingsService::wirelessConfig()
 {
-    Q_D(NetworkService);
+    Q_D(QNetworkSettingsService);
+    return &d->m_wifiConfig;
+}
+
+QAbstractItemModel* QNetworkSettingsService::domains()
+{
+    Q_D(QNetworkSettingsService);
     return &d->m_domainsConfig;
 }
 
-QAbstractItemModel* NetworkService::nameservers()
+QAbstractItemModel* QNetworkSettingsService::nameservers()
 {
-    Q_D(NetworkService);
+    Q_D(QNetworkSettingsService);
     return &d->m_nameserverConfig;
 }
 
-void NetworkService::setupIpv4Config()
+void QNetworkSettingsService::setupIpv4Config()
 {
-    Q_D(NetworkService);
+    Q_D(QNetworkSettingsService);
     d->setupIpv4Config();
 }
 
-void NetworkService::setupIpv6Config()
+void QNetworkSettingsService::setupIpv6Config()
 {
-    Q_D(NetworkService);
+    Q_D(QNetworkSettingsService);
     d->setupIpv6Config();
 }
 
-void NetworkService::setupNameserversConfig()
+void QNetworkSettingsService::setupNameserversConfig()
 {
-    Q_D(NetworkService);
+    Q_D(QNetworkSettingsService);
     d->setupNameserversConfig();
 }
 
-void NetworkService::setupDomainsConfig()
+void QNetworkSettingsService::setupDomainsConfig()
 {
-    Q_D(NetworkService);
+    Q_D(QNetworkSettingsService);
     d->setupDomainsConfig();
 }
 
-void NetworkService::setupProxyConfig()
+void QNetworkSettingsService::setupNetworkSettingsProxy()
 {
-    Q_D(NetworkService);
-    d->setupProxyConfig();
+    Q_D(QNetworkSettingsService);
+    d->setupQNetworkSettingsProxy();
 }
 
-NetworkSettingsManager::NetworkSettingsManager(QObject *parent) :
-   QObject(parent)
-   ,d_ptr(new NetworkSettingsManagerPrivate(this))
+void QNetworkSettingsService::connectService()
 {
-
+    Q_D(QNetworkSettingsService);
+    d->connectService();
 }
 
-QQmlListProperty<NetworkService> NetworkSettingsManager::services()
+void QNetworkSettingsService::disconnectService()
 {
-    Q_D(NetworkSettingsManager);
-    return QQmlListProperty<NetworkService>(this, d->m_services);
-}
-
-QAbstractItemModel* NetworkSettingsManager::networks()
-{
-    Q_D(NetworkSettingsManager);
-    return &d->m_networksModel;
-}
-
-NetworkService* NetworkSettingsManager::getService(const QString& aName, const int aType)
-{
-    Q_D(NetworkSettingsManager);
-
-    foreach (NetworkService* service, d->m_services) {
-        if (service->name() == aName && service->type() == aType) {
-            return service;
-        }
-    }
-    return NULL;
-}
-
-
-bool NetworkSettingsManager::wifiPowered()
-{
-    Q_D(NetworkSettingsManager);
-    return d->wifiPowered();
-}
-
-void NetworkSettingsManager::setWifiPowered(const bool power)
-{
-    Q_D(NetworkSettingsManager);
-    d->setWifiPowered(power);
+    Q_D(QNetworkSettingsService);
+    d->disconnectService();
 }

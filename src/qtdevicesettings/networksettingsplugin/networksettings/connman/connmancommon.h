@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2015 The Qt Company Ltd.
+** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: http://www.qt.io/licensing/
 **
 ** This file is part of the Qt Device Utilities module of the Qt Toolkit.
@@ -33,32 +33,45 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-#include "networksettingsplugin_plugin.h"
-#include "qnetworksettings.h"
-#include "qnetworksettingsmanager.h"
-#include "qnetworksettingsservice.h"
-#include "qnetworksettingsuseragent.h"
+#ifndef CONNMANCOMMON_H
+#define CONNMANCOMMON_H
 
-#include <qqml.h>
-#include <QQmlEngine>
-#include <QQmlContext>
+#include <QtCore/QMetaType>
+#include <QtDBus>
+#include <qnetworksettings.h>
 
-template <typename T>
-QObject *instance(QQmlEngine *engine, QJSEngine *) {
-    T *t = new T(engine);
-    t->setObjectName(T::staticMetaObject.className());
-    return t;
-}
+#define AgentPath "/ConnmanAgent"
+#define PropertyState "State"
+#define PropertyName "Name"
+#define PropertyType "Type"
+#define PropertyConnected "Connected"
+#define PropertyPowered "Powered"
 
-void NetworksettingspluginPlugin::registerTypes(const char *uri)
-{
-    Q_ASSERT(QLatin1String(uri) == QLatin1String("com.theqtcompany.settings.network"));
-    qmlRegisterUncreatableType<QNetworkSettingsService>(uri, 1, 0, "NetworkService", "Cannot be instantiated directly.");
-    qmlRegisterUncreatableType<QNetworkSettingsIPv4>(uri, 1, 0, "NetworkSettingsIPv4", "Cannot be instantiated directly.");
-    qmlRegisterUncreatableType<QNetworkSettingsIPv6>(uri, 1, 0, "NetworkSettingsIPv6", "Cannot be instantiated directly.");
-    qmlRegisterUncreatableType<QNetworkSettingsProxy>(uri, 1, 0, "NetworkSettingsProxy", "Cannot be instantiated directly.");
-    qmlRegisterUncreatableType<QNetworkSettingsType>(uri, 1, 0, "NetworkSettingsType", "Cannot be instantiated directly.");
-    qmlRegisterUncreatableType<QNetworkSettingsState>(uri, 1, 0, "NetworkSettingsState", "Cannot be instantiated directly.");
-    qmlRegisterSingletonType<QNetworkSettingsManager>(uri, 1, 0, "NetworkSettingsManager", &instance<QNetworkSettingsManager>);
-    qmlRegisterSingletonType<QNetworkSettingsUserAgent>(uri, 1, 0, "NetworkSettingsUserAgent", &instance<QNetworkSettingsUserAgent>);
-}
+#define AttributeWifi "wifi"
+#define AttributeEthernet "ethernet"
+#define AttributeIdle "idle"
+#define AttributeFailure "failure"
+#define AttributeAssociation "association"
+#define AttributeConfiguration "configuration"
+#define AttributeReady "ready"
+#define AttributeDisconnect "disconnect"
+#define AttributeOneline "online"
+
+struct ConnmanMap {
+    QDBusObjectPath objectPath;
+    QVariantMap propertyMap;
+};
+
+QDBusArgument &operator<<(QDBusArgument &argument, const ConnmanMap &obj);
+const QDBusArgument &operator>>(const QDBusArgument &argument, ConnmanMap &obj);
+
+const QString &operator>>(const QString &argument, QNetworkSettingsType &obj);
+const QString &operator>>(const QString  &argument, QNetworkSettingsState &obj);
+
+typedef QList<ConnmanMap> ConnmanMapList;
+
+Q_DECLARE_METATYPE( ConnmanMap )
+Q_DECLARE_METATYPE( ConnmanMapList )
+
+
+#endif // CONNMANCOMMON_H

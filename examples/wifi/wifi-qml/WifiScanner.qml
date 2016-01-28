@@ -120,7 +120,10 @@ Item {
     }
     //! [0]
     //! [2]
-    WifiConfiguration { id: config }
+    WifiConfiguration {
+        id: config
+        protocol: "WPA2"
+    }
     //! [2]
     Component {
         id: listDelegate

@@ -33,15 +33,15 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-#ifndef NETWORKCONFIG_H
-#define NETWORKCONFIG_H
+#ifndef QNETWORKSETTINGS_H
+#define QNETWORKSETTINGS_H
 
 #include <QObject>
 #include <QUrl>
 #include <QVariantMap>
-#include "networkaddressmodel.h"
+#include "qnetworksettingsaddressmodel.h"
 
-class NetworkState : public QObject
+class QNetworkSettingsState : public QObject
 {
     Q_OBJECT
     Q_ENUMS(States)
@@ -50,13 +50,13 @@ class NetworkState : public QObject
 public:
     enum States {Idle, Failure, Association, Configuration, Ready, Disconnect, Online, Undefined};
 
-    explicit NetworkState(States aState, QObject *parent = 0)
+    explicit QNetworkSettingsState(States state, QObject *parent = 0)
         : QObject(parent)
     {
-        m_state = aState;
+        m_state = state;
     }
 
-    explicit NetworkState(QObject *parent = 0)
+    explicit QNetworkSettingsState(QObject *parent = 0)
         : QObject(parent)
     {
         m_state = Undefined;
@@ -66,8 +66,8 @@ public:
         return m_state;
     }
 
-    void setState(const States aState) {
-        m_state = aState;
+    void setState(const States state) {
+        m_state = state;
         emit stateChanged();
     }
 
@@ -78,7 +78,7 @@ private:
     States m_state;
 };
 
-class NetworkType : public QObject
+class QNetworkSettingsType : public QObject
 {
     Q_OBJECT
     Q_ENUMS(Types)
@@ -92,13 +92,13 @@ public:
         Unknown
     };
 
-    explicit NetworkType(Types aType, QObject *parent = 0)
+    explicit QNetworkSettingsType(Types type, QObject *parent = 0)
         : QObject(parent)
     {
-        m_type = aType;
+        m_type = type;
     }
 
-    explicit NetworkType(QObject *parent = 0)
+    explicit QNetworkSettingsType(QObject *parent = 0)
         : QObject(parent)
     {
         m_type = Unknown;
@@ -109,8 +109,8 @@ public:
         return m_type;
     }
 
-    void setType(const Types aType) {
-        m_type = aType;
+    void setType(const Types type) {
+        m_type = type;
         emit typeChanged();
     }
 
@@ -121,7 +121,7 @@ private:
     Types m_type;
 };
 
-class IPv4Config : public QObject
+class QNetworkSettingsIPv4 : public QObject
 {
     Q_OBJECT
     Q_ENUMS(MethodType)
@@ -131,7 +131,7 @@ class IPv4Config : public QObject
     Q_PROPERTY(QString mask READ mask WRITE setMask NOTIFY maskChanged)
 
 public:
-    explicit IPv4Config(QObject *parent = 0)
+    explicit QNetworkSettingsIPv4(QObject *parent = 0)
         : QObject(parent)
     {
 
@@ -142,8 +142,8 @@ public:
     QString address() const {
         return m_address;
     }
-    void setAddress(const QString& aAdderess) {
-        m_address = aAdderess;
+    void setAddress(const QString& adderess) {
+        m_address = adderess;
         emit addressChanged();
     }
 
@@ -151,8 +151,8 @@ public:
         return m_gateway;
     }
 
-    void setGateway(const QString& aGateway) {
-        m_gateway = aGateway;
+    void setGateway(const QString& gateway) {
+        m_gateway = gateway;
         emit gatewayChanged();
     }
 
@@ -160,8 +160,8 @@ public:
         return m_method;
     }
 
-    void setMethod(const MethodType aMethod) {
-        m_method = aMethod;
+    void setMethod(const MethodType method) {
+        m_method = method;
         emit methodChanged();
     }
 
@@ -169,8 +169,8 @@ public:
         return m_mask;
     }
 
-    void setMask(const QString& aMask) {
-        m_mask = aMask;
+    void setMask(const QString& mask) {
+        m_mask = mask;
         emit maskChanged();
     }
 
@@ -188,7 +188,7 @@ private:
 };
 
 
-class IPv6Config : public QObject
+class QNetworkSettingsIPv6 : public QObject
 {
     Q_OBJECT
     Q_ENUMS(MethodType PrivacyType)
@@ -199,7 +199,7 @@ class IPv6Config : public QObject
     Q_PROPERTY(int prefixLength READ prefixLength WRITE setPrefixLength NOTIFY prefixLengthChanged)
 
 public:
-    explicit IPv6Config(QObject *parent = 0)
+    explicit QNetworkSettingsIPv6(QObject *parent = 0)
         : QObject(parent)
     {
 
@@ -211,8 +211,8 @@ public:
     QString address() const {
         return m_address;
     }
-    void setAddress(const QString& aAdderess) {
-        m_address = aAdderess;
+    void setAddress(const QString& adderess) {
+        m_address = adderess;
         emit addressChanged();
     }
 
@@ -220,8 +220,8 @@ public:
         return m_gateway;
     }
 
-    void setGateway(const QString& aGateway) {
-        m_gateway = aGateway;
+    void setGateway(const QString& gateway) {
+        m_gateway = gateway;
         emit gatewayChanged();
     }
 
@@ -229,8 +229,8 @@ public:
         return m_method;
     }
 
-    void setMethod(const MethodType aMethod) {
-        m_method = aMethod;
+    void setMethod(const MethodType method) {
+        m_method = method;
         emit methodChanged();
     }
 
@@ -238,8 +238,8 @@ public:
         return m_privacy;
     }
 
-    void setPrivacy(const PrivacyType aPrivacy) {
-        m_privacy = aPrivacy;
+    void setPrivacy(const PrivacyType privacy) {
+        m_privacy = privacy;
         emit privacyChanged();
     }
 
@@ -247,8 +247,8 @@ public:
         return m_prefixLength;
     }
 
-    void setPrefixLength(const int& aPrefixLength) {
-        m_prefixLength = aPrefixLength;
+    void setPrefixLength(const int& prefixLength) {
+        m_prefixLength = prefixLength;
         emit prefixLengthChanged();
     }
 
@@ -267,7 +267,7 @@ private:
     int m_prefixLength;
 };
 
-class ProxyConfig   : public QObject
+class QNetworkSettingsProxy   : public QObject
 {
     Q_OBJECT
     Q_ENUMS(MethodType)
@@ -277,7 +277,7 @@ public:
     Q_PROPERTY(QAbstractItemModel* excludes READ excludes NOTIFY excludesChanged)
     Q_PROPERTY(MethodType method READ method WRITE setMethod NOTIFY methodChanged)
 
-    explicit ProxyConfig(QObject *parent=NULL)
+    explicit QNetworkSettingsProxy(QObject *parent=NULL)
         : QObject(parent)
     {
 
@@ -289,8 +289,8 @@ public:
         return m_url;
     }
 
-    void setUrl(const QUrl& aUrl) {
-        m_url = aUrl;
+    void setUrl(const QUrl& url) {
+        m_url = url;
         emit urlChanged();
     }
 
@@ -298,8 +298,8 @@ public:
         return &m_servers;
     }
 
-    void setServers(const QStringList& aServers) {
-        m_servers.setStringList(aServers);
+    void setServers(const QStringList& servers) {
+        m_servers.setStringList(servers);
         emit serversChanged();
     }
 
@@ -315,8 +315,8 @@ public:
         return m_excludes.stringList();
     }
 
-    void setExcludes(const QStringList& aExcludes) {
-        m_excludes.setStringList(aExcludes);
+    void setExcludes(const QStringList& excludes) {
+        m_excludes.setStringList(excludes);
         emit excludesChanged();
     }
 
@@ -324,8 +324,8 @@ public:
         return m_method;
     }
 
-    void setMethod(const MethodType& aMethod) {
-        m_method = aMethod;
+    void setMethod(const MethodType& method) {
+        m_method = method;
         emit methodChanged();
     }
 
@@ -336,59 +336,64 @@ signals:
     void methodChanged();
 private:
     QUrl m_url;
-    NetworkAddressModel m_servers;
-    NetworkAddressModel m_excludes;
+    QNetworkSettingsAddressModel m_servers;
+    QNetworkSettingsAddressModel m_excludes;
     MethodType m_method;
 };
 
-class WifiConfig : public QObject
+class QNetworkSettingsWireless : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QString bssid READ bssid NOTIFY bssidChanged)
-    Q_PROPERTY(int maxRate READ maxRate NOTIFY maxRateChanged)
-    Q_PROPERTY(int frequency READ frequency NOTIFY frequencyChanged)
-    Q_PROPERTY(QString encryptionMode READ encryptionMode NOTIFY encryptionModeChanged)
+    Q_PROPERTY(int signalStrength READ signalStrength WRITE setSignalStrength NOTIFY signalStrengthChanged)
     Q_PROPERTY(bool hidden READ hidden NOTIFY hiddenChanged)
 public:
-    explicit WifiConfig(QObject* parent = 0) :
+    explicit QNetworkSettingsWireless(QObject* parent = 0) :
         QObject(parent) {
-
     }
 
-    const QString bssid() {
-        return m_bssid;
-    }
+    enum SecurityFlags {None=1, WEP=2, WPA=4, WPA2=8, WPS=16};
 
-    int maxRate() {
-        return m_maxRate;
-    }
-
-    int frequency() {
-        return m_frequency;
-    }
-
-    const QString encryptionMode() {
-        return m_encryptionMode;
+    Q_INVOKABLE bool supportsSecurity(SecurityFlags security) {
+        if (m_securityFlags & security) {
+            return true;
+        }
+        return false;
     }
 
     bool hidden() const {
         return m_hidden;
     }
 
+    void setHidden(const bool hidden) {
+        m_hidden = hidden;
+        emit hiddenChanged();
+    }
+
+    int signalStrength() const {
+        return m_signalStrength;
+    }
+
+    void setSignalStrength(const int signalStrength) {
+        m_signalStrength = signalStrength;
+        emit signalStrengthChanged();
+    }
+
+    void setSecurity(const SecurityFlags security) {
+        if (security == None) {
+            m_securityFlags = None;
+        }
+        else {
+            m_securityFlags |= security;
+        }
+    }
+
 signals:
-    void bssidChanged(const QString &bssid);
-    void maxRateChanged(quint32 rate);
-    void frequencyChanged(quint16 frequency);
-    void encryptionModeChanged(const QString &mode);
-    void hiddenChanged(bool);
-
+    void hiddenChanged();
+    void signalStrengthChanged();
+    void passwordChanged();
 private:
-    QString m_bssid;
-    quint32 m_maxRate;
-    quint16 m_frequency;
-    QString m_encryptionMode;
+    quint16 m_securityFlags;
     bool m_hidden;
+    int m_signalStrength;
 };
-
-
-#endif
+#endif //QNETWORKSETTINGS_H

@@ -144,7 +144,7 @@ Item {
 
                 DelegateModel {
                     id: comboboxModel
-                    delegate: comboboxDelete
+                    delegate: comboboxDelegate
                 }
 
                 Repeater {
@@ -156,7 +156,7 @@ Item {
     }
 
     Component {
-        id: comboboxDelete
+        id: comboboxDelegate
         Item {
             id: comboboxViewDelegate
             property bool checked
@@ -168,6 +168,7 @@ Item {
                 sourceComponent: delegate
                 anchors.fill: parent
                 property var modelData: model
+                property string textRole: textRole
                 onLoaded : exgroup.bindCheckable(item)
             }
 

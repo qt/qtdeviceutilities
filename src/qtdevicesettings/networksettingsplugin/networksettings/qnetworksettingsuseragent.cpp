@@ -33,28 +33,23 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-#ifndef NETWORKADDRESSMODEL_H
-#define NETWORKADDRESSMODEL_H
+#include "qnetworksettingsuseragent.h"
+#include "qnetworksettingsuseragent_p.h"
 
-#include <QStringListModel>
-
-class NetworkAddressModel : public QStringListModel
+QNetworkSettingsUserAgent::QNetworkSettingsUserAgent(QObject *parent)
+    :QObject(parent)
+    ,d_ptr(new QNetworkSettingsUserAgentPrivate(this))
 {
-    Q_OBJECT
-    Q_PROPERTY(int count READ count NOTIFY countChanged)
-public:
-    explicit NetworkAddressModel(QObject *parent = 0);
-    explicit NetworkAddressModel(const QStringList &strings, QObject *parent = 0);
-    Q_INVOKABLE void append(const QString& address);
-    Q_INVOKABLE void remove(int index);
-    Q_INVOKABLE void resetChanges();
-    void setStringList(const QStringList &addresses);
-    int count() const;
+}
 
-signals:
-    void countChanged();
-private:
-    QStringList m_addresses;
-};
+void QNetworkSettingsUserAgent::setUserCredentials(const QString& username, const QString& passphrase)
+{
+    Q_D(QNetworkSettingsUserAgent);
+    d->setUserCredentials(username, passphrase);
+}
 
-#endif // NETWORKADDRESSMODEL_H
+void QNetworkSettingsUserAgent::cancelInput()
+{
+    Q_D(QNetworkSettingsUserAgent);
+    d->cancel();
+}

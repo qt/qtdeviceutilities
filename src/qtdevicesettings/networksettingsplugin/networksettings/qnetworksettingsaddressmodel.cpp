@@ -33,32 +33,51 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-#include "networksettingsplugin_plugin.h"
-#include "qnetworksettings.h"
-#include "qnetworksettingsmanager.h"
-#include "qnetworksettingsservice.h"
-#include "qnetworksettingsuseragent.h"
+#include "qnetworksettingsaddressmodel.h"
 
-#include <qqml.h>
-#include <QQmlEngine>
-#include <QQmlContext>
-
-template <typename T>
-QObject *instance(QQmlEngine *engine, QJSEngine *) {
-    T *t = new T(engine);
-    t->setObjectName(T::staticMetaObject.className());
-    return t;
+QNetworkSettingsAddressModel::QNetworkSettingsAddressModel(QObject *parent)
+    :QStringListModel(parent)
+{
 }
 
-void NetworksettingspluginPlugin::registerTypes(const char *uri)
+QNetworkSettingsAddressModel::QNetworkSettingsAddressModel(const QStringList &strings, QObject *parent)
+    :QStringListModel(parent)
 {
-    Q_ASSERT(QLatin1String(uri) == QLatin1String("com.theqtcompany.settings.network"));
-    qmlRegisterUncreatableType<QNetworkSettingsService>(uri, 1, 0, "NetworkService", "Cannot be instantiated directly.");
-    qmlRegisterUncreatableType<QNetworkSettingsIPv4>(uri, 1, 0, "NetworkSettingsIPv4", "Cannot be instantiated directly.");
-    qmlRegisterUncreatableType<QNetworkSettingsIPv6>(uri, 1, 0, "NetworkSettingsIPv6", "Cannot be instantiated directly.");
-    qmlRegisterUncreatableType<QNetworkSettingsProxy>(uri, 1, 0, "NetworkSettingsProxy", "Cannot be instantiated directly.");
-    qmlRegisterUncreatableType<QNetworkSettingsType>(uri, 1, 0, "NetworkSettingsType", "Cannot be instantiated directly.");
-    qmlRegisterUncreatableType<QNetworkSettingsState>(uri, 1, 0, "NetworkSettingsState", "Cannot be instantiated directly.");
-    qmlRegisterSingletonType<QNetworkSettingsManager>(uri, 1, 0, "NetworkSettingsManager", &instance<QNetworkSettingsManager>);
-    qmlRegisterSingletonType<QNetworkSettingsUserAgent>(uri, 1, 0, "NetworkSettingsUserAgent", &instance<QNetworkSettingsUserAgent>);
+    setStringList(strings);
+}
+
+void QNetworkSettingsAddressModel::setStringList(const QStringList &addresses)
+{
+    m_addresses = addresses;
+    QStringListModel::setStringList(m_addresses);
+    emit countChanged();
+}
+
+void QNetworkSettingsAddressModel::append(const QString& address)
+{
+    int row = rowCount();
+
+    bool succeed = insertRows(row, 1);
+    if (succeed)
+        succeed = setData(index(row), QVariant::fromValue(address));
+
+    Q_ASSERT(succeed == true);
+
+    emit countChanged();
+}
+
+void QNetworkSettingsAddressModel::remove(int index)
+{
+    removeRows(index, 1);
+    emit countChanged();
+}
+
+int QNetworkSettingsAddressModel::count() const
+{
+    return rowCount();
+}
+
+void QNetworkSettingsAddressModel::resetChanges()
+{
+    QStringListModel::setStringList(m_addresses);
 }

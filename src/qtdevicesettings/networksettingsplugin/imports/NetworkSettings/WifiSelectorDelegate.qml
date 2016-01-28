@@ -34,9 +34,57 @@
 **
 ****************************************************************************/
 import QtQuick 2.5
+import QtQuick.Layouts 1.1
+import QtQuick.Controls 1.4
+import com.theqtcompany.settings.common 1.0
+import com.theqtcompany.settings.network 1.0
+import QtQuick.Controls.Styles.Flat 1.0 as Flat
 
-Loader {
+Item {
     id: root
-    property var selectedInterface:undefined
-    anchors.fill: parent
+    property bool checkable: true
+    property bool checked: false
+    property bool pressed: false
+    property bool connect: modelData["connected"]
+    signal clicked()
+
+    MouseArea {
+        id: delegateButton
+        anchors.fill: parent
+        hoverEnabled: true
+        onPressed: root.pressed = true
+        onClicked: root.clicked()
+        onEntered: checked = !checked
+
+        Rectangle {
+            anchors.fill: parent
+            color: root.checked ? Flat.FlatStyle.disabledColor : "transparent"
+            opacity: root.checked ? 0.15 : 1.0
+        }
+        Rectangle {
+            color: Flat.FlatStyle.darkFrameColor
+            width: parent.width
+            height: Flat.FlatStyle.onePixel
+            anchors.bottom: parent.bottom
+        }
+        TextLabel {
+            id: text
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.top: parent.top
+            anchors.bottom: parent.bottom
+            anchors.margins: Math.round(10 * Flat.FlatStyle.scaleFactor)
+            horizontalAlignment: Text.AlignLeft
+            text: modelData["name"]
+        }
+        WifiSignalMonitor {
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.right: parent.right
+            anchors.margins: Math.round(10 * Flat.FlatStyle.scaleFactor)
+            height: Math.round(parent.height * .8)
+            width: height
+            signalStrength: modelData["signalStrength"]
+            connected: modelData["connected"]
+        }
+    }
 }

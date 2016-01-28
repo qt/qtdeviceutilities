@@ -78,7 +78,7 @@ Item {
             }
 
             Repeater {
-                model: NetworkSettingsManager.networks
+                model: NetworkSettingsManager.interfaces
 
                 Button {
                     implicitWidth: networkSelect.width - Math.round(20 * Flat.FlatStyle.scaleFactor)
@@ -105,19 +105,21 @@ Item {
                             }
 
                             TextLabel {
-                                text: networkSelect.stateToStr(status)
+                                text: networkSelect.stateToStr(modelData.state)
                                 font.pixelSize: Math.round(12 * Flat.FlatStyle.scaleFactor)
                             }
+
                         }
                     }
 
                     onCheckedChanged: {
                         if (checked) {
-                            networkDetails.service = NetworkSettingsManager.getService(name, type);
-                            if (type === NetworkType.Wired) {
+                            networkDetails.selectedInterface = modelData
+                            networkDetails.selectedInterface.scanServices()
+                            if (type === NetworkSettingsType.Wired) {
                                 networkDetails.source = "WiredSettings.qml";
                             }
-                            else if (type === NetworkType.Wifi) {
+                            else if (type === NetworkSettingsType.Wifi) {
                                 networkDetails.source = "WifiSettings.qml";
                             }
                         }

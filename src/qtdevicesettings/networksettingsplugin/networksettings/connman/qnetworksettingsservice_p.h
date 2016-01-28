@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2015 The Qt Company Ltd.
+** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: http://www.qt.io/licensing/
 **
 ** This file is part of the Qt Device Utilities module of the Qt Toolkit.
@@ -33,55 +33,52 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-import QtQuick 2.5
-import QtQuick.Layouts 1.1
-import QtQuick.Controls 1.4
-import com.theqtcompany.settings.common 1.0
-import com.theqtcompany.settings.wifi 1.0
+#ifndef QNETWORKSETTINGSSERVICEPRIVATE_H
+#define QNETWORKSETTINGSSERVICEPRIVATE_H
 
-Item {
-    id: root
-    property bool checkable: true
-    property bool checked: false
-    property bool pressed: false
-    signal clicked()
+#include <QtDBus>
+#include "qnetworksettingsservice.h"
+#include "qnetworksettings.h"
 
-    MouseArea {
-        id: delegateButton
-        anchors.fill: parent
-        hoverEnabled: true
-        onPressed: root.pressed = true
-        onClicked: root.clicked()
-        onEntered: checked = !checked
+class NetConnmanServiceInterface;
 
-        Rectangle {
-            anchors.fill: parent
-            color: root.checked ? Flat.FlatStyle.disabledColor : "transparent"
-            opacity: root.checked ? 0.15 : 1.0
-        }
-        Rectangle {
-            color: Flat.FlatStyle.darkFrameColor
-            width: parent.width
-            height: Flat.FlatStyle.onePixel
-            anchors.bottom: parent.bottom
-        }
-        TextLabel {
-            id: text
-            anchors.left: parent.left
-            anchors.right: parent.right
-            anchors.top: parent.top
-            anchors.bottom: parent.bottom
-            anchors.margins: Math.round(10 * Flat.FlatStyle.scaleFactor)
-            horizontalAlignment: Text.AlignLeft
-            text: modelData["ssid"]
-        }
-        WifiSignalMonitor {
-            anchors.verticalCenter: parent.verticalCenter
-            anchors.right: parent.right
-            anchors.margins: Math.round(10 * Flat.FlatStyle.scaleFactor)
-            height: Math.round(parent.height * .8)
-            width: height
-            signalStrength: modelData["signalStrength"]
-        }
-    }
-}
+class QNetworkSettingsServicePrivate : public QObject
+{
+    Q_OBJECT
+    Q_DECLARE_PUBLIC(QNetworkSettingsService)
+public:
+    QNetworkSettingsServicePrivate(const QString& aPath, QNetworkSettingsService *parent=0);
+
+    QNetworkSettingsService *q_ptr;
+private slots:
+    void propertiesUpdated(QDBusPendingCallWatcher *call);
+    void updateProperty(const QString &name, const QDBusVariant &value);
+
+private:
+    void setupConfiguration(const QVariantMap &properties);
+    void updateProperty(const QString& key, const QVariant& value);
+
+protected:
+    void setAutoConnect(const bool autoconnect);
+    void setupIpv4Config();
+    void setupIpv6Config();
+    void setupNameserversConfig();
+    void setupDomainsConfig();
+    void setupQNetworkSettingsProxy();
+    void connectService();
+    void disconnectService();
+
+    QString m_id;
+    QString m_name;
+    QNetworkSettingsState m_state;
+    QNetworkSettingsIPv4 m_ipv4config;
+    QNetworkSettingsIPv6 m_ipv6config;
+    QNetworkSettingsAddressModel m_domainsConfig;
+    QNetworkSettingsAddressModel m_nameserverConfig;
+    QNetworkSettingsProxy m_proxyConfig;
+    QNetworkSettingsWireless m_wifiConfig;
+    QNetworkSettingsType m_type;
+    NetConnmanServiceInterface *m_service;
+};
+
+#endif // QNETWORKSETTINGSSERVICEPRIVATE_H

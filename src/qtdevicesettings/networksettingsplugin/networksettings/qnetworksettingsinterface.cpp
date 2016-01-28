@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2015 The Qt Company Ltd.
+** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: http://www.qt.io/licensing/
 **
 ** This file is part of the Qt Device Utilities module of the Qt Toolkit.
@@ -33,32 +33,49 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-#include "networksettingsplugin_plugin.h"
+#include "qnetworksettingsinterface.h"
+#include "qnetworksettingsinterface_p.h"
 #include "qnetworksettings.h"
-#include "qnetworksettingsmanager.h"
-#include "qnetworksettingsservice.h"
-#include "qnetworksettingsuseragent.h"
 
-#include <qqml.h>
-#include <QQmlEngine>
-#include <QQmlContext>
+QNetworkSettingsInterface::QNetworkSettingsInterface(QObject *parent) :
+    QObject(parent)
+    ,d_ptr(new QNetworkSettingsInterfacePrivate(this))
+{
 
-template <typename T>
-QObject *instance(QQmlEngine *engine, QJSEngine *) {
-    T *t = new T(engine);
-    t->setObjectName(T::staticMetaObject.className());
-    return t;
 }
 
-void NetworksettingspluginPlugin::registerTypes(const char *uri)
+QString QNetworkSettingsInterface::name() const
 {
-    Q_ASSERT(QLatin1String(uri) == QLatin1String("com.theqtcompany.settings.network"));
-    qmlRegisterUncreatableType<QNetworkSettingsService>(uri, 1, 0, "NetworkService", "Cannot be instantiated directly.");
-    qmlRegisterUncreatableType<QNetworkSettingsIPv4>(uri, 1, 0, "NetworkSettingsIPv4", "Cannot be instantiated directly.");
-    qmlRegisterUncreatableType<QNetworkSettingsIPv6>(uri, 1, 0, "NetworkSettingsIPv6", "Cannot be instantiated directly.");
-    qmlRegisterUncreatableType<QNetworkSettingsProxy>(uri, 1, 0, "NetworkSettingsProxy", "Cannot be instantiated directly.");
-    qmlRegisterUncreatableType<QNetworkSettingsType>(uri, 1, 0, "NetworkSettingsType", "Cannot be instantiated directly.");
-    qmlRegisterUncreatableType<QNetworkSettingsState>(uri, 1, 0, "NetworkSettingsState", "Cannot be instantiated directly.");
-    qmlRegisterSingletonType<QNetworkSettingsManager>(uri, 1, 0, "NetworkSettingsManager", &instance<QNetworkSettingsManager>);
-    qmlRegisterSingletonType<QNetworkSettingsUserAgent>(uri, 1, 0, "NetworkSettingsUserAgent", &instance<QNetworkSettingsUserAgent>);
+    Q_D(const QNetworkSettingsInterface);
+    return d->m_name;
+}
+
+QNetworkSettingsState::States QNetworkSettingsInterface::state()
+{
+    Q_D(QNetworkSettingsInterface);
+    return d->m_state.state();
+}
+
+QNetworkSettingsType::Types QNetworkSettingsInterface::type()
+{
+    Q_D(QNetworkSettingsInterface);
+    return d->m_type.type();
+}
+
+bool QNetworkSettingsInterface::powered() const
+{
+    Q_D(const QNetworkSettingsInterface);
+    return d->m_powered;
+}
+
+void QNetworkSettingsInterface::setPowered(const bool powered)
+{
+    Q_D(QNetworkSettingsInterface);
+    d->setPowered(powered);
+}
+
+void QNetworkSettingsInterface::scanServices()
+{
+    Q_D(QNetworkSettingsInterface);
+    d->scan();
 }

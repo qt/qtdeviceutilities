@@ -72,7 +72,7 @@ Item {
             anchors.bottom: parent.bottom
             anchors.margins: Math.round(10 * Flat.FlatStyle.scaleFactor)
             horizontalAlignment: Text.AlignLeft
-            text: modelData.text
+            text: modelData.name
         }
     }
 }

@@ -33,51 +33,40 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-#include "networkaddressmodel.h"
+#ifndef QNETWORKSETTINGSMANAGER_H
+#define QNETWORKSETTINGSMANAGER_H
 
-NetworkAddressModel::NetworkAddressModel(QObject *parent)
-    :QStringListModel(parent)
+#include "qnetworksettings.h"
+#include <QObject>
+#include <QQmlListProperty>
+#include <QStringListModel>
+
+QT_FORWARD_DECLARE_CLASS(QNetworkSettingsManagerPrivate)
+QT_FORWARD_DECLARE_CLASS(QNetworkSettingsService)
+
+class QNetworkSettingsManager : public QObject
 {
-}
+    Q_OBJECT
+    Q_ENUMS(StateTypes NetworkTypeTypes)
+    Q_PROPERTY(QAbstractItemModel* services READ services NOTIFY servicesChanged)
+    Q_PROPERTY(QAbstractItemModel* interfaces READ interfaces NOTIFY interfacesChanged)
+public:
+    explicit QNetworkSettingsManager(QObject* parent = 0);
+    QAbstractItemModel* services();
+    QAbstractItemModel* interfaces();
 
-NetworkAddressModel::NetworkAddressModel(const QStringList &strings, QObject *parent)
-    :QStringListModel(parent)
-{
-    setStringList(strings);
-}
+    Q_INVOKABLE QNetworkSettingsService* getService(const QString& name, const int type);
 
-void NetworkAddressModel::setStringList(const QStringList &addresses)
-{
-    m_addresses = addresses;
-    QStringListModel::setStringList(m_addresses);
-    emit countChanged();
-}
+Q_SIGNALS:
+    void servicesChanged();
+    void interfacesChanged();
 
-void NetworkAddressModel::append(const QString& address)
-{
-    int row = rowCount();
+protected:
+    QNetworkSettingsManagerPrivate *d_ptr;
 
-    bool succeed = insertRows(row, 1);
-    if (succeed)
-        succeed = setData(index(row), QVariant::fromValue(address));
+private:
+    Q_DISABLE_COPY(QNetworkSettingsManager)
+    Q_DECLARE_PRIVATE(QNetworkSettingsManager)
+};
 
-    Q_ASSERT(succeed == true);
-
-    emit countChanged();
-}
-
-void NetworkAddressModel::remove(int index)
-{
-    removeRows(index, 1);
-    emit countChanged();
-}
-
-int NetworkAddressModel::count() const
-{
-    return rowCount();
-}
-
-void NetworkAddressModel::resetChanges()
-{
-    QStringListModel::setStringList(m_addresses);
-}
+#endif // QNETWORKSETTINGSMANAGER_H

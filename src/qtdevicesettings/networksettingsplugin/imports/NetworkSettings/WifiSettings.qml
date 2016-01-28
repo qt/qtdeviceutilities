@@ -39,56 +39,152 @@ import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles.Flat 1.0 as Flat
 import com.theqtcompany.settings.common 1.0
 import com.theqtcompany.settings.network 1.0
-import com.theqtcompany.settings.wifi 1.0
 
 Item {
     id: root
     anchors.fill: parent
     anchors.margins: Math.round(20 * Flat.FlatStyle.scaleFactor)
+
+    Component.onCompleted: {
+        NetworkSettingsManager.services.type = NetworkSettingsType.Wifi;
+    }
     GroupBox {
         id: content
         title: qsTr("Wireless Settings")
         anchors.fill: parent
         Layout.fillWidth: true
         flat: true
-        width: parent.width
 
-        Row {
-            id: enableSwitch
+        ColumnLayout {
+            spacing: Math.round(20 * Flat.FlatStyle.scaleFactor)
             width: parent.width
-            spacing: Math.round(10 * Flat.FlatStyle.scaleFactor)
-            TextLabel {
-                width:  root.width*0.382
-                horizontalAlignment: Text.AlignRight
-                text: NetworkSettingsManager.wifiPowered ? qsTr("Disable Wifi") : qsTr("Enable Wifi")
+            Row {
+                id: enableSwitch
+                width: parent.width
+                spacing: Math.round(10 * Flat.FlatStyle.scaleFactor)
+                TextLabel {
+                    width:  root.width*0.382
+                    horizontalAlignment: Text.AlignRight
+                    text: selectedInterface.powered ? qsTr("Disable Wifi") : qsTr("Enable Wifi")
+                }
+                Switch {
+                    checked: selectedInterface.powered
+                    onCheckedChanged: selectedInterface.powered = checked
+                }
             }
-            Switch {
-                checked: NetworkSettingsManager.wifiPowered
-                onCheckedChanged: NetworkSettingsManager.wifiPowered = checked
+
+            Row {
+                spacing: Math.round(10 * Flat.FlatStyle.scaleFactor)
+                width: parent.width
+
+                TextLabel {
+                    id: labelText
+                    text: qsTr("Selected network ")
+                    width: content.width*0.382
+                    horizontalAlignment: Text.AlignRight
+                }
+
+                CustomCombobox {
+                    id: networkSelection
+                    model: NetworkSettingsManager.services
+                    visible: selectedInterface.powered
+                    width: Math.round(200 * Flat.FlatStyle.scaleFactor)
+                    textRole: "name"
+                    onSelectedIndexChanged : if (selectedIndex >= 0) model.itemFromRow(selectedIndex).connectService();
+
+                    delegate: WifiSelectorDelegate {
+                        id: delegate
+                        onConnectChanged: if (connect) networkSelection.setSelectIndexToVal(modelData.name, "name");
+                    }
+                }
+            }
+
+            GroupBox {
+                id: connectView
+                title: qsTr("Enter a password")
+                flat: false
+                visible: false
+                ColumnLayout {
+                    Row {
+                        id: errorView
+                        property alias text: text.text
+                        visible: text.text !== ""
+
+                        spacing: Math.round(10 * Flat.FlatStyle.scaleFactor)
+                        Image {
+                            source: "../icons/Alert_yellow_1x.png"
+                        }
+                        Text {
+                            id: text
+                            color: "#face20"
+                            text: ""
+                        }
+                    }
+                    Row {
+                        spacing: Math.round(10 * Flat.FlatStyle.scaleFactor)
+                        visible: false
+                        TextLabel {
+                            text: qsTr("User name")
+                            width: root.width*0.382
+                            horizontalAlignment: Text.AlignRight
+                        }
+                        TextField {
+                            text: ""
+                            inputMethodHints: Qt.ImhNoPredictiveText
+                        }
+                    }
+                    Row {
+                        spacing: Math.round(10 * Flat.FlatStyle.scaleFactor)
+                        TextLabel {
+                            text: qsTr("Password")
+                            horizontalAlignment: Text.AlignRight
+                        }
+                        TextField {
+                            id: password
+                            text: ""
+                            echoMode: TextInput.Password
+                            inputMethodHints: Qt.ImhNoPredictiveText
+                        }
+                    }
+                    Row {
+                        spacing: Math.round(10 * Flat.FlatStyle.scaleFactor)
+                        Button {
+                            text: qsTr("Connect")
+                            onClicked: {
+                                connectView.visible = false
+                                NetworkSettingsUserAgent.setUserCredentials("", password.text)
+                            }
+                        }
+                        Button {
+                            text: qsTr("Cancel")
+                            onClicked:connectView.visible = false
+                        }
+                    }
+                }
+            }
+
+            Button {
+                id: disconnect
+                text: qsTr("Disconnect")
+                visible: selectedInterface.state === NetworkSettingsState.Online ||
+                         selectedInterface.state === NetworkSettingsState.Ready
+                onClicked: {
+                    console.log("disconnect");
+                    NetworkSettingsManager.services.itemFromRow(networkSelection.selectedIndex).disconnectService();
+                    networkSelection.selectedIndex = -1;
+                }
             }
         }
 
-        Item {
-            id: wifiManagerContainer
-            anchors.left: parent.left
-            anchors.right: parent.right
-            anchors.top: enableSwitch.bottom
-            anchors.topMargin: Math.round(10 * Flat.FlatStyle.scaleFactor)
-            anchors.bottom: parent.bottom
-            Loader {
-                id: wifiManagerLoader
-                asynchronous: true
-                sourceComponent: NetworkSettingsManager.wifiPowered ? wifiManager : undefined
+        Connections {
+            target: NetworkSettingsUserAgent
+            onShowUserCredentialsInput : {
+                connectView.visible = true
             }
-        }
-    }
-
-    Component {
-        id: wifiManager
-        WifiManagerView {
-            id: wifiSettings
-            width: root.width
-            visible: true
+            onError: {
+                errorView.visible = true
+                connectView.visible = true
+            }
         }
     }
 }

@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2015 The Qt Company Ltd.
+** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: http://www.qt.io/licensing/
 **
 ** This file is part of the Qt Device Utilities module of the Qt Toolkit.
@@ -33,51 +33,38 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-import QtQuick 2.5
+#ifndef QNETWORKSETTINGSMANAGERPRIVATE_H
+#define QNETWORKSETTINGSMANAGERPRIVATE_H
 
-Item {
-    id: root
+#include <QObject>
+#include <QtDBus>
+#include "connmancommon.h"
+#include "qnetworksettingsmanager.h"
+#include "qnetworksettingsinterfacemodel.h"
+#include "qnetworksettingsservicemodel.h"
 
-    property bool scanning: false
-    property int signalStrength: 100
-    property bool connected: false
+class NetConnmanManagerInterface;
 
-    onSignalStrengthChanged: {
-        sprite.visible = true;
+class QNetworkSettingsManagerPrivate : public QObject
+{
+    Q_OBJECT
+    Q_DECLARE_PUBLIC(QNetworkSettingsManager)
+public:
+    explicit QNetworkSettingsManagerPrivate(QNetworkSettingsManager *parent);
+    QNetworkSettingsManager *q_ptr;
 
-        if (signalStrength < 10) {
-            sprite.visible = false;
-        }
-        else if (signalStrength < 30) {
-            sprite.currentFrame = 0;
-        }
-        else if (signalStrength < 60) {
-            sprite.currentFrame = 1;
-        }
-        else if (signalStrength < 80) {
-            sprite.currentFrame = 2;
-        }
-        else if (signalStrength <= 100) {
-            sprite.currentFrame = 3;
-        }
-    }
+public slots:
+    void getServicesFinished(QDBusPendingCallWatcher *watcher);
+    void getTechnologiesFinished(QDBusPendingCallWatcher *watcher);
+    void requestInput(const QString& service, const QString& type);
+    void servicesChanged(ConnmanMapList changed, const QList<QDBusObjectPath> &removed);
 
-    Image {
-        anchors.fill: parent
-        source: "../icons/Wifi_lightgray_2x.png"
-    }
+protected:
+    QNetworkSettingsInterfaceModel m_interfaceModel;
+    QNetworkSettingsServiceModel m_serviceModel;
+    QNetworkSettingsServiceFilter m_serviceFilter;
+private:
+    NetConnmanManagerInterface *m_manager;
+};
 
-    AnimatedSprite {
-        id: sprite
-        anchors.fill: parent
-        source: connected ? "../icons/WifiAnim_qt_2x.png" : "../icons/WifiAnim_black_2x.png"
-        frameDuration: 500
-        frameCount: 4
-        currentFrame: 3
-        frameSync: false
-        frameWidth: 32
-        frameHeight: 32
-        loops: 40
-        running: scanning
-    }
-}
+#endif // QNETWORKSETTINGSMANAGERPRIVATE_H

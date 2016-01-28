@@ -19,6 +19,7 @@ SOURCES += plugin.cpp \
 pluginfiles.files += \
     qmldir \
 
+
 installPath = $$[QT_INSTALL_QML]/$$replace(uri, \\., /)
 
 target.path = $$installPath

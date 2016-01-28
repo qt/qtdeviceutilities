@@ -33,49 +33,51 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-#ifndef NETWORKSETTINGSMANAGER_H
-#define NETWORKSETTINGSMANAGER_H
+#ifndef QNETWORKSETTINGSSERVICE_H
+#define QNETWORKSETTINGSSERVICE_H
 
-#include "networkconfig.h"
 #include <QObject>
-#include <QQmlListProperty>
-#include <QStringListModel>
+#include "qnetworksettings.h"
 
-QT_FORWARD_DECLARE_CLASS(NetworkSettingsManagerPrivate)
-QT_FORWARD_DECLARE_CLASS(NetworkServicePrivate)
-QT_FORWARD_DECLARE_CLASS(NetworkNetworkTypePrivate)
+QT_FORWARD_DECLARE_CLASS(QNetworkSettingsServicePrivate)
 
-class NetworkService : public QObject
+class QNetworkSettingsService : public QObject
 {
     Q_OBJECT
     Q_ENUMS(StateTypes)
+    Q_PROPERTY(QString id READ id CONSTANT)
     Q_PROPERTY(QString name READ name NOTIFY nameChanged)
-    Q_PROPERTY(NetworkState::States state READ state NOTIFY stateChanged)
-    Q_PROPERTY(NetworkType::Types type READ type NOTIFY typeChanged)
-    Q_PROPERTY(IPv4Config* ipv4 READ ipv4 NOTIFY ipv4Changed)
-    Q_PROPERTY(IPv6Config* ipv6 READ ipv6 NOTIFY ipv6Changed)
-    Q_PROPERTY(ProxyConfig* proxy READ proxy  NOTIFY proxyChanged)
+    Q_PROPERTY(QNetworkSettingsState::States state READ state NOTIFY stateChanged)
+    Q_PROPERTY(QNetworkSettingsType::Types type READ type NOTIFY typeChanged)
+    Q_PROPERTY(QNetworkSettingsIPv4* ipv4 READ ipv4 NOTIFY ipv4Changed)
+    Q_PROPERTY(QNetworkSettingsIPv6* ipv6 READ ipv6 NOTIFY ipv6Changed)
+    Q_PROPERTY(QNetworkSettingsProxy* proxy READ proxy  NOTIFY proxyChanged)
+    Q_PROPERTY(QNetworkSettingsWireless* wirelessConfig READ wirelessConfig NOTIFY wirelessChanged)
     Q_PROPERTY(QAbstractItemModel* domains READ domains NOTIFY domainsChanged)
     Q_PROPERTY(QAbstractItemModel* nameservers READ nameservers NOTIFY nameserversChanged)
 public:
-    explicit NetworkService(const QString& aServiceId, QObject* parent = 0);
+    explicit QNetworkSettingsService(const QString& aServiceId, QObject* parent = 0);
 
+    QString id() const;
     QString name() const;
-    NetworkState::States state();
-    NetworkType::Types type();
-    IPv4Config* ipv4();
-    IPv6Config* ipv6();
-    ProxyConfig* proxy();
+    QNetworkSettingsState::States state();
+    QNetworkSettingsType::Types type();
+    QNetworkSettingsIPv4* ipv4();
+    QNetworkSettingsIPv6* ipv6();
+    QNetworkSettingsProxy* proxy();
     QAbstractItemModel* domains();
     QAbstractItemModel* nameservers();
+    QNetworkSettingsWireless* wirelessConfig();
 
     Q_INVOKABLE void setAutoConnect(const bool autoconnect);
     Q_INVOKABLE void setupIpv4Config();
     Q_INVOKABLE void setupIpv6Config();
     Q_INVOKABLE void setupNameserversConfig();
     Q_INVOKABLE void setupDomainsConfig();
-    Q_INVOKABLE void setupProxyConfig();
-
+    Q_INVOKABLE void setupNetworkSettingsProxy();
+    //Wireless config
+    Q_INVOKABLE void connectService();
+    Q_INVOKABLE void disconnectService();
 Q_SIGNALS:
     void nameChanged();
     void stateChanged();
@@ -85,43 +87,13 @@ Q_SIGNALS:
     void ipv6Changed();
     void domainsChanged();
     void nameserversChanged();
-
+    void wirelessChanged();
+    void showCrendentialInput();
 protected:
-    NetworkServicePrivate *d_ptr;
+    QNetworkSettingsServicePrivate *d_ptr;
 
-    Q_DISABLE_COPY(NetworkService)
-    Q_DECLARE_PRIVATE(NetworkService)
+    Q_DISABLE_COPY(QNetworkSettingsService)
+    Q_DECLARE_PRIVATE(QNetworkSettingsService)
 };
 
-class NetworkSettingsManager : public QObject
-{
-    Q_OBJECT
-    Q_ENUMS(StateTypes NetworkTypeTypes)
-    Q_PROPERTY(QQmlListProperty<NetworkService> services READ services NOTIFY servicesChanged)
-    Q_PROPERTY(QAbstractItemModel* networks READ networks NOTIFY networksChanged)
-    Q_PROPERTY(bool wifiPowered READ wifiPowered WRITE setWifiPowered NOTIFY wifiPoweredChanged)
-public:
-    explicit NetworkSettingsManager(QObject* parent = 0);
-    QQmlListProperty<NetworkService> services();
-
-    QAbstractItemModel* networks();
-
-    Q_INVOKABLE NetworkService* getService(const QString& aName, const int aType);
-
-    bool wifiPowered();
-    void setWifiPowered(const bool power);
-
-Q_SIGNALS:
-    void servicesChanged();
-    void wifiPoweredChanged();
-    void networksChanged();
-
-protected:
-    NetworkSettingsManagerPrivate *d_ptr;
-
-private:
-    Q_DISABLE_COPY(NetworkSettingsManager)
-    Q_DECLARE_PRIVATE(NetworkSettingsManager)
-};
-
-#endif // NETWORKSETTINGSMANAGER_H
+#endif // QNETWORKSETTINGSSERVICE_H

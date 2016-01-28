@@ -33,79 +33,56 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-#include <QQmlPropertyMap>
-#include "networksmodel.h"
+#ifndef QNETWORKSETTINGSSERVICEMODEL_H
+#define QNETWORKSETTINGSSERVICEMODEL_H
 
-NetworksModel::NetworksModel(QObject *parent)
-    : QAbstractListModel(parent)
+#include <QSortFilterProxyModel>
+#include "qnetworksettings.h"
+#include "qnetworksettingsservice.h"
+
+class QNetworkSettingsServiceModel : public QAbstractListModel
 {
-    m_roleNames.insert(Qt::UserRole, "modelData");
-    m_roleNames.insert(Type, "type");
-    m_roleNames.insert(Status, "status");
-    m_roleNames.insert(Name, "name");
-}
+    Q_OBJECT
+public:
+    explicit QNetworkSettingsServiceModel(QObject *parent=0);
+    virtual ~QNetworkSettingsServiceModel();
+    // from QAbstractItemModel
+    int rowCount(const QModelIndex & parent = QModelIndex()) const;
+    QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const;
+    QHash<int, QByteArray> roleNames() const;
 
-NetworksModel::~NetworksModel()
+    void append(QNetworkSettingsService* networkService);
+    void insert(int row, QNetworkSettingsService* networkInterface);
+    QList<QNetworkSettingsService*> getModel();
+
+    enum Roles {
+        Type = Qt::UserRole + 1,
+        Name,
+        SignalStrength,
+        Connected
+    };
+
+private:
+    QList<QNetworkSettingsService*> m_items;
+    QHash<int, QByteArray> m_roleNames;
+};
+
+class QNetworkSettingsServiceFilter : public QSortFilterProxyModel
 {
+    Q_OBJECT
+    Q_PROPERTY(QNetworkSettingsType::Types type READ type WRITE setType NOTIFY typeChanged)
+public:
+    explicit QNetworkSettingsServiceFilter(QObject* parent=0);
+    virtual ~QNetworkSettingsServiceFilter();
+    bool filterAcceptsRow( int source_row, const QModelIndex& source_parent ) const override;
+    QNetworkSettingsType::Types type() const;
+    void setType(QNetworkSettingsType::Types type);
+    Q_INVOKABLE QVariant itemFromRow(const int row) const;
+signals:
+    void typeChanged();
+private:
+    QNetworkSettingsType::Types m_type;
 
-}
+};
 
-QHash<int, QByteArray> NetworksModel::roleNames() const
-{
-    return m_roleNames;
-}
-
-
-int NetworksModel::rowCount(const QModelIndex & parent) const
-{
-    Q_UNUSED(parent);
-    return m_items.count();
-}
-
-QVariant NetworksModel::data(const QModelIndex & index, int role) const
-{
-    if (!index.isValid()) return QVariant();
-
-    NetworkItem *item = m_items[index.row()];
-    if (role == Qt::UserRole) {
-        return QVariant::fromValue(static_cast<QObject*>(item));
-    }
-
-    switch (role) {
-    case Type:
-        return item->type();
-        break;
-    case Name:
-        return item->name();
-        break;
-    case Status:
-        return item->state();
-        break;
-    default:
-        return "";
-    }
-
-}
-
-void NetworksModel::append(NetworkItem* item)
-{
-    item->setParent(this);
-
-    beginInsertRows(QModelIndex(), rowCount(), rowCount());
-    m_items.append(item);
-    endInsertRows();
-}
-
-void NetworksModel::insert(int row, NetworkItem* item)
-{
-    item->setParent(this);
-
-    beginInsertRows(QModelIndex(), row, row);
-    m_items.insert(row, item);
-    endInsertRows();
-}
-
-QList<NetworkItem*> NetworksModel::getModel()
-{
-    return m_items;
-}
+#endif // QNETWORKSETTINGSSERVICEMODEL_H

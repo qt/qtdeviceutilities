@@ -59,7 +59,6 @@ class TimeDateSettingsQmlPlugin : public QQmlExtensionPlugin
 public:
     void registerTypes(const char *uri)
     {
-        const QString prefix = "qrc:";
         qmlRegisterSingletonType<SystemTime>(uri, 1, 0, "TimeManager", &instance<SystemTime>);
     }
 

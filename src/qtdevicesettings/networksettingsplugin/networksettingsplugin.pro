@@ -31,7 +31,12 @@ pluginfiles.files += \
     imports/NetworkSettings/WifiSettings.qml \
     imports/NetworkSettings/IpAddressTextField.qml \
     imports/NetworkSettings/NetworkSettings.qml \
-    imports/NetworkSettings/WiredSettings.qml
+    imports/NetworkSettings/WiredSettings.qml \
+    imports/NetworkSettings/WifiSelectorDelegate.qml \
+    imports/NetworkSettings/WifiSignalMonitor.qml \
+    ../icons/WifiAnim_black_2x.png \
+    ../icons/WifiAnim_qt_2x.png \
+    ../icons/Wifi_lightgray_2x.png \
 
 installPath = $$[QT_INSTALL_QML]/$$replace(uri, \\., /)
 

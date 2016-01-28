@@ -33,89 +33,29 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-#ifndef NETWORKSMODEL_H
-#define NETWORKSMODEL_H
+#ifndef QNETWORKSETTINGSINTERFACEMODEL_H
+#define QNETWORKSETTINGSINTERFACEMODEL_H
 
 #include <QAbstractListModel>
-#include "networkconfig.h"
+#include "qnetworksettings.h"
 
-QT_FORWARD_DECLARE_CLASS(NetworksModelPrivate)
-QT_FORWARD_DECLARE_CLASS(QQmlPropertyMap)
+class QNetworkSettingsInterface;
 
-class NetworkItem : public QObject {
-    Q_OBJECT
-    Q_PROPERTY(QString name READ name NOTIFY nameChanged)
-    Q_PROPERTY(NetworkState::States state READ state NOTIFY stateChanged)
-    Q_PROPERTY(NetworkType::Types type READ type NOTIFY typeChanged)
-    Q_PROPERTY(bool powered READ powered NOTIFY poweredChanged)
-
-public:
-    explicit NetworkItem(QObject* parent=0) :
-        QObject(parent) {
-
-    }
-
-    QString name() const {
-        return m_name;
-    }
-
-    void setName(const QString& aName)  {
-        m_name = aName;
-    }
-
-    NetworkState::States state() const {
-        return m_state.state();
-    }
-
-    NetworkType::Types type() const {
-        return m_type.type();
-    }
-
-    void setState(const NetworkState::States aState) {
-        m_state.setState(aState);
-    }
-
-    void setType(const NetworkType::Types aType) {
-        m_type.setType(aType);
-    }
-
-    bool powered() const {
-        return m_powered;
-    }
-
-    void setPowered(const bool aPowered) {
-        m_powered = aPowered;
-    }
-
-signals:
-    void nameChanged();
-    void stateChanged();
-    void typeChanged();
-    void poweredChanged();
-
-protected:
-    QString m_name;
-    NetworkState m_state;
-    NetworkType m_type;
-    bool m_powered;
-    friend class NetworksModel;
-};
-
-class NetworksModel : public QAbstractListModel
+class QNetworkSettingsInterfaceModel : public QAbstractListModel
 {
     Q_OBJECT
 
 public:
-    explicit NetworksModel(QObject *parent=0);
-    virtual ~NetworksModel();
+    explicit QNetworkSettingsInterfaceModel(QObject *parent=0);
+    virtual ~QNetworkSettingsInterfaceModel();
     // from QAbstractItemModel
     int rowCount(const QModelIndex & parent = QModelIndex()) const;
     QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const;
     QHash<int, QByteArray> roleNames() const;
 
-    void append(NetworkItem* networkItem);
-    void insert(int row, NetworkItem* networkItem);
-    QList<NetworkItem*> getModel();
+    void append(QNetworkSettingsInterface* networkInterface);
+    void insert(int row, QNetworkSettingsInterface* networkInterface);
+    QList<QNetworkSettingsInterface*> getModel();
 
     enum Roles {
         Type = Qt::UserRole + 1,
@@ -124,8 +64,8 @@ public:
     };
 
 private:
-    QList<NetworkItem*> m_items;
+    QList<QNetworkSettingsInterface*> m_items;
     QHash<int, QByteArray> m_roleNames;
 };
 
-#endif // NETWORKSMODEL_H
+#endif // QNETWORKSETTINGSINTERFACEMODEL_H

@@ -33,32 +33,28 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-#include "networksettingsplugin_plugin.h"
-#include "qnetworksettings.h"
-#include "qnetworksettingsmanager.h"
-#include "qnetworksettingsservice.h"
-#include "qnetworksettingsuseragent.h"
+#ifndef QNETWORKSETTINGSADDRESSMODEL_H
+#define QNETWORKSETTINGSADDRESSMODEL_H
 
-#include <qqml.h>
-#include <QQmlEngine>
-#include <QQmlContext>
+#include <QStringListModel>
 
-template <typename T>
-QObject *instance(QQmlEngine *engine, QJSEngine *) {
-    T *t = new T(engine);
-    t->setObjectName(T::staticMetaObject.className());
-    return t;
-}
-
-void NetworksettingspluginPlugin::registerTypes(const char *uri)
+class QNetworkSettingsAddressModel : public QStringListModel
 {
-    Q_ASSERT(QLatin1String(uri) == QLatin1String("com.theqtcompany.settings.network"));
-    qmlRegisterUncreatableType<QNetworkSettingsService>(uri, 1, 0, "NetworkService", "Cannot be instantiated directly.");
-    qmlRegisterUncreatableType<QNetworkSettingsIPv4>(uri, 1, 0, "NetworkSettingsIPv4", "Cannot be instantiated directly.");
-    qmlRegisterUncreatableType<QNetworkSettingsIPv6>(uri, 1, 0, "NetworkSettingsIPv6", "Cannot be instantiated directly.");
-    qmlRegisterUncreatableType<QNetworkSettingsProxy>(uri, 1, 0, "NetworkSettingsProxy", "Cannot be instantiated directly.");
-    qmlRegisterUncreatableType<QNetworkSettingsType>(uri, 1, 0, "NetworkSettingsType", "Cannot be instantiated directly.");
-    qmlRegisterUncreatableType<QNetworkSettingsState>(uri, 1, 0, "NetworkSettingsState", "Cannot be instantiated directly.");
-    qmlRegisterSingletonType<QNetworkSettingsManager>(uri, 1, 0, "NetworkSettingsManager", &instance<QNetworkSettingsManager>);
-    qmlRegisterSingletonType<QNetworkSettingsUserAgent>(uri, 1, 0, "NetworkSettingsUserAgent", &instance<QNetworkSettingsUserAgent>);
-}
+    Q_OBJECT
+    Q_PROPERTY(int count READ count NOTIFY countChanged)
+public:
+    explicit QNetworkSettingsAddressModel(QObject *parent = 0);
+    explicit QNetworkSettingsAddressModel(const QStringList &strings, QObject *parent = 0);
+    Q_INVOKABLE void append(const QString& address);
+    Q_INVOKABLE void remove(int index);
+    Q_INVOKABLE void resetChanges();
+    void setStringList(const QStringList &addresses);
+    int count() const;
+
+signals:
+    void countChanged();
+private:
+    QStringList m_addresses;
+};
+
+#endif // QNETWORKSETTINGSADDRESSMODEL_H
