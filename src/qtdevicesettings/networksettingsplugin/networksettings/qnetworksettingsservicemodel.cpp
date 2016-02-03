@@ -100,6 +100,18 @@ void QNetworkSettingsServiceModel::insert(int row, QNetworkSettingsService* item
     endInsertRows();
 }
 
+void QNetworkSettingsServiceModel::remove(int row)
+{
+    beginRemoveRows(QModelIndex(), row, row);
+    m_items.removeAt(row);
+    endRemoveRows();
+}
+
+void QNetworkSettingsServiceModel::updated(int row)
+{
+    dataChanged(createIndex(row, 0), createIndex(row, 0));
+}
+
 QList<QNetworkSettingsService*> QNetworkSettingsServiceModel::getModel()
 {
     return m_items;

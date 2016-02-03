@@ -47,9 +47,13 @@ public:
     explicit QNetworkSettingsUserAgent(QObject *parent = 0);
     Q_INVOKABLE void setUserCredentials(const QString& username, const QString& passphrase);
     Q_INVOKABLE void cancelInput();
+    QString passPhrase() const;
+    QString userName() const;
+
 signals:
     void showUserCredentialsInput();
     void error();
+    void ready(bool cancel);
 private:
     QNetworkSettingsUserAgentPrivate *d_ptr;
 

@@ -90,9 +90,11 @@ QVariantMap QNetworkSettingsUserAgentPrivate::RequestInput(const QDBusObjectPath
 void QNetworkSettingsUserAgentPrivate::setUserCredentials(const QString& username,
                                                           const QString& password)
 {
+    m_username = username;
+    m_passphrase = password;
     QVariantMap response;
-    response[PropertyName] = username;
-    response[PropertyPassphrase] = password;
+    response[PropertyName] = m_username;
+    response[PropertyPassphrase] = m_passphrase;
     m_reply << response;
     m_pendingReply = false;
     QDBusConnection::systemBus().send(m_reply);

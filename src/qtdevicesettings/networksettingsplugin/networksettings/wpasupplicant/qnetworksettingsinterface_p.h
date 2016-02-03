@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2015 The Qt Company Ltd.
+** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: http://www.qt.io/licensing/
 **
 ** This file is part of the Qt Device Utilities module of the Qt Toolkit.
@@ -33,40 +33,56 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-#ifndef QNETWORKSETTINGSINTERFACEMODEL_H
-#define QNETWORKSETTINGSINTERFACEMODEL_H
+#ifndef QNETWORKSETTINGSINTERFACEPRIVATE_H
+#define QNETWORKSETTINGSINTERFACEPRIVATE_H
 
-#include <QAbstractListModel>
+#include <QObject>
 #include "qnetworksettings.h"
+#include "qnetworksettingsinterface.h"
+#include "qnetworksettingsmanager_p.h"
 
-class QNetworkSettingsInterface;
-
-class QNetworkSettingsInterfaceModel : public QAbstractListModel
+class QNetworkSettingsInterfacePrivate : public QObject
 {
     Q_OBJECT
-
+    Q_DECLARE_PUBLIC(QNetworkSettingsInterface)
 public:
-    explicit QNetworkSettingsInterfaceModel(QObject *parent=0);
-    virtual ~QNetworkSettingsInterfaceModel();
-    // from QAbstractItemModel
-    int rowCount(const QModelIndex & parent = QModelIndex()) const;
-    QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const;
-    QHash<int, QByteArray> roleNames() const;
+    explicit QNetworkSettingsInterfacePrivate(QNetworkSettingsInterface* parent);
+    void initialize(const QString& path, const QVariantMap& properties);
+    void setPowered(const bool power);
+    void setState(QNetworkSettingsState::States aState);
+    void setManager(QNetworkSettingsManagerPrivate *manager);
+    void scan();
 
-    void append(QNetworkSettingsInterface* networkInterface);
-    void insert(int row, QNetworkSettingsInterface* networkInterface);
-    void remove(int row);
-    QList<QNetworkSettingsInterface*> getModel();
+signals:
 
-    enum Roles {
-        Type = Qt::UserRole + 1,
-        Status,
-        Name
-    };
-
-private:
-    QList<QNetworkSettingsInterface*> m_items;
-    QHash<int, QByteArray> m_roleNames;
+protected:
+    QString m_name;
+    QNetworkSettingsType m_type;
+    QNetworkSettingsState m_state;
+    bool m_powered;
+    QNetworkSettingsManagerPrivate *m_manager; //not owned
+    QNetworkSettingsInterface *q_ptr;
 };
 
-#endif // QNETWORKSETTINGSINTERFACEMODEL_H
+class WpaSupplicantSettingsInterface : public QNetworkSettingsInterface
+{
+    Q_OBJECT
+public:
+    WpaSupplicantSettingsInterface(QNetworkSettingsManagerPrivate* manager)
+        :QNetworkSettingsInterface(manager)
+    {
+        Q_D(QNetworkSettingsInterface);
+        d->setManager(manager);
+    }
+
+    void setState(QNetworkSettingsState::States aState) {
+        Q_D(QNetworkSettingsInterface);
+        d->setState(aState);
+    }
+
+    virtual ~WpaSupplicantSettingsInterface() {
+    }
+};
+
+#endif // QNETWORKSETTINGSINTERFACEPRIVATE_H
+

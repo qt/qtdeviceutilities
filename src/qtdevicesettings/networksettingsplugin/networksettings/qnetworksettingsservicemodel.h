@@ -53,6 +53,8 @@ public:
 
     void append(QNetworkSettingsService* networkService);
     void insert(int row, QNetworkSettingsService* networkInterface);
+    void remove(int row);
+    void updated(int row);
     QList<QNetworkSettingsService*> getModel();
 
     enum Roles {
@@ -82,7 +84,6 @@ signals:
     void typeChanged();
 private:
     QNetworkSettingsType::Types m_type;
-
 };
 
 #endif // QNETWORKSETTINGSSERVICEMODEL_H

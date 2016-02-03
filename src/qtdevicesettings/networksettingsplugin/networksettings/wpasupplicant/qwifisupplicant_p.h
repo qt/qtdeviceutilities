@@ -36,9 +36,9 @@ class QWifiSupplicant : public QObject
 {
     Q_OBJECT
 public:
-    explicit QWifiSupplicant(QObject *parent, QWifiManagerPrivate *managerPrivate);
+    explicit QWifiSupplicant(QObject *parent);
 
-    void createSupplicantConfig() const;
+    void createSupplicantConfig();
     bool startSupplicant();
     bool stopSupplicant();
     bool connectToSupplicant();
@@ -46,6 +46,9 @@ public:
     int waitForEvent(char *buf, size_t buflen);
     bool sendCommand(const QString &command, QByteArray *reply);
     static QString decodeSsid(const QString &encoded);
+
+signals:
+    void raiseError(const QString& error);
 
 protected:
     int receiveEvent(char *reply, size_t *reply_len);
@@ -55,7 +58,6 @@ private:
     wpa_ctrl *monitor_conn;
     int exit_sockets[2];
     QByteArray interface;
-    QWifiManagerPrivate *const m_managerPrivate;
 };
 
 QT_END_NAMESPACE

@@ -376,7 +376,7 @@ void QNetworkSettingsServicePrivate::updateProperty(const QString& key, const QV
     else if (key == PropertySecurity) {
         QStringList value = qdbus_cast<QStringList>(val);
         foreach (const QString str, value) {
-            if (str ==  AttributeNone) {
+            if (str ==  AttributeNone || str == AttributeWps) {
                 m_wifiConfig.setSecurity(QNetworkSettingsWireless::None);
             }
             else if (str == AttributeWep) {
@@ -387,9 +387,6 @@ void QNetworkSettingsServicePrivate::updateProperty(const QString& key, const QV
             }
             else if (str == AttributeIeee) {
                 m_wifiConfig.setSecurity(QNetworkSettingsWireless::WPA2);
-            }
-            else if (str == AttributeWps) {
-                m_wifiConfig.setSecurity(QNetworkSettingsWireless::WPS);
             }
         }
     }

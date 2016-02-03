@@ -106,6 +106,13 @@ void QNetworkSettingsInterfaceModel::insert(int row, QNetworkSettingsInterface* 
     endInsertRows();
 }
 
+void QNetworkSettingsInterfaceModel::remove(int row)
+{
+    beginRemoveRows(QModelIndex(), row, row);
+    m_items.removeFirst();
+    endRemoveRows();
+}
+
 QList<QNetworkSettingsInterface*> QNetworkSettingsInterfaceModel::getModel()
 {
     return m_items;

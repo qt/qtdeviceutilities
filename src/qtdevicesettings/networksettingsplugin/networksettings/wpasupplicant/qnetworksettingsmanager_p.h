@@ -37,13 +37,13 @@
 #define QNETWORKSETTINGSMANAGERPRIVATE_H
 
 #include <QObject>
-#include <QtDBus>
-#include "connmancommon.h"
+#include "qnetworksettings.h"
 #include "qnetworksettingsmanager.h"
 #include "qnetworksettingsinterfacemodel.h"
 #include "qnetworksettingsservicemodel.h"
+#include "qwificontroller_p.h"
 
-class NetConnmanManagerInterface;
+class WpaSupplicantService;
 
 class QNetworkSettingsManagerPrivate : public QObject
 {
@@ -51,21 +51,44 @@ class QNetworkSettingsManagerPrivate : public QObject
     Q_DECLARE_PUBLIC(QNetworkSettingsManager)
 public:
     explicit QNetworkSettingsManagerPrivate(QNetworkSettingsManager *parent);
+    virtual ~QNetworkSettingsManagerPrivate();
     QNetworkSettingsManager *q_ptr;
     void setUserAgent(QNetworkSettingsUserAgent *agent);
-
-public slots:
-    void getServicesFinished(QDBusPendingCallWatcher *watcher);
-    void getTechnologiesFinished(QDBusPendingCallWatcher *watcher);
-    void requestInput(const QString& service, const QString& type);
-    void servicesChanged(ConnmanMapList changed, const QList<QDBusObjectPath> &removed);
-
+    void connectNetwork(const QString& ssid);
+    void disconnectNetwork();
+    QString call(const QString &command);
+    bool checkedCall(const QString &command);
 protected:
+    bool event(QEvent *event);
+
+private slots:
+    void handleBackendStateChanged(QWifiController::BackendState backendState);
+    void handleDhcpRequestFinished(const QString &status);
+    void userInteractionReady(bool cancel);
+    void updateLastError(const QString &error);
+private:
+    void setCurrentSSID(const QString &ssid);
+    void handleConnected();
+    void handleDisconneced();
+    void handleAuthenticating(QWifiEvent *event);
+    void updateNetworkState(QNetworkSettingsState::States networkState);
+    void updateBackendState(QWifiController::BackendState backendState);
+    void updateWifiState();
+    void parseScanResults(const QString &results);
+    WpaSupplicantService* networkForSSID(const QString& ssid);
+    WpaSupplicantService* networkForSSID(const QString& ssid, int& pos);
+    WpaSupplicantService* outOfRangeListContains(const QString& ssid);
+
     QNetworkSettingsInterfaceModel m_interfaceModel;
     QNetworkSettingsServiceModel m_serviceModel;
+    QNetworkSettingsServiceModel m_outOfRangeServiceModel;
     QNetworkSettingsServiceFilter m_serviceFilter;
-private:
-    NetConnmanManagerInterface *m_manager;
+    QWifiController *m_wifiController;
+    QNetworkSettingsUserAgent *m_agent; //Not owned
+
+    QWifiController::BackendState m_backendState;
+    QString m_currentSSID;
 };
+
 
 #endif // QNETWORKSETTINGSMANAGERPRIVATE_H

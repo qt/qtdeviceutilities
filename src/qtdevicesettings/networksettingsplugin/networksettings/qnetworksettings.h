@@ -346,12 +346,13 @@ class QNetworkSettingsWireless : public QObject
     Q_OBJECT
     Q_PROPERTY(int signalStrength READ signalStrength WRITE setSignalStrength NOTIFY signalStrengthChanged)
     Q_PROPERTY(bool hidden READ hidden NOTIFY hiddenChanged)
+    Q_PROPERTY(bool isOutOfRange READ outOfRange WRITE setOutOfRange NOTIFY outOfRangeChanged)
 public:
     explicit QNetworkSettingsWireless(QObject* parent = 0) :
         QObject(parent) {
     }
 
-    enum SecurityFlags {None=1, WEP=2, WPA=4, WPA2=8, WPS=16};
+    enum SecurityFlags {None=1, WEP=2, WPA=4, WPA2=8};
 
     Q_INVOKABLE bool supportsSecurity(SecurityFlags security) {
         if (m_securityFlags & security) {
@@ -387,13 +388,24 @@ public:
         }
     }
 
+    void setOutOfRange(const bool aOutOfRange) {
+        m_isOutOfRange = aOutOfRange;
+        emit outOfRangeChanged();
+    }
+
+    bool outOfRange() const {
+        return m_isOutOfRange;
+    }
+
 signals:
     void hiddenChanged();
     void signalStrengthChanged();
     void passwordChanged();
+    void outOfRangeChanged();
 private:
     quint16 m_securityFlags;
     bool m_hidden;
     int m_signalStrength;
+    bool m_isOutOfRange;
 };
 #endif //QNETWORKSETTINGS_H

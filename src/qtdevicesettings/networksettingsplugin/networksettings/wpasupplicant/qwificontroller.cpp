@@ -17,7 +17,7 @@
 **
 ****************************************************************************/
 #include "qwificontroller_p.h"
-#include "qwifimanager_p.h"
+#include "qnetworksettingsmanager_p.h"
 #include "qwifisupplicant_p.h"
 #include "qwifidevice.h"
 
@@ -69,8 +69,9 @@ public:
                     event = new QWifiEvent(WIFI_HANDSHAKE_FAILED);
                 }
 
-                if (event)
-                    QCoreApplication::postEvent(m_controller->wifiManager(), event);
+                if (event) {
+                    QCoreApplication::postEvent(m_controller->manager(), event);
+                }
             }
         }
     }
@@ -80,15 +81,15 @@ private:
 };
 
 
-QWifiController::QWifiController(QWifiManager *manager, QWifiManagerPrivate *managerPrivate) :
+QWifiController::QWifiController(QNetworkSettingsManagerPrivate *manager) :
     m_manager(manager),
-    m_managerPrivate(managerPrivate),
     m_exitEventThread(false),
     m_interface(QWifiDevice::wifiInterfaceName()),
     m_eventThread(new QWifiEventThread(this)),
-    m_supplicant(new QWifiSupplicant(this, m_managerPrivate))
+    m_supplicant(new QWifiSupplicant(this))
 {
-    qRegisterMetaType<QWifiManager::BackendState>("QWifiManager::BackendState");
+    qRegisterMetaType<QWifiController::BackendState>("BackendState");
+    connect(m_supplicant, &QWifiSupplicant::raiseError, this, &QWifiController::raiseError);
 }
 
 QWifiController::~QWifiController()
@@ -137,7 +138,7 @@ void QWifiController::asyncCall(Method method)
 void QWifiController::initializeBackend()
 {
     qCDebug(B2QT_WIFI) << "initializing wifi backend";
-    emit backendStateChanged(QWifiManager::Initializing);
+    emit backendStateChanged(QWifiController::Initializing);
 
     QProcess rfkill;
     rfkill.start(QStringLiteral("rfkill"),
@@ -148,7 +149,7 @@ void QWifiController::initializeBackend()
     ifconfig.start(QStringLiteral("ifconfig"),
                    QStringList() << QLatin1String(m_interface) << QStringLiteral("up"));
     if (!ifconfig.waitForStarted()) {
-        m_managerPrivate->updateLastError(ifconfig.program() + QLatin1String(": ") + ifconfig.errorString());
+        emit raiseError(ifconfig.program() + QLatin1String(": ") + ifconfig.errorString());
         return;
     }
 
@@ -156,13 +157,13 @@ void QWifiController::initializeBackend()
     bool initFailed = false;
     QByteArray error = ifconfig.readAllStandardError();
     if (!error.isEmpty()) {
-        m_managerPrivate->updateLastError(QLatin1String("failed to bring up wifi interface: " + error));
+        emit raiseError(QLatin1String("failed to bring up wifi interface: " + error));
         initFailed = true;
     }
     if (!initFailed && resetSupplicantSocket())
-        emit backendStateChanged(QWifiManager::Running);
+        emit backendStateChanged(QWifiController::Running);
     else
-        emit backendStateChanged(QWifiManager::NotRunning);
+        emit backendStateChanged(QWifiController::NotRunning);
 }
 
 bool QWifiController::resetSupplicantSocket()
@@ -183,7 +184,7 @@ bool QWifiController::resetSupplicantSocket()
 void QWifiController::terminateBackend()
 {
     qCDebug(B2QT_WIFI) << "terminating wifi backend";
-    emit backendStateChanged(QWifiManager::Terminating);
+    emit backendStateChanged(QWifiController::Terminating);
 
     exitWifiEventThread();
     m_supplicant->stopSupplicant();
@@ -193,17 +194,17 @@ void QWifiController::terminateBackend()
     ifconfig.start(QStringLiteral("ifconfig"),
                    QStringList() << QLatin1String(m_interface) << QStringLiteral("down"));
     if (!ifconfig.waitForStarted()) {
-        m_managerPrivate->updateLastError(ifconfig.program() + QLatin1String(": ") + ifconfig.errorString());
+        emit raiseError(ifconfig.program() + QLatin1String(": ") + ifconfig.errorString());
         return;
     }
 
     ifconfig.waitForFinished();
     QByteArray error = ifconfig.readAllStandardError();
     if (!error.isEmpty())
-        m_managerPrivate->updateLastError(QLatin1String("failed to bring down wifi interface: " + error));
+        emit raiseError(QLatin1String("failed to bring down wifi interface: " + error));
 
     stopDhcp();
-    emit backendStateChanged(QWifiManager::NotRunning);
+    emit backendStateChanged(QWifiController::NotRunning);
 }
 
 void QWifiController::startWifiEventThread()
@@ -216,7 +217,7 @@ void QWifiController::exitWifiEventThread()
 {
     if (m_eventThread->isRunning()) {
         m_exitEventThread = true;
-        m_managerPrivate->call(QStringLiteral("SCAN"));
+        m_manager->call(QStringLiteral("SCAN"));
         if (!m_eventThread->wait(8000))
             qCWarning(B2QT_WIFI, "timed out waiting for wifi event thread to exit");
     }
@@ -255,7 +256,7 @@ void QWifiController::acquireIPAddress()
     QProcess udhcpc;
     udhcpc.start(QStringLiteral("udhcpc"), args);
     if (!udhcpc.waitForStarted()) {
-        m_managerPrivate->updateLastError(udhcpc.program() + QLatin1String(": ") + udhcpc.errorString());
+        emit raiseError(udhcpc.program() + QLatin1String(": ") + udhcpc.errorString());
         emit dhcpRequestFinished(QLatin1String("failed"));
         return;
     }
@@ -264,7 +265,7 @@ void QWifiController::acquireIPAddress()
     QByteArray error = udhcpc.readAllStandardError();
     QString status = QLatin1String("success");
     if (!error.isEmpty()) {
-        m_managerPrivate->updateLastError(QLatin1String("udhcpc failed: " + error));
+        emit raiseError(QLatin1String("udhcpc failed: " + error));
         status = QLatin1String("failed");
     } else {
         if (udhcpc.readAllStandardOutput().contains("No lease"))

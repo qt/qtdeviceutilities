@@ -70,6 +70,8 @@ private:
     QNetworkSettingsUserAgent *q_ptr;
     QDBusMessage m_reply;
     bool m_pendingReply;
+    QString m_passphrase;
+    QString m_username;
 };
 
 #endif // QNETWORKSETTINGSUSERAGENTPRIVATE_H

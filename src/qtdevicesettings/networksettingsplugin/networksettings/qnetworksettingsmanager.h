@@ -43,6 +43,7 @@
 
 QT_FORWARD_DECLARE_CLASS(QNetworkSettingsManagerPrivate)
 QT_FORWARD_DECLARE_CLASS(QNetworkSettingsService)
+QT_FORWARD_DECLARE_CLASS(QNetworkSettingsUserAgent)
 
 class QNetworkSettingsManager : public QObject
 {
@@ -54,6 +55,7 @@ public:
     explicit QNetworkSettingsManager(QObject* parent = 0);
     QAbstractItemModel* services();
     QAbstractItemModel* interfaces();
+    void setUserAgent(QNetworkSettingsUserAgent *agent);
 
     Q_INVOKABLE QNetworkSettingsService* getService(const QString& name, const int type);
 

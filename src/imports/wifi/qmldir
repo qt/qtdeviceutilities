@@ -1,3 +1,0 @@
-module B2Qt.Wifi
-plugin b2qtwifiplugin
-typeinfo plugins.qmltypes

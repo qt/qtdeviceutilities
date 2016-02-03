@@ -2,6 +2,6 @@ TEMPLATE = subdirs
 CONFIG += ordered
 SUBDIRS += \
     utils \
-    wifi \
+    qtdevicesettings \
     imports \
     doc

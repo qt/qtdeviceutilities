@@ -18,11 +18,11 @@
 ****************************************************************************/
 #include "qwifisupplicant_p.h"
 #include "qwifidevice.h"
-#include "qwifimanager_p.h"
 
 #include <poll.h>
 #include <unistd.h>
 #include <sys/socket.h>
+#include <errno.h>
 
 #include <QtCore/QFile>
 #include <QtCore/QProcess>
@@ -34,17 +34,16 @@ Q_LOGGING_CATEGORY(B2QT_WIFI_VERBOSE, "qt.b2qt.wifi.verbose")
 #define CONFIG_FILE "/etc/wpa_supplicant.qtwifi.conf"
 #define CONTROL_INTERFACE_PATH "/var/run/wpa_supplicant/"
 
-QWifiSupplicant::QWifiSupplicant(QObject *parent, QWifiManagerPrivate *managerPrivate) :
+QWifiSupplicant::QWifiSupplicant(QObject *parent) :
     QObject(parent),
     ctrl_conn(0),
     monitor_conn(0),
-    interface(QWifiDevice::wifiInterfaceName()),
-    m_managerPrivate(managerPrivate)
+    interface(QWifiDevice::wifiInterfaceName())
 {
     createSupplicantConfig();
 }
 
-void QWifiSupplicant::createSupplicantConfig() const
+void QWifiSupplicant::createSupplicantConfig()
 {
     QFile supplicantConfig(QLatin1String(CONFIG_FILE));
     if (supplicantConfig.exists())
@@ -55,7 +54,7 @@ void QWifiSupplicant::createSupplicantConfig() const
                                "ctrl_interface_group=0\n"
                                "update_config=1\n");
     } else {
-        m_managerPrivate->updateLastError(QLatin1String("failed to create wpa_supplicant configuration file."));
+       emit raiseError(QLatin1String("failed to create wpa_supplicant configuration file."));
     }
 }
 
@@ -76,13 +75,13 @@ bool QWifiSupplicant::startSupplicant()
     startStopDaemon.setProcessChannelMode(QProcess::MergedChannels);
     startStopDaemon.start(QStringLiteral("start-stop-daemon"), arg);
     if (!startStopDaemon.waitForStarted()) {
-        m_managerPrivate->updateLastError(startStopDaemon.program() + QLatin1String(": ") + startStopDaemon.errorString());
+       emit raiseError(startStopDaemon.program() + QLatin1String(": ") + startStopDaemon.errorString());
         return false;
     }
     startStopDaemon.waitForFinished();
     // if the interface socket exists then wpa-supplicant was invoked successfully
     if (!QFile(QLatin1String(CONTROL_INTERFACE_PATH + interface)).exists()) {
-        m_managerPrivate->updateLastError(QLatin1String("failed to invoke wpa_supplicant: "
+       emit raiseError(QLatin1String("failed to invoke wpa_supplicant: "
                                                         + startStopDaemon.readAll()));
         return false;
     }
@@ -103,13 +102,13 @@ bool QWifiSupplicant::stopSupplicant()
         QProcess startStopDaemon;
         startStopDaemon.start(QStringLiteral("start-stop-daemon"), arg);
         if (!startStopDaemon.waitForStarted()) {
-            m_managerPrivate->updateLastError(startStopDaemon.program() + QLatin1String(": ") + startStopDaemon.errorString());
+           emit raiseError(startStopDaemon.program() + QLatin1String(": ") + startStopDaemon.errorString());
             return false;
         }
         startStopDaemon.waitForFinished();
         QByteArray error = startStopDaemon.readAllStandardError();
         if (!error.isEmpty()) {
-            m_managerPrivate->updateLastError(QLatin1String("failed to stop a wpa_supplicant process" + error));
+           emit raiseError(QLatin1String("failed to stop a wpa_supplicant process" + error));
             return false;
         }
 
@@ -165,7 +164,7 @@ bool QWifiSupplicant::connectToSupplicant()
     }
 
     if (!connected)
-        m_managerPrivate->updateLastError(QLatin1String("failed to connect to wpa_supplicant"));
+       emit raiseError(QLatin1String("failed to connect to wpa_supplicant"));
     return connected;
 }
 

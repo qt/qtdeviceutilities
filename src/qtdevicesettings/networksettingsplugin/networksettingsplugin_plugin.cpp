@@ -43,13 +43,6 @@
 #include <QQmlEngine>
 #include <QQmlContext>
 
-template <typename T>
-QObject *instance(QQmlEngine *engine, QJSEngine *) {
-    T *t = new T(engine);
-    t->setObjectName(T::staticMetaObject.className());
-    return t;
-}
-
 void NetworksettingspluginPlugin::registerTypes(const char *uri)
 {
     Q_ASSERT(QLatin1String(uri) == QLatin1String("com.theqtcompany.settings.network"));
@@ -59,6 +52,16 @@ void NetworksettingspluginPlugin::registerTypes(const char *uri)
     qmlRegisterUncreatableType<QNetworkSettingsProxy>(uri, 1, 0, "NetworkSettingsProxy", "Cannot be instantiated directly.");
     qmlRegisterUncreatableType<QNetworkSettingsType>(uri, 1, 0, "NetworkSettingsType", "Cannot be instantiated directly.");
     qmlRegisterUncreatableType<QNetworkSettingsState>(uri, 1, 0, "NetworkSettingsState", "Cannot be instantiated directly.");
-    qmlRegisterSingletonType<QNetworkSettingsManager>(uri, 1, 0, "NetworkSettingsManager", &instance<QNetworkSettingsManager>);
-    qmlRegisterSingletonType<QNetworkSettingsUserAgent>(uri, 1, 0, "NetworkSettingsUserAgent", &instance<QNetworkSettingsUserAgent>);
+}
+
+
+void NetworksettingspluginPlugin::initializeEngine(QQmlEngine * engine, const char * uri)
+{
+    Q_ASSERT(QLatin1String(uri) == QLatin1String("com.theqtcompany.settings.network"));
+    QNetworkSettingsManager* networkManager = new QNetworkSettingsManager(engine);
+    QNetworkSettingsUserAgent* userAgent = new QNetworkSettingsUserAgent(engine);
+    networkManager->setUserAgent(userAgent);
+
+    engine->rootContext()->setContextProperty("NetworkSettingsManager", networkManager);
+    engine->rootContext()->setContextProperty("NetworkSettingsUserAgent", userAgent);
 }

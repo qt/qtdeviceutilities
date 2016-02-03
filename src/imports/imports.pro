@@ -1,2 +1,2 @@
 TEMPLATE = subdirs
-SUBDIRS += utils wifi
+SUBDIRS += utils

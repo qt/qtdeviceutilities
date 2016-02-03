@@ -161,3 +161,8 @@ void QNetworkSettingsManagerPrivate::servicesChanged(ConnmanMapList changed, con
         m_serviceModel.append(service);
     }
 }
+
+void QNetworkSettingsManagerPrivate::setUserAgent(QNetworkSettingsUserAgent *agent)
+{
+
+}

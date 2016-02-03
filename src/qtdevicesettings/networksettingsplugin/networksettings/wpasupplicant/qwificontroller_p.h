@@ -19,8 +19,6 @@
 #ifndef QWIFICONTROLLER_H
 #define QWIFICONTROLLER_H
 
-#include "qwifimanager.h"
-
 #include <QtCore/QEvent>
 #include <QtCore/QVector>
 #include <QtCore/QThread>
@@ -38,10 +36,9 @@ const QEvent::Type WIFI_HANDSHAKE_FAILED = (QEvent::Type) (QEvent::User + 2003);
 const QEvent::Type WIFI_AUTHENTICATING = (QEvent::Type) (QEvent::User + 2004);
 const QEvent::Type WIFI_DISCONNECTED = (QEvent::Type) (QEvent::User + 2005);
 
-class QWifiManager;
-class QWifiManagerPrivate;
 class QWifiEventThread;
 class QWifiSupplicant;
+class QNetworkSettingsManagerPrivate;
 
 class QWifiEvent : public QEvent
 {
@@ -60,6 +57,7 @@ private:
 class QWifiController : public QThread
 {
     Q_OBJECT
+    Q_ENUMS(BackendState)
 public:
     enum Method {
         InitializeBackend,
@@ -69,11 +67,18 @@ public:
         ExitEventLoop
     };
 
-    explicit QWifiController(QWifiManager *manager, QWifiManagerPrivate *managerPrivate);
+    enum BackendState {
+        Initializing,
+        Running,
+        Terminating,
+        NotRunning
+    };
+
+    explicit QWifiController(QNetworkSettingsManagerPrivate *manager);
     ~QWifiController();
 
     void asyncCall(Method method);
-    QWifiManager *wifiManager() const { return m_manager; }
+    QNetworkSettingsManagerPrivate *manager() const { return m_manager; }
     bool isWifiThreadExitRequested() const { return m_exitEventThread; }
     void startWifiEventThread();
     void acquireIPAddress();
@@ -82,8 +87,9 @@ public:
     QWifiSupplicant *supplicant() const { return m_supplicant; }
 
 signals:
-    void backendStateChanged(QWifiManager::BackendState backendState);
+    void backendStateChanged(BackendState backendState);
     void dhcpRequestFinished(const QString &status);
+    void raiseError(const QString &error);
 
 protected:
     void run();
@@ -93,8 +99,7 @@ protected:
     void killDhcpProcess(const QString &path) const;
 
 private:
-    QWifiManager *m_manager;
-    QWifiManagerPrivate *const m_managerPrivate;
+    QNetworkSettingsManagerPrivate *m_manager; //not owned
     bool m_exitEventThread;
     QByteArray m_interface;
     QVector<Method> m_methods;
@@ -103,6 +108,8 @@ private:
     QWaitCondition methodCallRequested;
     QWifiSupplicant *m_supplicant;
 };
+
+Q_DECLARE_METATYPE(QWifiController::BackendState)
 
 QT_END_NAMESPACE
 

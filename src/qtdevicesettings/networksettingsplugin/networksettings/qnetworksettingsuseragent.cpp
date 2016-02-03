@@ -53,3 +53,15 @@ void QNetworkSettingsUserAgent::cancelInput()
     Q_D(QNetworkSettingsUserAgent);
     d->cancel();
 }
+
+QString QNetworkSettingsUserAgent::passPhrase() const
+{
+    Q_D(const QNetworkSettingsUserAgent);
+    return d->m_passphrase;
+}
+
+QString QNetworkSettingsUserAgent::userName() const
+{
+    Q_D(const QNetworkSettingsUserAgent);
+    return d->m_username;
+}

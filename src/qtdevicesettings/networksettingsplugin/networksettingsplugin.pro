@@ -5,13 +5,37 @@ CONFIG += qt plugin
 
 uri = com.theqtcompany.settings.network
 
-include(networksettings/networksettings.pri)
+wpasupplicant {
+    include(networksettings/wpasupplicant.pri)
+}
+else {
+    include(networksettings/connman.pri)
+}
+
+
+INCLUDEPATH += $${PWD}/networksettings
 
 # Input
 SOURCES += \
-    networksettingsplugin_plugin.cpp
+    networksettingsplugin_plugin.cpp \
+    networksettings/qnetworksettingsinterfacemodel.cpp \
+    networksettings/qnetworksettingsmanager.cpp \
+    networksettings/qnetworksettingsaddressmodel.cpp \
+    networksettings/qnetworksettingsservicemodel.cpp \
+    networksettings/qnetworksettingsservice.cpp \
+    networksettings/qnetworksettingsuseragent.cpp \
+    networksettings/qnetworksettingsinterface.cpp \
+
 HEADERS += \
-    networksettingsplugin_plugin.h
+    networksettingsplugin_plugin.h \
+    networksettings/qnetworksettingsinterfacemodel.h \
+    networksettings/qnetworksettings.h \
+    networksettings/qnetworksettingsmanager.h \
+    networksettings/qnetworksettingsaddressmodel.h \
+    networksettings/qnetworksettingsservicemodel.h \
+    networksettings/qnetworksettingsservice.h \
+    networksettings/qnetworksettingsuseragent.h \
+    networksettings/qnetworksettingsinterface.h \
 
 DISTFILES = qmldir
 

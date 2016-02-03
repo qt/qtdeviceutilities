@@ -33,40 +33,24 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-#ifndef QNETWORKSETTINGSINTERFACEMODEL_H
-#define QNETWORKSETTINGSINTERFACEMODEL_H
+#ifndef QNETWORKSETTINGSUSERAGENTPRIVATE_H
+#define QNETWORKSETTINGSUSERAGENTPRIVATE_H
 
-#include <QAbstractListModel>
-#include "qnetworksettings.h"
+#include <QObject>
+#include "qnetworksettingsuseragent.h"
 
-class QNetworkSettingsInterface;
-
-class QNetworkSettingsInterfaceModel : public QAbstractListModel
+class QNetworkSettingsUserAgentPrivate : public QObject
 {
     Q_OBJECT
-
+    Q_DECLARE_PUBLIC(QNetworkSettingsUserAgent)
 public:
-    explicit QNetworkSettingsInterfaceModel(QObject *parent=0);
-    virtual ~QNetworkSettingsInterfaceModel();
-    // from QAbstractItemModel
-    int rowCount(const QModelIndex & parent = QModelIndex()) const;
-    QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const;
-    QHash<int, QByteArray> roleNames() const;
-
-    void append(QNetworkSettingsInterface* networkInterface);
-    void insert(int row, QNetworkSettingsInterface* networkInterface);
-    void remove(int row);
-    QList<QNetworkSettingsInterface*> getModel();
-
-    enum Roles {
-        Type = Qt::UserRole + 1,
-        Status,
-        Name
-    };
-
-private:
-    QList<QNetworkSettingsInterface*> m_items;
-    QHash<int, QByteArray> m_roleNames;
+    explicit QNetworkSettingsUserAgentPrivate(QNetworkSettingsUserAgent* parent);
+    virtual ~QNetworkSettingsUserAgentPrivate() {}
+    void setUserCredentials(const QString& aUsername, const QString& aPassword);
+    void cancel();
+    QString m_passphrase;
+    QString m_username;
+    QNetworkSettingsUserAgent *q_ptr;
 };
 
-#endif // QNETWORKSETTINGSINTERFACEMODEL_H
+#endif // QNETWORKSETTINGSUSERAGENTPRIVATE_H
