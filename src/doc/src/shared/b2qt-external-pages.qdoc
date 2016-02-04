@@ -21,6 +21,10 @@
     \externalpage http://doc.qt.io/
     \title Qt reference documentation
 */
+/*!
+    \externalpage http://doc.qt.io/qt-5/licensing.html#licenses-used-in-qt
+    \title Licenses Used by Qt
+*/
 
 /*!
     \externalpage http://doc.qt.io/qt-5/android-support.html
