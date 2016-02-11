@@ -1,3 +1,0 @@
-module B2Qt.Utils
-plugin b2qtutilsplugin
-typeinfo plugins.qmltypes

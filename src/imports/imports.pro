@@ -1,2 +1,7 @@
 TEMPLATE = subdirs
-SUBDIRS += utils
+SUBDIRS += networksettings \
+    bluetoothsettings \
+    localesettings \
+    timedatesettings \
+    localdevice \
+    displaysettings

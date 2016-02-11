@@ -1,0 +1,2 @@
+module com.theqtcompany.settings.bluetooth
+plugin btsettingsplugin

@@ -1,7 +1,12 @@
 TEMPLATE = subdirs
 CONFIG += ordered
 SUBDIRS += \
-    utils \
-    qtdevicesettings \
+    networksettings \
+    bluetoothsettings \
+    localesettings \
+    displaysettings \
+    timedatesettings \
+    localdevice \
+    settingsui \
     imports \
     doc

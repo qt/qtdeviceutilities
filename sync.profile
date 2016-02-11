@@ -1,5 +1,10 @@
 %modules = ( # path to module name map
-    "B2QtUtils" => "$basedir/src/utils"
+    "QtNetworkSettings" => "$basedir/src/networksettings",
+    "QtBluetoothSettings" => "$basedir/src/bluetoothsettings",
+    "QtLocaleSettings" => "$basedir/src/localesettings",
+    "QtTimeDateSettings" => "$basedir/src/timedatesettings",
+    "QtDisplaySettings" => "$basedir/src/displaysettings",
+    "QtLocalDevice" => "$basedir/src/localdevice"
 );
 %moduleheaders = ( # restrict the module headers to those found in relative path
 );
