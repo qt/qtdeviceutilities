@@ -98,13 +98,12 @@ void LocaleModel::generateModel(LocaleModel* model)
     QList<QLocale> allLocales = QLocale::matchingLocales(QLocale::AnyLanguage, QLocale::AnyScript, QLocale::AnyCountry);
 
     for (const QLocale &locale : allLocales) {
-        if (locale.name() != "C") {
+        if (locale.name() != QStringLiteral("C")) {
             LocaleItem *l = new LocaleItem(locale);
             l->moveToThread(model->thread());
             QMetaObject::invokeMethod(model, "addNewItem", Q_ARG( QObject*, qobject_cast<QObject*>(l)));
         }
     }
-
 }
 
 void LocaleModel::addNewItem(QObject *item)
@@ -139,6 +138,9 @@ QVariant LocaleModel::data(const QModelIndex & index, int role) const
     LocaleItem *item = m_items[index.row()];
 
     switch (role) {
+    case Qt::UserRole:
+        return QVariant::fromValue(static_cast<QObject*>(item));
+        break;
     case Country:
         return item->country();
         break;
@@ -149,7 +151,7 @@ QVariant LocaleModel::data(const QModelIndex & index, int role) const
         return item->code();
         break;
     default:
-        return "";
+        return QVariant();
     }
 }
 
@@ -162,5 +164,5 @@ void LocaleModel::sort(int column, Qt::SortOrder order)
 {
     Q_UNUSED(column);
     Q_UNUSED(order);
-    qSort(m_items.begin(), m_items.end(), LocaleModel::variantLessThan);
+    std::sort(m_items.begin(), m_items.end(), LocaleModel::variantLessThan);
 }

@@ -2,10 +2,6 @@
     <qresource prefix="/">
         <file>main.qml</file>
         <file>settingsview.xml</file>
-        <file>common/CustomCombobox.qml</file>
-        <file>common/FlatStyledDropdownDelegate.qml</file>
-        <file>common/IconButton.qml</file>
-        <file>common/TextLabel.qml</file>
         <file>network/EditWiredSettings.qml</file>
         <file>network/IpAddressTextField.qml</file>
         <file>network/NetworkDetails.qml</file>
@@ -22,5 +18,9 @@
         <file>timedate/AnalogClock.qml</file>
         <file>timedate/TimeDate.qml</file>
         <file>timedate/TimezonesView.qml</file>
+        <file>network/AddressListEntry.qml</file>
+        <file>network/ComboBoxEntry.qml</file>
+        <file>timedate/CustomCalendar.qml</file>
+        <file>common/CustomTableView.qml</file>
     </qresource>
 </RCC>

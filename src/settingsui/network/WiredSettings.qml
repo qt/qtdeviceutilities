@@ -33,17 +33,16 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-import QtQuick 2.5
-import QtQuick.Layouts 1.1
-import QtQuick.Controls 1.4
-import QtQuick.Controls.Styles.Flat 1.0 as Flat
-import "../common"
+import QtQuick 2.6
+import QtQuick.Layouts 1.3
+import Qt.labs.controls 1.0
+import Qt.labs.controls.material 1.0
+import Qt.labs.controls.universal 1.0
 import com.theqtcompany.settings.network 1.0
 
 Item {
     id: root
     anchors.fill: parent
-    anchors.margins: Math.round(20 * Flat.FlatStyle.scaleFactor)
     property bool editMode: false
     property var service: null
     property string title: qsTr("Network");
@@ -51,129 +50,103 @@ Item {
     Component.onCompleted: {
         NetworkSettingsManager.services.type = NetworkSettingsType.Wired;
         root.service = NetworkSettingsManager.services.itemFromRow(0);
-    }
-
-    ListModel {
-        id: methodsModel
-
-        ListElement {
-            text: "DHCP"
-            method: NetworkSettingsIPv4.Dhcp
-        }
-        ListElement {
-            text: "Manual"
-            method: NetworkSettingsIPv4.Manual
-        }
-        ListElement {
-            text: "Off"
-            method: NetworkSettingsIPv4.Off
-        }
+        ipv4Method.currentIndex = service.ipv4.method
     }
 
     GroupBox {
         title: qsTr("Ethernet Connection")
         anchors.fill: parent
-        Layout.fillWidth: true
-        flat: true
+
         Column {
-            spacing: Math.round(10 * Flat.FlatStyle.scaleFactor)
-            Row {
-                TextLabel {
-                    text: qsTr("Connection method: ")
+            spacing: 10
+            width: parent.width
+
+            ComboBoxEntry {
+                id: ipv4Method
+                title: qsTr("Connection method:")
+                model: ListModel {
+                    id: methodsModel
+
+                    ListElement {
+                        text: "DHCP"
+                        method: NetworkSettingsIPv4.Dhcp
+                    }
+                    ListElement {
+                        text: "Manual"
+                        method: NetworkSettingsIPv4.Manual
+                    }
+                    ListElement {
+                        text: "Off"
+                        method: NetworkSettingsIPv4.Off
+                    }
                 }
 
-                CustomCombobox {
-                    id: ipv4Method
-                    model: methodsModel
-                    Component.onCompleted: selectedIndex = service.ipv4.method
-                    onSelectedIndexChanged : {
-                        if (model.get(selectedIndex).method !== NetworkSettingsIPv4.Dhcp) {
-                            service.ipv4.method = model.get(selectedIndex).method;
-                            editMode = true;
-                        }
-                        else {
-                            //Enable DHCP
-                            if (service.ipv4.method !== model.get(selectedIndex).method) {
-                                service.ipv4.method = model.get(selectedIndex).method;
-                                service.setupIpv4Config();
-                            }
-
-                            editMode = false;
-                        }
+                Component.onCompleted: currentIndex = service.ipv4.method
+                onCurrentIndexChanged: {
+                    if (model.get(currentIndex).method !== NetworkSettingsIPv4.Dhcp) {
+                        service.ipv4.method = model.get(currentIndex).method;
+                        editMode = true;
                     }
-                    delegate: FlatStyledDropdownDelegate { }
+                    else if (service){
+                        //Enable DHCP
+                        if (service.ipv4.method !== model.get(currentIndex).method) {
+                            service.ipv4.method = model.get(currentIndex).method;
+                            service.setupIpv4Config();
+                        }
+                        editMode = false;
+                    }
                 }
             }
-
-            Row {
+            GridLayout {
+                columns: 2
+                rows: 4
+                width: parent.width
                 visible: service.ipv4.method !== NetworkSettingsIPv4.Off
-                TextLabel {
+
+                Label {
                     text: qsTr("IP Address: ")
-                }
-                TextLabel {
-                    text: service.ipv4.address
-                    visible: !editMode
+                    width: parent.width * .3
                 }
                 IpAddressTextField {
                     id: ipv4Address
-                    placeholderText: service.ipv4.address
-                    visible: editMode
+                    text: service.ipv4.address
+                    enabled: editMode
                     onAccepted: if (text.length > 0) service.ipv4.address = text
                 }
-            }
-
-            Row {
-                visible: service.ipv4.method !== NetworkSettingsIPv4.Off
-                TextLabel {
+                Label {
                     text: qsTr("Mask: ")
-                }
-                TextLabel {
-                    text: service.ipv4.mask
-                    visible: !editMode
                 }
                 IpAddressTextField {
                     id: ipv4Mask
-                    placeholderText: service.ipv4.mask
-                    visible: editMode
+                    text: service.ipv4.mask
+                    enabled: editMode
                     onAccepted: if (text.length > 0) service.ipv4.mask = text
                 }
-            }
-
-            Row {
-                visible: service.ipv4.method !== NetworkSettingsIPv4.Off
-                TextLabel {
+                Label {
                     text: qsTr("Router: ")
-                }
-                TextLabel {
-                    text: service.ipv4.gateway
-                    visible: !editMode
                 }
                 IpAddressTextField {
                     id: ipv4Gateway
-                    placeholderText: service.ipv4.gateway
-                    visible: editMode
+                    text: service.ipv4.gateway
+                    enabled: editMode
                     onAccepted: if (text.length > 0) service.ipv4.gateway = text
                 }
-            }
-
-            Row {
-                visible: service.ipv4.method !== NetworkSettingsIPv4.Off
-                TextLabel {
+                Label {
                     text: qsTr("DNS server: ")
                 }
                 Row {
-                    spacing: Math.round(10 * Flat.FlatStyle.scaleFactor)
+                    spacing: 10
                     Repeater {
                         model: service.nameservers
 
-                        TextLabel {
+                        Label {
                             text: display
                         }
                     }
                 }
             }
-
             Row {
+                spacing: 10
                 Button {
                     text: qsTr("Save")
                     visible: editMode
@@ -191,17 +164,15 @@ Item {
                     visible: editMode
                     onClicked: {
                         editMode = false;
-                        methodSelection.currentIndex = service.ipv4.method
+                        ipv4Method.currentIndex = service.ipv4.method
                     }
                 }
             }
             Button {
                 text: qsTr("Edit")
                 visible: !editMode
-
-                onClicked: stackView.push({item: Qt.resolvedUrl("EditWiredSettings.qml"), properties: {service: root.service}});
+                onClicked: stackView.push(Qt.resolvedUrl("EditWiredSettings.qml"), {service: root.service});
             }
         }
     }
 }
-

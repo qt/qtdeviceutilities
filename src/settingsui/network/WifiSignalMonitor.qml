@@ -33,11 +33,10 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-import QtQuick 2.5
+import QtQuick 2.6
 
 Item {
     id: root
-
     property bool scanning: false
     property int signalStrength: 100
     property bool connected: false
@@ -63,21 +62,30 @@ Item {
     }
 
     Image {
+        id: sprite
+        property int currentFrame: 0
         anchors.fill: parent
         source: "Wifi_lightgray_2x.png"
-    }
+        clip: true
 
-    AnimatedSprite {
-        id: sprite
-        anchors.fill: parent
-        source: connected ? "WifiAnim_qt_2x.png" : "WifiAnim_black_2x.png"
-        frameDuration: 500
-        frameCount: 4
-        currentFrame: 3
-        frameSync: false
-        frameWidth: 32
-        frameHeight: 32
-        loops: 40
-        running: scanning
+        Timer {
+            id: scanningTimer
+            running: scanning
+            interval: 250
+            repeat: true
+            onTriggered: {
+                if (sprite.currentFrame < 4)
+                    sprite.currentFrame++
+                else
+                    sprite.currentFrame = 0
+            }
+        }
+
+        Image {
+            height: parent.height
+            width: parent.width * 4
+            source: "WifiAnim_black_2x.png"
+            x: -parent.currentFrame * width / 4
+        }
     }
 }

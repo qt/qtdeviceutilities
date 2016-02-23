@@ -33,121 +33,130 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-import QtQuick 2.5
-import QtQuick.Layouts 1.1
-import QtQuick.Controls 1.4
-import QtQuick.Controls.Styles.Flat 1.0 as Flat
-import "../common"
+import QtQuick 2.6
+import QtQuick.Layouts 1.3
+import Qt.labs.controls 1.0
+import Qt.labs.controls.material 1.0
+import Qt.labs.controls.universal 1.0
 import com.theqtcompany.settings.network 1.0
 
 Item {
     id: root
     anchors.fill: parent
-    anchors.margins: Math.round(20 * Flat.FlatStyle.scaleFactor)
+    Component.onCompleted: NetworkSettingsManager.services.type = NetworkSettingsType.Wifi;
 
-    Component.onCompleted: {
-        NetworkSettingsManager.services.type = NetworkSettingsType.Wifi;
-    }
     GroupBox {
         id: content
         title: qsTr("Wireless Settings")
         anchors.fill: parent
-        Layout.fillWidth: true
-        flat: true
 
         ColumnLayout {
-            spacing: Math.round(20 * Flat.FlatStyle.scaleFactor)
+            spacing: 20
             width: parent.width
-            Row {
+
+            RowLayout {
+                spacing: 10
                 id: enableSwitch
                 width: parent.width
-                spacing: Math.round(10 * Flat.FlatStyle.scaleFactor)
-                TextLabel {
-                    width:  root.width*0.382
+
+                Label {
+                    Layout.preferredWidth: root.width * 0.382
+                    Layout.alignment: Qt.AlignVCenter
                     horizontalAlignment: Text.AlignRight
-                    text: selectedInterface.powered ? qsTr("Disable Wifi") : qsTr("Enable Wifi")
+                    text: selectedInterface.powered ? qsTr("Wi-Fi OFF") : qsTr("Wi-Fi ON")
                 }
                 Switch {
                     checked: selectedInterface.powered
                     onCheckedChanged: selectedInterface.powered = checked
                 }
             }
-
-            Row {
-                spacing: Math.round(10 * Flat.FlatStyle.scaleFactor)
+            RowLayout {
+                spacing: 10
                 width: parent.width
 
-                TextLabel {
-                    id: labelText
-                    text: qsTr("Selected network ")
-                    width: content.width*0.382
+                Label {
+                    Layout.preferredWidth: root.width * 0.382
+                    text: qsTr("Current network")
                     horizontalAlignment: Text.AlignRight
+                    Layout.alignment: Qt.AlignVCenter
                 }
-
-                CustomCombobox {
+                ComboBoxEntry {
                     id: networkSelection
                     model: NetworkSettingsManager.services
-                    visible: selectedInterface.powered
-                    width: Math.round(200 * Flat.FlatStyle.scaleFactor)
                     textRole: "name"
-                    onSelectedIndexChanged : if (selectedIndex >= 0) model.itemFromRow(selectedIndex).connectService();
+                    Layout.fillWidth: true
+                    onCurrentIndexChanged: if (currentIndex >= 0) model.itemFromRow(currentIndex).connectService();
 
                     delegate: WifiSelectorDelegate {
-                        id: delegate
-                        onConnectChanged: if (connect) networkSelection.setSelectIndexToVal(modelData.name, "name");
+                        onConnectChanged: if (connect) networkSelection.currentIndex = networkSelection.find(modelData.name)
                     }
                 }
             }
-
             GroupBox {
                 id: connectView
                 title: qsTr("Enter a password")
-                flat: false
                 visible: false
+                Layout.fillWidth: true
                 ColumnLayout {
-                    Row {
-                        id: errorView
-                        property alias text: text.text
-                        visible: text.text !== ""
+                    width: parent.width
 
-                        spacing: Math.round(10 * Flat.FlatStyle.scaleFactor)
+                    RowLayout {
+                        id: errorView
+                        visible: text.text !== ""
+                        spacing: 10
+                        property alias text: text.text
+
                         Image {
-                            source: "../icons/Alert_yellow_1x.png"
+                            source: "Alert_yellow_1x.png"
+                            Layout.alignment: Qt.AlignVCenter
                         }
                         Text {
                             id: text
                             color: "#face20"
                             text: ""
+                            Layout.alignment: Qt.AlignVCenter
                         }
                     }
-                    Row {
-                        spacing: Math.round(10 * Flat.FlatStyle.scaleFactor)
+                    RowLayout {
+                        spacing: 10
                         visible: false
-                        TextLabel {
-                            text: qsTr("User name")
-                            width: root.width*0.382
+                        width: parent.width
+
+                        Label {
+                            text: qsTr("User name:")
                             horizontalAlignment: Text.AlignRight
+                            Layout.preferredWidth: root.width * 0.382
+                            Layout.alignment: Qt.AlignVCenter
                         }
                         TextField {
                             text: ""
                             inputMethodHints: Qt.ImhNoPredictiveText
+                            Layout.alignment: Qt.AlignVCenter
+                            Layout.fillWidth: true
                         }
                     }
-                    Row {
-                        spacing: Math.round(10 * Flat.FlatStyle.scaleFactor)
-                        TextLabel {
-                            text: qsTr("Password")
+                    RowLayout {
+                        spacing: 10
+                        width: parent.width
+
+                        Label {
+                            text: qsTr("Password:")
                             horizontalAlignment: Text.AlignRight
+                            Layout.preferredWidth: root.width * 0.382
+                            Layout.alignment: Qt.AlignVCenter
                         }
                         TextField {
                             id: password
                             text: ""
                             echoMode: TextInput.Password
                             inputMethodHints: Qt.ImhNoPredictiveText
+                            Layout.alignment: Qt.AlignVCenter
+                            Layout.fillWidth: true
                         }
                     }
-                    Row {
-                        spacing: Math.round(10 * Flat.FlatStyle.scaleFactor)
+                    RowLayout {
+                        spacing: 10
+
                         Button {
                             text: qsTr("Connect")
                             onClicked: {
@@ -162,19 +171,18 @@ Item {
                     }
                 }
             }
-
             Button {
                 id: disconnect
                 text: qsTr("Disconnect")
                 visible: selectedInterface.state === NetworkSettingsState.Online ||
                          selectedInterface.state === NetworkSettingsState.Ready
                 onClicked: {
+                    console.log("disconnect");
                     NetworkSettingsManager.services.itemFromRow(networkSelection.selectedIndex).disconnectService();
                     networkSelection.selectedIndex = -1;
                 }
             }
         }
-
         Connections {
             target: NetworkSettingsUserAgent
             onShowUserCredentialsInput : {

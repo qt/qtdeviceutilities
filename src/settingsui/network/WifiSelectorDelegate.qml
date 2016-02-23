@@ -33,58 +33,39 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-import QtQuick 2.5
-import QtQuick.Layouts 1.1
-import QtQuick.Controls 1.4
-import "../common"
+import QtQuick 2.6
+import QtQuick.Layouts 1.3
+import Qt.labs.controls 1.0
+import Qt.labs.controls.material 1.0
+import Qt.labs.controls.universal 1.0
 import com.theqtcompany.settings.network 1.0
-import QtQuick.Controls.Styles.Flat 1.0 as Flat
 
-Item {
+ItemDelegate {
     id: root
-    property bool checkable: true
-    property bool checked: false
-    property bool pressed: false
+    autoExclusive: true
+    checkable: true
     property bool connect: modelData["connected"]
-    signal clicked()
+    width: parent.width
+    contentItem: Item {
+        width: root.width
 
-    MouseArea {
-        id: delegateButton
-        anchors.fill: parent
-        hoverEnabled: true
-        onPressed: root.pressed = true
-        onClicked: root.clicked()
-        onEntered: checked = !checked
-
-        Rectangle {
-            anchors.fill: parent
-            color: root.checked ? Flat.FlatStyle.disabledColor : "transparent"
-            opacity: root.checked ? 0.15 : 1.0
-        }
-        Rectangle {
-            color: Flat.FlatStyle.darkFrameColor
-            width: parent.width
-            height: Flat.FlatStyle.onePixel
-            anchors.bottom: parent.bottom
-        }
-        TextLabel {
+        Label {
             id: text
+            leftPadding: root.indicator.width + root.spacing
             anchors.left: parent.left
-            anchors.right: parent.right
-            anchors.top: parent.top
-            anchors.bottom: parent.bottom
-            anchors.margins: Math.round(10 * Flat.FlatStyle.scaleFactor)
+            anchors.top:parent.top
+            anchors.right: signalMonitor.left
+            anchors.bottom:parent.bottom
+            elide: Text.ElideRight
             horizontalAlignment: Text.AlignLeft
-            text: modelData["name"]
+            verticalAlignment: Text.AlignVCenter
+            text:modelData["name"]
         }
         WifiSignalMonitor {
-            anchors.verticalCenter: parent.verticalCenter
+            id: signalMonitor
             anchors.right: parent.right
-            anchors.margins: Math.round(10 * Flat.FlatStyle.scaleFactor)
-            height: Math.round(parent.height * .8)
+            height: parent.height
             width: height
-            signalStrength: modelData["signalStrength"]
-            connected: modelData["connected"]
         }
     }
 }

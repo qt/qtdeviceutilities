@@ -33,12 +33,13 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-import QtQuick 2.5
-import QtQuick.Layouts 1.1
-import QtQuick.Controls 1.4
-import QtQuick.Controls.Styles.Flat 1.0 as Flat
-import "../common"
+import QtQuick 2.6
+import QtQuick.Layouts 1.3
+import Qt.labs.controls 1.0
+import Qt.labs.controls.material 1.0
+import Qt.labs.controls.universal 1.0
 import com.theqtcompany.settings.locale 1.0
+import "../common"
 
 Item {
     id: root
@@ -46,46 +47,31 @@ Item {
 
     Component.onCompleted: country.text = LocaleFilter.filter
 
-    Column {
+    ColumnLayout {
         id: content
         anchors.fill: parent
-        anchors.margins: Math.round(20 * Flat.FlatStyle.scaleFactor)
-        spacing: Math.round(10 * Flat.FlatStyle.scaleFactor)
-        Row {
-            spacing: Math.round(10 * Flat.FlatStyle.scaleFactor)
+        anchors.margins: 20
+        spacing: 10
+        RowLayout {
+            spacing: 10
 
-            TextLabel {
+            Label {
                 text: qsTr("Search region: ")
+                Layout.alignment: Qt.AlignVCenter
             }
-
             TextField {
                 id: country
                 text: ""
                 onTextChanged: LocaleFilter.filter = country.text
+                Layout.alignment: Qt.AlignVCenter
             }
         }
-
-        TableView {
-            width: parent.width
-            height: Math.round(parent.height - 40 * Flat.FlatStyle.scaleFactor)
-            Layout.fillWidth: true
+        CustomTableView {
+            headerTexts: [qsTr("Language"), qsTr("Country")]
+            roleNames: ["language", "country"]
             model: LocaleFilter
-            headerVisible: true
-
-            TableViewColumn {
-                role: "language"
-                title: qsTr("Language")
-                width: Math.round(parent.width * 0.66)
-            }
-
-            TableViewColumn {
-                role: "country"
-                title: qsTr("Region")
-                width: Math.round(parent.width * 0.33)
-            }
-
             onClicked: {
-                var val = model.itemFromRow(row);
+                var val = model.itemFromRow(index);
                 if (val !== "") {
                     LocaleManager.locale = val;
                     stackView.pop();

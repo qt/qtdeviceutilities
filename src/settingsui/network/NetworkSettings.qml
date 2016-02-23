@@ -33,21 +33,22 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-import QtQuick 2.5
-import QtQuick.Layouts 1.1
-import QtQuick.Controls 1.4
-import QtQuick.Controls.Styles.Flat 1.0 as Flat
-import "../common"
+import QtQuick 2.6
+import QtQuick.Layouts 1.3
+import Qt.labs.controls 1.0
+import Qt.labs.controls.material 1.0
+import Qt.labs.controls.universal 1.0
 import com.theqtcompany.settings.network 1.0
 
 Item {
     property string title: qsTr("Network Settings")
     GroupBox {
         id: networkSelect
-        anchors.fill: parent
         anchors.rightMargin: parent.width * 0.618
-        anchors.leftMargin: Math.round(20 * Flat.FlatStyle.scaleFactor)
-        anchors.topMargin: Math.round(20 * Flat.FlatStyle.scaleFactor)
+        anchors.leftMargin: 20
+        anchors.topMargin: 20
+        anchors.bottomMargin: 20
+        anchors.fill: parent
         title: qsTr("Select Connection")
 
         function stateToStr(serviceState) {
@@ -70,45 +71,37 @@ Item {
                 return qsTr("Undefined");
             }
         }
-
         ColumnLayout {
-            width: networkSelect.width
-            ExclusiveGroup {
-                id: exgroup
-            }
+            width: parent.width
 
             Repeater {
                 model: NetworkSettingsManager.interfaces
 
                 Button {
-                    implicitWidth: networkSelect.width - Math.round(20 * Flat.FlatStyle.scaleFactor)
-                    implicitHeight: Math.round(54 * Flat.FlatStyle.scaleFactor)
+                    Layout.fillWidth: true
+                    implicitHeight: 54
                     checkable: true
-                    exclusiveGroup: exgroup
 
-                    Row {
+                    label: Row {
                         anchors.fill: parent
-                        spacing: Math.round(10 * Flat.FlatStyle.scaleFactor)
+                        spacing: 10
 
                         Image {
-                           id: typeId
-                           height: parent.height
-                           width: height
+                            id: typeId
+                            height: parent.height
+                            width: height
                         }
-
                         Column {
-                            height: Math.round(parent.height * 0.7)
+                            height: parent.height * .7
                             spacing: 0
                             anchors.verticalCenter: parent.verticalCenter
-                            TextLabel {
+                            Label {
                                 text: name
                             }
-
-                            TextLabel {
+                            Label {
                                 text: networkSelect.stateToStr(modelData.state)
-                                font.pixelSize: Math.round(12 * Flat.FlatStyle.scaleFactor)
+                                font.pixelSize: 12
                             }
-
                         }
                     }
 
@@ -131,7 +124,10 @@ Item {
 
     NetworkDetails {
         id: networkDetails
+        anchors.leftMargin: networkSelect.width + 40
+        anchors.topMargin: 20
+        anchors.rightMargin: 20
+        anchors.bottomMargin: 20
         anchors.fill: parent
-        anchors.leftMargin: networkSelect.width + Math.round(20 * Flat.FlatStyle.scaleFactor)
     }
 }

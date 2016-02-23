@@ -33,18 +33,17 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-import QtQuick 2.5
-import QtQuick.Layouts 1.1
-import QtQuick.Controls 1.4
-import QtQuick.Controls.Styles.Flat 1.0 as Flat
-import "../common"
+import QtQuick 2.6
+import QtQuick.Layouts 1.3
+import Qt.labs.controls 1.0
+import Qt.labs.controls.material 1.0
+import Qt.labs.controls.universal 1.0
 import com.theqtcompany.settings.network 1.0
 
 Item {
     id: root
     property string title: qsTr("Ethernet Settings")
     property var service: undefined
-
     property bool ipv4Changed: false
     property bool ipv6Changed: false
     property bool nameserversChanged: false
@@ -63,21 +62,19 @@ Item {
     Flickable {
         anchors.fill: parent
         anchors.top: saveButton.bottom
-        anchors.margins: Math.round(40 * Flat.FlatStyle.scaleFactor)
-        anchors.bottomMargin: Math.round(20 * Flat.FlatStyle.scaleFactor)
+        anchors.margins: 20
         contentHeight: content.height
         contentWidth: width
-        interactive: !ipv4Method.popupVisible && !ipv6Method.popupVisible && !proxyMethodSel.popupVisible
+
         Column {
             id: content
             width: parent.width
-            spacing: Math.round(10 * Flat.FlatStyle.scaleFactor)
-            property int titleWidth: Math.round(width * 0.382)
-            property int groupWidth: Math.round(width - saveButton.width - 10 * Flat.FlatStyle.scaleFactor)
+            spacing: 10
+            property int titleWidth: width * 0.382
+            property int groupWidth: width - saveButton.width - 10
 
             //IPv4 Config
             GroupBox {
-                flat: false
                 width: content.groupWidth
                 Layout.fillWidth: true
                 title: qsTr("IPv4")
@@ -85,135 +82,74 @@ Item {
                 ColumnLayout {
                     anchors.fill: parent
 
-                    ListModel {
-                        id: methodsModel
+                    ComboBoxEntry {
+                        title:  qsTr("Connection method:")
+                        titleWidth: content.titleWidth
+                        model: ListModel {
+                            id: methodsModel
 
-                        ListElement {
-                            text: "DHCP"
-                            method: NetworkSettingsIPv4.Dhcp
+                            ListElement {
+                                text: "DHCP"
+                                method: NetworkSettingsIPv4.Dhcp
+                            }
+                            ListElement {
+                                text: "Manual"
+                                method: NetworkSettingsIPv4.Manual
+                            }
+                            ListElement {
+                                text: "Off"
+                                method: NetworkSettingsIPv4.Off
+                            }
                         }
-                        ListElement {
-                            text: "Manual"
-                            method: NetworkSettingsIPv4.Manual
-                        }
-                        ListElement {
-                            text: "Off"
-                            method: NetworkSettingsIPv4.Off
+                        Component.onCompleted: currentIndex = service.ipv4.method
+                        onCurrentIndexChanged: {
+                            ipv4Changed = true;
+                            service.ipv4.method = model.get(currentIndex).method;
                         }
                     }
 
-                    Row {
-                        spacing: Math.round(10 * Flat.FlatStyle.scaleFactor)
-                        TextLabel {
-                            text: qsTr("Connection method")
-                            width: content.titleWidth
+                    GridLayout {
+                        columnSpacing: 10
+                        rows: 3
+                        columns: 2
+                        visible: service.ipv4.method !== NetworkSettingsIPv4.Off
+                        width: parent.width
+
+                        Label {
+                            text: qsTr("Address:")
+                            Layout.preferredWidth: content.titleWidth
                             horizontalAlignment: Text.AlignRight
                         }
-
-                        CustomCombobox {
-                            id: ipv4Method
-                            model: methodsModel
-                            Component.onCompleted: selectedIndex = service.ipv4.method
-
-                            onSelectedIndexChanged : {
-                                ipv4Changed = true;
-                                service.ipv4.method = model.get(selectedIndex).method;
-                            }
-                            delegate: FlatStyledDropdownDelegate { }
+                        IpAddressTextField {
+                            id: ipv4Address
+                            text: service.ipv4.address
+                            onTextChanged: ipv4Changed = true;
+                            onAccepted: if (text.length > 0) service.ipv4.address = text
+                            enabled: service.ipv4.method === NetworkSettingsIPv4.Manual
                         }
-                    }
-
-                    Column {
-                        spacing: Math.round(10 * Flat.FlatStyle.scaleFactor)
-                        visible: service.ipv4.method === NetworkSettingsIPv4.Dhcp
-
-                        Row {
-                            spacing: Math.round(10 * Flat.FlatStyle.scaleFactor)
-                            TextLabel {
-                                text: qsTr("Address")
-                                width: content.titleWidth
-                                horizontalAlignment: Text.AlignRight
-                            }
-                            TextLabel {
-                                text: service.ipv4.address
-                            }
+                        Label {
+                            text: qsTr("Mask:")
+                            Layout.preferredWidth: content.titleWidth
+                            horizontalAlignment: Text.AlignRight
                         }
-
-                        Row {
-                            spacing: Math.round(10 * Flat.FlatStyle.scaleFactor)
-                            TextLabel {
-                                text: qsTr("Mask")
-                                width: content.titleWidth
-                                horizontalAlignment: Text.AlignRight
-                            }
-                            TextLabel {
-                                text: service.ipv4.mask
-                            }
+                        IpAddressTextField {
+                            id: ipv4Mask
+                            text: service.ipv4.mask
+                            onTextChanged: ipv4Changed = true;
+                            onAccepted: if (text.length > 0) service.ipv4.mask = text
+                            enabled: service.ipv4.method === NetworkSettingsIPv4.Manual
                         }
-
-                        Row {
-                            spacing: Math.round(10 * Flat.FlatStyle.scaleFactor)
-                            TextLabel {
-                                text: qsTr("Router")
-                                width: content.titleWidth
-                                horizontalAlignment: Text.AlignRight
-                            }
-                            TextLabel {
-                                text: service.ipv4.gateway
-                            }
+                        Label {
+                            text: qsTr("Router:")
+                            Layout.preferredWidth: content.titleWidth
+                            horizontalAlignment: Text.AlignRight
                         }
-                    }
-
-                    Column {
-                        spacing: Math.round(10 * Flat.FlatStyle.scaleFactor)
-                        visible: service.ipv4.method === NetworkSettingsIPv4.Manual
-
-                        Row {
-                            spacing: Math.round(10 * Flat.FlatStyle.scaleFactor)
-                            TextLabel {
-                                text: qsTr("Address")
-                                width: content.titleWidth
-                                horizontalAlignment: Text.AlignRight
-                            }
-                            IpAddressTextField {
-                                id: ipv4Address
-                                text: service.ipv4.address
-                                onTextChanged: ipv4Changed = true;
-
-                                onAccepted: if (text.length > 0) service.ipv4.address = text
-                            }
-                        }
-
-                        Row {
-                            spacing: Math.round(10 * Flat.FlatStyle.scaleFactor)
-                            TextLabel {
-                                text: qsTr("Mask")
-                                width: content.titleWidth
-                                horizontalAlignment: Text.AlignRight
-                            }
-                            IpAddressTextField {
-                                id: ipv4Mask
-                                text: service.ipv4.mask
-                                onTextChanged: ipv4Changed = true;
-                                onAccepted: if (text.length > 0) service.ipv4.mask = text
-                            }
-                        }
-
-                        Row {
-                            spacing: Math.round(10 * Flat.FlatStyle.scaleFactor)
-                            TextLabel {
-                                text: qsTr("Router")
-                                width: content.titleWidth
-                                horizontalAlignment: Text.AlignRight
-                            }
-                            IpAddressTextField {
-                                id: ipv4Gateway
-                                text: service.ipv4.gateway
-
-                                onTextChanged: ipv4Changed = true
-
-                                onAccepted: if (text.length > 0) service.ipv4.gateway = text
-                            }
+                        IpAddressTextField {
+                            id: ipv4Gateway
+                            text: service.ipv4.gateway
+                            onTextChanged: ipv4Changed = true
+                            onAccepted: if (text.length > 0) service.ipv4.gateway = text
+                            enabled: service.ipv4.method === NetworkSettingsIPv4.Manual
                         }
                     }
                 }
@@ -221,7 +157,6 @@ Item {
 
             //IPv6 Config
             GroupBox {
-                flat: false
                 width: content.groupWidth
                 Layout.fillWidth: true
                 title: qsTr("IPv6")
@@ -229,384 +164,179 @@ Item {
                 ColumnLayout {
                     anchors.fill: parent
 
-                    ListModel {
-                        id: ipv6methodsmodel
+                    ComboBoxEntry {
+                        title: qsTr("Connection method:")
+                        titleWidth: content.titleWidth
+                        model: ListModel {
+                            id: ipv6methodsmodel
 
-                        ListElement {
-                            text: qsTr("Auto")
-                            method: NetworkSettingsIPv6.Auto
+                            ListElement {
+                                text: qsTr("Auto")
+                                method: NetworkSettingsIPv6.Auto
+                            }
+                            ListElement {
+                                text: qsTr("Manual")
+                                method: NetworkSettingsIPv6.Manual
+                            }
+                            ListElement {
+                                text: qsTr("Off")
+                                method: NetworkSettingsIPv6.Off
+                            }
                         }
-                        ListElement {
-                            text: qsTr("Manual")
-                            method: NetworkSettingsIPv6.Manual
-                        }
-                        ListElement {
-                            text: qsTr("Off")
-                            method: NetworkSettingsIPv6.Off
+
+                        Component.onCompleted: currentIndex = service.ipv6.method
+
+                        onCurrentIndexChanged: {
+                            ipv6Changed = true;
+                            service.ipv6.method = model.get(currentIndex).method;
                         }
                     }
+                    GridLayout {
+                        columnSpacing: 10
+                        rows: 3
+                        columns: 2
+                        visible: service.ipv6.method !== NetworkSettingsIPv6.Off
 
-                    Row {
-                        spacing: Math.round(10 * Flat.FlatStyle.scaleFactor)
-                        TextLabel {
-                            text: qsTr("Connection method: ")
-                            width: content.titleWidth
+                        Label {
+                            text: qsTr("Address:")
+                            Layout.preferredWidth: content.titleWidth
                             horizontalAlignment: Text.AlignRight
                         }
-
-                        CustomCombobox {
-                            id: ipv6Method
-                            model: ipv6methodsmodel
-                            Component.onCompleted: selectedIndex = service.ipv6.method
-                            onSelectedIndexChanged : {
-                                ipv6Changed = true;
-                                service.ipv6.method = model.get(selectedIndex).method;
-                            }
-                            delegate: FlatStyledDropdownDelegate { }
+                        TextField {
+                            id: ipv6Address
+                            text: service.ipv6.address
+                            Layout.fillWidth: true
+                            onTextChanged: ipv6Changed = true;
+                            onAccepted: if (text.length > 0) service.ipv6.address = text
+                            enabled: service.ipv6.method === NetworkSettingsIPv6.Manual
                         }
-                    }
-
-                    Column {
-                        spacing: Math.round(10 * Flat.FlatStyle.scaleFactor)
-                        visible: service.ipv6.method === NetworkSettingsIPv6.Auto
-                        Row {
-                            spacing: Math.round(10 * Flat.FlatStyle.scaleFactor)
-                            TextLabel {
-                                text: qsTr("Address")
-                                width: content.titleWidth
-                                horizontalAlignment: Text.AlignRight
-                            }
-                            TextLabel {
-                                text: service.ipv6.address
-                            }
+                        Label {
+                            text: qsTr("Router:")
+                            Layout.preferredWidth: content.titleWidth
+                            horizontalAlignment: Text.AlignRight
                         }
-
-                        Row {
-                            spacing: Math.round(10 * Flat.FlatStyle.scaleFactor)
-                            TextLabel {
-                                text: qsTr("Router")
-                                width: content.titleWidth
-                                horizontalAlignment: Text.AlignRight
-                            }
-                            TextLabel {
-                                text: service.ipv6.gateway
-                            }
+                        TextField {
+                            id: ipv6Gateway
+                            text: service.ipv6.gateway
+                            Layout.fillWidth: true
+                            onTextChanged: ipv6Changed = true;
+                            onAccepted: if (text.length > 0) service.ipv4.gateway = text
+                            enabled: service.ipv6.method === NetworkSettingsIPv6.Manual
                         }
-
-                        Row {
-                            spacing: Math.round(10 * Flat.FlatStyle.scaleFactor)
-                            TextLabel {
-                                text: qsTr("Prefix length")
-                                width: content.titleWidth
-                                horizontalAlignment: Text.AlignRight
-                            }
-                            TextLabel {
-                                text: service.ipv6.prefixLength
-                            }
+                        Label {
+                            text: qsTr("Prefix length:")
+                            Layout.preferredWidth: content.titleWidth
+                            horizontalAlignment: Text.AlignRight
                         }
-                    }
-
-                    Column {
-                        spacing: Math.round(10 * Flat.FlatStyle.scaleFactor)
-                        visible: service.ipv6.method === NetworkSettingsIPv6.Manual
-                        Row {
-                            spacing: Math.round(10 * Flat.FlatStyle.scaleFactor)
-                            TextLabel {
-                                text: qsTr("Address")
-                                width: content.titleWidth
-                                horizontalAlignment: Text.AlignRight
-                            }
-                            TextField {
-                                id: ipv6Address
-                                text: service.ipv6.address
-                                onTextChanged: ipv6Changed = true;
-                                onAccepted: if (text.length > 0) service.ipv6.address = text
-                            }
-                        }
-
-                        Row {
-                            spacing: Math.round(10 * Flat.FlatStyle.scaleFactor)
-                            TextLabel {
-                                text: qsTr("Router")
-                                width: content.titleWidth
-                                horizontalAlignment: Text.AlignRight
-                            }
-                            TextField {
-                                id: ipv6Gateway
-                                text: service.ipv6.gateway
-                                onTextChanged: ipv6Changed = true;
-                                onAccepted: if (text.length > 0) service.ipv4.gateway = text
-                            }
-                        }
-
-                        Row {
-                            spacing: Math.round(10 * Flat.FlatStyle.scaleFactor)
-                            TextLabel {
-                                text: qsTr("Prefix length")
-                                width: content.titleWidth
-                                horizontalAlignment: Text.AlignRight
-                            }
-                            TextField {
-                                id: ipv6PrefixLength
-                                text: service.ipv6.prefixLength
-                                validator: IntValidator { bottom: 0; top: 255 }
-
-                                onTextChanged: ipv6Changed = true
-
-                                onAccepted: if (text.length > 0) service.ipv6.prefixLength = parseInt(text)
-                            }
+                        TextField {
+                            id: ipv6PrefixLength
+                            text: service.ipv6.prefixLength
+                            Layout.fillWidth: true
+                            validator: IntValidator { bottom: 0; top: 255 }
+                            onTextChanged: ipv6Changed = true
+                            onAccepted: if (text.length > 0) service.ipv6.prefixLength = parseInt(text)
+                            enabled: service.ipv6.method === NetworkSettingsIPv6.Manual
                         }
                     }
                 }
             }
-
             GroupBox {
-                flat: false
                 width: content.groupWidth
                 Layout.fillWidth: true
                 title: qsTr("Name servers")
 
                 ColumnLayout {
                     anchors.fill: parent
-                    Row {
-                        spacing: Math.round(10 * Flat.FlatStyle.scaleFactor)
-                        TextLabel {
-                            text: qsTr("Address")
-                            width: content.titleWidth
-                            horizontalAlignment: Text.AlignRight
-                        }
-                        Column {
-                            Repeater {
-                                model: service.nameservers
-
-                                Row {
-                                    TextField {
-                                        text: edit
-                                        onTextChanged: {
-                                            nameserversChanged = true;
-                                            edit = text;
-                                        }
-                                    }
-                                    Button {
-                                        implicitWidth: height
-                                        text: "-"
-                                        onClicked: {
-                                            service.nameservers.remove(index);
-                                            nameserversChanged = true;
-                                        }
-                                    }
-                                    Button {
-                                        implicitWidth: height
-                                        visible: index==service.nameservers.count-1
-                                        text: "+"
-                                        onClicked: service.nameservers.append("")
-                                    }
-                                }
-                            }
-                        }
-                        Row {
-                            TextField {
-                                id: nameServerEntryItem
-                                visible: service.nameservers.count === 0
-                                text: ""
-                                onAccepted: service.nameservers.append(text)
-                            }
-                            Button {
-                                implicitWidth: height
-                                visible: nameServerEntryItem.visible
-                                text: "+"
-                                onClicked: nameServerEntryItem.accepted()
-                            }
-                        }
+                    AddressListEntry {
+                        title: qsTr("Address:")
+                        model: service.nameservers
+                        modified: nameserversChanged
                     }
                 }
             }
-
             GroupBox {
-                flat: false
                 width: content.groupWidth
                 Layout.fillWidth: true
                 title: qsTr("Domains")
 
                 ColumnLayout {
                     anchors.fill: parent
-                    Row {
-                        spacing: Math.round(10 * Flat.FlatStyle.scaleFactor)
-                        TextLabel {
-                            text: qsTr("Address")
-                            width: content.titleWidth
-                            horizontalAlignment: Text.AlignRight
-                        }
-                        Column {
-                            Repeater {
-                                model: service.domains
-                                Row {
-                                    TextField {
-                                        text: edit
-                                        onTextChanged: {
-                                            root.domainsChanged = true;
-                                            edit = text;
-                                        }
-                                    }
-                                    Button {
-                                        implicitWidth: height
-                                        text: "-"
-                                        onClicked: {
-                                            service.domains.remove(index);
-                                            domainsChanged.domainsChanged = true;
-                                        }
-                                    }
-                                    Button {
-                                        implicitWidth: height
-                                        visible: index==service.domains.count-1
-                                        text: "+"
-                                        onClicked: service.domains.append("")
-                                    }
-                                }
-                            }
-                        }
-                        Row {
-                            TextField {
-                                id: domainsEntryItem
-                                visible: service.domains.count === 0
-                                text: ""
-                                onAccepted: service.domains.append(text)
-                            }
-                            Button {
-                                implicitWidth: height
-                                visible: domainsEntryItem.visible
-                                text: "+"
-                                onClicked: domainsEntryItem.accepted()
-                            }
-                        }
+                    AddressListEntry {
+                        title: qsTr("Address:")
+                        model: service.domains
+                        modified: domainsChanged
                     }
                 }
             }
-
             GroupBox {
-                flat: false
                 width: content.groupWidth
                 Layout.fillWidth: true
                 title: qsTr("Proxy Settings")
 
                 ColumnLayout {
-                    anchors.fill: parent
+                    id: proxyLayout
+                    width: parent.width
 
-                    ListModel {
-                        id: proxyMethodModel
+                    ComboBoxEntry {
+                        title: qsTr("Configuration:")
+                        titleWidth: content.titleWidth
+                        model: ListModel {
+                            id: proxyMethodModel
 
-                        ListElement {
-                            text: qsTr("Direct")
-                            method: NetworkSettingsProxy.Direct
-                        }
-                        ListElement {
-                            text: qsTr("Auto")
-                            method: NetworkSettingsProxy.Auto
-                        }
-                        ListElement {
-                            text: qsTr("Manual")
-                            method: NetworkSettingsProxy.Manual
-                        }
-                    }
-
-                    Row {
-                        spacing: Math.round(10 * Flat.FlatStyle.scaleFactor)
-                        TextLabel {
-                            text: qsTr("Configuration")
-                            width: content.titleWidth
-                            horizontalAlignment: Text.AlignRight
-                        }
-
-                        CustomCombobox {
-                            id: proxyMethodSel
-                            model: proxyMethodModel
-                            Component.onCompleted: selectedIndex = service.proxy.method
-                            onSelectedIndexChanged : {
-                                proxyChanged = true;
-                                service.proxy.method = model.get(selectedIndex).method;
+                            ListElement {
+                                text: qsTr("Direct")
+                                method: NetworkSettingsProxy.Direct
                             }
-                            delegate: FlatStyledDropdownDelegate { }
+                            ListElement {
+                                text: qsTr("Auto")
+                                method: NetworkSettingsProxy.Auto
+                            }
+                            ListElement {
+                                text: qsTr("Manual")
+                                method: NetworkSettingsProxy.Manual
+                            }
+                        }
+                        Component.onCompleted: currentIndex = service.proxy.method
+
+                        onCurrentIndexChanged: {
+                            proxyChanged = true;
+                            service.proxy.method = model.get(currentIndex).method;
                         }
                     }
-
-                    Row {
-                        spacing: Math.round(10 * Flat.FlatStyle.scaleFactor)
+                    RowLayout {
+                        spacing: 10
                         visible: service.proxy.method !== NetworkSettingsProxy.Direct
-                        TextLabel {
-                            text: service.proxy.method === NetworkSettingsProxy.Manual ? qsTr("Proxy address") : qsTr("Automatic configuration URL")
 
-                            width: content.titleWidth
+                        Label {
+                            text: service.proxy.method === NetworkSettingsProxy.Manual ? qsTr("Proxy address:") : qsTr("Configuration URL:")
+                            Layout.preferredWidth: content.titleWidth
                             horizontalAlignment: Text.AlignRight
+                            Layout.alignment: Qt.AlignVCenter
+                            elide: Label.ElideRight
                         }
                         TextField {
                             id: proxyUrl
                             text: service.proxy.url
+                            Layout.fillWidth: true
                             onTextChanged: proxyChanged = true;
                             onAccepted: service.proxy.url = text;
                         }
                     }
-                    Row {
-                        spacing: Math.round(10 * Flat.FlatStyle.scaleFactor)
+                    AddressListEntry {
+                        model: service.proxy.excludes
+                        modified: proxyChanged
+                        title: qsTr("No proxy for:")
                         visible: service.proxy.method === NetworkSettingsProxy.Manual
-
-                        TextLabel {
-                            text: qsTr("No proxy for")
-                            width: content.titleWidth
-                            horizontalAlignment: Text.AlignRight
-                        }
-
-                        Column {
-                            Repeater {
-                                model: service.proxy.excludes
-
-                                Row {
-                                    TextField {
-                                        text: edit
-                                        onTextChanged: edit = text
-                                    }
-                                    Button {
-                                        implicitWidth: height
-                                        text: "-"
-                                        onClicked: {
-                                            service.proxy.excludes.remove(index);
-                                            proxyChanged = true;
-                                        }
-                                    }
-                                    Button {
-                                        implicitWidth: height
-                                        visible: index==service.proxy.excludes.count-1
-                                        text: "+"
-                                        onClicked: service.proxy.excludes.append("")
-                                    }
-                                }
-                            }
-                        }
-                        Row {
-                            TextField {
-                                id: proxyEntryItem
-                                visible: service.proxy.excludes.count === 0
-                                text: ""
-                                onAccepted: service.proxy.excludes.append(text)
-                            }
-                            Button {
-                                implicitWidth: height
-                                visible: proxyEntryItem.visible
-                                text: "+"
-                                onClicked: proxyEntryItem.accepted()
-                            }
-                        }
                     }
                 }
             }
         }
     }
-
     Button {
         id: saveButton
         anchors.right: parent.right
         anchors.top: parent.top
-        anchors.margins: Math.round(10 * Flat.FlatStyle.scaleFactor)
-        anchors.rightMargin: Math.round(40 * Flat.FlatStyle.scaleFactor)
+        anchors.margins: 20
         text: qsTr("Save")
 
         onClicked: {
@@ -631,6 +361,7 @@ Item {
             if (domainsChanged) {
                 service.setupDomainsConfig();
             }
+
             if (proxyChanged) {
                 proxyUrl.accepted();
                 service.setupNetworkSettingsProxy();

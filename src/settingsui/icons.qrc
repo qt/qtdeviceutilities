@@ -8,5 +8,11 @@
         <file>icons/Flag_qt_6x.png</file>
         <file>icons/World_qt_6x.png</file>
         <file>icons/Bluetooth_qt_6x.png</file>
+        <file>icons/Bluetooth_qt_1x.png</file>
+        <file>icons/Headphones_qt_1x.png</file>
+        <file>icons/Keyboard_qt_1x.png</file>
+        <file>icons/Laptop_qt_1x.png</file>
+        <file>icons/Microphone_qt_1x.png</file>
+        <file>icons/Mouse_qt_1x.png</file>
     </qresource>
 </RCC>

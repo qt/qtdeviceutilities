@@ -33,99 +33,103 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-import QtQuick 2.5
-import QtQuick.Layouts 1.1
-import QtQuick.Controls 1.4
-import QtQuick.Controls.Styles.Flat 1.0 as Flat
-import com.theqtcompany.settings.display 1.0
-import "../common"
+import QtQuick 2.6
+import QtQuick.Layouts 1.3
+import Qt.labs.controls 1.0
+import Qt.labs.controls.material 1.0
+import Qt.labs.controls.universal 1.0
+import B2Qt.Utils 1.0
 
 Item {
     id: root
-
     property string title: qsTr("Display Settings")
+    property int titleWidth: width * 0.382
 
     GroupBox {
         title: qsTr("Display Settings")
-        anchors.fill: parent
-        anchors.margins: Math.round(40 * Flat.FlatStyle.scaleFactor)
-        Layout.fillWidth: true
+        anchors.margins: 20
+        anchors.left: parent.left
+        anchors.top: parent.top
+        anchors.right:parent.right
 
-        Column {
-            spacing: Math.round(10 * Flat.FlatStyle.scaleFactor)
+        ColumnLayout {
+            anchors.fill: parent
+
             RowLayout {
-                spacing: Math.round(10 * Flat.FlatStyle.scaleFactor)
+                width: parent.width
+                spacing: 10
 
-                TextLabel {
-                    text: qsTr("Brighness: ")
+                Label {
+                    text: qsTr("Brightness:")
+                    Layout.preferredWidth: root.titleWidth
+                    Layout.alignment: Qt.AlignVCenter
+                    horizontalAlignment: Text.AlignRight
                 }
-
                 Slider {
                     id: brightnessSlider
-                    value: DisplaySettings.displayBrightness
+                    value: B2QtDevice.displayBrightness
+                    Layout.alignment: Qt.AlignVCenter
                     Layout.fillWidth: true
+                    from: 0
+                    to: 255
                 }
             }
-
             Binding {
-                target: DisplaySettings
+                target: B2QtDevice
                 property: "displayBrightness"
-                value: brightnessSlider.value
+                value: brightnessSlider.position * brightnessSlider.to
             }
+            GridLayout {
+                columns: 2
+                rows: 3
+                rowSpacing: 10
 
-            Row {
-                spacing: Math.round(10 * Flat.FlatStyle.scaleFactor)
-
-                TextLabel {
-                    text: qsTr("Physical screen size: ")
+                Label {
+                    text: qsTr("Physical screen size:")
+                    Layout.preferredWidth: root.titleWidth
+                    Layout.alignment: Qt.AlignVCenter
+                    horizontalAlignment: Text.AlignRight
+                    wrapMode: Label.WordWrap
                 }
+                RadioButton {
+                    text: qsTr("Default")
+                    checked: !B2QtDevice.physicalScreenSizeOverride
+                }
+                RadioButton {
+                    id: custom
+                    Layout.column: 1
+                    Layout.row: 1
+                    text: qsTr("Custom")
+                    checked: B2QtDevice.physicalScreenSizeOverride
+                    onCheckedChanged: B2QtDevice.physicalScreenSizeOverride = checked
+                }
+                GroupBox {
+                    title: qsTr("Size (in inches): %1").arg(B2QtDevice.physicalScreenSizeInch)
+                    Layout.column: 1
+                    Layout.row: 2
+                    Layout.fillWidth: true
+                    visible: custom.checked
 
-                ColumnLayout {
-                    ExclusiveGroup { id: exgroup }
-                    RadioButton {
-                        text: qsTr("Default")
-                        exclusiveGroup: exgroup
-                        checked: !DisplaySettings.physicalScreenSizeOverride
-                    }
-                    RadioButton {
-                        id: custom
-                        text: qsTr("Custom")
-                        exclusiveGroup: exgroup
-                        checked: DisplaySettings.physicalScreenSizeOverride
+                    RowLayout {
+                        spacing: 10
+                        width: parent.width
 
-                        onCheckedChanged: DisplaySettings.physicalScreenSizeOverride = checked
-                   }
-
-                   GroupBox {
-                        title: qsTr("Size (in inches): " + sizeSlider.value)
-                        Layout.fillWidth: true
-                        flat: true
-                        visible: custom.checked
-
-                        Row {
-                            spacing: Math.round(10 * Flat.FlatStyle.scaleFactor)
-                            TextLabel {
-                                text: sizeSlider.minimumValue
-                            }
-
-                            Slider {
-                                id: sizeSlider
-                                value: DisplaySettings.physicalScreenSizeInch
-                                Layout.fillWidth: true
-                                stepSize: 1
-                                minimumValue: 4
-                                maximumValue: 60
-                            }
-
-                            TextLabel {
-                                text: sizeSlider.maximumValue
-                            }
-
-                            Binding {
-                                target: DisplaySettings
-                                property: "physicalScreenSizeInch"
-                                value: sizeSlider.value
-                            }
+                        Label {
+                            text: sizeSlider.from
+                            Layout.alignment: Qt.AlignVCenter
+                        }
+                        Slider {
+                            id: sizeSlider
+                            value: B2QtDevice.physicalScreenSizeInch
+                            Layout.fillWidth: true
+                            stepSize: 1
+                            from: 4
+                            to: 60
+                            onPositionChanged: B2QtDevice.physicalScreenSizeInch = sizeSlider.from + Math.floor(sizeSlider.position * (sizeSlider.to - sizeSlider.from))
+                        }
+                        Label {
+                            text: sizeSlider.to
+                            Layout.alignment: Qt.AlignVCenter | Qt.AlignRight
                         }
                     }
                 }
@@ -133,4 +137,3 @@ Item {
         }
     }
 }
-

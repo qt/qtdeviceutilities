@@ -222,7 +222,7 @@ QVariant DiscoveryModel::data(const QModelIndex & index, int role) const
     case DiscoveryModel::Connected:
         return item->connected();
     default:
-        return "";
+        return QVariant();
     }
 }
 

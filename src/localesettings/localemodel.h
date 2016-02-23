@@ -74,8 +74,8 @@ public:
     static bool variantLessThan(const LocaleItem* v1, const LocaleItem* v2);
 
     enum Roles {
-        Language = Qt::DisplayPropertyRole,
-        Country = Qt::UserRole,
+        Language = Qt::UserRole + 1,
+        Country,
         Code
     };
 

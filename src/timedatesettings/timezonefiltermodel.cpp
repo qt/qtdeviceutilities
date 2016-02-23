@@ -99,6 +99,6 @@ QVariant TimezoneFilterModel::itemFromRow(const int row) const
             return nameRole;
         }
     }
-    return QVariant::fromValue(QString(""));
+    return QVariant();
 }
 

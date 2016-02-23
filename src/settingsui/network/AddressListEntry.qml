@@ -38,44 +38,70 @@ import QtQuick.Layouts 1.3
 import Qt.labs.controls 1.0
 import Qt.labs.controls.material 1.0
 import Qt.labs.controls.universal 1.0
-import com.theqtcompany.settings.timedate 1.0
-import "../common"
 
-Item {
+RowLayout {
     id: root
-    property string title: qsTr("Timezone settings")
-    Component.onCompleted: timezone.text = TimezonesFilter.filter
+    spacing: 10
+    property alias model: repeater.model
+    property bool modified: false
+    property alias title: label.text
 
+    Label {
+        id: label
+        Layout.preferredWidth: content.titleWidth
+        horizontalAlignment: Text.AlignRight
+        Layout.alignment: Qt.AlignTop
+        Layout.topMargin: 10
+    }
     ColumnLayout {
-        id: content
-        anchors.fill: parent
-        anchors.margins: 20
         spacing: 10
+        Layout.fillWidth: true
 
-        RowLayout {
-            spacing: 10
+        Repeater {
+            id: repeater
+            visible: count > 0
+            RowLayout {
+                spacing: 10
+                TextField {
+                    text: edit
+                    Layout.fillWidth: true
+                    onEditingFinished: {
+                        root.modified = true;
+                        edit = text;
+                    }
+                }
+                Button {
+                    Layout.preferredWidth: height
+                    text: "-"
+                    visible: repeater.count > 0
+                    onClicked: {
+                        root.modified = true;
+                        root.model.remove(index);
+                    }
+                }
+                Button {
+                    Layout.preferredWidth: height
+                    visible: index === repeater.count - 1
+                    text: "+"
+                    onClicked: root.model.append("")
 
-            Label {
-                text: qsTr("Search area: ")
-                Layout.alignment: Qt.AlignVCenter
-            }
-            TextField {
-                id: timezone
-                text: ""
-                onTextChanged: TimezonesFilter.filter = timezone.text
-                Layout.alignment: Qt.AlignVCenter
+                    Layout.alignment: Qt.AlignRight
+                }
             }
         }
-        CustomTableView {
-            headerTexts: [qsTr("Timezone"), qsTr("Country")]
-            roleNames: ["id", "country"]
-            model: TimezonesFilter
-            onClicked: {
-                var val = model.itemFromRow(index);
-                if (val !== "") {
-                    TimeManager.timeZone = val;
-                    stackView.pop();
-                }
+        RowLayout {
+            visible: repeater.count === 0
+            spacing: 10
+            TextField {
+                id: nameServerEntryItem
+                Layout.fillWidth: true
+                text: ""
+                onAccepted: root.model.append(text)
+            }
+            Button {
+                Layout.preferredWidth: height
+                text: "+"
+                onClicked: nameServerEntryItem.accepted()
             }
         }
     }

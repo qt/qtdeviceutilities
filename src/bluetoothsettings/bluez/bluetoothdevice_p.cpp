@@ -68,8 +68,8 @@ OrgBluezDevice1Interface* BluetoothDevicePrivate::findDevice()
             const QString &iface = jt.key();
             const QVariantMap &ifaceValues = jt.value();
             if (iface == QStringLiteral("org.bluez.Device1")) {
-                if (ifaceValues["Address"] == m_address) {
-                    OrgBluezDevice1Interface *devIf = new OrgBluezDevice1Interface("org.bluez", path.path(), QDBusConnection::systemBus());
+                if (ifaceValues[QStringLiteral("Address")] == m_address) {
+                    OrgBluezDevice1Interface *devIf = new OrgBluezDevice1Interface(QStringLiteral("org.bluez"), path.path(), QDBusConnection::systemBus());
                     return devIf;
                 }
             }
@@ -77,7 +77,6 @@ OrgBluezDevice1Interface* BluetoothDevicePrivate::findDevice()
     }
     return NULL;
 }
-
 
 void BluetoothDevicePrivate::connectDevice()
 {

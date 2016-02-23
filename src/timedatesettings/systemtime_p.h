@@ -66,7 +66,7 @@ public:
     QString timeZone() const {
         if (m_timeInterface)
             return m_timeInterface->timezone();
-        return "";
+        return QString();
     }
 
     void setTimeZone(const QString& aTimeZone) {

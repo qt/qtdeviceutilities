@@ -59,11 +59,11 @@ public:
     }
 
     QString locale() const {
-        return m_localeCache["LANG"];
+        return m_localeCache[QStringLiteral("LANG")];
     }
 
     void setLocale(const QString& aLocale) {
-        m_localeCache["LANG"] = aLocale;
+        m_localeCache[QStringLiteral("LANG")] = aLocale;
         updateLocale();
     }
 

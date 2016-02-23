@@ -33,27 +33,28 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-import QtQuick 2.5
-import QtQuick.Layouts 1.1
-import QtQuick.Controls 1.4
-import QtBluetooth 5.2
-import QtQuick.Controls.Styles.Flat 1.0 as Flat
-import "../common"
+import QtQuick 2.6
+import QtQuick.Layouts 1.3
+import Qt.labs.controls 1.0
+import Qt.labs.controls.material 1.0
+import Qt.labs.controls.universal 1.0
 import com.theqtcompany.settings.bluetooth 1.0
 
 Item {
     id: top
-    property BluetoothService currentService
 
     GroupBox {
         id: groupBox
         title: qsTr("Devices")
-        width: parent.width
+        anchors.fill: parent
 
         ListView {
             id: mainList
-            width: parent.width
-            height: top.height
+            anchors.fill: parent
+            opacity: BtDevice.scanning ? .5 : 1.0
+            interactive: !BtDevice.scanning
+            clip: true
+            model: BtDevice.deviceModel
 
             function getIcon(deviceType) {
                 switch (deviceType) {
@@ -72,71 +73,59 @@ Item {
                 }
             }
 
-            model: BtDevice.deviceModel
-            delegate: Rectangle {
+            delegate: Item {
                 id: btDelegate
                 width: parent.width
-                height: Math.round(column.height + 10 * Flat.FlatStyle.scaleFactor)
-
-                property bool expended: false;
-                clip: true
+                height: expanded || connected ?  column.height + 10 : bttext.height + 10
+                property bool expanded: false;
 
                 MouseArea {
                     anchors.fill: parent
-                    onClicked: btDelegate.expended = !btDelegate.expended
+                    onClicked: {
+                        if (!connected)
+                            btDelegate.expanded = !btDelegate.expanded
+                    }
                 }
-
-                RowLayout {
-                    anchors.top: parent.top
+                Image {
+                    id: bticon
                     anchors.left: parent.left
-                    spacing: Math.round(10 * Flat.FlatStyle.scaleFactor)
+                    anchors.top: parent.top
+                    anchors.topMargin: 4
+                    source: mainList.getIcon(type)
+                }
+                Column {
+                    id: column
+                    anchors.left: bticon.right
+                    anchors.leftMargin: 10
+                    anchors.right: connectButton.left
+                    anchors.rightMargin: 10
 
-                    Image {
-                       id: bticon
-                       source: mainList.getIcon(type)
+                    Label {
+                        id: bttext
+                        text: name
                     }
-
-                    Column {
-                        id: column
-                        TextLabel {
-                            id: bttext
-                            text: name
-                        }
-
-                        TextLabel {
-                            id: details
-                            opacity: btDelegate.expended ? 1 : 0.0
-                            text: address
-                            Behavior on opacity {
-                                NumberAnimation { duration: 200}
-                            }
-                        }
+                    Label {
+                        id: details
+                        opacity: btDelegate.expanded || connected ? 1 : 0.0
+                        text: address
+                        Behavior on opacity { NumberAnimation { duration: 200} }
                     }
                 }
-
                 Button {
+                    id: connectButton
                     anchors.right: parent.right
-                    anchors.rightMargin: Math.round(10 * Flat.FlatStyle.scaleFactor)
-                    visible: !BtDevice.scanning
+                    anchors.verticalCenter: parent.verticalCenter
+                    visible: (expanded || connected) && !BtDevice.scanning
                     text: connected ? qsTr("Disconnect") : qsTr("Connect")
-
                     onClicked : connected ? BtDevice.requestDisconnect(address) : BtDevice.requestPairing(address);
                 }
-
                 Behavior on height { NumberAnimation { duration: 200} }
-
             }
             focus: true
         }
     }
-
     BusyIndicator {
-        anchors.right: groupBox.right
-        anchors.top: groupBox.top
-        anchors.topMargin: Math.round(40 * Flat.FlatStyle.scaleFactor)
-        anchors.rightMargin: Math.round(10 * Flat.FlatStyle.scaleFactor)
-        height: Math.round(20 * Flat.FlatStyle.scaleFactor)
-        width: Math.round(20 * Flat.FlatStyle.scaleFactor)
+        anchors.centerIn: parent
         running: BtDevice.scanning
-     }
+    }
 }

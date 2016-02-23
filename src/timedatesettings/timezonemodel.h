@@ -45,6 +45,8 @@ class TimezoneItem : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString id READ id CONSTANT)
+    Q_PROPERTY(QString name READ name CONSTANT)
+    Q_PROPERTY(QString country READ country CONSTANT)
 public:
     explicit TimezoneItem(const QByteArray& id, QObject *parent=0);
     QString name() const;

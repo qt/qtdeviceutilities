@@ -33,8 +33,10 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-import QtQuick 2.5
-import "../common"
+import QtQuick 2.6
+import Qt.labs.controls 1.0
+import Qt.labs.controls.material 1.0
+import Qt.labs.controls.universal 1.0
 import com.theqtcompany.settings.timedate 1.0
 
 Item {
@@ -59,18 +61,16 @@ Item {
             onTimeChanged : newTime.setSeconds(currentTime.getSeconds())
             onTimeZoneChanged : Date.timeZoneUpdated()
         }
-
-        TextLabel {
+        Label {
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.topMargin: 10
             anchors.top: parent.top
             text: editMode ? newTime.toTimeString() : currentTime.toTimeString()
         }
-
         Rectangle {
             id: root
             anchors.fill: parent
-            anchors.margins: Math.round(40 * Flat.FlatStyle.scaleFactor)
+            anchors.margins: 40
             color: "white"
             border.color: editMode ? "#d6d6d6" : "#5caa15"
             border.width: Math.round(root.width * 0.120)
@@ -96,7 +96,6 @@ Item {
                     }
                 }
             }
-
             Rectangle {
                 id: hours
                 x: Math.round(root.height / 2 - width / 2)
@@ -115,7 +114,6 @@ Item {
                     }
                 }
             }
-
             Rectangle {
                 id: seconds
                 x: root.height / 2 - width / 2
@@ -136,59 +134,56 @@ Item {
                     }
                 }
             }
-
             Component {
-                 id: editor
+                id: editor
 
-                 Rectangle {
-                     id: rect
-                     property var angle: mouseArea.drag ? mouseArea.angle : defaultAngle
-                     property var defaultAngle: angleBinding
-                     x: Math.round(Math.cos((-90+ angle)*Math.PI/180) *
-                        (pos - root.handOffset - width /2 + radius) + root.width / 2 - width / 2)
-                     y: Math.round(Math.sin((-90+ angle)*Math.PI/180) *
-                        (pos - root.handOffset - width /2 + radius) + root.height / 2 - width / 2)
-                     color: "#5caa15"
-                     width: size
-                     radius: width / 2
-                     height: width
-                     antialiasing: true
+                Rectangle {
+                    id: rect
+                    property var angle: mouseArea.drag ? mouseArea.angle : defaultAngle
+                    property var defaultAngle: angleBinding
+                    x: Math.round(Math.cos((-90+ angle)*Math.PI/180) *
+                                  (pos - root.handOffset - width /2 + radius) + root.width / 2 - width / 2)
+                    y: Math.round(Math.sin((-90+ angle)*Math.PI/180) *
+                                  (pos - root.handOffset - width /2 + radius) + root.height / 2 - width / 2)
+                    color: "#5caa15"
+                    width: size
+                    radius: width / 2
+                    height: width
+                    antialiasing: true
 
-                     function calcAngle(mouse) {
-                         var mouseGlobal = mapToItem(root, mouse.x, mouse.y)
-                         var origin = root.width/2
-                         var angle = (90+Math.atan2((mouseGlobal.y-origin), (mouseGlobal.x-origin))*180/Math.PI)
-                         if (angle < 0)
-                             angle += 360;
-                         updateAngle(angle);
-                         return angle;
-                     }
+                    function calcAngle(mouse) {
+                        var mouseGlobal = mapToItem(root, mouse.x, mouse.y)
+                        var origin = root.width/2
+                        var angle = (90+Math.atan2((mouseGlobal.y-origin), (mouseGlobal.x-origin))*180/Math.PI)
+                        if (angle < 0)
+                            angle += 360;
+                        updateAngle(angle);
+                        return angle;
+                    }
+                    MouseArea {
+                        id: mouseArea
+                        anchors.fill: parent
+                        property int startX: 0
+                        property int startY: 0
+                        property bool drag: false
+                        property var angle: 0.0
+                        preventStealing: true
 
-                     MouseArea {
-                         id: mouseArea
-                         anchors.fill: parent
-                         property int startX: 0
-                         property int startY: 0
-                         property bool drag: false
-                         property var angle: 0.0
-                         preventStealing: true
-
-                         onPressed: {
-                             var mouseGlobal = mapToItem(root, mouse.x, mouse.y);
-                             startX = mouseGlobal.x;
-                             startY = mouseGlobal.y;
-                             angle = calcAngle(mouse);
-                             drag = true;
-                         }
-                         onReleased: {
-                             drag = false;
-                             ready(angle)
-                         }
-                         onMouseXChanged: if (drag) angle = calcAngle(mouse)
-                     }
-                 }
-             }
-
+                        onPressed: {
+                            var mouseGlobal = mapToItem(root, mouse.x, mouse.y);
+                            startX = mouseGlobal.x;
+                            startY = mouseGlobal.y;
+                            angle = calcAngle(mouse);
+                            drag = true;
+                        }
+                        onReleased: {
+                            drag = false;
+                            ready(angle)
+                        }
+                        onMouseXChanged: if (drag) angle = calcAngle(mouse)
+                    }
+                }
+            }
             Loader {
                 property var angleBinding: (currentTime.getHours() * 30) + (currentTime.getMinutes() * 0.5)
                 property int size: Math.round(root.width * 0.120)
@@ -213,11 +208,9 @@ Item {
                     else if (preHour == 12 && newHour == 11) {
                         pm = false;
                     }
-
                     if (pm == true) {
                         newHour += 12;
                     }
-
                     newTime.setHours(newHour);
                 }
 
@@ -228,13 +221,12 @@ Item {
                 }
                 sourceComponent: editor
             }
-
             Loader {
+                visible: editMode
+                sourceComponent: editor
                 property var angleBinding: currentTime.getMinutes() * 6
                 property int size: Math.round(root.width * 0.120)
                 property int pos: minutes.height
-                visible: editMode
-                sourceComponent: editor
 
                 function updateAngle(angle) {
                     var newMin = Math.round(angle / 6);
@@ -242,7 +234,6 @@ Item {
                     newTime.setMinutes(newMin);
                     newTime.setHours(hours);
                 }
-
                 function ready(val) {
                     var newmins = Math.round(val / 6);
                     currentTime.setMinutes(newmins);
@@ -252,4 +243,3 @@ Item {
         }
     }
 }
-

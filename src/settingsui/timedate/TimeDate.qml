@@ -33,11 +33,11 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-import QtQuick 2.5
-import QtQuick.Layouts 1.1
-import QtQuick.Controls 1.4
-import QtQuick.Controls.Styles.Flat 1.0 as Flat
-import "../common"
+import QtQuick 2.6
+import QtQuick.Layouts 1.3
+import Qt.labs.controls 1.0
+import Qt.labs.controls.material 1.0
+import Qt.labs.controls.universal 1.0
 import com.theqtcompany.settings.timedate 1.0
 
 Item {
@@ -46,14 +46,14 @@ Item {
 
     Flickable {
         anchors.fill: parent
-        anchors.margins: Math.round(40 * Flat.FlatStyle.scaleFactor)
-        anchors.bottomMargin: Math.round(20 * Flat.FlatStyle.scaleFactor)
+        anchors.margins: 20
         contentHeight: content.height
         contentWidth: width
 
-        Column {
+        ColumnLayout {
             id: content
             width: parent.width
+            spacing: 20
 
             GroupBox {
                 width: parent.width
@@ -61,105 +61,68 @@ Item {
                 Layout.fillWidth: true
 
                 ColumnLayout {
-                    spacing: Math.round(10 * Flat.FlatStyle.scaleFactor)
+                    spacing: 10
                     width: parent.width
                     Layout.fillWidth: true
-
-                    ExclusiveGroup { id: exgroup }
 
                     RadioButton {
                         id: automatic
                         text: qsTr("Automatic time set")
-                        exclusiveGroup: exgroup
                         checked: TimeManager.ntp
-                        onCheckedChanged: if (checked) calloader.reload();
+                        onCheckedChanged: if (checked) updateTimer.restart()
+
+                        Timer {
+                            id: updateTimer
+                            interval: 300
+                            onTriggered: calendar.updateDate()
+                        }
                     }
                     RadioButton {
                         id: custom
                         text: qsTr("Manual")
-                        exclusiveGroup: exgroup
                         checked: !TimeManager.ntp
                         onCheckedChanged: TimeManager.ntp = !checked
-                   }
-                   RowLayout {
-                       spacing: Math.round(10 * Flat.FlatStyle.scaleFactor)
-                       Layout.fillWidth: true
+                    }
+                    RowLayout
+                    {
+                        id: layout
+                        spacing: 10
 
-                       Component {
-                           id: calendar
+                        CustomCalendar {
+                            id: calendar
+                            width: height
+                        }
 
-                           Item {
-                               width: cal.width
-                               height: cal.height
+                        AnalogClock {
+                            id: clock
+                            height: calendar.height
+                            width: height
+                            editMode: !automatic.checked
+                        }
+                    }
+                    Component {
+                        id: zoneselect
+                        TimezonesView { }
+                    }
 
-                               Timer {
-                                   id: timer
-                               }
-                               function delay(delayTime, cb) {
-                                   timer.interval = delayTime;
-                                   timer.repeat = false;
-                                   timer.triggered.connect(cb);
-                                   timer.start();
-                               }
+                }
+            }
+            GroupBox {
+                title: qsTr("Timezone Settings")
+                Layout.fillWidth: true
+                width: parent.width
+                visible: true
 
-                               Calendar {
-                                   id: cal
-                                   weekNumbersVisible: false
-                                   enabled: !automatic.checked
-                                   onClicked: {
-                                       var currentTime = TimeManager.time;
-                                       var newDate = date;
-                                       newDate.setHours(currentTime.getHours());
-                                       newDate.setMinutes(currentTime.getMinutes());
-                                       newDate.setSeconds(currentTime.getSeconds());
-                                       TimeManager.time = newDate;
-                                       delay(100, function() {
-                                           calloader.reload();
-                                       });
-                                   }
-                               }
-                           }
-                       }
-
-                       Loader {
-                           id: calloader
-                           sourceComponent: calendar
-                           function reload() {
-                               calloader.sourceComponent = undefined;
-                               calloader.sourceComponent = calendar;
-                           }
-                       }
-
-                       AnalogClock {
-                           id: clock
-                           width: calloader.width
-                           height: width
-                           editMode: !automatic.checked
-                       }
-                   }
-
-                   Component {
-                       id: zoneselect
-                       TimezonesView { }
-                   }
-
-                   GroupBox {
-                       title: qsTr("Timezone Settings")
-                       Layout.fillWidth: true
-                       width: parent.width
-                       visible: true
-                       flat: true
-                       Row {
-                           spacing: Math.round(10 * Flat.FlatStyle.scaleFactor)
-                           TextLabel {
-                               text: TimeManager.timeZone
-                           }
-                           Button {
-                               text: "Change"
-                               onClicked : stackView.push(zoneselect)
-                           }
-                       }
-                   }
+                RowLayout {
+                    spacing: 10
+                    Label {
+                        text: TimeManager.timeZone
+                        Layout.alignment: Qt.AlignVCenter
+                    }
+                    Button {
+                        text: qsTr("Change")
+                        onClicked : stackView.push(zoneselect)
+                    }
                 }
             }
         }

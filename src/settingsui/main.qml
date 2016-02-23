@@ -26,13 +26,13 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-import QtQuick 2.5
-import QtQuick.Layouts 1.1
-import QtQuick.Controls 1.4
-import QtQuick.Controls.Styles.Flat 1.0 as Flat
+import QtQuick 2.6
+import QtQuick.Layouts 1.3
+import Qt.labs.controls 1.0
+import Qt.labs.controls.material 1.0
+import Qt.labs.controls.universal 1.0
+import Qt.labs.settings 1.0
 import QtQuick.XmlListModel 2.0
-import "common"
-import com.theqtcompany.localdevice 1.0
 
 ApplicationWindow {
     id: root
@@ -42,60 +42,54 @@ ApplicationWindow {
     visible: true
     property var service
 
-    SystemPalette { id: systemPalette; colorGroup: SystemPalette.Active }
-
-    toolBar:ToolBar {
+    header: ToolBar {
         id: titlebar
         property string title: ""
-        implicitWidth: parent.width
-        implicitHeight: Math.round(40 * Flat.FlatStyle.scaleFactor)
-        Item {
+
+        RowLayout {
+            spacing: 20
             anchors.fill: parent
 
             ToolButton {
-               iconSource: "../icons/Chevron-left_black_1x.png"
-               text: ""
-               visible: stackView.depth > 1
-               height: parent.height
-               width: parent.height
-               onClicked: stackView.pop();
+                label: Image {
+                    source: "../icons/Chevron-left_black_1x.png"
+                    anchors.centerIn: parent
+                }
+                visible: stackView.depth > 1
+                onClicked: stackView.pop();
             }
-            TextLabel {
+            Label {
                 id: titleText
-                font.pixelSize: Math.round(16 * Flat.FlatStyle.scaleFactor)
-                anchors.fill: parent
+                font.pixelSize: 20
                 text: stackView.currentItem.title
+                horizontalAlignment: Qt.AlignHCenter
+                verticalAlignment: Qt.AlignVCenter
+                anchors.centerIn: parent
             }
-
-
             ToolButton {
-               iconSource: "../icons/Power_black_1x.png"
-               text: ""
-               visible: stackView.depth == 1
-               height: parent.height
-               width: parent.height
-               anchors.right: parent.right
-               onClicked: {
-                   menu.__xOffset = Math.round(-100 * Flat.FlatStyle.scaleFactor);
-                   menu.popup();
-               }
+                label: Image {
+                    source: "../icons/Power_black_1x.png"
+                    anchors.centerIn: parent
+                }
+                anchors.right: parent.right
+
+                visible: stackView.depth === 1
+                onClicked: menu.open();
+
+                Menu {
+                    id: menu
+                    x: parent.width - width
+
+                    MenuItem {
+                        text: qsTr("Reboot")
+                        onTriggered: B2QtDevice.reboot()
+                    }
+                    MenuItem {
+                        text: qsTr("Shutdown")
+                        onTriggered: B2QtDevice.powerOff()
+                    }
+                }
             }
-        }
-    }
-
-    Menu {
-        id: menu
-        title: ""
-        enabled: false
-
-        MenuItem {
-            text: qsTr("Reboot")
-            onTriggered: LocalDevice.reboot()
-        }
-
-        MenuItem {
-            text: qsTr("Shutdown")
-            onTriggered: LocalDevice.powerOff()
         }
     }
 
@@ -109,60 +103,58 @@ ApplicationWindow {
 
         Component {
             id: mainView
+
             Item {
                 property string title: qsTr("Device Settings")
+
                 XmlListModel {
                     id: xmlModel
                     source: "settingsview.xml"
                     query: "/xml/settings/item"
                     XmlRole { name: "title"; query: "title/string()"}
                     XmlRole { name: "icon"; query: "icon/string()"}
-                    XmlRole { name: "path"; query: "path/string()"}
                     XmlRole { name: "view"; query: "view/string()"}
+                    XmlRole { name: "path"; query: "path/string()"}
                 }
-
                 GridView {
                     id: grid
                     anchors.fill: parent
-                    anchors.margins: Math.round(40 * Flat.FlatStyle.scaleFactor)
-                    cellHeight: Math.round(133 * Flat.FlatStyle.scaleFactor)  + spacing
-                    cellWidth: Math.round(117 * Flat.FlatStyle.scaleFactor) + spacing
-                    property int spacing: Math.round(20 * Flat.FlatStyle.scaleFactor)
-
+                    anchors.margins: 40
+                    cellHeight: 133 + spacing
+                    cellWidth: 117 + spacing
                     model: xmlModel
-                    delegate:
-                        MouseArea {
-                            width: grid.cellWidth - grid.spacing
-                            height: grid.cellHeight - grid.spacing
+                    property int spacing: 20
+                    delegate: MouseArea {
+                        width: grid.cellWidth - grid.spacing
+                        height: grid.cellHeight - grid.spacing
 
-                            Rectangle {
-                                anchors.fill: parent
-                                color: "#d6d6d6"
-                                radius: 5
-                                visible: pressed
+                        Rectangle {
+                            anchors.fill: parent
+                            color: "#d6d6d6"
+                            radius: 5
+                            visible: pressed
+                        }
+                        Column {
+                            anchors.fill: parent
+                            anchors.topMargin: 10
+                            Image {
+                                id: image
+                                source: icon
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                width: grid.cellWidth
+                                fillMode: Image.PreserveAspectFit
                             }
-
-                            Column {
-                                anchors.fill: parent
-                                anchors.topMargin: Math.round(10 * Flat.FlatStyle.scaleFactor)
-                                Image {
-                                    id: image
-                                    source: icon
-                                    anchors.horizontalCenter: parent.horizontalCenter
-                                }
-
-                                TextLabel {
-                                    text: title
-                                    anchors.horizontalCenter: parent.horizontalCenter
-                                    font.pixelSize: Math.round(16 * Flat.FlatStyle.scaleFactor)
-                                }
+                            Label {
+                                text: title
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                font.pixelSize: grid.cellHeight * .1
                             }
-
-                       onClicked: {
-                           var url = 'import "' + path + '"; ' + view + ' {}';
-                           stackView.push({item: Qt.createQmlObject(url,stackView)});
-                           titlebar.title = title
-                       }
+                        }
+                        onClicked: {
+                            var component = Qt.createComponent(path + '/' +view+'.qml');
+                            stackView.push(component.createObject(stackView));
+                            titlebar.title = title
+                        }
                     }
                 }
             }

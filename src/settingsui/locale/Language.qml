@@ -33,78 +33,66 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-import QtQuick 2.5
-import QtQuick.Layouts 1.1
-import QtQuick.Controls 1.4
-import QtQuick.Controls.Styles.Flat 1.0 as Flat
-import "../common"
+import QtQuick 2.6
+import QtQuick.Layouts 1.3
+import Qt.labs.controls 1.0
+import Qt.labs.controls.material 1.0
+import Qt.labs.controls.universal 1.0
 import com.theqtcompany.settings.locale 1.0
+import QtQml 2.2
 
 Item {
     id: root
     property string title: qsTr("Language and Region")
 
-    Column {
-        id: content
-        anchors.fill: parent
-        anchors.margins: Math.round(40 * Flat.FlatStyle.scaleFactor)
+    GroupBox {
+        id: groupBox
+        title: qsTr("Regional Format")
+        anchors.left: parent.left
+        anchors.top: parent.top
+        anchors.right: parent.right
+        anchors.margins: 20
+        property var currentRegion: Qt.locale(LocaleManager.locale)
 
-        GroupBox {
-            id: groupBox
+        ColumnLayout {
             width: parent.width
-            title: qsTr("Regional Format")
-            Layout.fillWidth: true
-            property var currentRegion: Qt.locale(LocaleManager.locale)
 
-            ColumnLayout {
-                spacing: Math.round(10 * Flat.FlatStyle.scaleFactor)
+            Component {
+                id: regionSelect
+                RegionSelect {}
+            }
+            GroupBox {
                 width: parent.width
-                Layout.fillWidth: true
-
-                Component {
-                    id: regionSelect
-                    RegionSelect { }
+                title: {
+                    if (groupBox.currentRegion.name === "C" || groupBox.currentRegion.name === "POSIX") {
+                        return qsTr("Default");
+                    }
+                    else if (groupBox.currentRegion.name !== "") {
+                        return qsTr("%L1/%L2").arg(groupBox.currentRegion.nativeLanguageName).arg(groupBox.currentRegion.nativeCountryName)
+                    }
+                    else {
+                        return qsTr("Region not set");
+                    }
                 }
-
-                GroupBox {
+                ColumnLayout {
+                    spacing: 10
+                    Layout.fillWidth: true
                     width: parent.width
-                    title: {
-                        if (groupBox.currentRegion.name === "C" || groupBox.currentRegion.name === "POSIX") {
-                            return qsTr("Default");
-                        }
-                        else if (groupBox.currentRegion.name !== "") {
-                             return qsTr("%L1/%L2").arg(groupBox.currentRegion.nativeLanguageName).arg(groupBox.currentRegion.nativeCountryName)
-                        }
-                        else {
-                            return qsTr("Region not set");
-                        }
+
+                    Label {
+                        text: Date().toLocaleString(groupBox.currentRegion)
                     }
-
-                    flat: true
-
-                    ColumnLayout {
-                        spacing: Math.round(10 * Flat.FlatStyle.scaleFactor)
-                        Layout.fillWidth: true
-                        width: parent.width
-
-                        TextLabel {
-                            text: Date().toLocaleString(groupBox.currentRegion)
-                        }
-
-                        TextLabel {
-                            text: Number(2343.34).toLocaleString(groupBox.currentRegion)
-                        }
-
-                        TextLabel {
-                            text: Number(41334.34).toLocaleCurrencyString(groupBox.currentRegion)
-                        }
+                    Label {
+                        text: Number(2343.34).toLocaleString(groupBox.currentRegion)
+                    }
+                    Label {
+                        text: Number(41334.34).toLocaleCurrencyString(groupBox.currentRegion)
                     }
                 }
-
-                Button {
-                    text: qsTr("Change region")
-                    onClicked: stackView.push(regionSelect)
-                }
+            }
+            Button {
+                text: qsTr("Change region")
+                onClicked: stackView.push(regionSelect)
             }
         }
     }

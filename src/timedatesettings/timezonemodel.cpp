@@ -46,7 +46,7 @@ TimezoneItem::TimezoneItem(const QByteArray& id, QObject *parent)
     QTimeZone tz = QTimeZone(id);
     m_name = tz.displayName(QTimeZone::StandardTime);
     m_country = QLocale::countryToString(tz.country());
-    m_id = id;
+    m_id = QString::fromUtf8(id);
 }
 
 QString TimezoneItem::name() const
@@ -116,11 +116,11 @@ QVariant TimezoneModel::data(const QModelIndex & index, int role) const
     if (!index.isValid()) return QVariant();
 
     TimezoneItem *item = m_items[index.row()];
-    if (role == Qt::UserRole) {
-        return item->id();
-    }
 
     switch (role) {
+    case Qt::UserRole:
+        return QVariant::fromValue(static_cast<QObject*>(item));
+        break;
     case Name:
         return item->id();
         break;
@@ -134,6 +134,6 @@ QVariant TimezoneModel::data(const QModelIndex & index, int role) const
         return item->id();
         break;
     default:
-        return "";
+        return QVariant();
     }
 }

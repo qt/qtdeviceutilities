@@ -33,22 +33,33 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-import QtQuick 2.5
+import QtQuick 2.6
+import QtQuick.Layouts 1.3
+import Qt.labs.controls 1.0
+import Qt.labs.controls.material 1.0
+import Qt.labs.controls.universal 1.0
 
-MouseArea {
+RowLayout {
     id: root
-    property alias pressedIcon: pressedImage.source
-    property alias releasedIcon: releasedImage.source
-    width: pressedImage.sourceSize.width
-    height: pressedImage.sourceSize.height
+    spacing: 10
+    width: parent.width
 
-    Image {
-        id: pressedImage
-        visible: root.pressed
+    property alias title: label.text
+    property alias currentIndex: cb.currentIndex
+    property alias delegate: cb.delegate
+    property alias textRole: cb.textRole
+    property alias model: cb.model
+    property int titleWidth: -1
+
+    Label {
+        id: label
+        Layout.preferredWidth: root.titleWidth
+        horizontalAlignment: Text.AlignRight
+        Layout.alignment: Qt.AlignVCenter
     }
-
-    Image {
-        id: releasedImage
-        visible: !root.pressed
+    ComboBox {
+        id: cb
+        textRole: "text"
+        Layout.fillWidth: true
     }
 }

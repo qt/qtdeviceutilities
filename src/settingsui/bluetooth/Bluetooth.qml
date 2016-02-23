@@ -33,57 +33,50 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-import QtQuick 2.5
-import QtQuick.Layouts 1.1
-import QtQuick.Controls 1.4
-import QtQuick.Controls.Styles.Flat 1.0 as Flat
-import "../common"
+import QtQuick 2.6
+import QtQuick.Layouts 1.3
+import Qt.labs.controls 1.0
+import Qt.labs.controls.material 1.0
+import Qt.labs.controls.universal 1.0
 import com.theqtcompany.settings.bluetooth 1.0
 
 Item {
     id: root
     property string title: qsTr("Bluetooth Settings")
 
-    Column {
-        id: content
+    ColumnLayout {
+        anchors.margins: 20
         anchors.fill: parent
-        anchors.margins: Math.round(40 * Flat.FlatStyle.scaleFactor)
+        id: content
+        spacing: 20
 
         GroupBox {
             id: groupBox
             width: parent.width
             title: qsTr("Bluetooth status")
             Layout.fillWidth: true
+            Layout.alignment: Qt.AlignTop
 
-            ColumnLayout {
-                spacing: Math.round(10 * Flat.FlatStyle.scaleFactor)
-                width: parent.width
-                Layout.fillWidth: true
-
-                Row {
-                    spacing: Math.round(10 * Flat.FlatStyle.scaleFactor)
-                    TextLabel {
-                        id: off
-                        text: qsTr("Off")
-                    }
-
-                    Switch {
-                        checked: BtDevice.powered
-                        onCheckedChanged: BtDevice.powered = checked
-                    }
-
-                    TextLabel {
-                        text: qsTr("On")
-                    }
+            RowLayout {
+                spacing: 10
+                Label {
+                    id: off
+                    text: qsTr("Off")
+                }
+                Switch {
+                    checked: BtDevice.powered
+                    onCheckedChanged: BtDevice.powered = checked
+                }
+                Label {
+                    text: qsTr("On")
                 }
             }
         }
-
         Discovery {
             id: discovery
             visible: BtDevice.powered
-            width: parent.width
-            height: Math.round(content.height - 100 * Flat.FlatStyle.scaleFactor)
+            Layout.fillWidth: true
+            Layout.fillHeight: true
         }
     }
 }
