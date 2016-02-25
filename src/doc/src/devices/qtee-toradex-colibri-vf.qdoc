@@ -67,6 +67,18 @@
     \endcode
 
     Reset or power cycle the device to continue.
+    To reset the U-Boot environment to new default values, enter the following commands
+    in the U-Boot command line
+
+    \badcode
+        env default -a
+        saveenv
+    \endcode
+
+
+    New U-Boot commands are now stored into the device, and you can start \B2Q. For more information
+    about the boot process on Toradex Colibri iMX6, see
+    \l{http://developer.toradex.com/software-resources/arm-family/linux/linux-booting}{Toradex Linux Booting}.
 
     After the image has been deployed, insert the SD card, power on the device and check that
     the \B2Q welcome screen and/or demo appear.

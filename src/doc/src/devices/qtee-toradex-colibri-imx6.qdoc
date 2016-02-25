@@ -60,9 +60,6 @@
     Enter following commands into U-Boot:
 
     \badcode
-        setenv drive 2
-        setenv setupdate 'fatload mmc ${drive}:1 ${loadaddr} flash_mmc.img; source'
-
         run setupdate
         run update_uboot
     \endcode
