@@ -88,6 +88,15 @@
         run upgradeu
     \endcode
 
+    Reset or power cycle the device to start the new U-Boot.
+    To reset the U-Boot environment to new default values, enter the following commands
+    in the U-Boot command line
+
+    \badcode
+        env default -a
+        saveenv
+    \endcode
+
     \b {Setup for Nitrogen6_Lite Device}
 
     The boot script requires the environment variables, \c dtbname and \c gpumem, to identify
