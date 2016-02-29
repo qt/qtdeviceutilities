@@ -1,6 +1,0 @@
-<RCC>
-    <qresource prefix="/">
-        <file>Bluetooth.qml</file>
-        <file>Discovery.qml</file>
-    </qresource>
-</RCC>

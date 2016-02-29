@@ -1,6 +1,0 @@
-<RCC>
-    <qresource prefix="/">
-        <file>Language.qml</file>
-        <file>RegionSelect.qml</file>
-    </qresource>
-</RCC>

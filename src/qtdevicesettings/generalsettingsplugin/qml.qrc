@@ -1,6 +1,0 @@
-<RCC>
-    <qresource prefix="/">
-        <file>Display.qml</file>
-        <file>Sound.qml</file>
-    </qresource>
-</RCC>

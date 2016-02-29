@@ -1,3 +1,0 @@
-module com.theqtcompany.settings.locale
-Language 1.0 Language.qml
-plugin localesettingsplugin

@@ -1,3 +1,0 @@
-module com.theqtcompany.settings.timedate
-TimeDate 1.0 TimeDate.qml
-plugin qmltimedatesettingsplugin

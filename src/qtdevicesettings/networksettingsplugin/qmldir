@@ -1,4 +1,0 @@
-module com.theqtcompany.settings.network
-NetworkSettings 1.0 NetworkSettings.qml
-plugin networksettingsplugin
-
