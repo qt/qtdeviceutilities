@@ -19,7 +19,7 @@
 /*!
 //! [instructions]
     Plug in the SD card or reader to the development host,
-    and use the following command to find out its device name:
+    and use the following command on Linux to find out its device name:
 
     \badcode
         lsblk -d
@@ -28,12 +28,18 @@
     Removable devices such as SD cards have the value '1' in
     the \e RM column.
 
-    \warning Make sure to select the correct device, because selecting
-    the wrong one can result in a wiped hard drive.
-
     Typical device names for SD cards include \c {sdb} and
     \c {mmcblk0}. The full device path is \c {/dev/} followed by
     the name.
+
+    On Windows, use the following command to get the SD cards device name:
+    \badcode
+        wmic logicaldisk where "drivetype=2 and access=0" get deviceid, volumename
+    \endcode
+
+    \warning Make sure to select the correct device, because selecting
+    the wrong one can result in a wiped hard drive.
+
 //! [instructions]
 
 //! [unmount]

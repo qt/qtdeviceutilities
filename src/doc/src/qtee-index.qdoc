@@ -130,7 +130,7 @@
 
     The development environment is built around the Qt Creator IDE. Qt Creator
     runs on all desktop platforms, but the embedded development environment is
-    currently supported only on 64-bit Linux desktop.
+    currently supported only on 64-bit Linux desktop and Windows.
 
     Device deployment can be done directly from the Qt Creator IDE to a device
     connected via USB or local area network. The Qt Creator IDE is

@@ -23,6 +23,13 @@
     \previouspage qtee-customization.html
     \nextpage qtee-troubleshooting.html
 
+    \section1 Boot to Qt 5.6.0
+
+    \b{New Features}:
+    \list
+        \li Technical Preview of Windows development host support
+    \endlist
+
     \section1 Boot to Qt 5.5.1
     \list
         \li Release date: Sep 24, 2015
@@ -211,7 +218,7 @@
             style for the virtual keyboard.
         \li Made the \e {Display FPS} option in \e {Launcher Settings}
             persistent.
-        \li Updated the \e {Qt 5 Everywhere} demo.
+        \li Updated the \e {Qt 5 Everywhere} demo.
     \endlist
 
     \b {Fixed Bugs}:

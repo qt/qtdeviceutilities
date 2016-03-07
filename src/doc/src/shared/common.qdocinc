@@ -36,7 +36,7 @@
     device for \B2Q. In Qt Creator, select \b Tools > \b {Flash \B2Q Device}
     and follow the step-by-step instructions.
 
-    Alternatively, you can install the image from the command line using
+    On Linux, you can alternatively install the image from the command line using
     the instructions below.
 
     \b {Install from the Command Line}

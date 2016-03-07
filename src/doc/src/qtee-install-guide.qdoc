@@ -31,13 +31,16 @@
     \target Requirements for Development Host
     \section1 Requirements for Development Host
 
-    A 64-bit Linux system is required to install and use \SDK. Instructions
-    in this documentation assume Ubuntu Linux 64-bit 12.04 LTS or later.
-    Other Linux distributions may work, but have not been tested. C/C++ build
-    essentials must be installed.
+    Either 64-bit Linux or a Windows system is required to install and use \SDK.
+    Instructions in this documentation assume Windows 7 or later or Ubuntu Linux 64-bit 12.04 LTS
+    or later. Other Linux distributions may work, but have not been tested. C/C++ build
+    essentials must be installed on the Linux host.
 
-    \target Installing 32-bit Support Libraries
-    \section1 1. Installing 32-bit Support Libraries
+    \target Host Specific Requirements
+    \section1 1. Host Specific Requirements
+
+    \target Linux: Installing 32-bit Support Libraries
+    \section2 1.1 Linux: Installing 32-bit Support Libraries
 
     Some of the build tools in \SDK are 32-bit programs, and on 64-bit
     systems they require support libraries for running 32-bit code. To
@@ -54,12 +57,23 @@
         sudo apt-get install g++-multilib ia32-libs
     \endcode
 
+    \target Windows: Installing ADB
+    \section2 1.2 Windows: Installing ADB
+
+    Qt Creator needs \e adb to communicate and deploy data to the target device.
+    You can install adb as a part of the Android SDK Tools Package, which can be downloaded
+    from \l{http://developer.android.com/sdk/index.html#Other}.
+    Make sure to select \b {Tools} > \b {Android SDK Platform-tools} and \b {Extras} > \b {Google USB Driver}
+    in the Android SDK manager (anything else is not needed and can be disabled).
+
     \target Installing VirtualBox
     \section1 2. Installing VirtualBox
 
     The \B2Q emulator in \SDK relies on VirtualBox virtualization software. You can
-    download it from \l{https://www.virtualbox.org/wiki/Linux_Downloads} or
+    download it from \l{https://www.virtualbox.org/wiki/Downloads} or
     install it via distribution tools.
+
+    On Windows you just have to follow the installation wizard of the downloaded package.
 
     If you are running an older Ubuntu system such as 12.04, the version of
     VirtualBox provided by the distribution is not recent enough. To install a
@@ -82,7 +96,9 @@
         \li Start the VirtualBox user interface.
         \li Select \b{File > Preferences} > \b{Network} to open VirtualBox
             network settings.
-        \li Create a new host-only network named \e{vboxnet0} and edit its properties:
+        \li Create a new host-only network named \e{vboxnet0} on Linux and
+            \e{VirtualBox Host-Only Ethernet Adapter} on Windows. This should be the default naming
+            on those host platforms. Edit its properties:
 
         \list 1
             \li Change the IPv4 address to \c{192.168.56.1} and the IPv4 network
@@ -103,7 +119,9 @@
 
     \list 1
 
-        \li Download the binary \SDK installer, and make sure it is executable
+        \li Download the binary \SDK installer.
+
+        \li On Linux make sure it is executable
             by using one of the following methods:
 
     \list
@@ -121,7 +139,7 @@
     The installer will let you select a directory where \SDK will be
     installed. In this documentation, the installation directory is referred
     to as \b{\c{<INSTALL_DIR>}}. The default installation directory is
-    \tt{~/Qt}.
+    \tt{~/Qt} on Linux and \tt{C:\\Qt} on Windows.
 
     \target Installing Boot to Qt on Target Devices
     \section1 4. Install \B2Q on Target Devices
