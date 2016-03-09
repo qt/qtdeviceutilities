@@ -137,7 +137,7 @@
     \row \li \l{http://boundarydevices.com/product-selector-guide/}
             {Boundary Devices i.MX6 Boards}\br
             Freescale® i.MX 6 based devices with\br
-            Vivante GC2000 GPU
+            Vivante GC880 or GC2000 GPU
     \row \li \l{http://www.silica.com/product/architech-tibidabo.html}
             {SILICA ArchiTech Tibidabo}\br
             Freescale® i.MX 6Q ARM Cortex™-A9 @800 MHz,\br
