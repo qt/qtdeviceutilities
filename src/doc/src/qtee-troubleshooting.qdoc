@@ -153,7 +153,7 @@
     you have to install the USB driver by the following steps:
 
     \list 1
-        \li Open \b {Other devices} -> \b {USB Function Filesystem}).
+        \li Open \b {Other devices} > \b {USB Function Filesystem}).
         \li Switch to the Driver tab and click \b {Update Driver}.
         \li Do not let windows search automatically for an updated driver, but
             select "Browse My Computer for driver software".
