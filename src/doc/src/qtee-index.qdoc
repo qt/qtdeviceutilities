@@ -170,7 +170,7 @@
     \image build-your-own-stack.png
 
     \B2QL is using the traditional embedded Linux
-    kernel built with the Yocto Poky reference system (Yocto 1.6 Daisy release).
+    kernel built with the Yocto Poky reference system (Yocto 1.8 Fido release).
     The embedded Linux variant is designed for great customization possibilities.
     It contains only components required in the embedded device, resulting in
     smaller image sizes while keeping valuable development tools available.
