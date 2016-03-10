@@ -40,6 +40,8 @@ LocaleFilterModel::LocaleFilterModel(QObject* parent)
     :QSortFilterProxyModel(parent)
 {
     connect(this, &LocaleFilterModel::filterChanged, this, &LocaleFilterModel::invalidate);
+    LocaleModel *localeModel = new LocaleModel(this);
+    setSourceModel(localeModel);
 }
 
 LocaleFilterModel::~LocaleFilterModel()

@@ -40,6 +40,8 @@ TimezoneFilterModel::TimezoneFilterModel(QObject* parent)
     :QSortFilterProxyModel(parent)
 {
     connect(this, &TimezoneFilterModel::filterChanged, this, &TimezoneFilterModel::invalidate);
+    TimezoneModel* timezoneModel = new TimezoneModel(this);
+    setSourceModel(timezoneModel);
 }
 
 TimezoneFilterModel::~TimezoneFilterModel()

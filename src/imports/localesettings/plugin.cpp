@@ -41,8 +41,7 @@
 #include <QQmlContext>
 
 #include <systemlocale.h>
-#include <localemodel.h>
-#include <localefiltermodel.h>
+#include "localefiltermodel.h"
 
 template <typename T>
 QObject *instance(QQmlEngine *engine, QJSEngine *) {
@@ -59,16 +58,8 @@ class LanguageSettingsQmlPlugin : public QQmlExtensionPlugin
 public:
     void registerTypes(const char *uri)
     {
-      qmlRegisterSingletonType<SystemLocale>(uri, 1, 0, "LocaleManager", &instance<SystemLocale>);
-    }
-
-    void initializeEngine(QQmlEngine * engine, const char * uri)
-    {
-        Q_ASSERT(QLatin1String(uri) == QLatin1String("com.theqtcompany.settings.locale"));
-        LocaleModel*localeModel = new LocaleModel(engine);
-        LocaleFilterModel* filter = new LocaleFilterModel(engine);
-        filter->setSourceModel(localeModel);
-        engine->rootContext()->setContextProperty("LocaleFilter", filter);
+        qmlRegisterSingletonType<SystemLocale>(uri, 1, 0, "LocaleManager", &instance<SystemLocale>);
+        qmlRegisterSingletonType<LocaleFilterModel>(uri, 1, 0, "LocaleFilter", &instance<LocaleFilterModel>);
     }
 };
 

@@ -33,7 +33,6 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-
 #include <QtQml/QQmlExtensionPlugin>
 #include <QtQml/qqml.h>
 #include <qcoreapplication.h>
@@ -41,8 +40,7 @@
 #include <QQmlContext>
 
 #include <systemtime.h>
-#include <timezonemodel.h>
-#include <timezonefiltermodel.h>
+#include "timezonefiltermodel.h"
 
 template <typename T>
 QObject *instance(QQmlEngine *engine, QJSEngine *) {
@@ -60,17 +58,7 @@ public:
     void registerTypes(const char *uri)
     {
         qmlRegisterSingletonType<SystemTime>(uri, 1, 0, "TimeManager", &instance<SystemTime>);
-    }
-
-    void initializeEngine(QQmlEngine * engine, const char * uri)
-    {
-        Q_ASSERT(QLatin1String(uri) == QLatin1String("com.theqtcompany.settings.timedate"));
-        TimezoneModel* timezoneModel = new TimezoneModel(engine);
-        TimezoneFilterModel* filter = new TimezoneFilterModel(engine);
-        filter->setSourceModel(timezoneModel);
-
-         engine->rootContext()->setContextProperty("Timezones", timezoneModel);
-         engine->rootContext()->setContextProperty("TimezonesFilter", filter);
+        qmlRegisterSingletonType<TimezoneFilterModel>(uri, 1, 0, "TimezonesFilter", &instance<TimezoneFilterModel>);
     }
 };
 

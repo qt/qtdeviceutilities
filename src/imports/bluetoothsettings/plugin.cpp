@@ -43,6 +43,13 @@
 #include "bluetoothdevice.h"
 #include "discoverymodel.h"
 
+template <typename T>
+QObject *instance(QQmlEngine *engine, QJSEngine *) {
+    T *t = new T(engine);
+    t->setObjectName(T::staticMetaObject.className());
+    return t;
+}
+
 class BluetoothSettingsQmlPlugin : public QQmlExtensionPlugin
 {
     Q_OBJECT
@@ -53,14 +60,7 @@ public:
     {
         Q_ASSERT(QLatin1String(uri) == QLatin1String("com.theqtcompany.settings.bluetooth"));
         qmlRegisterUncreatableType<BtDeviceItem>(uri, 1, 0, "BtDeviceItem", "Cannot be instantiated directly.");
-
-    }
-
-    void initializeEngine(QQmlEngine * engine, const char * uri)
-    {
-        Q_ASSERT(QLatin1String(uri) == QLatin1String("com.theqtcompany.settings.bluetooth"));
-        BluetoothDevice *device = new BluetoothDevice(engine);
-        engine->rootContext()->setContextProperty("BtDevice", device);
+        qmlRegisterSingletonType<BluetoothDevice>(uri, 1, 0, "BtDevice", &instance<BluetoothDevice>);
     }
 };
 
