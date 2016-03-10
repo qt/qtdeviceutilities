@@ -27,12 +27,46 @@
 
     \b{New Features}:
     \list
-        \li Technical Preview of Windows development host support
+        \li \B2Q stack was updated to use Qt 5.6.0.
+        \li The entire stack is now built with Yocto tooling,
+            using the \e meta-qt5 layer for the Qt modules.
+        \li \B2Q build scripts are no longer available for
+            building custom images.
+        \li \l {Qt Charts} was updated to version 2.1.0.
+        \li \l {Qt Data Visualization} was updated to version 1.2.2.
+        \li \l {Qt Quick Compiler} was updated to version 4.0.0.
+        \li \l {Qt Virtual Keyboard} was updated to version 2.0.0.
+        \li \l {Qt Quick 2D Renderer} was updated to version 5.6.0.
+        \li Added Windows development host support as Technical Preview.
+    \endlist
+
+    \b{Improvements}:
+    \list
+        \li Moved to use Yocto 1.8 (Fido).
+        \li Enabled touch screen support (RPi-FT5406 driver) in the Raspberry
+            Pi 2 image.
+        \li Improved \e {About Qt for Device Creation} demo.
+        \li Added a new demo, \e {Web Browser}, demonstrating the use of
+            Qt WebEngine with Qt Quick.
+        \li New style and improved visuals for the demo launcher.
+        \li Toradex Colibri VF: Included \e mqxboot utility in the prebuilt
+            images, enabling the bootup process of the secondary Cortex-M4
+            core from user-space.
+        \li Toradex BSP was updated to V2.5Beta3_20151215.
+        \li Enabled High-DPI support for the emulator.
+    \endlist
+
+    \b{Fixed Bugs}:
+    \list
+        \li Nitrogen6X: Fixed performance issues for Qt WebEngine video playback.
+        \li Fixed \e {can't find linker symbol for virtual table} warnings when
+            debugging Qt Quick applications.
     \endlist
 
     \section1 Boot to Qt 5.5.1
     \list
         \li Release date: Sep 24, 2015
+        \li Supported until: Mar 16, 2018
     \endlist
 
     \b{New Features}:
