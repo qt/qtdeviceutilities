@@ -22,5 +22,7 @@
         <file>network/ComboBoxEntry.qml</file>
         <file>timedate/CustomCalendar.qml</file>
         <file>common/CustomTableView.qml</file>
+        <file>common/HandwritingModeButton.qml</file>
+        <file>timedate/ClockHand.qml</file>
     </qresource>
 </RCC>

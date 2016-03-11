@@ -43,10 +43,7 @@ Item {
     property var currentTime: TimeManager.time
     property var newTime: new Date
     property bool editMode: false
-
-    function showTime(time) {
-        return time.getHours() + ":" + time.getMinutes()
-    }
+    property alias handPressed: mouseArea.pressed
 
     onEditModeChanged: if (editMode) newTime = new Date
 
@@ -58,14 +55,15 @@ Item {
 
         Connections {
             target: TimeManager
-            onTimeChanged : newTime.setSeconds(currentTime.getSeconds())
-            onTimeZoneChanged : Date.timeZoneUpdated()
+            onTimeChanged: if (!mouseArea.pressed) newTime.setSeconds(currentTime.getSeconds())
+            onTimeZoneChanged: Date.timeZoneUpdated()
         }
         Label {
+            id: timeLabel
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.topMargin: 10
             anchors.top: parent.top
-            text: editMode ? newTime.toTimeString() : currentTime.toTimeString()
+            text: currentTime.toTimeString()
         }
         Rectangle {
             id: root
@@ -78,167 +76,105 @@ Item {
             property int handOffset: Math.round(root.width * 0.040)
             antialiasing: true
 
-            Rectangle {
+            MouseArea {
+                id: mouseArea
+                anchors.fill: parent
+                enabled: editMode
+                property var handleItem: undefined
+
+                function findHandle(item, point) {
+                    if (item.objectName === "handle") {
+                        var mapped = mouseArea.mapToItem(item, point.x, point.y)
+                        if (item.contains(mapped)) {
+                            return item.parent;
+                        }
+                    }
+
+                    for (var i=0; i < item.children.length; i++) {
+                        var ret = findHandle(item.children[i], point)
+                        if (ret)
+                            return ret;
+                    }
+                    return undefined;
+                }
+
+                onPressed: {
+                    handleItem = findHandle(root, Qt.point(mouse.x, mouse.y))
+                    currentTime.setSeconds(0);
+                    currentTime.setMilliseconds(0);
+                    newTime.setSeconds(0);
+                    newTime.setMilliseconds(0);
+                }
+
+                onReleased: {
+                    handleItem = undefined
+                }
+
+                onPositionChanged: {
+                    if (!handleItem)
+                        return;
+
+                    var angle = (90 + Math.atan2((mouse.y-mouseArea.height/2), (mouse.x-mouseArea.width/2))*180/Math.PI)
+
+                    if (handleItem.angle < 60 && handleItem.angle > 0 && angle <= 0) {
+
+                        if (handleItem === hours) {
+                            hours.pm = !hours.pm
+                        } else {
+                            var a = hours.angle - 30
+                            if (a > 360) a -= 360
+                            hours.angle = a
+                        }
+
+                    } else if (handleItem.angle > 300 && handleItem.angle < 360 && angle >= 0) {
+
+                        if (handleItem === hours) {
+                            hours.pm = !hours.pm
+                        } else {
+                            var a = hours.angle + 30
+                            if (a < 0) a += 360
+                            hours.angle = a
+                        }
+                    }
+
+                    if (angle < 0) {
+                        angle += 360
+                    } else if (angle > 360) {
+                        angle -= 360
+                    }
+
+                    handleItem.angle = angle
+
+                    var newhours = Math.floor(hours.angle / 30);
+                    if (hours.pm)
+                        newhours += 12
+
+                    newTime.setHours(newhours);
+                    newTime.setMinutes(Math.round(minutes.angle / 6));
+
+                    newTime.setSeconds(0);
+                    newTime.setMilliseconds(0);
+
+                    TimeManager.time = newTime;
+                }
+            }
+            ClockHand {
                 id: minutes
-                x: root.height / 2 - width / 2
-                y: root.height / 2 - height + root.handOffset
-                color: editMode ? "#d6d6d6" : "#5caa15"
-                width: Math.round(root.width * 0.080)
-                height: Math.round(root.height / 2 * 0.65 + root.handOffset)
-                antialiasing: true
-                transform: Rotation {
-                    id: minuteRotation
-                    origin.x: Math.round(minutes.width / 2)
-                    origin.y: Math.round(minutes.height - root.handOffset)
-                    angle: currentTime.getMinutes() * 6
-                    Behavior on angle {
-                        SpringAnimation { spring: 2; damping: 0.2; modulus: 360 }
-                    }
-                }
+                value: currentTime.getMinutes() * 6
             }
-            Rectangle {
+            ClockHand {
                 id: hours
-                x: Math.round(root.height / 2 - width / 2)
-                y: Math.round(root.height / 2 - height + root.handOffset)
-                height: Math.round(root.height / 2 * 0.4 + root.handOffset)
-                width: Math.round(root.width * 0.080)
-                color: editMode ? "#d6d6d6" : "#80c342"
-                antialiasing: true
-                transform: Rotation {
-                    id: hourRotation
-                    origin.x: Math.round(hours.width / 2)
-                    origin.y: hours.height - root.handOffset;
-                    angle: (currentTime.getHours() * 30) + (currentTime.getMinutes() * 0.5)
-                    Behavior on angle {
-                        SpringAnimation { spring: 2; damping: 0.2; modulus: 360 }
-                    }
-                }
+                height: root.height / 2 * 0.4 + root.handOffset
+                value: (currentTime.getHours() * 30) + (currentTime.getMinutes() * 0.5)
+                property bool pm: false
             }
-            Rectangle {
+            ClockHand {
                 id: seconds
-                x: root.height / 2 - width / 2
-                y: root.height / 2 - height + root.handOffset
                 visible: !editMode
                 color: "#46a2da"
-                width: Math.round(root.width * 0.0128)
-                height: Math.round(root.height / 2 * 0.74)
-                radius: Math.round(width / 2)
-                antialiasing: true
-                transform: Rotation {
-                    id: secondRotation
-                    origin.x: Math.round(seconds.width / 2)
-                    origin.y: Math.round(seconds.height - root.handOffset)
-                    angle: currentTime.getSeconds() * 6
-                    Behavior on angle {
-                        SpringAnimation { spring: 2; damping: 0.2; modulus: 360 }
-                    }
-                }
-            }
-            Component {
-                id: editor
-
-                Rectangle {
-                    id: rect
-                    property var angle: mouseArea.drag ? mouseArea.angle : defaultAngle
-                    property var defaultAngle: angleBinding
-                    x: Math.round(Math.cos((-90+ angle)*Math.PI/180) *
-                                  (pos - root.handOffset - width /2 + radius) + root.width / 2 - width / 2)
-                    y: Math.round(Math.sin((-90+ angle)*Math.PI/180) *
-                                  (pos - root.handOffset - width /2 + radius) + root.height / 2 - width / 2)
-                    color: "#5caa15"
-                    width: size
-                    radius: width / 2
-                    height: width
-                    antialiasing: true
-
-                    function calcAngle(mouse) {
-                        var mouseGlobal = mapToItem(root, mouse.x, mouse.y)
-                        var origin = root.width/2
-                        var angle = (90+Math.atan2((mouseGlobal.y-origin), (mouseGlobal.x-origin))*180/Math.PI)
-                        if (angle < 0)
-                            angle += 360;
-                        updateAngle(angle);
-                        return angle;
-                    }
-                    MouseArea {
-                        id: mouseArea
-                        anchors.fill: parent
-                        property int startX: 0
-                        property int startY: 0
-                        property bool drag: false
-                        property var angle: 0.0
-                        preventStealing: true
-
-                        onPressed: {
-                            var mouseGlobal = mapToItem(root, mouse.x, mouse.y);
-                            startX = mouseGlobal.x;
-                            startY = mouseGlobal.y;
-                            angle = calcAngle(mouse);
-                            drag = true;
-                        }
-                        onReleased: {
-                            drag = false;
-                            ready(angle)
-                        }
-                        onMouseXChanged: if (drag) angle = calcAngle(mouse)
-                    }
-                }
-            }
-            Loader {
-                property var angleBinding: (currentTime.getHours() * 30) + (currentTime.getMinutes() * 0.5)
-                property int size: Math.round(root.width * 0.120)
-                property int pos: hours.height
-                property bool pm: false
-                visible: editMode
-
-                function updateAngle(angle) {
-                    var newHour = Math.floor(angle / 30);
-                    var preHour = newTime.getHours();
-
-                    if (preHour == 11 && newHour == 0) {
-                        newHour = 12;
-                        pm = true;
-                    }
-                    else if (preHour === 23 && newHour === 0) {
-                        pm = false;
-                    }
-                    else if (preHour == 0 && newHour === 11) {
-                        pm = true;
-                    }
-                    else if (preHour == 12 && newHour == 11) {
-                        pm = false;
-                    }
-                    if (pm == true) {
-                        newHour += 12;
-                    }
-                    newTime.setHours(newHour);
-                }
-
-                function ready(val) {
-                    var newhours = Math.round(val / 30);
-                    currentTime.setHours(newhours);
-                    TimeManager.time = currentTime;
-                }
-                sourceComponent: editor
-            }
-            Loader {
-                visible: editMode
-                sourceComponent: editor
-                property var angleBinding: currentTime.getMinutes() * 6
-                property int size: Math.round(root.width * 0.120)
-                property int pos: minutes.height
-
-                function updateAngle(angle) {
-                    var newMin = Math.round(angle / 6);
-                    var hours = newTime.getHours();
-                    newTime.setMinutes(newMin);
-                    newTime.setHours(hours);
-                }
-                function ready(val) {
-                    var newmins = Math.round(val / 6);
-                    currentTime.setMinutes(newmins);
-                    TimeManager.time = currentTime;
-                }
+                width: root.width * 0.0128
+                height: root.height / 2 * 0.74
+                value: currentTime.getSeconds() * 6
             }
         }
     }

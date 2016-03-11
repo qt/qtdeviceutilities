@@ -45,15 +45,17 @@ Item {
     property string title: qsTr("Time and Date settings")
 
     Flickable {
-        anchors.fill: parent
+        id: flickable
         anchors.margins: 20
+        anchors.fill: parent
         contentHeight: content.height
         contentWidth: width
+        interactive: !clock.handPressed
 
         ColumnLayout {
             id: content
-            width: parent.width
             spacing: 20
+            width: parent.width
 
             GroupBox {
                 width: parent.width
@@ -92,7 +94,6 @@ Item {
                             id: calendar
                             width: height
                         }
-
                         AnalogClock {
                             id: clock
                             height: calendar.height
@@ -104,7 +105,6 @@ Item {
                         id: zoneselect
                         TimezonesView { }
                     }
-
                 }
             }
             GroupBox {
