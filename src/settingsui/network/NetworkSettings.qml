@@ -77,30 +77,38 @@ Item {
             Repeater {
                 model: NetworkSettingsManager.interfaces
 
-                Button {
+                RadioButton {
+                    id: btn
                     Layout.fillWidth: true
                     implicitHeight: 54
                     checkable: true
 
-                    label: Row {
+                    label: Rectangle {
+                        color: checked ? "#80c342" : "white"
+                        border.color: "#bdbebf"
+                        border.width: 1
                         anchors.fill: parent
-                        spacing: 10
 
-                        Image {
-                            id: typeId
-                            height: parent.height
-                            width: height
-                        }
-                        Column {
-                            height: parent.height * .7
-                            spacing: 0
-                            anchors.verticalCenter: parent.verticalCenter
-                            Label {
-                                text: name
+                        Row {
+                            anchors.fill: parent
+                            spacing: 10
+
+                            Image {
+                                id: typeId
+                                height: parent.height
+                                width: height
                             }
-                            Label {
-                                text: networkSelect.stateToStr(modelData.state)
-                                font.pixelSize: 12
+                            Column {
+                                height: parent.height * .7
+                                spacing: 0
+                                anchors.verticalCenter: parent.verticalCenter
+                                Label {
+                                    text: name
+                                }
+                                Label {
+                                    text: networkSelect.stateToStr(modelData.state)
+                                    font.pixelSize: 12
+                                }
                             }
                         }
                     }
