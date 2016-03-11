@@ -33,6 +33,9 @@ import Qt.labs.controls.material 1.0
 import Qt.labs.controls.universal 1.0
 import Qt.labs.settings 1.0
 import QtQuick.XmlListModel 2.0
+import QtQuick.Enterprise.VirtualKeyboard 2.0
+import com.theqtcompany.localdevice 1.0
+import "common"
 
 ApplicationWindow {
     id: root
@@ -82,17 +85,16 @@ ApplicationWindow {
 
                     MenuItem {
                         text: qsTr("Reboot")
-                        onTriggered: B2QtDevice.reboot()
+                        onTriggered: LocalDevice.reboot()
                     }
                     MenuItem {
                         text: qsTr("Shutdown")
-                        onTriggered: B2QtDevice.powerOff()
+                        onTriggered: LocalDevice.powerOff()
                     }
                 }
             }
         }
     }
-
     StackView {
         id: stackView
         initialItem: mainView
@@ -100,6 +102,8 @@ ApplicationWindow {
         anchors.bottom: parent.bottom
         anchors.left: parent.left
         anchors.right: parent.right
+
+        Behavior on anchors.topMargin { NumberAnimation { duration: 250; easing.type: Easing.InOutQuad }}
 
         Component {
             id: mainView
@@ -157,6 +161,80 @@ ApplicationWindow {
                         }
                     }
                 }
+            }
+        }
+    }
+
+    property var inputItem: InputContext.inputItem
+
+    HandwritingInputPanel {
+
+        id: handwritingInputPanel
+        anchors.fill: parent
+        inputPanel: inputPanel
+
+        Rectangle {
+            z: -1
+            anchors.fill: parent
+            color: "black"
+            opacity: 0.10
+        }
+
+        onAvailableChanged: {
+            if (!available)
+                inputPanel.ensureVisible()
+        }
+    }
+    Item {
+        visible: handwritingInputPanel.enabled && Qt.inputMethod.visible
+        anchors { left: parent.left; top: parent.top; right: parent.right; bottom: inputPanel.top; }
+
+        HandwritingModeButton {
+            id: handwritingModeButton
+            anchors.top: parent.top
+            anchors.right: parent.right
+            anchors.margins: 10
+            floating: true
+            flipable: true
+            width: 76
+            height: width
+            state: handwritingInputPanel.state
+            onClicked: handwritingInputPanel.active = !handwritingInputPanel.active
+            onDoubleClicked: handwritingInputPanel.available = !handwritingInputPanel.available
+        }
+    }
+    InputPanel {
+        id: inputPanel
+        y: active ? parent.height - inputPanel.height : parent.height
+        anchors.left: parent.left
+        anchors.right: parent.right
+
+        Behavior on y { NumberAnimation {duration: 250; easing.type: Easing.InOutQuad}}
+
+        property var inputItem: InputContext.inputItem
+
+        onInputItemChanged: {
+            if (handwritingInputPanel.available)
+                return;
+
+            if (inputItem) {
+                ensureVisible()
+            }
+        }
+
+        onActiveChanged: {
+            if (!active) {
+                stackView.anchors.topMargin = 0
+
+                if (!handwritingInputPanel.available && inputItem)
+                    inputItem.focus = false
+            }
+        }
+
+        function ensureVisible() {
+            var mapped = inputItem.mapToItem(handwritingInputPanel, 0,0)
+            if (mapped.y > (handwritingInputPanel.height-inputPanel.height-40)) {
+                stackView.anchors.topMargin = -inputPanel.height
             }
         }
     }

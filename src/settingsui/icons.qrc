@@ -14,5 +14,8 @@
         <file>icons/Laptop_qt_1x.png</file>
         <file>icons/Microphone_qt_1x.png</file>
         <file>icons/Mouse_qt_1x.png</file>
+        <file>icons/FloatingButton_Active.png</file>
+        <file>icons/FloatingButton_Available.png</file>
+        <file>icons/FloatingButton_Unavailable.png</file>
     </qresource>
 </RCC>

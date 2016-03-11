@@ -149,7 +149,7 @@ Item {
                             id: password
                             text: ""
                             echoMode: TextInput.Password
-                            inputMethodHints: Qt.ImhNoPredictiveText
+                            inputMethodHints: Qt.ImhNoPredictiveText | Qt.ImhNoAutoUppercase | Qt.ImhPreferLowercase | Qt.ImhSensitiveData
                             Layout.alignment: Qt.AlignVCenter
                             Layout.fillWidth: true
                         }
