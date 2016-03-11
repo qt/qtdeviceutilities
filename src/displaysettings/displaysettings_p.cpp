@@ -114,6 +114,7 @@ void DisplaySettingsPrivate::setPhysicalScreenSizeInch(int inches)
     Q_Q(DisplaySettings);
     if (m_physScreenSize->size() != inches) {
         m_physScreenSize->setSize(inches);
+        emit q->physicalScreenSizeInchChanged(inches);
     }
 }
 

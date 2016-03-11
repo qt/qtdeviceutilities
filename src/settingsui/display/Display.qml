@@ -38,7 +38,7 @@ import QtQuick.Layouts 1.3
 import Qt.labs.controls 1.0
 import Qt.labs.controls.material 1.0
 import Qt.labs.controls.universal 1.0
-import B2Qt.Utils 1.0
+import com.theqtcompany.settings.display 1.0
 
 Item {
     id: root
@@ -67,7 +67,7 @@ Item {
                 }
                 Slider {
                     id: brightnessSlider
-                    value: B2QtDevice.displayBrightness
+                    value: DisplaySettings.displayBrightness
                     Layout.alignment: Qt.AlignVCenter
                     Layout.fillWidth: true
                     from: 0
@@ -75,7 +75,7 @@ Item {
                 }
             }
             Binding {
-                target: B2QtDevice
+                target: DisplaySettings
                 property: "displayBrightness"
                 value: brightnessSlider.position * brightnessSlider.to
             }
@@ -93,18 +93,18 @@ Item {
                 }
                 RadioButton {
                     text: qsTr("Default")
-                    checked: !B2QtDevice.physicalScreenSizeOverride
+                    checked: !DisplaySettings.physicalScreenSizeOverride
                 }
                 RadioButton {
                     id: custom
                     Layout.column: 1
                     Layout.row: 1
                     text: qsTr("Custom")
-                    checked: B2QtDevice.physicalScreenSizeOverride
-                    onCheckedChanged: B2QtDevice.physicalScreenSizeOverride = checked
+                    checked: DisplaySettings.physicalScreenSizeOverride
+                    onCheckedChanged: DisplaySettings.physicalScreenSizeOverride = checked
                 }
                 GroupBox {
-                    title: qsTr("Size (in inches): %1").arg(B2QtDevice.physicalScreenSizeInch)
+                    title: qsTr("Size (in inches): %1").arg(DisplaySettings.physicalScreenSizeInch)
                     Layout.column: 1
                     Layout.row: 2
                     Layout.fillWidth: true
@@ -120,12 +120,12 @@ Item {
                         }
                         Slider {
                             id: sizeSlider
-                            value: B2QtDevice.physicalScreenSizeInch
+                            value: DisplaySettings.physicalScreenSizeInch
                             Layout.fillWidth: true
                             stepSize: 1
                             from: 4
                             to: 60
-                            onPositionChanged: B2QtDevice.physicalScreenSizeInch = sizeSlider.from + Math.floor(sizeSlider.position * (sizeSlider.to - sizeSlider.from))
+                            onPositionChanged: DisplaySettings.physicalScreenSizeInch = sizeSlider.from + Math.floor(sizeSlider.position * (sizeSlider.to - sizeSlider.from))
                         }
                         Label {
                             text: sizeSlider.to
