@@ -36,7 +36,7 @@
         \li \l{ArchiTech Tibidabo}
         \li \l{Kontron SMARC-sAMX6i}
         \li \l{BeagleBone Black}
-        \li \l{Raspberry Pi 2 Model B}
+        \li \l{Raspberry Pi 3 Model B}
     \endlist
 
     If you use only the emulator, you can skip this step
@@ -155,10 +155,10 @@
             {Kontron SMARC-sAMX6i}\br
             Freescale® i.MX 6 ARM Cortex™-A9 @800MHz - 1.2GHz,\br
             2GB DDR3, 2-64GB eMMC, Vivante GC2000 GPU
-    \row \li \l{https://www.raspberrypi.org/products/raspberry-pi-2-model-b/}
-            {Raspberry Pi 2 Model B}\br
-            900 Mhz ARM Cortex™-A7, Broadcom VideoCore IV\br
-            @250MHz GPU, 1GB LPDDR2 SDRAM
+    \row \li \l{https://www.raspberrypi.org/products/raspberry-pi-3-model-b/}
+            {Raspberry Pi 3 Model B}\br
+            1.2 Ghz ARM Cortex™-A53, Broadcom VideoCore IV\br
+            @400MHz GPU, 1GB LPDDR2 SDRAM
     \endtable
 
     \section2 Group 3
@@ -190,6 +190,10 @@
             {Raspberry Pi Model B}\br
             700 Mhz ARM11, Broadcom VideoCore IV\br
             @250MHz GPU, 512 MB (shared with GPU) RAM
+    \row \li \l{https://www.raspberrypi.org/products/raspberry-pi-2-model-b/}
+            {Raspberry Pi 2 Model B}\br
+            900 Mhz ARM Cortex™-A7, Broadcom VideoCore IV\br
+            @250MHz GPU, 1GB LPDDR2 SDRAM
     \endtable
 
     \section2 Supported Features on Reference Devices
@@ -300,7 +304,7 @@
             \li \image ok
             \li \image ok
             \li
-    \row    \li Raspberry Pi 2
+    \row    \li Raspberry Pi 3
             \li \image ok
             \li \image ok
             \li
