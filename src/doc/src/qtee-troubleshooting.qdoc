@@ -146,6 +146,27 @@
 
     See \l{5. Setting up USB Access to Embedded Devices}.
 
+    Additionally on Windows, you may need to install or update the Android Device driver.
+    You can check whether a driver is already installed when a device is attached
+    via the \b {Device Manager}. If you haven't installed any driver there should
+    be an \b {USB Function Filesystem} under \b {Other devices}. If this is the case
+    you have to install the USB driver by the following steps:
+
+    \list 1
+        \li Open \b {Other devices} > \b {USB Function Filesystem}).
+        \li Switch to the Driver tab and click \b {Update Driver}.
+        \li Do not let windows search automatically for an updated driver, but
+            select "Browse My Computer for driver software".
+        \li Select "Let me pick from a list of device drivers on my computer".
+        \li Open "Have Disk..."
+        \li Install the driver that is located at
+            <Android-SDK-Tools-install-dir>\\extras\\google\\usb_driver\\android_winusb.inf
+    \endlist
+
+    If you already have an \b {Android ADB Interface} under \b {Android Device} you may need
+    to update the driver. This can be achieved by running the previous steps on the
+    \b {Android Device} > \b {Android ADB Interface}.
+
     \target ts-15
     \b{adb fails with "error: more than one device and emulator"}
 

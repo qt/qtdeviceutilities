@@ -31,8 +31,45 @@
 
     \section1 3rd Party Software Licenses
 
-    The third-party licenses used in \SDK are listed in the file
-    \c {<INSTALL_DIR>/Licenses/ThirdPartySoftware_Listing.txt}.
+    The following third-party components are used in \SDK:
+
+    \table
+    \row \li Component \li Description \li License Type
+    \row \li EGL 1.5 Headers
+         \li These headers are based on EGL 1.5 specification.
+         \li MIT License
+
+    \row \li OpenGL ES 2.0 Headers
+         \li These headers are based on Open GL ES 2.0 specification.
+         \li MIT and SGI License
+
+    \row \li OpenGL ES 3.1 Headers
+         \li These headers are based on OpenGL ES 3.1 specification.
+         \li MIT and SGI License
+
+    \row \li OpenKODE Core 1.0 Header
+         \li The header is based on OpenKODE Core 1.0 specification.
+         \li MIT License
+
+    \row \li Lipi Toolkit (LipiTk)
+         \li An open source toolkit for online Handwriting  Recognition (HWR).
+         \li MIT-Style License
+
+    \row \li OpenWnn
+         \li A Japanese IME
+         \li Apache License
+
+    \row \li Pinyin
+         \li An IME for Standard Chinese input.
+         \li Apache License
+
+    \row \li Traditional Chinese IME (tcime)
+         \li A traditional Chinese IME.
+         \li Apache License
+    \endtable
+
+    See the \l{Licenses Used by Qt}{licenses} page for the complete list
+    of third-Party components used by Qt.
 
     \section1 Embedded Linux Images
 

@@ -37,7 +37,7 @@
     resides) is mounted read-only at boot time. To allow modification,
     remount it read-write by entering the following command:
     \badcode
-        <INSTALL_DIR>/Tools/b2qt/adb remount
+        adb remount
     \endcode
 
     In the \c{appcontroller.conf} file, the input devices are
@@ -102,7 +102,7 @@
 
     Alternatively, you can also use the following command:
     \badcode
-    <INSTALL_DIR>/Tools/b2qt/adb shell appcontroller --make-default <path>
+    adb shell appcontroller --make-default <path>
     \endcode
 
     Where \c{<path>} is the install path of your application binary on the
@@ -111,7 +111,7 @@
     To remove your application from the default startup, use the following
     command:
     \badcode
-        <INSTALL_DIR>/Tools/b2qt/adb shell appcontroller --remove-default
+    adb shell appcontroller --remove-default
     \endcode
 
     \section1 Configuring Display Resolution
@@ -246,7 +246,7 @@
     connected via USB.
 
     \badcode
-     <INSTALL_DIR>/Tools/b2qt/adb shell "sed -i -e 's/USE_ETHERNET=no/USE_ETHERNET=yes/' /etc/default/adbd; sync"
+     adb shell "sed -i -e 's/USE_ETHERNET=no/USE_ETHERNET=yes/' /etc/default/adbd; sync"
     \endcode
 
     \note You need to restart the device for this change to take effect.

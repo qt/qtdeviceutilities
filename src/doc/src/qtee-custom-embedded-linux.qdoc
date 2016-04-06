@@ -51,8 +51,7 @@
             \e {Package Manager}. The \e {Yocto meta layer} package
             contains the additional recipes required to make the image
             compatible with \B2Q.
-        \li Install the dependencies for the Yocto tools, build
-            scripts, and the Qt modules. In Ubuntu, the following
+        \li Install the dependencies for the Yocto tools. In Ubuntu, the following
             packages are required:
             \badcode
             sudo apt-get install gawk wget git-core diffstat unzip p7zip-full texinfo \
@@ -68,7 +67,7 @@
 
     \badcode
     cd <BuildDir>
-    <INSTALL_DIR>/5.6/Boot2Qt/sources/b2qt-yocto-meta/b2qt-init-build-env init --device imx6qsabresd
+    <INSTALL_DIR>/5.6/Boot2Qt/sources/meta-b2qt/b2qt-init-build-env init --device imx6qsabresd
     \endcode
 
     \c b2qt-init-build-env has the following additional command line options:
@@ -81,7 +80,7 @@
     For all command line options, see:
 
     \badcode
-    <INSTALL_DIR>/5.6/Boot2Qt/sources/b2qt-yocto-meta/b2qt-init-build-env help
+    <INSTALL_DIR>/5.6/Boot2Qt/sources/meta-b2qt/b2qt-init-build-env help
     \endcode
 
     \note Support for Kontron SMARC-sAMX6i requires additional Yocto Board Support Package that is
@@ -142,57 +141,36 @@
     \endtable
 
     Yocto recipes for \B2QL have two main targets to build: The target image,
-    and the external toolchain that is used for building the Qt framework and
-    applications.
+    and the external toolchain that can be used with Qt Creator for building Qt applications.
 
     \badcode
-    bitbake b2qt-embedded-image
-    bitbake meta-toolchain-b2qt-embedded-sdk
+    bitbake b2qt-embedded-qt5-image
+    bitbake meta-toolchain-b2qt-embedded-qt5-sdk
     \endcode
 
-    The target rootfs image is located in the \c <YoctoBuildDir>/tmp/deploy/images/<target>/b2qt-embedded-image-<target>.tar.gz,
-    and the new toolchain is in \c <YoctoBuildDir>/tmp/deploy/sdk/b2qt-eglibc-x86_64-meta-toolchain-b2qt-embedded-sdk-<target-architecture>-toolchain-1.6.sh
-
-    \note The generated target image does not yet include Qt libraries,
-    you need to build Qt and add it into the image yourself.
-
-    \section1 Building Qt and Addons
-
-    \e {Build scripts} source package contains scripts that can be used to
-    build Qt and all additional Qt addons that are part of \B2QL image.
-    To setup build environment for your target hardware, run the initialization
-    script. For example:
-
-    \badcode
-    <INSTALL_DIR>/5.6/Boot2Qt/sources/b2qt-build-scripts/embedded-common/init_build_env.sh <INSTALL_DIR>/5.6/Boot2Qt/sources/b2qt-build-scripts/embedded-linux/config.imx6qsabresd
-    \endcode
-
-    \note You can use the same build directory for Qt and the Yocto image.
-    The toolchain and the target image are then used from the Yocto build directory.
-
-    You can use following scripts to build different parts of the \B2Q stack.
-
-    \badcode
-    ./build_qt.sh
-    ./build_extras.sh
-    ./build_image.sh
-    \endcode
-
-    After \e {build_image.sh} has finished, you can write the updated image to your SD card:
-    \badcode
-    sudo ./deploy.sh /dev/<device_name>
-    \endcode
+    The target rootfs image is located in the \c <YoctoBuildDir>/tmp/deploy/images/<target>/b2qt-embedded-qt5-image-<target>.img,
+    and the new toolchain is in \c <YoctoBuildDir>/tmp/deploy/sdk/b2qt-x86_64-meta-toolchain-b2qt-embedded-qt5-sdk-<target>.sh
 
     \section1 Configuring Qt Creator
 
-    After you have built the \B2Q stack, you must also set up Qt Creator in order to start
+    Once the toolchain is built, you can install it by running the generated \c .sh script.
+    After you have built and installed the toolchain, you must also set up Qt Creator in order to start
     developing for your device. The following script does this for you.
 
     \badcode
-    <INSTALL_DIR>/5.6/Boot2Qt/sources/b2qt-build-scripts/embedded-common/setup_qtcreator.sh
+    <TOOLCHAIN_DIR>/configure-qtcreator.sh
     \endcode
 
     This will set up a new kit in Qt Creator, using the toolchain and Qt from
-    your build directory. The new kit is visible under \b Tools > \b Options
+    the installed toolchain. The new kit is visible under \b Tools > \b Options
     > \b {Build & Run} > \b Kits.
+
+    \section1 Using Toolchain without Qt Creator
+
+    The toolchain can be also used without Qt Creator. qmake, which can be used
+    directly for building Qt application, is located in \c sysroots/x86_64-pokysdk-linux/usr/bin/qmake.
+
+    To use the toolchain for more generic cross-development, you need to set up the environment by
+    sourcing the environment setup script from the toolchain. For more information, see the Yocto Project
+    \l {http://www.yoctoproject.org/docs/latest/mega-manual/mega-manual.html#setting-up-the-cross-development-environment}{documentation}.
 */

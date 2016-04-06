@@ -33,12 +33,21 @@
         \li Connect the running device to the development host with a USB
     cable. If the device is already connected, disconnect and reconnect the USB
     cable after running the command above.
+    \endlist
 
-        \li You can confirm that the connection is working by running
-    the following shell command:
+    The system log files \c{/var/log/udev} and \c{/var/log/syslog} may
+    provide relevant information in case of connection problems.
+
+    You can confirm that the connection is working by running the following command on Linux:
 
     \code
         <INSTALL_DIR>/Tools/b2qt/adb devices -l
+    \endcode
+
+    Or the following command on Windows:
+
+    \code
+        <Android-SDK-Tools-install-dir>\platform-tools\adb.exe devices -l
     \endcode
 
     The output should be a list of connected \B2Q (and Android) devices,
@@ -49,10 +58,7 @@
 
     The emulator may be listed as well. Its serial number is its IP and the port
     number: \c{192.168.56.101:5555}.
-    \endlist
 
-    The system log files \c{/var/log/udev} and \c{/var/log/syslog} may
-    provide relevant information in case of connection problems.
 //! [setting up usb access]
 
 //! [configuring device kit]
