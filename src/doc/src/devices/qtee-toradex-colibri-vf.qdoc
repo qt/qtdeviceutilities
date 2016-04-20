@@ -97,6 +97,8 @@
         env=QT_QPA_GENERIC_PLUGINS=evdevtouch:/dev/input/event0
     \endcode
 
+    \section1 Setting up USB Access
+
     \include b2qt-post-install-setup.qdocinc setting up usb access
 
     \section1 Configuring a Device Kit in Qt Creator
