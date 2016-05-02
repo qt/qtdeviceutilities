@@ -50,20 +50,6 @@
 
     \section1 Building Qt for Static Linking
 
-    As the first step before configuring Qt, the \e mkspec for the target device
-    needs to be copied over to Qt sources, so that \e qmake will reference the
-    correct toolchains when creating the makefiles.
-
-    Using Raspberry Pi 2 as an example:
-
-    \badcode
-    cp -a <INSTALL_DIR>/5.6/Boot2Qt/raspberrypi2-eLinux/qt5/mkspecs/devices/linux-rasp-pi2-g++-b2qt \
-          <QT_SRC>/qtbase/mkspecs/devices
-    \endcode
-
-    Above, <QT_SRC> is the location of Qt sources (top-level directory containing
-    the \e configure script).
-
     To use static linking, Qt must be built with the \c -static configuration
     option. The following configure command selects the correct options and
     \e sysroot for the Raspberry Pi 2.
@@ -72,12 +58,16 @@
     device-specific paths are defined as environment variables:
 
     \badcode
-    export SYSROOT_BASE=<INSTALL_DIR>/5.6/Boot2Qt/raspberrypi2-eLinux/toolchain/sysroots
-    export TARGET_DEVICE=linux-rasp-pi2-g++-b2qt
+    export SYSROOT_BASE=<INSTALL_DIR>/5.6/Boot2Qt/raspberrypi2/toolchain/sysroots
+    export TARGET_DEVICE=linux-rasp-pi2-g++
     export SYSROOT_TARGET=cortexa7hf-vfp-vfpv4-neon-poky-linux-gnueabi
     export CROSSCOMPILE_PREFIX=x86_64-pokysdk-linux/usr/bin/arm-poky-linux-gnueabi/arm-poky-linux-gnueabi-
     export HOST_PREFIX=~/build/qt5-rasp-pi2
     \endcode
+
+    To configure and build Qt for some other device, modify the variables to
+    contain the correct sysroot paths and device target strings as they appear
+    in your \SDK installation.
 
     Description of the used variables:
 
@@ -118,7 +108,8 @@
     \c sysroot/prefix.
 
     Compiling in \e xcb support is disabled, OpenGL ES 2.0 support is selected,
-    and \l [QtWebEngine] {Qt WebEngine} is excluded from the build.
+    and \l [QtWebEngine] {Qt WebEngine} is excluded from the build, as it does
+    not support static builds.
 
     More information about configure options is available in the \l [QtDoc]
     {Qt for Embedded Linux#Configuring a Specific Device}{Qt for Embedded Linux}
