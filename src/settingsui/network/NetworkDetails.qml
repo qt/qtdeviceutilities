@@ -33,7 +33,7 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-import QtQuick 2.5
+import QtQuick 2.6
 
 Loader {
     id: root

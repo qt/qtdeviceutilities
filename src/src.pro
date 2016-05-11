@@ -7,6 +7,7 @@ SUBDIRS += \
     displaysettings \
     timedatesettings \
     localdevice \
+    settingsui/settingsuiplugin \
     settingsui \
     imports \
-    doc
+    doc \

@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2015 The Qt Company Ltd.
+** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: http://www.qt.io/licensing/
 **
 ** This file is part of the Qt Device Utilities module of the Qt Toolkit.
@@ -33,36 +33,18 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-import QtQuick 2.6
-import QtQuick.Layouts 1.3
-import QtQuick.Controls 2.0
-import com.theqtcompany.settings.network 1.0
+#ifndef SETTINGSUIPLUGIN_PLUGIN_H
+#define SETTINGSUIPLUGIN_PLUGIN_H
 
-ItemDelegate {
-    id: root
-    autoExclusive: true
-    property bool connect: modelData["connected"]
-    width: parent.width
-    contentItem: Item {
-        width: root.width
+#include <QQmlExtensionPlugin>
 
-        Label {
-            id: text
-            leftPadding: root.indicator.width + root.spacing
-            anchors.left: parent.left
-            anchors.top:parent.top
-            anchors.right: signalMonitor.left
-            anchors.bottom:parent.bottom
-            elide: Text.ElideRight
-            horizontalAlignment: Text.AlignLeft
-            verticalAlignment: Text.AlignVCenter
-            text:modelData["name"]
-        }
-        WifiSignalMonitor {
-            id: signalMonitor
-            anchors.right: parent.right
-            height: parent.height
-            width: height
-        }
-    }
-}
+class SettingsuipluginPlugin : public QQmlExtensionPlugin
+{
+    Q_OBJECT
+    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface")
+
+public:
+    void registerTypes(const char *uri);
+};
+
+#endif // SETTINGSUIPLUGIN_PLUGIN_H

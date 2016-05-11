@@ -5,31 +5,31 @@
             <title>Network</title>
             <view>NetworkSettings</view>
             <path>network</path>
-            <icon>../icons/World_qt_6x.png</icon>
+            <icon>icons/World_qt_6x.png</icon>
         </item>
         <item>
             <title>Display</title>
             <view>Display</view>
             <path>display</path>
-            <icon>../icons/Display_qt_6x.png</icon>
+            <icon>icons/Display_qt_6x.png</icon>
         </item>
         <item>
             <title>Date and Time</title>
             <view>TimeDate</view>
             <path>timedate</path>
-            <icon>../icons/Clock_qt_6x.png</icon>
+            <icon>icons/Clock_qt_6x.png</icon>
         </item>
         <item>
             <title>Language</title>
             <view>Language</view>
             <path>locale</path>
-            <icon>../icons/Flag_qt_6x.png</icon>
+            <icon>icons/Flag_qt_6x.png</icon>
         </item>
         <item>
             <title>Bluetooth</title>
             <view>Bluetooth</view>
             <path>bluetooth</path>
-            <icon>../icons/Bluetooth_qt_6x.png</icon>
+            <icon>icons/Bluetooth_qt_6x.png</icon>
         </item>
     </settings>
 </xml>

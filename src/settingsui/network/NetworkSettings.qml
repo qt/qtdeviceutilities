@@ -35,9 +35,7 @@
 ****************************************************************************/
 import QtQuick 2.6
 import QtQuick.Layouts 1.3
-import Qt.labs.controls 1.0
-import Qt.labs.controls.material 1.0
-import Qt.labs.controls.universal 1.0
+import QtQuick.Controls 2.0
 import com.theqtcompany.settings.network 1.0
 
 Item {
@@ -81,9 +79,8 @@ Item {
                     id: btn
                     Layout.fillWidth: true
                     implicitHeight: 54
-                    checkable: true
 
-                    label: Rectangle {
+                    contentItem: Rectangle {
                         color: checked ? "#80c342" : "white"
                         border.color: "#bdbebf"
                         border.width: 1

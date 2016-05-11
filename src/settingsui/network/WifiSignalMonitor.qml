@@ -65,7 +65,7 @@ Item {
         id: sprite
         property int currentFrame: 0
         anchors.fill: parent
-        source: "Wifi_lightgray_2x.png"
+        source: "../icons/Wifi_lightgray_2x.png"
         clip: true
 
         Timer {
@@ -84,7 +84,7 @@ Item {
         Image {
             height: parent.height
             width: parent.width * 4
-            source: "WifiAnim_black_2x.png"
+            source: "../icons/WifiAnim_black_2x.png"
             x: -parent.currentFrame * width / 4
         }
     }

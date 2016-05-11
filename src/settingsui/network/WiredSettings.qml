@@ -35,9 +35,7 @@
 ****************************************************************************/
 import QtQuick 2.6
 import QtQuick.Layouts 1.3
-import Qt.labs.controls 1.0
-import Qt.labs.controls.material 1.0
-import Qt.labs.controls.universal 1.0
+import QtQuick.Controls 2.0
 import com.theqtcompany.settings.network 1.0
 
 Item {
@@ -132,10 +130,14 @@ Item {
                     onAccepted: if (text.length > 0) service.ipv4.gateway = text
                 }
                 Label {
+                    Layout.alignment: Qt.AlignTop
                     text: qsTr("DNS server: ")
                 }
-                Row {
+                Column {
                     spacing: 10
+                    Layout.fillWidth: true
+                    Layout.alignment: Qt.AlignTop
+
                     Repeater {
                         model: service.nameservers
 
