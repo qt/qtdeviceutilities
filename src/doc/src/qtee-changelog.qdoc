@@ -20,7 +20,7 @@
 /*!
     \page qtee-changelog.html
     \title ChangeLog
-    \previouspage qtee-customization.html
+    \previouspage qtee-build-emulator.html
     \nextpage qtee-troubleshooting.html
 
     \section1 Boot to Qt 5.6.0
