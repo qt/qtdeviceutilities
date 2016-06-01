@@ -2,7 +2,7 @@ TEMPLATE = lib
 CONFIG += plugin
 QT += qml timedatesettings
 
-uri = com.theqtcompany.settings.timedate
+uri = QtDeviceUtilities.TimeDateSettings
 
 DESTDIR = imports/TimeDate
 TARGET  = qmltimedatesettingsplugin

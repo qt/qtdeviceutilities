@@ -4,7 +4,7 @@
 
 void SettingsuipluginPlugin::registerTypes(const char *uri)
 {
-    // @uri com.theqtcompany.settingsui
+    // @uri QtDeviceUtilities.SettingsUI
     qmlRegisterType(QUrl("qrc:/pluginMain.qml"), uri, 1, 0, "SettingsUI");
 }
 

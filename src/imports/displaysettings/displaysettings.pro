@@ -2,7 +2,7 @@ TEMPLATE = lib
 CONFIG += plugin
 QT += qml displaysettings
 
-uri = com.theqtcompany.settings.display
+uri = QtDeviceUtilities.DisplaySettings
 
 TARGET  = qmldisplaysettingsplugin
 

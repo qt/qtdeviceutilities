@@ -1,7 +1,7 @@
 TEMPLATE = lib
 CONFIG += plugin
 QT += qml bluetooth bluetoothsettings
-uri = com.theqtcompany.settings.bluetooth
+uri = QtDeviceUtilities.BluetoothSettings
 
 TARGET  = btsettingsplugin
 

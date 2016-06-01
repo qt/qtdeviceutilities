@@ -39,7 +39,7 @@ import QtQuick.Controls 2.0
 import Qt.labs.settings 1.0
 import QtQuick.XmlListModel 2.0
 import QtQuick.Enterprise.VirtualKeyboard 2.0
-import com.theqtcompany.localdevice 1.0
+import QtDeviceUtilities.LocalDeviceSettings 1.0
 
 Rectangle {
     id: root

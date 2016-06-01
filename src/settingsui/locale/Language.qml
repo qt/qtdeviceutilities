@@ -36,7 +36,7 @@
 import QtQuick 2.6
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.0
-import com.theqtcompany.settings.locale 1.0
+import QtDeviceUtilities.LocaleSettings 1.0
 import QtQml 2.2
 
 Item {

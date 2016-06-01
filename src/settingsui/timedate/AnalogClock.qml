@@ -35,7 +35,7 @@
 ****************************************************************************/
 import QtQuick 2.6
 import QtQuick.Controls 2.0
-import com.theqtcompany.settings.timedate 1.0
+import QtDeviceUtilities.TimeDateSettings 1.0
 
 Item {
     property var currentTime: TimeManager.time

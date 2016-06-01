@@ -38,7 +38,7 @@ import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.0
 import Qt.labs.calendar 1.0
 import QtQml 2.2
-import com.theqtcompany.settings.timedate 1.0
+import QtDeviceUtilities.TimeDateSettings 1.0
 
 Rectangle {
     id: root

@@ -1,2 +1,2 @@
-module com.theqtcompany.settings.display
+module QtDeviceUtilities.DisplaySettings
 plugin qmldisplaysettingsplugin

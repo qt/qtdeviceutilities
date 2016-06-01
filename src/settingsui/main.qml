@@ -35,7 +35,7 @@
 ****************************************************************************/
 import QtQuick 2.6
 import QtQuick.Window 2.2
-import com.theqtcompany.settingsui 1.0
+import QtDeviceUtilities.SettingsUI 1.0
 import QtQuick.Enterprise.VirtualKeyboard 2.0
 import "common"
 

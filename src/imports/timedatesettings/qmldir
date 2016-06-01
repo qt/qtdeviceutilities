@@ -1,2 +1,2 @@
-module com.theqtcompany.settings.timedate
+module QtDeviceUtilities.TimeDateSettings
 plugin qmltimedatesettingsplugin

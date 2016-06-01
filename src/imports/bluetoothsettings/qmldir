@@ -1,2 +1,2 @@
-module com.theqtcompany.settings.bluetooth
+module QtDeviceUtilities.BluetoothSettings
 plugin btsettingsplugin

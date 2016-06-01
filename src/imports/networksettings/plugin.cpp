@@ -52,7 +52,7 @@ QObject *instance(QQmlEngine *engine, QJSEngine *) {
 
 void NetworksettingspluginPlugin::registerTypes(const char *uri)
 {
-    Q_ASSERT(QLatin1String(uri) == QLatin1String("com.theqtcompany.settings.network"));
+    Q_ASSERT(QLatin1String(uri) == QLatin1String("QtDeviceUtilities.NetworkSettings"));
     qmlRegisterUncreatableType<QNetworkSettingsService>(uri, 1, 0, "NetworkService", "Cannot be instantiated directly.");
     qmlRegisterUncreatableType<QNetworkSettingsIPv4>(uri, 1, 0, "NetworkSettingsIPv4", "Cannot be instantiated directly.");
     qmlRegisterUncreatableType<QNetworkSettingsIPv6>(uri, 1, 0, "NetworkSettingsIPv6", "Cannot be instantiated directly.");

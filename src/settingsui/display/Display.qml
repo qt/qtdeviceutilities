@@ -36,7 +36,7 @@
 import QtQuick 2.6
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.0
-import com.theqtcompany.settings.display 1.0
+import QtDeviceUtilities.DisplaySettings 1.0
 
 Item {
     id: root

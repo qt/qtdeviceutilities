@@ -58,7 +58,7 @@ class BluetoothSettingsQmlPlugin : public QQmlExtensionPlugin
 public:
     void registerTypes(const char *uri)
     {
-        Q_ASSERT(QLatin1String(uri) == QLatin1String("com.theqtcompany.settings.bluetooth"));
+        Q_ASSERT(QLatin1String(uri) == QLatin1String("QtDeviceUtilities.BluetoothSettings"));
         qmlRegisterUncreatableType<BtDeviceItem>(uri, 1, 0, "BtDeviceItem", "Cannot be instantiated directly.");
         qmlRegisterSingletonType<BluetoothDevice>(uri, 1, 0, "BtDevice", &instance<BluetoothDevice>);
     }

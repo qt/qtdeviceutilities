@@ -20,7 +20,7 @@
 #include <QtQml>
 
 /*!
-    \qmlmodule com.theqtcompany.localdevice 1.0
+    \qmlmodule QtDeviceUtilities.LocalDeviceSettings 1.0
     \title Qt Local Device QML Module
     \ingroup qtee-qmlmodules
     \brief A collection of the local device related utility functions, accessible from QML.
@@ -38,7 +38,7 @@
     Import the module as follows:
 
     \badcode
-    import com.theqtcompany.localdevice 1.0
+    import QtDeviceUtilities.LocalDeviceSettings 1.0
     \endcode
 
     This will give you access to the singleton QML type LocalDevice.
@@ -53,7 +53,7 @@
 
 /*!
     \qmltype LocalDevice
-    \inqmlmodule com.theqtcompany.localdevice
+    \inqmlmodule QtDeviceUtilities.LocalDeviceSettings
     \ingroup utils-qmltypes
     \brief Singleton QML type providing access to utility functions.
 
@@ -64,7 +64,7 @@
     simply import the \c {LocalDevice} module:
 
     \qml
-    com.theqtcompany.localdevice
+    QtDeviceUtilities.LocalDeviceSettings
 
     \endqml
 
@@ -109,7 +109,7 @@ public:
 
     void registerTypes(const char *uri)
     {
-        Q_ASSERT(QLatin1String(uri) == "com.theqtcompany.localdevice");
+        Q_ASSERT(QLatin1String(uri) == "QtDeviceUtilities.LocalDeviceSettings");
         qmlRegisterSingletonType<QLocalDevice>(uri, 1, 0, "LocalDevice", module_api_factory);
     }
 };

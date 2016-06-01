@@ -1,3 +1,3 @@
-module com.theqtcompany.localdevice
+module QtDeviceUtilities.LocalDeviceSettings
 plugin localdeviceplugin
 typeinfo plugins.qmltypes

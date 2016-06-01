@@ -1,2 +1,2 @@
-module com.theqtcompany.settingsui
+module QtDeviceUtilities.SettingsUI
 plugin settingsuiplugin
