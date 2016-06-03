@@ -17,7 +17,7 @@ android-no-sdk {
         qnx {
             target.path = /tmp/$${TARGET}/bin
         } else {
-            target.path = /opt/$${TARGET}/bin
+            target.path = $$[QT_INSTALL_BINS]
         }
         export(target.path)
     }
