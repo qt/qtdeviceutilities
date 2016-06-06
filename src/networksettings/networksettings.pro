@@ -9,11 +9,11 @@ QT = core network
 MODULE = networksettings
 load(qt_module)
 
-wpasupplicant {
-    include(wpasupplicant.pri)
+connman {
+    include(connman.pri)
 }
 else {
-    include(connman.pri)
+    include(wpasupplicant.pri)
 }
 
 # Input

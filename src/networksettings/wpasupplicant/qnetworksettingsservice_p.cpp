@@ -78,7 +78,7 @@ void QNetworkSettingsServicePrivate::setupIpv4Config()
 }
 
 WpaSupplicantService::WpaSupplicantService(QNetworkSettingsManagerPrivate* manager, QObject* parent)
-    :QNetworkSettingsService("", parent)
+    :QNetworkSettingsService(QStringLiteral(""), parent)
 {
     Q_D(QNetworkSettingsService);
     d->setManager(manager);
@@ -101,13 +101,13 @@ void WpaSupplicantService::setFlags(const QString& aFlags)
 {
     Q_D(QNetworkSettingsService);
 
-    if (aFlags.contains("WPA-")) {
+    if (aFlags.contains(QStringLiteral("WPA-"))) {
         d->m_wifiConfig.setSecurity(QNetworkSettingsWireless::WPA);
     }
-    if (aFlags.contains("WPA2-")) {
+    if (aFlags.contains(QStringLiteral("WPA2-"))) {
         d->m_wifiConfig.setSecurity(QNetworkSettingsWireless::WPA2);
     }
-    if (aFlags.contains("WEP-")) {
+    if (aFlags.contains(QStringLiteral("WEP-"))) {
         d->m_wifiConfig.setSecurity(QNetworkSettingsWireless::WEP);
     }
 }

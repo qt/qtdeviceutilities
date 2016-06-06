@@ -34,7 +34,7 @@ QNetworkSettingsInterfacePrivate::QNetworkSettingsInterfacePrivate(QNetworkSetti
     :QObject(parent)
     ,q_ptr(parent)
 {
-    m_name = QWifiDevice::wifiInterfaceName();
+    m_name = QString::fromLatin1(QWifiDevice::wifiInterfaceName());
     m_type.setType(QNetworkSettingsType::Wifi);
     m_powered = true; //We don't really know
 }

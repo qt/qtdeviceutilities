@@ -34,14 +34,13 @@ import QtDeviceUtilities.NetworkSettings 1.0
 ItemDelegate {
     id: root
     autoExclusive: true
-    property bool connect: modelData["connected"]
-    width: parent.width
+    property bool connect: connected
     contentItem: Item {
         width: root.width
 
         Label {
             id: text
-            leftPadding: root.indicator.width + root.spacing
+            leftPadding: root.spacing
             anchors.left: parent.left
             anchors.top:parent.top
             anchors.right: signalMonitor.left
@@ -49,13 +48,15 @@ ItemDelegate {
             elide: Text.ElideRight
             horizontalAlignment: Text.AlignLeft
             verticalAlignment: Text.AlignVCenter
-            text:modelData["name"]
+            text: modelData["name"]
         }
         WifiSignalMonitor {
             id: signalMonitor
             anchors.right: parent.right
             height: parent.height
             width: height
+            signalStrength: modelData.wirelessConfig["signalStrength"]
+            connected: connected
         }
     }
 }

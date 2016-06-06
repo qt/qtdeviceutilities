@@ -43,11 +43,14 @@ class Q_DECL_EXPORT QNetworkSettingsManager : public QObject
     Q_ENUMS(StateTypes NetworkTypeTypes)
     Q_PROPERTY(QAbstractItemModel* services READ services NOTIFY servicesChanged)
     Q_PROPERTY(QAbstractItemModel* interfaces READ interfaces NOTIFY interfacesChanged)
+    Q_PROPERTY(QNetworkSettingsUserAgent* userAgent READ getUserAgent CONSTANT)
+
 public:
     explicit QNetworkSettingsManager(QObject* parent = 0);
     QAbstractItemModel* services();
     QAbstractItemModel* interfaces();
     void setUserAgent(QNetworkSettingsUserAgent *agent);
+    QNetworkSettingsUserAgent* getUserAgent();
 
     Q_INVOKABLE QNetworkSettingsService* getService(const QString& name, const int type);
 

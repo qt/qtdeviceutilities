@@ -38,7 +38,14 @@ QNetworkSettingsManagerPrivate::QNetworkSettingsManagerPrivate(QNetworkSettingsM
     :QObject(parent)
     ,q_ptr(parent)
 {
-    m_serviceFilter.setSourceModel(&m_serviceModel);
+
+    QNetworkSettingsUserAgent* userAgent = new QNetworkSettingsUserAgent(this);
+    this->setUserAgent(userAgent);
+
+    m_serviceModel = new QNetworkSettingsServiceModel(this);
+    m_serviceFilter = new QNetworkSettingsServiceFilter(this);
+    m_serviceFilter->setSourceModel(m_serviceModel);
+
     m_wifiController = new QWifiController(this);
     m_wifiController->asyncCall(QWifiController::InitializeBackend);
 
@@ -97,7 +104,7 @@ void QNetworkSettingsManagerPrivate::connectNetwork(const QString& ssid)
 void QNetworkSettingsManagerPrivate::userInteractionReady(bool cancel)
 {
     if (cancel) {
-        m_currentSSID = "";
+        m_currentSSID = QStringLiteral("");
         return;
     }
     bool networkKnown = false;
@@ -323,7 +330,7 @@ WpaSupplicantService* QNetworkSettingsManagerPrivate::networkForSSID(const QStri
 
 WpaSupplicantService* QNetworkSettingsManagerPrivate::networkForSSID(const QString& ssid, int& pos)
 {
-    QList<QNetworkSettingsService*> services = m_serviceModel.getModel();
+    QList<QNetworkSettingsService*> services = m_serviceModel->getModel();
     pos = 0;
     foreach (QNetworkSettingsService *service, services) {
         if (service->name() == ssid) {
@@ -384,20 +391,20 @@ void QNetworkSettingsManagerPrivate::parseScanResults(const QString &results)
             network->setFlags(info.at(3));
             network->wirelessConfig()->setSignalStrength(signalStrength);
             network->setName(ssid);
-            m_serviceModel.append(network);
+            m_serviceModel->append(network);
         } else {
             if (knownNetwork->wirelessConfig()->outOfRange()) {
                 // known network has come back into a range
                 knownNetwork->wirelessConfig()->setOutOfRange(false);
-                m_serviceModel.append(knownNetwork);
-                pos = m_serviceModel.getModel().size() - 1;
+                m_serviceModel->append(knownNetwork);
+                pos = m_serviceModel->getModel().size() - 1;
             }
             // ssids are the same, compare bssids..
             if (knownNetwork->id() == info.at(0)) {
                 // same access point, simply update the signal strength
                 knownNetwork->wirelessConfig()->setSignalStrength(signalStrength);
                 knownNetwork->wirelessConfig()->setOutOfRange(false);
-                m_serviceModel.updated(pos);
+                m_serviceModel->updated(pos);
             } else if (knownNetwork->wirelessConfig()->signalStrength() < signalStrength) {
                 // replace with a stronger access point within the same network
                 knownNetwork->wirelessConfig()->setOutOfRange(false);
@@ -405,7 +412,7 @@ void QNetworkSettingsManagerPrivate::parseScanResults(const QString &results)
                 knownNetwork->setFlags(info.at(3));
                 knownNetwork->wirelessConfig()->setSignalStrength(signalStrength);
                 knownNetwork->setName(ssid);
-                m_serviceModel.updated(pos);
+                m_serviceModel->updated(pos);
             }
         }
     }
@@ -414,7 +421,7 @@ void QNetworkSettingsManagerPrivate::parseScanResults(const QString &results)
     for (int i = 0; i < networks.size();) {
         if (!sensibleNetworks.contains(networks.at(i)->name())) {
             WpaSupplicantService *n = qobject_cast<WpaSupplicantService*>(networks.at(i));
-            m_serviceModel.remove(i);
+            m_serviceModel->remove(i);
             if (n) {
                 n->wirelessConfig()->setOutOfRange(true);
                 m_outOfRangeServiceModel.append(n);

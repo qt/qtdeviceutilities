@@ -68,3 +68,9 @@ void QNetworkSettingsManager::setUserAgent(QNetworkSettingsUserAgent *agent)
     Q_D(QNetworkSettingsManager);
     d->setUserAgent(agent);
 }
+
+QNetworkSettingsUserAgent* QNetworkSettingsManager::getUserAgent()
+{
+    Q_D(QNetworkSettingsManager);
+    return d->getUserAgent();
+}

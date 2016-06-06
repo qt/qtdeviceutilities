@@ -54,7 +54,7 @@ Item {
                     Layout.preferredWidth: root.width * 0.382
                     Layout.alignment: Qt.AlignVCenter
                     horizontalAlignment: Text.AlignRight
-                    text: selectedInterface.powered ? qsTr("Wi-Fi OFF") : qsTr("Wi-Fi ON")
+                    text: selectedInterface.powered ? qsTr("Wi-Fi ON") : qsTr("Wi-Fi OFF")
                 }
                 Switch {
                     checked: selectedInterface.powered
@@ -70,6 +70,7 @@ Item {
                     text: qsTr("Current network")
                     horizontalAlignment: Text.AlignRight
                     Layout.alignment: Qt.AlignVCenter
+
                 }
                 ComboBoxEntry {
                     id: networkSelection
@@ -79,7 +80,8 @@ Item {
                     onCurrentIndexChanged: if (currentIndex >= 0) model.itemFromRow(currentIndex).connectService();
 
                     delegate: WifiSelectorDelegate {
-                        onConnectChanged: if (connect) networkSelection.currentIndex = networkSelection.find(modelData.name)
+                        width: networkSelection.width
+                        onConnectChanged: if (connect) networkSelection.currentIndex = index
                     }
                 }
             }
@@ -152,7 +154,7 @@ Item {
                             text: qsTr("Connect")
                             onClicked: {
                                 connectView.visible = false
-                                NetworkSettingsUserAgent.setUserCredentials("", password.text)
+                                NetworkSettingsManager.userAgent.setUserCredentials("", password.text)
                             }
                         }
                         Button {
@@ -175,7 +177,7 @@ Item {
             }
         }
         Connections {
-            target: NetworkSettingsUserAgent
+            target: NetworkSettingsManager.userAgent
             onShowUserCredentialsInput : {
                 connectView.visible = true
             }

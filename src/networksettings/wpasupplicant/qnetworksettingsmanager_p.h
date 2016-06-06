@@ -51,6 +51,7 @@ public:
     void disconnectNetwork();
     QString call(const QString &command);
     bool checkedCall(const QString &command);
+    QNetworkSettingsUserAgent *getUserAgent() {return m_agent;}
 protected:
     bool event(QEvent *event);
 
@@ -73,11 +74,11 @@ private:
     WpaSupplicantService* outOfRangeListContains(const QString& ssid);
 
     QNetworkSettingsInterfaceModel m_interfaceModel;
-    QNetworkSettingsServiceModel m_serviceModel;
+    QNetworkSettingsServiceModel *m_serviceModel;
     QNetworkSettingsServiceModel m_outOfRangeServiceModel;
-    QNetworkSettingsServiceFilter m_serviceFilter;
+    QNetworkSettingsServiceFilter *m_serviceFilter;
     QWifiController *m_wifiController;
-    QNetworkSettingsUserAgent *m_agent; //Not owned
+    QNetworkSettingsUserAgent *m_agent;
 
     QWifiController::BackendState m_backendState;
     QString m_currentSSID;
