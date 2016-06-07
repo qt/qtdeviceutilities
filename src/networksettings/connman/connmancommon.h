@@ -50,21 +50,21 @@
 #define AttributeDisconnect QStringLiteral("disconnect")
 #define AttributeOneline QStringLiteral("online")
 
-struct ConnmanMap {
+struct ConnmanMapStruct {
     QDBusObjectPath objectPath;
     QVariantMap propertyMap;
 };
 
-QDBusArgument &operator<<(QDBusArgument &argument, const ConnmanMap &obj);
-const QDBusArgument &operator>>(const QDBusArgument &argument, ConnmanMap &obj);
+QDBusArgument &operator<<(QDBusArgument &argument, const ConnmanMapStruct &obj);
+const QDBusArgument &operator>>(const QDBusArgument &argument, ConnmanMapStruct &obj);
 
 const QString &operator>>(const QString &argument, QNetworkSettingsType &obj);
 const QString &operator>>(const QString  &argument, QNetworkSettingsState &obj);
 
-typedef QList<ConnmanMap> ConnmanMapList;
+typedef QList<ConnmanMapStruct> ConnmanMapStructList;
 
-Q_DECLARE_METATYPE( ConnmanMap )
-Q_DECLARE_METATYPE( ConnmanMapList )
+Q_DECLARE_METATYPE( ConnmanMapStruct )
+Q_DECLARE_METATYPE( ConnmanMapStructList )
 
 
 #endif // CONNMANCOMMON_H

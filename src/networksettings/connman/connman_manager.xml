@@ -14,17 +14,17 @@
 
     <method name="GetTechnologies" tp:name-for-bindings="Get_Technologies">
         <arg name="technologies" type="a(oa{sv})" direction="out"/>
-        <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="ConnmanMapList"/>
+        <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="ConnmanMapStructList"/>
     </method>
 
     <method name="GetServices" tp:name-for-bindings="Get_Services">
         <arg name="services" type="a(oa{sv})" direction="out"/>
-        <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="ConnmanMapList"/>
+        <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="ConnmanMapStructList"/>
     </method>
 
     <method name="GetSavedServices" tp:name-for-bindings="Get_Saved_Services">
         <arg name="services" type="a(oa{sv})" direction="out"/>
-        <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="ConnmanMapList"/>
+        <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="ConnmanMapStructList"/>
     </method>
 
     <method name="RemoveSavedService" tp:name-for-bindings="Remove_Saved_Services">
@@ -90,13 +90,13 @@
 
     <signal name="ServicesChanged" tp:name-for-bindings="Services_Changed">
         <arg name="changed" type="a(oa{sv})"/>
-        <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="ConnmanMapList"/>
+        <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="ConnmanMapStructList"/>
         <arg name="removed" type="ao"/>
     </signal>
 
     <signal name="SavedServicesChanged" tp:name-for-bindings="SavedServices_Changed">
         <arg name="changed" type="a(oa{sv})"/>
-        <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="ConnmanMapList"/>
+        <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="ConnmanMapStructList"/>
     </signal>
 
     <signal name="PropertyChanged" tp:name-for-bindings="Property_Changed">

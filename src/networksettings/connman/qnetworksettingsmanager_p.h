@@ -47,12 +47,12 @@ public:
     explicit QNetworkSettingsManagerPrivate(QNetworkSettingsManager *parent);
     QNetworkSettingsManager *q_ptr;
     void setUserAgent(QNetworkSettingsUserAgent *agent);
-
+    QNetworkSettingsUserAgent *getUserAgent() {return m_agent;}
 public slots:
     void getServicesFinished(QDBusPendingCallWatcher *watcher);
     void getTechnologiesFinished(QDBusPendingCallWatcher *watcher);
     void requestInput(const QString& service, const QString& type);
-    void servicesChanged(ConnmanMapList changed, const QList<QDBusObjectPath> &removed);
+    void onServicesChanged(ConnmanMapStructList changed, const QList<QDBusObjectPath> &removed);
 
 protected:
     QNetworkSettingsInterfaceModel m_interfaceModel;
@@ -60,6 +60,7 @@ protected:
     QNetworkSettingsServiceFilter *m_serviceFilter;
 private:
     NetConnmanManagerInterface *m_manager;
+    QNetworkSettingsUserAgent *m_agent;
 };
 
 #endif // QNETWORKSETTINGSMANAGERPRIVATE_H
