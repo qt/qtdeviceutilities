@@ -39,6 +39,11 @@
         \li Moved to use Yocto 2.0 (Jethro).
     \endlist
 
+    \b{Removed Platforms}:
+    \list
+        \li Removed support for SILICA ArchiTech Tibidabo.
+    \endlist
+
     \section1 Boot to Qt 5.6.0
 
     \b{New Features}:
