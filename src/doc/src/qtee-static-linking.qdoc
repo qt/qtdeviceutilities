@@ -20,7 +20,7 @@
     \page qtee-static-linking.html
     \title Linking to Static Builds of Qt
     \previouspage qtee-custom-embedded-linux-image.html
-    \nextpage qtee-changelog.html
+    \nextpage qtee-build-emulator.html
 
     The device-specific sysroots in \B2Q come with a dynamically linked version
     of Qt libraries (\c *.so files). In some cases, using static linking may be

@@ -20,8 +20,19 @@
 /*!
     \page qtee-changelog.html
     \title ChangeLog
-    \previouspage qtee-customization.html
+    \previouspage qtee-build-emulator.html
     \nextpage qtee-troubleshooting.html
+
+    \section1 Boot to Qt 5.7
+    \list
+        \li Release date: April 6, 2016
+    \endlist
+
+    \b{New Features}:
+    \list
+        \li \B2Q stack was updated to use Qt 5.7
+        \li New reference device: Raspberry Pi 3
+    \endlist
 
     \section1 Boot to Qt 5.6.0
 

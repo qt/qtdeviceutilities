@@ -17,19 +17,19 @@
 **
 ****************************************************************************/
 /*!
-    \keyword Raspberry Pi 2 Model B
+    \keyword Raspberry Pi 3 Model B
     \page qtee-preparing-hardware-rasberrypi.html
-    \title Preparing Raspberry Pi 2
+    \title Preparing Raspberry Pi 3
     \previouspage qtee-installation-guide.html
     \nextpage qtee-building-and-running.html
 
-    Take the following steps to prepare a  \l{https://www.raspberrypi.org/products/raspberry-pi-2-model-b/}
-    {Raspberry Pi 2} for \B2Q.
+    Take the following steps to prepare a  \l{https://www.raspberrypi.org/products/raspberry-pi-3-model-b/}
+    {Raspberry Pi 3} for \B2Q.
 
     \note It is important that you repeat the steps in this section after you
     update \SDK.
 
-    The image containing \B2Q stack for Raspberry Pi 2 is included in the SDK,
+    The image containing \B2Q stack for Raspberry Pi 3 is included in the SDK,
     ready to be copied to an SD card.
 
     \section1 Preparing an SD Card
@@ -51,7 +51,7 @@
 
     \badcode
         cd <INSTALL_DIR>
-        sudo dd bs=4k if=5.6/Boot2Qt/raspberrypi2/images/b2qt-embedded-qt5-image-raspberrypi2.img of=/dev/<device_name>
+        sudo dd bs=4k if=5.7/Boot2Qt/raspberrypi3/images/b2qt-embedded-qt5-image-raspberrypi3.img of=/dev/<device_name>
     \endcode
 
     After the image has been deployed, insert the SD card, power on the device and check that
