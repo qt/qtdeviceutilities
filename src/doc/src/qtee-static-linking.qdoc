@@ -58,7 +58,7 @@
     device-specific paths are defined as environment variables:
 
     \badcode
-    export SYSROOT_BASE=<INSTALL_DIR>/5.6/Boot2Qt/raspberrypi2/toolchain/sysroots
+    export SYSROOT_BASE=<INSTALL_DIR>/5.7/Boot2Qt/raspberrypi2/toolchain/sysroots
     export TARGET_DEVICE=linux-rasp-pi2-g++
     export SYSROOT_TARGET=cortexa7hf-vfp-vfpv4-neon-poky-linux-gnueabi
     export CROSSCOMPILE_PREFIX=x86_64-pokysdk-linux/usr/bin/arm-poky-linux-gnueabi/arm-poky-linux-gnueabi-

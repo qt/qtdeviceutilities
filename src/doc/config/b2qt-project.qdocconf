@@ -1,6 +1,6 @@
 project                      = QtForDeviceCreation
-description                  = Qt 5.6 for Device Creation
-version                      = 5.6.0
+description                  = Qt 5.7 for Device Creation
+version                      = 5.7.0
 
 sourcedirs                  += ../src \
                                ../../imports/wifi \
@@ -29,14 +29,14 @@ depends                      = qmake
 qhp.projects                 = B2Qt
 
 qhp.B2Qt.file                = b2qt.qhp
-qhp.B2Qt.namespace           = com.digia.b2qt.560
+qhp.B2Qt.namespace           = com.digia.b2qt.570
 qhp.B2Qt.virtualFolder       = b2qt
-qhp.B2Qt.indexTitle          = Qt 5.6 for Device Creation
+qhp.B2Qt.indexTitle          = Qt 5.7 for Device Creation
 qhp.B2Qt.indexRoot           =
 
 qhp.B2Qt.subprojects                   = manual
-qhp.B2Qt.subprojects.manual.title      = Qt 5.6 for Device Creation
-qhp.B2Qt.subprojects.manual.indexTitle = Qt 5.6 for Device Creation
+qhp.B2Qt.subprojects.manual.title      = Qt 5.7 for Device Creation
+qhp.B2Qt.subprojects.manual.indexTitle = Qt 5.7 for Device Creation
 qhp.B2Qt.subprojects.manual.type       = manual
 
 macro.B2Q                    = "Boot to Qt"
@@ -44,7 +44,7 @@ macro.SDK                    = "Qt for Device Creation"
 macro.B2QA                   = "\\e {Boot to Qt for embedded Android}"
 macro.B2QL                   = "\\e {Boot to Qt for embedded Linux}"
 
-navigation.landingpage       = "Qt 5.6 for Device Creation"
+navigation.landingpage       = "Qt 5.7 for Device Creation"
 navigation.qmltypespage      = "Add-On Modules"
 
 Cpp.ignoredirectives        += Q_DECLARE_LOGGING_CATEGORY

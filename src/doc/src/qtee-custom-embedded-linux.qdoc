@@ -67,7 +67,7 @@
 
     \badcode
     cd <BuildDir>
-    <INSTALL_DIR>/5.6/Boot2Qt/sources/meta-b2qt/b2qt-init-build-env init --device imx6qsabresd
+    <INSTALL_DIR>/5.7/Boot2Qt/sources/meta-b2qt/b2qt-init-build-env init --device imx6qsabresd
     \endcode
 
     \c b2qt-init-build-env has the following additional command line options:
@@ -80,7 +80,7 @@
     For all command line options, see:
 
     \badcode
-    <INSTALL_DIR>/5.6/Boot2Qt/sources/meta-b2qt/b2qt-init-build-env help
+    <INSTALL_DIR>/5.7/Boot2Qt/sources/meta-b2qt/b2qt-init-build-env help
     \endcode
 
     \note Support for Kontron SMARC-sAMX6i requires additional Yocto Board Support Package that is
