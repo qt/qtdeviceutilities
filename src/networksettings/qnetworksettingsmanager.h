@@ -1,34 +1,27 @@
 /****************************************************************************
 **
-** Copyright (C) 2015 The Qt Company Ltd.
-** Contact: http://www.qt.io/licensing/
+** Copyright (C) 2016 The Qt Company Ltd.
+** Contact: https://www.qt.io/licensing/
 **
-** This file is part of the Qt Device Utilities module of the Qt Toolkit.
+** This file is part of the Device Utilities module of the Qt Toolkit.
 **
-** $QT_BEGIN_LICENSE:LGPL3$
+** $QT_BEGIN_LICENSE:GPL$
 ** Commercial License Usage
 ** Licensees holding valid commercial Qt licenses may use this file in
 ** accordance with the commercial license agreement provided with the
 ** Software or, alternatively, in accordance with the terms contained in
 ** a written agreement between you and The Qt Company. For licensing terms
-** and conditions see http://www.qt.io/terms-conditions. For further
-** information use the contact form at http://www.qt.io/contact-us.
-**
-** GNU Lesser General Public License Usage
-** Alternatively, this file may be used under the terms of the GNU Lesser
-** General Public License version 3 as published by the Free Software
-** Foundation and appearing in the file LICENSE.LGPLv3 included in the
-** packaging of this file. Please review the following information to
-** ensure the GNU Lesser General Public License version 3 requirements
-** will be met: https://www.gnu.org/licenses/lgpl.html.
+** and conditions see https://www.qt.io/terms-conditions. For further
+** information use the contact form at https://www.qt.io/contact-us.
 **
 ** GNU General Public License Usage
 ** Alternatively, this file may be used under the terms of the GNU
-** General Public License version 2.0 or later as published by the Free
-** Software Foundation and appearing in the file LICENSE.GPL included in
-** the packaging of this file. Please review the following information to
-** ensure the GNU General Public License version 2.0 requirements will be
-** met: http://www.gnu.org/licenses/gpl-2.0.html.
+** General Public License version 3 or (at your option) any later version
+** approved by the KDE Free Qt Foundation. The licenses are as published by
+** the Free Software Foundation and appearing in the file LICENSE.GPL3
+** included in the packaging of this file. Please review the following
+** information to ensure the GNU General Public License requirements will
+** be met: https://www.gnu.org/licenses/gpl-3.0.html.
 **
 ** $QT_END_LICENSE$
 **
@@ -50,11 +43,14 @@ class Q_DECL_EXPORT QNetworkSettingsManager : public QObject
     Q_ENUMS(StateTypes NetworkTypeTypes)
     Q_PROPERTY(QAbstractItemModel* services READ services NOTIFY servicesChanged)
     Q_PROPERTY(QAbstractItemModel* interfaces READ interfaces NOTIFY interfacesChanged)
+    Q_PROPERTY(QNetworkSettingsUserAgent* userAgent READ getUserAgent CONSTANT)
+
 public:
     explicit QNetworkSettingsManager(QObject* parent = 0);
     QAbstractItemModel* services();
     QAbstractItemModel* interfaces();
     void setUserAgent(QNetworkSettingsUserAgent *agent);
+    QNetworkSettingsUserAgent* getUserAgent();
 
     Q_INVOKABLE QNetworkSettingsService* getService(const QString& name, const int type);
 

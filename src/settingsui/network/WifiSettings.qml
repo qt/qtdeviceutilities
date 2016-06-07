@@ -1,44 +1,35 @@
 /****************************************************************************
 **
-** Copyright (C) 2015 The Qt Company Ltd.
-** Contact: http://www.qt.io/licensing/
+** Copyright (C) 2016 The Qt Company Ltd.
+** Contact: https://www.qt.io/licensing/
 **
-** This file is part of the Qt Device Utilities module of the Qt Toolkit.
+** This file is part of the Device Utilities module of the Qt Toolkit.
 **
-** $QT_BEGIN_LICENSE:LGPL3$
+** $QT_BEGIN_LICENSE:GPL$
 ** Commercial License Usage
 ** Licensees holding valid commercial Qt licenses may use this file in
 ** accordance with the commercial license agreement provided with the
 ** Software or, alternatively, in accordance with the terms contained in
 ** a written agreement between you and The Qt Company. For licensing terms
-** and conditions see http://www.qt.io/terms-conditions. For further
-** information use the contact form at http://www.qt.io/contact-us.
-**
-** GNU Lesser General Public License Usage
-** Alternatively, this file may be used under the terms of the GNU Lesser
-** General Public License version 3 as published by the Free Software
-** Foundation and appearing in the file LICENSE.LGPLv3 included in the
-** packaging of this file. Please review the following information to
-** ensure the GNU Lesser General Public License version 3 requirements
-** will be met: https://www.gnu.org/licenses/lgpl.html.
+** and conditions see https://www.qt.io/terms-conditions. For further
+** information use the contact form at https://www.qt.io/contact-us.
 **
 ** GNU General Public License Usage
 ** Alternatively, this file may be used under the terms of the GNU
-** General Public License version 2.0 or later as published by the Free
-** Software Foundation and appearing in the file LICENSE.GPL included in
-** the packaging of this file. Please review the following information to
-** ensure the GNU General Public License version 2.0 requirements will be
-** met: http://www.gnu.org/licenses/gpl-2.0.html.
+** General Public License version 3 or (at your option) any later version
+** approved by the KDE Free Qt Foundation. The licenses are as published by
+** the Free Software Foundation and appearing in the file LICENSE.GPL3
+** included in the packaging of this file. Please review the following
+** information to ensure the GNU General Public License requirements will
+** be met: https://www.gnu.org/licenses/gpl-3.0.html.
 **
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
 import QtQuick 2.6
 import QtQuick.Layouts 1.3
-import Qt.labs.controls 1.0
-import Qt.labs.controls.material 1.0
-import Qt.labs.controls.universal 1.0
-import com.theqtcompany.settings.network 1.0
+import QtQuick.Controls 2.0
+import QtDeviceUtilities.NetworkSettings 1.0
 
 Item {
     id: root
@@ -63,7 +54,7 @@ Item {
                     Layout.preferredWidth: root.width * 0.382
                     Layout.alignment: Qt.AlignVCenter
                     horizontalAlignment: Text.AlignRight
-                    text: selectedInterface.powered ? qsTr("Wi-Fi OFF") : qsTr("Wi-Fi ON")
+                    text: selectedInterface.powered ? qsTr("Wi-Fi ON") : qsTr("Wi-Fi OFF")
                 }
                 Switch {
                     checked: selectedInterface.powered
@@ -79,6 +70,7 @@ Item {
                     text: qsTr("Current network")
                     horizontalAlignment: Text.AlignRight
                     Layout.alignment: Qt.AlignVCenter
+
                 }
                 ComboBoxEntry {
                     id: networkSelection
@@ -88,7 +80,8 @@ Item {
                     onCurrentIndexChanged: if (currentIndex >= 0) model.itemFromRow(currentIndex).connectService();
 
                     delegate: WifiSelectorDelegate {
-                        onConnectChanged: if (connect) networkSelection.currentIndex = networkSelection.find(modelData.name)
+                        width: networkSelection.width
+                        onConnectChanged: if (connect) networkSelection.currentIndex = index
                     }
                 }
             }
@@ -107,7 +100,7 @@ Item {
                         property alias text: text.text
 
                         Image {
-                            source: "Alert_yellow_1x.png"
+                            source: "../icons/Alert_yellow_1x.png"
                             Layout.alignment: Qt.AlignVCenter
                         }
                         Text {
@@ -161,7 +154,7 @@ Item {
                             text: qsTr("Connect")
                             onClicked: {
                                 connectView.visible = false
-                                NetworkSettingsUserAgent.setUserCredentials("", password.text)
+                                NetworkSettingsManager.userAgent.setUserCredentials("", password.text)
                             }
                         }
                         Button {
@@ -184,7 +177,7 @@ Item {
             }
         }
         Connections {
-            target: NetworkSettingsUserAgent
+            target: NetworkSettingsManager.userAgent
             onShowUserCredentialsInput : {
                 connectView.visible = true
             }

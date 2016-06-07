@@ -1,7 +1,7 @@
 TEMPLATE = lib
 CONFIG += plugin
 TARGET  = localdeviceplugin
-uri = com.theqtcompany.localdevice
+uri = QtDeviceUtilities.LocalDeviceSettings
 
 QT += qml localdevice
 

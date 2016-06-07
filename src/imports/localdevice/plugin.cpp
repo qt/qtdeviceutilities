@@ -1,26 +1,36 @@
 /****************************************************************************
 **
-** Copyright (C) 2014 Digia Plc
-** All rights reserved.
-** For any questions to Digia, please use the contact form at
-** http://www.qt.io
+** Copyright (C) 2016 The Qt Company Ltd.
+** Contact: https://www.qt.io/licensing/
 **
-** This file is part of Qt Enterprise Embedded.
+** This file is part of the Device Utilities module of the Qt Toolkit.
 **
-** Licensees holding valid Qt Enterprise licenses may use this file in
-** accordance with the Qt Enterprise License Agreement provided with the
+** $QT_BEGIN_LICENSE:GPL$
+** Commercial License Usage
+** Licensees holding valid commercial Qt licenses may use this file in
+** accordance with the commercial license agreement provided with the
 ** Software or, alternatively, in accordance with the terms contained in
-** a written agreement between you and Digia.
+** a written agreement between you and The Qt Company. For licensing terms
+** and conditions see https://www.qt.io/terms-conditions. For further
+** information use the contact form at https://www.qt.io/contact-us.
 **
-** If you have questions regarding the use of this file, please use
-** the contact form at http://www.qt.io
+** GNU General Public License Usage
+** Alternatively, this file may be used under the terms of the GNU
+** General Public License version 3 or (at your option) any later version
+** approved by the KDE Free Qt Foundation. The licenses are as published by
+** the Free Software Foundation and appearing in the file LICENSE.GPL3
+** included in the packaging of this file. Please review the following
+** information to ensure the GNU General Public License requirements will
+** be met: https://www.gnu.org/licenses/gpl-3.0.html.
+**
+** $QT_END_LICENSE$
 **
 ****************************************************************************/
 #include <qlocaldevice.h>
 #include <QtQml>
 
 /*!
-    \qmlmodule com.theqtcompany.localdevice 1.0
+    \qmlmodule QtDeviceUtilities.LocalDeviceSettings 1.0
     \title Qt Local Device QML Module
     \ingroup qtee-qmlmodules
     \brief A collection of the local device related utility functions, accessible from QML.
@@ -38,7 +48,7 @@
     Import the module as follows:
 
     \badcode
-    import com.theqtcompany.localdevice 1.0
+    import QtDeviceUtilities.LocalDeviceSettings 1.0
     \endcode
 
     This will give you access to the singleton QML type LocalDevice.
@@ -53,7 +63,7 @@
 
 /*!
     \qmltype LocalDevice
-    \inqmlmodule com.theqtcompany.localdevice
+    \inqmlmodule QtDeviceUtilities.LocalDeviceSettings
     \ingroup utils-qmltypes
     \brief Singleton QML type providing access to utility functions.
 
@@ -64,7 +74,7 @@
     simply import the \c {LocalDevice} module:
 
     \qml
-    com.theqtcompany.localdevice
+    QtDeviceUtilities.LocalDeviceSettings
 
     \endqml
 
@@ -109,7 +119,7 @@ public:
 
     void registerTypes(const char *uri)
     {
-        Q_ASSERT(QLatin1String(uri) == "com.theqtcompany.localdevice");
+        Q_ASSERT(QLatin1String(uri) == "QtDeviceUtilities.LocalDeviceSettings");
         qmlRegisterSingletonType<QLocalDevice>(uri, 1, 0, "LocalDevice", module_api_factory);
     }
 };

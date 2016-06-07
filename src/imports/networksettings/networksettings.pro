@@ -3,7 +3,7 @@ TARGET = networksettingsplugin
 QT += qml quick networksettings
 CONFIG += qt plugin
 
-uri = com.theqtcompany.settings.network
+uri = QtDeviceUtilities.NetworkSettings
 
 SOURCES += \
     plugin.cpp \

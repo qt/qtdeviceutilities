@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>common/HandwritingModeButton.qml</file>
+        <file>AutoScroller.qml</file>
+    </qresource>
+</RCC>

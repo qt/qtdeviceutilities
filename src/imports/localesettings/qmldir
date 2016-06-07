@@ -1,2 +1,2 @@
-module com.theqtcompany.settings.locale
+module QtDeviceUtilities.LocaleSettings
 plugin localesettingsplugin

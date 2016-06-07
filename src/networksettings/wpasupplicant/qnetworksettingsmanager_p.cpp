@@ -1,34 +1,27 @@
 /****************************************************************************
 **
-** Copyright (C) 2015 The Qt Company Ltd.
-** Contact: http://www.qt.io/licensing/
+** Copyright (C) 2016 The Qt Company Ltd.
+** Contact: https://www.qt.io/licensing/
 **
-** This file is part of the Qt Device Utilities module of the Qt Toolkit.
+** This file is part of the Device Utilities module of the Qt Toolkit.
 **
-** $QT_BEGIN_LICENSE:LGPL3$
+** $QT_BEGIN_LICENSE:GPL$
 ** Commercial License Usage
 ** Licensees holding valid commercial Qt licenses may use this file in
 ** accordance with the commercial license agreement provided with the
 ** Software or, alternatively, in accordance with the terms contained in
 ** a written agreement between you and The Qt Company. For licensing terms
-** and conditions see http://www.qt.io/terms-conditions. For further
-** information use the contact form at http://www.qt.io/contact-us.
-**
-** GNU Lesser General Public License Usage
-** Alternatively, this file may be used under the terms of the GNU Lesser
-** General Public License version 3 as published by the Free Software
-** Foundation and appearing in the file LICENSE.LGPLv3 included in the
-** packaging of this file. Please review the following information to
-** ensure the GNU Lesser General Public License version 3 requirements
-** will be met: https://www.gnu.org/licenses/lgpl.html.
+** and conditions see https://www.qt.io/terms-conditions. For further
+** information use the contact form at https://www.qt.io/contact-us.
 **
 ** GNU General Public License Usage
 ** Alternatively, this file may be used under the terms of the GNU
-** General Public License version 2.0 or later as published by the Free
-** Software Foundation and appearing in the file LICENSE.GPL included in
-** the packaging of this file. Please review the following information to
-** ensure the GNU General Public License version 2.0 requirements will be
-** met: http://www.gnu.org/licenses/gpl-2.0.html.
+** General Public License version 3 or (at your option) any later version
+** approved by the KDE Free Qt Foundation. The licenses are as published by
+** the Free Software Foundation and appearing in the file LICENSE.GPL3
+** included in the packaging of this file. Please review the following
+** information to ensure the GNU General Public License requirements will
+** be met: https://www.gnu.org/licenses/gpl-3.0.html.
 **
 ** $QT_END_LICENSE$
 **
@@ -45,7 +38,14 @@ QNetworkSettingsManagerPrivate::QNetworkSettingsManagerPrivate(QNetworkSettingsM
     :QObject(parent)
     ,q_ptr(parent)
 {
-    m_serviceFilter.setSourceModel(&m_serviceModel);
+
+    QNetworkSettingsUserAgent* userAgent = new QNetworkSettingsUserAgent(this);
+    this->setUserAgent(userAgent);
+
+    m_serviceModel = new QNetworkSettingsServiceModel(this);
+    m_serviceFilter = new QNetworkSettingsServiceFilter(this);
+    m_serviceFilter->setSourceModel(m_serviceModel);
+
     m_wifiController = new QWifiController(this);
     m_wifiController->asyncCall(QWifiController::InitializeBackend);
 
@@ -104,7 +104,7 @@ void QNetworkSettingsManagerPrivate::connectNetwork(const QString& ssid)
 void QNetworkSettingsManagerPrivate::userInteractionReady(bool cancel)
 {
     if (cancel) {
-        m_currentSSID = "";
+        m_currentSSID = QStringLiteral("");
         return;
     }
     bool networkKnown = false;
@@ -330,7 +330,7 @@ WpaSupplicantService* QNetworkSettingsManagerPrivate::networkForSSID(const QStri
 
 WpaSupplicantService* QNetworkSettingsManagerPrivate::networkForSSID(const QString& ssid, int& pos)
 {
-    QList<QNetworkSettingsService*> services = m_serviceModel.getModel();
+    QList<QNetworkSettingsService*> services = m_serviceModel->getModel();
     pos = 0;
     foreach (QNetworkSettingsService *service, services) {
         if (service->name() == ssid) {
@@ -391,20 +391,20 @@ void QNetworkSettingsManagerPrivate::parseScanResults(const QString &results)
             network->setFlags(info.at(3));
             network->wirelessConfig()->setSignalStrength(signalStrength);
             network->setName(ssid);
-            m_serviceModel.append(network);
+            m_serviceModel->append(network);
         } else {
             if (knownNetwork->wirelessConfig()->outOfRange()) {
                 // known network has come back into a range
                 knownNetwork->wirelessConfig()->setOutOfRange(false);
-                m_serviceModel.append(knownNetwork);
-                pos = m_serviceModel.getModel().size() - 1;
+                m_serviceModel->append(knownNetwork);
+                pos = m_serviceModel->getModel().size() - 1;
             }
             // ssids are the same, compare bssids..
             if (knownNetwork->id() == info.at(0)) {
                 // same access point, simply update the signal strength
                 knownNetwork->wirelessConfig()->setSignalStrength(signalStrength);
                 knownNetwork->wirelessConfig()->setOutOfRange(false);
-                m_serviceModel.updated(pos);
+                m_serviceModel->updated(pos);
             } else if (knownNetwork->wirelessConfig()->signalStrength() < signalStrength) {
                 // replace with a stronger access point within the same network
                 knownNetwork->wirelessConfig()->setOutOfRange(false);
@@ -412,7 +412,7 @@ void QNetworkSettingsManagerPrivate::parseScanResults(const QString &results)
                 knownNetwork->setFlags(info.at(3));
                 knownNetwork->wirelessConfig()->setSignalStrength(signalStrength);
                 knownNetwork->setName(ssid);
-                m_serviceModel.updated(pos);
+                m_serviceModel->updated(pos);
             }
         }
     }
@@ -421,7 +421,7 @@ void QNetworkSettingsManagerPrivate::parseScanResults(const QString &results)
     for (int i = 0; i < networks.size();) {
         if (!sensibleNetworks.contains(networks.at(i)->name())) {
             WpaSupplicantService *n = qobject_cast<WpaSupplicantService*>(networks.at(i));
-            m_serviceModel.remove(i);
+            m_serviceModel->remove(i);
             if (n) {
                 n->wirelessConfig()->setOutOfRange(true);
                 m_outOfRangeServiceModel.append(n);

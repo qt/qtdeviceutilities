@@ -2,7 +2,7 @@ TEMPLATE = lib
 CONFIG += plugin
 QT += qml localesettings
 
-uri = com.theqtcompany.settings.locale
+uri = QtDeviceUtilities.LocaleSettings
 
 TARGET  = localesettingsplugin
 
