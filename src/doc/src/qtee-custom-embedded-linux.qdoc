@@ -136,6 +136,9 @@
         \li Kontron SMARC-sAMX6i
         \li smarc-smax6i
     \row
+        \li Intel NUC
+        \li intel-corei7-64
+    \row
         \li Emulator
         \li emulator
     \endtable

@@ -1,0 +1,75 @@
+/****************************************************************************
+**
+** Copyright (C) 2016 The Qt Company Ltd.
+** All rights reserved.
+** For any questions to The Qt Company, please use the contact form at
+** http://www.qt.io/contact-us
+**
+** This file is part of Qt for Device Creation.
+**
+** Licensees holding valid commercial Qt licenses may use this file in
+** accordance with the commercial license agreement provided with the
+** Software or, alternatively, in accordance with the terms contained in
+** a written agreement between you and The Qt Company. For licensing terms
+** and conditions see http://www.qt.io/terms-conditions. For further
+** information use the contact form at http://www.qt.io/contact-us.
+**
+****************************************************************************/
+/*!
+    \page qtee-preparing-hardware-nuc.html
+    \title Intel NUC
+    \previouspage qtee-installation-guide.html
+
+    Take the following steps when preparing an
+    \l {http://www.intel.com/content/www/us/en/nuc/overview.html}{Intel NUC}
+    for \B2Q:
+
+    \note It is important that you repeat the steps in this section after you
+    update \SDK.
+
+    The images containing the \B2Q stack for the device are included
+    in \SDK. In these instructions, we prepare a USB device (a flash drive
+    or an external USB hard drive) to boot from.
+
+    \section1 Preparing a USB Boot Device
+
+    For \B2Q, a USB drive of at least 2 GB capacity is needed.
+
+    \include detect-sd-card-device-name.qdocinc instructions-usbdevice
+
+    \section1 Installing the \B2Q Image
+
+    \include common.qdocinc wizard
+
+    Install the \B2Q image onto the USB device. First, ensure that no
+    partitions are mounted:
+
+    \include detect-sd-card-device-name.qdocinc unmount
+
+    Then, use the following command to install the image:
+
+    \badcode
+        cd <INSTALL_DIR>
+        sudo dd bs=4k if=5.7/Automotive/intel-corei7-64/images/b2qt-embedded-qt5-image-intel-corei7-64.img of=/dev/<device_name>
+    \endcode
+
+    After the installation is complete, connect the USB drive to the device,
+    power it on, and enter the BIOS setup (\b F2). Follow the instructions on
+    \l {http://www.intel.com/content/www/us/en/support/boards-and-kits/000005471.html}
+    {Operating System Installation for Intel® NUC} for how to select the
+    USB drive as a boot device.
+
+    Press \b F10 to save your changes and exit BIOS setup. After reboot, check that the
+    \B2Q welcome screen and/or demo appear.
+
+    \section1 Setting up USB Access
+
+    \include b2qt-post-install-setup.qdocinc setting up usb access
+
+    \section1 Configuring a Device Kit in Qt Creator
+
+    \include b2qt-post-install-setup.qdocinc configuring device kit linux
+
+    You are now ready to start developing for your device. For more information,
+    see \l{Building and Running an Example}.
+*/

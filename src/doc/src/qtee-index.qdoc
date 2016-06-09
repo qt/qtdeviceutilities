@@ -52,6 +52,7 @@
             \li \l{Preparing Kontron SMARC-sAMX6i}{Kontron SMARC-sAMX6i}
             \li \l{Preparing BeagleBone Black}{BeagleBone Black}
             \li \l{Preparing Raspberry Pi 3}{Raspberry Pi 3 Model B}
+            \li \l{Intel NUC}
         \endlist
         \li \l{Building and Running Embedded Applications}
         \list

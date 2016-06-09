@@ -36,6 +36,7 @@
         \li \l{Kontron SMARC-sAMX6i}
         \li \l{BeagleBone Black}
         \li \l{Raspberry Pi 3 Model B}
+        \li \l{Intel NUC}
     \endlist
 
     If you use only the emulator, you can skip this step
@@ -154,6 +155,11 @@
             {Raspberry Pi 3 Model B}\br
             1.2 Ghz ARM Cortex™-A53, Broadcom VideoCore IV\br
             @400MHz GPU, 1GB LPDDR2 SDRAM
+    \row \li \l {http://www.intel.com/content/www/us/en/nuc/overview.html}
+            {Intel® NUC}\br
+            Intel® Core i3, i5, or i7\br
+            Up to 32GB DDR4\br
+            Intel® Iris™ Graphics
     \endtable
 
     \section2 Group 3
@@ -294,6 +300,17 @@
             \li
             \li \image ok
             \li
+            \li \image ok
+            \li \image ok
+            \li \image ok
+            \li \image ok
+            \li
+    \row    \li Intel NUC
+            \li \image ok
+            \li \image ok
+            \li \image ok
+            \li \image ok
+            \li \image ok
             \li \image ok
             \li \image ok
             \li \image ok
