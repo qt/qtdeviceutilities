@@ -31,7 +31,12 @@
     \b{New Features}:
     \list
         \li \B2Q stack was updated to use Qt 5.7.0
-        \li New reference device: Raspberry Pi 3
+        \li New reference devices:
+          \list
+            \li NVIDIA DRIVE CX (Qt Automotive)
+            \li Intel NUC
+            \li Raspberry Pi 3
+          \endlist
     \endlist
 
     \b{Improvements}:

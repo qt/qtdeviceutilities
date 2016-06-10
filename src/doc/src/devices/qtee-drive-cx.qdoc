@@ -1,0 +1,65 @@
+/****************************************************************************
+**
+** Copyright (C) 2016 The Qt Company Ltd.
+** All rights reserved.
+** For any questions to The Qt Company, please use the contact form at
+** http://www.qt.io/contact-us
+**
+** This file is part of Qt for Device Creation.
+**
+** Licensees holding valid commercial Qt licenses may use this file in
+** accordance with the commercial license agreement provided with the
+** Software or, alternatively, in accordance with the terms contained in
+** a written agreement between you and The Qt Company. For licensing terms
+** and conditions see http://www.qt.io/terms-conditions. For further
+** information use the contact form at http://www.qt.io/contact-us.
+**
+****************************************************************************/
+/*!
+    \page qtee-preparing-hardware-drivecx.html
+    \title NVIDIA DRIVE CX
+    \previouspage qtee-installation-guide.html
+
+    Take the following steps when preparing \l {http://www.nvidia.com/object/drive-cx.html}
+    {NVIDIA DRIVE CX} for \B2Q:
+
+    \note It is important that you repeat the steps in this section after you
+    update \QAS.
+
+    The image containing the \B2Q stack for the device, as well as the
+    flashing tool are included in \QAS.
+
+    \section1 Installing the \B2Q Image
+
+    Connect the DRIVE CX board to the development host via USB, and set it in
+    \e {recovery mode} by changing the position of J9 jumper on the board.
+
+    Then, run the flashing tool:
+
+    \badcode
+        cd <INSTALL_DIR>
+        sudo 5.7/Automotive/tegra-t18x/flash-nvidia/flash_device.sh
+    \endcode
+
+    After the installation is complete, replace the J9 jumper to its original
+    position, and restart the device. After reboot, check that the automotive
+    UI appears.
+
+    \section1 Setting up USB Access
+
+    \include b2qt-post-install-setup.qdocinc setting up usb access
+
+    \section1 Configuring a Device Kit in Qt Creator
+
+    After you have prepared the hardware, you must perform one final step
+    to set up the development tools in Qt Creator for your device. Run the
+    following command:
+
+    \badcode
+        cd <INSTALL_DIR>
+        5.7/Automotive/tegra-t18x/toolchain/configure-qtcreator.sh
+    \endcode
+
+    You are now ready to start developing for your device. For more information,
+    see \l{Building and Running an Example}.
+*/

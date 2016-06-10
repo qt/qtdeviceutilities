@@ -37,6 +37,7 @@
         \li \l{BeagleBone Black}
         \li \l{Raspberry Pi 3 Model B}
         \li \l{Intel NUC}
+        \li \l{NVIDIA DRIVE CX}
     \endlist
 
     If you use only the emulator, you can skip this step
@@ -107,6 +108,10 @@
             TIAM335x 1GHz ARM® Cortex-A8, 512 MB RAM
     \row \li \b{\B2Q Emulator}\br
          Included in the development environment
+    \header \li Devices with GPU (Qt Automotive)
+    \row \li \l{http://www.nvidia.com/object/drive-cx.html}
+             {NVIDIA DRIVE™ CX}\br
+             Tegra X1
     \header \li Devices Without GPU
     \row \li \l{https://www.toradex.com/products/colibri-arm-computer-modules/freescale-vybrid-VF6xx-computer-module}
              {Toradex Colibri VF61}\br
@@ -260,6 +265,17 @@
             \li \image ok
             \li
             \li \image ok
+    \row    \li NVIDIA DRIVE CX
+            \li \image ok
+            \li \image ok
+            \li \image ok
+            \li \image ok
+            \li \image ok
+            \li \image ok
+            \li \image ok
+            \li \image ok
+            \li \image ok
+            \li
     \header \li Group 2 \li \li \li \li \li \li \li \li \li \li
     \row    \li Boundary Devices i.MX6 Boards
             \li \image ok

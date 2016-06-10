@@ -139,6 +139,9 @@
         \li Intel NUC
         \li intel-corei7-64
     \row
+        \li NVIDIA DRIVE CX
+        \li tegra-t18x
+    \row
         \li Emulator
         \li emulator
     \endtable

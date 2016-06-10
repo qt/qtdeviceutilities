@@ -41,6 +41,7 @@ qhp.B2Qt.subprojects.manual.type       = manual
 
 macro.B2Q                    = "Boot to Qt"
 macro.SDK                    = "Qt for Device Creation"
+macro.QAS                    = "Qt Automotive Suite"
 macro.B2QA                   = "\\e {Boot to Qt for embedded Android}"
 macro.B2QL                   = "\\e {Boot to Qt for embedded Linux}"
 
