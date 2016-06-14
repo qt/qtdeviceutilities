@@ -47,6 +47,7 @@ public:
     void append(QNetworkSettingsService* networkService);
     void insert(int row, QNetworkSettingsService* networkInterface);
     void remove(int row);
+    bool removeService(const QString &id);
     void updated(int row);
     QList<QNetworkSettingsService*> getModel();
 

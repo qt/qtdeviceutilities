@@ -35,6 +35,7 @@ Item {
     id: root
     anchors.fill: parent
     Component.onCompleted: NetworkSettingsManager.services.type = NetworkSettingsType.Wifi;
+    property bool connecting: false
 
     GroupBox {
         id: content
@@ -58,13 +59,18 @@ Item {
                 }
                 Switch {
                     checked: selectedInterface.powered
-                    onCheckedChanged: selectedInterface.powered = checked
+                    onCheckedChanged: {
+                        selectedInterface.powered = checked
+                        root.connecting = false
+                        connectView.visible = false
+                    }
                 }
             }
             RowLayout {
                 spacing: 10
                 width: parent.width
 
+                visible: selectedInterface.powered && networkSelection.count > 0
                 Label {
                     Layout.preferredWidth: root.width * 0.382
                     text: qsTr("Current network")
@@ -75,9 +81,27 @@ Item {
                 ComboBoxEntry {
                     id: networkSelection
                     model: NetworkSettingsManager.services
+
                     textRole: "name"
                     Layout.fillWidth: true
-                    onCurrentIndexChanged: if (currentIndex >= 0) model.itemFromRow(currentIndex).connectService();
+                    onCurrentIndexChanged: {
+                        if (currentIndex >= 0) {
+                            connectView.visible = false
+
+                            var service = model.itemFromRow(currentIndex)
+                            if (service) {
+                                root.connecting = true
+                                service.connectService();
+                            }
+                        }
+                    }
+
+                    onCountChanged: {
+                        if (count === 0) {
+                            root.connecting = false
+                            connectView.visible = false
+                        }
+                    }
 
                     delegate: WifiSelectorDelegate {
                         width: networkSelection.width
@@ -85,6 +109,25 @@ Item {
                     }
                 }
             }
+
+            Row {
+                id: infoRow
+                spacing: 10
+                width: parent.width
+                visible: selectedInterface.powered && selectedInterface.state !== NetworkSettingsState.Online && (networkSelection.count == 0 || root.connecting)
+                Label {
+                    id: scanningText
+                    text: root.connecting ? qsTr("Connecting to the network...") : qsTr("Searching for Wi-Fi networks...")
+                    horizontalAlignment: Text.AlignLeft
+                }
+                WifiSignalMonitor {
+                    id: scanningIcon
+                    scanning: true
+                    height: scanningText.height
+                    width: height
+                }
+            }
+
             GroupBox {
                 id: connectView
                 title: qsTr("Enter a password")
@@ -159,7 +202,10 @@ Item {
                         }
                         Button {
                             text: qsTr("Cancel")
-                            onClicked:connectView.visible = false
+                            onClicked: {
+                                networkSelection.currentIndex = -1
+                                connectView.visible = false
+                            }
                         }
                     }
                 }
@@ -180,10 +226,12 @@ Item {
             target: NetworkSettingsManager.userAgent
             onShowUserCredentialsInput : {
                 connectView.visible = true
+                root.connecting = false
             }
             onError: {
                 errorView.visible = true
                 connectView.visible = true
+                root.connecting = false
             }
         }
     }

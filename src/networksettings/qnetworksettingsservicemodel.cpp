@@ -79,9 +79,9 @@ void QNetworkSettingsServiceModel::append(QNetworkSettingsService* item)
 {
     item->setParent(this);
 
-    beginInsertRows(QModelIndex(), rowCount(), rowCount());
+    beginResetModel();
     m_items.append(item);
-    endInsertRows();
+    endResetModel();
 }
 
 void QNetworkSettingsServiceModel::insert(int row, QNetworkSettingsService* item)
@@ -98,6 +98,19 @@ void QNetworkSettingsServiceModel::remove(int row)
     beginRemoveRows(QModelIndex(), row, row);
     m_items.removeAt(row);
     endRemoveRows();
+}
+
+bool QNetworkSettingsServiceModel::removeService(const QString &id)
+{
+    bool ret = false;
+    for (int i=0; i < m_items.count(); i++) {
+       if (m_items.at(i)->id() == id) {
+           remove(i);
+           ret = true;
+           break;
+       }
+    }
+    return ret;
 }
 
 void QNetworkSettingsServiceModel::updated(int row)
