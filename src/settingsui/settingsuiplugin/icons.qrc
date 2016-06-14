@@ -6,7 +6,6 @@
         <file>icons/Bluetooth_qt_6x.png</file>
         <file>icons/Camcorder_qt_1x.png</file>
         <file>icons/Camera_qt_1x.png</file>
-        <file>icons/Chevron-left_black_1x.png</file>
         <file>icons/Clock_qt_1x.png</file>
         <file>icons/Clock_qt_6x.png</file>
         <file>icons/Display_qt_6x.png</file>
@@ -21,7 +20,6 @@
         <file>icons/Microphone_qt_1x.png</file>
         <file>icons/MobilePhone_qt_1x.png</file>
         <file>icons/Mouse_qt_1x.png</file>
-        <file>icons/Power_black_1x.png</file>
         <file>icons/Tablet_qt_1x.png</file>
         <file>icons/Volume_down_qt_1x.png</file>
         <file>icons/Volume_mute_qt_1x.png</file>
@@ -29,5 +27,8 @@
         <file>icons/WifiAnim_black_2x.png</file>
         <file>icons/Wifi_lightgray_2x.png</file>
         <file>icons/World_qt_6x.png</file>
+        <file>icons/Chevron-left_black_6x.png</file>
+        <file>icons/Chevron-left_black.png</file>
+        <file>icons/Power_black_6x.png</file>
     </qresource>
 </RCC>

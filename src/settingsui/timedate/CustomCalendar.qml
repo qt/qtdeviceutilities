@@ -66,8 +66,10 @@ Rectangle {
                     color: "#d6d6d6"
 
                     Image {
-                        anchors.centerIn: parent
-                        source: "../icons/Chevron-left_black_1x.png"
+                        anchors.fill: parent
+                        anchors.margins: parent.height * .2
+                        source: "../icons/Chevron-left_black.png"
+                        fillMode: Image.PreserveAspectFit
                     }
                 }
                 onClicked: {
@@ -101,9 +103,11 @@ Rectangle {
                     color: "#d6d6d6"
 
                     Image {
-                        anchors.centerIn: parent
-                        source: "../icons/Chevron-left_black_1x.png"
+                        anchors.fill: parent
+                        anchors.margins: parent.height * .2
+                        source: "../icons/Chevron-left_black.png"
                         mirror: true
+                        fillMode: Image.PreserveAspectFit
                     }
                 }
                 onClicked: {
