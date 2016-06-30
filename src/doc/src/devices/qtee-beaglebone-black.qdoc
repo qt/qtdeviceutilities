@@ -59,6 +59,18 @@
 
     \include b2qt-post-install-setup.qdocinc setting up usb access
 
+    \b {Windows 7 and 8 users:}
+    If the device is not showing in ADB and Windows Device Manager lists the device under Other Devices, try the following:
+    \list 1
+        \li Install the latest Samsung ADB drivers from \l {http://developer.samsung.com/technical-doc/view.do?v=T000000117} {Samsung Developers site}.
+        \li Restart the computer. The drivers might not show up if the computer is not restarted.
+        \li Go to \e {Device Manager}, find your device and select \e {Update Driver Software}.
+        \li Select \e {Browse my computer for driver software} and then \e {Let me pick from a list of device drivers on my computer}.
+        \li Select \e {ADB Interface} from the list, click \e {Next} and select \e {SAMSUNG Android ADB Interface}. If there is no ADB Interface in the list,
+        select \e {Show All Devices}, select \e {Samsung} from manufacturer list and select \e {SAMSUNG Android ADB Interface}.
+        \li The device should be working now.
+    \endlist
+
     \section1 Configuring a Device Kit in Qt Creator
 
     \include b2qt-post-install-setup.qdocinc configuring device kit
