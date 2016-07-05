@@ -63,7 +63,6 @@
         \list
             \li \l{Linking to Static Builds of Qt}
         \endlist
-        \li \l{Building the Emulator from Sources}
         \li \l{ChangeLog}
         \li \l{Troubleshooting}
         \li \l{Known Issues}
