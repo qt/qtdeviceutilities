@@ -17,25 +17,36 @@
 ****************************************************************************/
 /*!
     \page qtee-module-reference.html
-    \title Qt for Device Creation: Add-On Modules
+    \title Qt Device Utilities
 
     The \B2Q stack in \SDK includes a number of additional modules that are
     useful for embedded applications.
 
-    \annotatedlist qtee-modules
+    \section1 Modules
 
-    \section1 B2Qt Utils Module
+    \annotatedlist qtee-qmlmodules
 
-    \annotatedlist utils-qmltypes
+    \section1 QML Types
 
-    \section1 B2Qt Wifi Module
+    \section2 Bluetooth Settings
+    \generatelist qmltypesbymodule QtDeviceUtilities.BluetoothSettings
 
-    \section2 QML Types
+    \section2 Display Settings
+    \generatelist qmltypesbymodule QtDeviceUtilities.DisplaySettings
 
-    \annotatedlist wifi-qmltypes
+    \section2 Local Device Settings
+    \generatelist qmltypesbymodule QtDeviceUtilities.LocalDeviceSettings
 
-    \section2 C++ Classes
+    \section2 Locale Settings
+    \generatelist qmltypesbymodule QtDeviceUtilities.LocaleSettings
 
-    \annotatedlist wifi-cppclasses
+    \section2 Network Settings
+    \generatelist qmltypesbymodule QtDeviceUtilities.NetworkSettings
+
+    \section2 Time and Date Settings
+    \generatelist qmltypesbymodule QtDeviceUtilities.TimeDateSettings
+
+    \section2 Settings UI
+    \generatelist qmltypesbymodule QtDeviceUtilities.SettingsUI
 */
 

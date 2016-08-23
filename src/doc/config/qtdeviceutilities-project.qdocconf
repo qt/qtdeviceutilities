@@ -3,11 +3,17 @@ description                  = Qt Device Utilities
 version                      = 5.7.1
 
 sourcedirs                  += ../src \
-                               ../../imports/wifi \
-                               ../../imports/utils \
-                               ../../wifi
+                               ../../imports/localesettings \
+                               ../../imports/bluetoothsettings \
+                               ../../imports/displaysettings \
+                               ../../imports/localdevice \
+                               ../../imports/localesettings \
+                               ../../imports/timedatesettings \
+                               ../../imports/networksettings \
+                               ../../settingsui/settingsuiplugin \
+                               ../../networksettings
 
-headerdirs                  += ../../wifi
+headerdirs                  += ../../networksettings
 
 exampledirs                 += ../../../examples
 
@@ -25,12 +31,12 @@ qhp.projects                 = QtDeviceUtilities
 qhp.QtDeviceUtilities.file                = qtdeviceutilities.qhp
 qhp.QtDeviceUtilities.namespace           = io.qt.qtdeviceutilities.571
 qhp.QtDeviceUtilities.virtualFolder       = qtdeviceutilities
-qhp.QtDeviceUtilities.indexTitle          = Qt for Device Creation: Add-On Modules
+qhp.QtDeviceUtilities.indexTitle          = Qt Device Utilities
 qhp.QtDeviceUtilities.indexRoot           =
 
 qhp.QtDeviceUtilities.subprojects                    = modules
 qhp.QtDeviceUtilities.subprojects.modules.title      = Modules
-qhp.QtDeviceUtilities.subprojects.modules.indexTitle = Qt for Device Creation: Add-On Modules
+qhp.QtDeviceUtilities.subprojects.modules.indexTitle = Qt Device Utilities
 qhp.QtDeviceUtilities.subprojects.modules.selectors  = qmlmodule module
 qhp.QtDeviceUtilities.subprojects.modules.sortPages  = true
 
@@ -42,6 +48,7 @@ macro.B2QL                   = "\\e {Boot to Qt for embedded Linux}"
 
 # Keep Device Creation as the landing page
 navigation.landingpage       = "Qt for Device Creation"
-navigation.qmltypespage      = "Qt for Device Creation: Add-On Modules"
+navigation.qmltypespage      = "Qt Device Utilities"
 
 Cpp.ignoredirectives        += Q_DECLARE_LOGGING_CATEGORY
+Cpp.ignoretokens            += Q_DEL_EXPORT

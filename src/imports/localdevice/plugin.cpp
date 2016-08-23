@@ -31,16 +31,9 @@
 
 /*!
     \qmlmodule QtDeviceUtilities.LocalDeviceSettings 1.0
-    \title Qt Local Device QML Module
+    \title Qt Device Utilities: Local Device Settings
     \ingroup qtee-qmlmodules
-    \brief A collection of the local device related utility functions, accessible from QML.
-*/
-
-/*!
-    \page b2qt-addon-utils.html
-    \title Qt Local Device Module
-    \ingroup qtee-modules
-    \brief A collection of the local device realted utility functions, accessible from QML.
+    \brief A collection of local device related utility functions.
 
     Provides utility functions for controlling an embedded
     device, such as device shutdown/reboot.
@@ -53,33 +46,27 @@
 
     This will give you access to the singleton QML type LocalDevice.
 
-    \note Some functions are currently only implemented for one of
-          the platforms.
+    \note Some functions may not be available on all of the platforms.
 
     \section1 QML Types
-
-    \annotatedlist utils-qmltypes
 */
 
 /*!
     \qmltype LocalDevice
     \inqmlmodule QtDeviceUtilities.LocalDeviceSettings
-    \ingroup utils-qmltypes
     \brief Singleton QML type providing access to utility functions.
 
     LocalDevice QML type is the interface to various utility
     functions.
 
     There is no need to create an instance of this object. To use it,
-    simply import the \c {LocalDevice} module:
+    simply import the \c QtDeviceUtilities.LocalDeviceSettings module:
 
-    \qml
-    QtDeviceUtilities.LocalDeviceSettings
+    \badcode
+    import QtDeviceUtilities.LocalDeviceSettings 1.0
+    \endcode
 
-    \endqml
-
-    \note Some functions are currently only implemented for one of
-          the platforms.
+    \note Some functions may not be available on all of the platforms.
 */
 
 /*!

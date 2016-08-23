@@ -35,6 +35,119 @@
 #include <systemlocale.h>
 #include "localefiltermodel.h"
 
+/*!
+    \qmlmodule QtDeviceUtilities.LocaleSettings 1.0
+
+    \title Qt Device Utilities: Locale Settings
+    \ingroup qtee-qmlmodules
+    \brief Provides singleton QML types for controlling locale settings.
+
+    Provides singleton QML types for controlling locale settings in an
+    embedded device.
+
+    Import the module as follows:
+
+    \badcode
+    import QtDeviceUtilities.LocaleSettings 1.0
+    \endcode
+
+    \note Some functions may not be available on all of the platforms.
+
+    \section1 QML Types
+*/
+
+/*!
+    \qmltype LocaleManager
+    \inqmlmodule QtDeviceUtilities.LocaleSettings
+    \brief A singleton QML type for managing the system locale.
+
+    There is no need to create an instance of this object. To use it,
+    simply import the \c {QtDeviceUtilities.LocaleSettings} module.
+
+    The \l locale property holds the current system locale string.
+    Pass it to \l {QtQml::Qt::locale()}{Qt.locale}() to
+    retrieve locale-specific properties.
+
+    For example:
+
+    \qml
+    import QtQuick 2.6
+    import QtDeviceUtilities.LocaleSettings 1.0
+
+    Item {
+        property var currentLocale: Qt.locale(LocaleManager.locale)
+        Text { text: currentLocale.nativeLanguageName }
+    }
+    \endqml
+
+    \sa LocaleFilter, {QtQml::}{Locale}
+*/
+
+/*!
+    \qmlproperty string LocaleManager::locale
+
+    Holds the system locale string in the format \e language_country,
+    for example, "en_US".
+
+    \sa QLocale::name()
+*/
+
+/*!
+    \qmltype LocaleFilter
+    \inqmlmodule QtDeviceUtilities.LocaleSettings
+    \brief Provides a filtered model for the available locales.
+
+    There is no need to create an instance of this object. To use it,
+    simply import the \c {QtDeviceUtilities.LocaleSettings} module.
+
+    The LocaleFilter QML type can be used as the model in a view
+    that lists the available locales.
+
+    For example:
+
+    \code
+    ListView {
+        model: LocaleFilter
+        delegate: Text { text: language + " | " + country }
+    }
+    \endcode
+
+    Available \e roles in the locale model:
+
+    \table
+    \header \li Role \li Description
+
+    \row \li \c code \li Locale code string in the format \e language_country.
+                                See QLocale::name() for details.
+
+    \row \li \c country \li The name of the country. If available, the native
+                            country name is used.
+
+    \row \li \c language \li The name of the language. If available, the
+                             native language name is used.
+    \endtable
+
+    \sa LocaleManager
+*/
+
+/*!
+    \qmlproperty string LocaleFilter::filter
+
+    Holds a string that filters out the locales in the model.
+    The filtering process is a case-insensitive match for
+    whether the region (country) name contains the \e filter
+    substring; it can be taken from user input.
+*/
+
+/*!
+    \qmlmethod object LocaleFilter::itemFromRow(int index)
+
+    Returns the item at \a index in the model. This item can
+    assigned to \l [QML] {LocaleManager::locale}
+    {LocaleManager.locale}, when the user selects a locale
+    from a list.
+*/
+
 template <typename T>
 QObject *instance(QQmlEngine *engine, QJSEngine *) {
     T *t = new T(engine);

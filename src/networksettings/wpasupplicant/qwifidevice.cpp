@@ -38,6 +38,7 @@ QT_BEGIN_NAMESPACE
     \inmodule B2Qt.Wifi.Cpp
     \ingroup wifi-cppclasses
     \brief Represents a physical device.
+    \internal
 
     Use this class to query if a device is Wifi capable, before attempting
     to use the functionality of QWifiManager.

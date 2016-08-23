@@ -29,6 +29,49 @@
 #include "settingsuiplugin_plugin.h"
 #include <qqml.h>
 
+/*!
+    \qmlmodule QtDeviceUtilities.SettingsUI 1.0
+    \title Qt Device Utilities: Settings UI
+    \ingroup qtee-qmlmodules
+    \brief Provides a system-wide settings UI.
+
+    The \c DeviceUtilities.SettingsUI module provides a single QML type,
+    SettingsUI, that allows applications to integrate a standard, system-wide
+    settings view into their user interface.
+
+    Import the module as follows:
+
+    \badcode
+    import QtDeviceUtilities.SettingsUI 1.0
+    \endcode
+
+    \section1 QML Types
+*/
+
+/*!
+    \qmltype SettingsUI
+    \inqmlmodule QtDeviceUtilities.SettingsUI
+    \brief Provides a QML type for displaying a system-wide settings UI.
+
+    With the SettingsUI type, applications can easily integrate a standard,
+    system-wide settings view into their user interface.
+
+    For example:
+
+    \qml
+    import QtQuick 2.6
+    import QtDeviceUtilities.SettingsUI 1.0
+
+    SettingsUI {
+        id: settingsUI
+        anchors.fill: parent
+    }
+    \endqml
+
+    There is no need to import the various \c {DeviceUtilities.*} modules and
+    to declare a custom settings UI, unless specifically required.
+*/
+
 void SettingsuipluginPlugin::registerTypes(const char *uri)
 {
     // @uri QtDeviceUtilities.SettingsUI

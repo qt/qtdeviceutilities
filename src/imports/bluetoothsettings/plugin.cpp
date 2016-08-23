@@ -35,6 +35,78 @@
 #include "bluetoothdevice.h"
 #include "discoverymodel.h"
 
+/*!
+    \qmlmodule QtDeviceUtilities.BluetoothSettings 1.0
+    \title Qt Device Utilities: Bluetooth Settings
+    \ingroup qtee-qmlmodules
+    \brief Provides a singleton QML type for controlling bluetooth settings.
+
+    Provides a singleton QML type for controlling bluetooth settings in an
+    embedded device.
+
+    Import the module as follows:
+
+    \badcode
+    import QtDeviceUtilities.BluetoothSettings 1.0
+    \endcode
+
+    This will give you access to the singleton QML type BtDevice.
+
+    \note Some functions may not be available on all of the platforms.
+
+    \section1 QML Types
+*/
+
+/*!
+    \qmltype BtDevice
+    \inqmlmodule QtDeviceUtilities.BluetoothSettings
+    \brief A singleton QML type for controlling bluetooth settings.
+
+    There is no need to create an instance of this object. To use it,
+    simply import the \c {QtDeviceUtilities.BluetoothSettings} module.
+*/
+
+/*!
+    \qmlproperty bool BtDevice::scanning
+
+    Controls whether the Bluetooth device is scanning for remote devices.
+*/
+
+/*!
+    \qmlproperty bool BtDevice::powered
+
+    Powers the Bluetooth device on or off.
+*/
+
+/*!
+    \qmlproperty object BtDevice::deviceModel
+    \readonly
+
+    Holds the device model.
+*/
+
+/*!
+    \qmlmethod void BtDevice::requestPairing(string address)
+
+    Starts the process of pairing to a remove device specified by \a address,
+    and connects to it if the pairing was successful.
+*/
+
+/*!
+    \qmlmethod void BtDevice::requestConnect(string address)
+
+    Connects to a remove device specified by \a address.
+
+    \sa requestDisconnect()
+*/
+
+/*!
+    \qmlmethod void BtDevice::requestDisconnect(string address)
+
+    Disconnects from the remove device specified by \a address.
+
+    \sa requestConnect()
+*/
 template <typename T>
 QObject *instance(QQmlEngine *engine, QJSEngine *) {
     T *t = new T(engine);

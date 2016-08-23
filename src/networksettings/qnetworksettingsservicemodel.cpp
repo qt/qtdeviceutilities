@@ -125,6 +125,12 @@ QList<QNetworkSettingsService*> QNetworkSettingsServiceModel::getModel()
 
 //Filter model
 
+/*!
+    \qmltype NetworkSettingsServiceFilter
+    \inqmlmodule QtDeviceutilities.NetworkSettings
+    \abstract
+*/
+
 QNetworkSettingsServiceFilter::QNetworkSettingsServiceFilter(QObject* parent)
     :QSortFilterProxyModel(parent)
 {
@@ -136,6 +142,14 @@ QNetworkSettingsServiceFilter::~QNetworkSettingsServiceFilter()
 
 }
 
+/*!
+    \qmlproperty enumeration NetworkSettingsServiceFilter::type
+
+    \value NetworkSettingsType.Wired Wired network
+    \value NetworkSettingsType.Wifi Wifi network
+    \value NetworkSettingsType.Bluetooth Bluetooth network
+    \value NetworkSettingsType.Unknown Unknown network type
+*/
 QNetworkSettingsType::Types  QNetworkSettingsServiceFilter::type() const
 {
     return m_type;
@@ -166,6 +180,11 @@ bool QNetworkSettingsServiceFilter::filterAcceptsRow( int source_row, const QMod
     return false;
 }
 
+/*!
+    \qmlmethod NetworkService NetworkSettingsServiceFilter::itemFromRow(int index)
+
+    Returns the service at \a index in the model.
+*/
 QVariant QNetworkSettingsServiceFilter::itemFromRow(const int row) const
 {
     QModelIndex idx = index(row, 0);
