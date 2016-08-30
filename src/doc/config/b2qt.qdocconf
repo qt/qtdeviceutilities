@@ -1,2 +1,0 @@
-include(html-offline.qdocconf)
-include(b2qt-project.qdocconf)
