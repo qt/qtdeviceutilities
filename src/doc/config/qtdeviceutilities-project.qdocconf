@@ -1,6 +1,6 @@
 project                      = QtDeviceUtilities
 description                  = Qt Device Utilities
-version                      = 5.6.2
+version                      = 5.7.1
 
 sourcedirs                  += ../src \
                                ../../imports/wifi \
@@ -23,7 +23,7 @@ indexes                      = $QT_INSTALL_DOCS/qtquick/qtquick.index \
 qhp.projects                 = QtDeviceUtilities
 
 qhp.QtDeviceUtilities.file                = qtdeviceutilities.qhp
-qhp.QtDeviceUtilities.namespace           = io.qt.qtdeviceutilities.562
+qhp.QtDeviceUtilities.namespace           = io.qt.qtdeviceutilities.571
 qhp.QtDeviceUtilities.virtualFolder       = qtdeviceutilities
 qhp.QtDeviceUtilities.indexTitle          = Qt for Device Creation: Add-On Modules
 qhp.QtDeviceUtilities.indexRoot           =
