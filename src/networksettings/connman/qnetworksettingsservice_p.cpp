@@ -239,8 +239,8 @@ QNetworkSettingsServicePrivate::QNetworkSettingsServicePrivate(const QString& id
     ,q_ptr(parent)
     ,m_id(id)
 {
-    qDBusRegisterMetaType<ConnmanMap>();
-    qDBusRegisterMetaType<ConnmanMapList>();
+    qDBusRegisterMetaType<ConnmanMapStruct>();
+    qDBusRegisterMetaType<ConnmanMapStructList>();
 
     m_service = new NetConnmanServiceInterface(QStringLiteral("net.connman"), m_id,
                                                   QDBusConnection::systemBus(), this);

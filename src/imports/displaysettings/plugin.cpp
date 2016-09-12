@@ -32,6 +32,58 @@
 #include <qcoreapplication.h>
 #include "displaysettings.h"
 
+/*!
+    \qmlmodule QtDeviceUtilities.DisplaySettings 1.0
+    \title Qt Device Utilities: Display Settings
+    \ingroup qtee-qmlmodules
+    \brief Provides a singleton QML type for controlling display settings.
+
+    Provides a singleton QML type for controlling display settings in an
+    embedded device.
+
+    Import the module as follows:
+
+    \badcode
+    import QtDeviceUtilities.DisplaySettings 1.0
+    \endcode
+
+    This will give you access to the singleton QML type DisplaySettings.
+
+    \note Some functions may not be available on all of the platforms.
+
+    \section1 QML Types
+*/
+
+/*!
+    \qmltype DisplaySettings
+    \inqmlmodule QtDeviceUtilities.DisplaySettings
+    \brief A singleton QML type for controlling display settings.
+
+    There is no need to create an instance of this object. To use it,
+    simply import the \c {QtDeviceUtilities.DisplaySettings} module.
+*/
+
+/*!
+    \qmlproperty int DisplaySettings::displayBrightness
+
+    Holds the display brightness (intensity of the backlight). A valid
+    range for the property is from 0 to 255, where 255 is the maximum
+    brightness and 0 is the minimum (typically, the backlight turned off).
+*/
+
+/*!
+    \qmlproperty int DisplaySettings::physicalScreenSizeInch
+
+    Holds the physical (diagonal) screen size in inches.
+*/
+
+/*!
+    \qmlproperty bool DisplaySettings::physicalScreenSizeOverride
+
+    Holds whether the value in physicalScreenSizeInch should be
+    used or not.
+*/
+
 template <typename T>
 QObject *instance(QQmlEngine *engine, QJSEngine *) {
     T *t = new T(engine);

@@ -47,51 +47,52 @@ Rectangle {
         height: 40
         z: 2
 
-        RowLayout {
-            spacing: 20
-            anchors.fill: parent
-
-            ToolButton {
-                contentItem: Image {
-                    fillMode: Image.PreserveAspectFit
-                    source: "../icons/Chevron-left_black_1x.png"
-                    anchors.centerIn: parent
-                }
-
-                visible: stackView.depth > 1
-                onClicked: stackView.pop();
+        ToolButton {
+            height: parent.height
+            width: height
+            contentItem: Image {
+                fillMode: Image.PreserveAspectFit
+                source: "../icons/Chevron-left_black_6x.png"
+                anchors.fill: parent
+                anchors.margins: parent.height * .2
             }
-            Label {
-                id: titleText
-                font.pixelSize: 20
-                text: stackView.currentItem.title
-                horizontalAlignment: Qt.AlignHCenter
-                verticalAlignment: Qt.AlignVCenter
-                anchors.centerIn: parent
+
+            visible: stackView.depth > 1
+            onClicked: stackView.pop();
+        }
+        Label {
+            id: titleText
+            font.pixelSize: 20
+            text: stackView.currentItem.title
+            horizontalAlignment: Qt.AlignHCenter
+            verticalAlignment: Qt.AlignVCenter
+            anchors.centerIn: parent
+        }
+        ToolButton {
+            height: parent.height
+            width: height
+            contentItem: Image {
+                fillMode: Image.PreserveAspectFit
+                source: "../icons/Power_black_6x.png"
+                anchors.fill: parent
+                anchors.margins: parent.height * .2
             }
-            ToolButton {
-                contentItem: Image {
-                    fillMode: Image.PreserveAspectFit
-                    source: "../icons/Power_black_1x.png"
-                    anchors.centerIn: parent
+            anchors.right: parent.right
+
+            visible: stackView.depth === 1
+            onClicked: menu.open();
+
+            Menu {
+                id: menu
+                x: parent.width - width
+
+                MenuItem {
+                    text: qsTr("Reboot")
+                    onTriggered: LocalDevice.reboot()
                 }
-                anchors.right: parent.right
-
-                visible: stackView.depth === 1
-                onClicked: menu.open();
-
-                Menu {
-                    id: menu
-                    x: parent.width - width
-
-                    MenuItem {
-                        text: qsTr("Reboot")
-                        onTriggered: LocalDevice.reboot()
-                    }
-                    MenuItem {
-                        text: qsTr("Shutdown")
-                        onTriggered: LocalDevice.powerOff()
-                    }
+                MenuItem {
+                    text: qsTr("Shutdown")
+                    onTriggered: LocalDevice.powerOff()
                 }
             }
         }

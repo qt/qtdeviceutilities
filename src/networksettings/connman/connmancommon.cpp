@@ -29,7 +29,7 @@
 #include "connmancommon.h"
 
 //Conversion operations for datatypes
-const QDBusArgument &operator>>(const QDBusArgument &argument, ConnmanMap &obj)
+const QDBusArgument &operator>>(const QDBusArgument &argument, ConnmanMapStruct &obj)
 {
     argument.beginStructure();
     argument >> obj.objectPath >> obj.propertyMap;
@@ -37,7 +37,7 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, ConnmanMap &obj)
     return argument;
 }
 
-QDBusArgument &operator<<(QDBusArgument &argument, const ConnmanMap &obj)
+QDBusArgument &operator<<(QDBusArgument &argument, const ConnmanMapStruct &obj)
 {
     argument.beginStructure();
     argument << obj.objectPath << obj.propertyMap;

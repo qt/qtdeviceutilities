@@ -1,0 +1,271 @@
+/****************************************************************************
+**
+** Copyright (C) 2016 The Qt Company Ltd.
+** Contact: https://www.qt.io/licensing/
+**
+** This file is part of the Device Utilities module of the Qt Toolkit.
+**
+** $QT_BEGIN_LICENSE:GPL$
+** Commercial License Usage
+** Licensees holding valid commercial Qt licenses may use this file in
+** accordance with the commercial license agreement provided with the
+** Software or, alternatively, in accordance with the terms contained in
+** a written agreement between you and The Qt Company. For licensing terms
+** and conditions see https://www.qt.io/terms-conditions. For further
+** information use the contact form at https://www.qt.io/contact-us.
+**
+** GNU General Public License Usage
+** Alternatively, this file may be used under the terms of the GNU
+** General Public License version 3 or (at your option) any later version
+** approved by the KDE Free Qt Foundation. The licenses are as published by
+** the Free Software Foundation and appearing in the file LICENSE.GPL3
+** included in the packaging of this file. Please review the following
+** information to ensure the GNU General Public License requirements will
+** be met: https://www.gnu.org/licenses/gpl-3.0.html.
+**
+** $QT_END_LICENSE$
+**
+****************************************************************************/
+/*!
+    \qmltype NetworkSettingsIPv4
+    \inqmlmodule QtDeviceUtilities.NetworkSettings
+    \brief Encapsulates IPv4 network configuration.
+
+    The NetworkSettingsIPv4 type cannot be instantiated directly.
+
+    \sa {NetworkService::ipv4}{NetworkService.ipv4}
+*/
+
+/*!
+    \qmlproperty string NetworkSettingsIPv4::address
+    \brief Holds the IPv4 address.
+*/
+
+/*!
+    \qmlproperty string NetworkSettingsIPv4::gateway
+    \brief Holds the IPv4 gateway address
+*/
+
+/*!
+    \qmlproperty enumeration NetworkSettingsIPv4::method
+    \brief Holds the method of IPv4 configuration.
+
+    Possible values:
+
+    \value NetworkSettingsIPv4.Dhcp
+    Use DHCP protocol for IPv4 configuration
+
+    \value NetworkSettingsIPv4.Manual
+    Use manual settings
+
+    \value NetworkSettingsIPv4.Off
+    No configuration done
+*/
+
+/*!
+    \qmlproperty string NetworkSettingsIPv4::mask
+    \brief Holds the IPv4 network mask.
+*/
+
+/*!
+    \qmltype NetworkSettingsIPv6
+    \inqmlmodule QtDeviceUtilities.NetworkSettings
+    \brief Encapsulates IPv6 network configuration.
+
+    The NetworkSettingsIPv6 type cannot be instantiated directly.
+
+    \sa {NetworkService::ipv6}{NetworkService.ipv6}
+*/
+
+/*!
+    \qmlproperty string NetworkSettingsIPv6::address
+    \brief Holds the IPv6 address.
+*/
+
+/*!
+    \qmlproperty string NetworkSettingsIPv6::gateway
+    \brief Holds the IPv6 gateway address.
+*/
+
+/*!
+    \qmlproperty enumeration NetworkSettingsIPv6::method
+    \brief Holds the method of IPv6 configuration.
+
+    Possible values:
+
+    \value NetworkSettingsIPv6.Auto
+    Use automatic configuration
+
+    \value NetworkSettingsIPv6.Manual
+    Use manual configuration
+
+    \value NetworkSettingsIPv6.Off
+    No configuration done
+*/
+
+/*!
+    \qmlproperty enumeration NetworkSettingsIPv6::privacy
+    \brief Holds the method of applying privacy extensions for IPv6.
+
+    Possible values:
+
+    \value NetworkSettingsIPv6.Disabled
+    Disable privacy extensions in IPv6
+
+    \value NetworkSettingsIPv6.Enabled
+    Enable \l {https://tools.ietf.org/html/rfc4941}
+    {Privacy Extensions for Stateless Address Autoconfiguration in IPv6}
+
+    \value NetworkSettingsIPv6.Preferred
+    Enable privacy extensions and prefer the use of temporary addresses, even
+    when a public address is available
+*/
+
+/*!
+    \qmlproperty int NetworkSettingsIPv6::prefixLength
+    \brief Holds the IPv6 network prefix length in bits.
+*/
+
+/*!
+    \qmltype NetworkSettingsProxy
+    \inqmlmodule QtDeviceUtilities.NetworkSettings
+    \brief Encapsulates network proxy configuration.
+
+    The NetworkSettingsProxy type cannot be instantiated directly.
+
+    \sa {NetworkService::proxy}{NetworkService.proxy}
+*/
+
+/*!
+    \qmlproperty url NetworkSettingsProxy::url
+    \brief Holds the proxy URL.
+
+    For manual proxy configuration, the \e url holds the
+    proxy server address. For automatic configuration, it holds
+    the proxy auto-config URL.
+
+    \sa method
+*/
+
+/*!
+    \qmlproperty enumeration NetworkSettingsProxy::method
+    \brief Holds the network proxy configuration method.
+
+    Possible values:
+
+    \value NetworkSettingsProxy.Direct
+    Direct network connection, no proxy in use
+
+    \value NetworkSettingsProxy.Auto
+    Automatic proxy configuration
+
+    \value NetworkSettingsProxy.Manual
+    Manual proxy configuration
+
+    \sa url
+*/
+
+/*!
+    \qmlproperty object NetworkSettingsProxy::excludes
+    \readonly
+    \brief The model containing the proxy exclusion list.
+
+    The addresses in the proxy exclusion list are accessed directly,
+    instead of forwarding the requests to a proxy.
+
+    The \e excludes property can be used as a model for a view
+    that lists the proxy exclusion addresses.
+
+    \sa excludes.count, excludes.append(), excludes.remove(), excludes.resetChanges()
+*/
+
+/*!
+    \qmlproperty int NetworkSettingsProxy::excludes.count
+    \readonly
+    \brief Holds the number of addresses in the \l excludes model.
+*/
+
+/*!
+   \qmlmethod void NetworkSettingsProxy::excludes.append(string address)
+   \brief Adds \a address into the \l excludes model.
+*/
+
+/*!
+   \qmlmethod void NetworkSettingsProxy::excludes.remove(int index)
+   \brief Removes the entry at index \a index from the \l excludes model.
+*/
+
+/*!
+   \qmlmethod void NetworkSettingsProxy::excludes.resetChanges()
+   \brief Clears unsaved changes from the \l excludes model.
+*/
+
+/*!
+    \qmlproperty object NetworkSettingsProxy::servers
+    \readonly
+    \brief The model containing the proxy servers.
+
+    The \e servers property can be used as a model for a view
+    that lists the proxy servers.
+
+    \sa servers.count, servers.append(), servers.remove(), servers.resetChanges()
+*/
+
+/*!
+    \qmlproperty int NetworkSettingsProxy::servers.count
+    \readonly
+    \brief Holds the number of addresses in the \l servers model.
+*/
+
+/*!
+   \qmlmethod void NetworkSettingsProxy::servers.append(string address)
+   \brief Adds \a address into the \l servers model.
+*/
+
+/*!
+   \qmlmethod void NetworkSettingsProxy::servers.remove(int index)
+   \brief Removes the entry at index \a index from the \l servers model.
+*/
+
+/*!
+   \qmlmethod void NetworkSettingsProxy::servers.resetChanges()
+   \brief Clears unsaved changes from the \l servers model.
+*/
+
+/*!
+    \qmltype NetworkSettingsWireless
+    \inqmlmodule QtDeviceUtilities.NetworkSettings
+    \brief Encapsulates configuration for a Wifi network service.
+
+    The NetworkSettingsWireless type cannot be instantiated directly.
+
+    \sa {NetworkService::wirelessConfig}{NetworkService.wirelessConfig}
+*/
+
+/*!
+    \qmlproperty int NetworkSettingsWireless::signalStrength
+    \brief Holds the Wifi signal strength, in the range of 0 to 100.
+*/
+
+/*!
+    \qmlproperty bool NetworkSettingsWireless::hidden
+    \readonly
+    \brief Holds whether the wireless SSID is hidden.
+*/
+
+/*!
+    \qmlproperty bool NetworkSettingsWireless::isOutOfRange
+    \brief Holds whether the Wifi access point is out of range.
+*/
+
+/*!
+    \qmlmethod bool NetworkSettingsWireless::supportsSecurity(int flags)
+    \brief Returns whether the Wifi supports the wireless security
+           protocol(s) specified in \a flags.
+
+    Possible values:
+
+    \value 2 Wired Equivalent Privacy (WEP)
+    \value 4 Wi-Fi Protected Access (WPA)
+    \value 8 Wi-Fi Protected Access, version 2 (WPA2)
+*/

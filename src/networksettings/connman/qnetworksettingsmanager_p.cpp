@@ -32,11 +32,18 @@
 #include "qnetworksettingsinterface.h"
 #include "qnetworksettingsinterface_p.h"
 #include "qnetworksettingsservicemodel.h"
+#include "qnetworksettingsuseragent.h"
 
 QNetworkSettingsManagerPrivate::QNetworkSettingsManagerPrivate(QNetworkSettingsManager *parent)
     :QObject(parent)
     ,q_ptr(parent)
 {
+    qDBusRegisterMetaType<ConnmanMapStruct>();
+    qDBusRegisterMetaType<ConnmanMapStructList>();
+
+    QNetworkSettingsUserAgent* userAgent = new QNetworkSettingsUserAgent(this);
+    this->setUserAgent(userAgent);
+
     m_serviceModel = new QNetworkSettingsServiceModel(this);
     m_serviceFilter = new QNetworkSettingsServiceFilter(this);
     m_serviceFilter->setSourceModel(m_serviceModel);
@@ -45,7 +52,7 @@ QNetworkSettingsManagerPrivate::QNetworkSettingsManagerPrivate(QNetworkSettingsM
 
     if (m_manager->isValid()) {
         //List technologies
-        QDBusPendingReply<ConnmanMapList> reply = m_manager->GetTechnologies();
+        QDBusPendingReply<ConnmanMapStructList> reply = m_manager->GetTechnologies();
         QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(reply, this);
         connect(watcher, SIGNAL(finished(QDBusPendingCallWatcher*)),
                 this, SLOT(getTechnologiesFinished(QDBusPendingCallWatcher*)));
@@ -55,7 +62,7 @@ QNetworkSettingsManagerPrivate::QNetworkSettingsManagerPrivate(QNetworkSettingsM
         connect(watcher, SIGNAL(finished(QDBusPendingCallWatcher*)),
                this, SLOT(getServicesFinished(QDBusPendingCallWatcher*)));
 
-        connect(m_manager, &NetConnmanManagerInterface::ServicesChanged, this, &QNetworkSettingsManagerPrivate::servicesChanged);
+        connect(m_manager, &NetConnmanManagerInterface::ServicesChanged, this, &QNetworkSettingsManagerPrivate::onServicesChanged);
 
         m_manager->RegisterAgent(QDBusObjectPath(AgentPath));
     }
@@ -72,17 +79,19 @@ void QNetworkSettingsManagerPrivate::requestInput(const QString& service, const 
         if (servicePtr->id() == service)
             emit servicePtr->showCrendentialInput();
     }
+    m_agent->showUserCredentialsInput();
 }
 
 void QNetworkSettingsManagerPrivate::getServicesFinished(QDBusPendingCallWatcher *watcher)
 {
     Q_Q(QNetworkSettingsManager);
-    QDBusPendingReply<ConnmanMapList> reply = *watcher;
+    QDBusPendingReply<ConnmanMapStructList> reply = *watcher;
     watcher->deleteLater();
+
     if (reply.isError())
         return;
 
-    foreach (const ConnmanMap &object, reply.value()) {
+    foreach (const ConnmanMapStruct &object, reply.value()) {
         const QString servicePath = object.objectPath.path();
         QNetworkSettingsService *service = new QNetworkSettingsService(servicePath, this);
         m_serviceModel->append(service);
@@ -111,12 +120,12 @@ void QNetworkSettingsManagerPrivate::getTechnologiesFinished(QDBusPendingCallWat
 {
     Q_Q(QNetworkSettingsManager);
 
-    QDBusPendingReply<ConnmanMapList> reply = *watcher;
+    QDBusPendingReply<ConnmanMapStructList> reply = *watcher;
     watcher->deleteLater();
     if (reply.isError())
         return;
 
-    foreach (const ConnmanMap &object, reply.value()) {
+    foreach (const ConnmanMapStruct &object, reply.value()) {
         ConnmanSettingsInterface *item = new ConnmanSettingsInterface(object.objectPath.path(), object.propertyMap, this);
 
         if (item->type() == QNetworkSettingsType::Wired) {
@@ -129,19 +138,14 @@ void QNetworkSettingsManagerPrivate::getTechnologiesFinished(QDBusPendingCallWat
     }
 }
 
-void QNetworkSettingsManagerPrivate::servicesChanged(ConnmanMapList changed, const QList<QDBusObjectPath> &removed)
+void QNetworkSettingsManagerPrivate::onServicesChanged(ConnmanMapStructList changed, const QList<QDBusObjectPath> &removed)
 {
     foreach (QDBusObjectPath path, removed) {
-        QList<QNetworkSettingsService*> serviceList = m_serviceModel->getModel();
-        QMutableListIterator<QNetworkSettingsService*> i(serviceList);
-        while (i.hasNext()) {
-            if (i.next()->id() == path.path())
-                i.remove();
-        }
+        m_serviceModel->removeService(path.path());
     }
 
     QStringList newServices;
-    foreach (ConnmanMap map, changed) {
+    foreach (ConnmanMapStruct map, changed) {
         bool found = false;
         foreach (QNetworkSettingsService* service, m_serviceModel->getModel()) {
             if (service->id() == map.objectPath.path()) {
@@ -160,5 +164,5 @@ void QNetworkSettingsManagerPrivate::servicesChanged(ConnmanMapList changed, con
 
 void QNetworkSettingsManagerPrivate::setUserAgent(QNetworkSettingsUserAgent *agent)
 {
-    Q_UNUSED(agent);
+    m_agent = agent;
 }

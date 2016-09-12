@@ -1,0 +1,52 @@
+/****************************************************************************
+**
+** Copyright (C) 2016 The Qt Company Ltd.
+** All rights reserved.
+** For any questions to The Qt Company, please use the contact form at
+** http://www.qt.io/contact-us
+**
+** This file is part of Qt for Device Creation.
+**
+** Licensees holding valid commercial Qt licenses may use this file in
+** accordance with the commercial license agreement provided with the
+** Software or, alternatively, in accordance with the terms contained in
+** a written agreement between you and The Qt Company. For licensing terms
+** and conditions see http://www.qt.io/terms-conditions. For further
+** information use the contact form at http://www.qt.io/contact-us.
+**
+****************************************************************************/
+/*!
+    \page qtee-module-reference.html
+    \title Qt Device Utilities
+
+    The \B2Q stack in \SDK includes a number of additional modules that are
+    useful for embedded applications.
+
+    \section1 Modules
+
+    \annotatedlist qtee-qmlmodules
+
+    \section1 QML Types
+
+    \section2 Bluetooth Settings
+    \generatelist qmltypesbymodule QtDeviceUtilities.BluetoothSettings
+
+    \section2 Display Settings
+    \generatelist qmltypesbymodule QtDeviceUtilities.DisplaySettings
+
+    \section2 Local Device Settings
+    \generatelist qmltypesbymodule QtDeviceUtilities.LocalDeviceSettings
+
+    \section2 Locale Settings
+    \generatelist qmltypesbymodule QtDeviceUtilities.LocaleSettings
+
+    \section2 Network Settings
+    \generatelist qmltypesbymodule QtDeviceUtilities.NetworkSettings
+
+    \section2 Time and Date Settings
+    \generatelist qmltypesbymodule QtDeviceUtilities.TimeDateSettings
+
+    \section2 Settings UI
+    \generatelist qmltypesbymodule QtDeviceUtilities.SettingsUI
+*/
+

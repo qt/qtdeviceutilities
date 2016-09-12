@@ -30,6 +30,20 @@
 #include "qnetworksettingsinterface_p.h"
 #include "qnetworksettings.h"
 
+/*!
+    \qmltype NetworkInterface
+    \inqmlmodule QtDeviceUtilities.NetworkSettings
+    \brief Represents a network interface.
+
+    The NetworkInterface QML type represents a network interface attached
+    to the host.
+
+    Instances of NetworkInterface cannot be created directly; instead, they can
+    be retrieved via NetworkSettingsManager.
+
+    \sa {NetworkSettingsManager::interfaces}{NetworkSettingsManager.interfaces}
+*/
+
 QNetworkSettingsInterface::QNetworkSettingsInterface(QObject *parent) :
     QObject(parent)
     ,d_ptr(new QNetworkSettingsInterfacePrivate(this))
@@ -37,24 +51,76 @@ QNetworkSettingsInterface::QNetworkSettingsInterface(QObject *parent) :
 
 }
 
+/*!
+    \qmlproperty string NetworkInterface::name
+    \readonly
+    \brief Holds the name of the network interface.
+*/
 QString QNetworkSettingsInterface::name() const
 {
     Q_D(const QNetworkSettingsInterface);
     return d->m_name;
 }
 
+/*!
+    \qmlproperty enumeration NetworkInterface::state
+    \readonly
+    \brief Holds the state of the network interface.
+
+    Possible values:
+
+    \value NetworkSettingsState.Idle
+           Idle
+
+    \value NetworkSettingsState.Failure
+           Failed to connect
+
+    \value NetworkSettingsState.Association
+           Authentication in progress
+
+    \value NetworkSettingsState.Configuration
+           Configuration in progress
+
+    \value NetworkSettingsState.Ready
+           Connected to a network
+
+    \value NetworkSettingsState.Disconnect
+           Disconnected from a network
+
+    \value NetworkSettingsState.Online
+           Online (acquired an IP address)
+
+    \value NetworkSettingsState.Undefined
+           Undefined state.
+*/
 QNetworkSettingsState::States QNetworkSettingsInterface::state()
 {
     Q_D(QNetworkSettingsInterface);
     return d->m_state.state();
 }
 
+/*!
+    \qmlproperty enumeration NetworkInterface::type
+    \readonly
+    \brief Holds the type of the network interface.
+
+    Possible values:
+
+    \value NetworkSettingsType.Wired     Wired network
+    \value NetworkSettingsType.Wifi      Wifi network
+    \value NetworkSettingsType.Bluetooth Bluetooth network
+    \value NetworkSettingsType.Unknown   Unknown network type
+*/
 QNetworkSettingsType::Types QNetworkSettingsInterface::type()
 {
     Q_D(QNetworkSettingsInterface);
     return d->m_type.type();
 }
 
+/*!
+    \qmlproperty bool NetworkInterface::powered
+    \brief Holds whether the network interface is powered on of off.
+*/
 bool QNetworkSettingsInterface::powered() const
 {
     Q_D(const QNetworkSettingsInterface);
@@ -67,6 +133,10 @@ void QNetworkSettingsInterface::setPowered(const bool powered)
     d->setPowered(powered);
 }
 
+/*!
+    \qmlmethod void NetworkInterface::scanServices()
+    \brief Initiates a scan for network interface services.
+*/
 void QNetworkSettingsInterface::scanServices()
 {
     Q_D(QNetworkSettingsInterface);

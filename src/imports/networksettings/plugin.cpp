@@ -36,6 +36,113 @@
 #include <QQmlEngine>
 #include <QQmlContext>
 
+/*!
+    \qmlmodule QtDeviceUtilities.NetworkSettings 1.0
+
+    \title Qt Device Utilities: Network Settings
+    \ingroup qtee-qmlmodules
+    \brief Provides singleton QML types for controlling network settings.
+
+    Provides singleton QML types for controlling network settings in an
+    embedded device.
+
+    Import the module as follows:
+
+    \badcode
+    import QtDeviceUtilities.NetworkSettings 1.0
+    \endcode
+
+    \note Some functions may not be available on all of the platforms.
+
+    \section1 QML Types
+*/
+
+/*!
+    \qmltype NetworkSettingsManager
+    \inqmlmodule QtDeviceUtilities.NetworkSettings
+    \brief A singleton QML type for managing network settings.
+
+    There is no need to create an instance of this object. To use it,
+    simply import the \c {QtDeviceUtilities.NetworkSettings} module.
+*/
+
+/*!
+    \qmlproperty model NetworkSettingsManager::services
+    \readonly
+
+    Holds the service model.
+
+    The services list in the model can be controlled with the
+    \c type property, and NetworkService items can be retrieved
+    with the \c {itemFromRow(int index)} method. For example, to
+    select the first available wired network service:
+
+    \code
+    property var service: null
+    ...
+    NetworkSettingsManager.services.type = NetworkSettingsType.Wired;
+    service = NetworkSettingsManager.services.itemFromRow(0);
+    \endcode
+
+    Available service types:
+
+    \value NetworkSettingsType.Wired     Wired network
+    \value NetworkSettingsType.Wifi      Wifi network
+    \value NetworkSettingsType.Bluetooth Bluetooth network
+    \value NetworkSettingsType.Unknown   Unknown network type
+
+    \sa NetworkService
+*/
+
+/*!
+    \qmlproperty model NetworkSettingsManager::interfaces
+    \readonly
+
+    Holds the interface model. A delegate in a view that uses
+    the \e interfaces model can access the NetworkInterface
+    item with the \e dataModel role.
+
+    \sa NetworkInterface
+*/
+
+/*!
+    \qmlmethod NetworkService NetworkSettingsManager::getService(string name, int type)
+
+    Returns the service with name \a name and type \a type.
+
+    \sa services
+*/
+
+/*!
+    \qmlmethod NetworkSettingsManager::userAgent.setUserCredentials(string username, string passphrase)
+
+    Sets the user credentials \a username and \a passphrase for connecting to a Wifi network.
+
+    This method needs to be called in response to receiving a showUserCredentialsInput() signal.
+
+    \sa userAgent.showUserCredentialsInput()
+*/
+
+/*!
+    \qmlsignal NetworkSettingsManager::userAgent.showUserCredentialsInput()
+
+    This signal is emitted when user credentials are required for connecting to a Wifi network.
+
+    \sa userAgent.setUserCredentials()
+*/
+
+/*!
+    \qmlmethod NetworkSettingsManager::userAgent.cancelInput()
+
+    Cancels the user credentials input request.
+*/
+
+/*!
+    \qmlsignal NetworkSettingsManager::userAgent.error()
+
+    This signal is emitted when the connection failed due to invalid user credentials.
+*/
+
 template <typename T>
 QObject *instance(QQmlEngine *engine, QJSEngine *) {
     T *t = new T(engine);

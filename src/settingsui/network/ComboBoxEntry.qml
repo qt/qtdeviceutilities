@@ -40,6 +40,7 @@ RowLayout {
     property alias delegate: cb.delegate
     property alias textRole: cb.textRole
     property alias model: cb.model
+    property alias count: cb.count
     property int titleWidth: -1
 
     Label {

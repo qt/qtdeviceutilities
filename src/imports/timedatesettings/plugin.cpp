@@ -34,7 +34,110 @@
 
 #include <systemtime.h>
 #include "timezonefiltermodel.h"
+/*!
+    \qmlmodule QtDeviceUtilities.TimeDateSettings 1.0
 
+    \title Qt Device Utilities: Time and Date Settings
+    \ingroup qtee-qmlmodules
+    \brief Provides singleton QML types for controlling date and time
+           settings.
+
+    Provides singleton QML types for controlling date and time settings
+    in an embedded device.
+
+    Import the module as follows:
+
+    \badcode
+    import QtDeviceUtilities.TimeDateSettings 1.0
+    \endcode
+
+    \note Some functions may not be available on all of the platforms.
+
+    \section1 QML Types
+*/
+
+/*!
+    \qmltype TimeManager
+    \inqmlmodule QtDeviceUtilities.TimeDateSettings
+    \brief A singleton QML type for managing the system date and time.
+
+    There is no need to create an instance of this object. To use it,
+    simply import the \c {QtDeviceUtilities.TimeDateSettings} module.
+*/
+
+/*!
+    \qmlproperty string TimeManager::timeZone
+
+    Holds the current time zone string.
+*/
+
+/*!
+    \qmlproperty bool TimeManager::ntp
+
+    Holds whether the system time is synchronized using NTP (Network
+    Time Protocol).
+*/
+
+/*!
+    \qmlproperty Date TimeManager::time
+
+    Holds the current date and time.
+*/
+
+/*!
+    \qmltype TimezonesFilter
+    \inqmlmodule QtDeviceUtilities.TimeDateSettings
+    \brief Provides a filtered model for the available time zones.
+
+    There is no need to create an instance of this object. To use it,
+    simply import the \c {QtDeviceUtilities.TimeDateSettings} module.
+
+    The TimezonesFilter QML type can be used as the model in a view
+    that lists the available time zones.
+
+    For example:
+
+    \code
+    ListView {
+        model: TimezonesFilter
+        delegate: Text { text: name + " | " + country }
+    }
+    \endcode
+
+    Available \e roles in the time zone model:
+
+    \table
+    \header \li Role \li Description
+
+    \row \li \c name
+         \li Display name of the time zone. See QTimeZone::displayName() for
+             details.
+
+    \row \li \c country
+         \li Name of the country for the zone time.
+
+    \row \li \c id
+         \li IANA time zone ID.
+    \endtable
+*/
+
+/*!
+    \qmlproperty string TimezonesFilter::filter
+
+    Holds a string that filters out the time zones in the model.
+    The filtering process is a case-insensitive match for
+    whether the time zone's name or country name contain the
+    \e filter substring; it can be taken from user input.
+*/
+
+/*!
+    \qmlmethod object TimezonesFilter::itemFromRow(int index)
+
+    Returns the item at \a index in the model. This item can
+    be assigned to \l [QML] {TimeManager::timeZone}
+    {TimeManager.timeZone}, when the user selects a time zone
+    from a list.
+*/
 template <typename T>
 QObject *instance(QQmlEngine *engine, QJSEngine *) {
     T *t = new T(engine);

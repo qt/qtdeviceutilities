@@ -79,9 +79,9 @@ void QNetworkSettingsServiceModel::append(QNetworkSettingsService* item)
 {
     item->setParent(this);
 
-    beginInsertRows(QModelIndex(), rowCount(), rowCount());
+    beginResetModel();
     m_items.append(item);
-    endInsertRows();
+    endResetModel();
 }
 
 void QNetworkSettingsServiceModel::insert(int row, QNetworkSettingsService* item)
@@ -100,6 +100,19 @@ void QNetworkSettingsServiceModel::remove(int row)
     endRemoveRows();
 }
 
+bool QNetworkSettingsServiceModel::removeService(const QString &id)
+{
+    bool ret = false;
+    for (int i=0; i < m_items.count(); i++) {
+       if (m_items.at(i)->id() == id) {
+           remove(i);
+           ret = true;
+           break;
+       }
+    }
+    return ret;
+}
+
 void QNetworkSettingsServiceModel::updated(int row)
 {
     dataChanged(createIndex(row, 0), createIndex(row, 0));
@@ -112,6 +125,12 @@ QList<QNetworkSettingsService*> QNetworkSettingsServiceModel::getModel()
 
 //Filter model
 
+/*!
+    \qmltype NetworkSettingsServiceFilter
+    \inqmlmodule QtDeviceutilities.NetworkSettings
+    \abstract
+*/
+
 QNetworkSettingsServiceFilter::QNetworkSettingsServiceFilter(QObject* parent)
     :QSortFilterProxyModel(parent)
 {
@@ -123,6 +142,14 @@ QNetworkSettingsServiceFilter::~QNetworkSettingsServiceFilter()
 
 }
 
+/*!
+    \qmlproperty enumeration NetworkSettingsServiceFilter::type
+
+    \value NetworkSettingsType.Wired Wired network
+    \value NetworkSettingsType.Wifi Wifi network
+    \value NetworkSettingsType.Bluetooth Bluetooth network
+    \value NetworkSettingsType.Unknown Unknown network type
+*/
 QNetworkSettingsType::Types  QNetworkSettingsServiceFilter::type() const
 {
     return m_type;
@@ -153,6 +180,11 @@ bool QNetworkSettingsServiceFilter::filterAcceptsRow( int source_row, const QMod
     return false;
 }
 
+/*!
+    \qmlmethod NetworkService NetworkSettingsServiceFilter::itemFromRow(int index)
+
+    Returns the service at \a index in the model.
+*/
 QVariant QNetworkSettingsServiceFilter::itemFromRow(const int row) const
 {
     QModelIndex idx = index(row, 0);
