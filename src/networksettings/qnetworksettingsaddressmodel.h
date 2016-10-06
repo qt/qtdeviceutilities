@@ -36,15 +36,15 @@ class Q_DECL_EXPORT QNetworkSettingsAddressModel : public QStringListModel
     Q_OBJECT
     Q_PROPERTY(int count READ count NOTIFY countChanged)
 public:
-    explicit QNetworkSettingsAddressModel(QObject *parent = 0);
-    explicit QNetworkSettingsAddressModel(const QStringList &strings, QObject *parent = 0);
+    explicit QNetworkSettingsAddressModel(QObject *parent = nullptr);
+    explicit QNetworkSettingsAddressModel(const QStringList &strings, QObject *parent = nullptr);
     Q_INVOKABLE void append(const QString& address);
     Q_INVOKABLE void remove(int index);
     Q_INVOKABLE void resetChanges();
     void setStringList(const QStringList &addresses);
     int count() const;
 
-signals:
+Q_SIGNALS:
     void countChanged();
 private:
     QStringList m_addresses;

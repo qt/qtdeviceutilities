@@ -43,13 +43,13 @@ class Q_DECL_EXPORT QNetworkSettingsState : public QObject
 public:
     enum States {Idle, Failure, Association, Configuration, Ready, Disconnect, Online, Undefined};
 
-    explicit QNetworkSettingsState(States state, QObject *parent = 0)
+    explicit QNetworkSettingsState(States state, QObject *parent = nullptr)
         : QObject(parent)
     {
         m_state = state;
     }
 
-    explicit QNetworkSettingsState(QObject *parent = 0)
+    explicit QNetworkSettingsState(QObject *parent = nullptr)
         : QObject(parent)
     {
         m_state = Undefined;
@@ -61,10 +61,10 @@ public:
 
     void setState(const States state) {
         m_state = state;
-        emit stateChanged();
+        Q_EMIT stateChanged();
     }
 
-signals:
+Q_SIGNALS:
     void stateChanged();
 
 private:
@@ -85,13 +85,13 @@ public:
         Unknown
     };
 
-    explicit QNetworkSettingsType(Types type, QObject *parent = 0)
+    explicit QNetworkSettingsType(Types type, QObject *parent = nullptr)
         : QObject(parent)
     {
         m_type = type;
     }
 
-    explicit QNetworkSettingsType(QObject *parent = 0)
+    explicit QNetworkSettingsType(QObject *parent = nullptr)
         : QObject(parent)
     {
         m_type = Unknown;
@@ -104,10 +104,10 @@ public:
 
     void setType(const Types type) {
         m_type = type;
-        emit typeChanged();
+        Q_EMIT typeChanged();
     }
 
-signals:
+Q_SIGNALS:
     void typeChanged();
 
 private:
@@ -124,7 +124,7 @@ class Q_DECL_EXPORT QNetworkSettingsIPv4 : public QObject
     Q_PROPERTY(QString mask READ mask WRITE setMask NOTIFY maskChanged)
 
 public:
-    explicit QNetworkSettingsIPv4(QObject *parent = 0)
+    explicit QNetworkSettingsIPv4(QObject *parent = nullptr)
         : QObject(parent)
     {
 
@@ -137,7 +137,7 @@ public:
     }
     void setAddress(const QString& adderess) {
         m_address = adderess;
-        emit addressChanged();
+        Q_EMIT addressChanged();
     }
 
     QString gateway() const {
@@ -146,7 +146,7 @@ public:
 
     void setGateway(const QString& gateway) {
         m_gateway = gateway;
-        emit gatewayChanged();
+        Q_EMIT gatewayChanged();
     }
 
     MethodType method() const {
@@ -155,7 +155,7 @@ public:
 
     void setMethod(const MethodType method) {
         m_method = method;
-        emit methodChanged();
+        Q_EMIT methodChanged();
     }
 
     QString mask() const {
@@ -164,10 +164,10 @@ public:
 
     void setMask(const QString& mask) {
         m_mask = mask;
-        emit maskChanged();
+        Q_EMIT maskChanged();
     }
 
-signals:
+Q_SIGNALS:
     void addressChanged();
     void gatewayChanged();
     void methodChanged();
@@ -192,7 +192,7 @@ class Q_DECL_EXPORT QNetworkSettingsIPv6 : public QObject
     Q_PROPERTY(int prefixLength READ prefixLength WRITE setPrefixLength NOTIFY prefixLengthChanged)
 
 public:
-    explicit QNetworkSettingsIPv6(QObject *parent = 0)
+    explicit QNetworkSettingsIPv6(QObject *parent = nullptr)
         : QObject(parent)
     {
 
@@ -206,7 +206,7 @@ public:
     }
     void setAddress(const QString& adderess) {
         m_address = adderess;
-        emit addressChanged();
+        Q_EMIT addressChanged();
     }
 
     QString gateway() const {
@@ -215,7 +215,7 @@ public:
 
     void setGateway(const QString& gateway) {
         m_gateway = gateway;
-        emit gatewayChanged();
+        Q_EMIT gatewayChanged();
     }
 
     MethodType method() const {
@@ -224,7 +224,7 @@ public:
 
     void setMethod(const MethodType method) {
         m_method = method;
-        emit methodChanged();
+        Q_EMIT methodChanged();
     }
 
     PrivacyType privacy() const {
@@ -233,7 +233,7 @@ public:
 
     void setPrivacy(const PrivacyType privacy) {
         m_privacy = privacy;
-        emit privacyChanged();
+        Q_EMIT privacyChanged();
     }
 
     int prefixLength() const {
@@ -242,10 +242,10 @@ public:
 
     void setPrefixLength(const int& prefixLength) {
         m_prefixLength = prefixLength;
-        emit prefixLengthChanged();
+        Q_EMIT prefixLengthChanged();
     }
 
-signals:
+Q_SIGNALS:
     void addressChanged();
     void gatewayChanged();
     void methodChanged();
@@ -284,7 +284,7 @@ public:
 
     void setUrl(const QUrl& url) {
         m_url = url;
-        emit urlChanged();
+        Q_EMIT urlChanged();
     }
 
     QAbstractItemModel* servers(void) {
@@ -293,7 +293,7 @@ public:
 
     void setServers(const QStringList& servers) {
         m_servers.setStringList(servers);
-        emit serversChanged();
+        Q_EMIT serversChanged();
     }
 
     QStringList servers() const {
@@ -310,7 +310,7 @@ public:
 
     void setExcludes(const QStringList& excludes) {
         m_excludes.setStringList(excludes);
-        emit excludesChanged();
+        Q_EMIT excludesChanged();
     }
 
     MethodType method(void) const {
@@ -319,10 +319,10 @@ public:
 
     void setMethod(const MethodType& method) {
         m_method = method;
-        emit methodChanged();
+        Q_EMIT methodChanged();
     }
 
-signals:
+Q_SIGNALS:
     void urlChanged();
     void serversChanged();
     void excludesChanged();
@@ -341,7 +341,7 @@ class Q_DECL_EXPORT QNetworkSettingsWireless : public QObject
     Q_PROPERTY(bool hidden READ hidden NOTIFY hiddenChanged)
     Q_PROPERTY(bool isOutOfRange READ outOfRange WRITE setOutOfRange NOTIFY outOfRangeChanged)
 public:
-    explicit QNetworkSettingsWireless(QObject* parent = 0) :
+    explicit QNetworkSettingsWireless(QObject* parent = nullptr) :
         QObject(parent) {
     }
 
@@ -360,7 +360,7 @@ public:
 
     void setHidden(const bool hidden) {
         m_hidden = hidden;
-        emit hiddenChanged();
+        Q_EMIT hiddenChanged();
     }
 
     int signalStrength() const {
@@ -369,7 +369,7 @@ public:
 
     void setSignalStrength(const int signalStrength) {
         m_signalStrength = signalStrength;
-        emit signalStrengthChanged();
+        Q_EMIT signalStrengthChanged();
     }
 
     void setSecurity(const SecurityFlags security) {
@@ -383,14 +383,14 @@ public:
 
     void setOutOfRange(const bool aOutOfRange) {
         m_isOutOfRange = aOutOfRange;
-        emit outOfRangeChanged();
+        Q_EMIT outOfRangeChanged();
     }
 
     bool outOfRange() const {
         return m_isOutOfRange;
     }
 
-signals:
+Q_SIGNALS:
     void hiddenChanged();
     void signalStrengthChanged();
     void passwordChanged();

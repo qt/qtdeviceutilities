@@ -38,12 +38,11 @@ class Q_DECL_EXPORT SystemLocale : public QObject
     Q_OBJECT
     Q_PROPERTY(QString locale READ locale WRITE setLocale NOTIFY localeChanged)
 public:
-    explicit SystemLocale(QObject *parent = 0);
+    explicit SystemLocale(QObject *parent = nullptr);
     QString locale() const;
     void setLocale(const QString& aLocale);
-signals:
+Q_SIGNALS:
     void localeChanged();
-public slots:
 
 protected:
     SystemLocalePrivate *d_ptr;

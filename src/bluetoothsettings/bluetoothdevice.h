@@ -41,7 +41,7 @@ class Q_DECL_EXPORT BluetoothDevice : public QObject
     Q_PROPERTY(bool powered READ powered WRITE setPowered NOTIFY poweredChanged)
     Q_PROPERTY(QObject* deviceModel READ deviceModel CONSTANT)
 public:
-    explicit BluetoothDevice(QObject *parent = 0);
+    explicit BluetoothDevice(QObject *parent = nullptr);
     bool powered() const;
     void setPowered(const bool& aPowered);
     QObject* deviceModel() const;
@@ -50,11 +50,12 @@ public:
     Q_INVOKABLE void requestPairing(const QString& address);
     Q_INVOKABLE void requestConnect(const QString& address);
     Q_INVOKABLE void requestDisconnect(const QString& address);
-signals:
+
+Q_SIGNALS:
     void poweredChanged();
     void scanningChanged();
 
-public slots:
+public Q_SLOTS:
     void deviceStateChanged(QBluetoothLocalDevice::HostMode state);
     void scanFinished();
     //These are not yet signaled

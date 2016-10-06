@@ -44,7 +44,7 @@ class Q_DECL_EXPORT BtDeviceItem : public QObject
     Q_PROPERTY(bool connected READ connected NOTIFY connectedChanged)
     Q_PROPERTY(DeviceType type READ type CONSTANT)
 public:
-    explicit BtDeviceItem(const QBluetoothDeviceInfo& id, QObject *parent=0);
+    explicit BtDeviceItem(const QBluetoothDeviceInfo& id, QObject *parent = nullptr);
     //The list of device type we want to show the icon
     enum DeviceType {
         Phone,
@@ -65,7 +65,7 @@ public:
     bool connected() const;
     void setConnected(bool aConnected);
 
-signals:
+Q_SIGNALS:
     void connectedChanged();
 
 protected:
@@ -90,7 +90,7 @@ class Q_DECL_EXPORT DiscoveryModel : public QAbstractListModel
     Q_OBJECT
     Q_ENUMS(DeviceType)
 public:
-    explicit DiscoveryModel(QObject *parent=0);
+    explicit DiscoveryModel(QObject *parent = nullptr);
     virtual ~DiscoveryModel();
     // from QAbstractItemModel
     int rowCount(const QModelIndex & parent = QModelIndex()) const;
@@ -106,11 +106,12 @@ public:
         Connected
     };
 
-signals:
+Q_SIGNALS:
     void scanFinished();
 
-private slots:
+private Q_SLOTS:
     void deviceDiscovered(const QBluetoothDeviceInfo &device);
+
 private:
     QList<BtDeviceItem*> m_items;
     QHash<int, QByteArray> m_roleNames;

@@ -42,7 +42,7 @@ class Q_DECL_EXPORT DisplaySettings : public QObject
     Q_PROPERTY(bool physicalScreenSizeOverride READ physicalScreenSizeOverride WRITE setPhysicalScreenSizeOverride NOTIFY physicalScreenSizeOverrideChanged)
 
 public:
-    DisplaySettings(QObject *parent = 0);
+    DisplaySettings(QObject *parent = nullptr);
     ~DisplaySettings();
 
     int displayBrightness();
@@ -54,7 +54,7 @@ public Q_SLOTS:
     void setPhysicalScreenSizeInch(int inches);
     void setPhysicalScreenSizeOverride(bool enable);
 
-signals:
+Q_SIGNALS:
     void displayBrightnessChanged(int newValue);
     void physicalScreenSizeInchChanged(int newInches);
     void physicalScreenSizeOverrideChanged(bool newValue);

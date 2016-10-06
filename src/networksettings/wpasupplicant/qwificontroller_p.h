@@ -96,7 +96,7 @@ public:
     bool resetSupplicantSocket();
     QWifiSupplicant *supplicant() const { return m_supplicant; }
 
-signals:
+Q_SIGNALS:
     void backendStateChanged(BackendState backendState);
     void dhcpRequestFinished(const QString &status);
     void raiseError(const QString &error);

@@ -39,7 +39,7 @@ class Q_DECL_EXPORT QNetworkSettingsInterfaceModel : public QAbstractListModel
     Q_OBJECT
 
 public:
-    explicit QNetworkSettingsInterfaceModel(QObject *parent=0);
+    explicit QNetworkSettingsInterfaceModel(QObject *parent = nullptr);
     // from QAbstractItemModel
     int rowCount(const QModelIndex & parent = QModelIndex()) const;
     QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const;

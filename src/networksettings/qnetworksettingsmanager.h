@@ -46,7 +46,7 @@ class Q_DECL_EXPORT QNetworkSettingsManager : public QObject
     Q_PROPERTY(QNetworkSettingsUserAgent* userAgent READ getUserAgent CONSTANT)
 
 public:
-    explicit QNetworkSettingsManager(QObject* parent = 0);
+    explicit QNetworkSettingsManager(QObject* parent = nullptr);
     QAbstractItemModel* services();
     QAbstractItemModel* interfaces();
     void setUserAgent(QNetworkSettingsUserAgent *agent);

@@ -37,7 +37,7 @@ class PhysicalScreenSize : public QObject
     Q_OBJECT
 
 public:
-    explicit PhysicalScreenSize(QObject *parent=0);
+    explicit PhysicalScreenSize(QObject *parent = nullptr);
     virtual ~PhysicalScreenSize();
 
     void setSize(int inches);

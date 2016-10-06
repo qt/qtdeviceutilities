@@ -37,7 +37,7 @@ class Q_DECL_EXPORT QNetworkSettingsServiceModel : public QAbstractListModel
 {
     Q_OBJECT
 public:
-    explicit QNetworkSettingsServiceModel(QObject *parent=0);
+    explicit QNetworkSettingsServiceModel(QObject *parent = nullptr);
     virtual ~QNetworkSettingsServiceModel();
     // from QAbstractItemModel
     int rowCount(const QModelIndex & parent = QModelIndex()) const;
@@ -68,13 +68,13 @@ class QNetworkSettingsServiceFilter : public QSortFilterProxyModel
     Q_OBJECT
     Q_PROPERTY(QNetworkSettingsType::Types type READ type WRITE setType NOTIFY typeChanged)
 public:
-    explicit QNetworkSettingsServiceFilter(QObject* parent=0);
+    explicit QNetworkSettingsServiceFilter(QObject* parent = nullptr);
     virtual ~QNetworkSettingsServiceFilter();
     bool filterAcceptsRow( int source_row, const QModelIndex& source_parent ) const override;
     QNetworkSettingsType::Types type() const;
     void setType(QNetworkSettingsType::Types type);
     Q_INVOKABLE QVariant itemFromRow(const int row) const;
-signals:
+Q_SIGNALS:
     void typeChanged();
 private:
     QNetworkSettingsType::Types m_type;

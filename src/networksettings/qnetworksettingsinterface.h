@@ -42,7 +42,7 @@ class Q_DECL_EXPORT QNetworkSettingsInterface : public QObject {
     Q_PROPERTY(bool powered READ powered WRITE setPowered NOTIFY poweredChanged)
 
 public:
-    explicit QNetworkSettingsInterface(QObject* parent=0);
+    explicit QNetworkSettingsInterface(QObject* parent = nullptr);
     QString name() const;
     QNetworkSettingsState::States state();
     QNetworkSettingsType::Types type();
@@ -50,7 +50,7 @@ public:
     void setPowered(const bool powered);
     Q_INVOKABLE void scanServices();
 
-signals:
+Q_SIGNALS:
     void nameChanged();
     void stateChanged();
     void typeChanged();

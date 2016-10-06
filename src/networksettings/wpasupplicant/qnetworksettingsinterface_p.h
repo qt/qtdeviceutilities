@@ -46,7 +46,7 @@ public:
     void setManager(QNetworkSettingsManagerPrivate *manager);
     void scan();
 
-signals:
+Q_SIGNALS:
 
 protected:
     QString m_name;
