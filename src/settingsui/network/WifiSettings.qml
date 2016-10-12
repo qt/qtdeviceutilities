@@ -37,201 +37,219 @@ Item {
     Component.onCompleted: NetworkSettingsManager.services.type = NetworkSettingsType.Wifi;
     property bool connecting: false
 
-    GroupBox {
-        id: content
-        title: qsTr("Wireless Settings")
+    Flickable {
         anchors.fill: parent
+        contentHeight: content.height
+        contentWidth: width
 
-        ColumnLayout {
-            spacing: 20
+        GroupBox {
+            title: qsTr("Wireless Settings")
             width: parent.width
 
-            RowLayout {
-                spacing: 10
-                id: enableSwitch
+            ColumnLayout {
+                id: content
+                spacing: 20
                 width: parent.width
 
-                Label {
-                    Layout.preferredWidth: root.width * 0.382
-                    Layout.alignment: Qt.AlignVCenter
-                    horizontalAlignment: Text.AlignRight
-                    text: selectedInterface.powered ? qsTr("Wi-Fi ON") : qsTr("Wi-Fi OFF")
-                }
-                Switch {
-                    checked: selectedInterface.powered
-                    onCheckedChanged: {
-                        selectedInterface.powered = checked
-                        root.connecting = false
-                        connectView.visible = false
+                RowLayout {
+                    spacing: 10
+                    id: enableSwitch
+                    width: parent.width
+
+                    Label {
+                        Layout.preferredWidth: root.width * 0.382
+                        Layout.alignment: Qt.AlignVCenter
+                        horizontalAlignment: Text.AlignRight
+                        text: selectedInterface.powered ? qsTr("Wi-Fi ON") : qsTr("Wi-Fi OFF")
                     }
-                }
-            }
-            RowLayout {
-                spacing: 10
-                width: parent.width
-
-                visible: selectedInterface.powered && networkSelection.count > 0
-                Label {
-                    Layout.preferredWidth: root.width * 0.382
-                    text: qsTr("Current network")
-                    horizontalAlignment: Text.AlignRight
-                    Layout.alignment: Qt.AlignVCenter
-
-                }
-                ComboBoxEntry {
-                    id: networkSelection
-                    model: NetworkSettingsManager.services
-
-                    textRole: "name"
-                    Layout.fillWidth: true
-                    onCurrentIndexChanged: {
-                        if (currentIndex >= 0) {
-                            connectView.visible = false
-
-                            var service = model.itemFromRow(currentIndex)
-                            if (service) {
-                                root.connecting = true
-                                service.connectService();
-                            }
-                        }
-                    }
-
-                    onCountChanged: {
-                        if (count === 0) {
+                    Switch {
+                        checked: selectedInterface.powered
+                        onCheckedChanged: {
+                            selectedInterface.powered = checked
                             root.connecting = false
                             connectView.visible = false
                         }
                     }
-
-                    delegate: WifiSelectorDelegate {
-                        width: networkSelection.width
-                        onConnectChanged: if (connect) networkSelection.currentIndex = index
-                    }
                 }
-            }
-
-            Row {
-                id: infoRow
-                spacing: 10
-                width: parent.width
-                visible: selectedInterface.powered && selectedInterface.state !== NetworkSettingsState.Online && (networkSelection.count == 0 || root.connecting)
-                Label {
-                    id: scanningText
-                    text: root.connecting ? qsTr("Connecting to the network...") : qsTr("Searching for Wi-Fi networks...")
-                    horizontalAlignment: Text.AlignLeft
-                }
-                WifiSignalMonitor {
-                    id: scanningIcon
-                    scanning: true
-                    height: scanningText.height
-                    width: height
-                }
-            }
-
-            GroupBox {
-                id: connectView
-                title: qsTr("Enter a password")
-                visible: false
-                Layout.fillWidth: true
-                ColumnLayout {
+                RowLayout {
+                    spacing: 10
                     width: parent.width
 
-                    RowLayout {
-                        id: errorView
-                        visible: text.text !== ""
-                        spacing: 10
-                        property alias text: text.text
+                    visible: selectedInterface.powered && networkSelection.count > 0
+                    Label {
+                        Layout.preferredWidth: root.width * 0.382
+                        text: qsTr("Current network")
+                        horizontalAlignment: Text.AlignRight
+                        Layout.alignment: Qt.AlignVCenter
 
-                        Image {
-                            source: "../icons/Alert_yellow_1x.png"
-                            Layout.alignment: Qt.AlignVCenter
-                        }
-                        Text {
-                            id: text
-                            color: "#face20"
-                            text: ""
-                            Layout.alignment: Qt.AlignVCenter
-                        }
                     }
-                    RowLayout {
-                        spacing: 10
-                        visible: false
-                        width: parent.width
+                    ComboBoxEntry {
+                        id: networkSelection
+                        model: NetworkSettingsManager.services
 
-                        Label {
-                            text: qsTr("User name:")
-                            horizontalAlignment: Text.AlignRight
-                            Layout.preferredWidth: root.width * 0.382
-                            Layout.alignment: Qt.AlignVCenter
-                        }
-                        TextField {
-                            text: ""
-                            inputMethodHints: Qt.ImhNoPredictiveText
-                            Layout.alignment: Qt.AlignVCenter
-                            Layout.fillWidth: true
-                        }
-                    }
-                    RowLayout {
-                        spacing: 10
-                        width: parent.width
-
-                        Label {
-                            text: qsTr("Password:")
-                            horizontalAlignment: Text.AlignRight
-                            Layout.preferredWidth: root.width * 0.382
-                            Layout.alignment: Qt.AlignVCenter
-                        }
-                        TextField {
-                            id: password
-                            text: ""
-                            echoMode: TextInput.Password
-                            inputMethodHints: Qt.ImhNoPredictiveText | Qt.ImhNoAutoUppercase | Qt.ImhPreferLowercase | Qt.ImhSensitiveData
-                            Layout.alignment: Qt.AlignVCenter
-                            Layout.fillWidth: true
-                        }
-                    }
-                    RowLayout {
-                        spacing: 10
-
-                        Button {
-                            text: qsTr("Connect")
-                            onClicked: {
+                        textRole: "name"
+                        Layout.fillWidth: true
+                        onActivated: {
+                            if (index >= 0) {
                                 connectView.visible = false
-                                NetworkSettingsManager.userAgent.setUserCredentials("", password.text)
+
+                                var service = model.itemFromRow(index)
+                                if (service) {
+                                    root.connecting = true
+                                    service.connectService();
+                                }
                             }
                         }
-                        Button {
-                            text: qsTr("Cancel")
-                            onClicked: {
-                                networkSelection.currentIndex = -1
+
+                        onCountChanged: {
+                            if (count === 0) {
+                                root.connecting = false
                                 connectView.visible = false
+                            }
+                        }
+
+                        Component.onCompleted: {
+                            networkSelection.currentIndex = model.activeRow()
+                        }
+
+                        delegate: WifiSelectorDelegate {
+                            width: networkSelection.width
+                            onConnectChanged: if (connect) networkSelection.currentIndex = index
+                        }
+                    }
+                }
+
+                Row {
+                    id: infoRow
+                    spacing: 10
+                    width: parent.width
+                    visible: selectedInterface.powered && selectedInterface.state !== NetworkSettingsState.Online
+                    Label {
+                        id: scanningText
+                        text: {
+                            if (networkSelection.count == 0)
+                                return qsTr("Searching for Wi-Fi networks...")
+                            else if (root.connecting)
+                                return qsTr("Connecting to the network...")
+                            else
+                                return ""
+                        }
+                        horizontalAlignment: Text.AlignLeft
+                    }
+                    WifiSignalMonitor {
+                        id: scanningIcon
+                        scanning: true
+                        visible: scanningText.text !== ""
+                        height: scanningText.height
+                        width: height
+                    }
+                }
+
+                GroupBox {
+                    id: connectView
+                    title: qsTr("Enter a password")
+                    visible: false
+                    Layout.fillWidth: true
+                    ColumnLayout {
+                        width: parent.width
+
+                        RowLayout {
+                            id: errorView
+                            visible: text.text !== ""
+                            spacing: 10
+                            property alias text: text.text
+
+                            Image {
+                                source: "../icons/Alert_yellow_1x.png"
+                                Layout.alignment: Qt.AlignVCenter
+                            }
+                            Text {
+                                id: text
+                                color: "#face20"
+                                text: ""
+                                Layout.alignment: Qt.AlignVCenter
+                            }
+                        }
+                        RowLayout {
+                            spacing: 10
+                            visible: false
+                            width: parent.width
+
+                            Label {
+                                text: qsTr("User name:")
+                                horizontalAlignment: Text.AlignRight
+                                Layout.preferredWidth: root.width * 0.382
+                                Layout.alignment: Qt.AlignVCenter
+                            }
+                            TextField {
+                                text: ""
+                                inputMethodHints: Qt.ImhNoPredictiveText
+                                Layout.alignment: Qt.AlignVCenter
+                                Layout.fillWidth: true
+                            }
+                        }
+                        RowLayout {
+                            spacing: 10
+                            width: parent.width
+
+                            Label {
+                                text: qsTr("Password:")
+                                horizontalAlignment: Text.AlignRight
+                                Layout.preferredWidth: root.width * 0.382
+                                Layout.alignment: Qt.AlignVCenter
+                            }
+                            TextField {
+                                id: password
+                                text: ""
+                                echoMode: TextInput.Password
+                                inputMethodHints: Qt.ImhNoPredictiveText | Qt.ImhNoAutoUppercase | Qt.ImhPreferLowercase | Qt.ImhSensitiveData
+                                Layout.alignment: Qt.AlignVCenter
+                                Layout.fillWidth: true
+                            }
+                        }
+                        RowLayout {
+                            spacing: 10
+
+                            Button {
+                                text: qsTr("Connect")
+                                onClicked: {
+                                    connectView.visible = false
+                                    NetworkSettingsManager.userAgent.setUserCredentials("", password.text)
+                                }
+                            }
+                            Button {
+                                text: qsTr("Cancel")
+                                onClicked: {
+                                    networkSelection.currentIndex = -1
+                                    connectView.visible = false
+                                }
                             }
                         }
                     }
                 }
-            }
-            Button {
-                id: disconnect
-                text: qsTr("Disconnect")
-                visible: selectedInterface.state === NetworkSettingsState.Online ||
-                         selectedInterface.state === NetworkSettingsState.Ready
-                onClicked: {
-                    console.log("disconnect");
-                    NetworkSettingsManager.services.itemFromRow(networkSelection.selectedIndex).disconnectService();
-                    networkSelection.selectedIndex = -1;
+                Button {
+                    id: disconnect
+                    text: qsTr("Disconnect")
+                    visible: selectedInterface.state === NetworkSettingsState.Online ||
+                             selectedInterface.state === NetworkSettingsState.Ready
+                    onClicked: {
+                        NetworkSettingsManager.services.itemFromRow(networkSelection.currentIndex).disconnectService();
+                        networkSelection.currentIndex = -1;
+                        root.connecting = false
+                    }
                 }
             }
-        }
-        Connections {
-            target: NetworkSettingsManager.userAgent
-            onShowUserCredentialsInput : {
-                connectView.visible = true
-                root.connecting = false
-            }
-            onError: {
-                errorView.visible = true
-                connectView.visible = true
-                root.connecting = false
+            Connections {
+                target: NetworkSettingsManager.userAgent
+                onShowUserCredentialsInput : {
+                    connectView.visible = true
+                    root.connecting = false
+                }
+                onError: {
+                    errorView.visible = true
+                    connectView.visible = true
+                    root.connecting = false
+                }
             }
         }
     }

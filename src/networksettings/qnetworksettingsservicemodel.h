@@ -58,7 +58,14 @@ public:
         Connected
     };
 
+
+private Q_SLOTS:
+    void connectionStatusChanged();
+    void signalStrengthChanged();
+
 private:
+    void connectStateChanges(QNetworkSettingsService* item);
+
     QList<QNetworkSettingsService*> m_items;
     QHash<int, QByteArray> m_roleNames;
 };
@@ -74,6 +81,7 @@ public:
     QNetworkSettingsType::Types type() const;
     void setType(QNetworkSettingsType::Types type);
     Q_INVOKABLE QVariant itemFromRow(const int row) const;
+    Q_INVOKABLE int activeRow() const;
 Q_SIGNALS:
     void typeChanged();
 private:

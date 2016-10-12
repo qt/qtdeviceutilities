@@ -42,6 +42,8 @@ RowLayout {
     property alias model: cb.model
     property alias count: cb.count
     property int titleWidth: -1
+    signal activated(var index)
+    signal highlighted(var index)
 
     Label {
         id: label
@@ -53,5 +55,7 @@ RowLayout {
         id: cb
         textRole: "text"
         Layout.fillWidth: true
+        onActivated: root.activated(index)
+        onHighlightedIndexChanged: root.highlighted(index)
     }
 }
