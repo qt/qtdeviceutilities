@@ -47,7 +47,7 @@ public:
     explicit QNetworkSettingsManagerPrivate(QNetworkSettingsManager *parent);
     QNetworkSettingsManager *q_ptr;
     void setUserAgent(QNetworkSettingsUserAgent *agent);
-    QNetworkSettingsUserAgent *getUserAgent() {return m_agent;}
+    QNetworkSettingsUserAgent *userAgent() {return m_agent;}
 public slots:
     void getServicesFinished(QDBusPendingCallWatcher *watcher);
     void getTechnologiesFinished(QDBusPendingCallWatcher *watcher);
