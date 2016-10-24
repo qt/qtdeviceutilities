@@ -19,6 +19,7 @@ else {
 # Input
 SOURCES += \
     qnetworksettingsinterfacemodel.cpp \
+    qnetworksettings.cpp \
     qnetworksettingsmanager.cpp \
     qnetworksettingsaddressmodel.cpp \
     qnetworksettingsservicemodel.cpp \
