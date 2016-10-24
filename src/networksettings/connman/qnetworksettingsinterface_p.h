@@ -66,7 +66,7 @@ class ConnmanSettingsInterface : public QNetworkSettingsInterface
 {
     Q_OBJECT
 public:
-    ConnmanSettingsInterface(const QString& path, const QVariantMap& properties, QObject *parent=0)
+    ConnmanSettingsInterface(const QString& path, const QVariantMap& properties, QObject *parent = Q_NULLPTR)
         :QNetworkSettingsInterface(parent)
     {
         if (d_ptr)

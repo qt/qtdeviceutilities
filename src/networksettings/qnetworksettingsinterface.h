@@ -42,7 +42,7 @@ class Q_DECL_EXPORT QNetworkSettingsInterface : public QObject {
     Q_PROPERTY(bool powered READ powered WRITE setPowered NOTIFY poweredChanged)
 
 public:
-    explicit QNetworkSettingsInterface(QObject* parent=0);
+    explicit QNetworkSettingsInterface(QObject* parent = Q_NULLPTR);
     QString name() const;
     QNetworkSettingsState::States state();
     QNetworkSettingsType::Types type();

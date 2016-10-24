@@ -40,7 +40,7 @@ class QNetworkSettingsServicePrivate : public QObject
     Q_OBJECT
     Q_DECLARE_PUBLIC(QNetworkSettingsService)
 public:
-    QNetworkSettingsServicePrivate(const QString& aPath, QNetworkSettingsService *parent=0);
+    QNetworkSettingsServicePrivate(const QString& aPath, QNetworkSettingsService *parent = Q_NULLPTR);
 
     QNetworkSettingsService *q_ptr;
 private slots:

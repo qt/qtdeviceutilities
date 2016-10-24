@@ -37,7 +37,7 @@ class Q_DECL_EXPORT QNetworkSettingsUserAgent : public QObject
 {
     Q_OBJECT
 public:
-    explicit QNetworkSettingsUserAgent(QObject *parent = 0);
+    explicit QNetworkSettingsUserAgent(QObject *parent = Q_NULLPTR);
     Q_INVOKABLE void setUserCredentials(const QString& username, const QString& passphrase);
     Q_INVOKABLE void cancelInput();
     QString passPhrase() const;

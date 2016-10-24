@@ -41,7 +41,7 @@ class Q_DECL_EXPORT BluetoothDevice : public QObject
     Q_PROPERTY(bool powered READ powered WRITE setPowered NOTIFY poweredChanged)
     Q_PROPERTY(QObject* deviceModel READ deviceModel CONSTANT)
 public:
-    explicit BluetoothDevice(QObject *parent = 0);
+    explicit BluetoothDevice(QObject *parent = Q_NULLPTR);
     bool powered() const;
     void setPowered(const bool& aPowered);
     QObject* deviceModel() const;

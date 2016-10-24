@@ -43,13 +43,13 @@ class Q_DECL_EXPORT QNetworkSettingsState : public QObject
 public:
     enum States {Idle, Failure, Association, Configuration, Ready, Disconnect, Online, Undefined};
 
-    explicit QNetworkSettingsState(States state, QObject *parent = 0)
+    explicit QNetworkSettingsState(States state, QObject *parent = Q_NULLPTR)
         : QObject(parent)
     {
         m_state = state;
     }
 
-    explicit QNetworkSettingsState(QObject *parent = 0)
+    explicit QNetworkSettingsState(QObject *parent = Q_NULLPTR)
         : QObject(parent)
     {
         m_state = Undefined;
@@ -85,13 +85,13 @@ public:
         Unknown
     };
 
-    explicit QNetworkSettingsType(Types type, QObject *parent = 0)
+    explicit QNetworkSettingsType(Types type, QObject *parent = Q_NULLPTR)
         : QObject(parent)
     {
         m_type = type;
     }
 
-    explicit QNetworkSettingsType(QObject *parent = 0)
+    explicit QNetworkSettingsType(QObject *parent = Q_NULLPTR)
         : QObject(parent)
     {
         m_type = Unknown;
@@ -124,7 +124,7 @@ class Q_DECL_EXPORT QNetworkSettingsIPv4 : public QObject
     Q_PROPERTY(QString mask READ mask WRITE setMask NOTIFY maskChanged)
 
 public:
-    explicit QNetworkSettingsIPv4(QObject *parent = 0)
+    explicit QNetworkSettingsIPv4(QObject *parent = Q_NULLPTR)
         : QObject(parent)
     {
 
@@ -192,7 +192,7 @@ class Q_DECL_EXPORT QNetworkSettingsIPv6 : public QObject
     Q_PROPERTY(int prefixLength READ prefixLength WRITE setPrefixLength NOTIFY prefixLengthChanged)
 
 public:
-    explicit QNetworkSettingsIPv6(QObject *parent = 0)
+    explicit QNetworkSettingsIPv6(QObject *parent = Q_NULLPTR)
         : QObject(parent)
     {
 
@@ -270,7 +270,7 @@ public:
     Q_PROPERTY(QAbstractItemModel* excludes READ excludes NOTIFY excludesChanged)
     Q_PROPERTY(MethodType method READ method WRITE setMethod NOTIFY methodChanged)
 
-    explicit QNetworkSettingsProxy(QObject *parent=NULL)
+    explicit QNetworkSettingsProxy(QObject *parent = Q_NULLPTR)
         : QObject(parent)
     {
 
@@ -341,7 +341,7 @@ class Q_DECL_EXPORT QNetworkSettingsWireless : public QObject
     Q_PROPERTY(bool hidden READ hidden NOTIFY hiddenChanged)
     Q_PROPERTY(bool isOutOfRange READ outOfRange WRITE setOutOfRange NOTIFY outOfRangeChanged)
 public:
-    explicit QNetworkSettingsWireless(QObject* parent = 0) :
+    explicit QNetworkSettingsWireless(QObject* parent = Q_NULLPTR) :
         QObject(parent) {
     }
 

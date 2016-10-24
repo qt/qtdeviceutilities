@@ -40,7 +40,7 @@ class QNetworkSettingsServicePrivate : public QObject
     Q_OBJECT
     Q_DECLARE_PUBLIC(QNetworkSettingsService)
 public:
-    QNetworkSettingsServicePrivate(const QString& aServiceId, QNetworkSettingsService *parent=0);
+    QNetworkSettingsServicePrivate(const QString& aServiceId, QNetworkSettingsService *parent = Q_NULLPTR);
     void setManager(QNetworkSettingsManagerPrivate *manager);
     QNetworkSettingsService *q_ptr;
 
@@ -70,7 +70,7 @@ class WpaSupplicantService : public QNetworkSettingsService
 {
     Q_OBJECT
 public:
-    explicit WpaSupplicantService(QNetworkSettingsManagerPrivate* manager, QObject* parent=0);
+    explicit WpaSupplicantService(QNetworkSettingsManagerPrivate* manager, QObject* parent = Q_NULLPTR);
     void setId(const QString& aId);
     void setName(const QString& aName);
     void setFlags(const QString& aFlags);

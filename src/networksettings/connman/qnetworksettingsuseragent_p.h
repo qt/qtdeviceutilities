@@ -50,7 +50,7 @@ class QNetworkSettingsUserAgentPrivate : public QDBusAbstractAdaptor
     Q_CLASSINFO("D-Bus Interface", "net.connman.Agent")
     Q_DECLARE_PUBLIC(QNetworkSettingsUserAgent)
 public:
-    QNetworkSettingsUserAgentPrivate(QNetworkSettingsUserAgent *parent=0);
+    QNetworkSettingsUserAgentPrivate(QNetworkSettingsUserAgent *parent = Q_NULLPTR);
     void setUserCredentials(const QString& aUsername, const QString& aPassword);
     void cancel();
     void release();

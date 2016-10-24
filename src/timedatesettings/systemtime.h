@@ -41,7 +41,7 @@ class Q_DECL_EXPORT SystemTime : public QObject
     Q_PROPERTY(bool ntp READ ntp WRITE setNtp NOTIFY ntpChanged)
     Q_PROPERTY(QDateTime time READ time WRITE setTime NOTIFY timeChanged)
 public:
-    explicit SystemTime(QObject *parent = 0);
+    explicit SystemTime(QObject *parent = Q_NULLPTR);
     bool ntp() const;
     void setNtp(const bool aNtp);
     void setTime(const QDateTime& aTime);

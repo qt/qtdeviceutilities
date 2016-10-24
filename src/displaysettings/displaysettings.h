@@ -42,7 +42,7 @@ class Q_DECL_EXPORT DisplaySettings : public QObject
     Q_PROPERTY(bool physicalScreenSizeOverride READ physicalScreenSizeOverride WRITE setPhysicalScreenSizeOverride NOTIFY physicalScreenSizeOverrideChanged)
 
 public:
-    DisplaySettings(QObject *parent = 0);
+    DisplaySettings(QObject *parent = Q_NULLPTR);
     ~DisplaySettings();
 
     int displayBrightness();
