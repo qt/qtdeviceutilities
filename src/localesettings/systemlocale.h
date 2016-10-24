@@ -41,9 +41,9 @@ public:
     explicit SystemLocale(QObject *parent = Q_NULLPTR);
     QString locale() const;
     void setLocale(const QString& aLocale);
-signals:
+Q_SIGNALS:
     void localeChanged();
-public slots:
+public Q_SLOTS:
 
 protected:
     SystemLocalePrivate *d_ptr;

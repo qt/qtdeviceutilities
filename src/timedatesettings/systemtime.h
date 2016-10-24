@@ -49,12 +49,12 @@ public:
     QDateTime time() const;
     void setTimeZone(const QString& aTimeZone);
 
-signals:
+Q_SIGNALS:
     void timeZoneChanged();
     void ntpChanged();
     void timeChanged();
 
-public slots:
+public Q_SLOTS:
 
 protected:
     SystemTimePrivate *d_ptr;

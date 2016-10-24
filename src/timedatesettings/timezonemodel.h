@@ -72,7 +72,7 @@ public:
 
     static void generateModel(TimezoneModel* model);
 
-private slots:
+private Q_SLOTS:
     void addNewItem(QObject* item);
 
 private:

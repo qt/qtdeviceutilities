@@ -50,11 +50,11 @@ public:
     Q_INVOKABLE void requestPairing(const QString& address);
     Q_INVOKABLE void requestConnect(const QString& address);
     Q_INVOKABLE void requestDisconnect(const QString& address);
-signals:
+Q_SIGNALS:
     void poweredChanged();
     void scanningChanged();
 
-public slots:
+public Q_SLOTS:
     void deviceStateChanged(QBluetoothLocalDevice::HostMode state);
     void scanFinished();
     //These are not yet signaled

@@ -74,10 +74,10 @@ public:
 
     static void generateModel(LocaleModel* model);
 
-signals:
+Q_SIGNALS:
     void addItem(LocaleItem* item);
 
-private slots:
+private Q_SLOTS:
     void addNewItem(QObject* item);
     void modelReady();
 

@@ -65,7 +65,7 @@ public:
     bool connected() const;
     void setConnected(bool aConnected);
 
-signals:
+Q_SIGNALS:
     void connectedChanged();
 
 protected:
@@ -106,10 +106,10 @@ public:
         Connected
     };
 
-signals:
+Q_SIGNALS:
     void scanFinished();
 
-private slots:
+private Q_SLOTS:
     void deviceDiscovered(const QBluetoothDeviceInfo &device);
 private:
     QList<BtDeviceItem*> m_items;

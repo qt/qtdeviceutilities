@@ -57,7 +57,7 @@ public:
     bool sendCommand(const QString &command, QByteArray *reply);
     static QString decodeSsid(const QString &encoded);
 
-signals:
+Q_SIGNALS:
     void raiseError(const QString& error);
 
 protected:

@@ -44,7 +44,7 @@ public:
     void setStringList(const QStringList &addresses);
     int count() const;
 
-signals:
+Q_SIGNALS:
     void countChanged();
 private:
     QStringList m_addresses;

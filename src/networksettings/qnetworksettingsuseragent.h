@@ -43,7 +43,7 @@ public:
     QString passPhrase() const;
     QString userName() const;
 
-signals:
+Q_SIGNALS:
     void showUserCredentialsInput();
     void error();
     void ready(bool cancel);

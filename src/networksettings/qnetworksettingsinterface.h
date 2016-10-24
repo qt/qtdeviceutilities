@@ -50,7 +50,7 @@ public:
     void setPowered(const bool powered);
     Q_INVOKABLE void scanServices();
 
-signals:
+Q_SIGNALS:
     void nameChanged();
     void stateChanged();
     void typeChanged();

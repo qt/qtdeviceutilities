@@ -74,7 +74,7 @@ public:
     QNetworkSettingsType::Types type() const;
     void setType(QNetworkSettingsType::Types type);
     Q_INVOKABLE QVariant itemFromRow(const int row) const;
-signals:
+Q_SIGNALS:
     void typeChanged();
 private:
     QNetworkSettingsType::Types m_type;

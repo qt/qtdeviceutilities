@@ -42,7 +42,7 @@ public:
     QString filter() const;
     void setFilter(const QString& aFilter);
     Q_INVOKABLE QVariant itemFromRow(const int row) const;
-signals:
+Q_SIGNALS:
     void filterChanged();
 private:
     QString m_filter;

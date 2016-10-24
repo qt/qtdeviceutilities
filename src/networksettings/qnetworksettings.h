@@ -61,10 +61,10 @@ public:
 
     void setState(const States state) {
         m_state = state;
-        emit stateChanged();
+        Q_EMIT stateChanged();
     }
 
-signals:
+Q_SIGNALS:
     void stateChanged();
 
 private:
@@ -104,10 +104,10 @@ public:
 
     void setType(const Types type) {
         m_type = type;
-        emit typeChanged();
+        Q_EMIT typeChanged();
     }
 
-signals:
+Q_SIGNALS:
     void typeChanged();
 
 private:
@@ -137,7 +137,7 @@ public:
     }
     void setAddress(const QString& adderess) {
         m_address = adderess;
-        emit addressChanged();
+        Q_EMIT addressChanged();
     }
 
     QString gateway() const {
@@ -146,7 +146,7 @@ public:
 
     void setGateway(const QString& gateway) {
         m_gateway = gateway;
-        emit gatewayChanged();
+        Q_EMIT gatewayChanged();
     }
 
     MethodType method() const {
@@ -155,7 +155,7 @@ public:
 
     void setMethod(const MethodType method) {
         m_method = method;
-        emit methodChanged();
+        Q_EMIT methodChanged();
     }
 
     QString mask() const {
@@ -164,10 +164,10 @@ public:
 
     void setMask(const QString& mask) {
         m_mask = mask;
-        emit maskChanged();
+        Q_EMIT maskChanged();
     }
 
-signals:
+Q_SIGNALS:
     void addressChanged();
     void gatewayChanged();
     void methodChanged();
@@ -206,7 +206,7 @@ public:
     }
     void setAddress(const QString& adderess) {
         m_address = adderess;
-        emit addressChanged();
+        Q_EMIT addressChanged();
     }
 
     QString gateway() const {
@@ -215,7 +215,7 @@ public:
 
     void setGateway(const QString& gateway) {
         m_gateway = gateway;
-        emit gatewayChanged();
+        Q_EMIT gatewayChanged();
     }
 
     MethodType method() const {
@@ -224,7 +224,7 @@ public:
 
     void setMethod(const MethodType method) {
         m_method = method;
-        emit methodChanged();
+        Q_EMIT methodChanged();
     }
 
     PrivacyType privacy() const {
@@ -233,7 +233,7 @@ public:
 
     void setPrivacy(const PrivacyType privacy) {
         m_privacy = privacy;
-        emit privacyChanged();
+        Q_EMIT privacyChanged();
     }
 
     int prefixLength() const {
@@ -242,10 +242,10 @@ public:
 
     void setPrefixLength(const int& prefixLength) {
         m_prefixLength = prefixLength;
-        emit prefixLengthChanged();
+        Q_EMIT prefixLengthChanged();
     }
 
-signals:
+Q_SIGNALS:
     void addressChanged();
     void gatewayChanged();
     void methodChanged();
@@ -284,7 +284,7 @@ public:
 
     void setUrl(const QUrl& url) {
         m_url = url;
-        emit urlChanged();
+        Q_EMIT urlChanged();
     }
 
     QAbstractItemModel* servers(void) {
@@ -293,7 +293,7 @@ public:
 
     void setServers(const QStringList& servers) {
         m_servers.setStringList(servers);
-        emit serversChanged();
+        Q_EMIT serversChanged();
     }
 
     QStringList servers() const {
@@ -310,7 +310,7 @@ public:
 
     void setExcludes(const QStringList& excludes) {
         m_excludes.setStringList(excludes);
-        emit excludesChanged();
+        Q_EMIT excludesChanged();
     }
 
     MethodType method(void) const {
@@ -319,10 +319,10 @@ public:
 
     void setMethod(const MethodType& method) {
         m_method = method;
-        emit methodChanged();
+        Q_EMIT methodChanged();
     }
 
-signals:
+Q_SIGNALS:
     void urlChanged();
     void serversChanged();
     void excludesChanged();
@@ -360,7 +360,7 @@ public:
 
     void setHidden(const bool hidden) {
         m_hidden = hidden;
-        emit hiddenChanged();
+        Q_EMIT hiddenChanged();
     }
 
     int signalStrength() const {
@@ -369,7 +369,7 @@ public:
 
     void setSignalStrength(const int signalStrength) {
         m_signalStrength = signalStrength;
-        emit signalStrengthChanged();
+        Q_EMIT signalStrengthChanged();
     }
 
     void setSecurity(const SecurityFlags security) {
@@ -383,14 +383,14 @@ public:
 
     void setOutOfRange(const bool aOutOfRange) {
         m_isOutOfRange = aOutOfRange;
-        emit outOfRangeChanged();
+        Q_EMIT outOfRangeChanged();
     }
 
     bool outOfRange() const {
         return m_isOutOfRange;
     }
 
-signals:
+Q_SIGNALS:
     void hiddenChanged();
     void signalStrengthChanged();
     void passwordChanged();

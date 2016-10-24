@@ -54,7 +54,7 @@ public Q_SLOTS:
     void setPhysicalScreenSizeInch(int inches);
     void setPhysicalScreenSizeOverride(bool enable);
 
-signals:
+Q_SIGNALS:
     void displayBrightnessChanged(int newValue);
     void physicalScreenSizeInchChanged(int newInches);
     void physicalScreenSizeOverrideChanged(bool newValue);
