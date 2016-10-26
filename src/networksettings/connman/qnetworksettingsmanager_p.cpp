@@ -37,6 +37,11 @@
 QNetworkSettingsManagerPrivate::QNetworkSettingsManagerPrivate(QNetworkSettingsManager *parent)
     :QObject(parent)
     ,q_ptr(parent)
+    , m_interfaceModel(Q_NULLPTR)
+    , m_serviceModel(Q_NULLPTR)
+    , m_serviceFilter(Q_NULLPTR)
+    , m_manager(Q_NULLPTR)
+    , m_agent(Q_NULLPTR)
 {
     qDBusRegisterMetaType<ConnmanMapStruct>();
     qDBusRegisterMetaType<ConnmanMapStructList>();
