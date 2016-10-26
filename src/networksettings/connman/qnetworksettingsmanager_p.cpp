@@ -59,13 +59,13 @@ QNetworkSettingsManagerPrivate::QNetworkSettingsManagerPrivate(QNetworkSettingsM
         //List technologies
         QDBusPendingReply<ConnmanMapStructList> reply = m_manager->GetTechnologies();
         QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(reply, this);
-        connect(watcher, SIGNAL(finished(QDBusPendingCallWatcher*)),
-                this, SLOT(getTechnologiesFinished(QDBusPendingCallWatcher*)));
+        connect(watcher, &QDBusPendingCallWatcher::finished,
+                this, &QNetworkSettingsManagerPrivate::getTechnologiesFinished);
 
         reply = m_manager->GetServices();
         watcher = new QDBusPendingCallWatcher(reply, this);
-        connect(watcher, SIGNAL(finished(QDBusPendingCallWatcher*)),
-               this, SLOT(getServicesFinished(QDBusPendingCallWatcher*)));
+        connect(watcher, &QDBusPendingCallWatcher::finished,
+               this, &QNetworkSettingsManagerPrivate::getServicesFinished);
 
         connect(m_manager, &NetConnmanManagerInterface::ServicesChanged, this, &QNetworkSettingsManagerPrivate::onServicesChanged);
 
