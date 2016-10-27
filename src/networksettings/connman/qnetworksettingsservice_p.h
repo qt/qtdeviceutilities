@@ -29,10 +29,11 @@
 #ifndef QNETWORKSETTINGSSERVICEPRIVATE_H
 #define QNETWORKSETTINGSSERVICEPRIVATE_H
 
-#include <QtDBus>
 #include "qnetworksettingsservice.h"
 #include "qnetworksettings.h"
 
+class QDBusPendingCallWatcher;
+class QDBusVariant;
 class NetConnmanServiceInterface;
 
 class QNetworkSettingsServicePrivate : public QObject
