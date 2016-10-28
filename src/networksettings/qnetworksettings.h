@@ -98,7 +98,7 @@ public:
     enum MethodType {Dhcp, Manual, Off};
 
     QString address() const;
-    void setAddress(const QString& adderess);
+    void setAddress(const QString& address);
     QString gateway() const;
     void setGateway(const QString& gateway);
     MethodType method() const;
@@ -137,7 +137,7 @@ public:
     enum PrivacyType {Disabled, Enabled, Preferred};
 
     QString address() const;
-    void setAddress(const QString& adderess);
+    void setAddress(const QString& address);
     QString gateway() const;
     void setGateway(const QString& gateway);
     MethodType method() const;

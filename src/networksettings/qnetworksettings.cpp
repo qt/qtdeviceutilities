@@ -79,8 +79,8 @@ QNetworkSettingsIPv4::QNetworkSettingsIPv4(QObject *parent)
 QString QNetworkSettingsIPv4::address() const {
     return m_address;
 }
-void QNetworkSettingsIPv4::setAddress(const QString& adderess) {
-    m_address = adderess;
+void QNetworkSettingsIPv4::setAddress(const QString& address) {
+    m_address = address;
     emit addressChanged();
 }
 
@@ -120,8 +120,8 @@ QString QNetworkSettingsIPv6::address() const {
     return m_address;
 }
 
-void QNetworkSettingsIPv6::setAddress(const QString& adderess) {
-    m_address = adderess;
+void QNetworkSettingsIPv6::setAddress(const QString& address) {
+    m_address = address;
     emit addressChanged();
 }
 
