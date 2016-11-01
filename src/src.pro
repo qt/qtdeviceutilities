@@ -2,7 +2,6 @@ TEMPLATE = subdirs
 CONFIG += ordered
 SUBDIRS += \
     networksettings \
-    bluetoothsettings \
     localesettings \
     displaysettings \
     timedatesettings \
@@ -11,3 +10,5 @@ SUBDIRS += \
     settingsui \
     imports \
     doc \
+
+qtHaveModule(bluetooth): SUBDIRS += bluetoothsettings

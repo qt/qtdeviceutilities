@@ -1,7 +1,8 @@
 TEMPLATE = subdirs
 SUBDIRS += networksettings \
-    bluetoothsettings \
     localesettings \
     timedatesettings \
     localdevice \
     displaysettings
+
+qtHaveModule(bluetooth): SUBDIRS += bluetoothsettings
