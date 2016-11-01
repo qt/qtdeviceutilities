@@ -35,24 +35,27 @@
 
 QT_FORWARD_DECLARE_CLASS(QNetworkSettingsManagerPrivate)
 QT_FORWARD_DECLARE_CLASS(QNetworkSettingsService)
+QT_FORWARD_DECLARE_CLASS(QNetworkSettingsServiceModel)
 QT_FORWARD_DECLARE_CLASS(QNetworkSettingsUserAgent)
+QT_FORWARD_DECLARE_CLASS(QNetworkSettingsServiceFilter)
+QT_FORWARD_DECLARE_CLASS(QNetworkSettingsInterfaceModel)
 
 class Q_DECL_EXPORT QNetworkSettingsManager : public QObject
 {
     Q_OBJECT
     Q_ENUMS(StateTypes NetworkTypeTypes)
-    Q_PROPERTY(QAbstractItemModel* services READ services NOTIFY servicesChanged)
-    Q_PROPERTY(QAbstractItemModel* interfaces READ interfaces NOTIFY interfacesChanged)
+    Q_PROPERTY(QNetworkSettingsServiceFilter* services READ services NOTIFY servicesChanged)
+    Q_PROPERTY(QNetworkSettingsInterfaceModel* interfaces READ interfaces NOTIFY interfacesChanged)
     Q_PROPERTY(QNetworkSettingsUserAgent* userAgent READ userAgent CONSTANT)
 
 public:
     explicit QNetworkSettingsManager(QObject* parent = Q_NULLPTR);
-    QAbstractItemModel* services();
-    QAbstractItemModel* interfaces();
+    QNetworkSettingsServiceFilter* services();
+    QNetworkSettingsInterfaceModel* interfaces();
     void setUserAgent(QNetworkSettingsUserAgent *agent);
     QNetworkSettingsUserAgent* userAgent();
 
-    Q_INVOKABLE QNetworkSettingsService* getService(const QString& name, const int type);
+    Q_INVOKABLE QNetworkSettingsService* service(const QString& name, const int type);
 
 Q_SIGNALS:
     void servicesChanged();

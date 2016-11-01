@@ -166,12 +166,11 @@ class Q_DECL_EXPORT QNetworkSettingsProxy   : public QObject
 {
     Q_OBJECT
     Q_ENUMS(MethodType)
-public:
     Q_PROPERTY(QUrl url READ url WRITE setUrl NOTIFY urlChanged)
     Q_PROPERTY(QAbstractItemModel* servers READ servers NOTIFY serversChanged)
     Q_PROPERTY(QAbstractItemModel* excludes READ excludes NOTIFY excludesChanged)
     Q_PROPERTY(MethodType method READ method WRITE setMethod NOTIFY methodChanged)
-
+public:
     explicit QNetworkSettingsProxy(QObject *parent = Q_NULLPTR);
 
     enum MethodType {Direct, Auto, Manual};
@@ -202,6 +201,7 @@ private:
 class Q_DECL_EXPORT QNetworkSettingsWireless : public QObject
 {
     Q_OBJECT
+    Q_ENUMS(SecurityFlags)
     Q_PROPERTY(int signalStrength READ signalStrength WRITE setSignalStrength NOTIFY signalStrengthChanged)
     Q_PROPERTY(bool hidden READ hidden NOTIFY hiddenChanged)
     Q_PROPERTY(bool isOutOfRange READ outOfRange WRITE setOutOfRange NOTIFY outOfRangeChanged)

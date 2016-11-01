@@ -362,6 +362,7 @@ void QNetworkSettingsServicePrivate::updateProperty(const QString& key, const QV
     else if (key == PropertyType) {
         QString value = qdbus_cast<QString>(val);
         value >> m_type;
+        emit q->typeChanged();
     }
     else if (key == PropertyStrength) {
         m_wifiConfig.setSignalStrength(val.toInt());

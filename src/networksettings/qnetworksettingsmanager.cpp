@@ -39,19 +39,19 @@ QNetworkSettingsManager::QNetworkSettingsManager(QObject *parent) :
 {
 }
 
-QAbstractItemModel* QNetworkSettingsManager::services()
+QNetworkSettingsServiceFilter *QNetworkSettingsManager::services()
 {
     Q_D(QNetworkSettingsManager);
     return d->m_serviceFilter;
 }
 
-QAbstractItemModel* QNetworkSettingsManager::interfaces()
+QNetworkSettingsInterfaceModel *QNetworkSettingsManager::interfaces()
 {
     Q_D(QNetworkSettingsManager);
     return &d->m_interfaceModel;
 }
 
-QNetworkSettingsService* QNetworkSettingsManager::getService(const QString& name, const int type)
+QNetworkSettingsService* QNetworkSettingsManager::service(const QString& name, const int type)
 {
     Q_D(QNetworkSettingsManager);
 

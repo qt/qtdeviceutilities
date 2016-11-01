@@ -70,7 +70,7 @@ private:
     QHash<int, QByteArray> m_roleNames;
 };
 
-class QNetworkSettingsServiceFilter : public QSortFilterProxyModel
+class Q_DECL_EXPORT QNetworkSettingsServiceFilter : public QSortFilterProxyModel
 {
     Q_OBJECT
     Q_PROPERTY(QNetworkSettingsType::Types type READ type WRITE setType NOTIFY typeChanged)
