@@ -1,5 +1,8 @@
 TEMPLATE = subdirs
 CONFIG += ordered
+
+qtHaveModule(bluetooth): SUBDIRS += bluetoothsettings
+
 SUBDIRS += \
     networksettings \
     localesettings \
@@ -10,5 +13,3 @@ SUBDIRS += \
     settingsui \
     imports \
     doc \
-
-qtHaveModule(bluetooth): SUBDIRS += bluetoothsettings
