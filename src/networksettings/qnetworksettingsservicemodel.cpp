@@ -78,6 +78,7 @@ QVariant QNetworkSettingsServiceModel::data(const QModelIndex & index, int role)
 void QNetworkSettingsServiceModel::append(QNetworkSettingsService* item)
 {
     item->setParent(this);
+    connectStateChanges(item);
 
     beginResetModel();
     m_items.append(item);
@@ -87,14 +88,24 @@ void QNetworkSettingsServiceModel::append(QNetworkSettingsService* item)
 void QNetworkSettingsServiceModel::insert(int row, QNetworkSettingsService* item)
 {
     item->setParent(this);
-
+    connectStateChanges(item);
     beginInsertRows(QModelIndex(), row, row);
     m_items.insert(row, item);
     endInsertRows();
 }
 
+void QNetworkSettingsServiceModel::connectStateChanges(QNetworkSettingsService* item)
+{
+    connect(item, &QNetworkSettingsService::stateChanged, this, &QNetworkSettingsServiceModel::connectionStatusChanged);
+    QNetworkSettingsWireless* wireless = item->wirelessConfig();
+    if (wireless)
+        connect(wireless, &QNetworkSettingsWireless::signalStrengthChanged, this, &QNetworkSettingsServiceModel::signalStrengthChanged);
+}
+
 void QNetworkSettingsServiceModel::remove(int row)
 {
+    QNetworkSettingsService* item = m_items.at(row);
+    item->deleteLater();
     beginRemoveRows(QModelIndex(), row, row);
     m_items.removeAt(row);
     endRemoveRows();
@@ -121,6 +132,34 @@ void QNetworkSettingsServiceModel::updated(int row)
 QList<QNetworkSettingsService*> QNetworkSettingsServiceModel::getModel()
 {
     return m_items;
+}
+
+void QNetworkSettingsServiceModel::connectionStatusChanged()
+{
+    QNetworkSettingsService *s = qobject_cast<QNetworkSettingsService*>(sender());
+
+    int row = 0;
+    foreach (QNetworkSettingsService* item, m_items) {
+        if (item == s) {
+            updated(row);
+            break;
+        }
+        row++;
+    }
+
+}
+
+void QNetworkSettingsServiceModel::signalStrengthChanged()
+{
+    QNetworkSettingsWireless *s = qobject_cast<QNetworkSettingsWireless*>(sender());
+    int row = 0;
+    foreach (QNetworkSettingsService* item, m_items) {
+        if (item->wirelessConfig() == s) {
+            updated(row);
+            break;
+        }
+        row++;
+    }
 }
 
 //Filter model
@@ -200,3 +239,26 @@ QVariant QNetworkSettingsServiceFilter::itemFromRow(const int row) const
     return QVariant::fromValue(QStringLiteral(""));
 }
 
+/*!
+    \qmlmethod int NetworkSettingsServiceFilter::activeRow()
+
+    Returns the connected service index in the model.
+    Returns negative number if no active connection is available.
+*/
+int QNetworkSettingsServiceFilter::activeRow() const
+{
+    QNetworkSettingsServiceModel* model = qobject_cast<QNetworkSettingsServiceModel*>(sourceModel());
+    QList<QNetworkSettingsService*> data = model->getModel();
+    int row = 0;
+    foreach (QNetworkSettingsService* item, data) {
+        if (item->type() == m_type &&
+                (item->state() == QNetworkSettingsState::Ready ||
+                 item->state() == QNetworkSettingsState::Online)) {
+            QModelIndex idx = model->index(row, 0);
+            QModelIndex mapped = mapFromSource(idx);
+            return mapped.row();
+        }
+        row++;
+    }
+    return -1;
+}

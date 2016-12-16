@@ -29,10 +29,11 @@
 #ifndef QNETWORKSETTINGSSERVICEPRIVATE_H
 #define QNETWORKSETTINGSSERVICEPRIVATE_H
 
-#include <QtDBus>
 #include "qnetworksettingsservice.h"
 #include "qnetworksettings.h"
 
+class QDBusPendingCallWatcher;
+class QDBusVariant;
 class NetConnmanServiceInterface;
 
 class QNetworkSettingsServicePrivate : public QObject
@@ -40,7 +41,7 @@ class QNetworkSettingsServicePrivate : public QObject
     Q_OBJECT
     Q_DECLARE_PUBLIC(QNetworkSettingsService)
 public:
-    QNetworkSettingsServicePrivate(const QString& aPath, QNetworkSettingsService *parent = nullptr);
+    QNetworkSettingsServicePrivate(const QString& aPath, QNetworkSettingsService *parent = Q_NULLPTR);
 
     QNetworkSettingsService *q_ptr;
 private slots:

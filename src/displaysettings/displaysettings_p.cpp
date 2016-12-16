@@ -74,7 +74,6 @@ void DisplaySettingsPrivate::initLightDevices()
 
 bool DisplaySettingsPrivate::setDisplayBrightness(int v)
 {
-    Q_Q(DisplaySettings);
     quint8 value = qBound(0, v, 255);
     initLightDevices();
     for (int i = 0; i < m_lightDevices.size(); i++) {

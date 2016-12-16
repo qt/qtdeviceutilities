@@ -37,6 +37,11 @@
 QNetworkSettingsManagerPrivate::QNetworkSettingsManagerPrivate(QNetworkSettingsManager *parent)
     :QObject(parent)
     ,q_ptr(parent)
+    , m_interfaceModel(Q_NULLPTR)
+    , m_serviceModel(Q_NULLPTR)
+    , m_serviceFilter(Q_NULLPTR)
+    , m_manager(Q_NULLPTR)
+    , m_agent(Q_NULLPTR)
 {
     qDBusRegisterMetaType<ConnmanMapStruct>();
     qDBusRegisterMetaType<ConnmanMapStructList>();
@@ -54,13 +59,13 @@ QNetworkSettingsManagerPrivate::QNetworkSettingsManagerPrivate(QNetworkSettingsM
         //List technologies
         QDBusPendingReply<ConnmanMapStructList> reply = m_manager->GetTechnologies();
         QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(reply, this);
-        connect(watcher, SIGNAL(finished(QDBusPendingCallWatcher*)),
-                this, SLOT(getTechnologiesFinished(QDBusPendingCallWatcher*)));
+        connect(watcher, &QDBusPendingCallWatcher::finished,
+                this, &QNetworkSettingsManagerPrivate::getTechnologiesFinished);
 
         reply = m_manager->GetServices();
         watcher = new QDBusPendingCallWatcher(reply, this);
-        connect(watcher, SIGNAL(finished(QDBusPendingCallWatcher*)),
-               this, SLOT(getServicesFinished(QDBusPendingCallWatcher*)));
+        connect(watcher, &QDBusPendingCallWatcher::finished,
+               this, &QNetworkSettingsManagerPrivate::getServicesFinished);
 
         connect(m_manager, &NetConnmanManagerInterface::ServicesChanged, this, &QNetworkSettingsManagerPrivate::onServicesChanged);
 
@@ -93,25 +98,7 @@ void QNetworkSettingsManagerPrivate::getServicesFinished(QDBusPendingCallWatcher
 
     foreach (const ConnmanMapStruct &object, reply.value()) {
         const QString servicePath = object.objectPath.path();
-        QNetworkSettingsService *service = new QNetworkSettingsService(servicePath, this);
-        m_serviceModel->append(service);
-
-        //Update status property
-        QString n = qdbus_cast<QString>(object.propertyMap[PropertyName]);
-        QString t = qdbus_cast<QString>(object.propertyMap[PropertyType]);
-        QString s = qdbus_cast<QString>(object.propertyMap[PropertyState]);
-
-        QNetworkSettingsType type;
-        t >> type;
-        QNetworkSettingsState state;
-        s >> state;
-
-        foreach (QNetworkSettingsInterface* item, m_interfaceModel.getModel()) {
-            ConnmanSettingsInterface* technology = qobject_cast<ConnmanSettingsInterface*>(item);
-            if (technology->name() == n && technology->type() == type.type()) {
-                technology->setState(state.state());
-            }
-        }
+        handleNewService(servicePath);
     }
     emit q->servicesChanged();
 }
@@ -156,13 +143,51 @@ void QNetworkSettingsManagerPrivate::onServicesChanged(ConnmanMapStructList chan
         if (!found)
             newServices.append(map.objectPath.path());
     }
+
     foreach (QString newService, newServices) {
-        QNetworkSettingsService *service = new QNetworkSettingsService(newService, this);
+        handleNewService(newService);
+    }
+}
+
+void QNetworkSettingsManagerPrivate::handleNewService(const QString &servicePath)
+{
+    Q_Q(QNetworkSettingsManager);
+
+    QNetworkSettingsService *service = new QNetworkSettingsService(servicePath, this);
+
+    if (service->name().length() > 0 && service->type() != QNetworkSettingsType::Unknown) {
         m_serviceModel->append(service);
+        emit q->servicesChanged();
+    }
+    else {
+        //Service name or type not set, wait for update
+        connect(service, &QNetworkSettingsService::nameChanged, this, &QNetworkSettingsManagerPrivate::serviceReady);
+        connect(service, &QNetworkSettingsService::typeChanged, this, &QNetworkSettingsManagerPrivate::serviceReady);
     }
 }
 
 void QNetworkSettingsManagerPrivate::setUserAgent(QNetworkSettingsUserAgent *agent)
 {
     m_agent = agent;
+}
+
+void QNetworkSettingsManagerPrivate::serviceReady()
+{
+    Q_Q(QNetworkSettingsManager);
+
+    QNetworkSettingsService* service = qobject_cast<QNetworkSettingsService*>(sender());
+    if (service->name().length() > 0 && service->type() != QNetworkSettingsType::Unknown) {
+        service->disconnect(this);
+        m_serviceModel->append(service);
+        emit q->servicesChanged();
+
+        //Update the interface state accordingly
+        foreach (QNetworkSettingsInterface* item, m_interfaceModel.getModel()) {
+            ConnmanSettingsInterface* technology = qobject_cast<ConnmanSettingsInterface*>(item);
+            if (technology->name() == service->name() && technology->type() == service->type()) {
+                technology->setState(technology->state());
+            }
+        }
+
+    }
 }

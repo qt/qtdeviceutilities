@@ -33,6 +33,7 @@
 
 QNetworkSettingsInterfacePrivate::QNetworkSettingsInterfacePrivate(QNetworkSettingsInterface* parent)
     : QObject(parent)
+    , m_technology(Q_NULLPTR)
     ,q_ptr(parent)
 {
 

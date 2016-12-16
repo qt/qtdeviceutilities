@@ -36,7 +36,7 @@ class Q_DECL_EXPORT QLocalDevice : public QObject
     Q_OBJECT
 
 public:
-    QLocalDevice(QObject *parent = nullptr);
+    QLocalDevice(QObject *parent = Q_NULLPTR);
     ~QLocalDevice();
 
 public Q_SLOTS:

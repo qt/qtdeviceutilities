@@ -36,7 +36,7 @@ class OrgBluezDevice1Interface;
 class BluetoothDevicePrivate : public QObject
 {
 public:
-    explicit BluetoothDevicePrivate(const QString& address, QObject *parent = nullptr);
+    explicit BluetoothDevicePrivate(const QString& address, QObject *parent = Q_NULLPTR);
     void connectDevice();
     void disconnectDevice();
 

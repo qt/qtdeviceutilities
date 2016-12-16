@@ -1,8 +1,10 @@
 TEMPLATE = subdirs
 CONFIG += ordered
+
+qtHaveModule(bluetooth): SUBDIRS += bluetoothsettings
+
 SUBDIRS += \
     networksettings \
-    bluetoothsettings \
     localesettings \
     displaysettings \
     timedatesettings \

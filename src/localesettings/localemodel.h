@@ -41,7 +41,7 @@ class LocaleItem : public QObject
     Q_PROPERTY(QString country READ country CONSTANT)
     Q_PROPERTY(QString language READ language CONSTANT)
 public:
-    explicit LocaleItem(const QLocale &locale, QObject *parent = nullptr);
+    explicit LocaleItem(const QLocale &locale, QObject *parent = Q_NULLPTR);
     QString country() const;
     QString language() const;
     QString code() const;
@@ -57,7 +57,7 @@ class Q_DECL_EXPORT LocaleModel : public QAbstractListModel
     Q_OBJECT
 
 public:
-    explicit LocaleModel(QObject *parent = nullptr);
+    explicit LocaleModel(QObject *parent = Q_NULLPTR);
     virtual ~LocaleModel();
     // from QAbstractItemModel
     int rowCount(const QModelIndex & parent = QModelIndex()) const;

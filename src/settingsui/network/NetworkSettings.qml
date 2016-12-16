@@ -33,13 +33,15 @@ import QtDeviceUtilities.NetworkSettings 1.0
 
 Item {
     property string title: qsTr("Network Settings")
+
     GroupBox {
         id: networkSelect
         anchors.rightMargin: parent.width * 0.618
+        anchors.left: parent.left
         anchors.leftMargin: 20
+        anchors.top: parent.top
         anchors.topMargin: 20
-        anchors.bottomMargin: 20
-        anchors.fill: parent
+
         title: qsTr("Select Connection")
 
         function stateToStr(serviceState) {

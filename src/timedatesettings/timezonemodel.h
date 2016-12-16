@@ -41,7 +41,7 @@ class TimezoneItem : public QObject
     Q_PROPERTY(QString name READ name CONSTANT)
     Q_PROPERTY(QString country READ country CONSTANT)
 public:
-    explicit TimezoneItem(const QByteArray& id, QObject *parent = nullptr);
+    explicit TimezoneItem(const QByteArray& id, QObject *parent = Q_NULLPTR);
     QString name() const;
     QString country() const;
     QString id() const;
@@ -57,7 +57,7 @@ class Q_DECL_EXPORT TimezoneModel : public QAbstractListModel
     Q_OBJECT
 
 public:
-    explicit TimezoneModel(QObject *parent = nullptr);
+    explicit TimezoneModel(QObject *parent = Q_NULLPTR);
     virtual ~TimezoneModel();
     // from QAbstractItemModel
     int rowCount(const QModelIndex & parent = QModelIndex()) const;

@@ -31,6 +31,8 @@
 #include <qnetworksettingsmanager.h>
 #include <qnetworksettingsservice.h>
 #include <qnetworksettingsuseragent.h>
+#include <qnetworksettingsservicemodel.h>
+#include <qnetworksettingsinterfacemodel.h>
 
 #include <qqml.h>
 #include <QQmlEngine>
@@ -44,7 +46,7 @@
     \brief Provides singleton QML types for controlling network settings.
 
     Provides singleton QML types for controlling network settings in an
-    embedded device.
+    embedded device.QAbstractItemModel
 
     Import the module as follows:
 
@@ -106,7 +108,7 @@
 */
 
 /*!
-    \qmlmethod NetworkService NetworkSettingsManager::getService(string name, int type)
+    \qmlmethod NetworkService NetworkSettingsManager::service(string name, int type)
 
     Returns the service with name \a name and type \a type.
 
@@ -161,5 +163,8 @@ void NetworksettingspluginPlugin::registerTypes(const char *uri)
     qmlRegisterUncreatableType<QNetworkSettingsState>(uri, 1, 0, "NetworkSettingsState", "Cannot be instantiated directly.");
 
     qRegisterMetaType<QNetworkSettingsUserAgent*>("QNetworkSettingsUserAgent*");
+    qRegisterMetaType<QNetworkSettingsServiceFilter*>("QNetworkSettingsServiceFilter*");
+    qRegisterMetaType<QNetworkSettingsInterfaceModel*>("QNetworkSettingsInterfaceModel*");
+
     qmlRegisterSingletonType<QNetworkSettingsManager>(uri, 1, 0, "NetworkSettingsManager", &instance<QNetworkSettingsManager>);
 }

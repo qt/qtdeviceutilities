@@ -64,7 +64,7 @@ public:
         QStringList newLocale;
         QMap<QString, QString>::iterator i;
         for (i = m_localeCache.begin(); i != m_localeCache.end(); ++i) {
-            QString val = i.key() + "=" + i.value();
+            QString val = i.key() + QLatin1String("=") + i.value();
             newLocale.append(val);
         }
         m_localeInterface->SetLocale(newLocale, true);

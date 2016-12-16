@@ -37,7 +37,7 @@ class Q_DECL_EXPORT QNetworkSettingsServiceModel : public QAbstractListModel
 {
     Q_OBJECT
 public:
-    explicit QNetworkSettingsServiceModel(QObject *parent = nullptr);
+    explicit QNetworkSettingsServiceModel(QObject *parent = Q_NULLPTR);
     virtual ~QNetworkSettingsServiceModel();
     // from QAbstractItemModel
     int rowCount(const QModelIndex & parent = QModelIndex()) const;
@@ -58,22 +58,30 @@ public:
         Connected
     };
 
+
+private Q_SLOTS:
+    void connectionStatusChanged();
+    void signalStrengthChanged();
+
 private:
+    void connectStateChanges(QNetworkSettingsService* item);
+
     QList<QNetworkSettingsService*> m_items;
     QHash<int, QByteArray> m_roleNames;
 };
 
-class QNetworkSettingsServiceFilter : public QSortFilterProxyModel
+class Q_DECL_EXPORT QNetworkSettingsServiceFilter : public QSortFilterProxyModel
 {
     Q_OBJECT
     Q_PROPERTY(QNetworkSettingsType::Types type READ type WRITE setType NOTIFY typeChanged)
 public:
-    explicit QNetworkSettingsServiceFilter(QObject* parent = nullptr);
+    explicit QNetworkSettingsServiceFilter(QObject* parent = Q_NULLPTR);
     virtual ~QNetworkSettingsServiceFilter();
     bool filterAcceptsRow( int source_row, const QModelIndex& source_parent ) const override;
     QNetworkSettingsType::Types type() const;
     void setType(QNetworkSettingsType::Types type);
     Q_INVOKABLE QVariant itemFromRow(const int row) const;
+    Q_INVOKABLE int activeRow() const;
 Q_SIGNALS:
     void typeChanged();
 private:

@@ -49,7 +49,7 @@ class Q_DECL_EXPORT QNetworkSettingsService : public QObject
     Q_PROPERTY(QAbstractItemModel* domains READ domains NOTIFY domainsChanged)
     Q_PROPERTY(QAbstractItemModel* nameservers READ nameservers NOTIFY nameserversChanged)
 public:
-    explicit QNetworkSettingsService(const QString& aServiceId, QObject* parent = nullptr);
+    explicit QNetworkSettingsService(const QString& aServiceId, QObject* parent = Q_NULLPTR);
 
     QString id() const;
     QString name() const;

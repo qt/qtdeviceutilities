@@ -51,7 +51,7 @@ public:
     void disconnectNetwork();
     QString call(const QString &command);
     bool checkedCall(const QString &command);
-    QNetworkSettingsUserAgent *getUserAgent() {return m_agent;}
+    QNetworkSettingsUserAgent *userAgent() {return m_agent;}
 protected:
     bool event(QEvent *event);
 
