@@ -34,6 +34,8 @@
 #include <QLocale>
 #include <QMutex>
 
+QT_BEGIN_NAMESPACE
+
 class LocaleItem : public QObject
 {
     Q_OBJECT
@@ -85,4 +87,7 @@ private:
     QList<LocaleItem*> m_items;
     QHash<int, QByteArray> m_roleNames;
 };
+
+QT_END_NAMESPACE
+
 #endif // LOCALEMODEL_H

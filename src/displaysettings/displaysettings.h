@@ -31,6 +31,8 @@
 
 #include <qobject.h>
 
+QT_BEGIN_NAMESPACE
+
 class DisplaySettingsPrivate;
 
 class Q_DECL_EXPORT DisplaySettings : public QObject
@@ -65,5 +67,7 @@ protected:
     Q_DISABLE_COPY(DisplaySettings)
     Q_DECLARE_PRIVATE(DisplaySettings)
 };
+
+QT_END_NAMESPACE
 
 #endif // DISPLAYSETTINGS_H

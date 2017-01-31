@@ -32,6 +32,8 @@
 #include <QObject>
 #include <QTime>
 
+QT_BEGIN_NAMESPACE
+
 class SystemTimePrivate;
 
 class Q_DECL_EXPORT SystemTime : public QObject
@@ -62,5 +64,7 @@ protected:
     Q_DISABLE_COPY(SystemTime)
     Q_DECLARE_PRIVATE(SystemTime)
 };
+
+QT_END_NAMESPACE
 
 #endif // SYSTEMTIME_H

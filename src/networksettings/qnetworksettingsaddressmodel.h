@@ -31,6 +31,8 @@
 
 #include <QStringListModel>
 
+QT_BEGIN_NAMESPACE
+
 class Q_DECL_EXPORT QNetworkSettingsAddressModel : public QStringListModel
 {
     Q_OBJECT
@@ -49,5 +51,7 @@ Q_SIGNALS:
 private:
     QStringList m_addresses;
 };
+
+QT_END_NAMESPACE
 
 #endif // QNETWORKSETTINGSADDRESSMODEL_H

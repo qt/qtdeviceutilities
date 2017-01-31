@@ -29,7 +29,20 @@
 #ifndef TIMEZONEFILTERMODEL_H
 #define TIMEZONEFILTERMODEL_H
 
+//
+//  W A R N I N G
+//  -------------
+//
+// This file is not part of the Qt API.  It exists for the convenience
+// of other Qt classes.  This header file may change from version to
+// version without notice, or even be removed.
+//
+// We mean it.
+//
+
 #include <QSortFilterProxyModel>
+
+QT_BEGIN_NAMESPACE
 
 class Q_DECL_EXPORT TimezoneFilterModel : public QSortFilterProxyModel
 {
@@ -48,5 +61,7 @@ private:
     QString m_filter;
 
 };
+
+QT_END_NAMESPACE
 
 #endif // TIMEZONEFILTERMODEL_H

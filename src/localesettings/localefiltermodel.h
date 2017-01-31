@@ -29,7 +29,10 @@
 #ifndef LOCALEFILTERMODEL_H
 #define LOCALEFILTERMODEL_H
 
+
 #include <QSortFilterProxyModel>
+
+QT_BEGIN_NAMESPACE
 
 class Q_DECL_EXPORT LocaleFilterModel : public QSortFilterProxyModel
 {
@@ -48,5 +51,7 @@ private:
     QString m_filter;
 
 };
+
+QT_END_NAMESPACE
 
 #endif // LOCALEFILTERMODEL_H

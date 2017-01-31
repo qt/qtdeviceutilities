@@ -35,6 +35,8 @@
 #include <QBluetoothDeviceInfo>
 #include <QBluetoothDeviceDiscoveryAgent>
 
+QT_BEGIN_NAMESPACE
+
 class Q_DECL_EXPORT BtDeviceItem : public QObject
 {
     Q_OBJECT
@@ -116,4 +118,7 @@ private:
     QHash<int, QByteArray> m_roleNames;
     QBluetoothDeviceDiscoveryAgent *m_discoveryAgent;
 };
+
+QT_END_NAMESPACE
+
 #endif // DISCOVERYMODEL_H

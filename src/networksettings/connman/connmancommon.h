@@ -31,7 +31,7 @@
 
 #include <QtCore/QMetaType>
 #include <QtDBus>
-#include <qnetworksettings.h>
+#include <QtNetworkSettings/qnetworksettings.h>
 
 #define AgentPath "/ConnmanAgent"
 #define PropertyState QStringLiteral("State")
@@ -50,6 +50,8 @@
 #define AttributeDisconnect QStringLiteral("disconnect")
 #define AttributeOneline QStringLiteral("online")
 
+QT_BEGIN_NAMESPACE
+
 struct ConnmanMapStruct {
     QDBusObjectPath objectPath;
     QVariantMap propertyMap;
@@ -66,5 +68,6 @@ typedef QList<ConnmanMapStruct> ConnmanMapStructList;
 Q_DECLARE_METATYPE( ConnmanMapStruct )
 Q_DECLARE_METATYPE( ConnmanMapStructList )
 
+QT_END_NAMESPACE
 
 #endif // CONNMANCOMMON_H

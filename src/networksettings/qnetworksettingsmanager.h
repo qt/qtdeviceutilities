@@ -29,7 +29,7 @@
 #ifndef QNETWORKSETTINGSMANAGER_H
 #define QNETWORKSETTINGSMANAGER_H
 
-#include "qnetworksettings.h"
+#include <QtNetworkSettings/qnetworksettings.h>
 #include <QObject>
 #include <QStringListModel>
 
@@ -39,6 +39,8 @@ QT_FORWARD_DECLARE_CLASS(QNetworkSettingsServiceModel)
 QT_FORWARD_DECLARE_CLASS(QNetworkSettingsUserAgent)
 QT_FORWARD_DECLARE_CLASS(QNetworkSettingsServiceFilter)
 QT_FORWARD_DECLARE_CLASS(QNetworkSettingsInterfaceModel)
+
+QT_BEGIN_NAMESPACE
 
 class Q_DECL_EXPORT QNetworkSettingsManager : public QObject
 {
@@ -68,5 +70,7 @@ private:
     Q_DISABLE_COPY(QNetworkSettingsManager)
     Q_DECLARE_PRIVATE(QNetworkSettingsManager)
 };
+
+QT_END_NAMESPACE
 
 #endif // QNETWORKSETTINGSMANAGER_H

@@ -32,6 +32,8 @@
 #include <QObject>
 #include <QBluetoothLocalDevice>
 
+QT_BEGIN_NAMESPACE
+
 class DiscoveryModel;
 
 class Q_DECL_EXPORT BluetoothDevice : public QObject
@@ -74,5 +76,7 @@ private:
     bool m_powered;
     bool m_scanning;
 };
+
+QT_END_NAMESPACE
 
 #endif // BLUETOOTHDEVICE_H

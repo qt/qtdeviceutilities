@@ -30,8 +30,10 @@
 #define QNETWORKSETTINGSSERVICEMODEL_H
 
 #include <QSortFilterProxyModel>
-#include "qnetworksettings.h"
-#include "qnetworksettingsservice.h"
+#include <QtNetworkSettings/qnetworksettings.h>
+#include <QtNetworkSettings/qnetworksettingsservice.h>
+
+QT_BEGIN_NAMESPACE
 
 class Q_DECL_EXPORT QNetworkSettingsServiceModel : public QAbstractListModel
 {
@@ -87,5 +89,7 @@ Q_SIGNALS:
 private:
     QNetworkSettingsType::Types m_type;
 };
+
+QT_END_NAMESPACE
 
 #endif // QNETWORKSETTINGSSERVICEMODEL_H

@@ -33,6 +33,8 @@
 
 QT_FORWARD_DECLARE_CLASS(QNetworkSettingsUserAgentPrivate)
 
+QT_BEGIN_NAMESPACE
+
 class Q_DECL_EXPORT QNetworkSettingsUserAgent : public QObject
 {
     Q_OBJECT
@@ -53,4 +55,7 @@ private:
     Q_DISABLE_COPY(QNetworkSettingsUserAgent)
     Q_DECLARE_PRIVATE(QNetworkSettingsUserAgent)
 };
+
+QT_END_NAMESPACE
+
 #endif // QNETWORKSETTINGSUSERAGENT_H

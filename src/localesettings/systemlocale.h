@@ -31,6 +31,8 @@
 
 #include <QObject>
 
+QT_BEGIN_NAMESPACE
+
 class SystemLocalePrivate;
 
 class Q_DECL_EXPORT SystemLocale : public QObject
@@ -51,5 +53,7 @@ protected:
     Q_DISABLE_COPY(SystemLocale)
     Q_DECLARE_PRIVATE(SystemLocale)
 };
+
+QT_END_NAMESPACE
 
 #endif // LOCALE_H

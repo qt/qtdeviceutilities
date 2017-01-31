@@ -30,9 +30,11 @@
 #define QNETWORKSETTINGSSERVICE_H
 
 #include <QObject>
-#include "qnetworksettings.h"
+#include <QtNetworkSettings/qnetworksettings.h>
 
 QT_FORWARD_DECLARE_CLASS(QNetworkSettingsServicePrivate)
+
+QT_BEGIN_NAMESPACE
 
 class Q_DECL_EXPORT QNetworkSettingsService : public QObject
 {
@@ -88,5 +90,7 @@ protected:
     Q_DISABLE_COPY(QNetworkSettingsService)
     Q_DECLARE_PRIVATE(QNetworkSettingsService)
 };
+
+QT_END_NAMESPACE
 
 #endif // QNETWORKSETTINGSSERVICE_H

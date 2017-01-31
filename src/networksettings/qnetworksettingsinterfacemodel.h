@@ -30,7 +30,9 @@
 #define QNETWORKSETTINGSINTERFACEMODEL_H
 
 #include <QAbstractListModel>
-#include "qnetworksettings.h"
+#include <QtNetworkSettings/qnetworksettings.h>
+
+QT_BEGIN_NAMESPACE
 
 class QNetworkSettingsInterface;
 
@@ -60,5 +62,7 @@ private:
     QList<QNetworkSettingsInterface*> m_items;
     QHash<int, QByteArray> m_roleNames;
 };
+
+QT_END_NAMESPACE
 
 #endif // QNETWORKSETTINGSINTERFACEMODEL_H

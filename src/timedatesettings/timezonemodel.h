@@ -34,6 +34,8 @@
 #include <QTimeZone>
 #include <QMutex>
 
+QT_BEGIN_NAMESPACE
+
 class TimezoneItem : public QObject
 {
     Q_OBJECT
@@ -79,5 +81,7 @@ private:
     QList<TimezoneItem*> m_items;
     QHash<int, QByteArray> m_roleNames;
 };
+
+QT_END_NAMESPACE
 
 #endif // TIMEZONEMODEL_H

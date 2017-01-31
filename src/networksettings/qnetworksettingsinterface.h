@@ -30,7 +30,9 @@
 #define QNETWORKSETTINGSINTERFACE_H
 
 #include <QObject>
-#include "qnetworksettings.h"
+#include <QtNetworkSettings/qnetworksettings.h>
+
+QT_BEGIN_NAMESPACE
 
 QT_FORWARD_DECLARE_CLASS(QNetworkSettingsInterfacePrivate)
 
@@ -63,5 +65,7 @@ protected:
     Q_DISABLE_COPY(QNetworkSettingsInterface)
     Q_DECLARE_PRIVATE(QNetworkSettingsInterface)
 };
+
+QT_END_NAMESPACE
 
 #endif // QNETWORKSETTINGSINTERFACE_H

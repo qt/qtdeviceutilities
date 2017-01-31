@@ -32,7 +32,9 @@
 #include <QObject>
 #include <QUrl>
 #include <QVariantMap>
-#include "qnetworksettingsaddressmodel.h"
+#include <QtNetworkSettings/qnetworksettingsaddressmodel.h>
+
+QT_BEGIN_NAMESPACE
 
 class Q_DECL_EXPORT QNetworkSettingsState : public QObject
 {
@@ -230,4 +232,7 @@ private:
     int m_signalStrength;
     bool m_isOutOfRange;
 };
+
+QT_END_NAMESPACE
+
 #endif //QNETWORKSETTINGS_H

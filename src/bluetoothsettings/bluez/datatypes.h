@@ -36,8 +36,12 @@
 #include <QtDBus/QDBusObjectPath>
 #include <QtCore/QMetaType>
 
+QT_BEGIN_NAMESPACE
+
 typedef QMap<QString, QVariantMap> InterfaceList;
 typedef QMap<QDBusObjectPath, InterfaceList> ManagedObjectList;
+
+QT_END_NAMESPACE
 
 Q_DECLARE_METATYPE(InterfaceList)
 Q_DECLARE_METATYPE(ManagedObjectList)
