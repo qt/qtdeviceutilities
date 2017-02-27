@@ -100,6 +100,7 @@ public:
     QHash<int, QByteArray> roleNames() const;
     void setConnected(const QString& aAddress, bool connected);
     void scanDevices();
+    void stopScanning();
 
     enum Roles {
         Name = Qt::UserRole,

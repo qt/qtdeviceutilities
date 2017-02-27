@@ -82,7 +82,7 @@ Item {
                     anchors.left: parent.left
                     anchors.top: parent.top
                     anchors.topMargin: 4
-                    source: mainList.getIcon(deviceType)
+                    source: mainList.getIcon(type)
                 }
                 Column {
                     id: column

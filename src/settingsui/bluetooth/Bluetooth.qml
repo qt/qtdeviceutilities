@@ -47,6 +47,7 @@ Item {
             title: qsTr("Bluetooth status")
             Layout.fillWidth: true
             Layout.alignment: Qt.AlignTop
+            enabled: BtDevice.available
 
             RowLayout {
                 spacing: 10
@@ -56,8 +57,19 @@ Item {
                 }
                 Switch {
                     checked: BtDevice.powered
-                    onCheckedChanged: BtDevice.powered = checked
+                    onCheckedChanged: {
+                        BtDevice.powered = checked
+                    }
                 }
+
+                Connections {
+                    target: BtDevice
+                    onPoweredChanged: {
+                        if (BtDevice.powered)
+                            BtDevice.scanning = true
+                    }
+                }
+
                 Label {
                     text: qsTr("On")
                 }

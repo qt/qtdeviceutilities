@@ -41,19 +41,55 @@
 //
 
 #include <QObject>
+#include <QBluetoothLocalDevice>
+#include <QtDBus>
+#include "bluetoothdevice.h"
 
 class OrgBluezDevice1Interface;
+class OrgFreedesktopDBusObjectManagerInterface;
 
 class BluetoothDevicePrivate : public QObject
 {
+    Q_OBJECT
+    Q_DECLARE_PUBLIC(BluetoothDevice)
 public:
-    explicit BluetoothDevicePrivate(const QString& address, QObject *parent = Q_NULLPTR);
-    void connectDevice();
-    void disconnectDevice();
+    BluetoothDevice *q_ptr;
+    BluetoothDevicePrivate(BluetoothDevice *parent);
+    bool powered() const;
+    void setPowered(const bool& aPowered);
+    bool scanning() const;
+    bool available() const;
+    void setScanning(const bool& aScan);
+    void requestPairing(const QString& address);
+    void requestConnect(const QString& address);
+    void requestDisconnect(const QString& address);
+    DiscoveryModel* deviceModel() const;
+
+public Q_SLOTS:
+    void deviceStateChanged(QBluetoothLocalDevice::HostMode state);
+    void scanFinished();
+    //These are not yet signaled
+    //See bug https://bugreports.qt.io/browse/QTBUG-38401
+    void pairingDisplayConfirmation(const QBluetoothAddress & address, QString pin);
+    void pairingDisplayPinCode(const QBluetoothAddress & address, QString pin);
+    void pairingFinished(const QBluetoothAddress & address, QBluetoothLocalDevice::Pairing pairing);
+    void deviceConnected(const QBluetoothAddress & address);
+    void deviceDisconnected(const QBluetoothAddress & address);
+    void getManagedObjectsFinished(QDBusPendingCallWatcher *watcher);
 
 private:
-    OrgBluezDevice1Interface* findDevice();
-    QString m_address;
+    void updateConnectionStatuses();
+    OrgBluezDevice1Interface* findPeerDevice(const QString& address);
+
+private:
+    QBluetoothLocalDevice* m_localDevice;
+    bool m_powered;
+    bool m_scanning;
+    QString m_adapter;
+    DiscoveryModel *m_deviceModel;
+    OrgFreedesktopDBusObjectManagerInterface *m_manager;
 };
+
+
 
 #endif // BLUETOOTHDEVICE__P_H

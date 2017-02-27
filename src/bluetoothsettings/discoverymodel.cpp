@@ -150,20 +150,13 @@ BtDeviceItem::DeviceType BtDeviceItem::getPhoneDeviceType(const quint8 minor) co
 
 DiscoveryModel::DiscoveryModel(QObject *parent)
     : QAbstractListModel(parent)
-    ,m_discoveryAgent(new QBluetoothDeviceDiscoveryAgent(this))
+    ,m_discoveryAgent(Q_NULLPTR)
 {
     m_roleNames.insert(Qt::UserRole, "modelData");
     m_roleNames.insert(Address, "address");
     m_roleNames.insert(Name, "name");
     m_roleNames.insert(Type, "type");
     m_roleNames.insert(Connected, "connected");
-
-    connect(m_discoveryAgent, SIGNAL(deviceDiscovered(QBluetoothDeviceInfo)),
-            this, SLOT(deviceDiscovered(QBluetoothDeviceInfo)));
-
-    connect(m_discoveryAgent, SIGNAL(finished()),
-            this, SIGNAL(scanFinished()));
-
 }
 
 void DiscoveryModel::deviceDiscovered(const QBluetoothDeviceInfo &device)
@@ -181,7 +174,23 @@ DiscoveryModel::~DiscoveryModel()
 
 void DiscoveryModel::scanDevices()
 {
+    if (!m_discoveryAgent) {
+        m_discoveryAgent = new QBluetoothDeviceDiscoveryAgent(this);
+        connect(m_discoveryAgent, SIGNAL(deviceDiscovered(QBluetoothDeviceInfo)),
+                this, SLOT(deviceDiscovered(QBluetoothDeviceInfo)));
+
+        connect(m_discoveryAgent, SIGNAL(finished()),
+                this, SIGNAL(scanFinished()));
+    }
+
     m_discoveryAgent->start();
+}
+
+void DiscoveryModel::stopScanning()
+{
+    if (m_discoveryAgent) {
+        m_discoveryAgent->stop();
+    }
 }
 
 QHash<int, QByteArray> DiscoveryModel::roleNames() const

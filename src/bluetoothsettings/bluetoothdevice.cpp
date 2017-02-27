@@ -28,135 +28,64 @@
 ****************************************************************************/
 #include <discoverymodel.h>
 #include "bluetoothdevice.h"
-#include "bluez/bluetoothdevice_p.h"
+#include "bluetoothdevice_p.h"
 
 BluetoothDevice::BluetoothDevice(QObject *parent) : QObject(parent)
-   ,m_localDevice(new QBluetoothLocalDevice(this))
-   ,m_deviceModel(new DiscoveryModel(this))
-   ,m_powered(false)
-   ,m_scanning(true)
+  ,d_ptr(new BluetoothDevicePrivate(this))
 {
-    m_powered = m_localDevice->hostMode() != QBluetoothLocalDevice::HostPoweredOff;
-
-    connect(m_localDevice, &QBluetoothLocalDevice::hostModeStateChanged, this, &BluetoothDevice::deviceStateChanged);
-    connect(m_localDevice, &QBluetoothLocalDevice::deviceConnected, this, &BluetoothDevice::deviceConnected);
-    connect(m_localDevice, &QBluetoothLocalDevice::deviceDisconnected, this, &BluetoothDevice::deviceDisconnected);
-    connect(m_deviceModel, &DiscoveryModel::scanFinished, this, &BluetoothDevice::scanFinished);
-
-    if (m_powered) {
-        m_deviceModel->scanDevices();
-    }
-
-}
-
-void BluetoothDevice::deviceStateChanged(QBluetoothLocalDevice::HostMode state)
-{
-    m_powered = state != QBluetoothLocalDevice::HostPoweredOff;
-    emit poweredChanged();
 }
 
 bool BluetoothDevice::powered() const
 {
-    return m_powered;
+    Q_D(const BluetoothDevice);
+    return d->powered();
 }
 
 void BluetoothDevice::setPowered(const bool& aPowered)
 {
-    if (aPowered) {
-        m_localDevice->powerOn();
-    }
-    else {
-        m_localDevice->setHostMode(QBluetoothLocalDevice::HostPoweredOff);
-    }
+    Q_D(BluetoothDevice);
+    d->setPowered(aPowered);
 }
 
-QObject* BluetoothDevice::deviceModel() const
-{
-    return static_cast<QObject*>(m_deviceModel);
-}
 
-void BluetoothDevice::scanFinished()
+DiscoveryModel* BluetoothDevice::deviceModel() const
 {
-    m_scanning = false;
-    emit scanningChanged();
-    updateConnectionStatuses();
+    Q_D(const BluetoothDevice);
+    return d->m_deviceModel;
 }
 
 bool BluetoothDevice::scanning() const
 {
-    return m_scanning;
+    Q_D(const BluetoothDevice);
+    return d->scanning();
 }
 
 void BluetoothDevice::setScanning(const bool& aScan)
 {
-    if (m_scanning && !aScan) {
-        //TODO m_deviceModel->cancel();
-    }
-    else if (aScan && !m_scanning) {
-        m_deviceModel->scanDevices();
-        m_scanning = true;
-        emit scanningChanged();
-    }
-}
-
-void BluetoothDevice::updateConnectionStatuses()
-{
-    QList<QBluetoothAddress> connectedDevices =
-            m_localDevice->connectedDevices();
-
-    foreach (QBluetoothAddress addr, connectedDevices) {
-        m_deviceModel->setConnected(addr.toString(), true);
-    }
+    Q_D(BluetoothDevice);
+    d->setScanning(aScan);
 }
 
 void BluetoothDevice::requestPairing(const QString& address)
 {
-    QBluetoothAddress addr(address);
-    m_localDevice->requestPairing(addr, QBluetoothLocalDevice::Paired);
-    connect(m_localDevice, &QBluetoothLocalDevice::pairingDisplayConfirmation, this, &BluetoothDevice::pairingDisplayConfirmation);
-
-    connect(m_localDevice, &QBluetoothLocalDevice::pairingDisplayPinCode, this, &BluetoothDevice::pairingDisplayPinCode);
-
-    connect(m_localDevice, &QBluetoothLocalDevice::pairingFinished, this, &BluetoothDevice::pairingFinished);
+    Q_D(BluetoothDevice);
+    d->requestPairing(address);
 }
 
-void BluetoothDevice::requestConnect(const QString &address)
+void BluetoothDevice::requestConnect(const QString& address)
 {
-    QScopedPointer<BluetoothDevicePrivate> connectionHandler(new BluetoothDevicePrivate(address));
-    connectionHandler->connectDevice();
+    Q_D(BluetoothDevice);
+    d->requestConnect(address);
 }
 
 void BluetoothDevice::requestDisconnect(const QString& address)
 {
-    QScopedPointer<BluetoothDevicePrivate> connectionHandler(new BluetoothDevicePrivate(address));
-    connectionHandler->disconnectDevice();
+    Q_D(BluetoothDevice);
+    d->requestDisconnect(address);
 }
 
-void BluetoothDevice::pairingDisplayConfirmation(const QBluetoothAddress & address, QString pin)
+bool BluetoothDevice::available() const
 {
-    Q_UNUSED(address);
-    Q_UNUSED(pin);
-}
-
-void BluetoothDevice::pairingDisplayPinCode(const QBluetoothAddress & address, QString pin)
-{
-    Q_UNUSED(address);
-    Q_UNUSED(pin);
-}
-
-void BluetoothDevice::pairingFinished(const QBluetoothAddress & address, QBluetoothLocalDevice::Pairing pairing)
-{
-    if (pairing == QBluetoothLocalDevice::Paired) {
-        requestConnect(address.toString());
-    }
-}
-
-void BluetoothDevice::deviceConnected(const QBluetoothAddress & address)
-{
-    m_deviceModel->setConnected(address.toString(), true);
-}
-
-void BluetoothDevice::deviceDisconnected(const QBluetoothAddress & address)
-{
-    m_deviceModel->setConnected(address.toString(), false);
+    Q_D(const BluetoothDevice);
+    return d->available();
 }

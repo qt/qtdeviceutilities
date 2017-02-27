@@ -30,51 +30,40 @@
 #define BLUETOOTHDEVICE_H
 
 #include <QObject>
-#include <QBluetoothLocalDevice>
+#include "discoverymodel.h"
 
 QT_BEGIN_NAMESPACE
 
-class DiscoveryModel;
+QT_FORWARD_DECLARE_CLASS(DiscoveryModel)
+QT_FORWARD_DECLARE_CLASS(BluetoothDevicePrivate)
 
 class Q_DECL_EXPORT BluetoothDevice : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(bool scanning READ scanning WRITE setScanning NOTIFY scanningChanged)
     Q_PROPERTY(bool powered READ powered WRITE setPowered NOTIFY poweredChanged)
-    Q_PROPERTY(QObject* deviceModel READ deviceModel CONSTANT)
+    Q_PROPERTY(bool available READ available NOTIFY availabilityChanged)
+    Q_PROPERTY(DiscoveryModel* deviceModel READ deviceModel CONSTANT)
 public:
     explicit BluetoothDevice(QObject *parent = Q_NULLPTR);
     bool powered() const;
     void setPowered(const bool& aPowered);
-    QObject* deviceModel() const;
+    DiscoveryModel *deviceModel() const;
     bool scanning() const;
     void setScanning(const bool& aScan);
+    bool available() const;
     Q_INVOKABLE void requestPairing(const QString& address);
     Q_INVOKABLE void requestConnect(const QString& address);
     Q_INVOKABLE void requestDisconnect(const QString& address);
 Q_SIGNALS:
     void poweredChanged();
     void scanningChanged();
-
-public Q_SLOTS:
-    void deviceStateChanged(QBluetoothLocalDevice::HostMode state);
-    void scanFinished();
-    //These are not yet signaled
-    //See bug https://bugreports.qt.io/browse/QTBUG-38401
-    void pairingDisplayConfirmation(const QBluetoothAddress & address, QString pin);
-    void pairingDisplayPinCode(const QBluetoothAddress & address, QString pin);
-    void pairingFinished(const QBluetoothAddress & address, QBluetoothLocalDevice::Pairing pairing);
-    void deviceConnected(const QBluetoothAddress & address);
-    void deviceDisconnected(const QBluetoothAddress & address);
-
+    void availabilityChanged();
+protected:
+    BluetoothDevicePrivate *d_ptr;
 private:
-    void updateConnectionStatuses();
-
-private:
-    QBluetoothLocalDevice* m_localDevice;
-    DiscoveryModel *m_deviceModel;
-    bool m_powered;
-    bool m_scanning;
+Q_DISABLE_COPY(BluetoothDevice)
+Q_DECLARE_PRIVATE(BluetoothDevice)
 };
 
 QT_END_NAMESPACE
