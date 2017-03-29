@@ -1,2 +1,3 @@
 module QtDeviceUtilities.LocaleSettings
 plugin localesettingsplugin
+typeinfo plugins.qmltypes

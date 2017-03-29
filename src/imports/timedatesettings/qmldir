@@ -1,2 +1,3 @@
 module QtDeviceUtilities.TimeDateSettings
 plugin qmltimedatesettingsplugin
+typeinfo plugins.qmltypes

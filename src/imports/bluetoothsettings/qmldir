@@ -1,2 +1,3 @@
 module QtDeviceUtilities.BluetoothSettings
 plugin btsettingsplugin
+typeinfo plugins.qmltypes

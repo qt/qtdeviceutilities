@@ -1,2 +1,3 @@
 module QtDeviceUtilities.DisplaySettings
 plugin qmldisplaysettingsplugin
+typeinfo plugins.qmltypes
