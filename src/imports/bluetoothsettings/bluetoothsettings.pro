@@ -1,17 +1,10 @@
-TEMPLATE = lib
-CONFIG += plugin
 QT += qml bluetooth bluetoothsettings
-uri = QtDeviceUtilities.BluetoothSettings
+
+CONFIG += no_cxx_module
 
 TARGET  = btsettingsplugin
-
-pluginfiles.files += \
-    qmldir \
+TARGETPATH = QtDeviceUtilities/BluetoothSettings
 
 SOURCES += plugin.cpp
 
-installPath = $$[QT_INSTALL_QML]/$$replace(uri, \\., /)
-
-target.path = $$installPath
-pluginfiles.path += $$installPath
-INSTALLS += target pluginfiles
+load(qml_plugin)

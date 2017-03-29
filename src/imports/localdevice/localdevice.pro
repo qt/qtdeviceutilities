@@ -1,17 +1,10 @@
-TEMPLATE = lib
-CONFIG += plugin
-TARGET  = localdeviceplugin
-uri = QtDeviceUtilities.LocalDeviceSettings
-
 QT += qml localdevice
 
-pluginfiles.files += \
-    qmldir \
+CONFIG += no_cxx_module
+
+TARGET  = localdeviceplugin
+TARGETPATH = QtDeviceUtilities/LocalDeviceSettings
 
 SOURCES += plugin.cpp
 
-installPath = $$[QT_INSTALL_QML]/$$replace(uri, \\., /)
-
-target.path = $$installPath
-pluginfiles.path += $$installPath
-INSTALLS += target pluginfiles
+load(qml_plugin)

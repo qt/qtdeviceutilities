@@ -1,19 +1,10 @@
-TEMPLATE = lib
-CONFIG += plugin
 QT += qml timedatesettings
 
-uri = QtDeviceUtilities.TimeDateSettings
+CONFIG += no_cxx_module
 
-DESTDIR = imports/TimeDate
 TARGET  = qmltimedatesettingsplugin
+TARGETPATH = QtDeviceUtilities/TimeDateSettings
 
 SOURCES += plugin.cpp
 
-pluginfiles.files += qmldir
-
-installPath = $$[QT_INSTALL_QML]/$$replace(uri, \\., /)
-
-target.path = $$installPath
-pluginfiles.path += $$installPath
-INSTALLS += target pluginfiles
-
+load(qml_plugin)
