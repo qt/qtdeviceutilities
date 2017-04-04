@@ -80,7 +80,7 @@
     <signal name="NetworkTypeAdded" tp:name-for-bindings="NetworkType_Added">
         <arg name="technology" type="o"/>
         <arg name="properties" type="a{sv}"/>
-        <annotation name="org.qtproject.QtDBus.QtTypeName.In1" value="QVariantMap"/>
+        <annotation name="org.qtproject.QtDBus.QtTypeName.Out1" value="QVariantMap"/>
     </signal>
 
     <signal name="NetworkTypeRemoved" tp:name-for-bindings="NetworkType_Removed">
@@ -89,13 +89,13 @@
 
     <signal name="ServicesChanged" tp:name-for-bindings="Services_Changed">
         <arg name="changed" type="a(oa{sv})"/>
-        <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="ConnmanMapStructList"/>
+        <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="ConnmanMapStructList"/>
         <arg name="removed" type="ao"/>
     </signal>
 
     <signal name="SavedServicesChanged" tp:name-for-bindings="SavedServices_Changed">
         <arg name="changed" type="a(oa{sv})"/>
-        <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="ConnmanMapStructList"/>
+        <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="ConnmanMapStructList"/>
     </signal>
 
     <signal name="PropertyChanged" tp:name-for-bindings="Property_Changed">
