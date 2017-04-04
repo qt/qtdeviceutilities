@@ -71,7 +71,6 @@
         <arg name="dict" type="a{sv}" direction="out"/>
         <annotation name="org.qtproject.QtDBus.QtTypeName.Out1" value="QVariantMap"/>
         <arg name="fd" type="i" direction="out"/>
-    <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="QVariantMap"/>
     </method>
 
     <method name="ReleasePrivateNetwork" tp:name-for-bindings="Release_Private_Network">
