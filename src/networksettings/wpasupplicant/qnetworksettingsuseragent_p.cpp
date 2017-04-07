@@ -35,11 +35,10 @@ QNetworkSettingsUserAgentPrivate::QNetworkSettingsUserAgentPrivate(QNetworkSetti
 
 }
 
-void QNetworkSettingsUserAgentPrivate::setUserCredentials(const QString& aUsername, const QString& aPassword)
+void QNetworkSettingsUserAgentPrivate::setPassphrase(const QString &passphrase)
 {
     Q_Q(QNetworkSettingsUserAgent);
-    m_passphrase = aPassword;
-    m_username = aUsername;
+    m_passphrase = passphrase;
     emit q->ready(false);
 }
 

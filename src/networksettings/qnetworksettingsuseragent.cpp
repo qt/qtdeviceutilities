@@ -35,10 +35,10 @@ QNetworkSettingsUserAgent::QNetworkSettingsUserAgent(QObject *parent)
 {
 }
 
-void QNetworkSettingsUserAgent::setUserCredentials(const QString& username, const QString& passphrase)
+void QNetworkSettingsUserAgent::setPassphrase(const QString &passphrase)
 {
     Q_D(QNetworkSettingsUserAgent);
-    d->setUserCredentials(username, passphrase);
+    d->setPassphrase(passphrase);
 }
 
 void QNetworkSettingsUserAgent::cancelInput()
@@ -47,14 +47,8 @@ void QNetworkSettingsUserAgent::cancelInput()
     d->cancel();
 }
 
-QString QNetworkSettingsUserAgent::passPhrase() const
+QString QNetworkSettingsUserAgent::passphrase() const
 {
     Q_D(const QNetworkSettingsUserAgent);
     return d->m_passphrase;
-}
-
-QString QNetworkSettingsUserAgent::userName() const
-{
-    Q_D(const QNetworkSettingsUserAgent);
-    return d->m_username;
 }

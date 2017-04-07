@@ -80,13 +80,10 @@ QVariantMap QNetworkSettingsUserAgentPrivate::RequestInput(const QDBusObjectPath
     return QVariantMap();
 }
 
-void QNetworkSettingsUserAgentPrivate::setUserCredentials(const QString& username,
-                                                          const QString& password)
+void QNetworkSettingsUserAgentPrivate::setPassphrase(const QString& passphrase)
 {
-    m_username = username;
-    m_passphrase = password;
+    m_passphrase = passphrase;
     QVariantMap response;
-    response[PropertyName] = m_username;
     response[PropertyPassphrase] = m_passphrase;
     m_reply << response;
     m_pendingReply = false;

@@ -142,7 +142,7 @@ void QNetworkSettingsManagerPrivate::userInteractionReady(bool cancel)
     if (!service) {
         return;
     }
-    QString psk = m_agent->passPhrase();
+    QString psk = m_agent->passphrase();
 
     // --------------------- configure network ------------------------------
     // ref: http://w1.fi/cgit/hostap/plain/wpa_supplicant/wpa_supplicant.conf

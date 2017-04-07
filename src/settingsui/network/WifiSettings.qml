@@ -147,7 +147,7 @@ Item {
 
                 GroupBox {
                     id: connectView
-                    title: qsTr("Enter a password")
+                    title: qsTr("Enter a passphrase")
                     visible: false
                     Layout.fillWidth: true
                     ColumnLayout {
@@ -172,34 +172,16 @@ Item {
                         }
                         RowLayout {
                             spacing: 10
-                            visible: false
                             width: parent.width
 
                             Label {
-                                text: qsTr("User name:")
+                                text: qsTr("Passphrase:")
                                 horizontalAlignment: Text.AlignRight
                                 Layout.preferredWidth: root.width * 0.382
                                 Layout.alignment: Qt.AlignVCenter
                             }
                             TextField {
-                                text: ""
-                                inputMethodHints: Qt.ImhNoPredictiveText
-                                Layout.alignment: Qt.AlignVCenter
-                                Layout.fillWidth: true
-                            }
-                        }
-                        RowLayout {
-                            spacing: 10
-                            width: parent.width
-
-                            Label {
-                                text: qsTr("Password:")
-                                horizontalAlignment: Text.AlignRight
-                                Layout.preferredWidth: root.width * 0.382
-                                Layout.alignment: Qt.AlignVCenter
-                            }
-                            TextField {
-                                id: password
+                                id: passphrase
                                 text: ""
                                 echoMode: TextInput.Password
                                 inputMethodHints: Qt.ImhNoPredictiveText | Qt.ImhNoAutoUppercase | Qt.ImhPreferLowercase | Qt.ImhSensitiveData
@@ -214,7 +196,7 @@ Item {
                                 text: qsTr("Connect")
                                 onClicked: {
                                     connectView.visible = false
-                                    NetworkSettingsManager.userAgent.setUserCredentials("", password.text)
+                                    NetworkSettingsManager.userAgent.setPassphrase(passphrase.text)
                                 }
                             }
                             Button {

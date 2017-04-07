@@ -50,10 +50,9 @@ class QNetworkSettingsUserAgentPrivate : public QObject
 public:
     explicit QNetworkSettingsUserAgentPrivate(QNetworkSettingsUserAgent* parent);
     virtual ~QNetworkSettingsUserAgentPrivate() {}
-    void setUserCredentials(const QString& aUsername, const QString& aPassword);
+    void setPassphrase(const QString &passphrase);
     void cancel();
     QString m_passphrase;
-    QString m_username;
     QNetworkSettingsUserAgent *q_ptr;
 };
 

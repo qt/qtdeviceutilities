@@ -62,7 +62,7 @@ class QNetworkSettingsUserAgentPrivate : public QDBusAbstractAdaptor
     Q_DECLARE_PUBLIC(QNetworkSettingsUserAgent)
 public:
     QNetworkSettingsUserAgentPrivate(QNetworkSettingsUserAgent *parent = Q_NULLPTR);
-    void setUserCredentials(const QString& aUsername, const QString& aPassword);
+    void setPassphrase(const QString &passphrase);
     void cancel();
     void release();
 public Q_SLOTS: // Dbus methods
@@ -75,7 +75,6 @@ private:
     QDBusMessage m_reply;
     bool m_pendingReply;
     QString m_passphrase;
-    QString m_username;
 };
 
 #endif // QNETWORKSETTINGSUSERAGENTPRIVATE_H

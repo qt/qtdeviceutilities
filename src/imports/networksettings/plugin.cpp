@@ -116,9 +116,9 @@
 */
 
 /*!
-    \qmlmethod NetworkSettingsManager::userAgent.setUserCredentials(string username, string passphrase)
+    \qmlmethod NetworkSettingsManager::userAgent.setPassphrase(string passphrase)
 
-    Sets the user credentials \a username and \a passphrase for connecting to a Wifi network.
+    Sets the \a passphrase for connecting to a Wifi network.
 
     This method needs to be called in response to receiving a showUserCredentialsInput() signal.
 
@@ -130,7 +130,7 @@
 
     This signal is emitted when user credentials are required for connecting to a Wifi network.
 
-    \sa userAgent.setUserCredentials()
+    \sa userAgent.setPassphrase()
 */
 
 /*!
