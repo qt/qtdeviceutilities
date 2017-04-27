@@ -1,7 +1,7 @@
 TEMPLATE = lib
 TARGET = settingsuiplugin
 QT += qml quick
-CONFIG += qt plugin c++11
+CONFIG += plugin c++11
 
 TARGET = $$qtLibraryTarget($$TARGET)
 uri = QtDeviceUtilities.SettingsUI
