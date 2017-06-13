@@ -29,6 +29,7 @@
 #include "qnetworksettingsservice_p.h"
 #include "connman_service_interface.h"
 #include "connmancommon.h"
+#include <QHostAddress>
 
 const QString PropertyIPv4(QStringLiteral("IPv4"));
 const QString PropertyQNetworkSettingsIPv4(QStringLiteral("IPv4.Configuration"));
@@ -285,8 +286,24 @@ void QNetworkSettingsServicePrivate::setupQNetworkSettingsProxy()
         m_service->SetProperty(PropertyQNetworkSettingsProxy, QDBusVariant(QVariant(param)));
 }
 
+static void ensureMaskAndGateway(QNetworkSettingsIPv4& ipv4Settings)
+{
+    if (ipv4Settings.mask().isEmpty()) {
+        ipv4Settings.setMask(QString::fromUtf8("255.255.0.0"));
+    }
+    if (ipv4Settings.gateway().isEmpty()) {
+        QHostAddress addr{ipv4Settings.address()};
+        quint32 addrIp  = addr.toIPv4Address();
+        QHostAddress mask{ipv4Settings.mask()};
+        quint32 maskIp  = mask.toIPv4Address();
+        quint32 gwIp = addrIp & maskIp;
+        ipv4Settings.setGateway(QHostAddress{gwIp}.toString());
+    }
+}
+
 void QNetworkSettingsServicePrivate::setupIpv4Config()
 {
+    ensureMaskAndGateway(m_ipv4config);
     QVariantMap param;
     param << m_ipv4config;
     if (m_service)

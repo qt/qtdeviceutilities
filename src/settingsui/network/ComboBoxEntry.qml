@@ -55,7 +55,7 @@ RowLayout {
         id: cb
         textRole: "text"
         Layout.fillWidth: true
-        onActivated: root.activated(index)
-        onHighlightedIndexChanged: root.highlighted(index)
+        onActivated: root.activated(currentIndex)
+        onHighlightedIndexChanged: root.highlighted(currentIndex)
     }
 }
