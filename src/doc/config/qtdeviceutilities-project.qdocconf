@@ -1,6 +1,7 @@
 project                      = QtDeviceUtilities
-description                  = Qt Device Utilities
-version                      = 5.9.0
+description                  = Qt Device Utilities $QT_VERSION
+version                      = $QT_VERSION
+macro.maintitle              = "\\title Qt Device Utilities $QT_VERSION"
 
 sourcedirs                  += ../src \
                                ../../imports/localesettings \
@@ -29,14 +30,14 @@ indexes                      = $QT_INSTALL_DOCS/qtquick/qtquick.index \
 qhp.projects                 = QtDeviceUtilities
 
 qhp.QtDeviceUtilities.file                = qtdeviceutilities.qhp
-qhp.QtDeviceUtilities.namespace           = io.qt.qtdeviceutilities.590
+qhp.QtDeviceUtilities.namespace           = io.qt.qtdeviceutilities.$QT_VERSION_TAG
 qhp.QtDeviceUtilities.virtualFolder       = qtdeviceutilities
-qhp.QtDeviceUtilities.indexTitle          = Qt Device Utilities
+qhp.QtDeviceUtilities.indexTitle          = Qt Device Utilities $QT_VERSION
 qhp.QtDeviceUtilities.indexRoot           =
 
 qhp.QtDeviceUtilities.subprojects                    = modules
 qhp.QtDeviceUtilities.subprojects.modules.title      = Modules
-qhp.QtDeviceUtilities.subprojects.modules.indexTitle = Qt Device Utilities
+qhp.QtDeviceUtilities.subprojects.modules.indexTitle = Qt Device Utilities $QT_VERSION
 qhp.QtDeviceUtilities.subprojects.modules.selectors  = qmlmodule module
 qhp.QtDeviceUtilities.subprojects.modules.sortPages  = true
 
@@ -48,7 +49,7 @@ macro.B2QL                   = "\\e {Boot to Qt for embedded Linux}"
 
 # Keep Device Creation as the landing page
 navigation.landingpage       = "Qt for Device Creation"
-navigation.qmltypespage      = "Qt Device Utilities"
+navigation.qmltypespage      = "Qt Device Utilities $QT_VERSION"
 
 Cpp.ignoredirectives        += Q_DECLARE_LOGGING_CATEGORY
 Cpp.ignoretokens            += Q_DEL_EXPORT

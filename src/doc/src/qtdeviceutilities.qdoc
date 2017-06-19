@@ -17,7 +17,7 @@
 ****************************************************************************/
 /*!
     \page qtee-module-reference.html
-    \title Qt Device Utilities
+    \maintitle
 
     The \B2Q stack in \SDK includes a number of additional modules that are
     useful for embedded applications.
