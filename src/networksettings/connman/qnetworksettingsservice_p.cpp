@@ -342,10 +342,19 @@ void QNetworkSettingsServicePrivate::updateProperty(const QString& key, const QV
 {
     Q_Q(QNetworkSettingsService);
 
-    if (key == PropertyIPv4) {
+    if (key == PropertyQNetworkSettingsIPv4) {
         QVariantMap value = qdbus_cast<QVariantMap>(val);
-        value >> m_ipv4config;
-        emit q->ipv4Changed();
+        if (value[PropertyMethod].toString() == AttributeManual) {
+            value >> m_ipv4config;
+            emit q->ipv4Changed();
+        }
+    }
+    else if (key == PropertyIPv4) {
+        QVariantMap value = qdbus_cast<QVariantMap>(val);
+        if (value[PropertyMethod].toString() != AttributeManual) {
+            value >> m_ipv4config;
+            emit q->ipv4Changed();
+        }
     }
     else if (key == PropertyIPv6) {
         QVariantMap value = qdbus_cast<QVariantMap>(val);
