@@ -88,56 +88,67 @@ Item {
                     }
                 }
             }
-            GridLayout {
-                columns: 2
-                rows: 4
+            Item {
                 width: parent.width
-                visible: service.ipv4.method !== NetworkSettingsIPv4.Off
+                height: gridLayout.implicitHeight
+                GridLayout {
+                    id: gridLayout
+                    columns: 2
+                    rows: 4
+                    width: parent.width
+                    visible: service.ipv4.method !== NetworkSettingsIPv4.Off
 
-                Label {
-                    text: qsTr("IP Address: ")
-                    width: parent.width * .3
-                }
-                IpAddressTextField {
-                    id: ipv4Address
-                    text: service.ipv4.address
-                    enabled: editMode
-                    onAccepted: if (text.length > 0) service.ipv4.address = text
-                }
-                Label {
-                    text: qsTr("Mask: ")
-                }
-                IpAddressTextField {
-                    id: ipv4Mask
-                    text: service.ipv4.mask
-                    enabled: editMode
-                    onAccepted: if (text.length > 0) service.ipv4.mask = text
-                }
-                Label {
-                    text: qsTr("Router: ")
-                }
-                IpAddressTextField {
-                    id: ipv4Gateway
-                    text: service.ipv4.gateway
-                    enabled: editMode
-                    onAccepted: if (text.length > 0) service.ipv4.gateway = text
-                }
-                Label {
-                    Layout.alignment: Qt.AlignTop
-                    text: qsTr("DNS server: ")
-                }
-                Column {
-                    spacing: 10
-                    Layout.fillWidth: true
-                    Layout.alignment: Qt.AlignTop
+                    Label {
+                        text: qsTr("IP Address: ")
+                        width: parent.width * .3
+                    }
+                    IpAddressTextField {
+                        id: ipv4Address
+                        text: service.ipv4.address
+                        enabled: editMode
+                        onAccepted: if (text.length > 0) service.ipv4.address = text
+                    }
+                    Label {
+                        text: qsTr("Mask: ")
+                    }
+                    IpAddressTextField {
+                        id: ipv4Mask
+                        text: service.ipv4.mask
+                        enabled: editMode
+                        onAccepted: if (text.length > 0) service.ipv4.mask = text
+                    }
+                    Label {
+                        text: qsTr("Router: ")
+                    }
+                    IpAddressTextField {
+                        id: ipv4Gateway
+                        text: service.ipv4.gateway
+                        enabled: editMode
+                        onAccepted: if (text.length > 0) service.ipv4.gateway = text
+                    }
+                    Label {
+                        Layout.alignment: Qt.AlignTop
+                        text: qsTr("DNS server: ")
+                    }
+                    Column {
+                        spacing: 10
+                        Layout.fillWidth: true
+                        Layout.alignment: Qt.AlignTop
 
-                    Repeater {
-                        model: service.nameservers
+                        Repeater {
+                            model: service.nameservers
 
-                        Label {
-                            text: display
+                            Label {
+                                text: display
+                            }
                         }
                     }
+                }
+                MouseArea {
+                    anchors.fill: parent
+                    enabled: !editMode
+                             && methodsModel.get(ipv4Method.currentIndex).method === NetworkSettingsIPv4.Manual
+                    onClicked: editMode = true
                 }
             }
             Row {
