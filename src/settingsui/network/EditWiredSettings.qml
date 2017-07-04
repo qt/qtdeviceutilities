@@ -74,6 +74,7 @@ Item {
                     anchors.fill: parent
 
                     ComboBoxEntry {
+                        id: ipv4Method
                         title:  qsTr("Connection method:")
                         titleWidth: content.titleWidth
                         model: ListModel {
@@ -92,7 +93,6 @@ Item {
                                 method: NetworkSettingsIPv4.Off
                             }
                         }
-                        Component.onCompleted: currentIndex = service.ipv4.method
                         onCurrentIndexChanged: {
                             ipv4Changed = true;
                             service.ipv4.method = model.get(currentIndex).method;
@@ -156,6 +156,7 @@ Item {
                     anchors.fill: parent
 
                     ComboBoxEntry {
+                        id: ipv6Method
                         title: qsTr("Connection method:")
                         titleWidth: content.titleWidth
                         model: ListModel {
@@ -174,8 +175,6 @@ Item {
                                 method: NetworkSettingsIPv6.Off
                             }
                         }
-
-                        Component.onCompleted: currentIndex = service.ipv6.method
 
                         onCurrentIndexChanged: {
                             ipv6Changed = true;
@@ -359,5 +358,9 @@ Item {
             }
             stackView.pop();
         }
+    }
+    onServiceChanged: {
+        ipv4Method.currentIndex = service.ipv4.method
+        ipv6Method.currentIndex = service.ipv6.method
     }
 }
