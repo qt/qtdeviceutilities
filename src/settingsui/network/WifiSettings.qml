@@ -209,15 +209,22 @@ Item {
                         }
                     }
                 }
-                Button {
-                    id: disconnect
-                    text: qsTr("Disconnect")
+                ColumnLayout {
+                    spacing: parent.spacing
+                    width: parent.width
                     visible: selectedInterface.state === NetworkSettingsState.Online ||
                              selectedInterface.state === NetworkSettingsState.Ready
-                    onClicked: {
-                        NetworkSettingsManager.services.itemFromRow(networkSelection.currentIndex).disconnectService();
-                        networkSelection.currentIndex = -1;
-                        root.connecting = false
+                    Label {
+                        text: qsTr("IP Address: ") + NetworkSettingsManager.services.itemFromRow(networkSelection.currentIndex).ipv4.address
+                    }
+                    Button {
+                        id: disconnect
+                        text: qsTr("Disconnect")
+                        onClicked: {
+                            NetworkSettingsManager.services.itemFromRow(networkSelection.currentIndex).disconnectService();
+                            networkSelection.currentIndex = -1;
+                            root.connecting = false
+                        }
                     }
                 }
             }
