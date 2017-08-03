@@ -44,6 +44,12 @@ Item {
         ipv4Method.currentIndex = service.ipv4.method
     }
 
+    onServiceChanged: {
+        if (!service) {
+            service = NetworkSettingsManager.services.itemFromRow(0);
+        }
+    }
+
     GroupBox {
         title: qsTr("Ethernet Connection")
         anchors.fill: parent

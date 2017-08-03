@@ -46,6 +46,7 @@ public:
     QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const;
     QHash<int, QByteArray> roleNames() const;
 
+    bool replacePlaceholder(QNetworkSettingsService* networkService);
     void append(QNetworkSettingsService* networkService);
     void insert(int row, QNetworkSettingsService* networkInterface);
     void remove(int row);
@@ -76,6 +77,7 @@ class Q_DECL_EXPORT QNetworkSettingsServiceFilter : public QSortFilterProxyModel
 {
     Q_OBJECT
     Q_PROPERTY(QNetworkSettingsType::Types type READ type WRITE setType NOTIFY typeChanged)
+    Q_PROPERTY(bool wiredNetworksAvailable MEMBER m_wiredNetworksAvailable WRITE setWiredNetworksAvailable NOTIFY wiredNetworksAvailableChanged)
 public:
     explicit QNetworkSettingsServiceFilter(QObject* parent = Q_NULLPTR);
     virtual ~QNetworkSettingsServiceFilter();
@@ -84,10 +86,13 @@ public:
     void setType(QNetworkSettingsType::Types type);
     Q_INVOKABLE QVariant itemFromRow(const int row) const;
     Q_INVOKABLE int activeRow() const;
+    void setWiredNetworksAvailable(bool);
 Q_SIGNALS:
     void typeChanged();
+    void wiredNetworksAvailableChanged();
 private:
     QNetworkSettingsType::Types m_type;
+    bool m_wiredNetworksAvailable;
 };
 
 QT_END_NAMESPACE

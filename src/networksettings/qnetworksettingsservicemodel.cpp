@@ -75,10 +75,30 @@ QVariant QNetworkSettingsServiceModel::data(const QModelIndex & index, int role)
     return QVariant();
 }
 
+bool QNetworkSettingsServiceModel::replacePlaceholder(QNetworkSettingsService* item)
+{
+    if (item->type() == QNetworkSettingsType::Wired) {
+        for (int i = 0; i < m_items.size(); ++i) {
+            QNetworkSettingsService* existing = m_items.at(i);
+            if (existing->placeholderState()) {
+                m_items.replace(i, item);
+                existing->deleteLater();
+                updated(i);
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 void QNetworkSettingsServiceModel::append(QNetworkSettingsService* item)
 {
     item->setParent(this);
     connectStateChanges(item);
+
+    if ((item->type() == QNetworkSettingsType::Wired) && replacePlaceholder(item)) {
+        return;
+    }
 
     beginResetModel();
     m_items.append(item);
@@ -89,6 +109,11 @@ void QNetworkSettingsServiceModel::insert(int row, QNetworkSettingsService* item
 {
     item->setParent(this);
     connectStateChanges(item);
+
+    if ((item->type() == QNetworkSettingsType::Wired) && replacePlaceholder(item)) {
+        return;
+    }
+
     beginInsertRows(QModelIndex(), row, row);
     m_items.insert(row, item);
     endInsertRows();
@@ -105,6 +130,12 @@ void QNetworkSettingsServiceModel::connectStateChanges(QNetworkSettingsService* 
 void QNetworkSettingsServiceModel::remove(int row)
 {
     QNetworkSettingsService* item = m_items.at(row);
+    if (item->type() == QNetworkSettingsType::Wired) {
+        /* Don't remove a wired service so that it doesn't become undefined in the UI.
+           This avoids problems when a cable is disconnected. */
+        item->setPlaceholderState(true);
+        return;
+    }
     item->deleteLater();
     beginRemoveRows(QModelIndex(), row, row);
     m_items.removeAt(row);
@@ -261,4 +292,10 @@ int QNetworkSettingsServiceFilter::activeRow() const
         row++;
     }
     return -1;
+}
+
+void QNetworkSettingsServiceFilter::setWiredNetworksAvailable(bool wiredNetworksAvailable)
+{
+    m_wiredNetworksAvailable = wiredNetworksAvailable;
+    emit wiredNetworksAvailableChanged();
 }

@@ -72,6 +72,8 @@ protected:
     void setupQNetworkSettingsProxy();
     void connectService();
     void disconnectService();
+    void setPlaceholderState(bool placeholderState);
+    bool placeholderState() const;
 
     QString m_id;
     QString m_name;
@@ -84,6 +86,7 @@ protected:
     QNetworkSettingsWireless m_wifiConfig;
     QNetworkSettingsType m_type;
     NetConnmanServiceInterface *m_service;
+    bool m_placeholderState;
 };
 
 #endif // QNETWORKSETTINGSSERVICEPRIVATE_H

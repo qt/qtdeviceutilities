@@ -151,6 +151,18 @@ QNetworkSettingsWireless* QNetworkSettingsService::wirelessConfig()
     return &d->m_wifiConfig;
 }
 
+void QNetworkSettingsService::setPlaceholderState(bool placeholderState)
+{
+    Q_D(QNetworkSettingsService);
+    d->setPlaceholderState(placeholderState);
+}
+
+bool QNetworkSettingsService::placeholderState() const
+{
+    Q_D(const QNetworkSettingsService);
+    return d->placeholderState();
+}
+
 /*!
     \qmlproperty object NetworkService::domains
     \readonly

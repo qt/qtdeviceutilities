@@ -72,6 +72,7 @@ Item {
 
                 RadioButton {
                     id: btn
+                    enabled: (type != NetworkSettingsType.Wired) || NetworkSettingsManager.services.wiredNetworksAvailable
                     Layout.fillWidth: true
                     implicitHeight: 54
 
@@ -98,7 +99,8 @@ Item {
                                     text: name
                                 }
                                 Label {
-                                    text: networkSelect.stateToStr(modelData.state)
+                                    text: ((type == NetworkSettingsType.Wired) && !NetworkSettingsManager.services.wiredNetworksAvailable) ?
+                                              qsTr("No networks") : networkSelect.stateToStr(modelData.state)
                                     font.pixelSize: 12
                                 }
                             }

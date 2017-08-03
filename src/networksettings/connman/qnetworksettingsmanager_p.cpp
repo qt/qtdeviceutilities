@@ -114,6 +114,7 @@ void QNetworkSettingsManagerPrivate::getTechnologiesFinished(QDBusPendingCallWat
 
     foreach (const ConnmanMapStruct &object, reply.value()) {
         ConnmanSettingsInterface *item = new ConnmanSettingsInterface(object.objectPath.path(), object.propertyMap, this);
+        item->scanServices();
 
         if (item->type() == QNetworkSettingsType::Wired) {
             m_interfaceModel.insert(0, item);
@@ -158,6 +159,9 @@ void QNetworkSettingsManagerPrivate::handleNewService(const QString &servicePath
     if (service->name().length() > 0 && service->type() != QNetworkSettingsType::Unknown) {
         m_serviceModel->append(service);
         emit q->servicesChanged();
+        if (service->type() == QNetworkSettingsType::Wired) {
+            m_serviceFilter->setWiredNetworksAvailable(true);
+        }
     }
     else {
         //Service name or type not set, wait for update
@@ -180,6 +184,9 @@ void QNetworkSettingsManagerPrivate::serviceReady()
         service->disconnect(this);
         m_serviceModel->append(service);
         emit q->servicesChanged();
+        if (service->type() == QNetworkSettingsType::Wired) {
+            m_serviceFilter->setWiredNetworksAvailable(true);
+        }
 
         //Update the interface state accordingly
         foreach (QNetworkSettingsInterface* item, m_interfaceModel.getModel()) {

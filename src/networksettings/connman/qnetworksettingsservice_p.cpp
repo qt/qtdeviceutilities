@@ -324,6 +324,16 @@ void QNetworkSettingsServicePrivate::disconnectService()
 
 }
 
+void QNetworkSettingsServicePrivate::setPlaceholderState(bool placeholderState)
+{
+    m_placeholderState = placeholderState;
+}
+
+bool QNetworkSettingsServicePrivate::placeholderState() const
+{
+    return m_placeholderState;
+}
+
 void QNetworkSettingsServicePrivate::propertiesUpdated(QDBusPendingCallWatcher *call)
 {
     QDBusPendingReply<QVariantMap> reply = *call;

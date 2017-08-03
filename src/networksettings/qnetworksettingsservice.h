@@ -63,6 +63,8 @@ public:
     QAbstractItemModel* domains();
     QAbstractItemModel* nameservers();
     QNetworkSettingsWireless* wirelessConfig();
+    void setPlaceholderState(bool placeholderState);
+    bool placeholderState() const;
 
     Q_INVOKABLE void setAutoConnect(const bool autoconnect);
     Q_INVOKABLE void setupIpv4Config();
