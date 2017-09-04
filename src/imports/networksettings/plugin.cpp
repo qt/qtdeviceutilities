@@ -54,6 +54,9 @@
     import QtDeviceUtilities.NetworkSettings 1.0
     \endcode
 
+    \l{Qt Device Utilities WiFi Tutorial} demonstrates how you can use
+    \l{QtDeviceUtilities.NetworkSettings}{NetworkSettings} for connecting to WiFi.
+
     \note Some functions may not be available on all of the platforms.
 
     \section1 QML Types
@@ -66,6 +69,9 @@
 
     There is no need to create an instance of this object. To use it,
     simply import the \c {QtDeviceUtilities.NetworkSettings} module.
+
+    \l{Qt Device Utilities WiFi Tutorial} demonstrates how you can use
+    \l{NetworkSettingsManager} for connecting to WiFi.
 */
 
 /*!
