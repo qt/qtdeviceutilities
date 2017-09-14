@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2016 The Qt Company Ltd.
+** Copyright (C) 2017 The Qt Company Ltd.
 ** All rights reserved.
 ** For any questions to The Qt Company, please use the contact form at
 ** http://www.qt.io/contact-us
@@ -48,5 +48,19 @@
 
     \section2 Settings UI
     \generatelist qmltypesbymodule QtDeviceUtilities.SettingsUI
+
+    \section1 Tutorial and Example Code
+
+    \l{Qt Device Utilities WiFi Tutorial} demonstrates how you can use
+    the \l{QtDeviceUtilities.NetworkSettings}{NetworkSettings} module for
+    connecting to WiFi.
+
+    The source code of Qt Device Utilities is availabe via a public Git repository.
+    For more information, see \l{Device Utilities Git Repository}.
+
+    You find the Qt Device Utilities module sources under
+    \l{http://code.qt.io/cgit/qt/qtdeviceutilities.git/tree/src}. Especially,
+    the sources of \l{Settings UI} provide examples of how to use Qt Device Utilities.
+
 */
 

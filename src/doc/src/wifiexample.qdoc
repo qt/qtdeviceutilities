@@ -1,0 +1,78 @@
+/****************************************************************************
+**
+** Copyright (C) 2017 The Qt Company Ltd.
+** All rights reserved.
+** For any questions to The Qt Company, please use the contact form at
+** http://www.qt.io/contact-us
+**
+** This file is part of Qt for Device Creation.
+**
+** Licensees holding valid commercial Qt licenses may use this file in
+** accordance with the commercial license agreement provided with the
+** Software or, alternatively, in accordance with the terms contained in
+** a written agreement between you and The Qt Company. For licensing terms
+** and conditions see http://www.qt.io/terms-conditions. For further
+** information use the contact form at http://www.qt.io/contact-us.
+**
+****************************************************************************/
+/*!
+    \page qtdeviceutilities-wifitutorial.html
+    \title Qt Device Utilities WiFi Tutorial
+    \previouspage qtee-module-reference.html
+
+    \section1 Importing NetworkSettings
+
+    Import the NetworkSettings module as follows:
+    \badcode
+    import QtDeviceUtilities.NetworkSettings 1.0
+    \endcode
+
+    \section1 Filtering WiFi Networks
+
+    In order to connect to WiFi instead of wired networks, set
+    NetworkSettingsManager in a WiFi filtering mode:
+
+    \badcode
+    Component.onCompleted: NetworkSettingsManager.services.type = NetworkSettingsType.Wifi;
+    \endcode
+
+    After you have set the filter, \l{NetworkSettingsManager::services}{NetworkSettingsManager.services} contains
+    the NetworkService objects services representing WiFi networks.
+
+    \section1 Connecting to WiFi
+
+    In order to connect to Wifi, invoke the
+    \l{NetworkService::connectService()}{connectService} method on NetworkService.
+
+    If no passphrase is needed, \l{NetworkService::connectService()}{connectService}
+    connects to a WiFi network and changes the connected property of the selected service.
+
+    If a passphrase is needed, NetworkSettingsManager.userAgent
+    emits the \l{NetworkSettingsManager::userAgent.showUserCredentialsInput}{showUserCredentialsInput} signal.
+    Before a WiFi network is connected, you must provide the passphrase via
+    \l{NetworkSettingsManager::userAgent.setPassphrase}{NetworkSettingsManager.userAgent.setPassPhrase}.
+
+    To implement the passphrase handling, you must set a signal handler as follows:
+    \badcode
+            Connections {
+                target: NetworkSettingsManager.userAgent
+                onShowUserCredentialsInput : {
+                // obtain the passphrase and set it
+                }
+                onError: {
+                // handle errors
+                }
+            }
+    \endcode
+
+    \section1 Implementing User Interface
+
+    When you are implementing a user interface for handling WiFi connections,
+    remember that \l{NetworkSettingsManager::services}{NetworkSettingsManager.services}
+    is designed to be used as a model. The \l{Settings UI} implementation
+    uses it directly to display a list of available WiFi networks.
+
+    Handling WiFi connections and passphrases for list selections
+    should be straightforward as described in \l{Filtering WiFi Networks} and
+    \l{Connecting to WiFi}.
+*/
