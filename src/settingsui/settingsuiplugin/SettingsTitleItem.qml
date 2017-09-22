@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2016 The Qt Company Ltd.
+** Copyright (C) 2017 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
 **
 ** This file is part of the Device Utilities module of the Qt Toolkit.
@@ -26,19 +26,32 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-import QtQuick 2.6
-import QtQuick.Layouts 1.3
-import QtQuick.Controls 2.2
-import QtDeviceUtilities.NetworkSettings 1.0
-import QtDemoLauncher.QtButtonImageProvider 1.0
+import QtQuick 2.0
 
-Item {
-    NetworkListView {
-        id: networkList
-        anchors.top: parent.top
-        anchors.topMargin: parent.height * 0.025
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.bottom: parent.bottom
+Column {
+    id: page
+    spacing: pluginMain.spacing
+
+    property alias title: displayText.text
+
+    Text {
+        id: displayText
+        font.pixelSize: pluginMain.titleFontSize
+        color: "white"
+        fontSizeMode: Text.Fit
+        minimumPixelSize: 1
+        font.family: appFont
+        font.styleName: "Bold"
+    }
+
+    Rectangle {
+        id: btmLine
+        width: page.parent.width * 0.3
+        height: 3
+    }
+
+    Item {
+        height: pluginMain.margin
+        width: 1
     }
 }

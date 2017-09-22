@@ -37,30 +37,9 @@ Item {
     id: root
     property var currentRegion: Qt.locale(LocaleManager.locale)
 
-    Text {
-        id: languageAndRegionTitle
-        anchors.top: parent.top
-        anchors.left: parent.left
-        fontSizeMode: Text.Fit
-        minimumPixelSize: 1
-        font.pixelSize: parent.height * 0.05
-        color: "white"
-        text: qsTr("Language & Region")
-        font.family: appFont
-        font.styleName: "Bold"
-    }
-    Rectangle {
-        id: btmLine
-        anchors.top: languageAndRegionTitle.bottom
-        anchors.topMargin: parent.height * 0.025
-        anchors.left: languageAndRegionTitle.left
-        width: parent.width * 0.275
-        height: parent.height * 0.005
-    }
-
     Row {
         id: regionRow
-        anchors.top: btmLine.bottom
+        anchors.top: parent.top
         anchors.topMargin: parent.height * 0.075
         anchors.left: parent.left
         height: parent.height * 0.075

@@ -33,32 +33,10 @@ import QtDeviceUtilities.BluetoothSettings 1.0
 
 Item {
     id: root
-    property string title: qsTr("Bluetooth Settings")
 
-    Text {
-        id: bluetoothText
-        anchors.top: parent.top
-        anchors.left: parent.left
-        fontSizeMode: Text.Fit
-        minimumPixelSize: 1
-        font.pixelSize: parent.height * 0.05
-        color: "white"
-        text: qsTr("Bluetooth")
-        font.family: appFont
-        font.styleName: "Bold"
-    }
-
-    Rectangle {
-        id: btmLine
-        anchors.top: bluetoothText.bottom
-        anchors.topMargin: parent.height * 0.025
-        anchors.left: bluetoothText.left
-        width: parent.width * 0.275
-        height: parent.height * 0.005
-    }
     Row {
         id: bluetoothRow
-        anchors.top: btmLine.bottom
+        anchors.top: parent.top
         anchors.topMargin: parent.height * 0.05
         anchors.left: parent.left
         anchors.right: parent.right

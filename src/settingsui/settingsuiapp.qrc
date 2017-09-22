@@ -10,5 +10,9 @@
         <file>network/PassphraseEnter.qml</file>
         <file>locale/TableKey.qml</file>
         <file>locale/TableValue.qml</file>
+        <file>settingsuiplugin/SettingsDelegate.qml</file>
+        <file>settingsuiplugin/SettingsHeader.qml</file>
+        <file>settingsuiplugin/SettingsTitleItem.qml</file>
+        <file>settingsuiplugin/ShutdownPopup.qml</file>
     </qresource>
 </RCC>

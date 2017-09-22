@@ -32,57 +32,28 @@ import QtDemoLauncher.QtButtonImageProvider 1.0
 
 Item {
     id: root
-    property int margin: root.width * 0.05
 
-    Text {
-        id: powerText
+    Column {
         anchors.top: parent.top
-        anchors.left: parent.left
-        fontSizeMode: Text.Fit
-        minimumPixelSize: 1
-        font.pixelSize: parent.height * 0.05
-        color: "white"
-        text: qsTr("Power")
-        font.family: appFont
-        font.styleName: "Bold"
-    }
-    Rectangle {
-        id: btmLine
-        anchors.top: powerText.bottom
-        anchors.topMargin: parent.height * 0.025
-        anchors.left: powerText.left
-        width: parent.width * 0.275
-        height: parent.height * 0.005
-    }
+        spacing: pluginMain.margin
 
-    QtButton {
-        id: shutdownButton
-        width: btmLine.width
-        height: parent.height * 0.075
-        anchors.top: btmLine.bottom
-        anchors.topMargin: parent.height * 0.05
-        fillColor: "#41cd52"
-        borderColor: "transparent"
-        text: qsTr("SHUTDOWN")
-        onClicked: {
-            shutdownPopup.powerOffText = qsTr("Shut down the system?")
-            shutdownPopup.buttonText = qsTr("SHUT DOWN")
-            shutdownPopup.open()
+        QtButton {
+            id: shutdownButton
+            width: root.width * 0.25
+            height: pluginMain.fieldHeight
+            fillColor: "#41cd52"
+            borderColor: "transparent"
+            text: qsTr("SHUTDOWN")
+            onClicked: shutdownPopup.open(true)
         }
-    }
-    QtButton {
-        id: rebootButton
-        width: btmLine.width
-        height: parent.height * 0.075
-        anchors.top: shutdownButton.bottom
-        anchors.topMargin: parent.height * 0.05
-        fillColor: "#41cd52"
-        borderColor: "transparent"
-        text: qsTr("REBOOT")
-        onClicked: {
-            shutdownPopup.powerOffText = qsTr("Reboot the system?")
-            shutdownPopup.buttonText = qsTr("REBOOT")
-            shutdownPopup.open()
+        QtButton {
+            id: rebootButton
+            width: root.width * 0.25
+            height: pluginMain.fieldHeight
+            fillColor: "#41cd52"
+            borderColor: "transparent"
+            text: qsTr("REBOOT")
+            onClicked: shutdownPopup.open(false)
         }
     }
 }

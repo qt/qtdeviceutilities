@@ -34,177 +34,156 @@ import QtDemoLauncher.QtButtonImageProvider 1.0
 
 Item {
     id: root
-    property string title: qsTr("Display Settings")
-    property int titleWidth: width * 0.382
-    property int margin: root.width * 0.05
+    anchors.fill: parent
 
-    Text {
-        id: displayText
+    Column {
+        spacing: pluginMain.spacing
         anchors.top: parent.top
-        anchors.left: parent.left
-        font.pixelSize: parent.height * 0.045
-        color: "white"
-        text: qsTr("Display")
-    }
+        anchors.topMargin: pluginMain.margin
 
-    Rectangle {
-        id: btmLine
-        anchors.top: displayText.bottom
-        anchors.topMargin: parent.height * 0.025
-        anchors.left: displayText.left
-        width: parent.width * 0.275
-        height: parent.height * 0.005
-    }
+        Text {
+            verticalAlignment: Text.AlignVCenter
+            font.pixelSize: pluginMain.subTitleFontSize
+            text: qsTr("Brightness ") + (brightnessSlider.value / 255 * 100).toFixed(1) + "%"
+            color: "white"
+            height: pluginMain.fieldTextHeight
+        }
 
-    Label {
-        id: brightnessLabel
-        anchors.top: btmLine.bottom
-        anchors.topMargin: parent.height * 0.1
-        font.pixelSize: parent.height * 0.04
-        text: qsTr("Brightness ") + (brightnessSlider.valueAt(brightnessSlider.position) / 255 * 100).toFixed(1) + "%"
-        horizontalAlignment: Text.AlignRight
-        color: "white"
-    }
+        Slider {
+            id: brightnessSlider
+            width: root.width
+            height: pluginMain.buttonHeight
+            Layout.alignment: Qt.AlignVCenter
+            Layout.fillWidth: true
+            from: 0
+            to: 255
+            onValueChanged: DisplaySettings.setDisplayBrightness(value)
 
-    Slider {
-        id: brightnessSlider
-        anchors.top: brightnessLabel.bottom
-        anchors.topMargin: parent.height * 0.05
-        anchors.left: parent.left
-        anchors.right: parent.right
-        value: DisplaySettings.displayBrightness
-        Layout.alignment: Qt.AlignVCenter
-        Layout.fillWidth: true
-        from: 0
-        to: 255
-        background: Rectangle {
-            id: sliderBackground
-            x: brightnessSlider.leftPadding
-            y: brightnessSlider.topPadding + brightnessSlider.availableHeight / 2 - height / 2
-            implicitWidth: root.width
-            implicitHeight: root.height * 0.01
-            width: brightnessSlider.availableWidth
-            height: implicitHeight
-            radius: 2
-            color: "#9d9faa"
-            Rectangle {
-                width: brightnessSlider.visualPosition * parent.width
-                height: parent.height
-                color: "white"
+            background: Rectangle {
+                id: sliderBackground
+                x: brightnessSlider.leftPadding
+                y: brightnessSlider.topPadding + brightnessSlider.availableHeight / 2 - height / 2
+                implicitWidth: root.width
+                implicitHeight: root.height * 0.01
+                width: brightnessSlider.availableWidth
+                height: implicitHeight
                 radius: 2
+                color: "#9d9faa"
+                Rectangle {
+                    width: brightnessSlider.visualPosition * parent.width
+                    height: parent.height
+                    color: "white"
+                    radius: 2
+                }
             }
-        }
-        handle: Rectangle {
-            x: brightnessSlider.leftPadding + brightnessSlider.visualPosition * (brightnessSlider.availableWidth - width)
-            y: brightnessSlider.topPadding + brightnessSlider.availableHeight / 2 - height / 2
-            height: sliderBackground.height * 7
-            width: height
-            radius: 1000
-            antialiasing: true
-            color: "#41cd52"
-        }
-    }
+            handle: Rectangle {
+                x: brightnessSlider.leftPadding + brightnessSlider.visualPosition * (brightnessSlider.availableWidth - width)
+                y: brightnessSlider.topPadding + brightnessSlider.availableHeight / 2 - height / 2
+                height: sliderBackground.height * 7
+                width: height
+                radius: width * 0.5
+                antialiasing: true
+                color: "#41cd52"
+            }
 
-    Label {
-        id: screenSizeLabel
-        anchors.top: brightnessSlider.bottom
-        anchors.topMargin: parent.height * 0.1
-        font.pixelSize: parent.height * 0.04
-        text: qsTr("Physical screen size")
-        Layout.preferredWidth: root.titleWidth
-        Layout.alignment: Qt.AlignVCenter
-        horizontalAlignment: Text.AlignRight
-        wrapMode: Label.WordWrap
-        color: "white"
-    }
+            Component.onCompleted:  brightnessSlider.value = DisplaySettings.displayBrightness
+        }
 
-    Row {
-        id: widthRow
-        height: parent.height * 0.075
-        anchors.top: screenSizeLabel.bottom
-        anchors.topMargin: parent.height * 0.035
-        anchors.left: parent.left
+        Item {
+            height: pluginMain.margin
+            width: 1
+        }
+
         Text {
-            id: widthText
-            height: parent.height
-            width: root.width * 0.075
-            text: qsTr("Width")
-            color: "white"
-            font.pixelSize: height * 0.35
             verticalAlignment: Text.AlignVCenter
-            horizontalAlignment: Text.AlignLeft
+            height: pluginMain.fieldTextHeight
+            font.pixelSize: pluginMain.subTitleFontSize
+            text: qsTr("Physical screen size")
+            Layout.preferredWidth: root.width * 0.3
+            Layout.alignment: Qt.AlignVCenter
+            wrapMode: Label.WordWrap
+            color: "white"
         }
-        TextField {
-            id: widthField
-            width: root.width * 0.1
-            height: parent.height
-            color: "black"
-            text: DisplaySettings.physicalScreenWidthMm
-            inputMethodHints: Qt.ImhDigitsOnly
-            background: Rectangle {
-                border.color: widthField.focus ? "#41cd52" : "transparent"
-                border.width: parent.width * 0.05
+
+        Row {
+            spacing: pluginMain.spacing
+
+            Text {
+                id: widthText
+                height: pluginMain.buttonHeight
+                width: root.width * 0.1
+                text: qsTr("Width")
+                color: "white"
+                font.pixelSize: pluginMain.valueFontSize
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignLeft
+            }
+            TextField {
+                id: widthField
+                height: pluginMain.buttonHeight
+                width: widthText.width
+                color: "black"
+                text: DisplaySettings.physicalScreenWidthMm
+                inputMethodHints: Qt.ImhDigitsOnly
+                background: Rectangle {
+                    border.color: widthField.focus ? "#41cd52" : "transparent"
+                    border.width: parent.width * 0.05
+                }
+            }
+            Item {
+                width: pluginMain.spacing
+                height: 1
+            }
+
+            Text {
+                id: heightText
+                height: pluginMain.buttonHeight
+                width: widthText.width
+                text: qsTr("Height")
+                color: "white"
+                font.pixelSize: pluginMain.valueFontSize
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignLeft
+            }
+            TextField {
+                id: heightField
+                width: widthText.width
+                height: pluginMain.buttonHeight
+                color: "black"
+                text: DisplaySettings.physicalScreenHeightMm
+                inputMethodHints: Qt.ImhDigitsOnly
+                background: Rectangle {
+                    border.color: heightField.focus ? "#41cd52" : "transparent"
+                    border.width: parent.width * 0.05
+                }
             }
         }
-    }
 
-    Row {
-        id: heightRow
-        height: parent.height * 0.075
-        anchors.top: screenSizeLabel.bottom
-        anchors.topMargin: parent.height * 0.035
-        anchors.left: widthRow.right
-        anchors.leftMargin: root.margin * 0.5
-        Text {
-            id: heightText
-            height: parent.height
-            width: root.width * 0.085
-            text: qsTr("Height")
-            color: "white"
-            font.pixelSize: height * 0.35
-            verticalAlignment: Text.AlignVCenter
-            horizontalAlignment: Text.AlignLeft
-        }
-        TextField {
-            id: heightField
-            width: root.width * 0.1
-            height: parent.height
-            color: "black"
-            text: DisplaySettings.physicalScreenHeightMm
-            inputMethodHints: Qt.ImhDigitsOnly
-            background: Rectangle {
-                border.color: heightField.focus ? "#41cd52" : "transparent"
-                border.width: parent.width * 0.05
+        Row {
+            spacing: pluginMain.spacing
+
+            QtButton {
+                id: setButton
+                height: pluginMain.buttonHeight
+                fillColor: "#41cd52"
+                borderColor: "transparent"
+                text: qsTr("SET")
+                onClicked: {
+                    DisplaySettings.physicalScreenHeightMm = parseInt(heightField.text)
+                    DisplaySettings.physicalScreenWidthMm = parseInt(widthField.text)
+                }
             }
-        }
-    }
-
-    QtButton {
-        id: setButton
-        height: parent.height * 0.075
-        anchors.top: heightRow.bottom
-        anchors.topMargin: parent.height * 0.035
-        fillColor: "#41cd52"
-        borderColor: "transparent"
-        text: qsTr("SET")
-        onClicked: {
-            DisplaySettings.physicalScreenHeightMm = parseInt(heightField.text)
-            DisplaySettings.physicalScreenWidthMm = parseInt(widthField.text)
-        }
-    }
-    QtButton {
-        id: resetButton
-        height: parent.height * 0.075
-        anchors.top: heightRow.bottom
-        anchors.topMargin: parent.height * 0.035
-        anchors.left: setButton.right
-        anchors.leftMargin: root.margin * 0.5
-        borderColor: "transparent"
-        fillColor: "#9d9faa"
-        text: qsTr("RESET TO DEFAULT")
-        onClicked: {
-            DisplaySettings.physicalScreenHeightMm = 90
-            DisplaySettings.physicalScreenWidthMm = 154
+            QtButton {
+                id: resetButton
+                height: pluginMain.buttonHeight
+                borderColor: "transparent"
+                fillColor: "#9d9faa"
+                text: qsTr("RESET TO DEFAULT")
+                onClicked: {
+                    DisplaySettings.physicalScreenHeightMm = 90
+                    DisplaySettings.physicalScreenWidthMm = 154
+                }
+            }
         }
     }
 }

@@ -32,5 +32,9 @@
         <file>../network/PassphraseEnter.qml</file>
         <file>../locale/TableKey.qml</file>
         <file>../locale/TableValue.qml</file>
+        <file>SettingsHeader.qml</file>
+        <file>SettingsDelegate.qml</file>
+        <file>SettingsTitleItem.qml</file>
+        <file>ShutdownPopup.qml</file>
     </qresource>
 </RCC>

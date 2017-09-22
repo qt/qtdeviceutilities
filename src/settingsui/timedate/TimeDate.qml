@@ -44,32 +44,10 @@ Item {
         contentWidth: width
 
         Text {
-            id: dateAndTimeTitle
-            anchors.top: parent.top
-            anchors.left: parent.left
-            fontSizeMode: Text.Fit
-            minimumPixelSize: 1
-            font.pixelSize: parent.height * 0.05
-            color: "white"
-            text: qsTr("Date & Time")
-            font.family: appFont
-            font.styleName: "Bold"
-        }
-
-        Rectangle {
-            id: btmLine
-            anchors.top: dateAndTimeTitle.bottom
-            anchors.topMargin: parent.height * 0.025
-            anchors.left: dateAndTimeTitle.left
-            width: parent.width * 0.275
-            height: parent.height * 0.005
-        }
-
-        Text {
             id: dateText
             width: parent.width
             height: parent.height * 0.055
-            anchors.top: btmLine.bottom
+            anchors.top: parent.top
             anchors.left: parent.left
             anchors.topMargin: parent.height * 0.05
             fontSizeMode: Text.Fit
