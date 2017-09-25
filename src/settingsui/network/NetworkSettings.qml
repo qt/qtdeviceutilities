@@ -30,7 +30,7 @@ import QtQuick 2.6
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.2
 import QtDeviceUtilities.NetworkSettings 1.0
-import QtDemoLauncher.QtButtonImageProvider 1.0
+import QtDeviceUtilities.QtButtonImageProvider 1.0
 
 Item {
     NetworkListView {

@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2017 The Qt Company Ltd.
+** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
 **
 ** This file is part of the Device Utilities module of the Qt Toolkit.
@@ -27,33 +27,31 @@
 **
 ****************************************************************************/
 import QtQuick 2.0
-import QtQuick.Controls 2.1
-import QtDeviceUtilities.QtButtonImageProvider 1.0
 
-Item {
+Image {
     id: root
+    source: "image://QtButton/" + cutSize + "/" + fillColor + "/" + borderColor
+    sourceSize: Qt.size(width, height)
+    property string state: "enabled"
+    property int cutSize: 10
+    property color fillColor: "white"
+    property color borderColor: "black"
+    property alias text: buttonText.text
+    signal clicked()
 
-    Column {
-        anchors.top: parent.top
-        spacing: pluginMain.margin
+    width: buttonText.contentWidth + cutSize * 4
 
-        QtButton {
-            id: shutdownButton
-            width: root.width * 0.25
-            height: pluginMain.fieldHeight
-            fillColor: "#41cd52"
-            borderColor: "transparent"
-            text: qsTr("SHUTDOWN")
-            onClicked: shutdownPopup.open(true)
-        }
-        QtButton {
-            id: rebootButton
-            width: root.width * 0.25
-            height: pluginMain.fieldHeight
-            fillColor: "#41cd52"
-            borderColor: "transparent"
-            text: qsTr("REBOOT")
-            onClicked: shutdownPopup.open(false)
-        }
+    MouseArea {
+        anchors.fill: parent
+        onClicked: root.clicked()
+    }
+    Text {
+        id: buttonText
+        anchors.fill: parent
+        verticalAlignment: Text.AlignVCenter
+        horizontalAlignment: Text.AlignHCenter
+        font.pixelSize: parent.height * 0.65
+        font.family: appFont
+        color: "white"
     }
 }

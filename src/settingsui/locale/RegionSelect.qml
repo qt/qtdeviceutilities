@@ -32,7 +32,7 @@ import QtQuick.Controls 2.0
 import QtDeviceUtilities.LocaleSettings 1.0
 import "../common"
 import QtGraphicalEffects 1.0
-import QtDemoLauncher.QtButtonImageProvider 1.0
+import QtDeviceUtilities.QtButtonImageProvider 1.0
 
 Item {
     id: root

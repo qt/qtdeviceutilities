@@ -34,7 +34,7 @@ import QtQuick.XmlListModel 2.0
 import QtDeviceUtilities.LocalDeviceSettings 1.0
 import QtDeviceUtilities.NetworkSettings 1.0
 import QtGraphicalEffects 1.0
-import QtDemoLauncher.QtButtonImageProvider 1.0
+import QtDeviceUtilities.QtButtonImageProvider 1.0
 
 Rectangle {
     id: pluginMain

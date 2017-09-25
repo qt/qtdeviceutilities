@@ -10,6 +10,7 @@ SUBDIRS += \
     timedatesettings \
     localdevice \
     settingsui/settingsuiplugin \
+    settingsui/qtbuttonimageproviderplugin \
     settingsui \
     imports \
     doc \

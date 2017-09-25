@@ -29,7 +29,7 @@
 import QtQuick 2.0
 import QtQml 2.0
 import QtDeviceUtilities.NetworkSettings 1.0
-import QtDemoLauncher.QtButtonImageProvider 1.0
+import QtDeviceUtilities.QtButtonImageProvider 1.0
 import QtQuick.Controls 2.1
 
 ListView {

@@ -26,34 +26,22 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-import QtQuick 2.0
-import QtQuick.Controls 2.1
-import QtDeviceUtilities.QtButtonImageProvider 1.0
+#ifndef QTBUTTONIMAGEPROVIDER_H
+#define QTBUTTONIMAGEPROVIDER_H
 
-Item {
-    id: root
+#include <QQuickImageProvider>
+#include <QPixmap>
 
-    Column {
-        anchors.top: parent.top
-        spacing: pluginMain.margin
+class QtButtonImageProvider : public QQuickImageProvider
+{
+public:
+    QtButtonImageProvider();
 
-        QtButton {
-            id: shutdownButton
-            width: root.width * 0.25
-            height: pluginMain.fieldHeight
-            fillColor: "#41cd52"
-            borderColor: "transparent"
-            text: qsTr("SHUTDOWN")
-            onClicked: shutdownPopup.open(true)
-        }
-        QtButton {
-            id: rebootButton
-            width: root.width * 0.25
-            height: pluginMain.fieldHeight
-            fillColor: "#41cd52"
-            borderColor: "transparent"
-            text: qsTr("REBOOT")
-            onClicked: shutdownPopup.open(false)
-        }
-    }
-}
+    QPixmap requestPixmap(const QString &id, QSize *size, const QSize &requestedSize);
+
+    void setCutSize(int size) { m_cutSize = size; }
+private:
+    int m_cutSize;
+};
+
+#endif // QTBUTTONIMAGEPROVIDER_H
