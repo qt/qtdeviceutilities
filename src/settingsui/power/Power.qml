@@ -39,7 +39,7 @@ Item {
 
         QtButton {
             id: shutdownButton
-            width: root.width * 0.25
+            width: root.width * 0.4
             height: pluginMain.fieldHeight
             fillColor: "#41cd52"
             borderColor: "transparent"
@@ -48,7 +48,7 @@ Item {
         }
         QtButton {
             id: rebootButton
-            width: root.width * 0.25
+            width: root.width * 0.4
             height: pluginMain.fieldHeight
             fillColor: "#41cd52"
             borderColor: "transparent"
