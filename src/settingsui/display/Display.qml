@@ -89,11 +89,6 @@ Item {
             Component.onCompleted:  brightnessSlider.value = DisplaySettings.displayBrightness
         }
 
-        Item {
-            height: pluginMain.margin
-            width: 1
-        }
-
         Text {
             verticalAlignment: Text.AlignVCenter
             height: pluginMain.fieldTextHeight
@@ -105,83 +100,83 @@ Item {
             color: "white"
         }
 
-        Row {
+        Column {
+            leftPadding: pluginMain.margin
             spacing: pluginMain.spacing
 
-            Text {
-                id: widthText
-                height: pluginMain.buttonHeight
-                width: root.width * 0.1
-                text: qsTr("Width")
-                color: "white"
-                font.pixelSize: pluginMain.valueFontSize
-                verticalAlignment: Text.AlignVCenter
-                horizontalAlignment: Text.AlignLeft
-            }
-            TextField {
-                id: widthField
-                height: pluginMain.buttonHeight
-                width: widthText.width
-                color: "black"
-                text: DisplaySettings.physicalScreenWidthMm
-                inputMethodHints: Qt.ImhDigitsOnly
-                background: Rectangle {
-                    border.color: widthField.focus ? "#41cd52" : "transparent"
-                    border.width: parent.width * 0.05
+            Row {
+                spacing: pluginMain.spacing
+
+                Text {
+                    id: widthText
+                    height: pluginMain.buttonHeight
+                    text: qsTr("Width")
+                    color: "white"
+                    font.pixelSize: pluginMain.valueFontSize
+                    verticalAlignment: Text.AlignVCenter
+                }
+                TextField {
+                    id: widthField
+                    height: pluginMain.buttonHeight
+                    width: root.width * 0.13
+                    color: "black"
+                    font.pixelSize: pluginMain.valueFontSize
+                    text: DisplaySettings.physicalScreenWidthMm
+                    horizontalAlignment: Text.AlignHCenter
+                    inputMethodHints: Qt.ImhDigitsOnly
+                    background: Rectangle {
+                        border.color: widthField.focus ? "#41cd52" : "transparent"
+                        border.width: parent.width * 0.05
+                    }
+                }
+                Text {
+                    id: heightText
+                    height: pluginMain.buttonHeight
+                    text: qsTr("Height")
+                    color: "white"
+                    font.pixelSize: pluginMain.valueFontSize
+                    verticalAlignment: Text.AlignVCenter
+                }
+                TextField {
+                    id: heightField
+                    width: widthField.width
+                    height: pluginMain.buttonHeight
+                    color: "black"
+                    font.pixelSize: pluginMain.valueFontSize
+                    text: DisplaySettings.physicalScreenHeightMm
+                    horizontalAlignment: Text.AlignHCenter
+                    inputMethodHints: Qt.ImhDigitsOnly
+                    background: Rectangle {
+                        border.color: heightField.focus ? "#41cd52" : "transparent"
+                        border.width: parent.width * 0.05
+                    }
                 }
             }
-            Item {
-                width: pluginMain.spacing
-                height: 1
-            }
 
-            Text {
-                id: heightText
-                height: pluginMain.buttonHeight
-                width: widthText.width
-                text: qsTr("Height")
-                color: "white"
-                font.pixelSize: pluginMain.valueFontSize
-                verticalAlignment: Text.AlignVCenter
-                horizontalAlignment: Text.AlignLeft
-            }
-            TextField {
-                id: heightField
-                width: widthText.width
-                height: pluginMain.buttonHeight
-                color: "black"
-                text: DisplaySettings.physicalScreenHeightMm
-                inputMethodHints: Qt.ImhDigitsOnly
-                background: Rectangle {
-                    border.color: heightField.focus ? "#41cd52" : "transparent"
-                    border.width: parent.width * 0.05
+            Row {
+                spacing: pluginMain.margin
+
+                QtButton {
+                    id: setButton
+                    height: pluginMain.buttonHeight
+                    fillColor: "#41cd52"
+                    borderColor: "transparent"
+                    text: qsTr("SET")
+                    onClicked: {
+                        DisplaySettings.physicalScreenHeightMm = parseInt(heightField.text)
+                        DisplaySettings.physicalScreenWidthMm = parseInt(widthField.text)
+                    }
                 }
-            }
-        }
-
-        Row {
-            spacing: pluginMain.spacing
-
-            QtButton {
-                id: setButton
-                height: pluginMain.buttonHeight
-                fillColor: "#41cd52"
-                borderColor: "transparent"
-                text: qsTr("SET")
-                onClicked: {
-                    DisplaySettings.physicalScreenHeightMm = parseInt(heightField.text)
-                    DisplaySettings.physicalScreenWidthMm = parseInt(widthField.text)
-                }
-            }
-            QtButton {
-                id: resetButton
-                height: pluginMain.buttonHeight
-                borderColor: "transparent"
-                fillColor: "#9d9faa"
-                text: qsTr("RESET TO DEFAULT")
-                onClicked: {
-                    DisplaySettings.physicalScreenHeightMm = 90
-                    DisplaySettings.physicalScreenWidthMm = 154
+                QtButton {
+                    id: resetButton
+                    height: pluginMain.buttonHeight
+                    borderColor: "transparent"
+                    fillColor: "#9d9faa"
+                    text: qsTr("RESET TO DEFAULT")
+                    onClicked: {
+                        DisplaySettings.physicalScreenHeightMm = 90
+                        DisplaySettings.physicalScreenWidthMm = 154
+                    }
                 }
             }
         }

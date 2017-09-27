@@ -49,7 +49,7 @@ Rectangle {
     property int spacing: margin * 0.5
     property int titleFontSize: height * 0.04
     property int subTitleFontSize: height * 0.035
-    property int valueFontSize: height * 0.03
+    property int valueFontSize: height * 0.025
     property int fieldHeight: height * 0.07
     property int fieldTextHeight: height * 0.05
     property int buttonHeight: height * 0.05
