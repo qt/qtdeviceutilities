@@ -36,7 +36,6 @@ Item {
     NetworkListView {
         id: networkList
         anchors.top: parent.top
-        anchors.topMargin: parent.height * 0.025
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: parent.bottom

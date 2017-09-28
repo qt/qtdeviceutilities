@@ -43,53 +43,38 @@ ListView {
     delegate: Item {
         id: networkDelegate
         width: list.width
-        height: expanded ? list.height * 0.15 + list.height * 0.05 : list.height * 0.15
-        property bool expanded: false
-        MouseArea {
-            anchors.fill: parent
-            onClicked: networkDelegate.expanded = !networkDelegate.expanded
-        }
-        Rectangle {
-            id: img
-            height: parent.height * 0.6
-            width: height
-            anchors.left: parent.left
-            anchors.leftMargin: parent.width * 0.075
-            anchors.verticalCenter: parent.verticalCenter
-        }
+        height: list.height * 0.15
         Column {
-            anchors.left: img.right
-            anchors.leftMargin: parent.width * 0.025
+            anchors.left: parent.left
             anchors.verticalCenter: parent.verticalCenter
             width: parent.width * 0.5
             Text {
                 id: networkName
                 horizontalAlignment: Text.AlignLeft
                 verticalAlignment: Text.AlignVCenter
-                font.pixelSize: list.height * 0.06
+                font.pixelSize: pluginMain.subTitleFontSize
+                font.family: appFont
                 color: connected ? "#41cd52" : "white"
                 text: name
-                font.family: appFont
-                font.styleName: connected ? "SemiBold" : "Regular"
             }
             Row {
                 id: ipRow
                 height: networkDelegate.height * 0.275 * opacity
-                opacity: networkDelegate.expanded ? 1 : 0.0
-                visible: opacity > 0
                 spacing: networkDelegate.width * 0.0075
-                Behavior on opacity { NumberAnimation { duration: 200} }
+                Item {
+                    width: pluginMain.margin
+                    height: 1
+                }
                 Text {
                     id: ipAddressLabel
                     height: parent.height
                     anchors.verticalCenter: parent.verticalCenter
                     text: qsTr("IP Address:")
                     color: connected ? "#41cd52" : "white"
-                    font.pixelSize: height * 0.8
+                    font.pixelSize: pluginMain.valueFontSize
+                    font.family: appFont
                     verticalAlignment: Text.AlignVCenter
                     horizontalAlignment: Text.AlignLeft
-                    font.family: appFont
-                    font.styleName: connected ? "SemiBold" : "Regular"
                 }
                 Text {
                     id: ipAddress
@@ -99,8 +84,8 @@ ListView {
                     verticalAlignment: Text.AlignVCenter
                     horizontalAlignment: Text.AlignLeft
                     color: connected ? "#41cd52" : "white"
-                    visible: ipRow.opacity > 0
                     text: connected ? NetworkSettingsManager.services.itemFromRow(index).ipv4.address : qsTr("Not connected")
+                    font.pixelSize: pluginMain.valueFontSize
                     font.family: appFont
                     font.styleName: connected ? "SemiBold" : "Regular"
                 }
@@ -108,15 +93,12 @@ ListView {
         }
         QtButton {
             id: connectButton
-            height: list.height * 0.1
             anchors.right: parent.right
             anchors.verticalCenter: parent.verticalCenter
             fillColor: connected ? "#9d9faa" : "#41cd52"
             borderColor: "transparent"
             text: connected ? qsTr("DISCONNECT") : qsTr("CONNECT")
-            opacity: expanded || connected ? 1.0 : 0.0
-            visible: opacity > 0.0
-            Behavior on opacity { NumberAnimation { duration: 200 } }
+            height: pluginMain.buttonHeight
             onClicked: {
                 if (connected) {
                     NetworkSettingsManager.services.itemFromRow(index).disconnectService();
