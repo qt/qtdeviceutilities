@@ -37,23 +37,22 @@ Item {
     Row {
         id: bluetoothRow
         anchors.top: parent.top
-        anchors.topMargin: parent.height * 0.05
         anchors.left: parent.left
         anchors.right: parent.right
-        height: parent.height * 0.2
         spacing: parent.width * 0.025
+
         Text {
+            id: bluetoothSwitchText
             anchors.verticalCenter: parent.verticalCenter
-            font.pixelSize: parent.height * 0.2
-            color: "white"
-            text: "Bluetooth"
+            font.pixelSize: pluginMain.subTitleFontSize
             font.family: appFont
-            font.styleName: "Bold"
+            color: "white"
+            text: qsTr("Bluetooth")
         }
         CustomSwitch {
             anchors.verticalCenter: parent.verticalCenter
-            indicatorWidth: root.width * 0.25
-            indicatorHeight: root.height * 0.1
+            indicatorWidth: root.width * 0.15
+            indicatorHeight: root.height * 0.06
 
             checked: BtDevice.powered
             onCheckedChanged: BtDevice.powered = checked
@@ -63,7 +62,7 @@ Item {
             id: scanningText
             anchors.verticalCenter: parent.verticalCenter
             verticalAlignment: Text.AlignVCenter
-            font.pixelSize: parent.height * 0.2
+            font.pixelSize: pluginMain.valueFontSize
             color: "white"
             text: "Scanning"
             font.family: appFont

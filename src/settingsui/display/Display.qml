@@ -39,11 +39,11 @@ Item {
     Column {
         spacing: pluginMain.spacing
         anchors.top: parent.top
-        anchors.topMargin: pluginMain.margin
 
         Text {
             verticalAlignment: Text.AlignVCenter
             font.pixelSize: pluginMain.subTitleFontSize
+            font.family: appFont
             text: qsTr("Brightness ") + (brightnessSlider.value / 255 * 100).toFixed(1) + "%"
             color: "white"
             height: pluginMain.fieldTextHeight
@@ -93,6 +93,7 @@ Item {
             verticalAlignment: Text.AlignVCenter
             height: pluginMain.fieldTextHeight
             font.pixelSize: pluginMain.subTitleFontSize
+            font.family: appFont
             text: qsTr("Physical screen size")
             Layout.preferredWidth: root.width * 0.3
             Layout.alignment: Qt.AlignVCenter
@@ -113,6 +114,7 @@ Item {
                     text: qsTr("Width")
                     color: "white"
                     font.pixelSize: pluginMain.valueFontSize
+                    font.family: appFont
                     verticalAlignment: Text.AlignVCenter
                 }
                 TextField {
@@ -135,6 +137,7 @@ Item {
                     text: qsTr("Height")
                     color: "white"
                     font.pixelSize: pluginMain.valueFontSize
+                    font.family: appFont
                     verticalAlignment: Text.AlignVCenter
                 }
                 TextField {

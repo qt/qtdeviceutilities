@@ -10,9 +10,26 @@
         <file>network/PassphraseEnter.qml</file>
         <file>locale/TableKey.qml</file>
         <file>locale/TableValue.qml</file>
+        <file>display/Display.qml</file>
+        <file>locale/Language.qml</file>
+        <file>locale/RegionSelect.qml</file>
+        <file>network/AddressListEntry.qml</file>
+        <file>network/ComboBoxEntry.qml</file>
+        <file>network/EditWiredSettings.qml</file>
+        <file>network/IpAddressTextField.qml</file>
+        <file>network/NetworkDetails.qml</file>
+        <file>network/NetworkListView.qml</file>
+        <file>network/NetworkSettings.qml</file>
+        <file>network/WifiSelectorDelegate.qml</file>
+        <file>network/WifiSettings.qml</file>
+        <file>network/WifiSignalMonitor.qml</file>
+        <file>network/WiredSettings.qml</file>
+        <file>settingsuiplugin/pluginMain.qml</file>
         <file>settingsuiplugin/SettingsDelegate.qml</file>
         <file>settingsuiplugin/SettingsHeader.qml</file>
         <file>settingsuiplugin/SettingsTitleItem.qml</file>
         <file>settingsuiplugin/ShutdownPopup.qml</file>
+        <file>bluetooth/Bluetooth.qml</file>
+        <file>bluetooth/Discovery.qml</file>
     </qresource>
 </RCC>
