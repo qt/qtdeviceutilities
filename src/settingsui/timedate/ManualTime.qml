@@ -41,259 +41,204 @@ Item {
         return timeToPad < 10 ? "0" + timeToPad : timeToPad
     }
 
-    Text {
-        id: setDateAndTimeText
-        anchors.top: parent.top
-        anchors.left: parent.left
-        fontSizeMode: Text.Fit
-        minimumPixelSize: 1
-        font.pixelSize: parent.height * 0.05
-        color: "white"
-        text: qsTr("Set Date & Time")
-        font.family: appFont
-        font.styleName: "Bold"
-    }
-    Rectangle {
-        id: btmLine
-        anchors.top: setDateAndTimeText.bottom
-        anchors.topMargin: parent.height * 0.025
-        anchors.left: setDateAndTimeText.left
-        width: parent.width * 0.275
-        height: parent.height * 0.005
-    }
+    Column {
+        spacing: pluginMain.spacing
 
-    Text {
-        id: setDateText
-        anchors.top: btmLine.bottom
-        anchors.topMargin: parent.height * 0.075
-        anchors.left: parent.left
-        color: "white"
-        font.pixelSize: parent.height * 0.04
-        text: qsTr("Set Date")
-        font.family: appFont
-        font.styleName: "Bold"
-    }
-
-    CustomComboBox {
-        id: dayBox
-        width: parent.width * 0.15
-        height: parent.height * 0.075
-        anchors.left: parent.left
-        anchors.top: setDateText.bottom
-        anchors.topMargin: parent.height * 0.025
-        displayText: currentIndex + 1
-        property var date: new Date(firstYear, 1, 0)
-
-        model: date.getDate()
-
-        delegate: ItemDelegate {
-            id: dayDelegate
-            background: Item {}
-            width: dayBox.width
-            contentItem: Text {
-                anchors.left: dayDelegate.left
-                anchors.leftMargin: dayDelegate.width * 0.15
-                verticalAlignment: Text.AlignVCenter
-                font.pixelSize: dayBox.height * 0.35
-                color: dayBox.currentIndex == index ? "#41cd52" : "white"
-                text: modelData + 1
-                font.family: appFont
-                font.styleName: dayBox.currentIndex == index ? "Bold" : "Regular"
-                elide: Text.ElideRight
-            }
-        }
-
-        property int month: monthBox.currentIndex + 1
-        onMonthChanged: updateDate()
-
-        property int year: yearBox.currentIndex + firstYear
-        onYearChanged: updateDate()
-
-        function updateDate() {
-            date = new Date(year, month, 0)
-        }
-    }
-
-    CustomComboBox {
-        id: monthBox
-        width: parent.width * 0.35
-        height: parent.height * 0.075
-        anchors.top: setDateText.bottom
-        anchors.topMargin: parent.height * 0.025
-        anchors.left: dayBox.right
-        anchors.leftMargin: root.margin * 0.5
-
-        model: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-    }
-    CustomComboBox {
-        id: yearBox
-        width: parent.width * 0.2
-        height: parent.height * 0.075
-        anchors.top: setDateText.bottom
-        anchors.topMargin: parent.height * 0.025
-        anchors.left: monthBox.right
-        anchors.leftMargin: root.margin * 0.5
-
-        model: 50
-        delegate: ItemDelegate {
-            id: yearDelegate
-            background: Item {}
-            width: yearBox.width
-            contentItem: Text {
-                anchors.left: yearDelegate.left
-                anchors.leftMargin: yearDelegate.width * 0.15
-                verticalAlignment: Text.AlignVCenter
-                font.pixelSize: yearBox.height * 0.35
-                text: index + firstYear
-                color: yearBox.currentIndex == index ? "#41cd52" : "white"
-                font.family: appFont
-                font.styleName: yearBox.currentIndex == index ? "Bold" : "Regular"
-                elide: Text.ElideRight
-
-            }
-        }
-        contentItem: Text {
-            property var date: new Date()
-            anchors.left: yearBox.left
-            anchors.leftMargin: yearBox.width * 0.15
-            verticalAlignment: Text.AlignVCenter
-            font.pixelSize: yearBox.height * 0.35
+        Text {
             color: "white"
-            elide: Text.ElideRight
-            text: yearBox.currentIndex + date.getFullYear()
+            text: qsTr("Set Date")
+            font.pixelSize: pluginMain.subTitleFontSize
             font.family: appFont
-            font.styleName: "SemiBold"
         }
-    }
 
-    Text {
-        id: setTimeText
-        anchors.top: dayBox.bottom
-        anchors.topMargin: parent.height * 0.075
-        anchors.left: parent.left
-        color: "white"
-        font.pixelSize: parent.height * 0.04
-        text: qsTr("Set Time")
-        font.family: appFont
-        font.styleName: "Bold"
-    }
+        // Row of date comboboxes
+        Row {
+            spacing: pluginMain.spacing
 
-    CustomComboBox {
-        id: hourBox
-        width: parent.width * 0.15
-        height: parent.height * 0.075
-        anchors.top: setTimeText.bottom
-        anchors.topMargin: parent.height * 0.025
-        anchors.left: parent.left
-        property int hour: currentIndex
+            CustomComboBox {
+                id: dayBox
+                width: root.width * 0.15
+                height: pluginMain.buttonHeight
+                displayText: currentIndex + 1
+                property var date: new Date(firstYear, 1, 0)
 
-        model: 24
+                model: 31
 
-        delegate: ItemDelegate {
-            id: hourDelegate
-            background: Item {}
-            width: hourBox.width
-            contentItem: Text {
-                anchors.left: hourDelegate.left
-                anchors.leftMargin: hourDelegate.width * 0.15
-                verticalAlignment: Text.AlignVCenter
-                font.pixelSize: hourBox.height * 0.35
-                color: hourBox.currentIndex == index ? "#41cd52" : "white"
-                text: zeroPadTime(parseInt(modelData))
-                elide: Text.ElideRight
-                font.family: appFont
-                font.styleName: hourBox.currentIndex == index ? "Bold" : "Regular"
+                delegate: ItemDelegate {
+                    id: dayDelegate
+                    height: dayBox.height
+                    contentItem: Text {
+                        anchors.left: dayDelegate.left
+                        anchors.leftMargin: pluginMain.margin
+                        text: modelData + 1
+                        color: dayBox.currentIndex == index ? "#41cd52" : "white"
+                        elide: Text.ElideRight
+                        verticalAlignment: Text.AlignVCenter
+                        font.pixelSize: pluginMain.valueFontSize
+                        font.family: appFont
+                        font.styleName: "Regular"
+                    }
+                }
+
+                property int month: monthBox.currentIndex + 1
+                onMonthChanged: updateDate()
+
+                property int year: yearBox.currentIndex + firstYear
+                onYearChanged: updateDate()
+
+                function updateDate() {
+                    date = new Date(year, month, 0)
+                }
             }
-        }
-        contentItem: Text {
-            anchors.left: hourBox.left
-            anchors.leftMargin: hourBox.width * 0.15
-            verticalAlignment: Text.AlignVCenter
-            font.pixelSize: hourBox.height * 0.35
-            font.bold: true
-            color: "white"
-            elide: Text.ElideRight
-            text: zeroPadTime(hourBox.displayText)
-            font.family: appFont
-            font.styleName: "SemiBold"
-        }
-    }
-    CustomComboBox {
-        id: minuteBox
-        width: parent.width * 0.15
-        height: parent.height * 0.075
-        anchors.top: setTimeText.bottom
-        anchors.topMargin: parent.height * 0.025
-        anchors.left: hourBox.right
-        anchors.leftMargin: root.margin * 0.5
-        property int minute: currentIndex
 
-        model: 60
+            CustomComboBox {
+                id: monthBox
+                width: root.width * 0.35
+                height: pluginMain.buttonHeight
+                model: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+                delegate: ItemDelegate {
+                    id: monthDelegate
+                    height: monthBox.height
+                    contentItem: Text {
+                        anchors.left: monthDelegate.left
+                        anchors.leftMargin: pluginMain.margin
+                        color: monthBox.currentIndex == index ? "#41cd52" : "white"
+                        elide: Text.ElideRight
+                        text: modelData
+                        verticalAlignment: Text.AlignVCenter
+                        font.pixelSize: pluginMain.valueFontSize
+                        font.family: appFont
+                        font.styleName: "Regular"
 
-        delegate: ItemDelegate {
-            id: minuteDelegate
-            background: Item {}
-            width: minuteBox.width
-            contentItem: Text {
-                anchors.left: minuteDelegate.left
-                anchors.leftMargin: minuteDelegate.width * 0.15
-                verticalAlignment: Text.AlignVCenter
-                font.pixelSize: minuteBox.height * 0.35
-                color: minuteBox.currentIndex == index ? "#41cd52" : "white"
-                text: zeroPadTime(parseInt(modelData))
-                font.family: appFont
-                font.styleName: minuteBox.currentIndex == index ? "Bold" : "Regular"
-                elide: Text.ElideRight
+                    }
+                }
             }
-        }
-        contentItem: Text {
-            anchors.left: minuteBox.left
-            anchors.leftMargin: minuteBox.width * 0.15
-            verticalAlignment: Text.AlignVCenter
-            font.pixelSize: minuteBox.height * 0.35
-            font.family: appFont
-            font.styleName: "SemiBold"
+            CustomComboBox {
+                id: yearBox
+                width: root.width * 0.2
+                height: pluginMain.buttonHeight
+                displayText: yearBox.currentIndex + date.getFullYear()
+                property var date: new Date()
+
+                model: 50
+                delegate: ItemDelegate {
+                    id: yearDelegate
+                    height: yearBox.height
+                    contentItem: Text {
+                        anchors.left: yearDelegate.left
+                        anchors.leftMargin: pluginMain.margin
+                        text: index + firstYear
+                        color: yearBox.currentIndex == index ? "#41cd52" : "white"
+                        elide: Text.ElideRight
+                        verticalAlignment: Text.AlignVCenter
+                        font.pixelSize: pluginMain.valueFontSize
+                        font.family: appFont
+                        font.styleName: "Regular"
+                    }
+                }
+            }
+        } // Row of date comboboxes
+
+        Text {
             color: "white"
-            elide: Text.ElideRight
-            text: zeroPadTime(parseInt(minuteBox.displayText))
+            text: qsTr("Set Time")
+            font.pixelSize: pluginMain.subTitleFontSize
+            font.family: appFont
         }
-    }
 
-    QtButton {
-        id: dateSetButton
-        height: parent.height * 0.075
-        anchors.top: hourBox.bottom
-        anchors.topMargin: parent.height * 0.1
-        anchors.left: parent.left
-        fillColor: "#41cd52"
-        borderColor: "transparent"
-        text: qsTr("SET")
+        // Row of time comboboxes
+        Row {
+            spacing: pluginMain.spacing
 
-        onClicked: {
-            var currentTime = TimeManager.time;
-            var newDate = new Date();
+            CustomComboBox {
+                id: hourBox
+                width: root.width * 0.15
+                height: pluginMain.buttonHeight
+                displayText: zeroPadTime(hour)
+                property int hour: currentIndex
 
-            newDate.setFullYear(dayBox.year)
-            newDate.setMonth(dayBox.month - 1)
-            newDate.setDate(dayBox.currentIndex+1)
+                model: 24
 
-            newDate.setHours(hourBox.hour)
-            newDate.setMinutes(minuteBox.minute)
-            newDate.setSeconds(currentTime.getSeconds())
-            TimeManager.ntp = false
-            TimeManager.time = newDate;
-        }
-    }
-    QtButton {
-        id: dateCancelButton
-        height: parent.height * 0.075
-        anchors.top: hourBox.bottom
-        anchors.topMargin: parent.height * 0.1
-        anchors.left: dateSetButton.right
-        anchors.leftMargin: root.margin * 0.5
-        fillColor: "#9d9faa"
-        borderColor: "transparent"
-        text: qsTr("CANCEL")
-        onClicked: settingsLoader.source = "qrc:/timedate/TimeDate.qml"
-    }
+                delegate: ItemDelegate {
+                    id: hourDelegate
+                    height: hourBox.height
+                    contentItem: Text {
+                        anchors.left: hourDelegate.left
+                        anchors.leftMargin: pluginMain.margin
+                        text: zeroPadTime(parseInt(modelData))
+                        color: hourBox.currentIndex == index ? "#41cd52" : "white"
+                        elide: Text.ElideRight
+                        verticalAlignment: Text.AlignVCenter
+                        font.pixelSize: pluginMain.valueFontSize
+                        font.family: appFont
+                        font.styleName: "Regular"
+                    }
+                }
+            }
+            CustomComboBox {
+                id: minuteBox
+                width: root.width * 0.15
+                height: pluginMain.buttonHeight
+                displayText: zeroPadTime(minute)
+                property int minute: currentIndex
+
+                model: 60
+
+                delegate: ItemDelegate {
+                    id: minuteDelegate
+                    height: minuteBox.height
+                    contentItem: Text {
+                        anchors.left: minuteDelegate.left
+                        anchors.leftMargin: pluginMain.margin
+                        text: zeroPadTime(parseInt(modelData))
+                        color: minuteBox.currentIndex == index ? "#41cd52" : "white"
+                        elide: Text.ElideRight
+                        verticalAlignment: Text.AlignVCenter
+                        font.pixelSize: pluginMain.valueFontSize
+                        font.family: appFont
+                        font.styleName: "Regular"
+                    }
+                }
+            }
+        } // Row of time comboboxes
+
+        // Row of set/cancel buttons
+        Row {
+            spacing: pluginMain.spacing
+
+            QtButton {
+                id: dateSetButton
+                height: pluginMain.buttonHeight
+                fillColor: "#41cd52"
+                borderColor: "transparent"
+                text: qsTr("SET")
+
+                onClicked: {
+                    var currentTime = TimeManager.time;
+                    var newDate = new Date();
+
+                    newDate.setFullYear(dayBox.year)
+                    newDate.setMonth(dayBox.month - 1)
+                    newDate.setDate(dayBox.currentIndex+1)
+                    newDate.setHours(hourBox.hour)
+                    newDate.setMinutes(minuteBox.minute)
+                    newDate.setSeconds(currentTime.getSeconds())
+                    TimeManager.ntp = false
+                    TimeManager.time = newDate;
+                    console.log("newDate: " + newDate)
+                    console.log("TimeManager.time: " + TimeManager.time)
+                }
+            }
+            QtButton {
+                id: dateCancelButton
+                height: pluginMain.buttonHeight
+                fillColor: "#9d9faa"
+                borderColor: "transparent"
+                text: qsTr("CANCEL")
+                onClicked: {
+                    settingsLoader.source = "qrc:/timedate/TimeDate.qml"
+                }
+            }
+        } // Row of set/cancel buttons
+    } // Main column
 }

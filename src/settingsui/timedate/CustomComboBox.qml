@@ -32,27 +32,11 @@ import QtGraphicalEffects 1.0
 
 ComboBox {
     id: comboBox
-    delegate: ItemDelegate {
-        id: del
-        background: Item {}
-        width: comboBox.width
-        contentItem: Text {
-            anchors.left: del.left
-            anchors.leftMargin: del.width * 0.15
-            verticalAlignment: Text.AlignVCenter
-            font.pixelSize: comboBox.height * 0.375
-            color: comboBox.currentIndex == index ? "#41cd52" : "white"
-            text: modelData
-            font.family: appFont
-            font.styleName: comboBox.currentIndex == index ? "Bold" : "Regular"
-            elide: Text.ElideRight
-        }
-    }
     indicator: Image {
         id: indicatorImage
         height: comboBox.height * 0.4
         anchors.right: comboBox.right
-        anchors.rightMargin: comboBox.width * 0.15
+        anchors.rightMargin: pluginMain.margin
         anchors.verticalCenter: comboBox.verticalCenter
         fillMode: Image.PreserveAspectFit
         rotation: -90
@@ -68,15 +52,14 @@ ComboBox {
     }
     contentItem: Text {
         anchors.left: comboBox.left
-        anchors.leftMargin: comboBox.width * 0.15
+        anchors.leftMargin: pluginMain.margin
         verticalAlignment: Text.AlignVCenter
-        font.pixelSize: comboBox.height * 0.375
-        font.bold: true
+        font.pixelSize: pluginMain.valueFontSize
+        font.family: appFont
+        font.styleName: "SemiBold"
         color: "white"
         elide: Text.ElideRight
         text: comboBox.displayText
-        font.family: appFont
-        font.styleName: "SemiBold"
     }
     background: Rectangle {
         color: "transparent"
@@ -95,7 +78,6 @@ ComboBox {
             implicitHeight: root.height - (comboBox.y + comboBox.height)
             model: comboBox.popup.visible ? comboBox.delegateModel : null
             currentIndex: comboBox.currentIndex
-
             onCurrentIndexChanged: positionViewAtIndex(listView.currentIndex, ListView.beginning)
         }
         onOpened: {

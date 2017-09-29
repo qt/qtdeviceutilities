@@ -31,5 +31,6 @@
         <file>settingsuiplugin/ShutdownPopup.qml</file>
         <file>bluetooth/Bluetooth.qml</file>
         <file>bluetooth/Discovery.qml</file>
+        <file>timedate/TimeDate.qml</file>
     </qresource>
 </RCC>
