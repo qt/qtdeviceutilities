@@ -29,12 +29,7 @@
 import QtQuick 2.0
 
 Text {
-    width: root.width * 0.325
-    height: parent.height
-    anchors.verticalCenter: parent.verticalCenter
-    horizontalAlignment: Text.AlignLeft
-    verticalAlignment: Text.AlignVCenter
-    font.pixelSize: parent.height * 0.55
     color: "white"
+    font.pixelSize: pluginMain.valueFontSize
     font.family: appFont
 }

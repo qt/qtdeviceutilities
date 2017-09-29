@@ -37,110 +37,73 @@ Item {
     id: root
     property var currentRegion: Qt.locale(LocaleManager.locale)
 
-    Row {
-        id: regionRow
-        anchors.top: parent.top
-        anchors.topMargin: parent.height * 0.075
-        anchors.left: parent.left
-        height: parent.height * 0.075
+    Column {
+        spacing: pluginMain.spacing
 
         Text {
-            width: root.width * 0.2
-            height: root.height * 0.04
-            anchors.verticalCenter: parent.verticalCenter
-            horizontalAlignment: Text.AlignLeft
-            verticalAlignment: Text.AlignVCenter
-            font.pixelSize: height
             color: "white"
             text: qsTr("Region")
+            font.pixelSize: pluginMain.subTitleFontSize
             font.family: appFont
-            font.styleName: "Bold"
         }
-        QtButton {
-            id: regionButton
-            height: parent.height
-            fillColor: "#41cd52"
-            text: root.currentRegion.nativeCountryName
-            onClicked: settingsLoader.source = "qrc:/locale/RegionSelect.qml"
-        }
-    }
 
-    Text {
-        id: formatText
-        width: root.width * 0.2
-        anchors.top: regionRow.bottom
-        anchors.topMargin: parent.height * 0.1
-        anchors.left: parent.left
-        font.pixelSize: parent.height * 0.04
-        text: qsTr("Format")
-        horizontalAlignment: Text.AlignLeft
-        color: "white"
-        font.family: appFont
-        font.styleName: "Bold"
-    }
-
-    Column {
-        id: localeColumn
-        anchors.bottom: parent.bottom
-        anchors.top: formatText.bottom
-        anchors.topMargin: parent.height * 0.025
-        anchors.left: formatText.right
-        width: parent.width * 0.5
-        spacing: parent.height * 0.01
         Row {
-            id: regionFormat
-            anchors.left: parent.left
-            anchors.right: parent.right
-            height: parent.height * 0.1
+            leftPadding: pluginMain.margin
+            spacing: pluginMain.spacing
+            Text {
+                color: "white"
+                text: root.currentRegion.nativeCountryName == "" ? "Default" : root.currentRegion.nativeCountryName
+                font.pixelSize: pluginMain.valueFontSize
+                font.family: appFont
+                verticalAlignment: Text.AlignVCenter
+                height: parent.height
+            }
+            QtButton {
+                id: regionButton
+                height: pluginMain.buttonHeight
+                fillColor: "#41cd52"
+                text: qsTr("CHANGE")
+                onClicked: settingsLoader.source = "qrc:/locale/RegionSelect.qml"
+            }
+        }
+
+        Text {
+            color: "white"
+            text: qsTr("Format")
+            font.pixelSize: pluginMain.subTitleFontSize
+            font.family: appFont
+        }
+
+        Grid {
+            columns: 2
+            leftPadding: pluginMain.margin
+            spacing: pluginMain.spacing
+
             TableKey {
                 text: qsTr("Region")
             }
             TableValue {
                 text: root.currentRegion.nativeCountryName
             }
-        }
-        Row {
-            id: shortDateFormat
-            anchors.left: parent.left
-            anchors.right: parent.right
-            height: parent.height * 0.1
+
             TableKey {
                 text: qsTr("Short date:")
             }
             TableValue {
                 text: root.currentRegion.dateFormat(1)
             }
-        }
-        Row {
-            id: shortTimeFormat
-            anchors.left: parent.left
-
-            anchors.right: parent.right
-            height: parent.height * 0.1
             TableKey {
                 text: qsTr("Short time:")
             }
             TableValue {
                 text: root.currentRegion.timeFormat(1)
             }
-        }
-        Row {
-            id: currencyFormat
-            anchors.left: parent.left
-            anchors.right: parent.right
-            height: parent.height * 0.1
             TableKey {
                 text: qsTr("Currency:")
             }
             TableValue {
                 text: root.currentRegion.currencySymbol(1)
             }
-        }
-        Row {
-            id: firstDayFormat
-            anchors.left: parent.left
-            anchors.right: parent.right
-            height: parent.height * 0.1
             TableKey {
                 text: qsTr("First day of week:")
             }
