@@ -110,13 +110,12 @@ Item {
 
         Row {
             leftPadding: pluginMain.margin
-            height: 500
             CustomComboBox {
                 id: timeZoneBox
                 width: automaticButton.width + manualButton.width + pluginMain.spacing
                 height: pluginMain.buttonHeight
                 textRole: "id"
-                popup.height: 200
+                itemsVisible: 7
                 model: TimezonesFilter
                 delegate: ItemDelegate {
                     id: timeZoneDelegate

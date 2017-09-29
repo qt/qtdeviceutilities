@@ -26,7 +26,7 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-import QtQuick 2.0
+import QtQuick 2.6
 import QtQuick.Controls 2.0
 import QtDeviceUtilities.QtButtonImageProvider 1.0
 import QtDeviceUtilities.TimeDateSettings 1.0
@@ -54,6 +54,7 @@ Item {
         // Row of date comboboxes
         Row {
             spacing: pluginMain.spacing
+            leftPadding: pluginMain.margin
 
             CustomComboBox {
                 id: dayBox
@@ -63,6 +64,7 @@ Item {
                 property var date: new Date(firstYear, 1, 0)
 
                 model: 31
+                itemsVisible: 10
 
                 delegate: ItemDelegate {
                     id: dayDelegate
@@ -96,6 +98,7 @@ Item {
                 width: root.width * 0.35
                 height: pluginMain.buttonHeight
                 model: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+                itemsVisible: 12
                 delegate: ItemDelegate {
                     id: monthDelegate
                     height: monthBox.height
@@ -121,6 +124,7 @@ Item {
                 property var date: new Date()
 
                 model: 50
+                itemsVisible: 8
                 delegate: ItemDelegate {
                     id: yearDelegate
                     height: yearBox.height
@@ -149,6 +153,7 @@ Item {
         // Row of time comboboxes
         Row {
             spacing: pluginMain.spacing
+            leftPadding: pluginMain.margin
 
             CustomComboBox {
                 id: hourBox
@@ -158,6 +163,7 @@ Item {
                 property int hour: currentIndex
 
                 model: 24
+                itemsVisible: 8
 
                 delegate: ItemDelegate {
                     id: hourDelegate
@@ -183,6 +189,7 @@ Item {
                 property int minute: currentIndex
 
                 model: 60
+                itemsVisible: 8
 
                 delegate: ItemDelegate {
                     id: minuteDelegate

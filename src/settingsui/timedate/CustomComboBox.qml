@@ -32,6 +32,7 @@ import QtGraphicalEffects 1.0
 
 ComboBox {
     id: comboBox
+    property int itemsVisible: 5
     indicator: Image {
         id: indicatorImage
         height: comboBox.height * 0.4
@@ -69,13 +70,12 @@ ComboBox {
     popup: Popup {
         y: comboBox.height -1
         width: comboBox.width
-        implicitHeight: contentItem.implicitHeight
+        height: comboBox.height * comboBox.itemsVisible
         padding: 1
 
         contentItem: ListView {
             id: listView
             clip: true
-            implicitHeight: root.height - (comboBox.y + comboBox.height)
             model: comboBox.popup.visible ? comboBox.delegateModel : null
             currentIndex: comboBox.currentIndex
             onCurrentIndexChanged: positionViewAtIndex(listView.currentIndex, ListView.beginning)
