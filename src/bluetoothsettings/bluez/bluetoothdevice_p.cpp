@@ -67,6 +67,9 @@ bool BluetoothDevicePrivate::powered() const
 
 void BluetoothDevicePrivate::setPowered(const bool& aPowered)
 {
+    if (!m_localDevice)
+        return;
+
     if (aPowered) {
         m_localDevice->powerOn();
     }

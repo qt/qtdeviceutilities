@@ -54,6 +54,7 @@ Item {
             indicatorWidth: root.width * 0.15
             indicatorHeight: root.height * 0.06
 
+            enabled: BtDevice.available
             checked: BtDevice.powered
             onCheckedChanged: BtDevice.powered = checked
         }
