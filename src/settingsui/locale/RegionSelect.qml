@@ -36,7 +36,8 @@ import QtDeviceUtilities.QtButtonImageProvider 1.0
 
 Item {
     id: root
-    property var currentRegion: Qt.locale(LocaleManager.locale)
+    // QTBUG-63598: property var currentRegion: Qt.locale(LocaleManager.locale)
+    property var currentRegion: Qt.locale("en_EN")
 
     Row {
         id: backRow
@@ -131,14 +132,6 @@ Item {
                     border.color: "#9d9faa"
                     border.width: 2
                 }
-            }
-
-            QtButton {
-                id: searchButton
-                Layout.fillHeight: true
-                Layout.preferredWidth: root.width * 0.1
-                fillColor: "#41cd52"
-                borderColor: "transparent"
             }
         }
 

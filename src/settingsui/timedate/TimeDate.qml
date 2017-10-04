@@ -63,7 +63,8 @@ Item {
                 triggeredOnStart: true
                 onTriggered: {
                     var date = new Date();
-                    dateText.text = date.toLocaleString(Qt.locale(LocaleManager.locale), Locale.LongFormat)
+                    // QTBUG-63598: dateText.text = date.toLocaleString(Qt.locale(LocaleManager.locale), Locale.LongFormat)
+                    dateText.text = date.toLocaleString(Qt.locale("en_EN"), Locale.LongFormat)
                 }
             }
         }
@@ -101,7 +102,6 @@ Item {
 
         // Select timezone
         Text {
-            id: timeZoneText
             color: "white"
             text: qsTr("Time Zone")
             font.pixelSize: pluginMain.subTitleFontSize

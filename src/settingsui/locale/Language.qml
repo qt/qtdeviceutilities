@@ -35,7 +35,8 @@ import QtDeviceUtilities.QtButtonImageProvider 1.0
 
 Item {
     id: root
-    property var currentRegion: Qt.locale(LocaleManager.locale)
+    // QTBUG-63598: property var currentRegion: Qt.locale(LocaleManager.locale)
+    property var currentRegion: Qt.locale("en_EN")
 
     Column {
         spacing: pluginMain.spacing
