@@ -71,10 +71,34 @@ int DisplaySettings::physicalScreenSizeInch() const
     return d->physicalScreenSizeInch();
 }
 
+int DisplaySettings::physicalScreenWidthMm() const
+{
+    Q_D(const DisplaySettings);
+    return d->physicalScreenWidthMm();
+}
+
+int DisplaySettings::physicalScreenHeightMm() const
+{
+    Q_D(const DisplaySettings);
+    return d->physicalScreenHeightMm();
+}
+
 void DisplaySettings::setPhysicalScreenSizeInch(int inches)
 {
     Q_D(DisplaySettings);
     d->setPhysicalScreenSizeInch(inches);
+}
+
+void DisplaySettings::setPhysicalScreenWidthMm(int newWidth)
+{
+    Q_D(DisplaySettings);
+    d->setPhysicalScreenWidthMm(newWidth);
+}
+
+void DisplaySettings::setPhysicalScreenHeightMm(int newHeight)
+{
+    Q_D(DisplaySettings);
+    d->setPhysicalScreenHeightMm(newHeight);
 }
 
 bool DisplaySettings::physicalScreenSizeOverride() const

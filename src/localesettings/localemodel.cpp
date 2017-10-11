@@ -83,6 +83,8 @@ void LocaleModel::modelReady()
     beginResetModel();
     sort(0);
     endResetModel();
+
+    emit ready();
 }
 
 void LocaleModel::generateModel(LocaleModel* model)
@@ -157,4 +159,16 @@ void LocaleModel::sort(int column, Qt::SortOrder order)
     Q_UNUSED(column);
     Q_UNUSED(order);
     std::sort(m_items.begin(), m_items.end(), LocaleModel::variantLessThan);
+}
+
+QModelIndex LocaleModel::indexForCountry(const QString &country) const
+{
+    for (int i = 0; i < m_items.count(); i++) {
+        LocaleItem *item = m_items.at(i);
+        if (item->country() == country ||
+                item->language() == country) {
+            return index(i);
+        }
+    }
+    return QModelIndex();
 }

@@ -28,6 +28,7 @@
 ****************************************************************************/
 #include <QLocale>
 #include <QFuture>
+#include <QFutureWatcher>
 #include <QThread>
 #include <QtConcurrent/QtConcurrentRun>
 #include "timezonemodel.h"
@@ -64,7 +65,11 @@ TimezoneModel::TimezoneModel(QObject *parent)
     m_roleNames.insert(Name, "name");
     m_roleNames.insert(Id, "id");
 
-    QFuture<void> t1 = QtConcurrent::run(TimezoneModel::generateModel, this);
+
+    QFutureWatcher<void> *watcher = new QFutureWatcher<void>(this);
+    QFuture<void> future = QtConcurrent::run(TimezoneModel::generateModel, this);
+    watcher->setFuture(future);
+    connect(watcher, SIGNAL(finished()), this, SIGNAL(ready()));
 }
 
 void TimezoneModel::generateModel(TimezoneModel* model)

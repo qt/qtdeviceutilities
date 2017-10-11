@@ -3,5 +3,12 @@
         <file>main.qml</file>
         <file>common/HandwritingModeButton.qml</file>
         <file>AutoScroller.qml</file>
+        <file>power/Power.qml</file>
+        <file>timedate/ManualTime.qml</file>
+        <file>timedate/CustomComboBox.qml</file>
+        <file>bluetooth/CustomSwitch.qml</file>
+        <file>network/PassphraseEnter.qml</file>
+        <file>locale/TableKey.qml</file>
+        <file>locale/TableValue.qml</file>
     </qresource>
 </RCC>

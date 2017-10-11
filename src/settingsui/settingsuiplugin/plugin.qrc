@@ -24,5 +24,13 @@
         <file>../timedate/TimeDate.qml</file>
         <file>../timedate/TimezonesView.qml</file>
         <file>settingsview.xml</file>
+        <file>../power/Power.qml</file>
+        <file>../timedate/ManualTime.qml</file>
+        <file>../timedate/CustomComboBox.qml</file>
+        <file>../bluetooth/CustomSwitch.qml</file>
+        <file>../network/NetworkListView.qml</file>
+        <file>../network/PassphraseEnter.qml</file>
+        <file>../locale/TableKey.qml</file>
+        <file>../locale/TableValue.qml</file>
     </qresource>
 </RCC>

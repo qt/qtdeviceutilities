@@ -31,59 +31,142 @@ import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.0
 import QtDeviceUtilities.LocaleSettings 1.0
 import QtQml 2.2
+import QtDemoLauncher.QtButtonImageProvider 1.0
 
 Item {
     id: root
-    property string title: qsTr("Language and Region")
+    property var currentRegion: Qt.locale(LocaleManager.locale)
 
-    GroupBox {
-        id: groupBox
-        title: qsTr("Regional Format")
-        anchors.left: parent.left
+    Text {
+        id: languageAndRegionTitle
         anchors.top: parent.top
-        anchors.right: parent.right
-        anchors.margins: 20
-        property var currentRegion: Qt.locale(LocaleManager.locale)
+        anchors.left: parent.left
+        fontSizeMode: Text.Fit
+        minimumPixelSize: 1
+        font.pixelSize: parent.height * 0.05
+        color: "white"
+        text: qsTr("Language & Region")
+        font.family: appFont
+        font.styleName: "Bold"
+    }
+    Rectangle {
+        id: btmLine
+        anchors.top: languageAndRegionTitle.bottom
+        anchors.topMargin: parent.height * 0.025
+        anchors.left: languageAndRegionTitle.left
+        width: parent.width * 0.275
+        height: parent.height * 0.005
+    }
 
-        ColumnLayout {
-            width: parent.width
+    Row {
+        id: regionRow
+        anchors.top: btmLine.bottom
+        anchors.topMargin: parent.height * 0.075
+        anchors.left: parent.left
+        height: parent.height * 0.075
 
-            Component {
-                id: regionSelect
-                RegionSelect {}
+        Text {
+            width: root.width * 0.2
+            height: root.height * 0.04
+            anchors.verticalCenter: parent.verticalCenter
+            horizontalAlignment: Text.AlignLeft
+            verticalAlignment: Text.AlignVCenter
+            font.pixelSize: height
+            color: "white"
+            text: qsTr("Region")
+            font.family: appFont
+            font.styleName: "Bold"
+        }
+        QtButton {
+            id: regionButton
+            height: parent.height
+            fillColor: "#41cd52"
+            text: root.currentRegion.nativeCountryName
+            onClicked: settingsLoader.source = "qrc:/locale/RegionSelect.qml"
+        }
+    }
+
+    Text {
+        id: formatText
+        width: root.width * 0.2
+        anchors.top: regionRow.bottom
+        anchors.topMargin: parent.height * 0.1
+        anchors.left: parent.left
+        font.pixelSize: parent.height * 0.04
+        text: qsTr("Format")
+        horizontalAlignment: Text.AlignLeft
+        color: "white"
+        font.family: appFont
+        font.styleName: "Bold"
+    }
+
+    Column {
+        id: localeColumn
+        anchors.bottom: parent.bottom
+        anchors.top: formatText.bottom
+        anchors.topMargin: parent.height * 0.025
+        anchors.left: formatText.right
+        width: parent.width * 0.5
+        spacing: parent.height * 0.01
+        Row {
+            id: regionFormat
+            anchors.left: parent.left
+            anchors.right: parent.right
+            height: parent.height * 0.1
+            TableKey {
+                text: qsTr("Region")
             }
-            GroupBox {
-                width: parent.width
-                title: {
-                    if (groupBox.currentRegion.name === "C" || groupBox.currentRegion.name === "POSIX") {
-                        return qsTr("Default");
-                    }
-                    else if (groupBox.currentRegion.name !== "") {
-                        return qsTr("%L1/%L2").arg(groupBox.currentRegion.nativeLanguageName).arg(groupBox.currentRegion.nativeCountryName)
-                    }
-                    else {
-                        return qsTr("Region not set");
-                    }
-                }
-                ColumnLayout {
-                    spacing: 10
-                    Layout.fillWidth: true
-                    width: parent.width
-
-                    Label {
-                        text: Date().toLocaleString(groupBox.currentRegion)
-                    }
-                    Label {
-                        text: Number(2343.34).toLocaleString(groupBox.currentRegion)
-                    }
-                    Label {
-                        text: Number(41334.34).toLocaleCurrencyString(groupBox.currentRegion)
-                    }
-                }
+            TableValue {
+                text: root.currentRegion.nativeCountryName
             }
-            Button {
-                text: qsTr("Change region")
-                onClicked: stackView.push(regionSelect)
+        }
+        Row {
+            id: shortDateFormat
+            anchors.left: parent.left
+            anchors.right: parent.right
+            height: parent.height * 0.1
+            TableKey {
+                text: qsTr("Short date:")
+            }
+            TableValue {
+                text: root.currentRegion.dateFormat(1)
+            }
+        }
+        Row {
+            id: shortTimeFormat
+            anchors.left: parent.left
+
+            anchors.right: parent.right
+            height: parent.height * 0.1
+            TableKey {
+                text: qsTr("Short time:")
+            }
+            TableValue {
+                text: root.currentRegion.timeFormat(1)
+            }
+        }
+        Row {
+            id: currencyFormat
+            anchors.left: parent.left
+            anchors.right: parent.right
+            height: parent.height * 0.1
+            TableKey {
+                text: qsTr("Currency:")
+            }
+            TableValue {
+                text: root.currentRegion.currencySymbol(1)
+            }
+        }
+        Row {
+            id: firstDayFormat
+            anchors.left: parent.left
+            anchors.right: parent.right
+            height: parent.height * 0.1
+            TableKey {
+                text: qsTr("First day of week:")
+            }
+            TableValue {
+                text: root.currentRegion.firstDayOfWeek
             }
         }
     }

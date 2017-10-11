@@ -67,6 +67,7 @@ public:
     QHash<int, QByteArray> roleNames() const;
     void sort(int column, Qt::SortOrder order=Qt::AscendingOrder);
     static bool variantLessThan(const LocaleItem* v1, const LocaleItem* v2);
+    QModelIndex indexForCountry(const QString &country) const;
 
     enum Roles {
         Language = Qt::UserRole + 1,
@@ -78,6 +79,7 @@ public:
 
 Q_SIGNALS:
     void addItem(LocaleItem* item);
+    void ready();
 
 private Q_SLOTS:
     void addNewItem(QObject* item);

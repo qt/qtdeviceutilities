@@ -101,12 +101,40 @@ int DisplaySettingsPrivate::physicalScreenSizeInch() const
     return m_physScreenSize->size();
 }
 
+int DisplaySettingsPrivate::physicalScreenWidthMm() const
+{
+    return m_physScreenSize->widthMm();
+}
+
+int DisplaySettingsPrivate::physicalScreenHeightMm() const
+{
+    return m_physScreenSize->heightMm();
+}
+
 void DisplaySettingsPrivate::setPhysicalScreenSizeInch(int inches)
 {
     Q_Q(DisplaySettings);
     if (m_physScreenSize->size() != inches) {
         m_physScreenSize->setSize(inches);
         emit q->physicalScreenSizeInchChanged(inches);
+    }
+}
+
+void DisplaySettingsPrivate::setPhysicalScreenWidthMm(int newWidth)
+{
+    Q_Q(DisplaySettings);
+    if (m_physScreenSize->widthMm() != newWidth) {
+        m_physScreenSize->setSizeMm(newWidth, m_physScreenSize->heightMm());
+        emit q->physicalScreenWidthMmChanged(newWidth);
+    }
+}
+
+void DisplaySettingsPrivate::setPhysicalScreenHeightMm(int newHeight)
+{
+    Q_Q(DisplaySettings);
+    if (m_physScreenSize->heightMm() != newHeight) {
+        m_physScreenSize->setSizeMm(m_physScreenSize->widthMm(), newHeight);
+        emit q->physicalScreenHeightMmChanged(newHeight);
     }
 }
 
@@ -147,7 +175,8 @@ void PhysicalScreenSize::read(const QString &filename)
     if (!f.open(QIODevice::ReadOnly | QIODevice::Text))
         return;
 
-    int physScreenWidth = 154, physScreenHeight = 90;
+    physScreenWidthMm = 154;
+    physScreenHeightMm = 90;
     int found = 0;
     while (!f.atEnd()) {
         QByteArray line = f.readLine().trimmed();
@@ -159,13 +188,13 @@ void PhysicalScreenSize::read(const QString &filename)
                     int val = values[2].toInt(&ok);
                     if (ok) {
                         ++found;
-                        physScreenWidth = val;
+                        physScreenWidthMm = val;
                     }
                 } else if (values[1] == QByteArrayLiteral("QT_QPA_EGLFS_PHYSICAL_HEIGHT")) {
                     int val = values[2].toInt(&ok);
                     if (ok) {
                         ++found;
-                        physScreenHeight = val;
+                        physScreenHeightMm = val;
                     }
                 }
             }
@@ -174,7 +203,7 @@ void PhysicalScreenSize::read(const QString &filename)
     if (found == 2)
         physScreenSizeEnabled = true;
 
-    const qreal diagMM = qSqrt(physScreenWidth * physScreenWidth + physScreenHeight * physScreenHeight);
+    const qreal diagMM = qSqrt(physScreenWidthMm * physScreenWidthMm + physScreenHeightMm * physScreenHeightMm);
     physScreenSizeInch = qRound(diagMM / 25.4);
 }
 
@@ -207,10 +236,8 @@ void PhysicalScreenSize::write(const QString &filename, bool includePhysSize)
     if (!f.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text))
         return;
 
-    const qreal diagMM = physScreenSizeInch * 25.4;
-    // Assume 16:9 aspect ratio
-    const int physScreenHeight = qRound(diagMM / 1.975);
-    const int physScreenWidth = qRound(physScreenHeight * 1.777);
+    const int physScreenHeight = physScreenHeightMm;
+    const int physScreenWidth = physScreenWidthMm;
 
     foreach (const QByteArray &line, lines)
         f.write(line + QByteArrayLiteral("\n"));
@@ -224,6 +251,13 @@ void PhysicalScreenSize::write(const QString &filename, bool includePhysSize)
 void PhysicalScreenSize::setSize(int inches)
 {
     physScreenSizeInch = inches;
+    physWriteTimer.start();
+}
+
+void PhysicalScreenSize::setSizeMm(int width, int height)
+{
+    physScreenWidthMm = width;
+    physScreenHeightMm = height;
     physWriteTimer.start();
 }
 

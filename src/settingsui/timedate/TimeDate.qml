@@ -30,92 +30,199 @@ import QtQuick 2.6
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.0
 import QtDeviceUtilities.TimeDateSettings 1.0
+import QtDeviceUtilities.LocaleSettings 1.0
+import QtDemoLauncher.QtButtonImageProvider 1.0
 
 Item {
     id: root
-    property string title: qsTr("Time and Date settings")
+    property int margin: root.width * 0.05
 
     Flickable {
         id: flickable
-        anchors.margins: 20
         anchors.fill: parent
-        contentHeight: content.height
+        contentHeight: height
         contentWidth: width
-        interactive: !clock.handPressed
 
-        ColumnLayout {
-            id: content
-            spacing: 20
+        Text {
+            id: dateAndTimeTitle
+            anchors.top: parent.top
+            anchors.left: parent.left
+            fontSizeMode: Text.Fit
+            minimumPixelSize: 1
+            font.pixelSize: parent.height * 0.05
+            color: "white"
+            text: qsTr("Date & Time")
+            font.family: appFont
+            font.styleName: "Bold"
+        }
+
+        Rectangle {
+            id: btmLine
+            anchors.top: dateAndTimeTitle.bottom
+            anchors.topMargin: parent.height * 0.025
+            anchors.left: dateAndTimeTitle.left
+            width: parent.width * 0.275
+            height: parent.height * 0.005
+        }
+
+        Text {
+            id: dateText
             width: parent.width
+            height: parent.height * 0.055
+            anchors.top: btmLine.bottom
+            anchors.left: parent.left
+            anchors.topMargin: parent.height * 0.05
+            fontSizeMode: Text.Fit
+            minimumPixelSize: 1
+            font.pixelSize: height
+            color: "white"
+            font.family: appFont
+            Timer {
+                id: dateTimer
+                interval: 1000
+                running: true
+                repeat: true
+                triggeredOnStart: true
+                onTriggered: {
+                    var date = new Date();
+                    var hours = date.getHours();
+                    var minutes = date.getMinutes();
+                    var seconds = date.getSeconds();
+                    var days = date.getDate();
 
-            GroupBox {
-                width: parent.width
-                title: qsTr("Time Settings")
-                Layout.fillWidth: true
-
-                ColumnLayout {
-                    spacing: 10
-                    width: parent.width
-                    Layout.fillWidth: true
-
-                    RadioButton {
-                        id: automatic
-                        text: qsTr("Automatic time set")
-                        checked: TimeManager.ntp
-                        onCheckedChanged: if (checked) updateTimer.restart()
-
-                        Timer {
-                            id: updateTimer
-                            interval: 300
-                            onTriggered: calendar.updateDate()
-                        }
-                    }
-                    RadioButton {
-                        id: custom
-                        text: qsTr("Manual")
-                        checked: !TimeManager.ntp
-                        onCheckedChanged: TimeManager.ntp = !checked
-                    }
-                    RowLayout
-                    {
-                        id: layout
-                        spacing: 10
-
-                        CustomCalendar {
-                            id: calendar
-                            width: height
-                        }
-                        AnalogClock {
-                            id: clock
-                            height: calendar.height
-                            width: height
-                            editMode: !automatic.checked
-                        }
-                    }
-                    Component {
-                        id: zoneselect
-                        TimezonesView { }
+                    dateText.text = date.toLocaleString(Qt.locale(LocaleManager.locale), Locale.LongFormat)
+                }
+                function nth(days) {
+                    if (days > 3 && days < 21) return 'th';
+                    switch (days % 10) {
+                    case 1:  return "st";
+                    case 2:  return "nd";
+                    case 3:  return "rd";
+                    default: return "th";
                     }
                 }
             }
-            GroupBox {
-                title: qsTr("Timezone Settings")
-                Layout.fillWidth: true
-                width: parent.width
-                visible: true
+        }
 
-                RowLayout {
-                    spacing: 10
-                    Label {
-                        text: TimeManager.timeZone
-                        Layout.alignment: Qt.AlignVCenter
-                    }
-                    Button {
-                        text: qsTr("Change")
-                        onClicked : stackView.push(zoneselect)
-                    }
+        Text {
+            id: setDateText
+            width: parent.width * 0.3
+            height: parent.height * 0.05
+            anchors.left: parent.left
+            anchors.top: dateText.bottom
+            anchors.topMargin: parent.height * 0.05
+            fontSizeMode: Text.Fit
+            minimumPixelSize: 1
+            font.pixelSize: height
+            color: "white"
+            text: qsTr("Set Date & Time")
+            font.family: appFont
+            font.styleName: "Bold"
+        }
+
+        QtButton {
+            id: automaticButton
+            anchors.top: setDateText.bottom
+            anchors.topMargin: parent.height * 0.025
+            anchors.left: parent.left
+            height: parent.height * 0.075
+            fillColor: "#41cd52"
+            borderColor: "transparent"
+            text: qsTr("AUTOMATICALLY")
+            onClicked: TimeManager.ntp = true
+        }
+
+        QtButton {
+            id: manualButton
+            anchors.top: setDateText.bottom
+            anchors.topMargin: parent.height * 0.025
+            anchors.left: automaticButton.right
+            anchors.leftMargin: root.margin * 0.5
+            height: parent.height * 0.075
+            fillColor: "#9d9faa"
+            borderColor: "transparent"
+            text: qsTr("MANUALLY")
+            onClicked: settingsLoader.source = "qrc:/timedate/ManualTime.qml"
+        }
+
+        Text {
+            id: timeZoneText
+            width: parent.width * 0.3
+            height: parent.height * 0.05
+            anchors.left: parent.left
+            anchors.top: automaticButton.bottom
+            anchors.topMargin: parent.height * 0.05
+            fontSizeMode: Text.Fit
+            minimumPixelSize: 1
+            font.pixelSize: height
+            color: "white"
+            text: qsTr("Time Zone")
+            font.family: appFont
+            font.styleName: "Bold"
+        }
+
+        CustomComboBox {
+            id: timeZoneBox
+            width: automaticButton.width + manualButton.width + root.margin * 0.5
+            height: parent.height * 0.075
+            anchors.top: timeZoneText.bottom
+            anchors.topMargin: parent.height * 0.025
+            anchors.left: parent.left
+            textRole: "id"
+            model: TimezonesFilter
+            delegate: ItemDelegate {
+                id: timeZoneDelegate
+                background: Item {}
+                width: timeZoneBox.width
+                contentItem: Text {
+                    anchors.left: timeZoneDelegate.left
+                    anchors.leftMargin: timeZoneDelegate.width * 0.05
+                    text: modelData["id"]
+                    font.family: appFont
+                    font.styleName: timeZoneBox.currentIndex == index ? "Bold" : "Regular"
+                    color: timeZoneBox.currentIndex == index ? "#41cd52" : "white"
+                    elide: Text.ElideRight
+                    verticalAlignment: Text.AlignVCenter
                 }
             }
+
+            Component.onCompleted: {
+                var n = TimezonesFilter.indexForTimezone(TimeManager.timeZone)
+                timeZoneBox.currentIndex = n
+            }
+
+            Connections {
+                target: TimezonesFilter.sourceModel
+                onReady: {
+                    var n = TimezonesFilter.indexForTimezone(TimeManager.timeZone)
+                    timeZoneBox.currentIndex = n
+                }
+            }
+
+
+            onCurrentIndexChanged: {
+                var val = TimezonesFilter.itemFromRow(currentIndex);
+                if (val !== "") {
+                    TimeManager.timeZone = val
+                }
+            }
+            contentItem: Text {
+                anchors.left: timeZoneBox.left
+                anchors.leftMargin: timeZoneBox.width * 0.05
+                verticalAlignment: Text.AlignVCenter
+                font.pixelSize: timeZoneBox.height * 0.35
+                font.bold: true
+                color: "white"
+                elide: Text.ElideRight
+                text: timeZoneBox.displayText
+                font.family: appFont
+                font.styleName: "SemiBold"
+            }
+        }
+
+        Component {
+            id: zoneselect
+            TimezonesView {}
         }
     }
 }

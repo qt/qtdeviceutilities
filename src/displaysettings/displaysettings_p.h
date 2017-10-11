@@ -52,7 +52,10 @@ public:
     virtual ~PhysicalScreenSize();
 
     void setSize(int inches);
+    void setSizeMm(int widthMm, int heightMm);
     int size() const { return physScreenSizeInch; }
+    int widthMm() const { return physScreenWidthMm; }
+    int heightMm() const { return physScreenHeightMm; }
     bool enabled() const;
     void setEnabled(bool enable);
 
@@ -66,6 +69,8 @@ private:
 
     bool physScreenSizeEnabled;
     int physScreenSizeInch;
+    int physScreenWidthMm;
+    int physScreenHeightMm;
     QTimer physWriteTimer;
 };
 
@@ -85,16 +90,22 @@ public:
     DisplaySettingsPrivate(DisplaySettings* qq);
     int displayBrightness();
     int physicalScreenSizeInch() const;
+    int physicalScreenWidthMm() const;
+    int physicalScreenHeightMm() const;
     bool physicalScreenSizeOverride() const;
 
     bool setDisplayBrightness(int value);
     void setPhysicalScreenSizeInch(int inches);
+    void setPhysicalScreenWidthMm(int newWidth);
+    void setPhysicalScreenHeightMm(int newHeight);
     void setPhysicalScreenSizeOverride(bool enable);
 private:
     void initLightDevices();
     DisplaySettings *q_ptr;
     int m_brightness;
     int m_screenSizeInch;
+    int m_screenWidthMm;
+    int m_screenHeightMm;
     bool m_sizeOverride;
     QList<LightDevice> m_lightDevices;
     bool m_lightDevicesInitialized;

@@ -41,6 +41,8 @@ class Q_DECL_EXPORT DisplaySettings : public QObject
 
     Q_PROPERTY(int displayBrightness READ displayBrightness WRITE setDisplayBrightness NOTIFY displayBrightnessChanged)
     Q_PROPERTY(int physicalScreenSizeInch READ physicalScreenSizeInch WRITE setPhysicalScreenSizeInch NOTIFY physicalScreenSizeInchChanged)
+    Q_PROPERTY(int physicalScreenWidthMm READ physicalScreenWidthMm WRITE setPhysicalScreenWidthMm NOTIFY physicalScreenWidthMmChanged)
+    Q_PROPERTY(int physicalScreenHeightMm READ physicalScreenHeightMm WRITE setPhysicalScreenHeightMm NOTIFY physicalScreenHeightMmChanged)
     Q_PROPERTY(bool physicalScreenSizeOverride READ physicalScreenSizeOverride WRITE setPhysicalScreenSizeOverride NOTIFY physicalScreenSizeOverrideChanged)
 
 public:
@@ -49,17 +51,23 @@ public:
 
     int displayBrightness();
     int physicalScreenSizeInch() const;
+    int physicalScreenWidthMm() const;
+    int physicalScreenHeightMm() const;
     bool physicalScreenSizeOverride() const;
 
 public Q_SLOTS:
     bool setDisplayBrightness(int value);
     void setPhysicalScreenSizeInch(int inches);
     void setPhysicalScreenSizeOverride(bool enable);
+    void setPhysicalScreenWidthMm(int newWidth);
+    void setPhysicalScreenHeightMm(int newHeight);
 
 Q_SIGNALS:
     void displayBrightnessChanged(int newValue);
     void physicalScreenSizeInchChanged(int newInches);
     void physicalScreenSizeOverrideChanged(bool newValue);
+    void physicalScreenWidthMmChanged(int newValue);
+    void physicalScreenHeightMmChanged(int newValue);
 
 protected:
     DisplaySettingsPrivate *d_ptr;

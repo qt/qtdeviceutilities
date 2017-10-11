@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2016 The Qt Company Ltd.
+** Copyright (C) 2017 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
 **
 ** This file is part of the Device Utilities module of the Qt Toolkit.
@@ -26,33 +26,15 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-#ifndef LOCALEFILTERMODEL_H
-#define LOCALEFILTERMODEL_H
+import QtQuick 2.0
 
-
-#include <QSortFilterProxyModel>
-
-QT_BEGIN_NAMESPACE
-
-class Q_DECL_EXPORT LocaleFilterModel : public QSortFilterProxyModel
-{
-    Q_OBJECT
-    Q_PROPERTY(QString filter READ filter WRITE setFilter NOTIFY filterChanged)
-public:
-    explicit LocaleFilterModel(QObject* parent);
-    virtual ~LocaleFilterModel();
-    bool filterAcceptsRow( int source_row, const QModelIndex& source_parent ) const override;
-    QString filter() const;
-    void setFilter(const QString& aFilter);
-    Q_INVOKABLE QVariant itemFromRow(const int row) const;
-    Q_INVOKABLE int indexForCountry(const QString &country) const;
-Q_SIGNALS:
-    void filterChanged();
-private:
-    QString m_filter;
-
-};
-
-QT_END_NAMESPACE
-
-#endif // LOCALEFILTERMODEL_H
+Text {
+    width: root.width * 0.2
+    height: parent.height
+    anchors.verticalCenter: parent.verticalCenter
+    horizontalAlignment: Text.AlignLeft
+    verticalAlignment: Text.AlignVCenter
+    font.pixelSize: parent.height * 0.55
+    color: "white"
+    font.family: appFont
+}

@@ -65,6 +65,10 @@ public:
     int rowCount(const QModelIndex & parent = QModelIndex()) const;
     QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const;
     QHash<int, QByteArray> roleNames() const;
+    QList<TimezoneItem *> getModel() const
+    {
+        return m_items;
+    }
 
     enum Roles {
         Name = Qt::UserRole + 1,
@@ -73,6 +77,9 @@ public:
     };
 
     static void generateModel(TimezoneModel* model);
+
+Q_SIGNALS:
+    void ready();
 
 private Q_SLOTS:
     void addNewItem(QObject* item);

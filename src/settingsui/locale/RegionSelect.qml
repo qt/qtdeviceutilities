@@ -31,33 +31,119 @@ import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.0
 import QtDeviceUtilities.LocaleSettings 1.0
 import "../common"
+import QtGraphicalEffects 1.0
+import QtDemoLauncher.QtButtonImageProvider 1.0
 
 Item {
     id: root
-    property string title: qsTr("Select language")
+    property var currentRegion: Qt.locale(LocaleManager.locale)
 
-    Component.onCompleted: country.text = LocaleFilter.filter
+    Row {
+        id: backRow
+        anchors.top: parent.top
+        anchors.left: parent.left
+        width: parent.width * 0.2
+        height: parent.height * 0.04
+        Image {
+            id: languageBackIcon
+            anchors.verticalCenter: parent.verticalCenter
+            height: parent.height * 0.8
+            width: height
+            fillMode: Image.PreserveAspectFit
+            source: "../newIcons/back_icon.svg"
+
+            ColorOverlay {
+                source: languageBackIcon
+                anchors.fill: languageBackIcon
+                color: "#41cd52"
+                visible: true
+            }
+            MouseArea {
+                anchors.fill: parent
+                onClicked: settingsLoader.source = "qrc:/locale/Language.qml"
+            }
+        }
+        Text {
+            anchors.top: parent.top
+            height: parent.height
+            anchors.verticalCenter: parent.verticalCenter
+            verticalAlignment: Text.AlignVCenter
+            fontSizeMode: Text.Fit
+            minimumPixelSize: 1
+            font.pixelSize: height
+            color: "#41cd52"
+            text: "Back"
+            font.family: appFont
+            MouseArea {
+                anchors.fill: parent
+                onClicked: settingsLoader.source = "qrc:/locale/Language.qml"
+            }
+        }
+    }
+
+    Text {
+        id: changeLanguageText
+        anchors.top: backRow.bottom
+        anchors.topMargin: parent.height * 0.05
+        anchors.left: parent.left
+        fontSizeMode: Text.Fit
+        minimumPixelSize: 1
+        font.pixelSize: parent.height * 0.05
+        color: "white"
+        text: qsTr("Change Language")
+        font.family: appFont
+        font.styleName: "Bold"
+    }
+    Rectangle {
+        id: btmLine
+        anchors.top: changeLanguageText.bottom
+        anchors.topMargin: parent.height * 0.025
+        anchors.left: changeLanguageText.left
+        width: parent.width * 0.275
+        height: parent.height * 0.005
+    }
 
     ColumnLayout {
         id: content
-        anchors.fill: parent
-        anchors.margins: 20
-        spacing: 10
+        anchors.top: btmLine.bottom
+        anchors.left: parent.left
+        anchors.bottom: parent.bottom
+        anchors.right: parent.right
+        anchors.topMargin: parent.height * 0.025
         RowLayout {
             spacing: 10
-
-            Label {
-                text: qsTr("Search region: ")
-                Layout.alignment: Qt.AlignVCenter
-            }
+            Layout.fillHeight: false
+            Layout.preferredHeight: root.height * 0.075
             TextField {
                 id: country
+                Layout.fillHeight: true
+                Layout.preferredWidth: root.width * 0.5
+                font.pixelSize: parent.height * 0.5
+                color: "white"
                 text: ""
+                placeholderText: "Search..."
+                font.family: appFont
+                font.styleName: "Light"
                 onTextChanged: LocaleFilter.filter = country.text
                 Layout.alignment: Qt.AlignVCenter
+                background: Rectangle {
+                    color: "transparent"
+                    border.color: "#9d9faa"
+                    border.width: 2
+                }
+            }
+
+            QtButton {
+                id: searchButton
+                Layout.fillHeight: true
+                Layout.preferredWidth: root.width * 0.1
+                fillColor: "#41cd52"
+                borderColor: "transparent"
             }
         }
+
         CustomTableView {
+            id: localeTableView
             headerTexts: [qsTr("Language"), qsTr("Country")]
             roleNames: ["language", "country"]
             model: LocaleFilter
@@ -65,9 +151,22 @@ Item {
                 var val = model.itemFromRow(index);
                 if (val !== "") {
                     LocaleManager.locale = val;
-                    stackView.pop();
+                    settingsLoader.source = "qrc:/locale/Language.qml"
                 }
             }
+        }
+    }
+    Component.onCompleted: {
+        country.text = LocaleFilter.filter
+        var n = LocaleFilter.indexForCountry(root.currentRegion.nativeCountryName)
+        localeTableView.localeIndex = n
+    }
+
+    Connections {
+        target: LocaleFilter.sourceModel
+        onReady: {
+            var n = LocaleFilter.indexForCountry(root.currentRegion.nativeCountryName)
+            localeTableView.localeIndex = n
         }
     }
 }

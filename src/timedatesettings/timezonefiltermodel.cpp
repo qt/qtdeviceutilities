@@ -97,3 +97,18 @@ QVariant TimezoneFilterModel::itemFromRow(const int row) const
     return QVariant();
 }
 
+int TimezoneFilterModel::indexForTimezone(const QString &timezone) const
+{
+    TimezoneModel *model = qobject_cast<TimezoneModel *>(sourceModel());
+    QList<TimezoneItem *> data = model->getModel();
+    int row = 0;
+    foreach (TimezoneItem *item, data) {
+        if (item->id() == timezone) {
+            QModelIndex mapped = mapFromSource(model->index(row));
+            return mapped.row();
+        }
+        row++;
+    }
+
+    return -1;
+}

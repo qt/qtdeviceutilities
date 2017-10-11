@@ -89,3 +89,12 @@ QVariant LocaleFilterModel::itemFromRow(const int row) const
     return QVariant();
 }
 
+
+int LocaleFilterModel::indexForCountry(const QString &country) const
+{
+    QAbstractItemModel *model = this->sourceModel();
+    LocaleModel *localModel = qobject_cast<LocaleModel*>(model);
+    QModelIndex i = localModel->indexForCountry(country);
+    QModelIndex ret = mapFromSource(i);
+    return ret.row();
+}

@@ -35,51 +35,97 @@ Item {
     id: root
     property string title: qsTr("Bluetooth Settings")
 
-    ColumnLayout {
-        anchors.margins: 20
-        anchors.fill: parent
-        id: content
-        spacing: 20
+    Text {
+        id: bluetoothText
+        anchors.top: parent.top
+        anchors.left: parent.left
+        fontSizeMode: Text.Fit
+        minimumPixelSize: 1
+        font.pixelSize: parent.height * 0.05
+        color: "white"
+        text: qsTr("Bluetooth")
+        font.family: appFont
+        font.styleName: "Bold"
+    }
 
-        GroupBox {
-            id: groupBox
-            width: parent.width
-            title: qsTr("Bluetooth status")
-            Layout.fillWidth: true
-            Layout.alignment: Qt.AlignTop
-            enabled: BtDevice.available
+    Rectangle {
+        id: btmLine
+        anchors.top: bluetoothText.bottom
+        anchors.topMargin: parent.height * 0.025
+        anchors.left: bluetoothText.left
+        width: parent.width * 0.275
+        height: parent.height * 0.005
+    }
+    Row {
+        id: bluetoothRow
+        anchors.top: btmLine.bottom
+        anchors.topMargin: parent.height * 0.05
+        anchors.left: parent.left
+        anchors.right: parent.right
+        height: parent.height * 0.2
+        spacing: parent.width * 0.025
+        Text {
+            anchors.verticalCenter: parent.verticalCenter
+            font.pixelSize: parent.height * 0.2
+            color: "white"
+            text: "Bluetooth"
+            font.family: appFont
+            font.styleName: "Bold"
+        }
+        CustomSwitch {
+            anchors.verticalCenter: parent.verticalCenter
+            indicatorWidth: root.width * 0.25
+            indicatorHeight: root.height * 0.1
 
-            RowLayout {
-                spacing: 10
-                Label {
-                    id: off
-                    text: qsTr("Off")
-                }
-                Switch {
-                    checked: BtDevice.powered
-                    onCheckedChanged: {
-                        BtDevice.powered = checked
-                    }
-                }
+            checked: BtDevice.powered
+            onCheckedChanged: BtDevice.powered = checked
+        }
 
-                Connections {
-                    target: BtDevice
-                    onPoweredChanged: {
-                        if (BtDevice.powered)
-                            BtDevice.scanning = true
-                    }
-                }
+        Text {
+            id: scanningText
+            anchors.verticalCenter: parent.verticalCenter
+            verticalAlignment: Text.AlignVCenter
+            font.pixelSize: parent.height * 0.2
+            color: "white"
+            text: "Scanning"
+            font.family: appFont
+            opacity: BtDevice.scanning ? 1.0 : 0.0
+            visible: opacity > 0
+            Behavior on opacity {
+                NumberAnimation {duration: 150}
+            }
 
-                Label {
-                    text: qsTr("On")
+            Timer {
+                id: scanningTimer
+                interval: 1000
+                repeat: true
+                running: BtDevice.scanning
+
+                onTriggered: {
+                    if (scanningText.text.indexOf("...") !== -1)
+                        scanningText.text = "Scanning"
+                    else
+                        scanningText.text += "."
                 }
             }
         }
-        Discovery {
-            id: discovery
-            visible: BtDevice.powered
-            Layout.fillWidth: true
-            Layout.fillHeight: true
+
+        Connections {
+            target: BtDevice
+            onPoweredChanged: {
+                if (BtDevice.powered)
+                    BtDevice.scanning = true
+            }
         }
+    }
+
+    Discovery {
+        id: discovery
+        anchors.top: bluetoothRow.bottom
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: parent.height * 0.085
+        visible: BtDevice.powered
     }
 }

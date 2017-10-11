@@ -55,8 +55,10 @@ public:
     QString filter() const;
     void setFilter(const QString& aFilter);
     Q_INVOKABLE QVariant itemFromRow(const int row) const;
+    Q_INVOKABLE int indexForTimezone(const QString &timezone) const;
 Q_SIGNALS:
     void filterChanged();
+    void selectedIndexChanged();
 private:
     QString m_filter;
 

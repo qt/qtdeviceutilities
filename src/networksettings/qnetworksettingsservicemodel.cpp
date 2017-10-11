@@ -202,7 +202,7 @@ void QNetworkSettingsServiceModel::signalStrengthChanged()
 */
 
 QNetworkSettingsServiceFilter::QNetworkSettingsServiceFilter(QObject* parent)
-    :QSortFilterProxyModel(parent)
+    :QSortFilterProxyModel(parent), m_type(QNetworkSettingsType::Unknown)
 {
     connect(this, &QNetworkSettingsServiceFilter::typeChanged, this, &QNetworkSettingsServiceFilter::invalidate);
 }
@@ -242,7 +242,7 @@ bool QNetworkSettingsServiceFilter::filterAcceptsRow( int source_row, const QMod
            {
                QObject * obj = qvariant_cast<QObject *>(index.data(Qt::UserRole));
                QNetworkSettingsService * service = qobject_cast<QNetworkSettingsService *>(obj);
-               if (service->type() == m_type)
+               if (service->type() == m_type || m_type == QNetworkSettingsType::Unknown)
                   return true;
            }
        }

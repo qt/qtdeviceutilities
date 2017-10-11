@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2016 The Qt Company Ltd.
+** Copyright (C) 2017 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
 **
 ** This file is part of the Device Utilities module of the Qt Toolkit.
@@ -26,41 +26,63 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-import QtQuick 2.6
-import QtQuick.Layouts 1.3
-import QtQuick.Controls 2.2
-import QtDeviceUtilities.NetworkSettings 1.0
+import QtQuick 2.0
+import QtQuick.Controls 2.1
 import QtDemoLauncher.QtButtonImageProvider 1.0
 
 Item {
+    id: root
+    property int margin: root.width * 0.05
+
     Text {
-        id: networkText
+        id: powerText
         anchors.top: parent.top
         anchors.left: parent.left
         fontSizeMode: Text.Fit
         minimumPixelSize: 1
         font.pixelSize: parent.height * 0.05
         color: "white"
-        text: qsTr("Network")
+        text: qsTr("Power")
         font.family: appFont
         font.styleName: "Bold"
     }
-
     Rectangle {
         id: btmLine
-        anchors.top: networkText.bottom
+        anchors.top: powerText.bottom
         anchors.topMargin: parent.height * 0.025
-        anchors.left: networkText.left
+        anchors.left: powerText.left
         width: parent.width * 0.275
         height: parent.height * 0.005
     }
 
-    NetworkListView {
-        id: networkList
+    QtButton {
+        id: shutdownButton
+        width: btmLine.width
+        height: parent.height * 0.075
         anchors.top: btmLine.bottom
-        anchors.topMargin: parent.height * 0.025
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.bottom: parent.bottom
+        anchors.topMargin: parent.height * 0.05
+        fillColor: "#41cd52"
+        borderColor: "transparent"
+        text: qsTr("SHUTDOWN")
+        onClicked: {
+            shutdownPopup.powerOffText = qsTr("Shut down the system?")
+            shutdownPopup.buttonText = qsTr("SHUT DOWN")
+            shutdownPopup.open()
+        }
+    }
+    QtButton {
+        id: rebootButton
+        width: btmLine.width
+        height: parent.height * 0.075
+        anchors.top: shutdownButton.bottom
+        anchors.topMargin: parent.height * 0.05
+        fillColor: "#41cd52"
+        borderColor: "transparent"
+        text: qsTr("REBOOT")
+        onClicked: {
+            shutdownPopup.powerOffText = qsTr("Reboot the system?")
+            shutdownPopup.buttonText = qsTr("REBOOT")
+            shutdownPopup.open()
+        }
     }
 }
