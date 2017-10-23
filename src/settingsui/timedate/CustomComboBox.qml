@@ -47,7 +47,7 @@ ComboBox {
         id: indicatorOverlay
         source: indicatorImage
         anchors.fill: indicatorImage
-        color: "#41cd52"
+        color: viewSettings.buttonGreenColor
         visible: false
         rotation: -90
     }
@@ -64,7 +64,7 @@ ComboBox {
     }
     background: Rectangle {
         color: "transparent"
-        border.color: "#9d9faa"
+        border.color: viewSettings.borderColor
         border.width: comboBox.visualFocus ? 2 : 1
     }
     popup: Popup {
@@ -90,8 +90,8 @@ ComboBox {
             indicatorOverlay.visible = false
         }
         background: Rectangle {
-            border.color: "#9d9faa"
-            color: "#09102b"
+            border.color: viewSettings.borderColor
+            color: viewSettings.backgroundColor
             opacity: 0.95
         }
     }

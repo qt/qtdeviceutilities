@@ -73,7 +73,7 @@ Item {
                         anchors.left: dayDelegate.left
                         anchors.leftMargin: pluginMain.margin
                         text: modelData + 1
-                        color: dayBox.currentIndex == index ? "#41cd52" : "white"
+                        color: dayBox.currentIndex == index ? viewSettings.buttonGreenColor : "white"
                         elide: Text.ElideRight
                         verticalAlignment: Text.AlignVCenter
                         font.pixelSize: pluginMain.valueFontSize
@@ -105,7 +105,7 @@ Item {
                     contentItem: Text {
                         anchors.left: monthDelegate.left
                         anchors.leftMargin: pluginMain.margin
-                        color: monthBox.currentIndex == index ? "#41cd52" : "white"
+                        color: monthBox.currentIndex == index ? viewSettings.buttonGreenColor : "white"
                         elide: Text.ElideRight
                         text: modelData
                         verticalAlignment: Text.AlignVCenter
@@ -132,7 +132,7 @@ Item {
                         anchors.left: yearDelegate.left
                         anchors.leftMargin: pluginMain.margin
                         text: index + firstYear
-                        color: yearBox.currentIndex == index ? "#41cd52" : "white"
+                        color: yearBox.currentIndex == index ? viewSettings.buttonGreenColor : "white"
                         elide: Text.ElideRight
                         verticalAlignment: Text.AlignVCenter
                         font.pixelSize: pluginMain.valueFontSize
@@ -172,7 +172,7 @@ Item {
                         anchors.left: hourDelegate.left
                         anchors.leftMargin: pluginMain.margin
                         text: zeroPadTime(parseInt(modelData))
-                        color: hourBox.currentIndex == index ? "#41cd52" : "white"
+                        color: hourBox.currentIndex == index ? viewSettings.buttonGreenColor : "white"
                         elide: Text.ElideRight
                         verticalAlignment: Text.AlignVCenter
                         font.pixelSize: pluginMain.valueFontSize
@@ -198,7 +198,7 @@ Item {
                         anchors.left: minuteDelegate.left
                         anchors.leftMargin: pluginMain.margin
                         text: zeroPadTime(parseInt(modelData))
-                        color: minuteBox.currentIndex == index ? "#41cd52" : "white"
+                        color: minuteBox.currentIndex == index ? viewSettings.buttonGreenColor : "white"
                         elide: Text.ElideRight
                         verticalAlignment: Text.AlignVCenter
                         font.pixelSize: pluginMain.valueFontSize
@@ -237,7 +237,7 @@ Item {
             QtButton {
                 id: dateCancelButton
                 height: pluginMain.buttonHeight
-                fillColor: "#9d9faa"
+                fillColor: viewSettings.buttonGrayColor
                 borderColor: "transparent"
                 text: qsTr("CANCEL")
                 onClicked: {

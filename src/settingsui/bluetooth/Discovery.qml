@@ -94,7 +94,7 @@ Item {
                     verticalAlignment: Text.AlignVCenter
                     font.pixelSize: mainList.height * 0.06
                     text: name
-                    color: connected ? "#41cd52" : "white"
+                    color: connected ? viewSettings.buttonGreenColor : "white"
                     font.family: appFont
                     font.styleName: connected ? "SemiBold" : "Regular"
                 }
@@ -104,7 +104,7 @@ Item {
                     opacity: btDelegate.expanded || connected ? 1 : 0.0
                     visible: opacity > 0
                     text: address
-                    color: connected ? "#41cd52" : "white"
+                    color: connected ? viewSettings.buttonGreenColor : "white"
                     font.family: appFont
                     Behavior on opacity { NumberAnimation { duration: 200} }
                 }
@@ -116,7 +116,7 @@ Item {
                 anchors.verticalCenter: parent.verticalCenter
                 opacity: (expanded || connected) && !BtDevice.scanning ? 1.0 : 0.0
                 visible: opacity > 0
-                fillColor: connected ? "#9d9faa" : "#41cd52"
+                fillColor: connected ? viewSettings.buttonGrayColor : viewSettings.buttonGreenColor
                 borderColor: "transparent"
                 text: connected ? qsTr("Disconnect") : qsTr("Connect")
                 onClicked : connected ? BtDevice.requestDisconnect(address) : BtDevice.requestPairing(address);
@@ -127,7 +127,7 @@ Item {
             Rectangle {
                 id: delegateBottom
                 width: btDelegate.width
-                color: "#9d9faa"
+                color: viewSettings.borderColor
                 height: 2
                 anchors.bottom: btDelegate.bottom
                 anchors.horizontalCenter: btDelegate.horizontalCenter

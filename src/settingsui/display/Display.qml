@@ -68,7 +68,7 @@ Item {
                 width: brightnessSlider.availableWidth
                 height: implicitHeight
                 radius: 2
-                color: "#9d9faa"
+                color: viewSettings.buttonGrayColor
                 Rectangle {
                     width: brightnessSlider.visualPosition * parent.width
                     height: parent.height
@@ -83,7 +83,7 @@ Item {
                 width: height
                 radius: width * 0.5
                 antialiasing: true
-                color: "#41cd52"
+                color: viewSettings.buttonGreenColor
             }
 
             Component.onCompleted:  brightnessSlider.value = DisplaySettings.displayBrightness
@@ -127,7 +127,7 @@ Item {
                     horizontalAlignment: Text.AlignHCenter
                     inputMethodHints: Qt.ImhDigitsOnly
                     background: Rectangle {
-                        border.color: widthField.focus ? "#41cd52" : "transparent"
+                        border.color: widthField.focus ? viewSettings.buttonGreenColor : "transparent"
                         border.width: parent.width * 0.05
                     }
                 }
@@ -150,7 +150,7 @@ Item {
                     horizontalAlignment: Text.AlignHCenter
                     inputMethodHints: Qt.ImhDigitsOnly
                     background: Rectangle {
-                        border.color: heightField.focus ? "#41cd52" : "transparent"
+                        border.color: heightField.focus ? viewSettings.buttonGreenColor : "transparent"
                         border.width: parent.width * 0.05
                     }
                 }
@@ -172,7 +172,7 @@ Item {
                     id: resetButton
                     height: pluginMain.buttonHeight
                     borderColor: "transparent"
-                    fillColor: "#9d9faa"
+                    fillColor: viewSettings.buttonGrayColor
                     text: qsTr("RESET TO DEFAULT")
                     onClicked: {
                         DisplaySettings.physicalScreenHeightMm = 90

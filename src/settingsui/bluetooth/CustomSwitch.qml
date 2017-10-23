@@ -90,7 +90,7 @@ Switch {
             anchors.verticalCenter: parent.verticalCenter
             width: parent.width * 0.475
             height: parent.height * 0.9
-            fillColor: control.checked ? "#41cd52" : "#9d9faa"
+            fillColor: control.checked ? viewSettings.buttonGreenColor : viewSettings.buttonGrayColor
             text: control.checked ? "ON" : "OFF"
             borderColor: "transparent"
             Behavior on x {

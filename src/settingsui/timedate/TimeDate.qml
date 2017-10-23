@@ -89,7 +89,7 @@ Item {
             QtButton {
                 id: manualButton
                 height: pluginMain.buttonHeight
-                fillColor: "#9d9faa"
+                fillColor: viewSettings.buttonGrayColor
                 borderColor: "transparent"
                 text: qsTr("MANUALLY")
                 onClicked: {
@@ -122,7 +122,7 @@ Item {
                         anchors.left: timeZoneDelegate.left
                         anchors.leftMargin: pluginMain.margin
                         text: modelData["id"]
-                        color: timeZoneBox.currentIndex == index ? "#41cd52" : "white"
+                        color: timeZoneBox.currentIndex == index ? viewSettings.buttonGreenColor : "white"
                         elide: Text.ElideRight
                         verticalAlignment: Text.AlignVCenter
                         font.pixelSize: pluginMain.valueFontSize

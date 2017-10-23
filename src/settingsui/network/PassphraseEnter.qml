@@ -51,7 +51,7 @@ Item {
             ColorOverlay {
                 source: passBackIcon
                 anchors.fill: passBackIcon
-                color: "#41cd52"
+                color: viewSettings.buttonGreenColor
                 visible: true
             }
             MouseArea {
@@ -68,7 +68,7 @@ Item {
             fontSizeMode: Text.Fit
             minimumPixelSize: 1
             font.pixelSize: height
-            color: "#41cd52"
+            color: viewSettings.buttonGreenColor
             text: "Back"
             MouseArea {
                 anchors.fill: parent
@@ -107,7 +107,7 @@ Item {
         echoMode: TextInput.Password
         background: Rectangle {
             color: "transparent"
-            border.color: passField.focus ? "#41cd52" : "#9d9faa"
+            border.color: passField.focus ? viewSettings.buttonGreenColor : viewSettings.buttonGrayColor
             border.width: passField.focus ? width * 0.01 : 2
         }
     }
@@ -130,7 +130,7 @@ Item {
             height: parent.height
             text: qsTr("CANCEL")
             borderColor: "transparent"
-            fillColor: "#9d9faa"
+            fillColor: viewSettings.buttonGrayColor
             onClicked: {
                 passField.focus = false
                 passField.clear()

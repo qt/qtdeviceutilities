@@ -52,7 +52,7 @@ Item {
         source: img
         anchors.fill: img
         visible: parent.isSelected ? true : false
-        color: "#41cd52"
+        color: viewSettings.buttonGreenColor
     }
 
     Text {
@@ -65,7 +65,7 @@ Item {
         fontSizeMode: Text.Fit
         minimumPixelSize: 1
         font.pixelSize: Math.min(parent.width * 0.25, parent.height)
-        color: parent.isSelected ? "#41cd52" : "white"
+        color: parent.isSelected ? viewSettings.buttonGreenColor : "white"
         wrapMode: Text.WordWrap
         verticalAlignment: Text.AlignVCenter
         font.family: appFont

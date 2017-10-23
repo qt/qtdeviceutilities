@@ -55,7 +55,7 @@ Item {
             ColorOverlay {
                 source: languageBackIcon
                 anchors.fill: languageBackIcon
-                color: "#41cd52"
+                color: viewSettings.buttonGreenColor
                 visible: true
             }
             MouseArea {
@@ -71,7 +71,7 @@ Item {
             fontSizeMode: Text.Fit
             minimumPixelSize: 1
             font.pixelSize: height
-            color: "#41cd52"
+            color: viewSettings.buttonGreenColor
             text: "Back"
             font.family: appFont
             MouseArea {
@@ -128,7 +128,7 @@ Item {
                 Layout.alignment: Qt.AlignVCenter
                 background: Rectangle {
                     color: "transparent"
-                    border.color: "#9d9faa"
+                    border.color: viewSettings.borderColor
                     border.width: 2
                 }
             }

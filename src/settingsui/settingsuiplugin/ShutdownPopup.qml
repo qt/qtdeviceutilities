@@ -32,7 +32,7 @@ Rectangle {
     id: shutdownPopup
     width: parent.width
     height: parent.height
-    color: "#09102b"
+    color: viewSettings.backgroundColor
     opacity: 0.9
 
     signal accepted()
@@ -60,8 +60,8 @@ Rectangle {
 
     Rectangle {
         id: frame
-        color: "#09102b"
-        border.color: "#9d9faa"
+        color: viewSettings.backgroundColor
+        border.color: viewSettings.borderColor
         border.width: 3
         anchors.centerIn: parent
         width: parent.width * 0.35

@@ -54,7 +54,7 @@ ListView {
                 verticalAlignment: Text.AlignVCenter
                 font.pixelSize: pluginMain.subTitleFontSize
                 font.family: appFont
-                color: connected ? "#41cd52" : "white"
+                color: connected ? viewSettings.buttonGreenColor : "white"
                 text: name
             }
             Row {
@@ -70,7 +70,7 @@ ListView {
                     height: parent.height
                     anchors.verticalCenter: parent.verticalCenter
                     text: qsTr("IP Address:")
-                    color: connected ? "#41cd52" : "white"
+                    color: connected ? viewSettings.buttonGreenColor : "white"
                     font.pixelSize: pluginMain.valueFontSize
                     font.family: appFont
                     verticalAlignment: Text.AlignVCenter
@@ -83,7 +83,7 @@ ListView {
                     anchors.verticalCenter: parent.verticalCenter
                     verticalAlignment: Text.AlignVCenter
                     horizontalAlignment: Text.AlignLeft
-                    color: connected ? "#41cd52" : "white"
+                    color: connected ? viewSettings.buttonGreenColor : "white"
                     text: connected ? NetworkSettingsManager.services.itemFromRow(index).ipv4.address : qsTr("Not connected")
                     font.pixelSize: pluginMain.valueFontSize
                     font.family: appFont
@@ -95,7 +95,7 @@ ListView {
             id: connectButton
             anchors.right: parent.right
             anchors.verticalCenter: parent.verticalCenter
-            fillColor: connected ? "#9d9faa" : "#41cd52"
+            fillColor: connected ? viewSettings.buttonGrayColor : viewSettings.buttonGreenColor
             borderColor: "transparent"
             text: connected ? qsTr("DISCONNECT") : qsTr("CONNECT")
             height: pluginMain.buttonHeight
@@ -114,7 +114,7 @@ ListView {
         Rectangle {
             id: delegateBottom
             width: networkDelegate.width
-            color: "#9d9faa"
+            color: viewSettings.borderColor
             height: 2
             anchors.bottom: networkDelegate.bottom
             anchors.horizontalCenter: networkDelegate.horizontalCenter
