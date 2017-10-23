@@ -78,19 +78,25 @@ public:
         pixmap.fill(Qt::transparent);
 
         QPainter painter(&pixmap);
-        painter.setRenderHint(QPainter::Antialiasing);
-        painter.setPen(borderColor);
+        const qreal borderPenWidth = 2;
+        QPen borderPen(QBrush(borderColor), borderPenWidth);
+        borderPen.setJoinStyle(Qt::MiterJoin);
+        painter.setRenderHint(QPainter::Antialiasing, true);
+        painter.setPen(borderPen);
         painter.setBrush(fillColor);
 
         QPainterPath path;
-        path.moveTo(cutSize,0);
-        path.lineTo(pixmap.width(), 0);
-        path.lineTo(pixmap.width(), pixmap.height()-cutSize);
-        path.lineTo(pixmap.width()-cutSize, pixmap.height());
-        path.lineTo(0, pixmap.height());
-        path.lineTo(0, cutSize);
-        path.lineTo(cutSize, 0);
-        path.closeSubpath();
+        qreal top = borderPenWidth - 1;
+        qreal left = borderPenWidth - 1;
+        qreal bottom = pixmap.height() - borderPenWidth;
+        qreal right = pixmap.width() - borderPenWidth;
+        path.moveTo(left + cutSize, top);
+        path.lineTo(right, top);
+        path.lineTo(right, bottom - cutSize);
+        path.lineTo(right - cutSize, bottom);
+        path.lineTo(left, bottom);
+        path.lineTo(left, top + cutSize);
+        path.lineTo(left + cutSize, top);
         painter.drawPath(path);
 
         return pixmap;

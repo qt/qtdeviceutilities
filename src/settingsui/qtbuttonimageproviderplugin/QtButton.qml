@@ -34,14 +34,15 @@ Image {
     sourceSize: Qt.size(width, height)
     property string state: "enabled"
     property int cutSize: 10
-    property color fillColor: "white"
-    property color borderColor: "black"
+    property color fillColor: viewSettings.buttonGreenColor
+    property color borderColor: mouseArea.pressed ? viewSettings.buttonActiveColor : viewSettings.buttonGreenColor
     property alias text: buttonText.text
     signal clicked()
 
     width: buttonText.contentWidth + cutSize * 4
 
     MouseArea {
+        id: mouseArea
         anchors.fill: parent
         onClicked: root.clicked()
     }
