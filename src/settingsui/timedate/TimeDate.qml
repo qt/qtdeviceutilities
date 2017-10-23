@@ -83,8 +83,6 @@ Item {
             QtButton {
                 id: automaticButton
                 height: pluginMain.buttonHeight
-                fillColor: "#41cd52"
-                borderColor: "transparent"
                 text: qsTr("AUTOMATICALLY")
                 onClicked: TimeManager.ntp = true
             }

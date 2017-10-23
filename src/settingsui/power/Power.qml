@@ -41,8 +41,6 @@ Item {
             id: shutdownButton
             width: root.width * 0.4
             height: pluginMain.fieldHeight
-            fillColor: "#41cd52"
-            borderColor: "transparent"
             text: qsTr("SHUTDOWN")
             onClicked: shutdownPopup.open(true)
         }
@@ -50,8 +48,6 @@ Item {
             id: rebootButton
             width: root.width * 0.4
             height: pluginMain.fieldHeight
-            fillColor: "#41cd52"
-            borderColor: "transparent"
             text: qsTr("REBOOT")
             onClicked: shutdownPopup.open(false)
         }

@@ -91,8 +91,6 @@ Rectangle {
                 width: frame.width * 0.45
                 anchors.horizontalCenter: parent.horizontalCenter
                 text: ""
-                borderColor: "transparent"
-                fillColor: viewSettings.buttonGreenColor
                 onClicked: shutdownPopup.accepted()
             }
             QtButton {

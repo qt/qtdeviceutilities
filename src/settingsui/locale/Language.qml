@@ -62,7 +62,6 @@ Item {
             QtButton {
                 id: regionButton
                 height: pluginMain.buttonHeight
-                fillColor: "#41cd52"
                 text: qsTr("CHANGE")
                 onClicked: settingsLoader.source = "qrc:/locale/RegionSelect.qml"
             }

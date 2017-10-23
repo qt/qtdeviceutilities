@@ -120,8 +120,6 @@ Item {
             id: setButton
             height: parent.height
             text: qsTr("SET")
-            borderColor: "transparent"
-            fillColor: "#41cd52"
             onClicked: {
                 passField.focus = false
                 NetworkSettingsManager.userAgent.setPassphrase(passField.text)

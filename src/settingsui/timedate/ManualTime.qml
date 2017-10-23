@@ -216,8 +216,6 @@ Item {
             QtButton {
                 id: dateSetButton
                 height: pluginMain.buttonHeight
-                fillColor: "#41cd52"
-                borderColor: "transparent"
                 text: qsTr("SET")
 
                 onClicked: {
