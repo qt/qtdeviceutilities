@@ -27,6 +27,7 @@
 **
 ****************************************************************************/
 import QtQuick 2.0
+import QtDeviceUtilities.QtButtonImageProvider 1.0
 
 Rectangle {
     id: shutdownPopup
