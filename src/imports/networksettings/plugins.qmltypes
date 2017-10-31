@@ -7,7 +7,7 @@ import QtQuick.tooling 1.2
 // 'qmlplugindump -nonrelocatable QtDeviceUtilities.NetworkSettings 1.0'
 
 Module {
-    dependencies: []
+    dependencies: ["QtQuick 2.8"]
     Component {
         name: "QNetworkSettingsIPv4"
         prototype: "QObject"
@@ -56,6 +56,18 @@ Module {
         Property { name: "prefixLength"; type: "int" }
     }
     Component {
+        name: "QNetworkSettingsInterface"
+        prototype: "QObject"
+        exports: ["QtDeviceUtilities.NetworkSettings/NetworkInterface 1.0"]
+        isCreatable: false
+        exportMetaObjectRevisions: [0]
+        Property { name: "name"; type: "string"; isReadonly: true }
+        Property { name: "state"; type: "QNetworkSettingsState::States"; isReadonly: true }
+        Property { name: "type"; type: "QNetworkSettingsType::Types"; isReadonly: true }
+        Property { name: "powered"; type: "bool" }
+        Method { name: "scanServices" }
+    }
+    Component {
         name: "QNetworkSettingsManager"
         prototype: "QObject"
         exports: [
@@ -87,6 +99,12 @@ Module {
             type: "QNetworkSettingsService*"
             Parameter { name: "name"; type: "string" }
             Parameter { name: "type"; type: "int" }
+        }
+        Method {
+            name: "interface"
+            type: "QNetworkSettingsInterface*"
+            Parameter { name: "type"; type: "int" }
+            Parameter { name: "instance"; type: "int" }
         }
     }
     Component {

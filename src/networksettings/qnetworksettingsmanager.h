@@ -38,6 +38,7 @@ QT_FORWARD_DECLARE_CLASS(QNetworkSettingsService)
 QT_FORWARD_DECLARE_CLASS(QNetworkSettingsServiceModel)
 QT_FORWARD_DECLARE_CLASS(QNetworkSettingsUserAgent)
 QT_FORWARD_DECLARE_CLASS(QNetworkSettingsServiceFilter)
+QT_FORWARD_DECLARE_CLASS(QNetworkSettingsInterface)
 QT_FORWARD_DECLARE_CLASS(QNetworkSettingsInterfaceModel)
 
 QT_BEGIN_NAMESPACE
@@ -57,7 +58,8 @@ public:
     void setUserAgent(QNetworkSettingsUserAgent *agent);
     QNetworkSettingsUserAgent* userAgent();
 
-    Q_INVOKABLE QNetworkSettingsService* service(const QString& name, const int type);
+    Q_INVOKABLE QNetworkSettingsService* service(const QString& name, int type);
+    Q_INVOKABLE QNetworkSettingsInterface* interface(int type, int instance);
 
 Q_SIGNALS:
     void servicesChanged();

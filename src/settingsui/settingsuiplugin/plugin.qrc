@@ -27,7 +27,7 @@
         <file>../power/Power.qml</file>
         <file>../timedate/ManualTime.qml</file>
         <file>../timedate/CustomComboBox.qml</file>
-        <file>../bluetooth/CustomSwitch.qml</file>
+        <file>../common/CustomSwitch.qml</file>
         <file>../network/NetworkListView.qml</file>
         <file>../network/PassphraseEnter.qml</file>
         <file>../locale/TableKey.qml</file>

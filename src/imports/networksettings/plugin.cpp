@@ -32,6 +32,7 @@
 #include <qnetworksettingsservice.h>
 #include <qnetworksettingsuseragent.h>
 #include <qnetworksettingsservicemodel.h>
+#include <qnetworksettingsinterface.h>
 #include <qnetworksettingsinterfacemodel.h>
 
 #include <qqml.h>
@@ -122,6 +123,14 @@
 */
 
 /*!
+    \qmlmethod NetworkInterface NetworkSettingsManager::interface(int type, int instance)
+
+    Returns the interface with type \a type and order number of \a instance
+
+    \sa NetworkInterface
+*/
+
+/*!
     \qmlmethod NetworkSettingsManager::userAgent.setPassphrase(string passphrase)
 
     Sets the \a passphrase for connecting to a Wifi network.
@@ -162,6 +171,7 @@ void NetworksettingspluginPlugin::registerTypes(const char *uri)
 {
     Q_ASSERT(QLatin1String(uri) == QLatin1String("QtDeviceUtilities.NetworkSettings"));
     qmlRegisterUncreatableType<QNetworkSettingsService>(uri, 1, 0, "NetworkService", "Cannot be instantiated directly.");
+    qmlRegisterUncreatableType<QNetworkSettingsInterface>(uri, 1, 0, "NetworkInterface", "Cannot be instantiated directly.");
     qmlRegisterUncreatableType<QNetworkSettingsIPv4>(uri, 1, 0, "NetworkSettingsIPv4", "Cannot be instantiated directly.");
     qmlRegisterUncreatableType<QNetworkSettingsIPv6>(uri, 1, 0, "NetworkSettingsIPv6", "Cannot be instantiated directly.");
     qmlRegisterUncreatableType<QNetworkSettingsProxy>(uri, 1, 0, "NetworkSettingsProxy", "Cannot be instantiated directly.");

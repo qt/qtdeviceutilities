@@ -29,6 +29,7 @@
 #include "qnetworksettingsmanager.h"
 #include "qnetworksettingsservice.h"
 #include "qnetworksettingsservicemodel.h"
+#include "qnetworksettingsinterface.h"
 #include "qnetworksettingsinterfacemodel.h"
 #include "qnetworksettingsmanager_p.h"
 #include <QStringListModel>
@@ -51,7 +52,7 @@ QNetworkSettingsInterfaceModel *QNetworkSettingsManager::interfaces()
     return &d->m_interfaceModel;
 }
 
-QNetworkSettingsService* QNetworkSettingsManager::service(const QString& name, const int type)
+QNetworkSettingsService* QNetworkSettingsManager::service(const QString& name, int type)
 {
     Q_D(QNetworkSettingsManager);
 
@@ -60,7 +61,23 @@ QNetworkSettingsService* QNetworkSettingsManager::service(const QString& name, c
             return service;
         }
     }
-    return NULL;
+    return nullptr;
+}
+
+QNetworkSettingsInterface* QNetworkSettingsManager::interface(int type, int instance)
+{
+    Q_D(QNetworkSettingsManager);
+    int matchingInstance = 0;
+
+    foreach (QNetworkSettingsInterface* interface, d->m_interfaceModel.getModel()) {
+        if (interface->type() == type) {
+            if (matchingInstance == instance) {
+                return interface;
+            }
+            matchingInstance++;
+        }
+    }
+    return nullptr;
 }
 
 void QNetworkSettingsManager::setUserAgent(QNetworkSettingsUserAgent *agent)
