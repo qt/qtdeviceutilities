@@ -32,6 +32,8 @@
 #include "objectmanager_interface.cpp"
 #include "moc_objectmanager_interface.cpp"
 #include "device1_interface.h"
+#include "connman_technology_interface.h"
+#include "connmancommon.h"
 
 BluetoothDevicePrivate::BluetoothDevicePrivate(BluetoothDevice *parent) : QObject(parent)
     ,q_ptr(parent)
@@ -46,6 +48,9 @@ BluetoothDevicePrivate::BluetoothDevicePrivate(BluetoothDevice *parent) : QObjec
 
     m_manager = new OrgFreedesktopDBusObjectManagerInterface(QStringLiteral("org.bluez"),
                                                      QStringLiteral("/"),
+                                                     QDBusConnection::systemBus(), this);
+    m_technology = new NetConnmanTechnologyInterface(QStringLiteral("net.connman"),
+                                                     QStringLiteral("/net/connman/technology/bluetooth"),
                                                      QDBusConnection::systemBus(), this);
     QDBusPendingReply<ManagedObjectList> reply = m_manager->GetManagedObjects();
     QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(reply, this);
@@ -69,6 +74,8 @@ void BluetoothDevicePrivate::setPowered(const bool& aPowered)
 {
     if (!m_localDevice)
         return;
+
+    m_technology->SetProperty(PropertyPowered, QDBusVariant(QVariant(aPowered)));
 
     if (aPowered) {
         m_localDevice->powerOn();

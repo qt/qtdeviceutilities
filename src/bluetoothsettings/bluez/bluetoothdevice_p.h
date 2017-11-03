@@ -47,6 +47,7 @@
 
 class OrgBluezDevice1Interface;
 class OrgFreedesktopDBusObjectManagerInterface;
+class NetConnmanTechnologyInterface;
 
 class BluetoothDevicePrivate : public QObject
 {
@@ -88,6 +89,7 @@ private:
     QString m_adapter;
     DiscoveryModel *m_deviceModel;
     OrgFreedesktopDBusObjectManagerInterface *m_manager;
+    NetConnmanTechnologyInterface *m_technology;
 };
 
 

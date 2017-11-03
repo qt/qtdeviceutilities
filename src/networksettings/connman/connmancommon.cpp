@@ -53,6 +53,9 @@ const QString &operator>>(const QString &argument, QNetworkSettingsType &obj)
     else if (argument == AttributeWifi) {
         obj.setType(QNetworkSettingsType::Wifi);
     }
+    else if (argument == AttributeBluetooth) {
+        obj.setType(QNetworkSettingsType::Bluetooth);
+    }
     else {
         obj.setType(QNetworkSettingsType::Unknown);
     }

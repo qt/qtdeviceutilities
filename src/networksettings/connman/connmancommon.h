@@ -42,6 +42,7 @@
 
 #define AttributeWifi QStringLiteral("wifi")
 #define AttributeEthernet QStringLiteral("ethernet")
+#define AttributeBluetooth QStringLiteral("bluetooth")
 #define AttributeIdle QStringLiteral("idle")
 #define AttributeFailure QStringLiteral("failure")
 #define AttributeAssociation QStringLiteral("association")
