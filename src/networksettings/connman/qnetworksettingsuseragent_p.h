@@ -72,7 +72,7 @@ public Q_SLOTS: // Dbus methods
     void registerAgent();
 private:
     QNetworkSettingsUserAgent *q_ptr;
-    QDBusMessage m_reply;
+    QDBusMessage m_pendingMessage;
     bool m_pendingReply;
     QString m_passphrase;
 };

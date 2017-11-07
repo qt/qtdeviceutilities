@@ -44,8 +44,14 @@ QNetworkSettingsUserAgentPrivate::QNetworkSettingsUserAgentPrivate(QNetworkSetti
 void QNetworkSettingsUserAgentPrivate::cancel()
 {
     // handle method call net.connman.Agent.Cancel
+    if (!m_pendingReply)
+        return;
+
     m_pendingReply = false;
-    QMetaObject::invokeMethod(parent(), "Cancel");
+    QDBusMessage errorMessage = m_pendingMessage.createErrorReply(
+                              QStringLiteral("net.connman.Agent.Error.Canceled"),
+                              QStringLiteral(""));
+    QDBusConnection::systemBus().send(errorMessage);
 }
 
 void QNetworkSettingsUserAgentPrivate::release()
@@ -74,8 +80,9 @@ QVariantMap QNetworkSettingsUserAgentPrivate::RequestInput(const QDBusObjectPath
     Q_UNUSED(path);
     Q_UNUSED(params);
     msg.setDelayedReply(true);
-    m_reply = msg.createReply();
+
     m_pendingReply = true;
+    m_pendingMessage = msg;
     emit q->showUserCredentialsInput();
     return QVariantMap();
 }
@@ -83,9 +90,14 @@ QVariantMap QNetworkSettingsUserAgentPrivate::RequestInput(const QDBusObjectPath
 void QNetworkSettingsUserAgentPrivate::setPassphrase(const QString& passphrase)
 {
     m_passphrase = passphrase;
+    if (!m_pendingReply)
+        return;
+
     QVariantMap response;
     response[PropertyPassphrase] = m_passphrase;
-    m_reply << response;
+
+    QDBusMessage reply = m_pendingMessage.createReply();
+    reply << response;
     m_pendingReply = false;
-    QDBusConnection::systemBus().send(m_reply);
+    QDBusConnection::systemBus().send(reply);
 }

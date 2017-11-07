@@ -34,106 +34,50 @@ import QtDeviceUtilities.NetworkSettings 1.0
 
 Item {
     id: root
-    Row {
-        id: backRow
-        anchors.top: parent.top
-        anchors.left: parent.left
-        width: parent.width * 0.2
-        height: parent.height * 0.035
-        Image {
-            id: passBackIcon
-            anchors.verticalCenter: parent.verticalCenter
-            height: parent.height
-            width: height
-            fillMode: Image.PreserveAspectFit
-            source: "../newIcons/back_icon.svg"
+    Column {
+        spacing: pluginMain.spacing
+        anchors.margins: viewSettings.pageMargin
 
-            ColorOverlay {
-                source: passBackIcon
-                anchors.fill: passBackIcon
-                color: viewSettings.buttonGreenColor
-                visible: true
-            }
-            MouseArea {
-                anchors.fill: parent
-                onClicked: settingsLoader.source = "qrc:/network/NetworkSettings.qml"
-            }
-        }
         Text {
-            id: backText
-            anchors.top: parent.top
-            height: parent.height
-            anchors.verticalCenter: parent.verticalCenter
-            verticalAlignment: Text.AlignVCenter
-            fontSizeMode: Text.Fit
-            minimumPixelSize: 1
-            font.pixelSize: height
-            color: viewSettings.buttonGreenColor
-            text: "Back"
-            MouseArea {
-                anchors.fill: parent
-                onClicked: settingsLoader.source = "qrc:/network/NetworkSettings.qml"
+            id: enterPassphraseText
+            font.pixelSize: pluginMain.subTitleFontSize
+            font.family: appFont
+            color: "white"
+            text: qsTr("Enter Passphrase")
+        }
+
+        TextField {
+            id: passField
+            width: root.width * 0.4
+            height: root.height * 0.075
+            color: "white"
+            echoMode: TextInput.Password
+            background: Rectangle {
+                color: "transparent"
+                border.color: passField.focus ? viewSettings.buttonGreenColor : viewSettings.buttonGrayColor
+                border.width: passField.focus ? width * 0.01 : 2
             }
         }
-    }
 
-    Text {
-        id: enterPassphraseText
-        anchors.top: backRow.bottom
-        anchors.topMargin: parent.height * 0.05
-        anchors.left: parent.left
-        fontSizeMode: Text.Fit
-        minimumPixelSize: 1
-        font.pixelSize: parent.height * 0.045
-        color: "white"
-        text: qsTr("Enter Passphrase")
-    }
-    Rectangle {
-        id: btmLine
-        anchors.top: enterPassphraseText.bottom
-        anchors.topMargin: parent.height * 0.025
-        anchors.left: enterPassphraseText.left
-        width: parent.width * 0.275
-        height: parent.height * 0.005
-    }
-
-    TextField {
-        id: passField
-        width: root.width * 0.4
-        height: parent.height * 0.075
-        anchors.top: btmLine.bottom
-        anchors.topMargin: parent.height * 0.05
-        color: "white"
-        echoMode: TextInput.Password
-        background: Rectangle {
-            color: "transparent"
-            border.color: passField.focus ? viewSettings.buttonGreenColor : viewSettings.buttonGrayColor
-            border.width: passField.focus ? width * 0.01 : 2
-        }
-    }
-    Row {
-        height: passField.height
-        anchors.top: passField.bottom
-        anchors.topMargin: parent.height * 0.025
-        spacing: parent.width * 0.025
-        QtButton {
-            id: setButton
-            height: parent.height
-            text: qsTr("SET")
-            onClicked: {
-                passField.focus = false
-                NetworkSettingsManager.userAgent.setPassphrase(passField.text)
+        Row{
+            spacing: parent.width * 0.025
+            QtButton {
+                id: setButton
+                text: qsTr("SET")
+                onClicked: {
+                    passField.focus = false
+                    NetworkSettingsManager.userAgent.setPassphrase(passField.text)
+                }
             }
-        }
-        QtButton {
-            id: cancelButton
-            height: parent.height
-            text: qsTr("CANCEL")
-            borderColor: "transparent"
-            fillColor: viewSettings.buttonGrayColor
-            onClicked: {
-                passField.focus = false
-                passField.clear()
+            QtButton {
+                id: cancelButton
+                text: qsTr("CANCEL")
+                borderColor: "transparent"
+                fillColor: viewSettings.buttonGrayColor
+                onClicked: {
+                    NetworkSettingsManager.userAgent.cancelInput()
+                    settingsLoader.source = "qrc:/network/NetworkSettings.qml"
+                }
             }
         }
     }
