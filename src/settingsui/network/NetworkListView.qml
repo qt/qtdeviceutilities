@@ -35,7 +35,8 @@ import QtQuick.Controls 2.1
 ListView {
     id: list
     clip: true
-    property bool connecting: false
+    property var connectingService: null
+    property bool retryConnectAfterIdle: false
 
     Component.onCompleted: NetworkSettingsManager.services.type = NetworkSettingsType.Unknown;
     model: NetworkSettingsManager.services
@@ -84,7 +85,9 @@ ListView {
                     verticalAlignment: Text.AlignVCenter
                     horizontalAlignment: Text.AlignLeft
                     color: connected ? viewSettings.buttonGreenColor : "white"
-                    text: connected ? NetworkSettingsManager.services.itemFromRow(index).ipv4.address : qsTr("Not connected")
+                    text: connected ? NetworkSettingsManager.services.itemFromRow(index).ipv4.address
+                                        : (NetworkSettingsManager.services.itemFromRow(index).state === NetworkSettingsState.Idle) ?
+                                        qsTr("Not connected") : qsTr("Connecting")
                     font.pixelSize: pluginMain.valueFontSize
                     font.family: appFont
                     font.styleName: connected ? "SemiBold" : "Regular"
@@ -103,10 +106,11 @@ ListView {
                 if (connected) {
                     NetworkSettingsManager.services.itemFromRow(index).disconnectService();
                 } else {
-                    var service = NetworkSettingsManager.services.itemFromRow(index)
-                    if (service) {
-                        list.connecting = true
-                        service.connectService();
+                    list.connectingService = NetworkSettingsManager.services.itemFromRow(index)
+                    if (list.connectingService) {
+                        passphraseEnter.extraInfo = "";
+                        list.connectingService.connectService();
+                        list.connectingService.stateChanged.connect(connectingServiceStateChange);
                     }
                 }
             }
@@ -121,17 +125,41 @@ ListView {
         }
         Behavior on height { NumberAnimation { duration: 200} }
 
-        Connections {
-            target: NetworkSettingsManager.userAgent
-            onShowUserCredentialsInput : {
-                settingsLoader.source = "qrc:/network/PassphraseEnter.qml"
-                list.connecting = false
-            }
-            onError: {
-                list.connecting = false
-                console.log("ERROR OCCURRED")
+    }
+
+    Connections {
+        target: NetworkSettingsManager.userAgent
+        onShowUserCredentialsInput : {
+            passphraseEnter.visible = true;
+        }
+    }
+
+    // Popup for entering passphrase
+    PassphraseEnter {
+        id: passphraseEnter
+        parent: root
+        visible: false
+    }
+
+    function connectingServiceStateChange() {
+        if (connectingService !== null) {
+            if (connectingService.state === NetworkSettingsState.Failure) {
+                // If authentication failed, request connection again. That will
+                // initiate new passphrase request.
+                retryConnectAfterIdle = true
+            } else if (connectingService.state === NetworkSettingsState.Ready) {
+                // If connection succeeded, we no longer have service connecting
+                connectingService = null;
+                retryConnectAfterIdle = false;
+            } else if (connectingService.state === NetworkSettingsState.Idle) {
+                if (retryConnectAfterIdle) {
+                    passphraseEnter.extraInfo = qsTr("Invalid passphrase");
+                    connectingService.connectService();
+                }
+                retryConnectAfterIdle = false;
             }
         }
     }
+
     focus: true
 }

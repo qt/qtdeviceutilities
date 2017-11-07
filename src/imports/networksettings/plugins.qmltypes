@@ -150,7 +150,6 @@ Module {
         Property { name: "domains"; type: "QAbstractItemModel"; isReadonly: true; isPointer: true }
         Property { name: "nameservers"; type: "QAbstractItemModel"; isReadonly: true; isPointer: true }
         Signal { name: "wirelessChanged" }
-        Signal { name: "showCrendentialInput" }
         Method {
             name: "setAutoConnect"
             Parameter { name: "autoconnect"; type: "bool" }

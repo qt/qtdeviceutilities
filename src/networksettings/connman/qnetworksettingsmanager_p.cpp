@@ -79,12 +79,9 @@ QNetworkSettingsManagerPrivate::QNetworkSettingsManagerPrivate(QNetworkSettingsM
 
 void QNetworkSettingsManagerPrivate::requestInput(const QString& service, const QString& type)
 {
+    Q_UNUSED(service);
     Q_UNUSED(type);
-    foreach (QNetworkSettingsService* servicePtr, m_serviceModel->getModel()) {
-        if (servicePtr->id() == service)
-            emit servicePtr->showCrendentialInput();
-    }
-    m_agent->showUserCredentialsInput();
+    emit m_agent->showUserCredentialsInput();
 }
 
 void QNetworkSettingsManagerPrivate::getServicesFinished(QDBusPendingCallWatcher *watcher)

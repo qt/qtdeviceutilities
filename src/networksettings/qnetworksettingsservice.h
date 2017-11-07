@@ -85,7 +85,6 @@ Q_SIGNALS:
     void domainsChanged();
     void nameserversChanged();
     void wirelessChanged();
-    void showCrendentialInput();
 protected:
     QNetworkSettingsServicePrivate *d_ptr;
 

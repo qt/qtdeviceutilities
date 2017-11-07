@@ -27,56 +27,79 @@
 **
 ****************************************************************************/
 import QtQuick 2.0
-import QtGraphicalEffects 1.0
 import QtQuick.Controls 2.0
 import QtDeviceUtilities.QtButtonImageProvider 1.0
 import QtDeviceUtilities.NetworkSettings 1.0
 
-Item {
-    id: root
-    Column {
-        spacing: pluginMain.spacing
-        anchors.margins: viewSettings.pageMargin
+Rectangle {
+    id: passphrasePopup
+    width: root.width
+    height: root.height
+    color: viewSettings.backgroundColor
+    opacity: 0.9
+    property string extraInfo: ""
 
-        Text {
-            id: enterPassphraseText
-            font.pixelSize: pluginMain.subTitleFontSize
-            font.family: appFont
-            color: "white"
-            text: qsTr("Enter Passphrase")
-        }
+    Rectangle {
+        id: frame
+        color: viewSettings.backgroundColor
+        border.color: viewSettings.borderColor
+        border.width: 3
+        anchors.centerIn: parent
+        width: passphraseColumn.width * 1.1
+        height: passphraseColumn.height * 1.1
 
-        TextField {
-            id: passField
-            width: root.width * 0.4
-            height: root.height * 0.075
-            color: "white"
-            echoMode: TextInput.Password
-            background: Rectangle {
-                color: "transparent"
-                border.color: passField.focus ? viewSettings.buttonGreenColor : viewSettings.buttonGrayColor
-                border.width: passField.focus ? width * 0.01 : 2
+        Column {
+            id: passphraseColumn
+            anchors.centerIn: parent
+            spacing: viewSettings.spacing
+
+            Text {
+                font.pixelSize: pluginMain.subTitleFontSize
+                font.family: appFont
+                color: "white"
+                text: qsTr("Enter Passphrase")
             }
-        }
 
-        Row{
-            spacing: parent.width * 0.025
-            QtButton {
-                id: setButton
-                text: qsTr("SET")
-                onClicked: {
-                    passField.focus = false
-                    NetworkSettingsManager.userAgent.setPassphrase(passField.text)
+            Text {
+                font.pixelSize: pluginMain.valueFontSize
+                font.family: appFont
+                color: "red"
+                text: extraInfo
+                visible: (extraInfo !== "")
+            }
+
+            TextField {
+                id: passField
+                width: root.width * 0.4
+                height: root.height * 0.075
+                color: "white"
+                echoMode: TextInput.Password
+                background: Rectangle{
+                    color: "transparent"
+                    border.color: passField.focus ? viewSettings.buttonGreenColor : viewSettings.buttonGrayColor
+                    border.width: passField.focus ? width * 0.01 : 2
                 }
             }
-            QtButton {
-                id: cancelButton
-                text: qsTr("CANCEL")
-                borderColor: "transparent"
-                fillColor: viewSettings.buttonGrayColor
-                onClicked: {
-                    NetworkSettingsManager.userAgent.cancelInput()
-                    settingsLoader.source = "qrc:/network/NetworkSettings.qml"
+
+            Row {
+                spacing: parent.width * 0.025
+                QtButton{
+                    id: setButton
+                    text: qsTr("SET")
+                    onClicked: {
+                        NetworkSettingsManager.userAgent.setPassphrase(passField.text)
+                        passphrasePopup.visible = false;
+                    }
+                }
+                QtButton {
+                    id: cancelButton
+                    text: qsTr("CANCEL")
+                    borderColor: "transparent"
+                    fillColor: viewSettings.buttonGrayColor
+                    onClicked: {
+                        NetworkSettingsManager.userAgent.cancelInput()
+                        passphrasePopup.visible = false;
+                    }
                 }
             }
         }
