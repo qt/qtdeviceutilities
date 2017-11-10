@@ -34,7 +34,7 @@ import QtDeviceUtilities.TimeDateSettings 1.0
 Item {
     id: root
     property int margin: root.width * 0.05
-
+    property var selectedDate: new Date()
     property int firstYear: 2017
 
     function zeroPadTime(timeToPad) {
@@ -61,15 +61,16 @@ Item {
                 width: root.width * 0.15
                 height: pluginMain.buttonHeight
                 displayText: currentIndex + 1
-                property var date: new Date(firstYear, 1, 0)
 
                 model: 31
                 itemsVisible: 10
+                currentIndex: selectedDate.getDate() - 1
 
                 delegate: ItemDelegate {
                     id: dayDelegate
                     height: dayBox.height
-                    contentItem: Text {
+                    // QTBUG-49224: contentItem: Item {}
+                    Text {
                         anchors.left: dayDelegate.left
                         anchors.leftMargin: pluginMain.margin
                         text: modelData + 1
@@ -82,15 +83,7 @@ Item {
                     }
                 }
 
-                property int month: monthBox.currentIndex + 1
-                onMonthChanged: updateDate()
-
-                property int year: yearBox.currentIndex + firstYear
-                onYearChanged: updateDate()
-
-                function updateDate() {
-                    date = new Date(year, month, 0)
-                }
+                onCurrentIndexChanged: selectedDate.setDate(currentIndex + 1)
             }
 
             CustomComboBox {
@@ -98,11 +91,14 @@ Item {
                 width: root.width * 0.35
                 height: pluginMain.buttonHeight
                 model: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+                currentIndex: selectedDate.getMonth()
+
                 itemsVisible: 12
                 delegate: ItemDelegate {
                     id: monthDelegate
                     height: monthBox.height
-                    contentItem: Text {
+                    // QTBUG-49224: contentItem: Item {}
+                    Text {
                         anchors.left: monthDelegate.left
                         anchors.leftMargin: pluginMain.margin
                         color: monthBox.currentIndex == index ? viewSettings.buttonGreenColor : "white"
@@ -115,20 +111,25 @@ Item {
 
                     }
                 }
+                onCurrentIndexChanged: selectedDate.setMonth(currentIndex)
             }
+
             CustomComboBox {
                 id: yearBox
                 width: root.width * 0.2
                 height: pluginMain.buttonHeight
-                displayText: yearBox.currentIndex + date.getFullYear()
-                property var date: new Date()
+                displayText: currentIndex + firstYear
 
                 model: 50
                 itemsVisible: 8
+                currentIndex: (selectedDate.getFullYear() >= firstYear) ?
+                                  selectedDate.getFullYear() - firstYear : 0
+
                 delegate: ItemDelegate {
                     id: yearDelegate
                     height: yearBox.height
-                    contentItem: Text {
+                    // QTBUG-49224: contentItem: Item {}
+                    Text {
                         anchors.left: yearDelegate.left
                         anchors.leftMargin: pluginMain.margin
                         text: index + firstYear
@@ -140,6 +141,7 @@ Item {
                         font.styleName: "Regular"
                     }
                 }
+                onCurrentIndexChanged: selectedDate.setFullYear(currentIndex + firstYear)
             }
         } // Row of date comboboxes
 
@@ -159,16 +161,17 @@ Item {
                 id: hourBox
                 width: root.width * 0.15
                 height: pluginMain.buttonHeight
-                displayText: zeroPadTime(hour)
-                property int hour: currentIndex
+                displayText: zeroPadTime(currentIndex)
 
                 model: 24
                 itemsVisible: 8
+                currentIndex: selectedDate.getHours()
 
                 delegate: ItemDelegate {
                     id: hourDelegate
                     height: hourBox.height
-                    contentItem: Text {
+                    // QTBUG-49224: contentItem: Item {}
+                    Text {
                         anchors.left: hourDelegate.left
                         anchors.leftMargin: pluginMain.margin
                         text: zeroPadTime(parseInt(modelData))
@@ -180,21 +183,23 @@ Item {
                         font.styleName: "Regular"
                     }
                 }
+                onCurrentIndexChanged: selectedDate.setHours(currentIndex)
             }
             CustomComboBox {
                 id: minuteBox
                 width: root.width * 0.15
                 height: pluginMain.buttonHeight
-                displayText: zeroPadTime(minute)
-                property int minute: currentIndex
+                displayText: zeroPadTime(currentIndex)
 
                 model: 60
                 itemsVisible: 8
+                currentIndex: selectedDate.getMinutes()
 
                 delegate: ItemDelegate {
                     id: minuteDelegate
                     height: minuteBox.height
-                    contentItem: Text {
+                    // QTBUG-49224: contentItem: Item {}
+                    Text {
                         anchors.left: minuteDelegate.left
                         anchors.leftMargin: pluginMain.margin
                         text: zeroPadTime(parseInt(modelData))
@@ -206,6 +211,7 @@ Item {
                         font.styleName: "Regular"
                     }
                 }
+                onCurrentIndexChanged: selectedDate.setMinutes(currentIndex)
             }
         } // Row of time comboboxes
 
@@ -219,19 +225,12 @@ Item {
                 text: qsTr("SET")
 
                 onClicked: {
-                    var currentTime = TimeManager.time;
-                    var newDate = new Date();
-
-                    newDate.setFullYear(dayBox.year)
-                    newDate.setMonth(dayBox.month - 1)
-                    newDate.setDate(dayBox.currentIndex+1)
-                    newDate.setHours(hourBox.hour)
-                    newDate.setMinutes(minuteBox.minute)
-                    newDate.setSeconds(currentTime.getSeconds())
+                    selectedDate.setSeconds(0);
                     TimeManager.ntp = false
-                    TimeManager.time = newDate;
-                    console.log("newDate: " + newDate)
+                    TimeManager.time = selectedDate;
+                    console.log("Set date to: " + selectedDate)
                     console.log("TimeManager.time: " + TimeManager.time)
+                    settingsLoader.source = "qrc:/timedate/TimeDate.qml"
                 }
             }
             QtButton {

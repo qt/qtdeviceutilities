@@ -118,7 +118,9 @@ Item {
                 delegate: ItemDelegate {
                     id: timeZoneDelegate
                     height: timeZoneBox.height
-                    contentItem: Text {
+                    width: timeZoneBox.width
+                    // QTBUG-49224: contentItem: Item {}
+                    Text {
                         anchors.left: timeZoneDelegate.left
                         anchors.leftMargin: pluginMain.margin
                         text: modelData["id"]
@@ -146,7 +148,7 @@ Item {
 
                 onCurrentIndexChanged: {
                     var val = TimezonesFilter.itemFromRow(currentIndex);
-                    if (val !== "") {
+                    if (val && val !== "") {
                         TimeManager.timeZone = val
                     }
                 }
