@@ -68,9 +68,7 @@ Item {
             height: parent.height
             anchors.verticalCenter: parent.verticalCenter
             verticalAlignment: Text.AlignVCenter
-            fontSizeMode: Text.Fit
-            minimumPixelSize: 1
-            font.pixelSize: height
+            font.pixelSize: pluginMain.subTitleFontSize
             color: viewSettings.buttonGreenColor
             text: "Back"
             font.family: appFont
@@ -86,9 +84,7 @@ Item {
         anchors.top: backRow.bottom
         anchors.topMargin: parent.height * 0.05
         anchors.left: parent.left
-        fontSizeMode: Text.Fit
-        minimumPixelSize: 1
-        font.pixelSize: parent.height * 0.05
+        font.pixelSize: pluginMain.subTitleFontSize
         color: "white"
         text: qsTr("Change Language")
         font.family: appFont
@@ -118,7 +114,7 @@ Item {
                 id: country
                 Layout.fillHeight: true
                 Layout.preferredWidth: root.width * 0.5
-                font.pixelSize: parent.height * 0.5
+                font.pixelSize: pluginMain.valueFontSize
                 color: "white"
                 text: ""
                 placeholderText: "Search..."
