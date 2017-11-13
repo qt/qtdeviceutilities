@@ -115,6 +115,8 @@ Q_SIGNALS:
 private Q_SLOTS:
     void deviceDiscovered(const QBluetoothDeviceInfo &device);
 private:
+    void clearDeviceList();
+
     QList<BtDeviceItem*> m_items;
     QHash<int, QByteArray> m_roleNames;
     QBluetoothDeviceDiscoveryAgent *m_discoveryAgent;

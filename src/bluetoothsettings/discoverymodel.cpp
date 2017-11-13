@@ -161,10 +161,19 @@ DiscoveryModel::DiscoveryModel(QObject *parent)
 
 void DiscoveryModel::deviceDiscovered(const QBluetoothDeviceInfo &device)
 {
-   beginInsertRows(QModelIndex(), m_items.count(), m_items.count());
-   BtDeviceItem *item = new BtDeviceItem(device);
-   m_items.append(item);
-   endInsertRows();
+    int index;
+
+    // Insert the device to alphabetically sorted location
+    for (index = 0; index < m_items.count(); index++)
+    {
+        if (device.name() < m_items.at(index)->name())
+            break;
+    }
+
+    beginInsertRows(QModelIndex(), index, index);
+    BtDeviceItem *item = new BtDeviceItem(device);
+    m_items.insert(index, item);
+    endInsertRows();
 }
 
 DiscoveryModel::~DiscoveryModel()
@@ -182,6 +191,9 @@ void DiscoveryModel::scanDevices()
         connect(m_discoveryAgent, SIGNAL(finished()),
                 this, SIGNAL(scanFinished()));
     }
+
+    // Reset previous list, devices are already cached by bluez
+    clearDeviceList();
 
     m_discoveryAgent->start();
 }
@@ -244,4 +256,11 @@ void DiscoveryModel::setConnected(const QString &aAddress, bool connected)
 
     if (found)
         emit dataChanged(index(i, 0), index(i, 0), role);
+}
+
+void DiscoveryModel::clearDeviceList()
+{
+    beginResetModel();
+    m_items.clear();
+    endResetModel();
 }

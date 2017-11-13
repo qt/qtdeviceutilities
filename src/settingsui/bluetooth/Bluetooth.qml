@@ -68,7 +68,7 @@ Item {
             color: "white"
             text: "Scanning"
             font.family: appFont
-            opacity: BtDevice.scanning ? 1.0 : 0.0
+            opacity: (BtDevice.scanning && BtDevice.powered) ? 1.0 : 0.0
             visible: opacity > 0
             Behavior on opacity {
                 NumberAnimation {duration: 150}

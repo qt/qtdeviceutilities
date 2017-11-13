@@ -227,9 +227,11 @@ void BluetoothDevicePrivate::getManagedObjectsFinished(QDBusPendingCallWatcher *
 
         if (m_powered) {
             emit q->poweredChanged();
-            m_deviceModel->scanDevices();
-            m_scanning = true;
-            emit q->scanningChanged();
+            if (!m_scanning) {
+                m_deviceModel->scanDevices();
+                m_scanning = true;
+                emit q->scanningChanged();
+            }
         }
 
         emit q->availabilityChanged();
