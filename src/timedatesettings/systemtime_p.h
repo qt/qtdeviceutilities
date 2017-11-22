@@ -43,6 +43,8 @@
 #include "systemtime.h"
 #include "timedated_interface.h"
 
+QT_BEGIN_NAMESPACE
+
 class SystemTimePrivate
 {
     Q_DECLARE_PUBLIC(SystemTime)
@@ -88,5 +90,6 @@ private:
     SystemTime *q_ptr;
 };
 
+QT_END_NAMESPACE
 
 #endif // SYSTEMTIME_P_H

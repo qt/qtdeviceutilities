@@ -43,6 +43,8 @@
 #include "systemlocale.h"
 #include "locale_interface.h"
 
+QT_BEGIN_NAMESPACE
+
 class SystemLocalePrivate
 {
     Q_DECLARE_PUBLIC(SystemLocale)
@@ -87,5 +89,7 @@ private:
     OrgFreedesktopLocale1Interface *m_localeInterface;
     SystemLocale *q_ptr;
 };
+
+QT_END_NAMESPACE
 
 #endif // LOCALE_P_H

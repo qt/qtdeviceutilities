@@ -84,6 +84,8 @@
     used or not.
 */
 
+QT_BEGIN_NAMESPACE
+
 template <typename T>
 QObject *instance(QQmlEngine *engine, QJSEngine *) {
     T *t = new T(engine);
@@ -103,5 +105,7 @@ public:
         qmlRegisterSingletonType<DisplaySettings>(uri, 1, 0, "DisplaySettings", &instance<DisplaySettings>);
     }
 };
+
+QT_END_NAMESPACE
 
 #include "plugin.moc"

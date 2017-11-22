@@ -29,6 +29,8 @@
 #include "localemodel.h"
 #include "localefiltermodel.h"
 
+QT_BEGIN_NAMESPACE
+
 LocaleFilterModel::LocaleFilterModel(QObject* parent)
     :QSortFilterProxyModel(parent)
 {
@@ -89,3 +91,4 @@ QVariant LocaleFilterModel::itemFromRow(const int row) const
     return QVariant();
 }
 
+QT_END_NAMESPACE

@@ -43,6 +43,8 @@
 #include <QTimer>
 #include "displaysettings.h"
 
+QT_BEGIN_NAMESPACE
+
 class PhysicalScreenSize : public QObject
 {
     Q_OBJECT
@@ -100,5 +102,7 @@ private:
     bool m_lightDevicesInitialized;
     PhysicalScreenSize *m_physScreenSize;
 };
+
+QT_END_NAMESPACE
 
 #endif // DISPLAYSETTINGSPRIVATE_H

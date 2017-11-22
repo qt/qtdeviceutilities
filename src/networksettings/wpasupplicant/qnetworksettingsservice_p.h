@@ -44,7 +44,9 @@
 #include "qnetworksettings.h"
 #include "qnetworksettingsservice.h"
 
-class QNetworkSettingsManagerPrivate;
+QT_FORWARD_DECLARE_CLASS(QNetworkSettingsManagerPrivate)
+
+QT_BEGIN_NAMESPACE
 
 class QNetworkSettingsServicePrivate : public QObject
 {
@@ -87,5 +89,7 @@ public:
     void setFlags(const QString& aFlags);
     void setState(QNetworkSettingsState::States aState);
 };
+
+QT_END_NAMESPACE
 
 #endif // QNETWORKSETTINGSSERVICEPRIVATE_H

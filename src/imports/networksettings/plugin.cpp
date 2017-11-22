@@ -151,6 +151,8 @@
     This signal is emitted when the connection failed due to invalid user credentials.
 */
 
+QT_BEGIN_NAMESPACE
+
 template <typename T>
 QObject *instance(QQmlEngine *engine, QJSEngine *) {
     T *t = new T(engine);
@@ -174,3 +176,5 @@ void NetworksettingspluginPlugin::registerTypes(const char *uri)
 
     qmlRegisterSingletonType<QNetworkSettingsManager>(uri, 1, 0, "NetworkSettingsManager", &instance<QNetworkSettingsManager>);
 }
+
+QT_END_NAMESPACE

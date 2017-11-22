@@ -45,8 +45,11 @@
 #include <QtDBus>
 #include "bluetoothdevice.h"
 
+// Automatically generated classes in global namespace
 class OrgBluezDevice1Interface;
 class OrgFreedesktopDBusObjectManagerInterface;
+
+QT_BEGIN_NAMESPACE
 
 class BluetoothDevicePrivate : public QObject
 {
@@ -90,6 +93,6 @@ private:
     OrgFreedesktopDBusObjectManagerInterface *m_manager;
 };
 
-
+QT_END_NAMESPACE
 
 #endif // BLUETOOTHDEVICE__P_H

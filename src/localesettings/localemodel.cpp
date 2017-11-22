@@ -33,6 +33,7 @@
 #include <QtConcurrent/QtConcurrentRun>
 #include "localemodel.h"
 
+QT_BEGIN_NAMESPACE
 
 LocaleItem::LocaleItem(const QLocale& locale, QObject *parent)
     :QObject(parent)
@@ -158,3 +159,5 @@ void LocaleModel::sort(int column, Qt::SortOrder order)
     Q_UNUSED(order);
     std::sort(m_items.begin(), m_items.end(), LocaleModel::variantLessThan);
 }
+
+QT_END_NAMESPACE

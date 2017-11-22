@@ -28,6 +28,8 @@
 ****************************************************************************/
 #include "qnetworksettingsaddressmodel.h"
 
+QT_BEGIN_NAMESPACE
+
 QNetworkSettingsAddressModel::QNetworkSettingsAddressModel(QObject *parent)
     :QStringListModel(parent)
 {
@@ -74,3 +76,5 @@ void QNetworkSettingsAddressModel::resetChanges()
 {
     QStringListModel::setStringList(m_addresses);
 }
+
+QT_END_NAMESPACE

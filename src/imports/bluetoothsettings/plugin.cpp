@@ -107,6 +107,9 @@
 
     \sa requestConnect()
 */
+
+QT_BEGIN_NAMESPACE
+
 template <typename T>
 QObject *instance(QQmlEngine *engine, QJSEngine *) {
     T *t = new T(engine);
@@ -127,5 +130,7 @@ public:
         qmlRegisterSingletonType<BluetoothDevice>(uri, 1, 0, "BtDevice", &instance<BluetoothDevice>);
     }
 };
+
+QT_END_NAMESPACE
 
 #include "plugin.moc"

@@ -29,6 +29,8 @@
 #include <QBluetoothAddress>
 #include "discoverymodel.h"
 
+QT_BEGIN_NAMESPACE
+
 BtDeviceItem::BtDeviceItem(const QBluetoothDeviceInfo& bt, QObject *parent)
     : QObject(parent)
     ,m_name(bt.name())
@@ -245,3 +247,5 @@ void DiscoveryModel::setConnected(const QString &aAddress, bool connected)
     if (found)
         emit dataChanged(index(i, 0), index(i, 0), role);
 }
+
+QT_END_NAMESPACE

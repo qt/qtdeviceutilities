@@ -31,6 +31,8 @@
 
 #include <QQmlExtensionPlugin>
 
+QT_BEGIN_NAMESPACE
+
 class SettingsuipluginPlugin : public QQmlExtensionPlugin
 {
     Q_OBJECT
@@ -39,5 +41,7 @@ class SettingsuipluginPlugin : public QQmlExtensionPlugin
 public:
     void registerTypes(const char *uri);
 };
+
+QT_END_NAMESPACE
 
 #endif // SETTINGSUIPLUGIN_PLUGIN_H

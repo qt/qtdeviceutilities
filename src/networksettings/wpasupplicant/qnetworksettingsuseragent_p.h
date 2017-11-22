@@ -43,6 +43,8 @@
 #include <QObject>
 #include "qnetworksettingsuseragent.h"
 
+QT_BEGIN_NAMESPACE
+
 class QNetworkSettingsUserAgentPrivate : public QObject
 {
     Q_OBJECT
@@ -55,5 +57,7 @@ public:
     QString m_passphrase;
     QNetworkSettingsUserAgent *q_ptr;
 };
+
+QT_END_NAMESPACE
 
 #endif // QNETWORKSETTINGSUSERAGENTPRIVATE_H

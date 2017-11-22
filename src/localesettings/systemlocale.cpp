@@ -30,6 +30,8 @@
 #include "systemlocale.h"
 #include "systemlocale_p.h"
 
+QT_BEGIN_NAMESPACE
+
 SystemLocale::SystemLocale(QObject *parent)
     :QObject(parent)
     ,d_ptr(new SystemLocalePrivate(this))
@@ -48,3 +50,5 @@ void SystemLocale::setLocale(const QString& aLocale)
     d->setLocale(aLocale);
     emit localeChanged();
 }
+
+QT_END_NAMESPACE

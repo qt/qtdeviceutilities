@@ -34,6 +34,8 @@
 #include "qnetworksettingsuseragent.h"
 #include "qwifisupplicant_p.h"
 
+QT_BEGIN_NAMESPACE
+
 QNetworkSettingsManagerPrivate::QNetworkSettingsManagerPrivate(QNetworkSettingsManager *parent)
     :QObject(parent)
     ,q_ptr(parent)
@@ -431,3 +433,5 @@ void QNetworkSettingsManagerPrivate::parseScanResults(const QString &results)
         }
     }
 }
+
+QT_END_NAMESPACE
