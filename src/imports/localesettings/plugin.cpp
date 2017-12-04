@@ -148,6 +148,8 @@
     from a list.
 */
 
+QT_BEGIN_NAMESPACE
+
 template <typename T>
 QObject *instance(QQmlEngine *engine, QJSEngine *) {
     T *t = new T(engine);
@@ -167,5 +169,7 @@ public:
         qmlRegisterSingletonType<LocaleFilterModel>(uri, 1, 0, "LocaleFilter", &instance<LocaleFilterModel>);
     }
 };
+
+QT_END_NAMESPACE
 
 #include "plugin.moc"

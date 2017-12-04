@@ -29,6 +29,8 @@
 #include "qnetworksettingsinterfacemodel.h"
 #include "qnetworksettingsinterface.h"
 
+QT_BEGIN_NAMESPACE
+
 QNetworkSettingsInterfaceModel::QNetworkSettingsInterfaceModel(QObject *parent)
     : QAbstractListModel(parent)
 {
@@ -104,3 +106,5 @@ QList<QNetworkSettingsInterface*> QNetworkSettingsInterfaceModel::getModel()
 {
     return m_items;
 }
+
+QT_END_NAMESPACE

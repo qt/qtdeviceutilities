@@ -29,6 +29,8 @@
 #include "displaysettings.h"
 #include "displaysettings_p.h"
 
+QT_BEGIN_NAMESPACE
+
 DisplaySettings::DisplaySettings(QObject *parent)
     : QObject(parent)
     ,d_ptr(new DisplaySettingsPrivate(this))
@@ -88,3 +90,5 @@ void DisplaySettings::setPhysicalScreenSizeOverride(bool enable)
     Q_D(DisplaySettings);
     d->setPhysicalScreenSizeOverride(enable);
 }
+
+QT_END_NAMESPACE

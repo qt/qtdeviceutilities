@@ -72,9 +72,13 @@
     to declare a custom settings UI, unless specifically required.
 */
 
+QT_BEGIN_NAMESPACE
+
 void SettingsuipluginPlugin::registerTypes(const char *uri)
 {
     // @uri QtDeviceUtilities.SettingsUI
     Q_ASSERT(uri == QLatin1String("QtDeviceUtilities.SettingsUI"));
     qmlRegisterType(QUrl("qrc:/pluginMain.qml"), uri, 1, 0, "SettingsUI");
 }
+
+QT_END_NAMESPACE

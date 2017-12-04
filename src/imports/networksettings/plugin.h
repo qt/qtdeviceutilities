@@ -31,6 +31,8 @@
 
 #include <QQmlExtensionPlugin>
 
+QT_BEGIN_NAMESPACE
+
 class NetworksettingspluginPlugin : public QQmlExtensionPlugin
 {
     Q_OBJECT
@@ -39,6 +41,8 @@ class NetworksettingspluginPlugin : public QQmlExtensionPlugin
 public:
     void registerTypes(const char *uri);
 };
+
+QT_END_NAMESPACE
 
 #endif // NETWORKSETTINGSPLUGIN_PLUGIN_H
 

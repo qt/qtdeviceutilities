@@ -1,8 +1,9 @@
 TEMPLATE = subdirs
-SUBDIRS += networksettings \
-    localesettings \
-    timedatesettings \
-    localdevice \
+
+SUBDIRS += localdevice \
     displaysettings
 
-qtHaveModule(bluetooth): SUBDIRS += bluetoothsettings
+qtHaveModule(bluetoothsettings): SUBDIRS += bluetoothsettings
+qtHaveModule(networksettings): SUBDIRS += networksettings
+qtHaveModule(localesettings): SUBDIRS += localesettings
+qtHaveModule(timedatesettings): SUBDIRS += timedatesettings

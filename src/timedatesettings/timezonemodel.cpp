@@ -32,6 +32,8 @@
 #include <QtConcurrent/QtConcurrentRun>
 #include "timezonemodel.h"
 
+QT_BEGIN_NAMESPACE
+
 TimezoneItem::TimezoneItem(const QByteArray& id, QObject *parent)
     :QObject(parent)
 {
@@ -129,3 +131,5 @@ QVariant TimezoneModel::data(const QModelIndex & index, int role) const
         return QVariant();
     }
 }
+
+QT_END_NAMESPACE

@@ -31,6 +31,8 @@
 
 #include <qobject.h>
 
+QT_BEGIN_NAMESPACE
+
 class Q_DECL_EXPORT QLocalDevice : public QObject
 {
     Q_OBJECT
@@ -43,5 +45,7 @@ public Q_SLOTS:
     void reboot();
     void powerOff();
 };
+
+QT_END_NAMESPACE
 
 #endif // QLOCALDEVICE_H

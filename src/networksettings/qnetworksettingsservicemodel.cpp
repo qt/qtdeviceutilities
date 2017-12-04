@@ -29,6 +29,8 @@
 #include "qnetworksettingsservicemodel.h"
 #include "qnetworksettings.h"
 
+QT_BEGIN_NAMESPACE
+
 QNetworkSettingsServiceModel::QNetworkSettingsServiceModel(QObject *parent)
     : QAbstractListModel(parent)
 {
@@ -299,3 +301,5 @@ void QNetworkSettingsServiceFilter::setWiredNetworksAvailable(bool wiredNetworks
     m_wiredNetworksAvailable = wiredNetworksAvailable;
     emit wiredNetworksAvailableChanged();
 }
+
+QT_END_NAMESPACE

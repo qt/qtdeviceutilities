@@ -28,6 +28,8 @@
 ****************************************************************************/
 #include "qnetworksettingsuseragent_p.h"
 
+QT_BEGIN_NAMESPACE
+
 QNetworkSettingsUserAgentPrivate::QNetworkSettingsUserAgentPrivate(QNetworkSettingsUserAgent* parent)
     :QObject(parent)
     ,q_ptr(parent)
@@ -47,3 +49,5 @@ void QNetworkSettingsUserAgentPrivate::cancel()
     Q_Q(QNetworkSettingsUserAgent);
     emit q->ready(true);
 }
+
+QT_END_NAMESPACE

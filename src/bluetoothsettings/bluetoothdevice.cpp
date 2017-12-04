@@ -30,6 +30,8 @@
 #include "bluetoothdevice.h"
 #include "bluetoothdevice_p.h"
 
+QT_BEGIN_NAMESPACE
+
 BluetoothDevice::BluetoothDevice(QObject *parent) : QObject(parent)
   ,d_ptr(new BluetoothDevicePrivate(this))
 {
@@ -51,7 +53,7 @@ void BluetoothDevice::setPowered(const bool& aPowered)
 DiscoveryModel* BluetoothDevice::deviceModel() const
 {
     Q_D(const BluetoothDevice);
-    return d->m_deviceModel;
+    return d->deviceModel();
 }
 
 bool BluetoothDevice::scanning() const
@@ -89,3 +91,5 @@ bool BluetoothDevice::available() const
     Q_D(const BluetoothDevice);
     return d->available();
 }
+
+QT_END_NAMESPACE

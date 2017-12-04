@@ -33,6 +33,8 @@
 #include "moc_objectmanager_interface.cpp"
 #include "device1_interface.h"
 
+QT_BEGIN_NAMESPACE
+
 BluetoothDevicePrivate::BluetoothDevicePrivate(BluetoothDevice *parent) : QObject(parent)
     ,q_ptr(parent)
     ,m_localDevice(Q_NULLPTR)
@@ -253,3 +255,5 @@ OrgBluezDevice1Interface* BluetoothDevicePrivate::findPeerDevice(const QString &
     }
     return NULL;
 }
+
+QT_END_NAMESPACE

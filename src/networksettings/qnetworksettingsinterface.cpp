@@ -30,6 +30,8 @@
 #include "qnetworksettingsinterface_p.h"
 #include "qnetworksettings.h"
 
+QT_BEGIN_NAMESPACE
+
 /*!
     \qmltype NetworkInterface
     \inqmlmodule QtDeviceUtilities.NetworkSettings
@@ -59,7 +61,7 @@ QNetworkSettingsInterface::QNetworkSettingsInterface(QObject *parent) :
 QString QNetworkSettingsInterface::name() const
 {
     Q_D(const QNetworkSettingsInterface);
-    return d->m_name;
+    return d->name();
 }
 
 /*!
@@ -96,7 +98,7 @@ QString QNetworkSettingsInterface::name() const
 QNetworkSettingsState::States QNetworkSettingsInterface::state()
 {
     Q_D(QNetworkSettingsInterface);
-    return d->m_state.state();
+    return d->state();
 }
 
 /*!
@@ -114,7 +116,7 @@ QNetworkSettingsState::States QNetworkSettingsInterface::state()
 QNetworkSettingsType::Types QNetworkSettingsInterface::type()
 {
     Q_D(QNetworkSettingsInterface);
-    return d->m_type.type();
+    return d->type();
 }
 
 /*!
@@ -124,7 +126,7 @@ QNetworkSettingsType::Types QNetworkSettingsInterface::type()
 bool QNetworkSettingsInterface::powered() const
 {
     Q_D(const QNetworkSettingsInterface);
-    return d->m_powered;
+    return d->powered();
 }
 
 void QNetworkSettingsInterface::setPowered(const bool powered)
@@ -142,3 +144,5 @@ void QNetworkSettingsInterface::scanServices()
     Q_D(QNetworkSettingsInterface);
     d->scan();
 }
+
+QT_END_NAMESPACE

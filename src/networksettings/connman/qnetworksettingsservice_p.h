@@ -43,9 +43,13 @@
 #include "qnetworksettingsservice.h"
 #include "qnetworksettings.h"
 
-class QDBusPendingCallWatcher;
-class QDBusVariant;
+QT_FORWARD_DECLARE_CLASS(QDBusPendingCallWatcher)
+QT_FORWARD_DECLARE_CLASS(QDBusVariant)
+
+// Automatically generated class in global namespace
 class NetConnmanServiceInterface;
+
+QT_BEGIN_NAMESPACE
 
 class QNetworkSettingsServicePrivate : public QObject
 {
@@ -88,5 +92,7 @@ protected:
     NetConnmanServiceInterface *m_service;
     bool m_placeholderState;
 };
+
+QT_END_NAMESPACE
 
 #endif // QNETWORKSETTINGSSERVICEPRIVATE_H

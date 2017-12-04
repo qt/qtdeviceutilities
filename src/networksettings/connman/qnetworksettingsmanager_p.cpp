@@ -34,6 +34,8 @@
 #include "qnetworksettingsservicemodel.h"
 #include "qnetworksettingsuseragent.h"
 
+QT_BEGIN_NAMESPACE
+
 QNetworkSettingsManagerPrivate::QNetworkSettingsManagerPrivate(QNetworkSettingsManager *parent)
     :QObject(parent)
     ,q_ptr(parent)
@@ -198,3 +200,5 @@ void QNetworkSettingsManagerPrivate::serviceReady()
 
     }
 }
+
+QT_END_NAMESPACE

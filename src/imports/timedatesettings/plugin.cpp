@@ -138,6 +138,9 @@
     {TimeManager.timeZone}, when the user selects a time zone
     from a list.
 */
+
+QT_BEGIN_NAMESPACE
+
 template <typename T>
 QObject *instance(QQmlEngine *engine, QJSEngine *) {
     T *t = new T(engine);
@@ -157,5 +160,7 @@ public:
         qmlRegisterSingletonType<TimezoneFilterModel>(uri, 1, 0, "TimezonesFilter", &instance<TimezoneFilterModel>);
     }
 };
+
+QT_END_NAMESPACE
 
 #include "plugin.moc"

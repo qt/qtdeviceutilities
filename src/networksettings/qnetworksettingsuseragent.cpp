@@ -29,6 +29,8 @@
 #include "qnetworksettingsuseragent.h"
 #include "qnetworksettingsuseragent_p.h"
 
+QT_BEGIN_NAMESPACE
+
 QNetworkSettingsUserAgent::QNetworkSettingsUserAgent(QObject *parent)
     :QObject(parent)
     ,d_ptr(new QNetworkSettingsUserAgentPrivate(this))
@@ -50,5 +52,7 @@ void QNetworkSettingsUserAgent::cancelInput()
 QString QNetworkSettingsUserAgent::passphrase() const
 {
     Q_D(const QNetworkSettingsUserAgent);
-    return d->m_passphrase;
+    return d->passphrase();
 }
+
+QT_END_NAMESPACE

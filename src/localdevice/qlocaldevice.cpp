@@ -30,6 +30,8 @@
 #include <unistd.h>
 #include <sys/reboot.h>
 
+QT_BEGIN_NAMESPACE
+
 QLocalDevice::QLocalDevice(QObject *parent)
     : QObject(parent)
 {
@@ -64,3 +66,4 @@ void QLocalDevice::powerOff()
     qWarning("powerOff returned");
 }
 
+QT_END_NAMESPACE

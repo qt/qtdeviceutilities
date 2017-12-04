@@ -31,6 +31,8 @@
 #include "connmancommon.h"
 #include <QHostAddress>
 
+QT_BEGIN_NAMESPACE
+
 const QString PropertyIPv4(QStringLiteral("IPv4"));
 const QString PropertyQNetworkSettingsIPv4(QStringLiteral("IPv4.Configuration"));
 const QString PropertyIPv6(QStringLiteral("IPv6"));
@@ -430,3 +432,4 @@ void QNetworkSettingsServicePrivate::setupConfiguration(const QVariantMap &prope
     }
 }
 
+QT_END_NAMESPACE

@@ -30,6 +30,8 @@
 #include <QDirIterator>
 #include "displaysettings_p.h"
 
+QT_BEGIN_NAMESPACE
+
 DisplaySettingsPrivate::DisplaySettingsPrivate(DisplaySettings *qq)
     :q_ptr(qq)
     ,m_brightness(255)
@@ -238,3 +240,5 @@ void PhysicalScreenSize::setEnabled(bool enable)
     // Rewrite appcontroller.conf with or without the physical width/height lines.
     write(enable);
 }
+
+QT_END_NAMESPACE

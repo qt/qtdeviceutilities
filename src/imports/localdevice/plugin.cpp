@@ -85,6 +85,8 @@
     \sa reboot()
 */
 
+QT_BEGIN_NAMESPACE
+
 static QObject *module_api_factory(QQmlEngine *engine, QJSEngine *scriptEngine)
 {
    Q_UNUSED(engine)
@@ -110,5 +112,7 @@ public:
         qmlRegisterSingletonType<QLocalDevice>(uri, 1, 0, "LocalDevice", module_api_factory);
     }
 };
+
+QT_END_NAMESPACE
 
 #include "plugin.moc"
