@@ -2,12 +2,10 @@ QT  += core dbus
 
 INCLUDEPATH += $${PWD}
 INCLUDEPATH += $${PWD}/bluez
-INCLUDEPATH += $${PWD}/../../networksettings/connman
 
 DBUS_INTERFACES = \
     $${PWD}/objectmanager.xml \
-    $${PWD}/device1.xml \
-    $${PWD}/../../networksettings/connman/connman_technology.xml
+    $${PWD}/device1.xml
 
 HEADERS += \
     $$PWD/bluetoothdevice_p.h \
@@ -15,3 +13,10 @@ HEADERS += \
 
 SOURCES += \
     $$PWD/bluetoothdevice_p.cpp
+
+qtHaveModule(networksettings) {
+    DEFINES += USE_CONNMAN_BLUETOOTH
+    INCLUDEPATH += $${PWD}/../../networksettings/connman
+    DBUS_INTERFACES += $${PWD}/../../networksettings/connman/connman_technology.xml
+
+}

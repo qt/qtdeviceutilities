@@ -48,7 +48,10 @@
 // Automatically generated classes in global namespace
 class OrgBluezDevice1Interface;
 class OrgFreedesktopDBusObjectManagerInterface;
+
+#ifdef USE_CONNMAN_BLUETOOTH
 class NetConnmanTechnologyInterface;
+#endif
 
 QT_BEGIN_NAMESPACE
 
@@ -92,7 +95,10 @@ private:
     QString m_adapter;
     DiscoveryModel *m_deviceModel;
     OrgFreedesktopDBusObjectManagerInterface *m_manager;
+
+#ifdef USE_CONNMAN_BLUETOOTH
     NetConnmanTechnologyInterface *m_technology;
+#endif
 };
 
 QT_END_NAMESPACE
