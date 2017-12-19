@@ -30,6 +30,8 @@
 #include "qnetworksettingsmanager_p.h"
 #include "qwifidevice.h"
 
+QT_BEGIN_NAMESPACE
+
 QNetworkSettingsInterfacePrivate::QNetworkSettingsInterfacePrivate(QNetworkSettingsInterface* parent)
     :QObject(parent)
     ,q_ptr(parent)
@@ -61,3 +63,5 @@ void QNetworkSettingsInterfacePrivate::scan()
 {
     m_manager->call(QStringLiteral("SCAN"));
 }
+
+QT_END_NAMESPACE

@@ -28,6 +28,8 @@
 ****************************************************************************/
 #include "connmancommon.h"
 
+QT_BEGIN_NAMESPACE
+
 //Conversion operations for datatypes
 const QDBusArgument &operator>>(const QDBusArgument &argument, ConnmanMapStruct &obj)
 {
@@ -91,3 +93,5 @@ const QString &operator>>(const QString &argument, QNetworkSettingsState &obj)
     }
     return argument;
 }
+
+QT_END_NAMESPACE

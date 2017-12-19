@@ -29,6 +29,8 @@
 #include <QBluetoothAddress>
 #include "discoverymodel.h"
 
+QT_BEGIN_NAMESPACE
+
 BtDeviceItem::BtDeviceItem(const QBluetoothDeviceInfo& bt, QObject *parent)
     : QObject(parent)
     ,m_name(bt.name())
@@ -264,3 +266,5 @@ void DiscoveryModel::clearDeviceList()
     m_items.clear();
     endResetModel();
 }
+
+QT_END_NAMESPACE

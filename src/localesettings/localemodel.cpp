@@ -33,6 +33,7 @@
 #include <QtConcurrent/QtConcurrentRun>
 #include "localemodel.h"
 
+QT_BEGIN_NAMESPACE
 
 LocaleItem::LocaleItem(const QLocale& locale, QObject *parent)
     :QObject(parent)
@@ -172,3 +173,5 @@ QModelIndex LocaleModel::indexForCountry(const QString &country) const
     }
     return QModelIndex();
 }
+
+QT_END_NAMESPACE

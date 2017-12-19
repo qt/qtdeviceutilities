@@ -32,10 +32,10 @@
 #include <QObject>
 #include "discoverymodel.h"
 
-QT_BEGIN_NAMESPACE
-
 QT_FORWARD_DECLARE_CLASS(DiscoveryModel)
 QT_FORWARD_DECLARE_CLASS(BluetoothDevicePrivate)
+
+QT_BEGIN_NAMESPACE
 
 class Q_DECL_EXPORT BluetoothDevice : public QObject
 {

@@ -35,6 +35,8 @@
 #include "connman_technology_interface.h"
 #include "connmancommon.h"
 
+QT_BEGIN_NAMESPACE
+
 BluetoothDevicePrivate::BluetoothDevicePrivate(BluetoothDevice *parent) : QObject(parent)
     ,q_ptr(parent)
     ,m_localDevice(Q_NULLPTR)
@@ -265,3 +267,5 @@ OrgBluezDevice1Interface* BluetoothDevicePrivate::findPeerDevice(const QString &
     }
     return NULL;
 }
+
+QT_END_NAMESPACE

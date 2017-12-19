@@ -47,7 +47,9 @@
 #include "qnetworksettingsservicemodel.h"
 #include "qwificontroller_p.h"
 
-class WpaSupplicantService;
+QT_FORWARD_DECLARE_CLASS(WpaSupplicantService)
+
+QT_BEGIN_NAMESPACE
 
 class QNetworkSettingsManagerPrivate : public QObject
 {
@@ -95,5 +97,6 @@ private:
     QString m_currentSSID;
 };
 
+QT_END_NAMESPACE
 
 #endif // QNETWORKSETTINGSMANAGERPRIVATE_H

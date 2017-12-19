@@ -29,6 +29,8 @@
 #include "systemtime.h"
 #include "systemtime_p.h"
 
+QT_BEGIN_NAMESPACE
+
 SystemTime::SystemTime(QObject *parent) :
     QObject(parent)
     ,d_ptr(new SystemTimePrivate(this))
@@ -76,3 +78,5 @@ QDateTime SystemTime::time() const
 {
     return QDateTime::currentDateTime();
 }
+
+QT_END_NAMESPACE

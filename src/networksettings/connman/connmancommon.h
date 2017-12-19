@@ -66,9 +66,9 @@ const QString &operator>>(const QString  &argument, QNetworkSettingsState &obj);
 
 typedef QList<ConnmanMapStruct> ConnmanMapStructList;
 
+QT_END_NAMESPACE
+
 Q_DECLARE_METATYPE( ConnmanMapStruct )
 Q_DECLARE_METATYPE( ConnmanMapStructList )
-
-QT_END_NAMESPACE
 
 #endif // CONNMANCOMMON_H

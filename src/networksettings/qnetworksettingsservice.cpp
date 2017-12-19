@@ -29,6 +29,8 @@
 #include "qnetworksettingsservice.h"
 #include "qnetworksettingsservice_p.h"
 
+QT_BEGIN_NAMESPACE
+
 /*!
     \qmltype NetworkService
     \inqmlmodule QtDeviceUtilities.NetworkSettings
@@ -335,3 +337,5 @@ void QNetworkSettingsService::disconnectService()
     Q_D(QNetworkSettingsService);
     d->disconnectService();
 }
+
+QT_END_NAMESPACE

@@ -51,7 +51,6 @@ template<class Key, class Value> class QMap;
 class QString;
 class QStringList;
 class QVariant;
-QT_END_NAMESPACE
 
 const QString AgentPath(QStringLiteral("/ConnmanAgent"));
 
@@ -63,6 +62,7 @@ class QNetworkSettingsUserAgentPrivate : public QDBusAbstractAdaptor
 public:
     QNetworkSettingsUserAgentPrivate(QNetworkSettingsUserAgent *parent = Q_NULLPTR);
     void setPassphrase(const QString &passphrase);
+    QString passphrase() const {return m_passphrase;}
     void cancel();
     void release();
 public Q_SLOTS: // Dbus methods
@@ -76,5 +76,7 @@ private:
     bool m_pendingReply;
     QString m_passphrase;
 };
+
+QT_END_NAMESPACE
 
 #endif // QNETWORKSETTINGSUSERAGENTPRIVATE_H

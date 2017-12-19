@@ -1,13 +1,16 @@
 TEMPLATE = subdirs
 CONFIG += ordered
 
-qtHaveModule(bluetooth): SUBDIRS += bluetoothsettings
+qtHaveModule(dbus) {
+    qtHaveModule(bluetooth): SUBDIRS += bluetoothsettings
+    SUBDIRS += \
+        networksettings \
+        localesettings \
+        timedatesettings \
+}
 
 SUBDIRS += \
-    networksettings \
-    localesettings \
     displaysettings \
-    timedatesettings \
     localdevice \
     settingsui/settingsuiplugin \
     settingsui/qtbuttonimageproviderplugin \

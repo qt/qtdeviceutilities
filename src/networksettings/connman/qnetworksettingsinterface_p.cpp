@@ -31,6 +31,8 @@
 #include "connman_technology_interface.h"
 #include "connmancommon.h"
 
+QT_BEGIN_NAMESPACE
+
 QNetworkSettingsInterfacePrivate::QNetworkSettingsInterfacePrivate(QNetworkSettingsInterface* parent)
     : QObject(parent)
     , m_technology(Q_NULLPTR)
@@ -100,3 +102,5 @@ void QNetworkSettingsInterfacePrivate::scan()
     else
         qDebug() << "Tried to scan while not powered";
 }
+
+QT_END_NAMESPACE

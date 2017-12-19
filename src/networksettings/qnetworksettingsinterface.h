@@ -32,9 +32,9 @@
 #include <QObject>
 #include <QtNetworkSettings/qnetworksettings.h>
 
-QT_BEGIN_NAMESPACE
-
 QT_FORWARD_DECLARE_CLASS(QNetworkSettingsInterfacePrivate)
+
+QT_BEGIN_NAMESPACE
 
 class Q_DECL_EXPORT QNetworkSettingsInterface : public QObject {
     Q_OBJECT

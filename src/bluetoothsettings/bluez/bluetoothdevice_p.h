@@ -45,9 +45,12 @@
 #include <QtDBus>
 #include "bluetoothdevice.h"
 
+// Automatically generated classes in global namespace
 class OrgBluezDevice1Interface;
 class OrgFreedesktopDBusObjectManagerInterface;
 class NetConnmanTechnologyInterface;
+
+QT_BEGIN_NAMESPACE
 
 class BluetoothDevicePrivate : public QObject
 {
@@ -92,6 +95,6 @@ private:
     NetConnmanTechnologyInterface *m_technology;
 };
 
-
+QT_END_NAMESPACE
 
 #endif // BLUETOOTHDEVICE__P_H

@@ -47,6 +47,8 @@
 
 class NetConnmanTechnologyInterface;
 
+QT_BEGIN_NAMESPACE
+
 class QNetworkSettingsInterfacePrivate : public QObject
 {
     Q_OBJECT
@@ -57,6 +59,10 @@ public:
     void setPowered(const bool power);
     void setState(QNetworkSettingsState::States aState);
     void scan();
+    QString name() const {return m_name;}
+    QNetworkSettingsType::Types type() const {return m_type.type();}
+    QNetworkSettingsState::States state() const {return m_state.state();}
+    bool powered() const {return m_powered;}
 
 public slots:
     void updateProperty(const QString &name, const QDBusVariant &value);
@@ -93,4 +99,7 @@ public:
 
     }
 };
+
+QT_END_NAMESPACE
+
 #endif // QNETWORKSETTINGSINTERFACEPRIVATE_H

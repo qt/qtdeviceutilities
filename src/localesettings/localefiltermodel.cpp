@@ -29,6 +29,8 @@
 #include "localemodel.h"
 #include "localefiltermodel.h"
 
+QT_BEGIN_NAMESPACE
+
 LocaleFilterModel::LocaleFilterModel(QObject* parent)
     :QSortFilterProxyModel(parent)
 {
@@ -89,7 +91,6 @@ QVariant LocaleFilterModel::itemFromRow(const int row) const
     return QVariant();
 }
 
-
 int LocaleFilterModel::indexForCountry(const QString &country) const
 {
     QAbstractItemModel *model = this->sourceModel();
@@ -98,3 +99,5 @@ int LocaleFilterModel::indexForCountry(const QString &country) const
     QModelIndex ret = mapFromSource(i);
     return ret.row();
 }
+
+QT_END_NAMESPACE

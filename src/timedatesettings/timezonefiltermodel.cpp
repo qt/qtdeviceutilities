@@ -29,6 +29,8 @@
 #include "timezonemodel.h"
 #include "timezonefiltermodel.h"
 
+QT_BEGIN_NAMESPACE
+
 TimezoneFilterModel::TimezoneFilterModel(QObject* parent)
     :QSortFilterProxyModel(parent)
 {
@@ -112,3 +114,5 @@ int TimezoneFilterModel::indexForTimezone(const QString &timezone) const
 
     return -1;
 }
+
+QT_END_NAMESPACE

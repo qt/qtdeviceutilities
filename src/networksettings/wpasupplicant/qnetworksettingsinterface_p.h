@@ -45,6 +45,8 @@
 #include "qnetworksettingsinterface.h"
 #include "qnetworksettingsmanager_p.h"
 
+QT_BEGIN_NAMESPACE
+
 class QNetworkSettingsInterfacePrivate : public QObject
 {
     Q_OBJECT
@@ -87,6 +89,8 @@ public:
     virtual ~WpaSupplicantSettingsInterface() {
     }
 };
+
+QT_END_NAMESPACE
 
 #endif // QNETWORKSETTINGSINTERFACEPRIVATE_H
 

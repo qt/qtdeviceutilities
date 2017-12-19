@@ -28,6 +28,8 @@
 ****************************************************************************/
 #include "qnetworksettings.h"
 
+QT_BEGIN_NAMESPACE
+
 QNetworkSettingsState::QNetworkSettingsState(States state, QObject *parent)
     : QObject(parent)
     , m_state(state)
@@ -257,3 +259,4 @@ bool QNetworkSettingsWireless::outOfRange() const {
     return m_isOutOfRange;
 }
 
+QT_END_NAMESPACE

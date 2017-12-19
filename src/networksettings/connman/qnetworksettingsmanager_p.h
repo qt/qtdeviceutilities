@@ -46,10 +46,13 @@
 #include "qnetworksettingsmanager.h"
 #include "qnetworksettingsinterfacemodel.h"
 
+// Automatically generated class in global namespace
 class NetConnmanManagerInterface;
-class QNetworkSettingsServiceModel;
-class QNetworkSettingsServiceFilter;
-class QNetworkSettingsService;
+QT_FORWARD_DECLARE_CLASS(QNetworkSettingsServiceModel)
+QT_FORWARD_DECLARE_CLASS(QNetworkSettingsServiceFilter)
+QT_FORWARD_DECLARE_CLASS(QNetworkSettingsService)
+
+QT_BEGIN_NAMESPACE
 
 class QNetworkSettingsManagerPrivate : public QObject
 {
@@ -59,7 +62,11 @@ public:
     explicit QNetworkSettingsManagerPrivate(QNetworkSettingsManager *parent);
     QNetworkSettingsManager *q_ptr;
     void setUserAgent(QNetworkSettingsUserAgent *agent);
-    QNetworkSettingsUserAgent *userAgent() {return m_agent;}
+    QNetworkSettingsUserAgent *userAgent() const {return m_agent;}
+    QNetworkSettingsInterfaceModel* interfaceModel() {return &m_interfaceModel;}
+    QNetworkSettingsServiceModel* serviceModel() const {return m_serviceModel;}
+    QNetworkSettingsServiceFilter* serviceFilter() const {return m_serviceFilter;}
+
 public slots:
     void getServicesFinished(QDBusPendingCallWatcher *watcher);
     void getTechnologiesFinished(QDBusPendingCallWatcher *watcher);
@@ -76,5 +83,7 @@ private:
     NetConnmanManagerInterface *m_manager;
     QNetworkSettingsUserAgent *m_agent;
 };
+
+QT_END_NAMESPACE
 
 #endif // QNETWORKSETTINGSMANAGERPRIVATE_H

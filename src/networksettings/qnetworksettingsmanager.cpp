@@ -34,6 +34,8 @@
 #include "qnetworksettingsmanager_p.h"
 #include <QStringListModel>
 
+QT_BEGIN_NAMESPACE
+
 QNetworkSettingsManager::QNetworkSettingsManager(QObject *parent) :
    QObject(parent)
    ,d_ptr(new QNetworkSettingsManagerPrivate(this))
@@ -43,20 +45,20 @@ QNetworkSettingsManager::QNetworkSettingsManager(QObject *parent) :
 QNetworkSettingsServiceFilter *QNetworkSettingsManager::services()
 {
     Q_D(QNetworkSettingsManager);
-    return d->m_serviceFilter;
+    return d->serviceFilter();
 }
 
 QNetworkSettingsInterfaceModel *QNetworkSettingsManager::interfaces()
 {
     Q_D(QNetworkSettingsManager);
-    return &d->m_interfaceModel;
+    return d->interfaceModel();
 }
 
 QNetworkSettingsService* QNetworkSettingsManager::service(const QString& name, int type)
 {
     Q_D(QNetworkSettingsManager);
 
-    foreach (QNetworkSettingsService* service, d->m_serviceModel->getModel()) {
+    foreach (QNetworkSettingsService* service, d->serviceModel()->getModel()) {
         if (service->name() == name && service->type() == type) {
             return service;
         }
@@ -91,3 +93,5 @@ QNetworkSettingsUserAgent* QNetworkSettingsManager::userAgent()
     Q_D(QNetworkSettingsManager);
     return d->userAgent();
 }
+
+QT_END_NAMESPACE

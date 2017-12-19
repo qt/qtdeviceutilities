@@ -29,6 +29,8 @@
 #include "qnetworksettingsuseragent_p.h"
 #include "connmancommon.h"
 
+QT_BEGIN_NAMESPACE
+
 const QString PropertyPassphrase(QStringLiteral("Passphrase"));
 
 QNetworkSettingsUserAgentPrivate::QNetworkSettingsUserAgentPrivate(QNetworkSettingsUserAgent *parent)
@@ -101,3 +103,5 @@ void QNetworkSettingsUserAgentPrivate::setPassphrase(const QString& passphrase)
     m_pendingReply = false;
     QDBusConnection::systemBus().send(reply);
 }
+
+QT_END_NAMESPACE

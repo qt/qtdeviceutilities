@@ -29,6 +29,8 @@
 #include "qnetworksettingsservice_p.h"
 #include "qnetworksettingsmanager_p.h"
 
+QT_BEGIN_NAMESPACE
+
 QNetworkSettingsServicePrivate::QNetworkSettingsServicePrivate(const QString& bssid, QNetworkSettingsService *parent) :
     QObject(parent)
     ,q_ptr(parent)
@@ -118,3 +120,5 @@ void WpaSupplicantService::setState(QNetworkSettingsState::States aState)
     d->m_state.setState(aState);
     emit stateChanged();
 }
+
+QT_EMD_NAMESPACE
