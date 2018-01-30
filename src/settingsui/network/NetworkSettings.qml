@@ -76,33 +76,29 @@ Item {
                     Layout.fillWidth: true
                     implicitHeight: 54
 
+                    indicator: Item {}
                     contentItem: Rectangle {
                         color: checked ? "#80c342" : "white"
                         border.color: "#bdbebf"
                         border.width: 1
                         anchors.fill: parent
 
-                        Row {
-                            anchors.fill: parent
-                            spacing: 10
-
-                            Image {
-                                id: typeId
-                                height: parent.height
-                                width: height
+                        Column {
+                            height: parent.height * .7
+                            width: parent.width
+                            spacing: 0
+                            anchors.verticalCenter: parent.verticalCenter
+                            Label {
+                                width: parent.width
+                                horizontalAlignment: Text.AlignHCenter
+                                text: name
                             }
-                            Column {
-                                height: parent.height * .7
-                                spacing: 0
-                                anchors.verticalCenter: parent.verticalCenter
-                                Label {
-                                    text: name
-                                }
-                                Label {
-                                    text: ((type == NetworkSettingsType.Wired) && !NetworkSettingsManager.services.wiredNetworksAvailable) ?
-                                              qsTr("No networks") : networkSelect.stateToStr(modelData.state)
-                                    font.pixelSize: 12
-                                }
+                            Label {
+                                width: parent.width
+                                horizontalAlignment: Text.AlignHCenter
+                                text: ((type == NetworkSettingsType.Wired) && !NetworkSettingsManager.services.wiredNetworksAvailable) ?
+                                          qsTr("No networks") : networkSelect.stateToStr(modelData.state)
+                                font.pixelSize: 12
                             }
                         }
                     }
