@@ -85,11 +85,12 @@ QVariantMap QNetworkSettingsUserAgentPrivate::RequestInput(const QDBusObjectPath
 void QNetworkSettingsUserAgentPrivate::setPassphrase(const QString& passphrase)
 {
     m_passphrase = passphrase;
-    QVariantMap response;
-    response[PropertyPassphrase] = m_passphrase;
-    m_reply << response;
-    m_pendingReply = false;
-    QDBusConnection::systemBus().send(m_reply);
+    if (m_pendingReply) {
+        QVariantMap response;
+        response[PropertyPassphrase] = m_passphrase;
+        m_reply << response;
+        m_pendingReply = false;
+        QDBusConnection::systemBus().send(m_reply);
+    }
 }
-
 QT_END_NAMESPACE

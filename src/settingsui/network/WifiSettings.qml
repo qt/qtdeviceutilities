@@ -197,6 +197,9 @@ Item {
                                 onClicked: {
                                     connectView.visible = false
                                     NetworkSettingsManager.userAgent.setPassphrase(passphrase.text)
+                                    if (networkSelection.currentIndex != -1) {
+                                        NetworkSettingsManager.services.itemFromRow(networkSelection.currentIndex).connectService();
+                                    }
                                 }
                             }
                             Button {
