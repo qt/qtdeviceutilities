@@ -241,6 +241,9 @@ Item {
                     errorView.visible = true
                     connectView.visible = true
                     root.connecting = false
+                    if (networkSelection.currentIndex != -1) {
+                        NetworkSettingsManager.services.itemFromRow(networkSelection.currentIndex).removeService();
+                    }
                 }
             }
         }

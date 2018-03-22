@@ -76,6 +76,7 @@ protected:
     void setupQNetworkSettingsProxy();
     void connectService();
     void disconnectService();
+    void removeService();
     void setPlaceholderState(bool placeholderState);
     bool placeholderState() const;
 

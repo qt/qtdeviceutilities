@@ -326,6 +326,13 @@ void QNetworkSettingsServicePrivate::disconnectService()
 
 }
 
+void QNetworkSettingsServicePrivate::removeService()
+{
+    if (m_service)
+        m_service->Remove();
+
+}
+
 void QNetworkSettingsServicePrivate::setPlaceholderState(bool placeholderState)
 {
     m_placeholderState = placeholderState;
