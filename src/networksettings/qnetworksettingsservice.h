@@ -75,6 +75,7 @@ public:
     //Wireless config
     Q_INVOKABLE void connectService();
     Q_INVOKABLE void disconnectService();
+    Q_INVOKABLE void removeService();
 Q_SIGNALS:
     void nameChanged();
     void stateChanged();

@@ -338,4 +338,15 @@ void QNetworkSettingsService::disconnectService()
     d->disconnectService();
 }
 
+/*!
+    \qmlmethod void NetworkService::removeService()
+    \brief Removes this service from the service cache and clears
+    any remembered credentials.
+*/
+void QNetworkSettingsService::removeService()
+{
+    Q_D(QNetworkSettingsService);
+    d->removeService();
+}
+
 QT_END_NAMESPACE

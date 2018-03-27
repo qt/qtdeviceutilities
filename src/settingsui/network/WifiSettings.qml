@@ -197,6 +197,9 @@ Item {
                                 onClicked: {
                                     connectView.visible = false
                                     NetworkSettingsManager.userAgent.setPassphrase(passphrase.text)
+                                    if (networkSelection.currentIndex != -1) {
+                                        NetworkSettingsManager.services.itemFromRow(networkSelection.currentIndex).connectService();
+                                    }
                                 }
                             }
                             Button {
@@ -238,6 +241,9 @@ Item {
                     errorView.visible = true
                     connectView.visible = true
                     root.connecting = false
+                    if (networkSelection.currentIndex != -1) {
+                        NetworkSettingsManager.services.itemFromRow(networkSelection.currentIndex).removeService();
+                    }
                 }
             }
         }
