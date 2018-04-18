@@ -212,19 +212,95 @@ Item {
                         }
                     }
                 }
+                Button {
+                    id: manualConnect
+                    visible: true
+                    text: qsTr("Connect manually")
+                    onClicked: {
+                        visible = false
+                        connectBySsidView.visible = true
+                    }
+                }
+                GroupBox {
+                    id: connectBySsidView
+                    title: qsTr("Connect by an SSID")
+                    visible: false
+                    Layout.fillWidth: true
+                    ColumnLayout {
+                        width: parent.width
+
+                        RowLayout {
+                            spacing: 10
+                            width: parent.width
+
+                            Label {
+                                text: qsTr("SSID:")
+                                horizontalAlignment: Text.AlignRight
+                                Layout.preferredWidth: root.width * 0.382
+                                Layout.alignment: Qt.AlignVCenter
+                            }
+                            TextField {
+                                id: ssid
+                                text: ""
+                                inputMethodHints: Qt.ImhNoPredictiveText | Qt.ImhNoAutoUppercase | Qt.ImhPreferLowercase
+                                Layout.alignment: Qt.AlignVCenter
+                                Layout.fillWidth: true
+                            }
+                        }
+                        RowLayout {
+                            spacing: 10
+                            width: parent.width
+                            Label {
+                                text: qsTr("Passphrase:")
+                                horizontalAlignment: Text.AlignRight
+                                Layout.preferredWidth: root.width * 0.382
+                                Layout.alignment: Qt.AlignVCenter
+                            }
+                            TextField {
+                                id: passphrase2
+                                text: ""
+                                echoMode: TextInput.Password
+                                inputMethodHints: Qt.ImhNoPredictiveText | Qt.ImhNoAutoUppercase | Qt.ImhPreferLowercase | Qt.ImhSensitiveData
+                                Layout.alignment: Qt.AlignVCenter
+                                Layout.fillWidth: true
+                            }
+                        }
+                        RowLayout {
+                            spacing: 10
+
+                            Button {
+                                text: qsTr("Connect")
+                                onClicked: {
+                                    NetworkSettingsManager.connectBySsid(ssid.text, passphrase2.text)
+                                    connectBySsidView.visible = false
+                                    manualConnect.visible = true
+                                }
+                            }
+                            Button {
+                                text: qsTr("Cancel")
+                                onClicked: {
+                                    connectBySsidView.visible = false
+                                    manualConnect.visible = true
+                                }
+                            }
+                        }
+                    }
+                }
                 ColumnLayout {
                     spacing: parent.spacing
                     width: parent.width
                     visible: selectedInterface.state === NetworkSettingsState.Online ||
                              selectedInterface.state === NetworkSettingsState.Ready
                     Label {
-                        text: qsTr("IP Address: ") + NetworkSettingsManager.services.itemFromRow(networkSelection.currentIndex).ipv4.address
+                        text: qsTr("IP Address: ") + (NetworkSettingsManager.currentWifiConnection ? NetworkSettingsManager.currentWifiConnection.ipv4.address : "")
                     }
                     Button {
                         id: disconnect
                         text: qsTr("Disconnect")
                         onClicked: {
-                            NetworkSettingsManager.services.itemFromRow(networkSelection.currentIndex).disconnectService();
+                            if (NetworkSettingsManager.currentWifiConnection) {
+                                NetworkSettingsManager.currentWifiConnection.disconnectService();
+                            }
                             networkSelection.currentIndex = -1;
                             root.connecting = false
                         }

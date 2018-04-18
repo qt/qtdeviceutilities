@@ -55,4 +55,16 @@ QString QNetworkSettingsUserAgent::passphrase() const
     return d->passphrase();
 }
 
+void QNetworkSettingsUserAgent::setSsidAndPassphrase(const QString &ssid, const QString &passphrase)
+{
+    Q_D(QNetworkSettingsUserAgent);
+    d->setSsidAndPassphrase(ssid, passphrase);
+}
+
+void QNetworkSettingsUserAgent::clearConnectionState()
+{
+    Q_D(QNetworkSettingsUserAgent);
+    d->clearConnectionState();
+}
+
 QT_END_NAMESPACE

@@ -74,6 +74,7 @@ public:
     Q_INVOKABLE void setupNetworkSettingsProxy();
     //Wireless config
     Q_INVOKABLE void connectService();
+    void doConnectService();
     Q_INVOKABLE void disconnectService();
     Q_INVOKABLE void removeService();
 Q_SIGNALS:
@@ -87,6 +88,9 @@ Q_SIGNALS:
     void nameserversChanged();
     void wirelessChanged();
     void showCrendentialInput();
+    void connectionStateCleared();
+    void serviceConnected(QNetworkSettingsService* service);
+    void serviceDisconnected(QNetworkSettingsService* service);
 protected:
     QNetworkSettingsServicePrivate *d_ptr;
 

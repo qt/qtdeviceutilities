@@ -44,6 +44,7 @@ QNetworkSettingsManagerPrivate::QNetworkSettingsManagerPrivate(QNetworkSettingsM
     , m_serviceFilter(Q_NULLPTR)
     , m_manager(Q_NULLPTR)
     , m_agent(Q_NULLPTR)
+    , m_currentWifiConnection(Q_NULLPTR)
 {
     qDBusRegisterMetaType<ConnmanMapStruct>();
     qDBusRegisterMetaType<ConnmanMapStructList>();
@@ -89,6 +90,40 @@ void QNetworkSettingsManagerPrivate::requestInput(const QString& service, const 
     m_agent->showUserCredentialsInput();
 }
 
+void QNetworkSettingsManagerPrivate::connectBySsid(const QString &name)
+{
+    m_unnamedServicesForSsidConnection = m_unnamedServices;
+    tryNextConnection();
+    m_currentSsid = name;
+}
+
+void QNetworkSettingsManagerPrivate::clearConnectionState()
+{
+    m_unnamedServicesForSsidConnection.clear();
+    m_currentSsid.clear();
+}
+
+void QNetworkSettingsManagerPrivate::tryNextConnection()
+{
+    Q_Q(QNetworkSettingsManager);
+    QNetworkSettingsService* service = nullptr;
+    if (!m_currentSsid.isEmpty()) {
+        service = m_serviceModel->getByName(m_currentSsid);
+        m_currentSsid.clear();
+    }
+    if (!service) {
+        if (!m_unnamedServicesForSsidConnection.isEmpty()) {
+            service = *m_unnamedServicesForSsidConnection.begin();
+            m_unnamedServicesForSsidConnection.erase(m_unnamedServicesForSsidConnection.begin());
+        } else {
+            q->clearConnectionState();
+        }
+    }
+    if (service) {
+        service->doConnectService();
+    }
+}
+
 void QNetworkSettingsManagerPrivate::getServicesFinished(QDBusPendingCallWatcher *watcher)
 {
     Q_Q(QNetworkSettingsManager);
@@ -132,6 +167,11 @@ void QNetworkSettingsManagerPrivate::onServicesChanged(ConnmanMapStructList chan
 {
     foreach (QDBusObjectPath path, removed) {
         m_serviceModel->removeService(path.path());
+        auto serviceIter = m_unnamedServices.find(path.path());
+        if (serviceIter != m_unnamedServices.end()) {
+            serviceIter.value()->deleteLater();
+            m_unnamedServices.erase(serviceIter);
+        }
     }
 
     QStringList newServices;
@@ -158,6 +198,14 @@ void QNetworkSettingsManagerPrivate::handleNewService(const QString &servicePath
 
     QNetworkSettingsService *service = new QNetworkSettingsService(servicePath, this);
 
+    connect(service, &QNetworkSettingsService::connectionStateCleared,
+            q, &QNetworkSettingsManager::clearConnectionState);
+
+    connect(service, &QNetworkSettingsService::serviceConnected,
+            q, &QNetworkSettingsManager::setCurrentWifiConnection);
+    connect(service, &QNetworkSettingsService::serviceDisconnected,
+            q, &QNetworkSettingsManager::clearCurrentWifiConnection);
+
     if (service->name().length() > 0 && service->type() != QNetworkSettingsType::Unknown) {
         m_serviceModel->append(service);
         emit q->servicesChanged();
@@ -182,8 +230,15 @@ void QNetworkSettingsManagerPrivate::serviceReady()
     Q_Q(QNetworkSettingsManager);
 
     QNetworkSettingsService* service = qobject_cast<QNetworkSettingsService*>(sender());
+
+    if (service->type() != QNetworkSettingsType::Unknown
+            && service->type() == QNetworkSettingsType::Wifi) {
+        m_unnamedServices.insert(service->id(), service);
+    }
+
     if (service->name().length() > 0 && service->type() != QNetworkSettingsType::Unknown) {
         service->disconnect(this);
+        m_unnamedServices.remove(service->id());
         m_serviceModel->append(service);
         emit q->servicesChanged();
         if (service->type() == QNetworkSettingsType::Wired) {

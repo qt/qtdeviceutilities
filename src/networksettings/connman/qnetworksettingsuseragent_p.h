@@ -65,6 +65,8 @@ public:
     QString passphrase() const {return m_passphrase;}
     void cancel();
     void release();
+    void setSsidAndPassphrase(const QString &ssid, const QString &passphrase);
+    void clearConnectionState();
 public Q_SLOTS: // Dbus methods
     void ReportError(const QDBusObjectPath &path, const QString &param);
     QVariantMap RequestInput(const QDBusObjectPath &path, const QVariantMap &params,
@@ -75,6 +77,7 @@ private:
     QDBusMessage m_reply;
     bool m_pendingReply;
     QString m_passphrase;
+    QString m_ssid;
 };
 
 QT_END_NAMESPACE
