@@ -162,6 +162,18 @@ void QNetworkSettingsServiceModel::updated(int row)
     dataChanged(createIndex(row, 0), createIndex(row, 0));
 }
 
+QNetworkSettingsService* QNetworkSettingsServiceModel::getByName(const QString& name)
+{
+    QNetworkSettingsService* ret = nullptr;
+    foreach (QNetworkSettingsService* item, m_items) {
+        if (item->name() == name) {
+            ret = item;
+            break;
+        }
+    }
+    return ret;
+}
+
 QList<QNetworkSettingsService*> QNetworkSettingsServiceModel::getModel()
 {
     return m_items;

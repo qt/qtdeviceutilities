@@ -67,7 +67,10 @@ void QNetworkSettingsUserAgentPrivate::ReportError(const QDBusObjectPath &path, 
     Q_Q(QNetworkSettingsUserAgent);
     Q_UNUSED(path);
     Q_UNUSED(param);
-    emit q->error();
+    if (!m_ssid.isEmpty())
+        q->requestNextConnection();
+    else
+        emit q->error();
 }
 
 void QNetworkSettingsUserAgentPrivate::registerAgent()
@@ -80,28 +83,55 @@ QVariantMap QNetworkSettingsUserAgentPrivate::RequestInput(const QDBusObjectPath
 {
     Q_Q(QNetworkSettingsUserAgent);
     Q_UNUSED(path);
-    Q_UNUSED(params);
-    msg.setDelayedReply(true);
-
-    m_pendingReply = true;
-    m_pendingMessage = msg;
-    emit q->showUserCredentialsInput();
-    return QVariantMap();
+    QVariant name = params[PropertyName];
+    if (!name.isValid()) {
+        m_ssid.clear();
+    }
+    QVariantMap response;
+    QVariant passPhrase = params[PropertyPassphrase];
+    if (name.isValid() && !m_ssid.isEmpty()) {
+        response[PropertyName] = m_ssid;
+    }
+    if (passPhrase.isValid()) {
+        if (!m_passphrase.isEmpty()) {
+            response[PropertyPassphrase] = m_passphrase;
+        } else {
+            msg.setDelayedReply(true);
+            m_pendingMessage = msg;
+            m_pendingReply = true;
+            emit q->showUserCredentialsInput();
+            return QVariantMap();
+        }
+    }
+    return response;
 }
 
 void QNetworkSettingsUserAgentPrivate::setPassphrase(const QString& passphrase)
 {
     m_passphrase = passphrase;
-    if (!m_pendingReply)
-        return;
+    if (m_pendingReply) {
+        QVariantMap response;
+        if (!m_ssid.isEmpty()) {
+            response[PropertyName] = m_ssid;
+        }
+        response[PropertyPassphrase] = m_passphrase;
+        QDBusMessage reply = m_pendingMessage.createReply();
+        reply << response;
+        m_pendingReply = false;
+        QDBusConnection::systemBus().send(reply);
+    }
+}
 
-    QVariantMap response;
-    response[PropertyPassphrase] = m_passphrase;
+void QNetworkSettingsUserAgentPrivate::setSsidAndPassphrase(const QString &ssid, const QString &passphrase)
+{
+    m_ssid = ssid;
+    m_passphrase = passphrase;
+}
 
-    QDBusMessage reply = m_pendingMessage.createReply();
-    reply << response;
-    m_pendingReply = false;
-    QDBusConnection::systemBus().send(reply);
+void QNetworkSettingsUserAgentPrivate::clearConnectionState()
+{
+    m_passphrase.clear();
+    m_ssid.clear();
 }
 
 QT_END_NAMESPACE

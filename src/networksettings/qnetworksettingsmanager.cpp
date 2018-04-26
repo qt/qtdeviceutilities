@@ -32,6 +32,7 @@
 #include "qnetworksettingsinterface.h"
 #include "qnetworksettingsinterfacemodel.h"
 #include "qnetworksettingsmanager_p.h"
+#include "qnetworksettingsuseragent.h"
 #include <QStringListModel>
 
 QT_BEGIN_NAMESPACE
@@ -66,6 +67,55 @@ QNetworkSettingsService* QNetworkSettingsManager::service(const QString& name, i
     return nullptr;
 }
 
+void QNetworkSettingsManager::connectBySsid(const QString &name, const QString &passphrase)
+{
+    Q_D(QNetworkSettingsManager);
+    QNetworkSettingsUserAgent* agent = userAgent();
+    if (agent)
+        agent->setSsidAndPassphrase(name, passphrase);
+    d->connectBySsid(name);
+}
+
+void QNetworkSettingsManager::clearConnectionState()
+{
+    Q_D(QNetworkSettingsManager);
+    d->clearConnectionState();
+    QNetworkSettingsUserAgent* agent = userAgent();
+    if (agent)
+        agent->clearConnectionState();
+}
+
+void QNetworkSettingsManager::tryNextConnection()
+{
+    Q_D(QNetworkSettingsManager);
+    d->tryNextConnection();
+}
+
+void QNetworkSettingsManager::clearCurrentWifiConnection(QNetworkSettingsService* service)
+{
+    Q_D(QNetworkSettingsManager);
+    QNetworkSettingsService *currentService = d->currentWifiConnection();
+    if (service == currentService) {
+        d->setCurrentWifiConnection(nullptr);
+        emit currentWifiConnectionChanged();
+    }
+}
+
+void QNetworkSettingsManager::setCurrentWifiConnection(QNetworkSettingsService* service)
+{
+    Q_D(QNetworkSettingsManager);
+    QNetworkSettingsService *currentService = d->currentWifiConnection();
+    d->setCurrentWifiConnection(service);
+    if (service != currentService)
+        emit currentWifiConnectionChanged();
+}
+
+QNetworkSettingsService* QNetworkSettingsManager::currentWifiConnection()
+{
+    Q_D(QNetworkSettingsManager);
+    return d->currentWifiConnection();
+}
+
 QNetworkSettingsInterface* QNetworkSettingsManager::interface(int type, int instance)
 {
     Q_D(QNetworkSettingsManager);
@@ -86,6 +136,8 @@ void QNetworkSettingsManager::setUserAgent(QNetworkSettingsUserAgent *agent)
 {
     Q_D(QNetworkSettingsManager);
     d->setUserAgent(agent);
+    connect(agent, &QNetworkSettingsUserAgent::requestNextConnection,
+            this, &QNetworkSettingsManager::tryNextConnection);
 }
 
 QNetworkSettingsUserAgent* QNetworkSettingsManager::userAgent()

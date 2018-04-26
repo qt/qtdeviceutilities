@@ -50,6 +50,7 @@ class Q_DECL_EXPORT QNetworkSettingsManager : public QObject
     Q_PROPERTY(QNetworkSettingsServiceFilter* services READ services NOTIFY servicesChanged)
     Q_PROPERTY(QNetworkSettingsInterfaceModel* interfaces READ interfaces NOTIFY interfacesChanged)
     Q_PROPERTY(QNetworkSettingsUserAgent* userAgent READ userAgent CONSTANT)
+    Q_PROPERTY(QNetworkSettingsService* currentWifiConnection READ currentWifiConnection NOTIFY currentWifiConnectionChanged)
 
 public:
     explicit QNetworkSettingsManager(QObject* parent = Q_NULLPTR);
@@ -59,12 +60,18 @@ public:
     QNetworkSettingsUserAgent* userAgent();
 
     Q_INVOKABLE QNetworkSettingsService* service(const QString& name, int type);
+    Q_INVOKABLE void connectBySsid(const QString& name, const QString &passphrase);
+    void clearConnectionState();
+    void tryNextConnection();
+    void clearCurrentWifiConnection(QNetworkSettingsService* service);
+    void setCurrentWifiConnection(QNetworkSettingsService* service);
+    QNetworkSettingsService* currentWifiConnection();
     Q_INVOKABLE QNetworkSettingsInterface* interface(int type, int instance);
 
 Q_SIGNALS:
     void servicesChanged();
     void interfacesChanged();
-
+    void currentWifiConnectionChanged();
 protected:
     QNetworkSettingsManagerPrivate *d_ptr;
 

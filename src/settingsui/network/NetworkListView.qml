@@ -37,8 +37,14 @@ ListView {
     clip: true
     property var connectingService: null
     property bool retryConnectAfterIdle: false
+    function connectBySsid() {
+        passphraseEnter.showSsid = true
+        passphraseEnter.visible = true
+    }
 
-    Component.onCompleted: NetworkSettingsManager.services.type = NetworkSettingsType.Unknown;
+    Component.onCompleted: {
+        NetworkSettingsManager.services.type = NetworkSettingsType.Unknown;
+    }
     model: NetworkSettingsManager.services
 
     delegate: Item {

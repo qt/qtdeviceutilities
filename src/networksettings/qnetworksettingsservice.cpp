@@ -322,6 +322,12 @@ void QNetworkSettingsService::setupNetworkSettingsProxy()
 */
 void QNetworkSettingsService::connectService()
 {
+    emit connectionStateCleared();
+    doConnectService();
+}
+
+void QNetworkSettingsService::doConnectService()
+{
     Q_D(QNetworkSettingsService);
     d->connectService();
 }

@@ -30,6 +30,7 @@ import QtQuick 2.6
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.2
 import QtDeviceUtilities.NetworkSettings 1.0
+import QtDeviceUtilities.QtButtonImageProvider 1.0
 import "../common"
 
 Item {
@@ -82,6 +83,26 @@ Item {
                     id: wifiSwitchTimer
                     interval: 1000
                     running: false
+                }
+            }
+            QtButton {
+                id: manualConnect
+                visible: true
+                height: pluginMain.buttonHeight
+                text: qsTr("Connect manually")
+                onClicked: {
+                    networkList.connectBySsid()
+                }
+            }
+            QtButton {
+                id: manualDisconnect
+                visible: true
+                height: pluginMain.buttonHeight
+                text: qsTr("Disconnect wireless")
+                onClicked: {
+                    if (NetworkSettingsManager.currentWifiConnection) {
+                        NetworkSettingsManager.currentWifiConnection.disconnectService();
+                    }
                 }
             }
         }

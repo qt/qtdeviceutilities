@@ -38,6 +38,7 @@ Rectangle {
     color: viewSettings.backgroundColor
     opacity: 0.9
     property string extraInfo: ""
+    property bool showSsid: false
 
     Rectangle {
         id: frame
@@ -52,6 +53,27 @@ Rectangle {
             id: passphraseColumn
             anchors.centerIn: parent
             spacing: viewSettings.spacing
+
+            Text {
+                visible: showSsid
+                font.pixelSize: pluginMain.subTitleFontSize
+                font.family: appFont
+                color: "white"
+                text: qsTr("Enter SSID")
+            }
+
+            TextField {
+                id: ssidField
+                visible: showSsid
+                width: root.width * 0.4
+                height: root.height * 0.075
+                color: "white"
+                background: Rectangle{
+                    color: "transparent"
+                    border.color: ssidField.focus ? viewSettings.buttonGreenColor : viewSettings.buttonGrayColor
+                    border.width: ssidField.focus ? width * 0.01 : 2
+                }
+            }
 
             Text {
                 font.pixelSize: pluginMain.subTitleFontSize
@@ -87,7 +109,12 @@ Rectangle {
                     id: setButton
                     text: qsTr("SET")
                     onClicked: {
-                        NetworkSettingsManager.userAgent.setPassphrase(passField.text)
+                        if (showSsid) {
+                            NetworkSettingsManager.connectBySsid(ssidField.text, passField.text)
+                            showSsid = false
+                        } else {
+                            NetworkSettingsManager.userAgent.setPassphrase(passField.text)
+                        }
                         passphrasePopup.visible = false;
                     }
                 }
@@ -97,7 +124,10 @@ Rectangle {
                     borderColor: "transparent"
                     fillColor: viewSettings.buttonGrayColor
                     onClicked: {
-                        NetworkSettingsManager.userAgent.cancelInput()
+                        if (!showSsid) {
+                            NetworkSettingsManager.userAgent.cancelInput()
+                        }
+                        showSsid = false
                         passphrasePopup.visible = false;
                     }
                 }

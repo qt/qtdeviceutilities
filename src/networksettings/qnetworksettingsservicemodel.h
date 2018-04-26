@@ -52,6 +52,7 @@ public:
     void remove(int row);
     bool removeService(const QString &id);
     void updated(int row);
+    QNetworkSettingsService* getByName(const QString& name);
     QList<QNetworkSettingsService*> getModel();
 
     enum Roles {

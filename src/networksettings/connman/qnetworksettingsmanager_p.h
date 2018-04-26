@@ -42,6 +42,7 @@
 
 #include <QObject>
 #include <QtDBus>
+#include <QMap>
 #include "connmancommon.h"
 #include "qnetworksettingsmanager.h"
 #include "qnetworksettingsinterfacemodel.h"
@@ -66,6 +67,11 @@ public:
     QNetworkSettingsInterfaceModel* interfaceModel() {return &m_interfaceModel;}
     QNetworkSettingsServiceModel* serviceModel() const {return m_serviceModel;}
     QNetworkSettingsServiceFilter* serviceFilter() const {return m_serviceFilter;}
+    void connectBySsid(const QString &name);
+    void clearConnectionState();
+    void tryNextConnection();
+    void setCurrentWifiConnection(QNetworkSettingsService *connection) {m_currentWifiConnection = connection;}
+    QNetworkSettingsService* currentWifiConnection() const {return m_currentWifiConnection;}
 
 public slots:
     void getServicesFinished(QDBusPendingCallWatcher *watcher);
@@ -78,10 +84,14 @@ private:
 protected:
     QNetworkSettingsInterfaceModel m_interfaceModel;
     QNetworkSettingsServiceModel *m_serviceModel;
+    QMap<QString, QNetworkSettingsService*> m_unnamedServices;
+    QMap<QString, QNetworkSettingsService*> m_unnamedServicesForSsidConnection;
     QNetworkSettingsServiceFilter *m_serviceFilter;
 private:
     NetConnmanManagerInterface *m_manager;
     QNetworkSettingsUserAgent *m_agent;
+    QString m_currentSsid;
+    QNetworkSettingsService *m_currentWifiConnection;
 };
 
 QT_END_NAMESPACE

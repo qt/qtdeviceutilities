@@ -54,7 +54,7 @@ Item {
                 break;
             }
         }
-        ipItem.text = qsTr("Device IP: ") + ipAddress;
+        ipItem.text = qsTr("Wired IP: ") + ipAddress;
     }
 
     Image {
@@ -90,8 +90,8 @@ Item {
     Text {
         id: ipItem
         width: parent.width * 0.25
-        height: parent.height
-        anchors.verticalCenter: settingsText.verticalCenter
+        height: parent.height/2
+        anchors.top: settingsText.top
         anchors.right: parent.right
         anchors.rightMargin: pluginMain.margin
         horizontalAlignment: Text.AlignRight
@@ -100,12 +100,30 @@ Item {
         color: "white"
         font.family: appFont
         font.styleName: "SemiBold"
-        text: qsTr("Device IP: ")
+        text: qsTr("Wired IP: ")
 
         MouseArea {
             anchors.fill: parent
             onClicked: header.refreshIP()
         }
+    }
+
+    Text {
+        id: wifiIpItem
+        width: parent.width * 0.25
+        height: parent.height/2
+        anchors.top: ipItem.bottom
+        anchors.right: parent.right
+        anchors.rightMargin: pluginMain.margin
+        horizontalAlignment: Text.AlignRight
+        verticalAlignment: Text.AlignVCenter
+        font.pixelSize: parent.height * 0.3
+        color: "white"
+        font.family: appFont
+        font.styleName: "SemiBold"
+        text: qsTr((NetworkSettingsManager.currentWifiConnection ?
+                   "Wireless IP: " +
+                        NetworkSettingsManager.currentWifiConnection.ipv4.address : ""))
     }
 
     Component.onCompleted: {
