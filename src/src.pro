@@ -2,11 +2,12 @@ TEMPLATE = subdirs
 CONFIG += ordered
 
 qtHaveModule(dbus) {
-    qtHaveModule(bluetooth): SUBDIRS += bluetoothsettings
     SUBDIRS += \
         networksettings \
         localesettings \
         timedatesettings \
+
+    qtHaveModule(bluetooth): SUBDIRS += bluetoothsettings
 }
 
 SUBDIRS += \
