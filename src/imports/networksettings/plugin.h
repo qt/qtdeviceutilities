@@ -33,7 +33,7 @@
 
 QT_BEGIN_NAMESPACE
 
-class NetworksettingspluginPlugin : public QQmlExtensionPlugin
+class NetworkSettingsQmlPlugin : public QQmlExtensionPlugin
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface")

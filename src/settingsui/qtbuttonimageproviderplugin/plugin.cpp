@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2016 The Qt Company Ltd.
+** Copyright (C) 2018 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
 **
 ** This file is part of the Device Utilities module of the Qt Toolkit.
@@ -26,22 +26,44 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-#ifndef SETTINGSUIPLUGIN_PLUGIN_H
-#define SETTINGSUIPLUGIN_PLUGIN_H
-
 #include <QQmlExtensionPlugin>
+#include <QQmlEngine>
+
+#include "qtbuttonimageprovider.h"
+
+static void initResources()
+{
+#ifdef QT_STATIC
+    Q_INIT_RESOURCE(qmake_QtDeviceUtilities_QtButtonImageProvider);
+#endif
+    Q_INIT_RESOURCE(qtbuttonimageprovider);
+}
 
 QT_BEGIN_NAMESPACE
 
-class SettingsuipluginPlugin : public QQmlExtensionPlugin
+class QtButtonImageProviderQmlPlugin : public QQmlExtensionPlugin
 {
     Q_OBJECT
-    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface")
+    Q_PLUGIN_METADATA(IID QQmlExtensionInterface_iid)
 
 public:
-    void registerTypes(const char *uri);
+    QtButtonImageProviderQmlPlugin(QObject *parent = nullptr) : QQmlExtensionPlugin(parent) { initResources(); }
+
+    void registerTypes(const char *uri)
+    {
+        Q_UNUSED(uri)
+        Q_ASSERT(uri == QLatin1String("QtDeviceUtilities.QtButtonImageProvider"));
+        qmlRegisterType(QUrl("qrc:/QtButton.qml"), uri, 1, 0, "QtButton");
+    }
+
+    void initializeEngine(QQmlEngine *engine, const char *uri)
+    {
+        Q_UNUSED(uri);
+        QtButtonImageProvider *provider = new QtButtonImageProvider();
+        engine->addImageProvider("QtButton", provider);
+    }
 };
 
 QT_END_NAMESPACE
 
-#endif // SETTINGSUIPLUGIN_PLUGIN_H
+#include "plugin.moc"

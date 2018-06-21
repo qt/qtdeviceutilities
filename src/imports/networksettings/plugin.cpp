@@ -169,7 +169,7 @@ QObject *instance(QQmlEngine *engine, QJSEngine *) {
     return t;
 }
 
-void NetworksettingspluginPlugin::registerTypes(const char *uri)
+void NetworkSettingsQmlPlugin::registerTypes(const char *uri)
 {
     Q_ASSERT(QLatin1String(uri) == QLatin1String("QtDeviceUtilities.NetworkSettings"));
     qmlRegisterUncreatableType<QNetworkSettingsService>(uri, 1, 0, "NetworkService", "Cannot be instantiated directly.");

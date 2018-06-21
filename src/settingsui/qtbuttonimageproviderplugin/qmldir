@@ -1,2 +1,3 @@
 module QtDeviceUtilities.QtButtonImageProvider
 plugin qtbuttonimageproviderplugin
+classname QtButtonImageProviderQmlPlugin

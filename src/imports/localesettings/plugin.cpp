@@ -157,7 +157,7 @@ QObject *instance(QQmlEngine *engine, QJSEngine *) {
     return t;
 }
 
-class LanguageSettingsQmlPlugin : public QQmlExtensionPlugin
+class LocaleSettingsQmlPlugin : public QQmlExtensionPlugin
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface")

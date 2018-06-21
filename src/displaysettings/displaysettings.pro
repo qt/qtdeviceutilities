@@ -2,7 +2,6 @@ load(qt_build_config)
 
 TARGET = QtDisplaySettings
 VERSION = 1.0
-CONFIG += dll warn_on
 
 QT = core
 

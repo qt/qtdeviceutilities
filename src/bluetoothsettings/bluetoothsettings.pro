@@ -2,7 +2,6 @@ load(qt_build_config)
 
 TARGET = QtBluetoothSettings
 VERSION = 1.0
-CONFIG += dll warn_on
 
 QT += core bluetooth
 

@@ -93,7 +93,7 @@ QObject *instance(QQmlEngine *engine, QJSEngine *) {
     return t;
 }
 
-class GeneralSettingsQmlPlugin : public QQmlExtensionPlugin
+class DisplaySettingsQmlPlugin : public QQmlExtensionPlugin
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface")

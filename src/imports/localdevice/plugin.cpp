@@ -96,16 +96,12 @@ static QObject *module_api_factory(QQmlEngine *engine, QJSEngine *scriptEngine)
    return api;
 }
 
-class B2QtUtilsPlugin : public QQmlExtensionPlugin
+class LocalDeviceSettingsQmlPlugin : public QQmlExtensionPlugin
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface")
 
 public:
-    B2QtUtilsPlugin()
-    {
-    }
-
     void registerTypes(const char *uri)
     {
         Q_ASSERT(QLatin1String(uri) == "QtDeviceUtilities.LocalDeviceSettings");

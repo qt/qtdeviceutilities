@@ -1,2 +1,4 @@
 module QtDeviceUtilities.SettingsUI
 plugin settingsuiplugin
+classname SettingsUIQmlPlugin
+typeinfo plugins.qmltypes

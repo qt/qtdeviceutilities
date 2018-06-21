@@ -5,12 +5,13 @@ TARGET = qtbuttonimageproviderplugin
 TARGETPATH = QtDeviceUtilities/QtButtonImageProvider
 
 SOURCES += \
-    qtbuttonimageprovider.cpp
+    qtbuttonimageprovider.cpp \
+    plugin.cpp
 
 HEADERS += \
     qtbuttonimageprovider.h
 
 RESOURCES += \
-    plugin.qrc
+    qtbuttonimageprovider.qrc
 
 load(qml_plugin)

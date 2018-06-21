@@ -26,8 +26,16 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-#include "settingsuiplugin_plugin.h"
-#include <qqml.h>
+#include <QtQml/qqmlextensionplugin.h>
+#include <QtQml/qqml.h>
+
+static void initResources()
+{
+#ifdef QT_STATIC
+    Q_INIT_RESOURCE(qmake_QtDeviceUtilities_SettingsUI);
+#endif
+    Q_INIT_RESOURCE(settingsui);
+}
 
 /*!
     \qmlmodule QtDeviceUtilities.SettingsUI 1.0
@@ -74,11 +82,22 @@
 
 QT_BEGIN_NAMESPACE
 
-void SettingsuipluginPlugin::registerTypes(const char *uri)
+class SettingsUIQmlPlugin : public QQmlExtensionPlugin
 {
-    // @uri QtDeviceUtilities.SettingsUI
-    Q_ASSERT(uri == QLatin1String("QtDeviceUtilities.SettingsUI"));
-    qmlRegisterType(QUrl("qrc:/pluginMain.qml"), uri, 1, 0, "SettingsUI");
-}
+    Q_OBJECT
+    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface")
+
+public:
+    SettingsUIQmlPlugin(QObject *parent = nullptr) : QQmlExtensionPlugin(parent) { initResources(); }
+    void registerTypes(const char *uri) override
+    {
+        // @uri QtDeviceUtilities.SettingsUI
+        Q_ASSERT(uri == QLatin1String("QtDeviceUtilities.SettingsUI"));
+        qmlRegisterType(QUrl("qrc:/pluginMain.qml"), uri, 1, 0, "SettingsUI");
+    }
+
+};
 
 QT_END_NAMESPACE
+
+#include "plugin.moc"
