@@ -78,7 +78,9 @@ public slots:
     void requestInput(const QString& service, const QString& type);
     void onServicesChanged(ConnmanMapStructList changed, const QList<QDBusObjectPath> &removed);
     void serviceReady();
+    void onConnmanServiceRegistered(const QString &serviceName);
 private:
+    bool initialize();
     void handleNewService(const QString& servicePath);
 protected:
     QNetworkSettingsInterfaceModel m_interfaceModel;
@@ -89,8 +91,10 @@ protected:
 private:
     NetConnmanManagerInterface *m_manager;
     QNetworkSettingsUserAgent *m_agent;
+    QDBusServiceWatcher *m_serviceWatcher;
     QString m_currentSsid;
     QNetworkSettingsService *m_currentWifiConnection;
+    bool m_initialized;
 };
 
 QT_END_NAMESPACE

@@ -36,6 +36,8 @@
 
 QT_BEGIN_NAMESPACE
 
+const QString ConnManServiceName(QStringLiteral("net.connman"));
+
 QNetworkSettingsManagerPrivate::QNetworkSettingsManagerPrivate(QNetworkSettingsManager *parent)
     :QObject(parent)
     ,q_ptr(parent)
@@ -44,7 +46,9 @@ QNetworkSettingsManagerPrivate::QNetworkSettingsManagerPrivate(QNetworkSettingsM
     , m_serviceFilter(Q_NULLPTR)
     , m_manager(Q_NULLPTR)
     , m_agent(Q_NULLPTR)
+    , m_serviceWatcher(Q_NULLPTR)
     , m_currentWifiConnection(Q_NULLPTR)
+    , m_initialized(false)
 {
     qDBusRegisterMetaType<ConnmanMapStruct>();
     qDBusRegisterMetaType<ConnmanMapStructList>();
@@ -55,7 +59,25 @@ QNetworkSettingsManagerPrivate::QNetworkSettingsManagerPrivate(QNetworkSettingsM
     m_serviceModel = new QNetworkSettingsServiceModel(this);
     m_serviceFilter = new QNetworkSettingsServiceFilter(this);
     m_serviceFilter->setSourceModel(m_serviceModel);
-    m_manager = new NetConnmanManagerInterface(QStringLiteral("net.connman"), QStringLiteral("/"),
+
+    QDBusConnectionInterface* bus = QDBusConnection::systemBus().interface();
+    if (bus->isServiceRegistered(ConnManServiceName)) {
+        if (!initialize())
+            qWarning("Failed to initialize connman connection");
+    } else {
+        m_serviceWatcher = new QDBusServiceWatcher(this);
+        m_serviceWatcher->setConnection(QDBusConnection::systemBus());
+        m_serviceWatcher->setWatchedServices(QStringList({ConnManServiceName}));
+        connect(m_serviceWatcher, &QDBusServiceWatcher::serviceRegistered, this, &QNetworkSettingsManagerPrivate::onConnmanServiceRegistered);
+    }
+}
+
+bool QNetworkSettingsManagerPrivate::initialize()
+{
+    if (m_initialized && m_manager)
+        return m_initialized;
+
+    m_manager = new NetConnmanManagerInterface(ConnManServiceName, QStringLiteral("/"),
             QDBusConnection::systemBus(), this);
 
     if (m_manager->isValid()) {
@@ -73,11 +95,13 @@ QNetworkSettingsManagerPrivate::QNetworkSettingsManagerPrivate(QNetworkSettingsM
         connect(m_manager, &NetConnmanManagerInterface::ServicesChanged, this, &QNetworkSettingsManagerPrivate::onServicesChanged);
 
         m_manager->RegisterAgent(QDBusObjectPath(AgentPath));
-    }
-    else {
+        m_initialized = true;
+    } else {
         delete m_manager;
         m_manager = NULL;
+        m_initialized = false;
     }
+    return m_initialized;
 }
 
 void QNetworkSettingsManagerPrivate::requestInput(const QString& service, const QString& type)
@@ -121,6 +145,14 @@ void QNetworkSettingsManagerPrivate::tryNextConnection()
     }
     if (service) {
         service->doConnectService();
+    }
+}
+
+void QNetworkSettingsManagerPrivate::onConnmanServiceRegistered(const QString &serviceName)
+{
+    if (serviceName == ConnManServiceName) {
+        if (!initialize())
+            qWarning("Failed to initialize connman connection");
     }
 }
 
