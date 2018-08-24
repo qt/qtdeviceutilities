@@ -55,7 +55,8 @@ public:
     enum Roles {
         Type = Qt::UserRole + 1,
         Status,
-        Name
+        Name,
+        Powered
     };
 
 private:
