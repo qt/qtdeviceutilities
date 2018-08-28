@@ -166,7 +166,6 @@ void QNetworkSettingsManagerPrivate::getServicesFinished(QDBusPendingCallWatcher
         const QString servicePath = object.objectPath.path();
         handleNewService(servicePath);
     }
-    emit q->servicesChanged();
 }
 
 void QNetworkSettingsManagerPrivate::getTechnologiesFinished(QDBusPendingCallWatcher *watcher)

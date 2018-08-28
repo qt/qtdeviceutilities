@@ -38,6 +38,7 @@ QNetworkSettingsInterfaceModel::QNetworkSettingsInterfaceModel(QObject *parent)
     m_roleNames.insert(Type, "type");
     m_roleNames.insert(Status, "status");
     m_roleNames.insert(Name, "name");
+    m_roleNames.insert(Powered, "powered");
 }
 
 QHash<int, QByteArray> QNetworkSettingsInterfaceModel::roleNames() const
@@ -70,6 +71,9 @@ QVariant QNetworkSettingsInterfaceModel::data(const QModelIndex & index, int rol
         break;
     case Status:
         return item->state();
+        break;
+    case Powered:
+        return item->powered();
         break;
     default:
         return QStringLiteral("");
