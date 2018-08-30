@@ -77,13 +77,13 @@
         <arg name="path" type="o"/>
     </method>
 
-    <signal name="NetworkTypeAdded" tp:name-for-bindings="NetworkType_Added">
+    <signal name="TechnologyAdded" tp:name-for-bindings="Technology_Added">
         <arg name="technology" type="o"/>
         <arg name="properties" type="a{sv}"/>
-        <annotation name="org.qtproject.QtDBus.QtTypeName.Out1" value="QVariantMap"/>
+        <annotation name="org.qtproject.QtDBus.QtTypeName.In1" value="QVariantMap"/>
     </signal>
 
-    <signal name="NetworkTypeRemoved" tp:name-for-bindings="NetworkType_Removed">
+    <signal name="TechnologyRemoved" tp:name-for-bindings="Technology_Removed">
         <arg name="technology" type="o"/>
     </signal>
 

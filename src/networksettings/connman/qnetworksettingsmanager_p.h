@@ -82,6 +82,8 @@ public slots:
     void onServicesChanged(ConnmanMapStructList changed, const QList<QDBusObjectPath> &removed);
     void serviceReady();
     void onConnmanServiceRegistered(const QString &serviceName);
+    void onTechnologyAdded(const QDBusObjectPath &technology, const QVariantMap &properties);
+    void onTechnologyRemoved(const QDBusObjectPath &technology);
 private:
     bool initialize();
     void handleNewService(const QString& servicePath);

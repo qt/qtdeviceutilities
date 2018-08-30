@@ -159,6 +159,19 @@ void QNetworkSettingsInterfaceModel::remove(int row)
     endRemoveRows();
 }
 
+bool QNetworkSettingsInterfaceModel::removeInterface(const QString &name)
+{
+    bool ret = false;
+    for (int i=0; i < m_items.count(); i++) {
+       if (m_items.at(i)->name() == name) {
+           remove(i);
+           ret = true;
+           break;
+       }
+    }
+    return ret;
+}
+
 void QNetworkSettingsInterfaceModel::updated(int row)
 {
     dataChanged(createIndex(row, 0), createIndex(row, 0));

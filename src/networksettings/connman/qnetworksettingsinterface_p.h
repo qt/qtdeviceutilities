@@ -63,6 +63,7 @@ public:
     QNetworkSettingsType::Types type() const {return m_type.type();}
     QNetworkSettingsState::States state() const {return m_state.state();}
     bool powered() const {return m_powered;}
+    QString path() const;
 
 public slots:
     void updateProperty(const QString &name, const QDBusVariant &value);
@@ -97,6 +98,12 @@ public:
 
     virtual ~ConnmanSettingsInterface() {
 
+    }
+
+    QString path() const {
+        if (d_ptr)
+            return d_ptr->path();
+        return QString();
     }
 };
 

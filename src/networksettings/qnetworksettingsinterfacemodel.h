@@ -60,6 +60,7 @@ public:
     };
 
     void updated(int row);
+    bool removeInterface(const QString &name);
 private Q_SLOTS:
     void connectionStatusChanged();
     void poweredChanged();

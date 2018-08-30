@@ -94,6 +94,8 @@ bool QNetworkSettingsManagerPrivate::initialize()
                this, &QNetworkSettingsManagerPrivate::getServicesFinished);
 
         connect(m_manager, &NetConnmanManagerInterface::ServicesChanged, this, &QNetworkSettingsManagerPrivate::onServicesChanged);
+        connect(m_manager, &NetConnmanManagerInterface::TechnologyAdded, this, &QNetworkSettingsManagerPrivate::onTechnologyAdded);
+        connect(m_manager, &NetConnmanManagerInterface::TechnologyRemoved, this, &QNetworkSettingsManagerPrivate::onTechnologyRemoved);
 
         m_manager->RegisterAgent(QDBusObjectPath(AgentPath));
         m_initialized = true;
@@ -151,6 +153,40 @@ void QNetworkSettingsManagerPrivate::onConnmanServiceRegistered(const QString &s
     if (serviceName == ConnManServiceName) {
         if (!initialize())
             qWarning("Failed to initialize connman connection");
+    }
+}
+
+void QNetworkSettingsManagerPrivate::onTechnologyAdded(const QDBusObjectPath &technology, const QVariantMap &properties)
+{
+    Q_Q(QNetworkSettingsManager);
+
+    foreach (QNetworkSettingsInterface* item, m_interfaceModel.getModel()) {
+        ConnmanSettingsInterface* tech = qobject_cast<ConnmanSettingsInterface*>(item);
+        if (tech->path() != technology.path()) {
+            ConnmanSettingsInterface *interface = new ConnmanSettingsInterface(technology.path(), properties, this);
+            interface->scanServices();
+
+            if (interface->type() == QNetworkSettingsType::Wired) {
+                m_interfaceModel.insert(0, interface);
+            }
+            else if (interface->type() == QNetworkSettingsType::Wifi) {
+                m_interfaceModel.append(interface);
+            }
+            emit q->interfacesChanged();
+        }
+    }
+}
+
+void QNetworkSettingsManagerPrivate::onTechnologyRemoved(const QDBusObjectPath &technology)
+{
+    Q_Q(QNetworkSettingsManager);
+
+    foreach (QNetworkSettingsInterface* item, m_interfaceModel.getModel()) {
+        ConnmanSettingsInterface* tech = qobject_cast<ConnmanSettingsInterface*>(item);
+        if (tech->path() == technology.path()) {
+            m_interfaceModel.removeInterface(technology.path());
+            emit q->interfacesChanged();
+        }
     }
 }
 

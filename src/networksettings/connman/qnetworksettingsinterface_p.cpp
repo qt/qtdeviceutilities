@@ -103,4 +103,9 @@ void QNetworkSettingsInterfacePrivate::scan()
         qDebug() << "Tried to scan while not powered";
 }
 
+QString QNetworkSettingsInterfacePrivate::path() const
+{
+    return m_technology->path();
+}
+
 QT_END_NAMESPACE
