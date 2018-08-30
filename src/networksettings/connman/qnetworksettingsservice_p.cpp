@@ -400,9 +400,9 @@ void QNetworkSettingsServicePrivate::updateProperty(const QString& key, const QV
         oldState.setState(m_state.state());
         value >> m_state;
         emit q->stateChanged();
-        if (m_state.state() == QNetworkSettingsState::Ready && m_type.type() == QNetworkSettingsType::Wifi)
+        if (m_state.state() == QNetworkSettingsState::Ready || m_state.state() == QNetworkSettingsState::Online)
             emit q->serviceConnected(q);
-        if (m_state.state() == QNetworkSettingsState::Disconnect && m_type.type() == QNetworkSettingsType::Wifi)
+        if (m_state.state() == QNetworkSettingsState::Disconnect)
             emit q->serviceDisconnected(q);
     }
     else if (key == PropertyName) {
@@ -413,9 +413,9 @@ void QNetworkSettingsServicePrivate::updateProperty(const QString& key, const QV
         QString value = qdbus_cast<QString>(val);
         value >> m_type;
         emit q->typeChanged();
-        if (m_state.state() == QNetworkSettingsState::Ready && m_type.type() == QNetworkSettingsType::Wifi)
+        if (m_state.state() == QNetworkSettingsState::Ready || m_state.state() == QNetworkSettingsState::Online)
             emit q->serviceConnected(q);
-        if (m_state.state() == QNetworkSettingsState::Disconnect && m_type.type() == QNetworkSettingsType::Wifi)
+        if (m_state.state() == QNetworkSettingsState::Disconnect)
             emit q->serviceDisconnected(q);
     }
     else if (key == PropertyStrength) {

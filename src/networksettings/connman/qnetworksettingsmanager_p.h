@@ -72,6 +72,8 @@ public:
     void tryNextConnection();
     void setCurrentWifiConnection(QNetworkSettingsService *connection) {m_currentWifiConnection = connection;}
     QNetworkSettingsService* currentWifiConnection() const {return m_currentWifiConnection;}
+    void setCurrentWiredConnection(QNetworkSettingsService *connection) {m_currentWiredConnection = connection;}
+    QNetworkSettingsService* currentWiredConnection() const {return m_currentWiredConnection;}
 
 public slots:
     void getServicesFinished(QDBusPendingCallWatcher *watcher);
@@ -95,6 +97,7 @@ private:
     QDBusServiceWatcher *m_serviceWatcher;
     QString m_currentSsid;
     QNetworkSettingsService *m_currentWifiConnection;
+    QNetworkSettingsService *m_currentWiredConnection;
     bool m_initialized;
 };
 

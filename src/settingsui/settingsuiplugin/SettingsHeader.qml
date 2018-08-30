@@ -39,24 +39,6 @@ Item {
 
     signal clicked()
 
-    function refreshIP() {
-        var networkCount = NetworkSettingsManager.services.sourceModel.rowCount();
-        var ipAddress = "Not Found";
-        for (var i = 0; i < networkCount; ++i) {
-            var networkService = NetworkSettingsManager.services.itemFromRow(i);
-            var tmp = NetworkSettingsManager.services.itemFromRow(i).ipv4.address;
-            if (tmp !== "" && ipAddress === "Not Found")
-                ipAddress = tmp;
-
-            if (networkService.type === NetworkSettingsType.Wired &&
-                    (networkService.status === NetworkSettingsState.Ready ||
-                     networkService.status === NetworkSettingsState.Online)) {
-                break;
-            }
-        }
-        ipItem.text = qsTr("Wired IP: ") + ipAddress;
-    }
-
     Image {
         id: backButton
         anchors.left: parent.left
@@ -100,12 +82,9 @@ Item {
         color: "white"
         font.family: appFont
         font.styleName: "SemiBold"
-        text: qsTr("Wired IP: ")
-
-        MouseArea {
-            anchors.fill: parent
-            onClicked: header.refreshIP()
-        }
+        text: NetworkSettingsManager.currentWiredConnection ?
+                   qsTr("Wired IP: ") +
+                        NetworkSettingsManager.currentWiredConnection.ipv4.address : ""
     }
 
     Text {
@@ -121,16 +100,8 @@ Item {
         color: "white"
         font.family: appFont
         font.styleName: "SemiBold"
-        text: qsTr((NetworkSettingsManager.currentWifiConnection ?
-                   "Wireless IP: " +
-                        NetworkSettingsManager.currentWifiConnection.ipv4.address : ""))
-    }
-
-    Component.onCompleted: {
-        var networkCount = NetworkSettingsManager.services.sourceModel.rowCount();
-        for (var i = 0; i < networkCount; ++i) {
-            NetworkSettingsManager.services.itemFromRow(i).ipv4Changed.connect(refreshIP);
-        }
-        header.refreshIP()
+        text: NetworkSettingsManager.currentWifiConnection ?
+                   qsTr("Wireless IP: ") +
+                        NetworkSettingsManager.currentWifiConnection.ipv4.address : ""
     }
 }
