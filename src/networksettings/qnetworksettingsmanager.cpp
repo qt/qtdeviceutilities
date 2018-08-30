@@ -91,29 +91,51 @@ void QNetworkSettingsManager::tryNextConnection()
     d->tryNextConnection();
 }
 
-void QNetworkSettingsManager::clearCurrentWifiConnection(QNetworkSettingsService* service)
+void QNetworkSettingsManager::clearCurrentConnection(QNetworkSettingsService* service)
 {
     Q_D(QNetworkSettingsManager);
-    QNetworkSettingsService *currentService = d->currentWifiConnection();
-    if (service == currentService) {
-        d->setCurrentWifiConnection(nullptr);
-        emit currentWifiConnectionChanged();
+    if (service->type() == QNetworkSettingsType::Wifi) {
+        QNetworkSettingsService *currentService = d->currentWifiConnection();
+        if (service == currentService) {
+            d->setCurrentWifiConnection(nullptr);
+            emit currentWifiConnectionChanged();
+        }
+    } else if (service->type() == QNetworkSettingsType::Wired) {
+        QNetworkSettingsService *currentService = d->currentWiredConnection();
+        if (service == currentService) {
+            d->setCurrentWiredConnection(nullptr);
+            emit currentWiredConnectionChanged();
+        }
     }
 }
 
-void QNetworkSettingsManager::setCurrentWifiConnection(QNetworkSettingsService* service)
+void QNetworkSettingsManager::setCurrentConnection(QNetworkSettingsService* service)
 {
     Q_D(QNetworkSettingsManager);
-    QNetworkSettingsService *currentService = d->currentWifiConnection();
-    d->setCurrentWifiConnection(service);
-    if (service != currentService)
-        emit currentWifiConnectionChanged();
+    if (service->type() == QNetworkSettingsType::Wifi) {
+        QNetworkSettingsService *currentService = d->currentWifiConnection();
+        d->setCurrentWifiConnection(service);
+        if (service != currentService)
+            emit currentWifiConnectionChanged();
+    } else if (service->type() == QNetworkSettingsType::Wired) {
+        QNetworkSettingsService *currentService = d->currentWiredConnection();
+        d->setCurrentWiredConnection(service);
+        if (service != currentService)
+            emit currentWiredConnectionChanged();
+    }
 }
 
 QNetworkSettingsService* QNetworkSettingsManager::currentWifiConnection()
 {
     Q_D(QNetworkSettingsManager);
     return d->currentWifiConnection();
+}
+
+
+QNetworkSettingsService* QNetworkSettingsManager::currentWiredConnection()
+{
+    Q_D(QNetworkSettingsManager);
+    return d->currentWiredConnection();
 }
 
 QNetworkSettingsInterface* QNetworkSettingsManager::interface(int type, int instance)

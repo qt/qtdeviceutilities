@@ -48,6 +48,7 @@ QNetworkSettingsManagerPrivate::QNetworkSettingsManagerPrivate(QNetworkSettingsM
     , m_agent(Q_NULLPTR)
     , m_serviceWatcher(Q_NULLPTR)
     , m_currentWifiConnection(Q_NULLPTR)
+    , m_currentWiredConnection(Q_NULLPTR)
     , m_initialized(false)
 {
     qDBusRegisterMetaType<ConnmanMapStruct>();
@@ -230,9 +231,9 @@ void QNetworkSettingsManagerPrivate::handleNewService(const QString &servicePath
             q, &QNetworkSettingsManager::clearConnectionState);
 
     connect(service, &QNetworkSettingsService::serviceConnected,
-            q, &QNetworkSettingsManager::setCurrentWifiConnection);
+            q, &QNetworkSettingsManager::setCurrentConnection);
     connect(service, &QNetworkSettingsService::serviceDisconnected,
-            q, &QNetworkSettingsManager::clearCurrentWifiConnection);
+            q, &QNetworkSettingsManager::clearCurrentConnection);
 
     if (service->name().length() > 0 && service->type() != QNetworkSettingsType::Unknown) {
         m_serviceModel->append(service);
