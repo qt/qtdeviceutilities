@@ -59,6 +59,14 @@ public:
         Powered
     };
 
+    void updated(int row);
+private Q_SLOTS:
+    void connectionStatusChanged();
+    void poweredChanged();
+
+private:
+    void connectStateChanges(QNetworkSettingsInterface* item);
+
 private:
     QList<QNetworkSettingsInterface*> m_items;
     QHash<int, QByteArray> m_roleNames;

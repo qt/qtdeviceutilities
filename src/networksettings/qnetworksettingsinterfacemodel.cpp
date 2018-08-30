@@ -84,6 +84,7 @@ QVariant QNetworkSettingsInterfaceModel::data(const QModelIndex & index, int rol
 void QNetworkSettingsInterfaceModel::append(QNetworkSettingsInterface* item)
 {
     item->setParent(this);
+    connectStateChanges(item);
 
     beginInsertRows(QModelIndex(), rowCount(), rowCount());
     m_items.append(item);
@@ -93,10 +94,17 @@ void QNetworkSettingsInterfaceModel::append(QNetworkSettingsInterface* item)
 void QNetworkSettingsInterfaceModel::insert(int row, QNetworkSettingsInterface* item)
 {
     item->setParent(this);
+    connectStateChanges(item);
 
     beginInsertRows(QModelIndex(), row, row);
     m_items.insert(row, item);
     endInsertRows();
+}
+
+void QNetworkSettingsInterfaceModel::connectStateChanges(QNetworkSettingsInterface* item)
+{
+    connect(item, &QNetworkSettingsInterface::stateChanged, this, &QNetworkSettingsInterfaceModel::connectionStatusChanged);
+    connect(item, &QNetworkSettingsInterface::poweredChanged, this, &QNetworkSettingsInterfaceModel::poweredChanged);
 }
 
 void QNetworkSettingsInterfaceModel::remove(int row)
@@ -106,9 +114,43 @@ void QNetworkSettingsInterfaceModel::remove(int row)
     endRemoveRows();
 }
 
+void QNetworkSettingsInterfaceModel::updated(int row)
+{
+    dataChanged(createIndex(row, 0), createIndex(row, 0));
+}
+
 QList<QNetworkSettingsInterface*> QNetworkSettingsInterfaceModel::getModel()
 {
     return m_items;
 }
+
+void QNetworkSettingsInterfaceModel::connectionStatusChanged()
+{
+    QNetworkSettingsInterface *s = qobject_cast<QNetworkSettingsInterface*>(sender());
+
+    int row = 0;
+    foreach (QNetworkSettingsInterface* item, m_items) {
+        if (item == s) {
+            updated(row);
+            break;
+        }
+        row++;
+    }
+
+}
+
+void QNetworkSettingsInterfaceModel::poweredChanged()
+{
+    QNetworkSettingsInterface *s = qobject_cast<QNetworkSettingsInterface*>(sender());
+    int row = 0;
+    foreach (QNetworkSettingsInterface* item, m_items) {
+        if (item == s) {
+            updated(row);
+            break;
+        }
+        row++;
+    }
+}
+
 
 QT_END_NAMESPACE
