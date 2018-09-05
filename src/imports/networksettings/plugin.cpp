@@ -47,7 +47,7 @@
     \brief Provides singleton QML types for controlling network settings.
 
     Provides singleton QML types for controlling network settings in an
-    embedded device.QAbstractItemModel
+    embedded device.
 
     Import the module as follows:
 
