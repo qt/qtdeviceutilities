@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2017 The Qt Company Ltd.
+** Copyright (C) 2018 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
 **
 ** This file is part of the Device Utilities module of the Qt Toolkit.
@@ -25,11 +25,30 @@
 **
 ****************************************************************************/
 /*!
-    \page qtee-module-reference.html
-    \maintitle
+    \qmlmodule QtDeviceutilities 1.0
+    \title Qt Device Utilities QML Types
+    \brief Provides additional modules that are useful for embedded
+    applications.
+    \ingroup qmlmodules
 
-    The \B2Q stack in \SDK includes a number of additional modules that are
-    useful for embedded applications.
+    The QML types in the modules can be imported into your application using the
+    following  import statements in your .qml file:
+
+    \badcode
+    import QtDeviceUtilities.BluetoothSettings 1.0
+    import QtDeviceUtilities.DisplaySettings 1.0
+    import QtDeviceUtilities.LocalDeviceSettings 1.0
+    import QtDeviceUtilities.LocaleSettings 1.0
+    import QtDeviceUtilities.NetworkSettings 1.0
+    import QtDeviceUtilities.SettingsUI 1.0
+    import QtDeviceUtilities.TimeDateSettings 1.0
+    \endcode
+
+    To link against the module, add this line to your qmake .pro file:
+
+    \badcode
+    QT += deviceutilities
+    \endcode
 
     \section1 Modules
 
@@ -57,19 +76,5 @@
 
     \section2 Settings UI
     \generatelist qmltypesbymodule QtDeviceUtilities.SettingsUI
-
-    \section1 Tutorial and Example Code
-
-    \l{Qt Device Utilities WiFi Tutorial} demonstrates how you can use
-    the \l{QtDeviceUtilities.NetworkSettings}{NetworkSettings} module for
-    connecting to WiFi.
-
-    The source code of Qt Device Utilities is availabe via a public Git repository.
-    For more information, see \l{Device Utilities Git Repository}.
-
-    You find the Qt Device Utilities module sources under
-    \l{http://code.qt.io/cgit/qt/qtdeviceutilities.git/tree/src}. Especially,
-    the sources of \l{Settings UI} provide examples of how to use Qt Device Utilities.
-
 */
 

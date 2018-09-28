@@ -31,6 +31,33 @@
 
 QT_BEGIN_NAMESPACE
 
+/*!
+    \class LocaleFilterModel
+    \inmodule QtDeviceUtilities
+
+    \brief The LocaleFilterModel class provides a filtered model for the
+    available locales.
+
+    This class can be used as the model in a view that lists the available
+    locales.
+
+    \sa LocaleModel
+*/
+
+/*!
+    \property LocaleFilterModel::filter
+    \brief Holds a string that filters out the locales in the model.
+
+    The filtering process is a case-insensitive matching for whether the region
+    (country) name contains this string. The string can be taken from user
+    input.
+
+    \sa LocaleItem::country
+*/
+
+/*!
+    Creates a locale filer model with the parent \a parent.
+*/
 LocaleFilterModel::LocaleFilterModel(QObject* parent)
     :QSortFilterProxyModel(parent)
 {
@@ -39,22 +66,35 @@ LocaleFilterModel::LocaleFilterModel(QObject* parent)
     setSourceModel(localeModel);
 }
 
+/*!
+    Deletes the locale filter model.
+*/
 LocaleFilterModel::~LocaleFilterModel()
 {
 
 }
 
+/*!
+    Returns the locale filter string.
+*/
 QString LocaleFilterModel::filter() const
 {
     return m_filter;
 }
 
+/*!
+    Sets the locale filter string to \a aFilter.
+*/
 void LocaleFilterModel::setFilter(const QString& aFilter)
 {
     m_filter = aFilter;
     emit filterChanged();
 }
 
+/*!
+    Returns whether the row \a source_row has the country role and whether it is
+    found in the locale model \a source_parent.
+*/
 bool LocaleFilterModel::filterAcceptsRow( int source_row, const QModelIndex& source_parent ) const
 {
     bool ret = false;
@@ -76,6 +116,14 @@ bool LocaleFilterModel::filterAcceptsRow( int source_row, const QModelIndex& sou
     return ret;
 }
 
+/*!
+    Returns the locale item at \a row in the locale filter model.
+
+    This item can be assigned to LocaleManager::locale(), when the user selects
+    a locale from a list.
+
+    \sa LocaleItem
+*/
 QVariant LocaleFilterModel::itemFromRow(const int row) const
 {
     QModelIndex idx = index(row, 0);
@@ -91,6 +139,12 @@ QVariant LocaleFilterModel::itemFromRow(const int row) const
     return QVariant();
 }
 
+/*!
+    Returns the index for the country \a country in the locale filter model.
+
+    The index is used by item views, delegates, and selection models to locate
+    an item in the model.
+*/
 int LocaleFilterModel::indexForCountry(const QString &country) const
 {
     QAbstractItemModel *model = this->sourceModel();

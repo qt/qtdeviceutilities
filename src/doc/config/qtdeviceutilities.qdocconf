@@ -1,2 +1,0 @@
-include(html-offline.qdocconf)
-include(qtdeviceutilities-project.qdocconf)

@@ -32,60 +32,128 @@
 
 QT_BEGIN_NAMESPACE
 
+/*!
+    \class BluetoothDevice
+    \inmodule QtDeviceUtilities
+
+    \brief The BluetoothDevice class controls Bluetooth settings.
+
+    The Bluetooth settings contain information about the local Bluetooth device,
+    such as the device model and whether the device is powered on and available
+    for connections with other Bluetooth devices.
+
+    The Bluetooth device can scan for other Bluetooth devices in range and
+    retrieve information about them. The Bluetooth device then uses the address
+    of another device to attempt pairing to it, and connects to it if the
+    pairing was successful.
+*/
+
+/*!
+    \property BluetoothDevice::scanning
+    \brief Whether the Bluetooth device is scanning for remote devices.
+*/
+
+/*!
+    \property BluetoothDevice::powered
+    \brief Whether the power in the Bluetooth device is on or off.
+*/
+
+/*!
+    \property BluetoothDevice::available
+    \brief Whether the Bluetooth device is available.
+*/
+
+/*!
+    \property BluetoothDevice::deviceModel
+    \brief The model of the Bluetooth device.
+*/
+
+/*!
+    Creates a new Bluetooth device with the parent \a parent.
+*/
 BluetoothDevice::BluetoothDevice(QObject *parent) : QObject(parent)
   ,d_ptr(new BluetoothDevicePrivate(this))
 {
 }
 
+/*!
+    Returns \c true if the power is switched on in the Bluetooth device.
+*/
 bool BluetoothDevice::powered() const
 {
     Q_D(const BluetoothDevice);
     return d->powered();
 }
 
+/*!
+    Sets the powered state in the Bluetooth device to \a aPowered.
+*/
 void BluetoothDevice::setPowered(const bool& aPowered)
 {
     Q_D(BluetoothDevice);
     d->setPowered(aPowered);
 }
 
-
+/*!
+    Returns the model of the Bluetooth device.
+*/
 DiscoveryModel* BluetoothDevice::deviceModel() const
 {
     Q_D(const BluetoothDevice);
     return d->deviceModel();
 }
 
+/*!
+    Returns whether the Bluetooth device is scanning for remote devices.
+*/
 bool BluetoothDevice::scanning() const
 {
     Q_D(const BluetoothDevice);
     return d->scanning();
 }
 
+/*!
+    Sets scanning in the Bluetooth device to \a aScan.
+*/
 void BluetoothDevice::setScanning(const bool& aScan)
 {
     Q_D(BluetoothDevice);
     d->setScanning(aScan);
 }
 
+/*!
+    Starts the process of pairing to a remote device specified by \a address,
+    and connects to it if the pairing was successful.
+
+    \sa requestConnect
+*/
 void BluetoothDevice::requestPairing(const QString& address)
 {
     Q_D(BluetoothDevice);
     d->requestPairing(address);
 }
 
+/*!
+    Connects to the remote device specified by \a address.
+*/
 void BluetoothDevice::requestConnect(const QString& address)
 {
     Q_D(BluetoothDevice);
     d->requestConnect(address);
 }
 
+/*!
+    Disconnects from the remote device specified by \a address.
+*/
 void BluetoothDevice::requestDisconnect(const QString& address)
 {
     Q_D(BluetoothDevice);
     d->requestDisconnect(address);
 }
 
+/*!
+    Returns the availability of the Bluetooth device.
+*/
 bool BluetoothDevice::available() const
 {
     Q_D(const BluetoothDevice);

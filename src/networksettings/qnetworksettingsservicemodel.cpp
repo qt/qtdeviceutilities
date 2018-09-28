@@ -31,6 +31,36 @@
 
 QT_BEGIN_NAMESPACE
 
+/*!
+    \class QNetworkSettingsServiceModel
+    \inmodule QtDeviceUtilities
+
+    \brief The QNetworkSettingsServiceModel class represents a network service.
+
+    The network service model contains a list of network services provided by
+    the host.
+
+    \sa QNetworkSettingsService
+*/
+
+/*!
+    \enum QNetworkSettingsServiceModel::Roles
+
+    This enum type holds information about the network connection.
+
+    \value  Type
+            Network \l{QNetworkSettingsType::Types}{type}.
+    \value  Name
+            The service set identifier (SSID) of the network.
+    \value  SignalStrength
+            The signal strength of the connection.
+    \value  Connected
+            Whether the connection has been established.
+*/
+
+/*!
+    Creates a network service model with the parent \a parent.
+*/
 QNetworkSettingsServiceModel::QNetworkSettingsServiceModel(QObject *parent)
     : QAbstractListModel(parent)
 {
@@ -40,23 +70,35 @@ QNetworkSettingsServiceModel::QNetworkSettingsServiceModel(QObject *parent)
     m_roleNames.insert(Connected, "connected");
 }
 
+/*!
+    Deletes the network service model.
+*/
 QNetworkSettingsServiceModel::~QNetworkSettingsServiceModel()
 {
 
 }
 
+/*!
+    Returns an array of the names of the roles in the model.
+*/
 QHash<int, QByteArray> QNetworkSettingsServiceModel::roleNames() const
 {
     return m_roleNames;
 }
 
-
+/*!
+    Returns the number of rows in the model with the parent \a parent.
+*/
 int QNetworkSettingsServiceModel::rowCount(const QModelIndex & parent) const
 {
     Q_UNUSED(parent);
     return m_items.count();
 }
 
+/*!
+    Returns the data at the index \a index in the model for the type of data
+    specified by \a role.
+*/
 QVariant QNetworkSettingsServiceModel::data(const QModelIndex & index, int role) const
 {
     if (!index.isValid()) return QVariant();
@@ -77,6 +119,9 @@ QVariant QNetworkSettingsServiceModel::data(const QModelIndex & index, int role)
     return QVariant();
 }
 
+/*!
+    Replaces placeholder data with \a item. Returns \c true on success.
+*/
 bool QNetworkSettingsServiceModel::replacePlaceholder(QNetworkSettingsService* item)
 {
     if (item->type() == QNetworkSettingsType::Wired) {
@@ -93,6 +138,9 @@ bool QNetworkSettingsServiceModel::replacePlaceholder(QNetworkSettingsService* i
     return false;
 }
 
+/*!
+    Appends \a item to the model.
+*/
 void QNetworkSettingsServiceModel::append(QNetworkSettingsService* item)
 {
     item->setParent(this);
@@ -107,6 +155,9 @@ void QNetworkSettingsServiceModel::append(QNetworkSettingsService* item)
     endResetModel();
 }
 
+/*!
+    Inserts \a item into \a row in the model.
+*/
 void QNetworkSettingsServiceModel::insert(int row, QNetworkSettingsService* item)
 {
     item->setParent(this);
@@ -129,6 +180,9 @@ void QNetworkSettingsServiceModel::connectStateChanges(QNetworkSettingsService* 
         connect(wireless, &QNetworkSettingsWireless::signalStrengthChanged, this, &QNetworkSettingsServiceModel::signalStrengthChanged);
 }
 
+/*!
+    Removes the row \a row from the model.
+*/
 void QNetworkSettingsServiceModel::remove(int row)
 {
     QNetworkSettingsService* item = m_items.at(row);
@@ -144,6 +198,10 @@ void QNetworkSettingsServiceModel::remove(int row)
     endRemoveRows();
 }
 
+/*!
+    Removes the service specified by \a id from the model. Returns \c true if the service
+    was successfully removed, \c false otherwise.
+*/
 bool QNetworkSettingsServiceModel::removeService(const QString &id)
 {
     bool ret = false;
@@ -157,11 +215,17 @@ bool QNetworkSettingsServiceModel::removeService(const QString &id)
     return ret;
 }
 
+/*!
+    Marks the data on the row \a row in the model as updated.
+*/
 void QNetworkSettingsServiceModel::updated(int row)
 {
     dataChanged(createIndex(row, 0), createIndex(row, 0));
 }
 
+/*!
+    Returns the service with the name \a name.
+*/
 QNetworkSettingsService* QNetworkSettingsServiceModel::getByName(const QString& name)
 {
     QNetworkSettingsService* ret = nullptr;
@@ -174,11 +238,17 @@ QNetworkSettingsService* QNetworkSettingsServiceModel::getByName(const QString& 
     return ret;
 }
 
+/*!
+    Returns the network service model.
+*/
 QList<QNetworkSettingsService*> QNetworkSettingsServiceModel::getModel()
 {
     return m_items;
 }
 
+/*!
+    This signal is emitted when the connection status changes.
+*/
 void QNetworkSettingsServiceModel::connectionStatusChanged()
 {
     QNetworkSettingsService *s = qobject_cast<QNetworkSettingsService*>(sender());
@@ -194,6 +264,9 @@ void QNetworkSettingsServiceModel::connectionStatusChanged()
 
 }
 
+/*!
+    This signal is emitted when the signal strength changes.
+*/
 void QNetworkSettingsServiceModel::signalStrengthChanged()
 {
     QNetworkSettingsWireless *s = qobject_cast<QNetworkSettingsWireless*>(sender());
@@ -210,17 +283,57 @@ void QNetworkSettingsServiceModel::signalStrengthChanged()
 //Filter model
 
 /*!
+    \class QNetworkSettingsServiceFilter
+    \inmodule QtDeviceUtilities
+
+    \brief The QNetworkSettingsServiceFilter class represents a network service
+    filter.
+
+    \sa QNetworkSettingsService
+*/
+
+/*!
+    \property QNetworkSettingsServiceFilter::type
+    \brief The type of the network.
+
+    \l QNetworkSettingsType::Types
+*/
+
+/*!
+    \property QNetworkSettingsServiceFilter::wiredNetworksAvailable
+    \brief Whether wired networks are available.
+*/
+
+/*!
+    \fn QNetworkSettingsServiceFilter::typeChanged()
+
+    This signal is emitted when the network type changes.
+*/
+
+/*!
+    \fn QNetworkSettingsServiceFilter::wiredNetworksAvailableChanged()
+
+    This signal is emitted when the availability of wired networks changes.
+*/
+
+/*!
     \qmltype NetworkSettingsServiceFilter
     \inqmlmodule QtDeviceutilities.NetworkSettings
     \abstract
 */
 
+/*!
+    Creates a network service filter with the parent \a parent.
+*/
 QNetworkSettingsServiceFilter::QNetworkSettingsServiceFilter(QObject* parent)
     :QSortFilterProxyModel(parent), m_type(QNetworkSettingsType::Unknown)
 {
     connect(this, &QNetworkSettingsServiceFilter::typeChanged, this, &QNetworkSettingsServiceFilter::invalidate);
 }
 
+/*!
+    Deletes the network service filter.
+*/
 QNetworkSettingsServiceFilter::~QNetworkSettingsServiceFilter()
 {
 
@@ -234,17 +347,32 @@ QNetworkSettingsServiceFilter::~QNetworkSettingsServiceFilter()
     \value NetworkSettingsType.Bluetooth Bluetooth network
     \value NetworkSettingsType.Unknown Unknown network type
 */
+
+/*!
+    Returns the service model.
+
+    \l QNetworkSettingsType::Types
+*/
 QNetworkSettingsType::Types  QNetworkSettingsServiceFilter::type() const
 {
     return m_type;
 }
 
+/*!
+    \fn void QNetworkSettingsServiceFilter::setType(QNetworkSettingsType::Types type)
+
+    Sets the service model to \a type.
+*/
 void QNetworkSettingsServiceFilter::setType(const QNetworkSettingsType::Types type)
 {
     m_type = type;
     emit typeChanged();
 }
 
+/*!
+    Returns whether the row \a source_row has the user role and whether it is
+    found in the model \a source_parent.
+*/
 bool QNetworkSettingsServiceFilter::filterAcceptsRow( int source_row, const QModelIndex& source_parent ) const
 {
     if (this->sourceModel())
@@ -269,6 +397,10 @@ bool QNetworkSettingsServiceFilter::filterAcceptsRow( int source_row, const QMod
 
     Returns the service at \a index in the model.
 */
+
+/*!
+    Returns the service at \a row in the model.
+*/
 QVariant QNetworkSettingsServiceFilter::itemFromRow(const int row) const
 {
     QModelIndex idx = index(row, 0);
@@ -290,6 +422,11 @@ QVariant QNetworkSettingsServiceFilter::itemFromRow(const int row) const
     Returns the connected service index in the model.
     Returns negative number if no active connection is available.
 */
+
+/*!
+    Returns the connected service index in the model.
+    Returns negative number if no active connection is available.
+*/
 int QNetworkSettingsServiceFilter::activeRow() const
 {
     QNetworkSettingsServiceModel* model = qobject_cast<QNetworkSettingsServiceModel*>(sourceModel());
@@ -308,6 +445,9 @@ int QNetworkSettingsServiceFilter::activeRow() const
     return -1;
 }
 
+/*!
+    Sets the availability of wired networks to \a wiredNetworksAvailable.
+*/
 void QNetworkSettingsServiceFilter::setWiredNetworksAvailable(bool wiredNetworksAvailable)
 {
     m_wiredNetworksAvailable = wiredNetworksAvailable;

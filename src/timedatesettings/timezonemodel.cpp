@@ -35,6 +35,37 @@
 
 QT_BEGIN_NAMESPACE
 
+/*!
+    \class TimezoneItem
+    \inmodule QtDeviceUtilities
+    \brief The TimezoneItem class represents a time zone.
+*/
+
+/*!
+    \property TimezoneItem::id
+    \brief Holds the IANA time zone ID.
+
+    \sa QTimeZone::id(), {IANA Time Zone IDs}
+*/
+
+/*!
+    \property TimezoneItem::name
+    \brief Holds the localized display name of the time zone.
+
+    \sa QTimeZone::displayName()
+*/
+
+/*!
+    \property TimezoneItem::country
+    \brief Holds the name of the country for the time zone.
+
+    \sa QTimeZone::country()
+*/
+
+/*!
+    Creates a time zone item with the IANA time zone ID \a id and parent
+    \a parent.
+*/
 TimezoneItem::TimezoneItem(const QByteArray& id, QObject *parent)
     :QObject(parent)
 {
@@ -44,21 +75,74 @@ TimezoneItem::TimezoneItem(const QByteArray& id, QObject *parent)
     m_id = QString::fromUtf8(id);
 }
 
+/*!
+    Returns the localized display name of the time zone.
+
+    \sa QTimeZone::displayName()
+*/
 QString TimezoneItem::name() const
 {
     return m_name;
 }
 
+/*!
+    Returns the name of the country for the time zone.
+
+    \sa QTimeZone::country()
+*/
 QString TimezoneItem::country() const
 {
     return m_country;
 }
 
+/*!
+    Returns the IANA time zone ID.
+
+    \sa QTimeZone::id(), {IANA Time Zone IDs}
+*/
 QString TimezoneItem::id() const
 {
     return m_id;
 }
 
+/*!
+    \class TimezoneModel
+    \inmodule QtDeviceUtilities
+    \brief The TimezoneModel class provides a model for the available time
+    zones.
+
+    This class can be used as the model in a view that lists the available time
+    zones.
+*/
+
+/*!
+    \enum TimezoneModel::Roles
+
+    This enum type holds information about a time zone.
+
+    \value  Name
+            Localized display name of the time zone
+    \value  Country
+            Name of the country for the time zone
+    \value  Id
+            IANA time zone ID
+*/
+
+/*!
+    \fn QList<TimezoneItem *> TimezoneModel::getModel() const
+
+    Returns the time zone model for a time zone item.
+*/
+
+/*!
+    \fn TimezoneModel::ready()
+
+    This signal is emitted when the model is ready.
+*/
+
+/*!
+    Creates a new time zone model with the parent \a parent.
+*/
 TimezoneModel::TimezoneModel(QObject *parent)
     : QAbstractListModel(parent)
 {
@@ -74,6 +158,9 @@ TimezoneModel::TimezoneModel(QObject *parent)
     connect(watcher, SIGNAL(finished()), this, SIGNAL(ready()));
 }
 
+/*!
+    Creates the time zone model \a model.
+*/
 void TimezoneModel::generateModel(TimezoneModel* model)
 {
     QList<QByteArray> ids = QTimeZone::availableTimeZoneIds();
@@ -84,6 +171,9 @@ void TimezoneModel::generateModel(TimezoneModel* model)
     }
 }
 
+/*!
+    Adds the time zone item \a item to the time zone model.
+*/
 void TimezoneModel::addNewItem(QObject* item)
 {
    beginInsertRows(QModelIndex(), m_items.count(), m_items.count());
@@ -93,23 +183,35 @@ void TimezoneModel::addNewItem(QObject* item)
    endInsertRows();
 }
 
+/*!
+    Deletes the time zone model.
+*/
 TimezoneModel::~TimezoneModel()
 {
     qDeleteAll(m_items);
 }
 
+/*!
+    Returns an array of the names of the roles in the model.
+*/
 QHash<int, QByteArray> TimezoneModel::roleNames() const
 {
     return m_roleNames;
 }
 
-
+/*!
+    Returns the number of rows in the model with the parent \a parent.
+*/
 int TimezoneModel::rowCount(const QModelIndex & parent) const
 {
     Q_UNUSED(parent);
     return m_items.count();
 }
 
+/*!
+    Returns the data at the index \a index in the model for the type of data
+    specified by \a role.
+*/
 QVariant TimezoneModel::data(const QModelIndex & index, int role) const
 {
     if (!index.isValid()) return QVariant();

@@ -32,6 +32,107 @@
 QT_BEGIN_NAMESPACE
 
 /*!
+    \class QNetworkSettingsService
+    \inmodule QtDeviceUtilities
+
+    \brief The QNetworkSettingsService class represents a network service.
+
+    \sa QNetworkSettingsManager::services()
+*/
+
+/*!
+    \property QNetworkSettingsService::id
+    \readonly
+    \brief Holds a unique ID of this service.
+*/
+
+/*!
+    \property QNetworkSettingsService::name
+    \readonly
+    \brief Holds the name of this service.
+*/
+
+
+/*!
+    \property QNetworkSettingsService::state
+    \readonly
+    \brief Holds the state of this service.
+
+    \sa QNetworkSettingsState::States
+*/
+
+/*!
+    \property QNetworkSettingsService::type
+    \readonly
+    \brief Holds the type of this service.
+
+    \sa QNetworkSettingsType::Types
+*/
+
+/*!
+    \property QNetworkSettingsService::ipv4
+    \readonly
+    \brief Holds the IPv4 address for this service.
+*/
+
+/*!
+    \property QNetworkSettingsService::ipv6
+    \readonly
+    \brief Holds the IPv6 address for this service.
+*/
+
+/*!
+    \property QNetworkSettingsService::proxy
+    \readonly
+    \brief Holds the proxy settings for this service.
+*/
+
+/*!
+    \property QNetworkSettingsService::wirelessConfig
+    \readonly
+    \brief Holds the wireless configuration for this service.
+*/
+
+/*!
+    \property QNetworkSettingsService::domains
+    \readonly
+    \brief The model containing the domains associated with this service.
+
+    This property can be used as a model for a view that lists the domain
+    addresses associated with this service.
+*/
+
+/*!
+    \property QNetworkSettingsService::nameservers
+    \readonly
+    \brief The model containing the domain name servers associated with this
+           service.
+
+    This property can be used as a model for a view that lists the domain name
+    server (DNS) addresses associated with this service.
+*/
+
+/*!
+    \fn QNetworkSettingsService::connectionStateCleared()
+
+    This signal is emitted when the connection state is cleared.
+*/
+
+/*!
+    \fn QNetworkSettingsService::serviceConnected(QNetworkSettingsService* service);
+
+    This signal is emitted when the connection to the network \a service is
+    created.
+*/
+
+/*!
+    \fn QNetworkSettingsService::serviceDisconnected(QNetworkSettingsService* service);
+
+    This signal is emitted when the connection to the network \a service is
+    cut.
+*/
+
+/*!
     \qmltype NetworkService
     \inqmlmodule QtDeviceUtilities.NetworkSettings
     \brief Represents a network service.
@@ -44,6 +145,10 @@ QT_BEGIN_NAMESPACE
     \sa {NetworkSettingsManager::services}{NetworkSettingsManager.services}
 */
 
+/*!
+    Creates a network service with the identifier \a aServiceId and
+    parent \a parent.
+*/
 QNetworkSettingsService::QNetworkSettingsService(const QString& aServiceId, QObject* parent) :
    QObject(parent)
   ,d_ptr(new QNetworkSettingsServicePrivate(aServiceId, this))
@@ -56,6 +161,10 @@ QNetworkSettingsService::QNetworkSettingsService(const QString& aServiceId, QObj
     \readonly
     \brief Holds a unique ID of this service.
 */
+
+/*!
+    Returns the unique identifier of the network service.
+*/
 QString QNetworkSettingsService::id() const
 {
     Q_D(const QNetworkSettingsService);
@@ -67,6 +176,10 @@ QString QNetworkSettingsService::id() const
     \readonly
     \brief Holds the name of this service.
 */
+
+/*!
+    Returns the network service name.
+*/
 QString QNetworkSettingsService::name() const
 {
     Q_D(const QNetworkSettingsService);
@@ -75,6 +188,11 @@ QString QNetworkSettingsService::name() const
 
 /*!
     \qmlmethod void NetworkService::setAutoConnect(bool auto)
+*/
+
+/*!
+    Sets automatic connections to the network service to
+    \a autoconnect.
 */
 void QNetworkSettingsService::setAutoConnect(const bool autoconnect)
 {
@@ -88,6 +206,12 @@ void QNetworkSettingsService::setAutoConnect(const bool autoconnect)
 
     See \l [QML] {NetworkInterface::state}{NetworkInterface.state}
     for possible states.
+*/
+
+/*!
+    Returns the network service state.
+
+    \sa QNetworkSettingsState::States
 */
 QNetworkSettingsState::States QNetworkSettingsService::state()
 {
@@ -103,6 +227,12 @@ QNetworkSettingsState::States QNetworkSettingsService::state()
     See \l [QML] {NetworkInterface::type}{NetworkInterface.type}
     for possible types.
 */
+
+/*!
+    Returns the network service type.
+
+    \sa QNetworkSettingsType::Types
+*/
 QNetworkSettingsType::Types QNetworkSettingsService::type()
 {
     Q_D(QNetworkSettingsService);
@@ -113,6 +243,10 @@ QNetworkSettingsType::Types QNetworkSettingsService::type()
     \qmlproperty NetworkSettingsIPv4 NetworkService::ipv4
     \readonly
     \brief Holds the IPv4 address for this service.
+*/
+
+/*!
+    Returns the IPv4 address of the network service.
 */
 QNetworkSettingsIPv4* QNetworkSettingsService::ipv4()
 {
@@ -125,6 +259,10 @@ QNetworkSettingsIPv4* QNetworkSettingsService::ipv4()
     \readonly
     \brief Holds the IPv6 address for this service.
 */
+
+/*!
+    Returns the IPv6 address of the network service.
+*/
 QNetworkSettingsIPv6* QNetworkSettingsService::ipv6()
 {
     Q_D(QNetworkSettingsService);
@@ -135,6 +273,10 @@ QNetworkSettingsIPv6* QNetworkSettingsService::ipv6()
     \qmlproperty NetworkSettingsProxy NetworkService::proxy
     \readonly
     \brief Holds the proxy settings for this service.
+*/
+
+/*!
+    Returns the address of proxy used for the network service.
 */
 QNetworkSettingsProxy* QNetworkSettingsService::proxy()
 {
@@ -147,18 +289,29 @@ QNetworkSettingsProxy* QNetworkSettingsService::proxy()
     \readonly
     \brief Holds the wireless configuration for this service.
 */
+
+/*!
+    Returns the wireless configuration of the network service.
+*/
 QNetworkSettingsWireless* QNetworkSettingsService::wirelessConfig()
 {
     Q_D(QNetworkSettingsService);
     return &d->m_wifiConfig;
 }
 
+/*!
+    Sets the placeholder state of the network service to
+    \a placeholderState.
+*/
 void QNetworkSettingsService::setPlaceholderState(bool placeholderState)
 {
     Q_D(QNetworkSettingsService);
     d->setPlaceholderState(placeholderState);
 }
 
+/*!
+    Returns the placeholder state of the network service.
+*/
 bool QNetworkSettingsService::placeholderState() const
 {
     Q_D(const QNetworkSettingsService);
@@ -197,6 +350,10 @@ bool QNetworkSettingsService::placeholderState() const
    \brief Clears unsaved changes from the \l domains model.
 */
 
+/*!
+    Returns the model containing the domains associated with this network
+    settings service.
+*/
 QAbstractItemModel* QNetworkSettingsService::domains()
 {
     Q_D(QNetworkSettingsService);
@@ -238,6 +395,10 @@ QAbstractItemModel* QNetworkSettingsService::domains()
    \brief Clears unsaved changes from the \l nameservers model.
 */
 
+/*!
+    Returns the model containing the domain name servers associated with this
+    network service.
+*/
 QAbstractItemModel* QNetworkSettingsService::nameservers()
 {
     Q_D(QNetworkSettingsService);
@@ -251,6 +412,14 @@ QAbstractItemModel* QNetworkSettingsService::nameservers()
     Call this method after changing the IPv4 settings.
 
     \sa ipv4
+*/
+
+/*!
+    Sets up the IPv4 configuration.
+
+    Call this method after changing the IPv4 settings.
+
+    \sa ipv4()
 */
 void QNetworkSettingsService::setupIpv4Config()
 {
@@ -266,6 +435,14 @@ void QNetworkSettingsService::setupIpv4Config()
 
     \sa ipv6
 */
+
+/*!
+    Sets up the IPv6 configuration.
+
+    Call this method after changing the IPv6 settings.
+
+    \sa ipv6()
+*/
 void QNetworkSettingsService::setupIpv6Config()
 {
     Q_D(QNetworkSettingsService);
@@ -280,6 +457,14 @@ void QNetworkSettingsService::setupIpv6Config()
 
     \sa nameservers
 */
+
+/*!
+    Sets up the domain name server configuration.
+
+    Call this method after changing the domain name server settings.
+
+    \sa nameservers
+*/
 void QNetworkSettingsService::setupNameserversConfig()
 {
     Q_D(QNetworkSettingsService);
@@ -289,6 +474,14 @@ void QNetworkSettingsService::setupNameserversConfig()
 /*!
     \qmlmethod void NetworkService::setupDomainsConfig()
     \brief Sets up the domains configuration.
+
+    Call this method after modifying the list of domain addresses.
+
+    \sa domains
+*/
+
+/*!
+    Sets up the domain configuration.
 
     Call this method after modifying the list of domain addresses.
 
@@ -308,6 +501,14 @@ void QNetworkSettingsService::setupDomainsConfig()
 
     \sa proxy
 */
+
+/*!
+    Sets up the network proxy configuration.
+
+    Call this method after modifying the network proxy settings.
+
+    \sa proxy
+*/
 void QNetworkSettingsService::setupNetworkSettingsProxy()
 {
     Q_D(QNetworkSettingsService);
@@ -320,12 +521,23 @@ void QNetworkSettingsService::setupNetworkSettingsProxy()
 
     \sa disconnectService()
 */
+
+/*!
+    Initiates the process of connecting to this network service.
+
+    \sa disconnectService()
+*/
 void QNetworkSettingsService::connectService()
 {
     emit connectionStateCleared();
     doConnectService();
 }
 
+/*!
+    Creates a connection to this network service.
+
+    \sa connectService(), disconnectService()
+*/
 void QNetworkSettingsService::doConnectService()
 {
     Q_D(QNetworkSettingsService);
@@ -335,6 +547,12 @@ void QNetworkSettingsService::doConnectService()
 /*!
     \qmlmethod void NetworkService::disconnectService()
     \brief Disconnects this service.
+
+    \sa connectService()
+*/
+
+/*!
+    Disconnects this service.
 
     \sa connectService()
 */
@@ -348,6 +566,11 @@ void QNetworkSettingsService::disconnectService()
     \qmlmethod void NetworkService::removeService()
     \brief Removes this service from the service cache and clears
     any remembered credentials.
+*/
+
+/*!
+    Removes this service from the service cache and clears any remembered
+    credentials.
 */
 void QNetworkSettingsService::removeService()
 {

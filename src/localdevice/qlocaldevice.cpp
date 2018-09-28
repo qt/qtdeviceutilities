@@ -32,11 +32,28 @@
 
 QT_BEGIN_NAMESPACE
 
+/*!
+    \class QLocalDevice
+    \inmodule QtDeviceUtilities
+
+    \brief The QLocalDevice class provides utility functions for controlling an
+    embedded device.
+
+    The methods in this class enable shutting down and rebooting an embedded
+    device.
+*/
+
+/*!
+    Creates a new local device with the parent \a parent.
+*/
 QLocalDevice::QLocalDevice(QObject *parent)
     : QObject(parent)
 {
 }
 
+/*!
+    Deletes the local device.
+*/
 QLocalDevice::~QLocalDevice()
 {
 }

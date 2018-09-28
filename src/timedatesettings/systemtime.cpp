@@ -31,6 +31,29 @@
 
 QT_BEGIN_NAMESPACE
 
+/*!
+    \class SystemTime
+    \inmodule QtDeviceUtilities
+    \brief The SystemTime class manages the system date and time.
+*/
+
+/*!
+    \property SystemTime::timeZone
+    \brief Holds the current time zone string.
+*/
+
+/*!
+    \property SystemTime::ntp
+
+    Holds whether the system time is synchronized using NTP (Network
+    Time Protocol).
+*/
+
+/*!
+    \property SystemTime::time
+    \brief Holds the current date and time.
+*/
+
 SystemTime::SystemTime(QObject *parent) :
     QObject(parent)
     ,d_ptr(new SystemTimePrivate(this))
