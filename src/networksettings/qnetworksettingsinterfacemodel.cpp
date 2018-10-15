@@ -31,6 +31,33 @@
 
 QT_BEGIN_NAMESPACE
 
+/*!
+    \class QNetworkSettingsInterfaceModel
+    \inmodule QtDeviceUtilities
+    \brief The QNetworkSettingsInterfaceModel class represents a network
+    interface model.
+
+    The network interface model contains a list of network interfaces
+    attached to the host.
+*/
+
+/*!
+    \enum QNetworkSettingsInterfaceModel::Roles
+    \brief This enum type holds information about a network interface.
+
+    \value  Type
+            Network interface \l{QNetworkSettingsType::Types}{type}.
+    \value  Status
+            Network interface \l{QNetworkSettingsState::States}{state}.
+    \value  Name
+            Network interface name.
+    \value  Powered
+            Whether the network interface is powered on or off.
+*/
+
+/*!
+    Creates a new network interface model with the parent \a parent.
+*/
 QNetworkSettingsInterfaceModel::QNetworkSettingsInterfaceModel(QObject *parent)
     : QAbstractListModel(parent)
 {
@@ -41,18 +68,27 @@ QNetworkSettingsInterfaceModel::QNetworkSettingsInterfaceModel(QObject *parent)
     m_roleNames.insert(Powered, "powered");
 }
 
+/*!
+    Returns an array of the names of the roles in the model.
+*/
 QHash<int, QByteArray> QNetworkSettingsInterfaceModel::roleNames() const
 {
     return m_roleNames;
 }
 
-
+/*!
+    Returns the number of rows in the model with the parent \a parent.
+*/
 int QNetworkSettingsInterfaceModel::rowCount(const QModelIndex & parent) const
 {
     Q_UNUSED(parent);
     return m_items.count();
 }
 
+/*!
+    Returns the data at the index \a index in the model for the type of data
+    specified by \a role.
+*/
 QVariant QNetworkSettingsInterfaceModel::data(const QModelIndex & index, int role) const
 {
     if (!index.isValid()) return QVariant();
@@ -81,6 +117,9 @@ QVariant QNetworkSettingsInterfaceModel::data(const QModelIndex & index, int rol
 
 }
 
+/*!
+    Appends \a item to the model.
+*/
 void QNetworkSettingsInterfaceModel::append(QNetworkSettingsInterface* item)
 {
     item->setParent(this);
@@ -91,6 +130,9 @@ void QNetworkSettingsInterfaceModel::append(QNetworkSettingsInterface* item)
     endInsertRows();
 }
 
+/*!
+    Inserts \a item into \a row in the model.
+*/
 void QNetworkSettingsInterfaceModel::insert(int row, QNetworkSettingsInterface* item)
 {
     item->setParent(this);
@@ -107,6 +149,9 @@ void QNetworkSettingsInterfaceModel::connectStateChanges(QNetworkSettingsInterfa
     connect(item, &QNetworkSettingsInterface::poweredChanged, this, &QNetworkSettingsInterfaceModel::poweredChanged);
 }
 
+/*!
+    Removes the row \a row from the model.
+*/
 void QNetworkSettingsInterfaceModel::remove(int row)
 {
     beginRemoveRows(QModelIndex(), row, row);
@@ -119,6 +164,9 @@ void QNetworkSettingsInterfaceModel::updated(int row)
     dataChanged(createIndex(row, 0), createIndex(row, 0));
 }
 
+/*!
+    Returns the network interface model.
+*/
 QList<QNetworkSettingsInterface*> QNetworkSettingsInterfaceModel::getModel()
 {
     return m_items;

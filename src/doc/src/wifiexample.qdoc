@@ -27,7 +27,7 @@
 /*!
     \page qtdeviceutilities-wifitutorial.html
     \title Qt Device Utilities WiFi Tutorial
-    \previouspage qtee-module-reference.html
+    \previouspage Qt Device Utilities Examples
 
     \section1 Importing NetworkSettings
 

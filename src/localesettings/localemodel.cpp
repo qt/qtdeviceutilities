@@ -35,6 +35,49 @@
 
 QT_BEGIN_NAMESPACE
 
+/*!
+    \class LocaleItem
+    \inmodule QtDeviceUtilities
+
+    \brief The LocaleItem class represents a locale.
+
+    This class holds the name, language, and country code of a locale.
+
+    If available, the native country name and language are used. For example,
+    \e Deutsch and \e Deutschland for the German locale.
+
+    \sa QLocale, LocaleModel
+*/
+
+/*!
+    \property LocaleItem::code
+    \brief The locale code string.
+
+    The locale code is in the format \e language_country, where \e language is
+    a lowercase, two-letter ISO 639 language code, and \e country is an
+    uppercase, two- or three-letter ISO 3166 country code.
+
+    \sa QLocale::name()
+*/
+
+/*!
+    \property LocaleItem::country
+    \brief The name of the country.
+
+    \sa QLocale::Country
+*/
+
+/*!
+    \property LocaleItem::language
+    \brief The name of the language.
+
+    \sa QLocale::Language
+*/
+
+
+/*!
+    Creates the locale item \a locale with the parent \a parent.
+*/
 LocaleItem::LocaleItem(const QLocale& locale, QObject *parent)
     :QObject(parent)
 {
@@ -50,21 +93,76 @@ LocaleItem::LocaleItem(const QLocale& locale, QObject *parent)
     }
 }
 
+/*!
+    Returns the language of the country.
+*/
 QString LocaleItem::language() const
 {
     return m_language;
 }
 
+/*!
+    Returns the name of the country.
+*/
 QString LocaleItem::country() const
 {
     return m_country;
 }
 
+/*!
+    Returns the country code of the country.
+*/
 QString LocaleItem::code() const
 {
     return m_code;
 }
 
+/*!
+    \class LocaleModel
+    \inmodule QtDeviceUtilities
+
+    \brief The LocaleModel class provides a model for the available locales.
+
+    Each item in the model has a set of data elements associated with it, each
+    with its own role. The roles are used by the view to indicate to the model
+    which type of data it needs. Custom models should return data in these
+    types.
+
+    The data in a locale model can be filtered according to the country code,
+    name, or language.
+
+    \sa LocaleItem, LocaleFilterModel
+*/
+
+/*!
+    \enum LocaleModel::Roles
+
+    This enum holds the role of the locale item.
+
+    For user roles, it is up to the developer to decide which types to use and
+    ensure that components use the correct types when accessing and setting
+    data.
+
+    \value  Language
+            The language of the country.
+    \value  Country
+            The name of the country.
+    \value  Code
+            The locale code string in the format \e language_country.
+
+    \sa Qt::UserRole
+*/
+
+/*!
+    \fn LocaleModel::addItem(LocaleItem* item)
+
+    This signal is emitted when the locale item \a item is added to the locale
+    model.
+*/
+
+/*!
+    Creates a locale model with the parent \a parent.
+*/
 LocaleModel::LocaleModel(QObject *parent)
     : QAbstractListModel(parent)
 {
@@ -79,6 +177,9 @@ LocaleModel::LocaleModel(QObject *parent)
     connect(watcher, SIGNAL(finished()), this, SLOT(modelReady()));
 }
 
+/*!
+    This signal is emitted when the locale model has been reset.
+*/
 void LocaleModel::modelReady()
 {
     beginResetModel();
@@ -88,6 +189,9 @@ void LocaleModel::modelReady()
     emit ready();
 }
 
+/*!
+    Creates the locale model \a model.
+*/
 void LocaleModel::generateModel(LocaleModel* model)
 {
     QList<QLocale> allLocales = QLocale::matchingLocales(QLocale::AnyLanguage, QLocale::AnyScript, QLocale::AnyCountry);
@@ -110,22 +214,41 @@ void LocaleModel::addNewItem(QObject *item)
    endInsertRows();
 }
 
+/*!
+    Deletes the locale model.
+*/
 LocaleModel::~LocaleModel()
 {
     qDeleteAll(m_items);
 }
 
+/*!
+    Returns an array of user roles.
+
+    \sa Roles
+*/
 QHash<int, QByteArray> LocaleModel::roleNames() const
 {
     return m_roleNames;
 }
 
+/*!
+    Returns the number of rows in the locale model.
+*/
 int LocaleModel::rowCount(const QModelIndex & parent) const
 {
     Q_UNUSED(parent);
     return m_items.count();
 }
 
+/*!
+    Returns the locale item at \a index in the locale model for \a role.
+
+    This item can be assigned to LocaleManager::locale(), when the user selects
+    a locale from a list.
+
+    \sa LocaleItem, Roles
+*/
 QVariant LocaleModel::data(const QModelIndex & index, int role) const
 {
     if (!index.isValid()) return QVariant();
@@ -150,11 +273,23 @@ QVariant LocaleModel::data(const QModelIndex & index, int role) const
     }
 }
 
+/*!
+    Returns whether the locale item has more than one languages specified.
+
+    If the language variant of the locale item if \a v1 is less than \a v2 ##?
+
+*/
 bool LocaleModel::variantLessThan(const LocaleItem* v1, const LocaleItem* v2)
 {
     return v1->language() < v2->language();
 }
 
+/*!
+    Sets the sorting order of the items in the locale model to \a order.
+
+    The sort order can be either \l {Qt::AscendingOrder}{ascending} or
+    \l {Qt::DescendingOrder}{descending}.
+*/
 void LocaleModel::sort(int column, Qt::SortOrder order)
 {
     Q_UNUSED(column);
@@ -162,6 +297,12 @@ void LocaleModel::sort(int column, Qt::SortOrder order)
     std::sort(m_items.begin(), m_items.end(), LocaleModel::variantLessThan);
 }
 
+/*!
+    Returns the index for the country \a country in the locale model.
+
+    The index is used by item views, delegates, and selection models to locate
+    an item in the model.
+*/
 QModelIndex LocaleModel::indexForCountry(const QString &country) const
 {
     for (int i = 0; i < m_items.count(); i++) {

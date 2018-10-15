@@ -1,0 +1,45 @@
+/****************************************************************************
+**
+** Copyright (C) 2018 The Qt Company Ltd.
+** Contact: https://www.qt.io/licensing/
+**
+** This file is part of the Device Utilities module of the Qt Toolkit.
+**
+** $QT_BEGIN_LICENSE:FDL$
+** Commercial License Usage
+** Licensees holding valid commercial Qt licenses may use this file in
+** accordance with the commercial license agreement provided with the
+** Software or, alternatively, in accordance with the terms contained in
+** a written agreement between you and The Qt Company. For licensing terms
+** and conditions see https://www.qt.io/terms-conditions. For further
+** information use the contact form at https://www.qt.io/contact-us.
+**
+** GNU Free Documentation License Usage
+** Alternatively, this file may be used under the terms of the GNU Free
+** Documentation License version 1.3 as published by the Free Software
+** Foundation and appearing in the file included in the packaging of
+** this file. Please review the following information to ensure
+** the GNU Free Documentation License version 1.3 requirements
+** will be met: https://www.gnu.org/licenses/fdl-1.3.html.
+** $QT_END_LICENSE$
+**
+****************************************************************************/
+
+/*!
+
+    \group qtdeviceutilities-examples
+    \title Qt Device Utilities Examples
+    \brief Examples on using Qt Device Utilities.
+    \ingroup-all-examples
+
+    \l{Qt Device Utilities WiFi Tutorial} demonstrates how you can use
+    the \l{QtDeviceUtilities.NetworkSettings}{NetworkSettings} module for
+    connecting to WiFi.
+
+    The source code of Qt Device Utilities is availabe via a public Git repository.
+    For more information, see \l{Device Utilities Git Repository}.
+
+    You find the Qt Device Utilities module sources under
+    \l{http://code.qt.io/cgit/qt/qtdeviceutilities.git/tree/src}. Especially,
+    the sources of \l{Settings UI} provide examples of how to use Qt Device Utilities.
+*/

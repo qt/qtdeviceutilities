@@ -1,0 +1,6 @@
+#include <QtNetworkSettings/QtNetworkSettings>
+#include <QtBluetoothSettings/QtBluetoothSettings>
+#include <QtLocaleSettings/QtLocaleSettings>
+#include <QtTimeDateSettings/QtTimeDateSettings>
+#include <QtDisplaySettings/QtDisplaySettings>
+#include <QtLocalDevice/QtLocalDevice>

@@ -33,6 +33,45 @@
 QT_BEGIN_NAMESPACE
 
 /*!
+    \class QNetworkSettingsInterface
+    \inmodule QtDeviceUtilities
+    \brief Represents a network interface.
+
+    The QNetworkSettingsInterface class represents a network interface attached
+    to the host.
+
+    Instances of this class cannot be created directly. Instead, they can be
+    retrieved via QNetworkSettingsManager::interfaces().
+*/
+
+/*!
+    \property QNetworkSettingsInterface::state
+    \readonly
+    \brief Holds the state of the network interface.
+
+    \sa QNetworkSettingsState::States
+*/
+
+/*!
+    \property QNetworkSettingsInterface::name
+    \readonly
+    \brief Holds the name of the network interface.
+*/
+
+/*!
+    \property QNetworkSettingsInterface::powered
+    \brief Holds whether the network interface is powered on of off.
+*/
+
+/*!
+    \property QNetworkSettingsInterface::type
+    \readonly
+    \brief Holds the type of the network interface.
+
+    \sa QNetworkSettingsType::Types
+*/
+
+/*!
     \qmltype NetworkInterface
     \inqmlmodule QtDeviceUtilities.NetworkSettings
     \brief Represents a network interface.
@@ -46,6 +85,10 @@ QT_BEGIN_NAMESPACE
     \sa {NetworkSettingsManager::interfaces}{NetworkSettingsManager.interfaces}
 */
 
+
+/*!
+    Creates a new network interface with the parent \a parent.
+*/
 QNetworkSettingsInterface::QNetworkSettingsInterface(QObject *parent) :
     QObject(parent)
     ,d_ptr(new QNetworkSettingsInterfacePrivate(this))
@@ -57,6 +100,10 @@ QNetworkSettingsInterface::QNetworkSettingsInterface(QObject *parent) :
     \qmlproperty string NetworkInterface::name
     \readonly
     \brief Holds the name of the network interface.
+*/
+
+/*!
+    Returns the name of the network interface.
 */
 QString QNetworkSettingsInterface::name() const
 {
@@ -95,6 +142,10 @@ QString QNetworkSettingsInterface::name() const
     \value NetworkSettingsState.Undefined
            Undefined state.
 */
+
+/*!
+    Returns the state of the network interface.
+*/
 QNetworkSettingsState::States QNetworkSettingsInterface::state()
 {
     Q_D(QNetworkSettingsInterface);
@@ -113,6 +164,10 @@ QNetworkSettingsState::States QNetworkSettingsInterface::state()
     \value NetworkSettingsType.Bluetooth Bluetooth network
     \value NetworkSettingsType.Unknown   Unknown network type
 */
+
+/*!
+    Returns the type of the network interface.
+*/
 QNetworkSettingsType::Types QNetworkSettingsInterface::type()
 {
     Q_D(QNetworkSettingsInterface);
@@ -121,7 +176,11 @@ QNetworkSettingsType::Types QNetworkSettingsInterface::type()
 
 /*!
     \qmlproperty bool NetworkInterface::powered
-    \brief Holds whether the network interface is powered on of off.
+    \brief Holds whether the network interface is powered on or off.
+*/
+
+/*!
+    Returns whether the network interface is powered on or off.
 */
 bool QNetworkSettingsInterface::powered() const
 {
@@ -129,6 +188,9 @@ bool QNetworkSettingsInterface::powered() const
     return d->powered();
 }
 
+/*!
+    Sets the powered state in the network interface to \a powered.
+*/
 void QNetworkSettingsInterface::setPowered(const bool powered)
 {
     Q_D(QNetworkSettingsInterface);
@@ -138,6 +200,10 @@ void QNetworkSettingsInterface::setPowered(const bool powered)
 /*!
     \qmlmethod void NetworkInterface::scanServices()
     \brief Initiates a scan for network interface services.
+*/
+
+/*!
+    Initiates a scan for network interface services.
 */
 void QNetworkSettingsInterface::scanServices()
 {

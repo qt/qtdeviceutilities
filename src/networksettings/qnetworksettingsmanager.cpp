@@ -37,24 +37,116 @@
 
 QT_BEGIN_NAMESPACE
 
+/*!
+    \class QNetworkSettingsManager
+    \inmodule QtDeviceUtilities
+
+    \brief The QNetworkSettingsManager class manages network settings.
+
+    The network manager is designed to be used as a model that contains lists
+    of available network interfaces and services.
+
+    A delegate in a view that uses the interface model can access the
+    network interface item with the data model role.
+
+    The services list in the model can be controlled with the
+    \l QNetworkSettingsType::type property, and network service items can be
+    retrieved with the \l QNetworkSettingsServiceFilter::itemFromRow() method.
+
+    \sa QNetworkSettingsService
+*/
+
+/*!
+    \property QNetworkSettingsManager::services
+    \brief Holds the service model.
+
+    \sa QNetworkSettingsServiceFilter
+*/
+
+/*!
+    \property QNetworkSettingsManager::interfaces
+    \brief Holds the interface model.
+
+    \sa QNetworkSettingsInterfaceModel
+*/
+
+/*!
+    \property QNetworkSettingsManager::userAgent
+    \brief Holds the user credentials for connecting to a network.
+
+    \sa QNetworkSettingsUserAgent
+*/
+
+/*!
+    \property QNetworkSettingsManager::currentWifiConnection
+    \brief Holds the current Wifi connection.
+
+    \sa QNetworkSettingsService
+*/
+
+/*!
+    \property QNetworkSettingsManager::currentWiredConnection
+    \brief Holds the current wired connection.
+
+    \sa QNetworkSettingsService
+*/
+
+/*!
+    \fn QNetworkSettingsManager::servicesChanged()
+
+    This signal is emitted when the network service changes.
+*/
+
+/*!
+    \fn QNetworkSettingsManager::interfacesChanged()
+
+    This signal is emitted when the network interface changes.
+*/
+
+/*!
+    \fn QNetworkSettingsManager::currentWifiConnectionChanged()
+
+    This signal is emitted when the current Wifi connection changes.
+*/
+
+/*!
+    \fn QNetworkSettingsManager::currentWiredConnectionChanged()
+
+    This signal is emitted when the current wired connection changes.
+*/
+
+/*!
+    Creates a network manager with the parent \a parent.
+*/
 QNetworkSettingsManager::QNetworkSettingsManager(QObject *parent) :
    QObject(parent)
    ,d_ptr(new QNetworkSettingsManagerPrivate(this))
 {
 }
 
+/*!
+    Returns the service model.
+
+    \l QNetworkSettingsType::Types
+*/
 QNetworkSettingsServiceFilter *QNetworkSettingsManager::services()
 {
     Q_D(QNetworkSettingsManager);
     return d->serviceFilter();
 }
 
+/*!
+    Returns the interface model.
+*/
 QNetworkSettingsInterfaceModel *QNetworkSettingsManager::interfaces()
 {
     Q_D(QNetworkSettingsManager);
     return d->interfaceModel();
 }
 
+/*!
+    Returns the service model \a name of the type \a type.
+*/
 QNetworkSettingsService* QNetworkSettingsManager::service(const QString& name, int type)
 {
     Q_D(QNetworkSettingsManager);
@@ -67,6 +159,10 @@ QNetworkSettingsService* QNetworkSettingsManager::service(const QString& name, i
     return nullptr;
 }
 
+/*!
+    Creates a connection to the network specified by \a name using the password
+    \a passphrase.
+*/
 void QNetworkSettingsManager::connectBySsid(const QString &name, const QString &passphrase)
 {
     Q_D(QNetworkSettingsManager);
@@ -76,6 +172,9 @@ void QNetworkSettingsManager::connectBySsid(const QString &name, const QString &
     d->connectBySsid(name);
 }
 
+/*!
+    Clears the connection state.
+*/
 void QNetworkSettingsManager::clearConnectionState()
 {
     Q_D(QNetworkSettingsManager);
@@ -85,12 +184,18 @@ void QNetworkSettingsManager::clearConnectionState()
         agent->clearConnectionState();
 }
 
+/*!
+    Attempts to connect using the next network interface in the model.
+*/
 void QNetworkSettingsManager::tryNextConnection()
 {
     Q_D(QNetworkSettingsManager);
     d->tryNextConnection();
 }
 
+/*!
+    Terminates the current connection to the specified \a service.
+*/
 void QNetworkSettingsManager::clearCurrentConnection(QNetworkSettingsService* service)
 {
     Q_D(QNetworkSettingsManager);
@@ -109,6 +214,9 @@ void QNetworkSettingsManager::clearCurrentConnection(QNetworkSettingsService* se
     }
 }
 
+/*!
+    Creates a connection to the specified \a service.
+*/
 void QNetworkSettingsManager::setCurrentConnection(QNetworkSettingsService* service)
 {
     Q_D(QNetworkSettingsManager);
@@ -125,19 +233,27 @@ void QNetworkSettingsManager::setCurrentConnection(QNetworkSettingsService* serv
     }
 }
 
+/*!
+    Returns the current Wifi connection.
+*/
 QNetworkSettingsService* QNetworkSettingsManager::currentWifiConnection()
 {
     Q_D(QNetworkSettingsManager);
     return d->currentWifiConnection();
 }
 
-
+/*!
+    Returns the current wired connection.
+*/
 QNetworkSettingsService* QNetworkSettingsManager::currentWiredConnection()
 {
     Q_D(QNetworkSettingsManager);
     return d->currentWiredConnection();
 }
 
+/*!
+    Returns the network interface instance \a instance of the type \a type.
+*/
 QNetworkSettingsInterface* QNetworkSettingsManager::interface(int type, int instance)
 {
     Q_D(QNetworkSettingsManager);
@@ -154,6 +270,9 @@ QNetworkSettingsInterface* QNetworkSettingsManager::interface(int type, int inst
     return nullptr;
 }
 
+/*!
+    Sets the user credentials for connecting to a network to \a agent.
+*/
 void QNetworkSettingsManager::setUserAgent(QNetworkSettingsUserAgent *agent)
 {
     Q_D(QNetworkSettingsManager);
@@ -162,6 +281,9 @@ void QNetworkSettingsManager::setUserAgent(QNetworkSettingsUserAgent *agent)
             this, &QNetworkSettingsManager::tryNextConnection);
 }
 
+/*!
+    Returns the user credentials for connecting to a network.
+*/
 QNetworkSettingsUserAgent* QNetworkSettingsManager::userAgent()
 {
     Q_D(QNetworkSettingsManager);
