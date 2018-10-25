@@ -49,7 +49,7 @@ const QString PropertyGateway(QStringLiteral("Gateway"));
 const QString PropertyPrefixLength(QStringLiteral("PrefixLength"));
 const QString PropertyMethod(QStringLiteral("Method"));
 const QString PropertyPrivacy(QStringLiteral("Privacy"));
-const QString PropertyUrl(QStringLiteral("Url"));
+const QString PropertyUrl(QStringLiteral("URL"));
 const QString PropertyServers(QStringLiteral("Servers"));
 const QString PropertyExcludes(QStringLiteral("Excludes"));
 const QString PropertyStrength(QStringLiteral("Strength"));
