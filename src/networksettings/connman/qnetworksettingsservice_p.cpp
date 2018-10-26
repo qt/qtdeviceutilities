@@ -230,10 +230,12 @@ const QVariantMap &operator<<(QVariantMap &argument, const QNetworkSettingsProxy
         break;
     }
     argument.insert(PropertyMethod, QVariant::fromValue(method));
-    argument.insert(PropertyUrl, QVariant::fromValue(obj.url().toString()));
-    argument.insert(PropertyServers, QVariant::fromValue(obj.servers()));
-    argument.insert(PropertyServers, QVariant::fromValue(obj.excludes()));
-
+    if (method == AttributeAuto) {
+        argument.insert(PropertyUrl, QVariant::fromValue(obj.url().toString()));
+    } else if (method == AttributeManual) {
+        argument.insert(PropertyServers, QVariant::fromValue(obj.servers()));
+        argument.insert(PropertyExcludes, QVariant::fromValue(obj.excludes()));
+    }
     return argument;
 }
 

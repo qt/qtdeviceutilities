@@ -310,7 +310,14 @@ Item {
                             Layout.fillWidth: true
                             onTextChanged: proxyChanged = true;
                             onAccepted: service.proxy.url = text;
+                            visible: service.proxy.method === NetworkSettingsProxy.Auto
                         }
+                    }
+                    AddressListEntry {
+                        model: service.proxy.servers
+                        modified: proxyChanged
+                        title: qsTr("Proxy urls:")
+                        visible: service.proxy.method === NetworkSettingsProxy.Manual
                     }
                     AddressListEntry {
                         model: service.proxy.excludes
