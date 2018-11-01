@@ -63,8 +63,7 @@ Item {
                 triggeredOnStart: true
                 onTriggered: {
                     var date = new Date();
-                    // QTBUG-63598: dateText.text = date.toLocaleString(Qt.locale(LocaleManager.locale), Locale.LongFormat)
-                    dateText.text = date.toLocaleString(Qt.locale("en_EN"), Locale.LongFormat)
+                    dateText.text = date.toLocaleString(Qt.locale(LocaleManager.locale), Locale.LongFormat)
                 }
             }
         }
