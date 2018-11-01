@@ -49,7 +49,7 @@ const QString PropertyGateway(QStringLiteral("Gateway"));
 const QString PropertyPrefixLength(QStringLiteral("PrefixLength"));
 const QString PropertyMethod(QStringLiteral("Method"));
 const QString PropertyPrivacy(QStringLiteral("Privacy"));
-const QString PropertyUrl(QStringLiteral("Url"));
+const QString PropertyUrl(QStringLiteral("URL"));
 const QString PropertyServers(QStringLiteral("Servers"));
 const QString PropertyExcludes(QStringLiteral("Excludes"));
 const QString PropertyStrength(QStringLiteral("Strength"));
@@ -230,10 +230,12 @@ const QVariantMap &operator<<(QVariantMap &argument, const QNetworkSettingsProxy
         break;
     }
     argument.insert(PropertyMethod, QVariant::fromValue(method));
-    argument.insert(PropertyUrl, QVariant::fromValue(obj.url().toString()));
-    argument.insert(PropertyServers, QVariant::fromValue(obj.servers()));
-    argument.insert(PropertyServers, QVariant::fromValue(obj.excludes()));
-
+    if (method == AttributeAuto) {
+        argument.insert(PropertyUrl, QVariant::fromValue(obj.url().toString()));
+    } else if (method == AttributeManual) {
+        argument.insert(PropertyServers, QVariant::fromValue(obj.servers()));
+        argument.insert(PropertyExcludes, QVariant::fromValue(obj.excludes()));
+    }
     return argument;
 }
 
