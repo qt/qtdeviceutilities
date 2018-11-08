@@ -105,27 +105,22 @@ Item {
         anchors.bottom: parent.bottom
         anchors.right: parent.right
         anchors.topMargin: parent.height * 0.025
-        RowLayout {
-            spacing: 10
-            Layout.fillHeight: false
-            Layout.preferredHeight: root.height * 0.075
-            TextField {
-                id: country
-                Layout.fillHeight: true
-                Layout.preferredWidth: root.width * 0.5
-                font.pixelSize: pluginMain.valueFontSize
-                color: "white"
-                text: ""
-                placeholderText: "Search..."
-                font.family: appFont
-                font.styleName: "Light"
-                onTextChanged: LocaleFilter.filter = country.text
-                Layout.alignment: Qt.AlignVCenter
-                background: Rectangle {
-                    color: "transparent"
-                    border.color: viewSettings.borderColor
-                    border.width: 2
-                }
+        TextField {
+            id: country
+            Layout.preferredWidth: root.width * 0.5
+            font.pixelSize: pluginMain.valueFontSize
+            color: "white"
+            text: ""
+            placeholderText: "Search..."
+            placeholderTextColor: "white"
+            font.family: appFont
+            font.styleName: "Light"
+            onTextChanged: LocaleFilter.filter = country.text
+            Layout.alignment: Qt.AlignVCenter
+            background: Rectangle {
+                color: "transparent"
+                border.color: viewSettings.borderColor
+                border.width: 2
             }
         }
 
