@@ -88,6 +88,9 @@ Item {
             QtButton {
                 id: manualConnect
                 visible: true
+                enabled: wifiSwitch.checked
+                fillColor: enabled ? viewSettings.buttonGreenColor : viewSettings.buttonGrayColor
+                borderColor: "transparent"
                 height: pluginMain.buttonHeight
                 text: qsTr("Connect manually")
                 onClicked: {
@@ -97,6 +100,9 @@ Item {
             QtButton {
                 id: manualDisconnect
                 visible: true
+                enabled: NetworkSettingsManager.currentWifiConnection
+                fillColor: enabled ? viewSettings.buttonGreenColor : viewSettings.buttonGrayColor
+                borderColor: "transparent"
                 height: pluginMain.buttonHeight
                 text: qsTr("Disconnect wireless")
                 onClicked: {
