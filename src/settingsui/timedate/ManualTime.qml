@@ -69,8 +69,8 @@ Item {
                 delegate: ItemDelegate {
                     id: dayDelegate
                     height: dayBox.height
-                    // QTBUG-49224: contentItem: Item {}
-                    Text {
+                    width: dayBox.width
+                    contentItem: Text {
                         anchors.left: dayDelegate.left
                         anchors.leftMargin: pluginMain.margin
                         text: modelData + 1
@@ -97,8 +97,8 @@ Item {
                 delegate: ItemDelegate {
                     id: monthDelegate
                     height: monthBox.height
-                    // QTBUG-49224: contentItem: Item {}
-                    Text {
+                    width: monthBox.width
+                    contentItem: Text {
                         anchors.left: monthDelegate.left
                         anchors.leftMargin: pluginMain.margin
                         color: monthBox.currentIndex == index ? viewSettings.buttonGreenColor : "white"
@@ -128,8 +128,8 @@ Item {
                 delegate: ItemDelegate {
                     id: yearDelegate
                     height: yearBox.height
-                    // QTBUG-49224: contentItem: Item {}
-                    Text {
+                    width: yearBox.width
+                    contentItem: Text {
                         anchors.left: yearDelegate.left
                         anchors.leftMargin: pluginMain.margin
                         text: index + firstYear
@@ -170,8 +170,8 @@ Item {
                 delegate: ItemDelegate {
                     id: hourDelegate
                     height: hourBox.height
-                    // QTBUG-49224: contentItem: Item {}
-                    Text {
+                    width: hourBox.width
+                    contentItem: Text {
                         anchors.left: hourDelegate.left
                         anchors.leftMargin: pluginMain.margin
                         text: zeroPadTime(parseInt(modelData))
@@ -198,8 +198,8 @@ Item {
                 delegate: ItemDelegate {
                     id: minuteDelegate
                     height: minuteBox.height
-                    // QTBUG-49224: contentItem: Item {}
-                    Text {
+                    width: minuteBox.width
+                    contentItem: Text {
                         anchors.left: minuteDelegate.left
                         anchors.leftMargin: pluginMain.margin
                         text: zeroPadTime(parseInt(modelData))

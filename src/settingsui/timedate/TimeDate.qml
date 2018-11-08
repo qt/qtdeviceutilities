@@ -118,8 +118,7 @@ Item {
                     id: timeZoneDelegate
                     height: timeZoneBox.height
                     width: timeZoneBox.width
-                    // QTBUG-49224: contentItem: Item {}
-                    Text {
+                    contentItem: Text {
                         anchors.left: timeZoneDelegate.left
                         anchors.leftMargin: pluginMain.margin
                         text: modelData["id"]
