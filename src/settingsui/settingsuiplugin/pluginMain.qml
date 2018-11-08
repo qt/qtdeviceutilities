@@ -59,7 +59,6 @@ Rectangle {
     {
         if (!__initialized) {
             __initialized = true;
-            settingsHeader.refreshIP()
             settingsList.currentIndex = 0
             if (xmlModel.count >= 1) {
                 settingsLoader.source = xmlModel.get(0).path + '/' +
