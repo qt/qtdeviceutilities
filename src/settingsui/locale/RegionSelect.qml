@@ -109,18 +109,22 @@ Item {
             id: country
             Layout.preferredWidth: root.width * 0.5
             font.pixelSize: pluginMain.valueFontSize
+            leftPadding: pluginMain.margin
+            rightPadding: pluginMain.margin
+            bottomPadding: 6
+            topPadding: 6
             color: "white"
             text: ""
             placeholderText: "Search..."
             placeholderTextColor: "white"
             font.family: appFont
-            font.styleName: "Light"
+            font.styleName: "Regular"
             onTextChanged: LocaleFilter.filter = country.text
             Layout.alignment: Qt.AlignVCenter
             background: Rectangle {
                 color: "transparent"
                 border.color: viewSettings.borderColor
-                border.width: 2
+                border.width: 1
             }
         }
 
