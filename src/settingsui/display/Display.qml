@@ -119,6 +119,10 @@ Item {
                 }
                 TextField {
                     id: widthField
+                    leftPadding: pluginMain.margin
+                    rightPadding: pluginMain.margin
+                    bottomPadding: 6
+                    topPadding: 6
                     height: pluginMain.buttonHeight
                     width: root.width * 0.13
                     color: "black"
@@ -142,6 +146,10 @@ Item {
                 }
                 TextField {
                     id: heightField
+                    leftPadding: pluginMain.margin
+                    rightPadding: pluginMain.margin
+                    bottomPadding: 6
+                    topPadding: 6
                     width: widthField.width
                     height: pluginMain.buttonHeight
                     color: "black"
