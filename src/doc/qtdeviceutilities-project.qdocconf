@@ -60,15 +60,15 @@ qhp.QtDeviceUtilities.subprojects.classes.indexTitle = Qt Device Utilities C++ C
 qhp.QtDeviceUtilities.subprojects.classes.selectors = class fake:headerfile
 qhp.QtDeviceUtilities.subprojects.classes.sortPages = true
 
-qhp.QtDeviceUtilities.subprojects.modules.title      = QML Types
-qhp.QtDeviceUtilities.subprojects.modules.indexTitle = Qt Device Utilities QML Types
-qhp.QtDeviceUtilities.subprojects.modules.selectors  = qmlmodule module
-qhp.QtDeviceUtilities.subprojects.modules.sortPages  = true
+qhp.QtDeviceUtilities.subprojects.qmltypes.title      = QML Types
+qhp.QtDeviceUtilities.subprojects.qmltypes.indexTitle = Qt Device Utilities QML Types
+qhp.QtDeviceUtilities.subprojects.qmltypes.selectors  = qmlclass
+qhp.QtDeviceUtilities.subprojects.qmltypes.sortPages  = true
 
-qhp.QtWebEngine.subprojects.examples.title = Examples
-qhp.QtWebEngine.subprojects.examples.indexTitle = Qt Device Utilities Examples
-qhp.QtWebEngine.subprojects.examples.selectors = doc:example
-qhp.QtWebEngine.subprojects.examples.sortPages = true
+qhp.QtDeviceUtilities.subprojects.examples.title = Examples
+qhp.QtDeviceUtilities.subprojects.examples.indexTitle = Qt Device Utilities Examples
+qhp.QtDeviceUtilities.subprojects.examples.selectors = doc:example
+qhp.QtDeviceUtilities.subprojects.examples.sortPages = true
 
 macro.B2Q                    = "Boot to Qt"
 macro.SDK                    = "Qt for Device Creation"
