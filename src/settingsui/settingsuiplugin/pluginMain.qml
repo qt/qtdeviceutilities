@@ -89,6 +89,7 @@ Rectangle {
 
     ListView {
         id: settingsList
+        objectName: "settingsList"
         anchors.top: settingsHeader.bottom
         anchors.left: parent.left
         anchors.bottom: parent.bottom

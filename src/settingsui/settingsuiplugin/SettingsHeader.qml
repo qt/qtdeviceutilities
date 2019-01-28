@@ -41,6 +41,7 @@ Item {
 
     Image {
         id: backButton
+        objectName: "settingsBackButton"
         anchors.left: parent.left
         anchors.top: parent.top
         source: "../newIcons/back_icon.svg"
