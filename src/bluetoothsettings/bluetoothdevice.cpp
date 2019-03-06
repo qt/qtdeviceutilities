@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2016 The Qt Company Ltd.
+** Copyright (C) 2019 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
 **
 ** This file is part of the Device Utilities module of the Qt Toolkit.
@@ -33,8 +33,30 @@
 QT_BEGIN_NAMESPACE
 
 /*!
+    \module QtBluetoothSettings
+    \qtvariable bluetoothsettings
+    \ingroup qtdevice-utilities-cpp-modules
+    \ingroup modules
+    \title Qt Bluetooth Settings C++ Classes
+    \brief Provides functionality for controlling Bluetooth settings.
+
+    To use classes from this module, add this directive into the C++ files:
+
+    \code
+    #include <QtBluetoothSettings>
+    \endcode
+
+    To link against the corresponding C++ libraries, add the following to your
+    qmake project file:
+
+    \code
+    QT += bluetoothsettings
+    \endcode
+*/
+
+/*!
     \class BluetoothDevice
-    \inmodule QtDeviceUtilities
+    \inmodule QtBluetoothSettings
 
     \brief The BluetoothDevice class controls Bluetooth settings.
 

@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2018 The Qt Company Ltd.
+** Copyright (C) 2019 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
 **
 ** This file is part of the documentation of the Qt Toolkit.
@@ -26,23 +26,31 @@
 ****************************************************************************/
 
 /*!
-    \module QtDeviceUtilities
+    \page qtdeviceutilities-cpp-classes.html
     \title Qt Device Utilities C++ Classes
     \brief Provides classes that are useful for embedded applications.
     \ingroup modules
 
-    \qtvariable deviceutilities
+    \QtDU modules provide classes that are useful for embedded applications.
 
-    To include the definitions of the module's classes, use the following
-    directive:
+    \section1 Classes
 
-    \badcode
-    #include <QtDeviceUtilities>
-    \endcode
+    \section2 Qt Bluetooth Settings Module
+    \generatelist {classesbymodule QtBluetoothSettings}
 
-    To link against the module, add this line to your qmake .pro file:
+    \section2 Qt Display Settings Module
+    \generatelist {classesbymodule QtDisplaySettings}
 
-    \badcode
-    QT += qtdeviceutilities
-    \endcode
+    \section2 Qt Local Device Settings Module
+    \generatelist {classesbymodule QtLocalDeviceSettings}
+
+    \section2 Qt Locale Settings Module
+    \generatelist {classesbymodule QtLocaleSettings}
+
+    \section2 Qt Network Settings Module
+    \generatelist {classesbymodule QtNetworkSettings}
+
+    \section2 Qt Time and Date Settings Module
+    \generatelist {classesbymodule QtTimeDateSettings}
 */
+

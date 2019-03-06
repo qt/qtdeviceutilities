@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2016 The Qt Company Ltd.
+** Copyright (C) 2019 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
 **
 ** This file is part of the Device Utilities module of the Qt Toolkit.
@@ -32,8 +32,30 @@
 QT_BEGIN_NAMESPACE
 
 /*!
+    \module QtDisplaySettings
+    \qtvariable displaysettings
+    \ingroup qtdevice-utilities-cpp-modules
+    \ingroup modules
+    \title Qt Display Settings C++ Classes
+    \brief Provides access to display settings.
+
+    To use classes from this module, add this directive into the C++ files:
+
+    \code
+    #include <QtDisplaySettings>
+    \endcode
+
+    To link against the corresponding C++ libraries, add the following to your
+    qmake project file:
+
+    \code
+    QT += displaysettings
+    \endcode
+*/
+
+/*!
     \class DisplaySettings
-    \inmodule QtDeviceUtilities
+    \inmodule QtDisplaySettings
 
     \brief The DisplaySettings class specifies display settings.
 

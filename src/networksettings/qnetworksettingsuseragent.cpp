@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2016 The Qt Company Ltd.
+** Copyright (C) 2019 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
 **
 ** This file is part of the Device Utilities module of the Qt Toolkit.
@@ -33,7 +33,7 @@ QT_BEGIN_NAMESPACE
 
 /*!
     \class QNetworkSettingsUserAgent
-    \inmodule QtDeviceUtilities
+    \inmodule QtNetworkSettings
 
     \brief The QNetworkSettingsUserAgent represents the user credentials for
     connecting to a network.

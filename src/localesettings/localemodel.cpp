@@ -37,7 +37,7 @@ QT_BEGIN_NAMESPACE
 
 /*!
     \class LocaleItem
-    \inmodule QtDeviceUtilities
+    \inmodule QtLocaleSettings
 
     \brief The LocaleItem class represents a locale.
 
@@ -119,7 +119,7 @@ QString LocaleItem::code() const
 
 /*!
     \class LocaleModel
-    \inmodule QtDeviceUtilities
+    \inmodule QtLocaleSettings
 
     \brief The LocaleModel class provides a model for the available locales.
 

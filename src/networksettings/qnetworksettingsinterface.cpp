@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2016 The Qt Company Ltd.
+** Copyright (C) 2019 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
 **
 ** This file is part of the Device Utilities module of the Qt Toolkit.
@@ -34,7 +34,7 @@ QT_BEGIN_NAMESPACE
 
 /*!
     \class QNetworkSettingsInterface
-    \inmodule QtDeviceUtilities
+    \inmodule QtNetworkSettings
     \brief Represents a network interface.
 
     The QNetworkSettingsInterface class represents a network interface attached

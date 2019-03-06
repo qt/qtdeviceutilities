@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2016 The Qt Company Ltd.
+** Copyright (C) 2019 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
 **
 ** This file is part of the Device Utilities module of the Qt Toolkit.
@@ -37,20 +37,17 @@
 
 /*!
     \qmlmodule QtDeviceUtilities.BluetoothSettings 1.0
-    \title Qt Device Utilities: Bluetooth Settings
-    \ingroup qtee-qmlmodules
+    \ingroup qtdevice-utilities-qml-modules
+    \ingroup qmlmodules
+    \title Qt Bluetooth Settings QML Types
+
     \brief Provides a singleton QML type for controlling bluetooth settings.
 
-    Provides a singleton QML type for controlling bluetooth settings in an
-    embedded device.
-
-    Import the module as follows:
+    To import and use the module's QML types, use the following statement:
 
     \badcode
     import QtDeviceUtilities.BluetoothSettings 1.0
     \endcode
-
-    This will give you access to the singleton QML type BtDevice.
 
     \note Some functions may not be available on all of the platforms.
 

@@ -32,8 +32,30 @@
 QT_BEGIN_NAMESPACE
 
 /*!
+    \module QtLocaleSettings
+    \qtvariable localesettings
+    \ingroup qtdevice-utilities-cpp-modules
+    \ingroup modules
+    \title Qt Locale Settings C++ Classes
+    \brief Provides functionality for controlling locale settings.
+
+    To use classes from this module, add this directive into the C++ files:
+
+    \code
+    #include <QtLocaleSettings>
+    \endcode
+
+    To link against the corresponding C++ libraries, add the following to your
+    qmake project file:
+
+    \code
+    QT += localesettings
+    \endcode
+*/
+
+/*!
     \class LocaleFilterModel
-    \inmodule QtDeviceUtilities
+    \inmodule QtLocaleSettings
 
     \brief The LocaleFilterModel class provides a filtered model for the
     available locales.

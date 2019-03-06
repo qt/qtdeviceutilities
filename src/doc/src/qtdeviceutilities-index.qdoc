@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2018 The Qt Company Ltd.
+** Copyright (C) 2019 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
 **
 ** This file is part of the documentation of the Qt Toolkit.
@@ -28,15 +28,35 @@
 /*!
     \page qtdeviceutilities-index.html
     \maintitle
-    \brief Provides functionality that is useful for embedded applications.
+    \brief Provides functionality for controlling settings in embedded applications.
+
+    \QtDU provides functionality that is useful for controlling settings in embedded
+    applications. The functionality in \QtDU is divided into the following C++ modules:
+
+    \annotatedlist qtdevice-utilities-cpp-modules
+
+    \QtDU provides the following QML modules:
+
+    \annotatedlist qtdevice-utilities-qml-modules
 
     \section1 Getting Started
 
     To include the definitions of the module's classes, use the following
-    directive:
+    directives:
 
     \code
-    #include <QDeviceUtilities>
+    #include <QtBluetoothSettings>
+    #include <QtDisplaySettings>
+    #include <QtLocalDevice>
+    #include <QtLocaleSettings>
+    #include <QtNetworkSettings>
+    #include <QtTimeDateSettings>
+    \endcode
+
+    To link against the modules, add this line to your qmake .pro file:
+
+    \badcode
+    QT += bluetoothsettings displaysettings localdevice localesettings networksettings timedatesettings
     \endcode
 
     To import the QML types into your application, use the following import
@@ -52,12 +72,6 @@
     import QtDeviceUtilities.TimeDateSettings 1.0
     \endcode
 
-    To link against the module, add this line to your qmake .pro file:
-
-    \code
-    QT += deviceutilities
-    \endcode
-
     \section1 Examples
 
     \list
@@ -67,7 +81,8 @@
     \section1 Reference
 
     \list
-      \li \l {Qt Device Utilities C++ Classes} {C++ Classes and Namespaces}
-      \li \l {Qt Device Utilities QML Types} {QML Types}
+      \li \l {Qt Device Utilities C++ Classes}
+      \li \l {Qt Device Utilities QML Types}
     \endlist
 */
+

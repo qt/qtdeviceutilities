@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2016 The Qt Company Ltd.
+** Copyright (C) 2019 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
 **
 ** This file is part of the Device Utilities module of the Qt Toolkit.
@@ -40,14 +40,15 @@ static void initResources()
 /*!
     \qmlmodule QtDeviceUtilities.SettingsUI 1.0
     \title Qt Device Utilities: Settings UI
-    \ingroup qtee-qmlmodules
+    \ingroup qtdevice-utilities-qml-modules
+    \ingroup qmlmodules
     \brief Provides a system-wide settings UI.
 
     The \c DeviceUtilities.SettingsUI module provides a single QML type,
     SettingsUI, that allows applications to integrate a standard, system-wide
     settings view into their user interface.
 
-    Import the module as follows:
+    To import and use the module's QML types, use the following statement:
 
     \badcode
     import QtDeviceUtilities.SettingsUI 1.0
