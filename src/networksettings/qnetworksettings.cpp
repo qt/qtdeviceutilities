@@ -465,6 +465,14 @@ void QNetworkSettingsIPv6::setPrefixLength(const int& prefixLength) {
 */
 
 /*!
+    \property QNetworkSettingsProxy::servers
+    \readonly
+    \brief The model containing the proxy exclusion list.
+
+    This property holds the list of proxy server names.
+*/
+
+/*!
     Creates a new proxy configuration with the parent \a parent.
 */
 QNetworkSettingsProxy::QNetworkSettingsProxy(QObject *parent)
@@ -486,6 +494,13 @@ QAbstractItemModel* QNetworkSettingsProxy::servers(void) {
     return &m_servers;
 }
 
+/*!
+    Sets the proxy server list.
+    \a servers lists the server names.
+
+    The QNetworkSettingsProxy::serversChanged signal is emitted when the server list
+    is set.
+*/
 void QNetworkSettingsProxy::setServers(const QStringList& servers) {
     m_servers.setStringList(servers);
     emit serversChanged();
@@ -503,6 +518,13 @@ QStringList QNetworkSettingsProxy::excludes() const {
     return m_excludes.stringList();
 }
 
+/*!
+    Sets the proxy exclusion list.
+    \a excludes lists the addresses on the exclustion list.
+
+    The QNetworkSettingsProxy::excludesChanged signal is emitted when the proxy
+    exclusion list is set.
+*/
 void QNetworkSettingsProxy::setExcludes(const QStringList& excludes) {
     m_excludes.setStringList(excludes);
     emit excludesChanged();
@@ -555,6 +577,11 @@ void QNetworkSettingsProxy::setMethod(const MethodType& method) {
     \brief Holds whether the Wifi access point is out of range.
 */
 
+/*!
+    \fn void QNetworkSettingsWireless::passwordChanged()
+
+    This signal is sent when the password has changed.
+*/
 
 /*!
     Creates a new Wifi network configuration with the parent \a parent.
@@ -580,6 +607,12 @@ bool QNetworkSettingsWireless::hidden() const {
     return m_hidden;
 }
 
+/*!
+    Sets \a hidden status.
+
+    The QNetworkSettingsWireless::hiddenChanged signal is emitted when the
+    hidden status is changed.
+*/
 void QNetworkSettingsWireless::setHidden(const bool hidden) {
     m_hidden = hidden;
     emit hiddenChanged();
@@ -594,6 +627,9 @@ void QNetworkSettingsWireless::setSignalStrength(const int signalStrength) {
     emit signalStrengthChanged();
 }
 
+/*!
+    Sets \a security flags.
+*/
 void QNetworkSettingsWireless::setSecurity(const SecurityFlags security) {
     if (security == None) {
         m_securityFlags = None;

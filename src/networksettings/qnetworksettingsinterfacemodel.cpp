@@ -159,6 +159,9 @@ void QNetworkSettingsInterfaceModel::remove(int row)
     endRemoveRows();
 }
 
+/*!
+    Returns whether the interface with the \a name was removed successfully.
+*/
 bool QNetworkSettingsInterfaceModel::removeInterface(const QString &name)
 {
     bool ret = false;
@@ -172,6 +175,9 @@ bool QNetworkSettingsInterfaceModel::removeInterface(const QString &name)
     return ret;
 }
 
+/*!
+    Notifies that the \a row has been updated.
+*/
 void QNetworkSettingsInterfaceModel::updated(int row)
 {
     dataChanged(createIndex(row, 0), createIndex(row, 0));
