@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2016 The Qt Company Ltd.
+** Copyright (C) 2019 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
 **
 ** This file is part of the Device Utilities module of the Qt Toolkit.
@@ -33,7 +33,7 @@ QT_BEGIN_NAMESPACE
 
 /*!
     \class QNetworkSettingsServiceModel
-    \inmodule QtDeviceUtilities
+    \inmodule QtNetworkSettings
 
     \brief The QNetworkSettingsServiceModel class represents a network service.
 
@@ -284,7 +284,7 @@ void QNetworkSettingsServiceModel::signalStrengthChanged()
 
 /*!
     \class QNetworkSettingsServiceFilter
-    \inmodule QtDeviceUtilities
+    \inmodule QtNetworkSettings
 
     \brief The QNetworkSettingsServiceFilter class represents a network service
     filter.

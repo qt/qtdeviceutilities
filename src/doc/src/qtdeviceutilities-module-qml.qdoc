@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2018 The Qt Company Ltd.
+** Copyright (C) 2019 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
 **
 ** This file is part of the Device Utilities module of the Qt Toolkit.
@@ -25,14 +25,13 @@
 **
 ****************************************************************************/
 /*!
-    \qmlmodule QtDeviceutilities 1.0
+    \page qtdeviceutilities-qml-types.html
     \title Qt Device Utilities QML Types
     \brief Provides additional modules that are useful for embedded
     applications.
-    \ingroup qmlmodules
 
-    The QML types in the modules can be imported into your application using the
-    following  import statements in your .qml file:
+    The QML types in the \QtDU modules can be imported into your application using the
+    following import statements in your .qml file:
 
     \badcode
     import QtDeviceUtilities.BluetoothSettings 1.0
@@ -44,37 +43,27 @@
     import QtDeviceUtilities.TimeDateSettings 1.0
     \endcode
 
-    To link against the module, add this line to your qmake .pro file:
-
-    \badcode
-    QT += deviceutilities
-    \endcode
-
-    \section1 Modules
-
-    \annotatedlist qtee-qmlmodules
-
     \section1 QML Types
 
-    \section2 Bluetooth Settings
+    \section2 Qt Bluetooth Settings Module
     \generatelist qmltypesbymodule QtDeviceUtilities.BluetoothSettings
 
-    \section2 Display Settings
+    \section2 Qt Display Settings Module
     \generatelist qmltypesbymodule QtDeviceUtilities.DisplaySettings
 
-    \section2 Local Device Settings
+    \section2 Qt Local Device Settings Module
     \generatelist qmltypesbymodule QtDeviceUtilities.LocalDeviceSettings
 
-    \section2 Locale Settings
+    \section2 Qt Locale Settings Module
     \generatelist qmltypesbymodule QtDeviceUtilities.LocaleSettings
 
-    \section2 Network Settings
+    \section2 Qt Network Settings Module
     \generatelist qmltypesbymodule QtDeviceUtilities.NetworkSettings
 
-    \section2 Time and Date Settings
-    \generatelist qmltypesbymodule QtDeviceUtilities.TimeDateSettings
-
-    \section2 Settings UI
+    \section2 Qt Settings UI Module
     \generatelist qmltypesbymodule QtDeviceUtilities.SettingsUI
+
+    \section2 Qt Time and Date Settings Module
+    \generatelist qmltypesbymodule QtDeviceUtilities.TimeDateSettings
 */
 

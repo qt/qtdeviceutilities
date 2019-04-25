@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2016 The Qt Company Ltd.
+** Copyright (C) 2019 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
 **
 ** This file is part of the Device Utilities module of the Qt Toolkit.
@@ -37,15 +37,16 @@
 
 /*!
     \qmlmodule QtDeviceUtilities.LocaleSettings 1.0
+    \ingroup qtdevice-utilities-qml-modules
+    \ingroup qmlmodules
+    \title Qt Locale Settings QML Types
 
-    \title Qt Device Utilities: Locale Settings
-    \ingroup qtee-qmlmodules
     \brief Provides singleton QML types for controlling locale settings.
 
-    Provides singleton QML types for controlling locale settings in an
-    embedded device.
+    Qt Local Device Settings QML module provides singleton QML types for
+    controlling locale settings in an embedded device.
 
-    Import the module as follows:
+    To import and use the module's QML types, use the following statement:
 
     \badcode
     import QtDeviceUtilities.LocaleSettings 1.0

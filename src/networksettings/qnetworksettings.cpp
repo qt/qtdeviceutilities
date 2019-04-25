@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2016 The Qt Company Ltd.
+** Copyright (C) 2019 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
 **
 ** This file is part of the Device Utilities module of the Qt Toolkit.
@@ -31,8 +31,30 @@
 QT_BEGIN_NAMESPACE
 
 /*!
+    \module QtNetworkSettings
+    \qtvariable networksettings
+    \ingroup qtdevice-utilities-cpp-modules
+    \ingroup modules
+    \title Qt Network Settings C++ Classes
+    \brief Provides functionality for controlling network settings.
+
+    To use classes from this module, add this directive into the C++ files:
+
+    \code
+    #include <QtNetworkSettings>
+    \endcode
+
+    To link against the corresponding C++ libraries, add the following to your
+    qmake project file:
+
+    \code
+    QT += networksettings
+    \endcode
+*/
+
+/*!
     \class QNetworkSettingsState
-    \inmodule QtDeviceUtilities
+    \inmodule QtNetworkSettings
 
     \brief The QNetworkSettingsState class represents the network interface
     state.
@@ -112,7 +134,7 @@ void QNetworkSettingsState::setState(const States state) {
 
 /*!
     \class QNetworkSettingsType
-    \inmodule QtDeviceUtilities
+    \inmodule QtNetworkSettings
 
     \brief The QNetworkSettingsType class represents the network interface
     type.
@@ -186,7 +208,7 @@ void QNetworkSettingsType::setType(const Types type) {
 
 /*!
     \class QNetworkSettingsIPv4
-    \inmodule QtDeviceUtilities
+    \inmodule QtNetworkSettings
 
     \brief The QNetworkSettingsIPv4 class encapsulates IPv4 network
     configuration.
@@ -273,7 +295,7 @@ void QNetworkSettingsIPv4::setMask(const QString& mask) {
 
 /*!
     \class QNetworkSettingsIPv6
-    \inmodule QtDeviceUtilities
+    \inmodule QtNetworkSettings
 
     \brief The QNetworkSettingsIPv6 class encapsulates IPv6 network
     configuration.
@@ -392,7 +414,7 @@ void QNetworkSettingsIPv6::setPrefixLength(const int& prefixLength) {
 
 /*!
     \class QNetworkSettingsProxy
-    \inmodule QtDeviceUtilities
+    \inmodule QtNetworkSettings
     \brief The QNetworkSettingsProxy class encapsulates network proxy
     configuration.
 */
@@ -443,6 +465,14 @@ void QNetworkSettingsIPv6::setPrefixLength(const int& prefixLength) {
 */
 
 /*!
+    \property QNetworkSettingsProxy::servers
+    \readonly
+    \brief The model containing the proxy exclusion list.
+
+    This property holds the list of proxy server names.
+*/
+
+/*!
     Creates a new proxy configuration with the parent \a parent.
 */
 QNetworkSettingsProxy::QNetworkSettingsProxy(QObject *parent)
@@ -464,6 +494,13 @@ QAbstractItemModel* QNetworkSettingsProxy::servers(void) {
     return &m_servers;
 }
 
+/*!
+    Sets the proxy server list.
+    \a servers lists the server names.
+
+    The QNetworkSettingsProxy::serversChanged signal is emitted when the server list
+    is set.
+*/
 void QNetworkSettingsProxy::setServers(const QStringList& servers) {
     m_servers.setStringList(servers);
     emit serversChanged();
@@ -481,6 +518,13 @@ QStringList QNetworkSettingsProxy::excludes() const {
     return m_excludes.stringList();
 }
 
+/*!
+    Sets the proxy exclusion list.
+    \a excludes lists the addresses on the exclustion list.
+
+    The QNetworkSettingsProxy::excludesChanged signal is emitted when the proxy
+    exclusion list is set.
+*/
 void QNetworkSettingsProxy::setExcludes(const QStringList& excludes) {
     m_excludes.setStringList(excludes);
     emit excludesChanged();
@@ -497,7 +541,7 @@ void QNetworkSettingsProxy::setMethod(const MethodType& method) {
 
 /*!
     \class QNetworkSettingsWireless
-    \inmodule QtDeviceUtilities
+    \inmodule QtNetworkSettings
     \brief The QNetworkSettingsWireless class encapsulates the configuration
     for a Wifi network service.
 */
@@ -533,6 +577,11 @@ void QNetworkSettingsProxy::setMethod(const MethodType& method) {
     \brief Holds whether the Wifi access point is out of range.
 */
 
+/*!
+    \fn void QNetworkSettingsWireless::passwordChanged()
+
+    This signal is sent when the password has changed.
+*/
 
 /*!
     Creates a new Wifi network configuration with the parent \a parent.
@@ -558,6 +607,12 @@ bool QNetworkSettingsWireless::hidden() const {
     return m_hidden;
 }
 
+/*!
+    Sets \a hidden status.
+
+    The QNetworkSettingsWireless::hiddenChanged signal is emitted when the
+    hidden status is changed.
+*/
 void QNetworkSettingsWireless::setHidden(const bool hidden) {
     m_hidden = hidden;
     emit hiddenChanged();
@@ -572,6 +627,9 @@ void QNetworkSettingsWireless::setSignalStrength(const int signalStrength) {
     emit signalStrengthChanged();
 }
 
+/*!
+    Sets \a security flags.
+*/
 void QNetworkSettingsWireless::setSecurity(const SecurityFlags security) {
     if (security == None) {
         m_securityFlags = None;

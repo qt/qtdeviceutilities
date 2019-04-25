@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2016 The Qt Company Ltd.
+** Copyright (C) 2019 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
 **
 ** This file is part of the Device Utilities module of the Qt Toolkit.
@@ -34,18 +34,19 @@
 
 #include <systemtime.h>
 #include "timezonefiltermodel.h"
+
 /*!
     \qmlmodule QtDeviceUtilities.TimeDateSettings 1.0
+    \ingroup qtdevice-utilities-qml-modules
+    \ingroup qmlmodules
+    \title Qt Time and Date Settings QML Types
 
-    \title Qt Device Utilities: Time and Date Settings
-    \ingroup qtee-qmlmodules
-    \brief Provides singleton QML types for controlling date and time
-           settings.
+    \brief Provides singleton QML types for controlling date and time settings.
 
-    Provides singleton QML types for controlling date and time settings
-    in an embedded device.
+    Qt Time and Date Settings QML module provides singleton QML types for controlling
+    date and time settings in an embedded device.
 
-    Import the module as follows:
+    To import and use the module's QML types, use the following statement:
 
     \badcode
     import QtDeviceUtilities.TimeDateSettings 1.0

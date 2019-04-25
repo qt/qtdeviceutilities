@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2016 The Qt Company Ltd.
+** Copyright (C) 2019 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
 **
 ** This file is part of the Device Utilities module of the Qt Toolkit.
@@ -33,7 +33,7 @@ QT_BEGIN_NAMESPACE
 
 /*!
     \class QNetworkSettingsInterfaceModel
-    \inmodule QtDeviceUtilities
+    \inmodule QtNetworkSettings
     \brief The QNetworkSettingsInterfaceModel class represents a network
     interface model.
 
@@ -159,6 +159,9 @@ void QNetworkSettingsInterfaceModel::remove(int row)
     endRemoveRows();
 }
 
+/*!
+    Returns whether the interface with the \a name was removed successfully.
+*/
 bool QNetworkSettingsInterfaceModel::removeInterface(const QString &name)
 {
     bool ret = false;
@@ -172,6 +175,9 @@ bool QNetworkSettingsInterfaceModel::removeInterface(const QString &name)
     return ret;
 }
 
+/*!
+    Notifies that the \a row has been updated.
+*/
 void QNetworkSettingsInterfaceModel::updated(int row)
 {
     dataChanged(createIndex(row, 0), createIndex(row, 0));

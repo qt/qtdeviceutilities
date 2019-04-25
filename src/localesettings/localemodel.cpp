@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2016 The Qt Company Ltd.
+** Copyright (C) 2019 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
 **
 ** This file is part of the Device Utilities module of the Qt Toolkit.
@@ -37,7 +37,7 @@ QT_BEGIN_NAMESPACE
 
 /*!
     \class LocaleItem
-    \inmodule QtDeviceUtilities
+    \inmodule QtLocaleSettings
 
     \brief The LocaleItem class represents a locale.
 
@@ -119,7 +119,7 @@ QString LocaleItem::code() const
 
 /*!
     \class LocaleModel
-    \inmodule QtDeviceUtilities
+    \inmodule QtLocaleSettings
 
     \brief The LocaleModel class provides a model for the available locales.
 
@@ -158,6 +158,12 @@ QString LocaleItem::code() const
 
     This signal is emitted when the locale item \a item is added to the locale
     model.
+*/
+
+/*!
+    \fn LocaleModel::ready()
+
+    This signal is emitted when the locale model has been reset.
 */
 
 /*!
@@ -233,7 +239,7 @@ QHash<int, QByteArray> LocaleModel::roleNames() const
 }
 
 /*!
-    Returns the number of rows in the locale model.
+    Returns the number of rows in the locale model that has \a parent.
 */
 int LocaleModel::rowCount(const QModelIndex & parent) const
 {
@@ -285,7 +291,7 @@ bool LocaleModel::variantLessThan(const LocaleItem* v1, const LocaleItem* v2)
 }
 
 /*!
-    Sets the sorting order of the items in the locale model to \a order.
+    Sets the sorting order of the \a column items in the locale model to \a order.
 
     The sort order can be either \l {Qt::AscendingOrder}{ascending} or
     \l {Qt::DescendingOrder}{descending}.

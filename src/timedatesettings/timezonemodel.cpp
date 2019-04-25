@@ -37,7 +37,7 @@ QT_BEGIN_NAMESPACE
 
 /*!
     \class TimezoneItem
-    \inmodule QtDeviceUtilities
+    \inmodule QtTimeDateSettings
     \brief The TimezoneItem class represents a time zone.
 */
 
@@ -107,7 +107,7 @@ QString TimezoneItem::id() const
 
 /*!
     \class TimezoneModel
-    \inmodule QtDeviceUtilities
+    \inmodule QtTimeDateSettings
     \brief The TimezoneModel class provides a model for the available time
     zones.
 

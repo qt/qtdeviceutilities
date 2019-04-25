@@ -32,8 +32,30 @@
 QT_BEGIN_NAMESPACE
 
 /*!
+    \module QtTimeDateSettings
+    \qtvariable timedatesettings
+    \ingroup qtdevice-utilities-cpp-modules
+    \ingroup modules
+    \title Qt Time and Date Settings C++ Classes
+    \brief Provides functionality for controlling time and date settings.
+
+    To use classes from this module, add this directive into the C++ files:
+
+    \code
+    #include <QtTimeDateSettings>
+    \endcode
+
+    To link against the corresponding C++ libraries, add the following to your
+    qmake project file:
+
+    \code
+    QT += timedatesettings
+    \endcode
+*/
+
+/*!
     \class SystemTime
-    \inmodule QtDeviceUtilities
+    \inmodule QtTimeDateSettings
     \brief The SystemTime class manages the system date and time.
 */
 

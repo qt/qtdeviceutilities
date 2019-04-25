@@ -75,6 +75,7 @@ macro.SDK                    = "Qt for Device Creation"
 macro.QAS                    = "Qt Automotive Suite"
 macro.B2QA                   = "\\e {Boot to Qt for embedded Android}"
 macro.B2QL                   = "\\e {Boot to Qt for embedded Linux}"
+macro.QtDU                   = "Qt Device Utilities"
 
 # Keep Device Creation as the landing page
 navigation.landingpage       = "Qt for Device Creation"

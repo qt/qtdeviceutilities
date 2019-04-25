@@ -33,8 +33,30 @@
 QT_BEGIN_NAMESPACE
 
 /*!
+    \module QtLocalDeviceSettings
+    \qtvariable localdevice
+    \ingroup qtdevice-utilities-cpp-modules
+    \ingroup modules
+    \title QtLocalDeviceSettings C++ Classes
+    \brief Provides functionality for controlling a local device settings.
+
+    To use classes from this module, add this directive into the C++ files:
+
+    \code
+    #include <QtLocalDevice>
+    \endcode
+
+    To link against the corresponding C++ libraries, add the following to your
+    qmake project file:
+
+    \code
+    QT += localdevice
+    \endcode
+*/
+
+/*!
     \class QLocalDevice
-    \inmodule QtDeviceUtilities
+    \inmodule QtLocalDeviceSettings
 
     \brief The QLocalDevice class provides utility functions for controlling an
     embedded device.

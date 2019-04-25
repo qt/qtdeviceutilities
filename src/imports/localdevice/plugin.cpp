@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2016 The Qt Company Ltd.
+** Copyright (C) 2019 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
 **
 ** This file is part of the Device Utilities module of the Qt Toolkit.
@@ -31,20 +31,20 @@
 
 /*!
     \qmlmodule QtDeviceUtilities.LocalDeviceSettings 1.0
-    \title Qt Device Utilities: Local Device Settings
-    \ingroup qtee-qmlmodules
-    \brief A collection of local device related utility functions.
+    \ingroup qtdevice-utilities-qml-modules
+    \ingroup qmlmodules
+    \title Qt Local Device Settings QML Types
 
-    Provides utility functions for controlling an embedded
-    device, such as device shutdown/reboot.
+    \brief Provides a collection of local device related utility functions.
 
-    Import the module as follows:
+    Qt Local Device Settings QML modules provides utility functions for controlling
+    an embedded device, such as device shutdown and reboot.
+
+    To import and use the module's QML types, use the following statement:
 
     \badcode
     import QtDeviceUtilities.LocalDeviceSettings 1.0
     \endcode
-
-    This will give you access to the singleton QML type LocalDevice.
 
     \note Some functions may not be available on all of the platforms.
 
