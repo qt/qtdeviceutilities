@@ -68,7 +68,7 @@ private:
     void updateProperty(const QString& key, const QVariant& value);
 
 protected:
-    void setAutoConnect(const bool autoconnect);
+    void setAutoConnect(bool autoconnect);
     void setupIpv4Config();
     void setupIpv6Config();
     void setupNameserversConfig();
@@ -91,7 +91,8 @@ protected:
     QNetworkSettingsWireless m_wifiConfig;
     QNetworkSettingsType m_type;
     NetConnmanServiceInterface *m_service;
-    bool m_placeholderState;
+    bool m_placeholderState = false;
+    bool m_autoConnect = false;
 };
 
 QT_END_NAMESPACE

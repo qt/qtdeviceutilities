@@ -39,6 +39,7 @@
 #define PropertyType QStringLiteral("Type")
 #define PropertyConnected QStringLiteral("Connected")
 #define PropertyPowered QStringLiteral("Powered")
+#define PropertyAutoConnect QStringLiteral("AutoConnect")
 
 #define AttributeWifi QStringLiteral("wifi")
 #define AttributeEthernet QStringLiteral("ethernet")

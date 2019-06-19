@@ -196,7 +196,8 @@ QString QNetworkSettingsService::name() const
 */
 void QNetworkSettingsService::setAutoConnect(const bool autoconnect)
 {
-    Q_UNUSED(autoconnect);
+    Q_D(QNetworkSettingsService);
+    d->setAutoConnect(autoconnect);
 }
 
 /*!

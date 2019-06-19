@@ -260,6 +260,12 @@ QNetworkSettingsServicePrivate::QNetworkSettingsServicePrivate(const QString& id
             this, SLOT(propertiesUpdated(QDBusPendingCallWatcher*)));
 }
 
+void QNetworkSettingsServicePrivate::setAutoConnect(bool autoconnect)
+{
+    if (m_service)
+        m_service->SetProperty(PropertyAutoConnect, QDBusVariant(QVariant(autoconnect)));
+}
+
 void QNetworkSettingsServicePrivate::setupIpv6Config()
 {
     QVariantMap param;
@@ -439,6 +445,10 @@ void QNetworkSettingsServicePrivate::updateProperty(const QString& key, const QV
                 m_wifiConfig.setSecurity(QNetworkSettingsWireless::WPA2);
             }
         }
+    }
+    else if (key == PropertyAutoConnect) {
+        m_autoConnect = qdbus_cast<bool>(val);
+        //TODO: create appropriate signals for when the property has changed
     }
 }
 
