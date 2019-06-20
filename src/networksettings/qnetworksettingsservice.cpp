@@ -113,6 +113,15 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
+    \property QNetworkSettingsService::autoConnect
+    \readwrite
+    \brief Holds autoconnect property for this service.
+
+    Autoconnect property determines whether the service connects automatically
+    when it is available.
+*/
+
+/*!
     \fn QNetworkSettingsService::connectionStateCleared()
 
     This signal is emitted when the connection state is cleared.
@@ -187,17 +196,21 @@ QString QNetworkSettingsService::name() const
 }
 
 /*!
-    \qmlmethod void NetworkService::setAutoConnect(bool auto)
-*/
-
-/*!
-    Sets automatic connections to the network service to
-    \a autoconnect.
+    Sets automatic connections to the network service to \a autoconnect.
 */
 void QNetworkSettingsService::setAutoConnect(const bool autoconnect)
 {
     Q_D(QNetworkSettingsService);
     d->setAutoConnect(autoconnect);
+}
+
+/*!
+    Return automatic connection status of the network service.
+*/
+bool QNetworkSettingsService::autoConnect() const
+{
+    Q_D(const QNetworkSettingsService);
+    return d->autoConnect();
 }
 
 /*!

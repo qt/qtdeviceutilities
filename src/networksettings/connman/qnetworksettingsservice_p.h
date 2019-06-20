@@ -69,6 +69,7 @@ private:
 
 protected:
     void setAutoConnect(bool autoconnect);
+    bool autoConnect() const;
     void setupIpv4Config();
     void setupIpv6Config();
     void setupNameserversConfig();

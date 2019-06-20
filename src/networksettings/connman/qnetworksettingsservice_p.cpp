@@ -262,8 +262,15 @@ QNetworkSettingsServicePrivate::QNetworkSettingsServicePrivate(const QString& id
 
 void QNetworkSettingsServicePrivate::setAutoConnect(bool autoconnect)
 {
-    if (m_service)
+    if (m_service) {
         m_service->SetProperty(PropertyAutoConnect, QDBusVariant(QVariant(autoconnect)));
+        m_autoConnect = autoconnect;
+    }
+}
+
+bool QNetworkSettingsServicePrivate::autoConnect() const
+{
+    return m_autoConnect;
 }
 
 void QNetworkSettingsServicePrivate::setupIpv6Config()
@@ -448,7 +455,7 @@ void QNetworkSettingsServicePrivate::updateProperty(const QString& key, const QV
     }
     else if (key == PropertyAutoConnect) {
         m_autoConnect = qdbus_cast<bool>(val);
-        //TODO: create appropriate signals for when the property has changed
+        emit q->autoConnectChanged();
     }
 }
 

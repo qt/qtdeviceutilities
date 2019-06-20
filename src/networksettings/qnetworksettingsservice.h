@@ -50,6 +50,7 @@ class Q_DECL_EXPORT QNetworkSettingsService : public QObject
     Q_PROPERTY(QNetworkSettingsWireless* wirelessConfig READ wirelessConfig NOTIFY wirelessChanged)
     Q_PROPERTY(QAbstractItemModel* domains READ domains NOTIFY domainsChanged)
     Q_PROPERTY(QAbstractItemModel* nameservers READ nameservers NOTIFY nameserversChanged)
+    Q_PROPERTY(bool autoConnect READ autoConnect WRITE setAutoConnect NOTIFY autoConnectChanged)
 public:
     explicit QNetworkSettingsService(const QString& aServiceId, QObject* parent = Q_NULLPTR);
 
@@ -66,7 +67,8 @@ public:
     void setPlaceholderState(bool placeholderState);
     bool placeholderState() const;
 
-    Q_INVOKABLE void setAutoConnect(const bool autoconnect);
+    Q_INVOKABLE void setAutoConnect(bool autoconnect);
+    Q_INVOKABLE bool autoConnect() const;
     Q_INVOKABLE void setupIpv4Config();
     Q_INVOKABLE void setupIpv6Config();
     Q_INVOKABLE void setupNameserversConfig();
@@ -78,6 +80,7 @@ public:
     Q_INVOKABLE void disconnectService();
     Q_INVOKABLE void removeService();
 Q_SIGNALS:
+    void autoConnectChanged();
     void nameChanged();
     void stateChanged();
     void typeChanged();
