@@ -36,6 +36,12 @@ Window {
     id: window
     visible: true
 
+    property alias appFont: viewSettings.appFont
+
+    ViewSettings {
+        id: viewSettings
+    }
+
     Item {
         id: root
         anchors.fill: parent
