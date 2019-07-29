@@ -45,8 +45,9 @@ Item {
     }
 
     onServiceChanged: {
-        if (!service) {
-            service = NetworkSettingsManager.services.itemFromRow(0);
+        NetworkSettingsManager.services.type = NetworkSettingsType.Wired;
+        if (!root.service) {
+            root.service = NetworkSettingsManager.services.itemFromRow(0);
         }
     }
 
