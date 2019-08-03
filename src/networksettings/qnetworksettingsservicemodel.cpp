@@ -380,13 +380,10 @@ bool QNetworkSettingsServiceFilter::filterAcceptsRow( int source_row, const QMod
        QModelIndex index = this->sourceModel()->index( source_row, 0, source_parent );
        if (index.isValid())
        {
-           if (index.isValid())
-           {
-               QObject * obj = qvariant_cast<QObject *>(index.data(Qt::UserRole));
-               QNetworkSettingsService * service = qobject_cast<QNetworkSettingsService *>(obj);
-               if (service->type() == m_type || m_type == QNetworkSettingsType::Unknown)
-                  return true;
-           }
+           QObject * obj = qvariant_cast<QObject *>(index.data(Qt::UserRole));
+           QNetworkSettingsService * service = qobject_cast<QNetworkSettingsService *>(obj);
+           if (service->type() == m_type || m_type == QNetworkSettingsType::Unknown)
+              return true;
        }
     }
     return false;
