@@ -41,7 +41,8 @@ QT_BEGIN_NAMESPACE
     \class QNetworkSettingsManager
     \inmodule QtNetworkSettings
 
-    \brief The QNetworkSettingsManager class manages network settings.
+    \brief The QNetworkSettingsManager class provides an asynchronous API to
+    network settings.
 
     The network manager is designed to be used as a model that contains lists
     of available network interfaces and services.
@@ -52,6 +53,45 @@ QT_BEGIN_NAMESPACE
     The services list in the model can be controlled with the
     \l QNetworkSettingsType::type property, and network service items can be
     retrieved with the \l QNetworkSettingsServiceFilter::itemFromRow() method.
+
+    The following code demonstrates how you initialize the network manager:
+
+    \code
+    manager = new QNetworkSettingsManager(this);
+    QObject::connect(manager, &QNetworkSettingsManager::interfacesChanged,
+        this, &MainWindow::interfacesChanged);
+
+    QObject::connect(manager, &QNetworkSettingsManager::servicesChanged,
+        this, &MainWindow::servicesChanged);
+    \endcode
+
+    After initializing the network manager, you can iterate WiFi SSIDs as follows:
+
+    \code
+    void WifiHandler::servicesChanged()
+    {
+        QList<QNetworkSettingsService*> services = qobject_cast<QNetworkSettingsServiceModel*>(manager->services()->sourceModel())->getModel();
+
+        for (const auto &service : services) {
+            qDebug() << service->name();
+        }
+    }
+
+
+    void WifiHandler::interfacesChanged()
+    {
+        QList<QNetworkSettingsInterface*> interfaces = manager->interfaces()->getModel();
+        for (const auto &interface : interfaces) {
+            if (interface->type() == QNetworkSettingsType::Types::Wifi) {
+                if (interface->powered()) {
+                    interface->scanServices();
+                } else {
+                interface->setPowered(true);
+                }
+            }
+        }
+    }
+    \endcode
 
     \sa QNetworkSettingsService
 */
