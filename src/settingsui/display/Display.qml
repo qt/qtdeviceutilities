@@ -94,7 +94,7 @@ Item {
             height: pluginMain.fieldTextHeight
             font.pixelSize: pluginMain.subTitleFontSize
             font.family: appFont
-            text: qsTr("Physical screen size")
+            text: qsTr("Physical screen size in millimeters")
             Layout.preferredWidth: root.width * 0.3
             Layout.alignment: Qt.AlignVCenter
             wrapMode: Label.WordWrap
