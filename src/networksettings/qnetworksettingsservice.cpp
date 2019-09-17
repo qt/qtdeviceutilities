@@ -114,7 +114,6 @@ QT_BEGIN_NAMESPACE
 
 /*!
     \property QNetworkSettingsService::autoConnect
-    \readwrite
     \brief Holds autoconnect property for this service.
 
     Autoconnect property determines whether the service connects automatically
@@ -205,7 +204,7 @@ void QNetworkSettingsService::setAutoConnect(const bool autoconnect)
 }
 
 /*!
-    Return automatic connection status of the network service.
+    Returns the automatic connection status of the network service.
 */
 bool QNetworkSettingsService::autoConnect() const
 {
