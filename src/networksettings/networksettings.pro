@@ -7,13 +7,7 @@ QT = core network
 
 MODULE = networksettings
 load(qt_module)
-
-wpasupplicant {
-    include(wpasupplicant.pri)
-}
-else {
-    include(connman.pri)
-}
+include(connman.pri)
 
 # Input
 SOURCES += \
