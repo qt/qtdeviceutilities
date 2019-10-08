@@ -101,7 +101,7 @@ bool QNetworkSettingsManagerPrivate::initialize()
         m_initialized = true;
     } else {
         delete m_manager;
-        m_manager = NULL;
+        m_manager = nullptr;
         m_initialized = false;
     }
     return m_initialized;
@@ -109,8 +109,8 @@ bool QNetworkSettingsManagerPrivate::initialize()
 
 void QNetworkSettingsManagerPrivate::requestInput(const QString& service, const QString& type)
 {
-    Q_UNUSED(service);
-    Q_UNUSED(type);
+    Q_UNUSED(service)
+    Q_UNUSED(type)
     emit m_agent->showUserCredentialsInput();
 }
 
@@ -192,7 +192,6 @@ void QNetworkSettingsManagerPrivate::onTechnologyRemoved(const QDBusObjectPath &
 
 void QNetworkSettingsManagerPrivate::getServicesFinished(QDBusPendingCallWatcher *watcher)
 {
-    Q_Q(QNetworkSettingsManager);
     QDBusPendingReply<ConnmanMapStructList> reply = *watcher;
     watcher->deleteLater();
 
