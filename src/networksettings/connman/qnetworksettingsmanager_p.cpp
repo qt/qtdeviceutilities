@@ -242,7 +242,7 @@ void QNetworkSettingsManagerPrivate::onServicesChanged(ConnmanMapStructList chan
     foreach (ConnmanMapStruct map, changed) {
         bool found = false;
         foreach (QNetworkSettingsService* service, m_serviceModel->getModel()) {
-            if (service->id() == map.objectPath.path()) {
+            if (service->id() == map.objectPath.path() && service->placeholderState() == false) {
                 found =true;
                 break;
             }
