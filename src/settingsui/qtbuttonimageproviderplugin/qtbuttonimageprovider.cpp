@@ -29,6 +29,7 @@
 #include <QQuickImageProvider>
 #include <QImage>
 #include <QPainter>
+#include <QPainterPath>
 
 #include "qtbuttonimageprovider.h"
 
