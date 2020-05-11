@@ -113,6 +113,7 @@ Item {
                 height: pluginMain.buttonHeight
                 textRole: "id"
                 itemsVisible: 7
+                currentIndex: -1
                 model: TimezonesFilter
                 delegate: ItemDelegate {
                     id: timeZoneDelegate
