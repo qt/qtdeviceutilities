@@ -66,7 +66,7 @@ public:
 
     void setNtp(bool val) {
         if (m_timeInterface)
-            m_timeInterface->SetNTP(val, true);
+            m_timeInterface->SetNTP(val, true).waitForFinished();
     }
 
     QString timeZone() const {
