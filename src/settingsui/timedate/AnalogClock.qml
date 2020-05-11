@@ -46,8 +46,8 @@ Item {
 
         Connections {
             target: TimeManager
-            onTimeChanged: if (!mouseArea.pressed) newTime.setSeconds(currentTime.getSeconds())
-            onTimeZoneChanged: Date.timeZoneUpdated()
+            function onTimeChanged() { if (!mouseArea.pressed) newTime.setSeconds(currentTime.getSeconds()) }
+            function onTimeZoneChanged() { Date.timeZoneUpdated() }
         }
         Label {
             id: timeLabel

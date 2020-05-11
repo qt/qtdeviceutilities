@@ -91,7 +91,7 @@ Item {
 
         Connections {
             target: BtDevice
-            onPoweredChanged: {
+            function onPoweredChanged() {
                 if (BtDevice.powered)
                     BtDevice.scanning = true
             }

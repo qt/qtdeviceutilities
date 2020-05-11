@@ -138,7 +138,7 @@ Item {
 
                 Connections {
                     target: TimezonesFilter.sourceModel
-                    onReady: {
+                    function onReady() {
                         var n = TimezonesFilter.indexForTimezone(TimeManager.timeZone)
                         timeZoneBox.currentIndex = n
                     }

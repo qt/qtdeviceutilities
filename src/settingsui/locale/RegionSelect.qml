@@ -150,7 +150,7 @@ Item {
 
     Connections {
         target: LocaleFilter.sourceModel
-        onReady: {
+        function onReady() {
             var n = LocaleFilter.indexForCountry(root.currentRegion.nativeCountryName)
             localeTableView.localeIndex = n
         }

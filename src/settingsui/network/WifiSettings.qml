@@ -233,11 +233,11 @@ Item {
             }
             Connections {
                 target: NetworkSettingsManager.userAgent
-                onShowUserCredentialsInput : {
+                function onShowUserCredentialsInput() {
                     connectView.visible = true
                     root.connecting = false
                 }
-                onError: {
+                function onError() {
                     errorView.visible = true
                     connectView.visible = true
                     root.connecting = false

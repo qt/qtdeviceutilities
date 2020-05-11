@@ -96,11 +96,11 @@ Item {
     Connections {
         ignoreUnknownSignals: true
         target: inputItem && !Qt.inputMethod.animating ? Qt.inputMethod : null
-        onKeyboardRectangleChanged: delayedLoading.triggered()
+        function onKeyboardRectangleChanged() { delayedLoading.triggered() }
     }
     Connections {
         ignoreUnknownSignals: true
         target: inputItem && inputItem.activeFocus ? inputItem : null
-        onCursorRectangleChanged: delayedLoading.triggered()
+        function onCursorRectangleChanged() { delayedLoading.triggered() }
     }
 }

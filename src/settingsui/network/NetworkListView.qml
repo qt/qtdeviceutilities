@@ -135,7 +135,7 @@ ListView {
 
     Connections {
         target: NetworkSettingsManager.userAgent
-        onShowUserCredentialsInput : {
+        function onShowUserCredentialsInput() {
             passphraseEnter.visible = true;
         }
     }
