@@ -40,4 +40,5 @@ Item {
     property string buttonGrayColor: "#9d9faa"
     property string buttonActiveColor: "#216729"
     property string scrollBarColor: "#41cd52"
+    property bool usbEthernetSettingVisible: false
 }
