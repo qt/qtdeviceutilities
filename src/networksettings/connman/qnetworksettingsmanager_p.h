@@ -74,6 +74,10 @@ public:
     QNetworkSettingsService* currentWifiConnection() const {return m_currentWifiConnection;}
     void setCurrentWiredConnection(QNetworkSettingsService *connection) {m_currentWiredConnection = connection;}
     QNetworkSettingsService* currentWiredConnection() const {return m_currentWiredConnection;}
+    QString usbEthernetInternetProtocolAddress();
+    QString usbVirtualEthernetLinkProtocol();
+    bool hasUsbEthernetProtocolConfiguration();
+    void setUsbVirtualEthernetLinkProtocol(const QString &protocol);
 
 public slots:
     void getServicesFinished(QDBusPendingCallWatcher *watcher);
@@ -84,9 +88,14 @@ public slots:
     void onConnmanServiceRegistered(const QString &serviceName);
     void onTechnologyAdded(const QDBusObjectPath &technology, const QVariantMap &properties);
     void onTechnologyRemoved(const QDBusObjectPath &technology);
+
 private:
     bool initialize();
-    void handleNewService(const QString& servicePath);
+    void handleNewService(const QString &servicePath);
+    void writeUsbEthernetProtocolToFileContent(QByteArray &fileContent, const QString &protocol);
+    static QByteArray readQdbdFileContent();
+    static QByteArray readUsbEthernetProtocolLine();
+
 protected:
     QNetworkSettingsInterfaceModel m_interfaceModel;
     QNetworkSettingsServiceModel *m_serviceModel;

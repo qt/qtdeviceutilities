@@ -33,10 +33,14 @@
 #include "qnetworksettingsinterface_p.h"
 #include "qnetworksettingsservicemodel.h"
 #include "qnetworksettingsuseragent.h"
+#include <QFile>
+#include <QNetworkInterface>
 
 QT_BEGIN_NAMESPACE
 
 const QString ConnManServiceName(QStringLiteral("net.connman"));
+const QString QdbdFileName(QStringLiteral("/etc/default/qdbd"));
+const char* SearchKeyword("USB_ETHERNET_PROTOCOL=");
 
 QNetworkSettingsManagerPrivate::QNetworkSettingsManagerPrivate(QNetworkSettingsManager *parent)
     :QObject(parent)
@@ -254,6 +258,7 @@ void QNetworkSettingsManagerPrivate::onServicesChanged(ConnmanMapStructList chan
     foreach (QString newService, newServices) {
         handleNewService(newService);
     }
+
 }
 
 void QNetworkSettingsManagerPrivate::handleNewService(const QString &servicePath)
@@ -316,7 +321,88 @@ void QNetworkSettingsManagerPrivate::serviceReady()
                 technology->setState(technology->state());
             }
         }
+    }
+}
 
+QString QNetworkSettingsManagerPrivate::usbEthernetInternetProtocolAddress()
+{
+    QString usbEthernetIp = QLatin1String("Not connected");
+    QNetworkInterface interface = QNetworkInterface::interfaceFromName(QLatin1String("usb0"));
+    if (interface.flags().testFlag(QNetworkInterface::IsUp)) {
+        for (QNetworkAddressEntry &entry:interface.addressEntries()) {
+            if (entry.ip().protocol() == QAbstractSocket::IPv4Protocol){
+                usbEthernetIp = entry.ip().toString();
+                break;
+            }
+        }
+    }
+    return usbEthernetIp;
+}
+
+QString QNetworkSettingsManagerPrivate::usbVirtualEthernetLinkProtocol()
+{
+    QByteArray line(QNetworkSettingsManagerPrivate::readUsbEthernetProtocolLine());
+    QString protocol;
+    if (line.size()) {
+        int keywordStartIndex(line.indexOf("="));
+        line = line.trimmed();
+        protocol = QString::fromLatin1( line.mid(keywordStartIndex + 1, (line.length() - 1)).toUpper() );
+    }
+    return protocol;
+}
+
+bool QNetworkSettingsManagerPrivate::hasUsbEthernetProtocolConfiguration()
+{
+    return !(QNetworkSettingsManagerPrivate::readUsbEthernetProtocolLine().isEmpty());
+}
+
+void QNetworkSettingsManagerPrivate::setUsbVirtualEthernetLinkProtocol(const QString &protocol)
+{
+    if (QLatin1String("RNDIS") == protocol || QLatin1String("CDCECM") == protocol) {
+        QByteArray fileContent(QNetworkSettingsManagerPrivate::readQdbdFileContent());
+        writeUsbEthernetProtocolToFileContent(fileContent, protocol);
+    } else{
+        qWarning("Unsupported USB Ethernet protocol");
+    }
+}
+
+QByteArray QNetworkSettingsManagerPrivate::readQdbdFileContent()
+{
+    QFile qdbdFile(QdbdFileName);
+    QByteArray fileContent;
+    if (qdbdFile.open(QIODevice::ReadOnly | QIODevice::Text))
+        fileContent = qdbdFile.readAll();
+
+    return fileContent;
+}
+
+QByteArray QNetworkSettingsManagerPrivate::readUsbEthernetProtocolLine()
+{
+    QByteArray fileContent(QNetworkSettingsManagerPrivate::readQdbdFileContent());
+    int keywordStartIndex(fileContent.indexOf(SearchKeyword, 0));
+    int keywordLineEndIndex(fileContent.indexOf("\n", keywordStartIndex));
+    QByteArray keywordLine = fileContent.mid(keywordStartIndex, keywordLineEndIndex);
+    return keywordLine;
+}
+
+void QNetworkSettingsManagerPrivate::writeUsbEthernetProtocolToFileContent(QByteArray &fileContent, const QString &protocol)
+{
+    int keywordStartIndex(fileContent.indexOf(SearchKeyword));
+    QByteArray previousLines = fileContent.mid(0, keywordStartIndex);
+    int keywordLineEndIndex(fileContent.indexOf("\n", keywordStartIndex));
+    QByteArray keywordLine = fileContent.mid(keywordStartIndex, keywordLineEndIndex);
+    QByteArray followingLines = fileContent.mid((keywordLineEndIndex), (fileContent.length() - 1));
+    QByteArray updatedLines = previousLines.append(SearchKeyword);
+    updatedLines.append(protocol.toLatin1().toLower());
+    updatedLines.append(followingLines);
+    QFile qdbdFile(QdbdFileName);
+    if (qdbdFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        int result = qdbdFile.write(updatedLines);
+        if (-1 == result)
+            qDebug("USB Ethernet protocol write to file failed");
+
+    } else {
+        qDebug("USB Ethernet protocol file open failed");
     }
 }
 
