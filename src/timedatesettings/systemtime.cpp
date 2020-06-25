@@ -56,6 +56,7 @@ QT_BEGIN_NAMESPACE
 /*!
     \class SystemTime
     \inmodule QtTimeDateSettings
+    \inheaderfile systemtime.h
     \brief The SystemTime class manages the system date and time.
 */
 
