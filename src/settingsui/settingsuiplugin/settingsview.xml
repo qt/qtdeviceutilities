@@ -7,35 +7,5 @@
             <path>network</path>
             <icon>newIcons/network_icon.svg</icon>
         </item>
-        <item>
-            <title>Display</title>
-            <view>Display</view>
-            <path>display</path>
-            <icon>newIcons/display_icon.svg</icon>
-        </item>
-        <item>
-            <title>Date &amp; Time</title>
-            <view>TimeDate</view>
-            <path>timedate</path>
-            <icon>newIcons/date-time_icon.svg</icon>
-        </item>
-        <item>
-            <title>Language &amp; Region</title>
-            <view>Language</view>
-            <path>locale</path>
-            <icon>newIcons/language_icon.svg</icon>
-        </item>
-        <item>
-            <title>Bluetooth</title>
-            <view>Bluetooth</view>
-            <path>bluetooth</path>
-            <icon>newIcons/bluetooth_icon.svg</icon>
-        </item>
-        <item>
-            <title>Power</title>
-            <view>Power</view>
-            <path>power</path>
-            <icon>newIcons/power_icon.svg</icon>
-        </item>
     </settings>
 </xml>

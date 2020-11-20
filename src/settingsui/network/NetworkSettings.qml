@@ -31,147 +31,13 @@ import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.2
 import QtDeviceUtilities.NetworkSettings 1.0
 import QtDeviceUtilities.QtButtonImageProvider 1.0
-import QtDeviceUtilities.LocalDeviceSettings 1.0
 import "../common"
-import "../timedate"
 
 Item {
     id: networkSettingsRoot
     property string title: qsTr("Network Settings")
-    property bool usbEthernetSettingVisibility: ( viewSettings.usbEthernetSettingVisible && NetworkSettingsManager.hasUsbEthernetProtocolConfiguration() ) ? true : false
     anchors.fill: parent
-    Text {
-        id: usbEthernetTitleText
-        visible: usbEthernetSettingVisibility
-        text: qsTr("USB Ethernet")
-        font.pixelSize: pluginMain.subTitleFontSize
-        font.family: appFont
-        font.styleName: "SemiBold"
-        color: "white"
-        anchors.left: parent.left
-    }
-    TextArea {
-        id: ipAddressTextArea
-        visible: usbEthernetSettingVisibility
-        text: qsTr("IP Address:") + NetworkSettingsManager.usbEthernetIpAddress
-        color: viewSettings.buttonGreenColor
-        font.family: appFont
-        font.styleName: "SemiBold"
-        font.pixelSize: pluginMain.subTitleFontSize - 2
-        opacity: 1.0
-        readOnly: true
-        anchors.left: usbEthernetTitleText.left
-        anchors.verticalCenter: usbEthernetCustomComboBox.verticalCenter
-        anchors.leftMargin: 15
-    }
-    CustomComboBox {
-        id: usbEthernetCustomComboBox
-        visible: usbEthernetSettingVisibility
-        width: root.width * 0.15
-        height: pluginMain.buttonHeight
-        anchors.top: usbEthernetTitleText.bottom
-        anchors.left: ipAddressTextArea.right
-        anchors.right: setUsbEthernetButton.left
-        anchors.rightMargin: 15
-        anchors.leftMargin: 15
-        model: ["RNDIS", "CDCECM" ]
-        currentIndex: 0
-        delegate: ItemDelegate {
-            id: usbEthernetDelegate
-            contentItem: Text {
-                anchors.left: usbEthernetDelegate.left
-                anchors.leftMargin: pluginMain.margin
-                text: modelData
-                color: usbEthernetCustomComboBox.currentIndex == index ? viewSettings.buttonGreenColor : "white"
-                elide: Text.ElideRight
-                verticalAlignment: Text.AlignVCenter
-                font.pixelSize: pluginMain.valueFontSize
-                font.family: appFont
-                font.styleName: "Regular"
-            }
-        }
-        Component.onCompleted: {
-            usbEthernetCustomComboBox.currentIndex = "RNDIS" === NetworkSettingsManager.usbEthernetProtocol ? 0 : 1
-        }
-    }
-    QtButton {
-        id: setUsbEthernetButton
-        visible: usbEthernetSettingVisibility
-        height: pluginMain.buttonHeight
-        text: qsTr("SAVE & REBOOT")
-        anchors.right: parent.right
-        anchors.verticalCenter: usbEthernetCustomComboBox.verticalCenter
-        onClicked: {
-            showRebootAcceptPopup();
-        }
-    }
 
-    function showRebootAcceptPopup() {
-        messageDialog.visible = true
-    }
-
-    Dialog {
-        function rebootAccepted() {
-            NetworkSettingsManager.setUsbVirtualEthernetLinkProtocol(usbEthernetCustomComboBox.currentText)
-            LocalDevice.reboot()
-        }
-        id: messageDialog
-        anchors.centerIn: parent
-        width: parent.width
-        height: parent.height
-        opacity: 0.9
-        background: Rectangle{
-            id: messageDialogMainRectangle
-            width: parent.width
-            height: parent.height
-            color: viewSettings.backgroundColor
-        }
-        Rectangle {
-            id: messageDialogPopupRectangle
-            color: viewSettings.backgroundColor
-            border.color: viewSettings.borderColor
-            border.width: 3
-            anchors.centerIn: parent
-            width: parent.width * 0.75
-            height: parent.height * 0.75
-            Column {
-                anchors.centerIn: parent
-                spacing: viewSettings.pageMargin
-                Text {
-                    id: shutDownConfirmText
-                    width: messageDialogPopupRectangle.width * 0.75
-                    height: messageDialogPopupRectangle.height * 0.25
-                    horizontalAlignment: Text.AlignHCenter
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    fontSizeMode: Text.Fit
-                    minimumPixelSize: 1
-                    font.pixelSize: messageDialogPopupRectangle.width * 0.3
-                    color: "white"
-                    font.family: viewSettings.appFont
-                    font.styleName: "SemiBold"
-                    text: "Save and reboot the system?"
-                }
-                QtButton {
-                    id: saveRebootConfirm
-                    height: pluginMain.buttonHeight
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    text: "OK"
-                    onClicked: messageDialog.rebootAccepted();
-                }
-                QtButton {
-                    id: saveRebootCancel
-                    height: pluginMain.buttonHeight
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    borderColor: "transparent"
-                    fillColor: viewSettings.buttonGrayColor
-                    text: qsTr("CANCEL")
-                    onClicked: {
-                        messageDialog.visible = false
-                    }
-                }
-            }
-        }
-    }
     Text {
         id: wlanText
         text: qsTr("WLAN")
@@ -179,7 +45,7 @@ Item {
         font.family: appFont
         font.styleName: "SemiBold"
         color: "white"
-        anchors.top: usbEthernetSettingVisibility ? usbEthernetCustomComboBox.bottom : networkSettingsRoot.top
+        anchors.top: networkSettingsRoot.top
         anchors.left: parent.left
     }
     CustomSwitch {

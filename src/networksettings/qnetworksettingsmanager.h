@@ -52,8 +52,6 @@ class Q_DECL_EXPORT QNetworkSettingsManager : public QObject
     Q_PROPERTY(QNetworkSettingsUserAgent* userAgent READ userAgent CONSTANT)
     Q_PROPERTY(QNetworkSettingsService* currentWifiConnection READ currentWifiConnection NOTIFY currentWifiConnectionChanged)
     Q_PROPERTY(QNetworkSettingsService* currentWiredConnection READ currentWiredConnection NOTIFY currentWiredConnectionChanged)
-    Q_PROPERTY(QString usbEthernetIpAddress READ usbEthernetInternetProtocolAddress NOTIFY usbEthernetInternetProtocolAddressChanged)
-    Q_PROPERTY(QString usbEthernetProtocol READ usbVirtualEthernetLinkProtocol NOTIFY usbVirtualEthernetLinkProtocolChanged)
 
 public:
     explicit QNetworkSettingsManager(QObject* parent = Q_NULLPTR);
@@ -71,18 +69,12 @@ public:
     QNetworkSettingsService* currentWifiConnection();
     QNetworkSettingsService* currentWiredConnection();
     Q_INVOKABLE QNetworkSettingsInterface* interface(int type, int instance);
-    Q_INVOKABLE QString usbEthernetInternetProtocolAddress();
-    Q_INVOKABLE QString usbVirtualEthernetLinkProtocol();
-    Q_INVOKABLE bool hasUsbEthernetProtocolConfiguration();
-    Q_INVOKABLE void setUsbVirtualEthernetLinkProtocol(const QString &protocol);
 
 Q_SIGNALS:
     void servicesChanged();
     void interfacesChanged();
     void currentWifiConnectionChanged();
     void currentWiredConnectionChanged();
-    void usbEthernetInternetProtocolAddressChanged(const QString &newusbEthernetIpAddress);
-    void usbVirtualEthernetLinkProtocolChanged(const QString &newUsbEthernetProtocol);
 
 protected:
     QNetworkSettingsManagerPrivate *d_ptr;

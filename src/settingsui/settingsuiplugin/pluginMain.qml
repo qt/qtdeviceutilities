@@ -31,7 +31,6 @@ import QtQuick.Layouts 1.2
 import QtQuick.Controls 2.0
 import Qt.labs.settings 1.0
 import QtQuick.XmlListModel 2.0
-import QtDeviceUtilities.LocalDeviceSettings 1.0
 import QtDeviceUtilities.NetworkSettings 1.0
 import QtGraphicalEffects 1.0
 
@@ -124,21 +123,5 @@ Rectangle {
         anchors.bottom: parent.bottom
         anchors.leftMargin: pluginMain.margin * 2
         anchors.rightMargin: pluginMain.margin * 2
-    }
-
-    ShutdownPopup {
-        id: shutdownPopup
-        visible: false
-
-        onAccepted: {
-            if (shutdown) {
-                console.log("Powering off!")
-                LocalDevice.powerOff()
-            }
-            else {
-                console.log("Rebooting!")
-                LocalDevice.reboot()
-            }
-        }
     }
 }

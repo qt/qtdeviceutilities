@@ -330,41 +330,4 @@ QNetworkSettingsUserAgent* QNetworkSettingsManager::userAgent()
     return d->userAgent();
 }
 
-/*!
-    Returns the ip address of usb ethernet network.
-*/
-QString QNetworkSettingsManager::usbEthernetInternetProtocolAddress()
-{
-    Q_D(QNetworkSettingsManager);
-    return d->usbEthernetInternetProtocolAddress();
-}
-
-/*!
-    Returns the usb ethernet protocol
-*/
-QString QNetworkSettingsManager::usbVirtualEthernetLinkProtocol()
-{
-    Q_D(QNetworkSettingsManager);
-    return d->usbVirtualEthernetLinkProtocol();
-}
-
-
-/*!
-    Returns true if usb ethernet protocol is configured by file and configuration file exists.
-*/
-bool QNetworkSettingsManager::hasUsbEthernetProtocolConfiguration()
-{
-    Q_D(QNetworkSettingsManager);
-    return d->hasUsbEthernetProtocolConfiguration();
-}
-
-/*!
-    Set the usb ethernet protocol according to parameter.
-*/
-void QNetworkSettingsManager::setUsbVirtualEthernetLinkProtocol(const QString &protocol)
-{
-    Q_D(QNetworkSettingsManager);
-    d->setUsbVirtualEthernetLinkProtocol(protocol);
-}
-
 QT_END_NAMESPACE

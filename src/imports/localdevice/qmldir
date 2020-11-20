@@ -1,4 +1,0 @@
-module QtDeviceUtilities.LocalDeviceSettings
-plugin localdeviceplugin
-classname LocalDeviceSettingsQmlPlugin
-typeinfo plugins.qmltypes

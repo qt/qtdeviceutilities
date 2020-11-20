@@ -31,21 +31,16 @@
         <file>icons/Chevron-left_black.png</file>
         <file>icons/Power_black_6x.png</file>
         <file>newIcons/back_icon.svg</file>
-        <file>newIcons/bluetooth_icon.svg</file>
         <file>newIcons/close_icon.svg</file>
-        <file>newIcons/date-time_icon.svg</file>
         <file>newIcons/detail_icon.svg</file>
-        <file>newIcons/display_icon.svg</file>
         <file>newIcons/grid_icon.svg</file>
         <file>newIcons/header_toggle_icon.svg</file>
         <file>newIcons/info_icon.svg</file>
-        <file>newIcons/language_icon.svg</file>
         <file>newIcons/mouse_icon.svg</file>
         <file>newIcons/mute_icon.svg</file>
         <file>newIcons/network_icon.svg</file>
         <file>newIcons/pause_icon.svg</file>
         <file>newIcons/play_icon.svg</file>
-        <file>newIcons/power_icon.svg</file>
         <file>newIcons/settings_icon.svg</file>
         <file>newIcons/settingsmenu_launcher_icon.svg</file>
         <file>newIcons/stop_icon.svg</file>
