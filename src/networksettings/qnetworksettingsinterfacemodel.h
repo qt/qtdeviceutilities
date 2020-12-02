@@ -43,9 +43,9 @@ class Q_DECL_EXPORT QNetworkSettingsInterfaceModel : public QAbstractListModel
 public:
     explicit QNetworkSettingsInterfaceModel(QObject *parent = Q_NULLPTR);
     // from QAbstractItemModel
-    int rowCount(const QModelIndex & parent = QModelIndex()) const;
-    QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const;
-    QHash<int, QByteArray> roleNames() const;
+    int rowCount(const QModelIndex & parent = QModelIndex()) const override;
+    QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const override;
+    QHash<int, QByteArray> roleNames() const override;
 
     void append(QNetworkSettingsInterface* networkInterface);
     void insert(int row, QNetworkSettingsInterface* networkInterface);

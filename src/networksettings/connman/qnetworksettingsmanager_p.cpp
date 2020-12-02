@@ -26,15 +26,17 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
+#include <QFile>
+#include <QNetworkInterface>
 #include "qnetworksettingsmanager_p.h"
-#include "connman_manager_interface.cpp"
-#include "moc_connman_manager_interface.cpp"
 #include "qnetworksettingsinterface.h"
 #include "qnetworksettingsinterface_p.h"
 #include "qnetworksettingsservicemodel.h"
 #include "qnetworksettingsuseragent.h"
-#include <QFile>
-#include <QNetworkInterface>
+#include "moc_connman_manager_interface.cpp"
+#ifdef QMAKE_BUILD
+#include "connman_manager_interface.cpp"
+#endif
 
 QT_BEGIN_NAMESPACE
 
@@ -53,6 +55,8 @@ QNetworkSettingsManagerPrivate::QNetworkSettingsManagerPrivate(QNetworkSettingsM
     , m_currentWiredConnection(Q_NULLPTR)
     , m_initialized(false)
 {
+    qRegisterMetaType<ConnmanMapStruct>("ConnmanMapStruct");
+    qRegisterMetaType<ConnmanMapStructList>("ConnmanMapStructList");
     qDBusRegisterMetaType<ConnmanMapStruct>();
     qDBusRegisterMetaType<ConnmanMapStructList>();
 
@@ -99,7 +103,7 @@ bool QNetworkSettingsManagerPrivate::initialize()
         connect(m_manager, &NetConnmanManagerInterface::TechnologyAdded, this, &QNetworkSettingsManagerPrivate::onTechnologyAdded);
         connect(m_manager, &NetConnmanManagerInterface::TechnologyRemoved, this, &QNetworkSettingsManagerPrivate::onTechnologyRemoved);
 
-        m_manager->RegisterAgent(QDBusObjectPath(AgentPath));
+        m_manager->RegisterAgent(QDBusObjectPath(PropertyAgentPath));
         m_initialized = true;
     } else {
         delete m_manager;

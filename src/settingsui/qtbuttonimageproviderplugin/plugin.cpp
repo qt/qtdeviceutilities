@@ -49,14 +49,14 @@ class QtButtonImageProviderQmlPlugin : public QQmlExtensionPlugin
 public:
     QtButtonImageProviderQmlPlugin(QObject *parent = nullptr) : QQmlExtensionPlugin(parent) { initResources(); }
 
-    void registerTypes(const char *uri)
+    void registerTypes(const char *uri) override
     {
         Q_UNUSED(uri)
         Q_ASSERT(uri == QLatin1String("QtDeviceUtilities.QtButtonImageProvider"));
         qmlRegisterType(QUrl("qrc:/QtButton.qml"), uri, 1, 0, "QtButton");
     }
 
-    void initializeEngine(QQmlEngine *engine, const char *uri)
+    void initializeEngine(QQmlEngine *engine, const char *uri) override
     {
         Q_UNUSED(uri);
         QtButtonImageProvider *provider = new QtButtonImageProvider();

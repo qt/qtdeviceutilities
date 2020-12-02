@@ -1,6 +1,7 @@
 QT       += core network dbus
 
 INCLUDEPATH += $${PWD}/connman
+DEFINES += QMAKE_BUILD
 
 DBUS_INTERFACES = \
     connman/connman_manager.xml \

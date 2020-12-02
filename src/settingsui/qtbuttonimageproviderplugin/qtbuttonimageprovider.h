@@ -37,7 +37,7 @@ class QtButtonImageProvider : public QQuickImageProvider
 public:
     QtButtonImageProvider();
 
-    QPixmap requestPixmap(const QString &id, QSize *size, const QSize &requestedSize);
+    QPixmap requestPixmap(const QString &id, QSize *size, const QSize &requestedSize) override;
 
     void setCutSize(int size) { m_cutSize = size; }
 private:

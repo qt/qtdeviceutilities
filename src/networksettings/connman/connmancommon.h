@@ -33,7 +33,7 @@
 #include <QtDBus>
 #include <QtNetworkSettings/qnetworksettings.h>
 
-#define AgentPath "/ConnmanAgent"
+#define PropertyAgentPath QStringLiteral("/ConnmanAgent")
 #define PropertyState QStringLiteral("State")
 #define PropertyName QStringLiteral("Name")
 #define PropertyType QStringLiteral("Type")

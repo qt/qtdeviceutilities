@@ -76,7 +76,7 @@ void QNetworkSettingsUserAgentPrivate::ReportError(const QDBusObjectPath &path, 
 void QNetworkSettingsUserAgentPrivate::registerAgent()
 {
     Q_Q(QNetworkSettingsUserAgent);
-    QDBusConnection::systemBus().registerObject(QStringLiteral(AgentPath), q);
+    QDBusConnection::systemBus().registerObject(PropertyAgentPath, q);
 }
 
 QVariantMap QNetworkSettingsUserAgentPrivate::RequestInput(const QDBusObjectPath &path, const QVariantMap &params, const QDBusMessage &msg)

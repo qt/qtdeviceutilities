@@ -32,14 +32,13 @@
 #include <QtNetworkSettings/qnetworksettings.h>
 #include <QObject>
 #include <QStringListModel>
+#include "qnetworksettingsservicemodel.h"
+#include "qnetworksettingsinterfacemodel.h"
+#include "qnetworksettingsuseragent.h"
+#include "qnetworksettingsservice.h"
 
 QT_FORWARD_DECLARE_CLASS(QNetworkSettingsManagerPrivate)
-QT_FORWARD_DECLARE_CLASS(QNetworkSettingsService)
-QT_FORWARD_DECLARE_CLASS(QNetworkSettingsServiceModel)
-QT_FORWARD_DECLARE_CLASS(QNetworkSettingsUserAgent)
-QT_FORWARD_DECLARE_CLASS(QNetworkSettingsServiceFilter)
 QT_FORWARD_DECLARE_CLASS(QNetworkSettingsInterface)
-QT_FORWARD_DECLARE_CLASS(QNetworkSettingsInterfaceModel)
 
 QT_BEGIN_NAMESPACE
 

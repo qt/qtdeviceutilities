@@ -42,9 +42,9 @@ public:
     explicit QNetworkSettingsServiceModel(QObject *parent = Q_NULLPTR);
     virtual ~QNetworkSettingsServiceModel();
     // from QAbstractItemModel
-    int rowCount(const QModelIndex & parent = QModelIndex()) const;
-    QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const;
-    QHash<int, QByteArray> roleNames() const;
+    int rowCount(const QModelIndex & parent = QModelIndex()) const override;
+    QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const override;
+    QHash<int, QByteArray> roleNames() const override;
 
     bool replacePlaceholder(QNetworkSettingsService* networkService);
     void append(QNetworkSettingsService* networkService);
