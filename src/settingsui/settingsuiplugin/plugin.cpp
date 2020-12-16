@@ -38,7 +38,7 @@ static void initResources()
 }
 
 /*!
-    \qmlmodule QtDeviceUtilities.SettingsUI 1.0
+    \qmlmodule QtDeviceUtilities.SettingsUI
     \title Qt Device Utilities: Settings UI
     \ingroup qtdevice-utilities-qml-modules
     \ingroup qmlmodules
@@ -51,7 +51,7 @@ static void initResources()
     To import and use the module's QML types, use the following statement:
 
     \badcode
-    import QtDeviceUtilities.SettingsUI 1.0
+    import QtDeviceUtilities.SettingsUI
     \endcode
 
     \section1 QML Types
@@ -68,8 +68,8 @@ static void initResources()
     For example:
 
     \qml
-    import QtQuick 2.6
-    import QtDeviceUtilities.SettingsUI 1.0
+    import QtQuick
+    import QtDeviceUtilities.SettingsUI
 
     SettingsUI {
         id: settingsUI
@@ -94,7 +94,7 @@ public:
     {
         // @uri QtDeviceUtilities.SettingsUI
         Q_ASSERT(uri == QLatin1String("QtDeviceUtilities.SettingsUI"));
-        qmlRegisterType(QUrl("qrc:/pluginMain.qml"), uri, 1, 0, "SettingsUI");
+        qmlRegisterType(QUrl("qrc:/pluginMain.qml"), uri, 2, 0, "SettingsUI");
     }
 
 };

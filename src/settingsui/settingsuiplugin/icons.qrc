@@ -1,51 +1,12 @@
 <RCC>
     <qresource prefix="/">
         <file>icons/Alert_yellow_1x.png</file>
-        <file>icons/Audio_qt_6x.png</file>
-        <file>icons/Bluetooth_qt_1x.png</file>
-        <file>icons/Bluetooth_qt_6x.png</file>
-        <file>icons/Camcorder_qt_1x.png</file>
-        <file>icons/Camera_qt_1x.png</file>
-        <file>icons/Clock_qt_1x.png</file>
-        <file>icons/Clock_qt_6x.png</file>
-        <file>icons/Display_qt_6x.png</file>
-        <file>icons/Flag_qt_6x.png</file>
         <file>icons/FloatingButton_Active.png</file>
         <file>icons/FloatingButton_Available.png</file>
         <file>icons/FloatingButton_Unavailable.png</file>
-        <file>icons/Headphones_qt_1x.png</file>
-        <file>icons/Heartbeat_qt_1x.png</file>
-        <file>icons/Keyboard_qt_1x.png</file>
-        <file>icons/Laptop_qt_1x.png</file>
-        <file>icons/Microphone_qt_1x.png</file>
-        <file>icons/MobilePhone_qt_1x.png</file>
-        <file>icons/Mouse_qt_1x.png</file>
-        <file>icons/Tablet_qt_1x.png</file>
-        <file>icons/Volume_down_qt_1x.png</file>
-        <file>icons/Volume_mute_qt_1x.png</file>
-        <file>icons/Volume_up_qt_1x.png</file>
         <file>icons/WifiAnim_black_2x.png</file>
         <file>icons/Wifi_lightgray_2x.png</file>
-        <file>icons/World_qt_6x.png</file>
-        <file>icons/Chevron-left_black_6x.png</file>
-        <file>icons/Chevron-left_black.png</file>
-        <file>icons/Power_black_6x.png</file>
         <file>newIcons/back_icon.svg</file>
-        <file>newIcons/close_icon.svg</file>
-        <file>newIcons/detail_icon.svg</file>
-        <file>newIcons/grid_icon.svg</file>
-        <file>newIcons/header_toggle_icon.svg</file>
-        <file>newIcons/info_icon.svg</file>
-        <file>newIcons/mouse_icon.svg</file>
-        <file>newIcons/mute_icon.svg</file>
         <file>newIcons/network_icon.svg</file>
-        <file>newIcons/pause_icon.svg</file>
-        <file>newIcons/play_icon.svg</file>
-        <file>newIcons/settings_icon.svg</file>
-        <file>newIcons/settingsmenu_launcher_icon.svg</file>
-        <file>newIcons/stop_icon.svg</file>
-        <file>newIcons/touch_icon.svg</file>
-        <file>newIcons/volume_icon.svg</file>
-        <file>newIcons/qt_logo_green_rgb.svg</file>
     </qresource>
 </RCC>

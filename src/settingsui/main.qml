@@ -26,10 +26,10 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-import QtQuick 2.6
-import QtQuick.Window 2.2
-import QtDeviceUtilities.SettingsUI 1.0
-import QtQuick.VirtualKeyboard 2.0
+import QtQuick
+import QtQuick.Window
+import QtDeviceUtilities.SettingsUI
+import QtQuick.VirtualKeyboard
 import "common"
 
 Window {

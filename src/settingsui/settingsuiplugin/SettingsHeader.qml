@@ -26,8 +26,8 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-import QtQuick 2.0
-import QtDeviceUtilities.NetworkSettings 1.0
+import QtQuick
+import QtDeviceUtilities.NetworkSettings
 
 Item {
     id: header

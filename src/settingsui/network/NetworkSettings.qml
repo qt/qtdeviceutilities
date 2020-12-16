@@ -26,11 +26,11 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-import QtQuick 2.6
-import QtQuick.Layouts 1.3
-import QtQuick.Controls 2.2
-import QtDeviceUtilities.NetworkSettings 1.0
-import QtDeviceUtilities.QtButtonImageProvider 1.0
+import QtQuick
+import QtQuick.Layouts
+import QtQuick.Controls
+import QtDeviceUtilities.NetworkSettings
+import QtDeviceUtilities.QtButtonImageProvider
 import "../common"
 
 Item {
@@ -88,7 +88,7 @@ Item {
         anchors.top: wlanText.bottom
         anchors.left: wifiSwitch.right
         anchors.right: manualDisconnect.left
-        anchors.rightMargin: 15
+        anchors.rightMargin: 10
         enabled: wifiSwitch.checked
         fillColor: enabled ? viewSettings.buttonGreenColor : viewSettings.buttonGrayColor
         borderColor: "transparent"
@@ -115,12 +115,13 @@ Item {
     }
     Text {
         id: networkListTextItem
-        text: qsTr("Network list")
+        text: qsTr("Network list:")
         font.pixelSize: pluginMain.subTitleFontSize
         font.family: appFont
         font.styleName: "SemiBold"
         color: "white"
         anchors.top: wifiSwitch.bottom
+        anchors.topMargin: 10
     }
     NetworkListView {
         id: networkList

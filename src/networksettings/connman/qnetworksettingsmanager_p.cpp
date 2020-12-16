@@ -34,9 +34,6 @@
 #include "qnetworksettingsservicemodel.h"
 #include "qnetworksettingsuseragent.h"
 #include "moc_connman_manager_interface.cpp"
-#ifdef QMAKE_BUILD
-#include "connman_manager_interface.cpp"
-#endif
 
 QT_BEGIN_NAMESPACE
 

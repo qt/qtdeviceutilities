@@ -26,11 +26,11 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-import QtQuick 2.0
-import QtQml 2.0
-import QtDeviceUtilities.NetworkSettings 1.0
-import QtDeviceUtilities.QtButtonImageProvider 1.0
-import QtQuick.Controls 2.1
+import QtQuick
+import QtQml
+import QtDeviceUtilities.NetworkSettings
+import QtDeviceUtilities.QtButtonImageProvider
+import QtQuick.Controls
 
 ListView {
     id: list

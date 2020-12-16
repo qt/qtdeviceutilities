@@ -40,7 +40,7 @@
 #include <QQmlContext>
 
 /*!
-    \qmlmodule QtDeviceUtilities.NetworkSettings 1.0
+    \qmlmodule QtDeviceUtilities.NetworkSettings
     \ingroup qtdevice-utilities-qml-modules
     \ingroup qmlmodules
     \title Qt Network Settings QML Types
@@ -53,7 +53,7 @@
     To import and use the module's QML types, use the following statement:
 
     \badcode
-    import QtDeviceUtilities.NetworkSettings 1.0
+    import QtDeviceUtilities.NetworkSettings
     \endcode
 
     \l{Qt Device Utilities WiFi Tutorial} demonstrates how you can use
@@ -185,7 +185,7 @@ void NetworkSettingsQmlPlugin::registerTypes(const char *uri)
     qRegisterMetaType<QNetworkSettingsServiceFilter*>("QNetworkSettingsServiceFilter*");
     qRegisterMetaType<QNetworkSettingsInterfaceModel*>("QNetworkSettingsInterfaceModel*");
 
-    qmlRegisterSingletonType<QNetworkSettingsManager>(uri, 1, 0, "NetworkSettingsManager", &instance<QNetworkSettingsManager>);
+    qmlRegisterSingletonType<QNetworkSettingsManager>(uri, 2, 0, "NetworkSettingsManager", &instance<QNetworkSettingsManager>);
 }
 
 QT_END_NAMESPACE

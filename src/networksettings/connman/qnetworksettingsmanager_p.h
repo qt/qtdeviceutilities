@@ -46,9 +46,8 @@
 #include "connmancommon.h"
 #include "qnetworksettingsmanager.h"
 #include "qnetworksettingsinterfacemodel.h"
+#include "connman_manager_interface.h"
 
-// Automatically generated class in global namespace
-class NetConnmanManagerInterface;
 QT_FORWARD_DECLARE_CLASS(QNetworkSettingsServiceModel)
 QT_FORWARD_DECLARE_CLASS(QNetworkSettingsServiceFilter)
 QT_FORWARD_DECLARE_CLASS(QNetworkSettingsService)

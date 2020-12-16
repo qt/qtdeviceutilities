@@ -26,8 +26,7 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-import QtQuick 2.0
-import QtGraphicalEffects 1.0
+import QtQuick
 
 Item {
     width: settingsList.width
@@ -46,13 +45,6 @@ Item {
         height: Math.min(parent.width * 0.5, parent.height * 0.6)
         width: height
         fillMode: Image.PreserveAspectFit
-        visible: parent.isSelected ? false : true
-    }
-    ColorOverlay {
-        source: img
-        anchors.fill: img
-        visible: parent.isSelected ? true : false
-        color: viewSettings.buttonGreenColor
     }
 
     Text {
@@ -71,6 +63,7 @@ Item {
         font.family: appFont
         font.styleName: parent.isSelected ? "Bold" : "Regular"
     }
+
     MouseArea {
         id: mouseArea
         anchors.fill: parent
@@ -80,6 +73,4 @@ Item {
             titleItem.title = title
         }
     }
-
-    Component.onCompleted: pluginMain.init()
 }

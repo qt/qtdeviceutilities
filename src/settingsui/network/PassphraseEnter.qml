@@ -26,10 +26,10 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-import QtQuick 2.0
-import QtQuick.Controls 2.0
-import QtDeviceUtilities.QtButtonImageProvider 1.0
-import QtDeviceUtilities.NetworkSettings 1.0
+import QtQuick
+import QtQuick.Controls
+import QtDeviceUtilities.QtButtonImageProvider
+import QtDeviceUtilities.NetworkSettings
 
 Rectangle {
     id: passphrasePopup

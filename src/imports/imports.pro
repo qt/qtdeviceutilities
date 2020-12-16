@@ -1,3 +1,3 @@
 TEMPLATE = subdirs
 
-qtHaveModule(networksettings): SUBDIRS += networksettings
+SUBDIRS += networksettings

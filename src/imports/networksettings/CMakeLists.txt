@@ -16,7 +16,7 @@ qt_add_qml_module(networksettingsplugin
         Qt::Gui
         Qt::Qml
         Qt::Quick
-        networksettings
+        Qt::NetworkSettings
 )
 
 #### Keys ignored in scope 1:.:.:networksettings.pro:<TRUE>:

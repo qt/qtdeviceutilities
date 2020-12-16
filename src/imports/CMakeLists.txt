@@ -1,5 +1,3 @@
 # Generated from imports.pro.
 
-if(TARGET networksettings)
-    add_subdirectory(networksettings)
-endif()
+add_subdirectory(networksettings)

@@ -26,7 +26,7 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-import QtQuick 2.6
+import QtQuick
 
 Item {
     id: root

@@ -26,8 +26,8 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-import QtQuick 2.6
-import QtQuick.VirtualKeyboard 2.0
+import QtQuick
+import QtQuick.VirtualKeyboard
 
 Item {
 

@@ -26,13 +26,11 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-import QtQuick 2.5
-import QtQuick.Layouts 1.2
-import QtQuick.Controls 2.0
-import Qt.labs.settings 1.0
-import QtQuick.XmlListModel 2.0
-import QtDeviceUtilities.NetworkSettings 1.0
-import QtGraphicalEffects 1.0
+import QtQuick
+import QtQuick.Layouts
+import QtQuick.Controls
+import Qt.labs.settings
+import QtDeviceUtilities.NetworkSettings
 
 Rectangle {
     id: pluginMain
@@ -41,7 +39,6 @@ Rectangle {
     color: "#09102b"
     opacity: 0.97
 
-    property bool __initialized: false
     property var service
     property int margin: (pluginMain.width / 3 * 2) * 0.05
     property int spacing: margin * 0.5
@@ -52,38 +49,29 @@ Rectangle {
     property int fieldTextHeight: height * 0.05
     property int buttonHeight: height * 0.05
 
-    property alias model: xmlModel.source
-
-    function init()
-    {
-        if (!__initialized) {
-            __initialized = true;
-            settingsList.currentIndex = 0
-            if (xmlModel.count >= 1) {
-                settingsLoader.source = xmlModel.get(0).path + '/' +
-                                        xmlModel.get(0).view + '.qml'
-                titleItem.title = xmlModel.get(0).title
-            } else {
-                titleItem.title = qsTr("No settings")
-            }
-        }
-    }
-
     signal closed()
 
-    XmlListModel {
-        id: xmlModel
-        source: "settingsview.xml"
-        query: "/xml/settings/item"
-        XmlRole { name: "title"; query: "title/string()"}
-        XmlRole { name: "icon"; query: "icon/string()"}
-        XmlRole { name: "view"; query: "view/string()"}
-        XmlRole { name: "path"; query: "path/string()"}
+    Component.onCompleted: {
+        settingsList.currentIndex = 0
+        settingsLoader.source = settingsListModel.get(0).path + '/' +
+                                settingsListModel.get(0).view + '.qml'
+        titleItem.title = settingsListModel.get(0).title
     }
 
     SettingsHeader {
         id: settingsHeader
         onClicked: pluginMain.closed()
+    }
+
+    ListModel {
+        id: settingsListModel
+
+        ListElement {
+            title: "Network"
+            view: "NetworkSettings"
+            path: "network"
+            icon: "newIcons/network_icon.svg"
+        }
     }
 
     ListView {
@@ -92,24 +80,15 @@ Rectangle {
         anchors.top: settingsHeader.bottom
         anchors.left: parent.left
         anchors.bottom: parent.bottom
-        width: parent.width / 3
-        model: xmlModel
+        width: parent.width / 3.33
+        model: settingsListModel
 
         delegate: SettingsDelegate {}
     }
 
-    Rectangle {
-        id: rightLine
-        width: 3
-        height: parent.height * 0.8
-        anchors.left: settingsList.right
-        anchors.top: settingsHeader.bottom
-        color: "#9d9faa"
-    }
-
     SettingsTitleItem {
         id: titleItem
-        anchors.left: rightLine.right
+        anchors.left: settingsList.right
         anchors.right: parent.right
         anchors.top: settingsHeader.bottom
         anchors.leftMargin: pluginMain.margin * 2
@@ -118,7 +97,7 @@ Rectangle {
     Loader {
         id: settingsLoader
         anchors.top: titleItem.bottom
-        anchors.left: rightLine.right
+        anchors.left: settingsList.right
         anchors.right: parent.right
         anchors.bottom: parent.bottom
         anchors.leftMargin: pluginMain.margin * 2
