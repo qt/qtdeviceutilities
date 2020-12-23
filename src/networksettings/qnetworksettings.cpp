@@ -44,8 +44,15 @@ QT_BEGIN_NAMESPACE
     #include <QtNetworkSettings>
     \endcode
 
-    To link against the corresponding C++ libraries, add the following to your
-    qmake project file:
+    To link against the corresponding C++ libraries when using CMake to build you application,
+    add the following to your CMakeLists.txt file:
+
+    \code
+    find_package(Qt6 COMPONENTS NetworkSettings REQUIRED)
+    target_link_libraries(mytarget Qt6::NetworkSettings)
+    \endcode
+
+    Or if you are using qmake to build your application, add the following line to your qmake .pro project file:
 
     \code
     QT += networksettings

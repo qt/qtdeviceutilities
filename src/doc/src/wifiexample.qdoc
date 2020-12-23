@@ -33,7 +33,7 @@
 
     Import the NetworkSettings module as follows:
     \badcode
-    import QtDeviceUtilities.NetworkSettings 1.0
+    import QtDeviceUtilities.NetworkSettings
     \endcode
 
     \section1 Filtering WiFi Networks

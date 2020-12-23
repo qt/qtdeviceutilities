@@ -35,22 +35,7 @@
 
     \section1 Classes
 
-    \section2 Qt Bluetooth Settings Module
-    \generatelist {classesbymodule QtBluetoothSettings}
-
-    \section2 Qt Display Settings Module
-    \generatelist {classesbymodule QtDisplaySettings}
-
-    \section2 Qt Local Device Settings Module
-    \generatelist {classesbymodule QtLocalDeviceSettings}
-
-    \section2 Qt Locale Settings Module
-    \generatelist {classesbymodule QtLocaleSettings}
-
     \section2 Qt Network Settings Module
     \generatelist {classesbymodule QtNetworkSettings}
-
-    \section2 Qt Time and Date Settings Module
-    \generatelist {classesbymodule QtTimeDateSettings}
 */
 

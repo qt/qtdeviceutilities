@@ -34,36 +34,16 @@
     following import statements in your .qml file:
 
     \badcode
-    import QtDeviceUtilities.BluetoothSettings 1.0
-    import QtDeviceUtilities.DisplaySettings 1.0
-    import QtDeviceUtilities.LocalDeviceSettings 1.0
-    import QtDeviceUtilities.LocaleSettings 1.0
-    import QtDeviceUtilities.NetworkSettings 1.0
-    import QtDeviceUtilities.SettingsUI 1.0
-    import QtDeviceUtilities.TimeDateSettings 1.0
+    import QtDeviceUtilities.NetworkSettings
+    import QtDeviceUtilities.SettingsUI
     \endcode
 
     \section1 QML Types
-
-    \section2 Qt Bluetooth Settings Module
-    \generatelist qmltypesbymodule QtDeviceUtilities.BluetoothSettings
-
-    \section2 Qt Display Settings Module
-    \generatelist qmltypesbymodule QtDeviceUtilities.DisplaySettings
-
-    \section2 Qt Local Device Settings Module
-    \generatelist qmltypesbymodule QtDeviceUtilities.LocalDeviceSettings
-
-    \section2 Qt Locale Settings Module
-    \generatelist qmltypesbymodule QtDeviceUtilities.LocaleSettings
 
     \section2 Qt Network Settings Module
     \generatelist qmltypesbymodule QtDeviceUtilities.NetworkSettings
 
     \section2 Qt Settings UI Module
     \generatelist qmltypesbymodule QtDeviceUtilities.SettingsUI
-
-    \section2 Qt Time and Date Settings Module
-    \generatelist qmltypesbymodule QtDeviceUtilities.TimeDateSettings
 */
 

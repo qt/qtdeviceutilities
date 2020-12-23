@@ -31,7 +31,7 @@
     \brief Provides functionality for controlling settings in embedded applications.
 
     \QtDU provides functionality that is useful for controlling settings in embedded
-    applications. The functionality in \QtDU is divided into the following C++ modules:
+    applications. \QtDU provides the following C++ modules:
 
     \annotatedlist qtdevice-utilities-cpp-modules
 
@@ -41,35 +41,36 @@
 
     \section1 Getting Started
 
-    To include the definitions of the module's classes, use the following
-    directives:
-
-    \code
-    #include <QtBluetoothSettings>
-    #include <QtDisplaySettings>
-    #include <QtLocalDevice>
-    #include <QtLocaleSettings>
-    #include <QtNetworkSettings>
-    #include <QtTimeDateSettings>
-    \endcode
-
-    To link against the modules, add this line to your qmake .pro file:
+    To include the definitions of the module's class, use the following
+    directive:
 
     \badcode
-    QT += bluetoothsettings displaysettings localdevice localesettings networksettings timedatesettings
+    #include <QtNetworkSettings>
+    \endcode
+
+    \section2 Building with CMake
+
+    If you're using CMake to build your application, add the following lines to your CMakeLists.txt file:
+
+    \badcode
+    find_package(Qt6 COMPONENTS NetworkSettings REQUIRED)
+    target_link_libraries(mytarget Qt6::NetworkSettings)
+    \endcode
+
+    \section2 Building with qmake
+
+    If you're using qmake to build your application, add this line to your qmake .pro file:
+
+    \badcode
+    QT += networksettings
     \endcode
 
     To import the QML types into your application, use the following import
     statements in your .qml file:
 
     \code
-    import QtDeviceUtilities.BluetoothSettings 1.0
-    import QtDeviceUtilities.DisplaySettings 1.0
-    import QtDeviceUtilities.LocalDeviceSettings 1.0
-    import QtDeviceUtilities.LocaleSettings 1.0
-    import QtDeviceUtilities.NetworkSettings 1.0
-    import QtDeviceUtilities.SettingsUI 1.0
-    import QtDeviceUtilities.TimeDateSettings 1.0
+    import QtDeviceUtilities.NetworkSettings
+    import QtDeviceUtilities.SettingsUI
     \endcode
 
     \section1 Examples
