@@ -33,6 +33,4 @@ qt_add_module(NetworkSettings
         Qt::Network
 )
 
-#### Keys ignored in scope 1:.:.:networksettings.pro:<TRUE>:
-# MODULE = "networksettings"
-# VERSION = "1.0"
+file(MAKE_DIRECTORY header_connman)
