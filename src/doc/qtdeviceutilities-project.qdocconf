@@ -5,39 +5,17 @@ description                  = Qt Device Utilities $QT_VERSION
 version                      = $QT_VERSION
 macro.maintitle              = "\\title Qt Device Utilities $QT_VERSION"
 
-includepaths                += -I .
-#                               -I ../bluetoothsettings \
-#                               -I ../displaysettings \
-#                               -I ../localdevice \
-#                               -I ../localesettings \
-#                               -I ../networksettings \
-#                               -I ../timedatesettings
+includepaths                += -I . \
+                               -I ../networksettings
 
 # pass a custom module header to Clang
 moduleheader                 = QtDeviceUtilitiesDoc
 
 sourcedirs                  += src \
-                               ../imports/localesettings \
-                               ../imports/bluetoothsettings \
-                               ../imports/displaysettings \
-                               ../imports/localdevice \
-                               ../imports/localesettings \
-                               ../imports/timedatesettings \
                                ../imports/networksettings \
-                               ../bluetoothsettings \
-                               ../displaysettings \
-                               ../localdevice \
-                               ../localesettings \
-                               ../networksettings \
-                               ../timedatesettings \
-                               ../settingsui/settingsuiplugin
+                               ../networksettings
 
-headerdirs                  += ../bluetoothsettings \
-                               ../displaysettings \
-                               ../localdevice \
-                               ../localesettings \
-                               ../networksettings \
-                               ../timedatesettings
+headerdirs                  += ../networksettings
 
 exampledirs                 += ../../examples
 
