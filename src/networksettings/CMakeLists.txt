@@ -4,7 +4,7 @@
 ## NetworkSettings Module:
 #####################################################################
 
-qt_add_module(NetworkSettings
+qt_internal_add_module(NetworkSettings
     SOURCES
         connman/connmancommon.cpp connman/connmancommon.h
         connman/qnetworksettingsinterface_p.cpp connman/qnetworksettingsinterface_p.h

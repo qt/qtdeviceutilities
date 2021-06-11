@@ -1,14 +1,16 @@
-# Generated from settingsuiplugin.pro.
-
 #####################################################################
 ## settingsuiplugin Plugin:
 #####################################################################
 
-qt_add_qml_module(settingsuiplugin
+qt_internal_add_qml_module(settingsuiplugin
     URI "QtDeviceUtilities.SettingsUI"
     VERSION "${CMAKE_PROJECT_VERSION}"
-    CLASSNAME SettingsUIQmlPlugin
-    SKIP_TYPE_REGISTRATION
+    CLASS_NAME SettingsUIQmlPlugin
+    PLUGIN_TARGET settingsuiplugin
+    NO_GENERATE_PLUGIN_SOURCE
+    NO_PLUGIN_OPTIONAL
+    NO_GENERATE_QMLTYPES
+    INSTALL_SOURCE_QMLTYPES "plugins.qmltypes"
     SOURCES
         plugin.cpp
     PUBLIC_LIBRARIES
@@ -49,15 +51,9 @@ set(settingsui_resource_files
     "pluginMain.qml"
 )
 
-qt_add_resource(settingsuiplugin "settingsui"
+qt_internal_add_resource(settingsuiplugin "settingsui"
     PREFIX
         "/"
     FILES
         ${settingsui_resource_files}
 )
-
-
-#### Keys ignored in scope 1:.:.:settingsuiplugin.pro:<TRUE>:
-# DISTFILES = "qmldir"
-# QML_IMPORT_VERSION = "$$QT_VERSION"
-# TARGETPATH = "QtDeviceUtilities/SettingsUI"

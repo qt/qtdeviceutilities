@@ -1,14 +1,16 @@
-# Generated from networksettings.pro.
-
 #####################################################################
 ## networksettingsplugin Plugin:
 #####################################################################
 
-qt_add_qml_module(networksettingsplugin
+qt_internal_add_qml_module(networksettingsplugin
     URI "QtDeviceUtilities.NetworkSettings"
     VERSION "${CMAKE_PROJECT_VERSION}"
-    CLASSNAME NetworkSettingsQmlPlugin
-    SKIP_TYPE_REGISTRATION
+    CLASS_NAME NetworkSettingsQmlPlugin
+    PLUGIN_TARGET networksettingsplugin
+    NO_GENERATE_PLUGIN_SOURCE
+    NO_PLUGIN_OPTIONAL
+    NO_GENERATE_QMLTYPES
+    INSTALL_SOURCE_QMLTYPES "plugins.qmltypes"
     SOURCES
         plugin.cpp plugin.h
     PUBLIC_LIBRARIES
@@ -18,7 +20,3 @@ qt_add_qml_module(networksettingsplugin
         Qt::Quick
         Qt::NetworkSettings
 )
-
-#### Keys ignored in scope 1:.:.:networksettings.pro:<TRUE>:
-# QML_IMPORT_VERSION = "$$QT_VERSION"
-# TARGETPATH = "QtDeviceUtilities/NetworkSettings"

@@ -1,14 +1,16 @@
-# Generated from qtbuttonimageproviderplugin.pro.
-
 #####################################################################
 ## qtbuttonimageproviderplugin Plugin:
 #####################################################################
 
-qt_add_qml_module(qtbuttonimageproviderplugin
+qt_internal_add_qml_module(qtbuttonimageproviderplugin
     URI "QtDeviceUtilities.QtButtonImageProvider"
     VERSION "${CMAKE_PROJECT_VERSION}"
-    CLASSNAME QtButtonImageProviderQmlPlugin
-    SKIP_TYPE_REGISTRATION
+    CLASS_NAME QtButtonImageProviderQmlPlugin
+    PLUGIN_TARGET qtbuttonimageproviderplugin
+    NO_GENERATE_PLUGIN_SOURCE
+    NO_PLUGIN_OPTIONAL
+    NO_GENERATE_QMLTYPES
+    INSTALL_SOURCE_QMLTYPES "plugins.qmltypes"
     SOURCES
         plugin.cpp
         qtbuttonimageprovider.cpp qtbuttonimageprovider.h
@@ -24,14 +26,9 @@ set(qtbuttonimageprovider_resource_files
     "QtButton.qml"
 )
 
-qt_add_resource(qtbuttonimageproviderplugin "qtbuttonimageprovider"
+qt_internal_add_resource(qtbuttonimageproviderplugin "qtbuttonimageprovider"
     PREFIX
         "/"
     FILES
         ${qtbuttonimageprovider_resource_files}
 )
-
-
-#### Keys ignored in scope 1:.:.:qtbuttonimageproviderplugin.pro:<TRUE>:
-# QML_IMPORT_VERSION = "$$QT_VERSION"
-# TARGETPATH = "QtDeviceUtilities/QtButtonImageProvider"
