@@ -26,17 +26,7 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-#include <QtQml/qqmlextensionplugin.h>
-#include <QtQml/qqml.h>
-
-static void initResources()
-{
-#ifdef QT_STATIC
-    Q_INIT_RESOURCE(qmake_QtDeviceUtilities_SettingsUI);
-#endif
-    Q_INIT_RESOURCE(settingsui);
-}
-
+#include "plugin_p.h"
 /*!
     \qmlmodule QtDeviceUtilities.SettingsUI
     \title Qt Device Utilities: Settings UI
@@ -80,25 +70,3 @@ static void initResources()
     There is no need to import the various \c {DeviceUtilities.*} modules and
     to declare a custom settings UI, unless specifically required.
 */
-
-QT_BEGIN_NAMESPACE
-
-class SettingsUIQmlPlugin : public QQmlExtensionPlugin
-{
-    Q_OBJECT
-    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface")
-
-public:
-    SettingsUIQmlPlugin(QObject *parent = nullptr) : QQmlExtensionPlugin(parent) { initResources(); }
-    void registerTypes(const char *uri) override
-    {
-        // @uri QtDeviceUtilities.SettingsUI
-        Q_ASSERT(uri == QLatin1String("QtDeviceUtilities.SettingsUI"));
-        qmlRegisterType(QUrl("qrc:/pluginMain.qml"), uri, 2, 0, "SettingsUI");
-    }
-
-};
-
-QT_END_NAMESPACE
-
-#include "plugin.moc"
