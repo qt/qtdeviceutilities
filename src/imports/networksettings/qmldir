@@ -1,4 +1,0 @@
-module QtDeviceUtilities.NetworkSettings
-plugin networksettingsplugin
-classname NetworkSettingsQmlPlugin
-typeinfo plugins.qmltypes
