@@ -12,7 +12,7 @@ includepaths                += -I . \
 moduleheader                 = QtDeviceUtilitiesDoc
 
 sourcedirs                  += src \
-                               ../imports/networksettings \
+                               ../networksettings/networksettingsqml \
                                ../networksettings
 
 headerdirs                  += ../networksettings

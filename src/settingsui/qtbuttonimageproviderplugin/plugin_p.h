@@ -26,4 +26,54 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-#include "plugin_p.h"
+#ifndef QTBUTTONIMAGEPROVIDERQMLPLUGIN_H
+#define QTBUTTONIMAGEPROVIDERQMLPLUGIN_H
+
+#include <qqmlextensionplugin.h>
+#include <qqmlengine.h>
+
+#include "qtbuttonimageprovider.h"
+
+//
+//  W A R N I N G
+//  -------------
+//
+// This file is not part of the Qt API.  It exists for the convenience
+// of other Qt classes.  This header file may change from version to
+// version without notice, or even be removed.
+//
+// We mean it.
+//
+
+extern void qml_register_types_QtDeviceUtilities_QtButtonImageProvider();
+
+QT_BEGIN_NAMESPACE
+
+struct QtButtonForeign
+{
+    Q_GADGET
+    QML_NAMED_ELEMENT(QtButton)
+    QML_ADDED_IN_VERSION(1, 0)
+};
+
+class QtButtonImageProviderQmlPlugin : public QQmlEngineExtensionPlugin
+{
+    Q_OBJECT
+    Q_PLUGIN_METADATA(IID QQmlExtensionInterface_iid)
+
+public:
+    QtButtonImageProviderQmlPlugin(QObject *parent = nullptr) : QQmlEngineExtensionPlugin(parent) {
+        volatile auto registration = &qml_register_types_QtDeviceUtilities_QtButtonImageProvider;
+        Q_UNUSED(registration);
+    }
+
+    void initializeEngine(QQmlEngine *engine, const char *uri) override
+    {
+        Q_UNUSED(uri);
+        QtButtonImageProvider *provider = new QtButtonImageProvider();
+        engine->addImageProvider("QtButton", provider);
+    }
+};
+
+QT_END_NAMESPACE
+#endif //QTBUTTONIMAGEPROVIDERQMLPLUGIN_H

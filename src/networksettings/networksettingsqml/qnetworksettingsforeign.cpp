@@ -26,18 +26,7 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-#include "plugin.h"
-#include <qnetworksettings.h>
-#include <qnetworksettingsmanager.h>
-#include <qnetworksettingsservice.h>
-#include <qnetworksettingsuseragent.h>
-#include <qnetworksettingsservicemodel.h>
-#include <qnetworksettingsinterface.h>
-#include <qnetworksettingsinterfacemodel.h>
-
-#include <qqml.h>
-#include <QQmlEngine>
-#include <QQmlContext>
+#include "qnetworksettingsforeign.h"
 
 /*!
     \qmlmodule QtDeviceUtilities.NetworkSettings
@@ -160,32 +149,3 @@
 
     This signal is emitted when the connection failed due to invalid user credentials.
 */
-
-QT_BEGIN_NAMESPACE
-
-template <typename T>
-QObject *instance(QQmlEngine *engine, QJSEngine *) {
-    T *t = new T(engine);
-    t->setObjectName(T::staticMetaObject.className());
-    return t;
-}
-
-void NetworkSettingsQmlPlugin::registerTypes(const char *uri)
-{
-    Q_ASSERT(QLatin1String(uri) == QLatin1String("QtDeviceUtilities.NetworkSettings"));
-    qmlRegisterUncreatableType<QNetworkSettingsService>(uri, 1, 0, "NetworkService", "Cannot be instantiated directly.");
-    qmlRegisterUncreatableType<QNetworkSettingsInterface>(uri, 1, 0, "NetworkInterface", "Cannot be instantiated directly.");
-    qmlRegisterUncreatableType<QNetworkSettingsIPv4>(uri, 1, 0, "NetworkSettingsIPv4", "Cannot be instantiated directly.");
-    qmlRegisterUncreatableType<QNetworkSettingsIPv6>(uri, 1, 0, "NetworkSettingsIPv6", "Cannot be instantiated directly.");
-    qmlRegisterUncreatableType<QNetworkSettingsProxy>(uri, 1, 0, "NetworkSettingsProxy", "Cannot be instantiated directly.");
-    qmlRegisterUncreatableType<QNetworkSettingsType>(uri, 1, 0, "NetworkSettingsType", "Cannot be instantiated directly.");
-    qmlRegisterUncreatableType<QNetworkSettingsState>(uri, 1, 0, "NetworkSettingsState", "Cannot be instantiated directly.");
-
-    qRegisterMetaType<QNetworkSettingsUserAgent*>("QNetworkSettingsUserAgent*");
-    qRegisterMetaType<QNetworkSettingsServiceFilter*>("QNetworkSettingsServiceFilter*");
-    qRegisterMetaType<QNetworkSettingsInterfaceModel*>("QNetworkSettingsInterfaceModel*");
-
-    qmlRegisterSingletonType<QNetworkSettingsManager>(uri, 2, 0, "NetworkSettingsManager", &instance<QNetworkSettingsManager>);
-}
-
-QT_END_NAMESPACE
