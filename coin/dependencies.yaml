@@ -1,7 +1,7 @@
 dependencies:
   ../../qt/qtquickcontrols2:
-    ref: 1cedab5239887750e12222c888bba8bbdbda14c2
+    ref: 8bb5d353960479bf4a0cca741a9096ac501e06f0
     required: true
   ../qttools:
-    ref: 4ad7a232cce5fd4e5ec88c2df46ca1e564772913
+    ref: 1a4f4758988393e076a29daf842a371297aa6168
     required: false
