@@ -43,6 +43,7 @@
 #include <QObject>
 #include <QtDBus>
 #include <QMap>
+#include <QPointer>
 #include "connmancommon.h"
 #include "qnetworksettingsmanager.h"
 #include "qnetworksettingsinterfacemodel.h"
@@ -70,10 +71,10 @@ public:
     void connectBySsid(const QString &name);
     void clearConnectionState();
     void tryNextConnection();
-    void setCurrentWifiConnection(QNetworkSettingsService *connection) {m_currentWifiConnection = connection;}
-    QNetworkSettingsService* currentWifiConnection() const {return m_currentWifiConnection;}
-    void setCurrentWiredConnection(QNetworkSettingsService *connection) {m_currentWiredConnection = connection;}
-    QNetworkSettingsService* currentWiredConnection() const {return m_currentWiredConnection;}
+    void setCurrentWifiConnection(QNetworkSettingsService *connection);
+    QNetworkSettingsService* currentWifiConnection() const;
+    void setCurrentWiredConnection(QNetworkSettingsService *connection);
+    QNetworkSettingsService* currentWiredConnection() const;
     QString usbEthernetInternetProtocolAddress();
     QString usbVirtualEthernetLinkProtocol();
     bool hasUsbEthernetProtocolConfiguration();
@@ -99,6 +100,7 @@ private:
 protected:
     QNetworkSettingsInterfaceModel m_interfaceModel;
     QNetworkSettingsServiceModel *m_serviceModel;
+    QMap<QString, QNetworkSettingsService*> m_unknownServices;
     QMap<QString, QNetworkSettingsService*> m_unnamedServices;
     QMap<QString, QNetworkSettingsService*> m_unnamedServicesForSsidConnection;
     QNetworkSettingsServiceFilter *m_serviceFilter;
@@ -107,8 +109,8 @@ private:
     QNetworkSettingsUserAgent *m_agent;
     QDBusServiceWatcher *m_serviceWatcher;
     QString m_currentSsid;
-    QNetworkSettingsService *m_currentWifiConnection;
-    QNetworkSettingsService *m_currentWiredConnection;
+    QPointer<QNetworkSettingsService> m_currentWifiConnection;
+    QPointer<QNetworkSettingsService> m_currentWiredConnection;
     bool m_initialized;
 };
 
