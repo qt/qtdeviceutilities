@@ -16,7 +16,7 @@ qt_internal_add_qml_module(qtbuttonimageproviderplugin
     SOURCES
         plugin.cpp plugin_p.h
         qtbuttonimageprovider.cpp qtbuttonimageprovider.h
-    PUBLIC_LIBRARIES
+    LIBRARIES
         Qt::Core
         Qt::Gui
         Qt::Qml
