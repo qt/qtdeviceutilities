@@ -7,7 +7,7 @@ qt_internal_add_qml_module(networksettingsqml
         QtQml
     SOURCES
         qnetworksettingsforeign.h qnetworksettingsforeign.cpp
-    PUBLIC_LIBRARIES
+    LIBRARIES
         Qt::Core
         Qt::Qml
         Qt::NetworkSettings

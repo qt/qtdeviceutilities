@@ -27,7 +27,7 @@ qt_internal_add_module(NetworkSettings
         -iconnmancommon.h # special case
     INCLUDE_DIRECTORIES
         connman
-    PUBLIC_LIBRARIES
+    LIBRARIES
         Qt::Core
         Qt::DBus
         Qt::Network
