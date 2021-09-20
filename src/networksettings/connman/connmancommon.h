@@ -30,7 +30,7 @@
 #define CONNMANCOMMON_H
 
 #include <QtCore/QMetaType>
-#include <QtDBus>
+#include <QtDBus/QtDBus>
 #include <QtNetworkSettings/qnetworksettings.h>
 
 #define PropertyAgentPath QStringLiteral("/ConnmanAgent")
