@@ -1,7 +1,0 @@
-dependencies:
-  ../../qt/qtquickcontrols2:
-    ref: 65e6d365fac282d59024545b6dcc5d22361a3038
-    required: true
-  ../qttools:
-    ref: 8d29e7c656c430a17a30ef9e20d543bf86b9520d
-    required: false
