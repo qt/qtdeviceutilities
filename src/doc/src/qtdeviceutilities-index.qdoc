@@ -57,14 +57,6 @@
     target_link_libraries(mytarget Qt6::NetworkSettings)
     \endcode
 
-    \section2 Building with qmake
-
-    If you're using qmake to build your application, add this line to your qmake .pro file:
-
-    \badcode
-    QT += networksettings
-    \endcode
-
     To import the QML types into your application, use the following import
     statements in your .qml file:
 
