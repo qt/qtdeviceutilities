@@ -232,8 +232,12 @@ void QNetworkSettingsManagerPrivate::getTechnologiesFinished(QDBusPendingCallWat
 
 void QNetworkSettingsManagerPrivate::onServicesChanged(ConnmanMapStructList changed, const QList<QDBusObjectPath> &removed)
 {
+    Q_Q(QNetworkSettingsManager);
+
     foreach (QDBusObjectPath path, removed) {
-        m_serviceModel->removeService(path.path());
+        if (m_serviceModel->removeService(path.path()))
+            emit q->servicesChanged();
+
         auto serviceIter = m_unnamedServices.find(path.path());
         if (serviceIter != m_unnamedServices.end()) {
             serviceIter.value()->deleteLater();
