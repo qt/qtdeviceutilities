@@ -30,17 +30,7 @@
 #define NETWORKSETTINGSPLUGIN_PLUGIN_H
 
 #include <QtQml/qqml.h>
-#include <QtNetworkSettings/qnetworksettings.h>
-#include <QtNetworkSettings/qnetworksettingsmanager.h>
-#include <QtNetworkSettings/qnetworksettingsservice.h>
-#include <QtNetworkSettings/qnetworksettingsuseragent.h>
-#include <QtNetworkSettings/qnetworksettingsservicemodel.h>
-#include <QtNetworkSettings/qnetworksettingsinterface.h>
-#include <QtNetworkSettings/qnetworksettingsinterfacemodel.h>
-
-Q_DECLARE_METATYPE(QNetworkSettingsUserAgent)
-Q_DECLARE_METATYPE(QNetworkSettingsServiceFilter)
-Q_DECLARE_METATYPE(QNetworkSettingsInterfaceModel)
+#include <QtNetworkSettings/QtNetworkSettings>
 
 QT_BEGIN_NAMESPACE
 
@@ -48,7 +38,7 @@ struct NetworkSettingsServiceForeign
 {
     Q_GADGET
     QML_FOREIGN(QNetworkSettingsService)
-    QML_NAMED_ELEMENT(NetworkSettingsService)
+    QML_NAMED_ELEMENT(NetworkService)
     QML_UNCREATABLE("Cannot be instantiated directly.")
     QML_ADDED_IN_VERSION(1, 0)
 };
@@ -57,7 +47,7 @@ struct NetworkSettingsInterfaceForeign
 {
     Q_GADGET
     QML_FOREIGN(QNetworkSettingsInterface)
-    QML_NAMED_ELEMENT(NetworkSettingsInterface)
+    QML_NAMED_ELEMENT(NetworkInterface)
     QML_UNCREATABLE("Cannot be instantiated directly.")
     QML_ADDED_IN_VERSION(1, 0)
 };
@@ -89,6 +79,15 @@ struct NetworkSettingsProxyForeign
     QML_ADDED_IN_VERSION(1, 0)
 };
 
+struct NetworkSettingsWirelessForeign
+{
+    Q_GADGET
+    QML_FOREIGN(QNetworkSettingsWireless)
+    QML_NAMED_ELEMENT(NetworkSettingsWireless)
+    QML_UNCREATABLE("Cannot be instantiated directly.")
+    QML_ADDED_IN_VERSION(1, 0)
+};
+
 struct NetworkSettingsTypeForeign
 {
     Q_GADGET
@@ -110,6 +109,7 @@ struct NetworkSettingsStateForeign
 class QNetworkSettingsManagerForeign
 {
     Q_GADGET
+    QML_FOREIGN(QNetworkSettingsManager)
     QML_NAMED_ELEMENT(NetworkSettingsManager)
     QML_SINGLETON
     QML_ADDED_IN_VERSION(2, 0)

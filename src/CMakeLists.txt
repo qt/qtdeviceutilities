@@ -1,5 +1,5 @@
 add_subdirectory(networksettings)
-add_subdirectory(networksettings/networksettingsqml)
+add_subdirectory(networksettingsqml)
 add_subdirectory(settingsui/settingsuiplugin)
 add_subdirectory(settingsui/qtbuttonimageproviderplugin)
 add_subdirectory(settingsui)
