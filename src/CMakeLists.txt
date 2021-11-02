@@ -1,6 +1,5 @@
 add_subdirectory(networksettings)
-add_subdirectory(networksettingsqml)
-add_subdirectory(settingsui/settingsuiplugin)
-add_subdirectory(settingsui/qtbuttonimageproviderplugin)
-add_subdirectory(settingsui)
-add_subdirectory(doc)
+
+if(TARGET Qt::Qml)
+    add_subdirectory(networksettingsqml)
+endif()
