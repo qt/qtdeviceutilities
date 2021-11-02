@@ -35,15 +35,11 @@
 
     \badcode
     import QtDeviceUtilities.NetworkSettings
-    import QtDeviceUtilities.SettingsUI
     \endcode
 
     \section1 QML Types
 
     \section2 Qt Network Settings Module
     \generatelist qmltypesbymodule QtDeviceUtilities.NetworkSettings
-
-    \section2 Qt Settings UI Module
-    \generatelist qmltypesbymodule QtDeviceUtilities.SettingsUI
 */
 
