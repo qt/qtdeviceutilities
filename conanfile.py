@@ -37,7 +37,7 @@ class QtConanError(Exception):
 
 class QtDeviceUtilities(ConanFile):
     name = "qtdeviceutilities"
-    version = "6.2.2"
+    version = "6.2.3"
     license = "GPL-3.0, Commercial Qt License Agreement"
     author = "The Qt Company <https://www.qt.io/contact-us>"
     url = "https://code.qt.io/cgit/qt/qtdeviceutilities.git/"
