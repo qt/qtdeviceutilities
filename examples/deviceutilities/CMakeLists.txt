@@ -1,3 +1,3 @@
 if(TARGET Qt::Quick)
-    add_subdirectory(settingsuiapp)
+    qt_internal_add_example(settingsuiapp)
 endif()
