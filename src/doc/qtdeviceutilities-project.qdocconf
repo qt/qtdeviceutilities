@@ -1,4 +1,4 @@
-include($QT_INSTALL_DOCS/global/qt-module-defaults.qdocconf)
+include($QT_INSTALL_DOCS/global/qt-module-defaults-online-commercial-light.qdocconf)
 
 project                      = QtDeviceUtilities
 description                  = Qt Device Utilities $QT_VERSION
@@ -12,7 +12,7 @@ includepaths                += -I . \
 moduleheader                 = QtDeviceUtilitiesDoc
 
 sourcedirs                  += src \
-                               ../networksettings/networksettingsqml \
+                               ../networksettingsqml \
                                ../networksettings
 
 headerdirs                  += ../networksettings
