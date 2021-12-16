@@ -1,0 +1,9 @@
+include($QT_INSTALL_DOCS/global/qt-module-defaults-online.qdocconf)
+include(../qtdeviceutilities-project.qdocconf)
+
+# Sidebar used for online template
+HTML.stylesheets += style/qt5-sidebar.html
+
+# Turn off single-directory output mode
+HTML.nosubdirs = "false"
+HTML.outputsubdir = qtdeviceutilities
