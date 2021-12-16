@@ -206,7 +206,7 @@ void QNetworkSettingsManagerPrivate::onTechnologyRemoved(const QDBusObjectPath &
     foreach (QNetworkSettingsInterface* item, m_interfaceModel.getModel()) {
         ConnmanSettingsInterface* tech = qobject_cast<ConnmanSettingsInterface*>(item);
         if (tech->path() == technology.path()) {
-            m_interfaceModel.removeInterface(technology.path());
+            m_interfaceModel.removeInterface(tech->name());
             emit q->interfacesChanged();
         }
     }

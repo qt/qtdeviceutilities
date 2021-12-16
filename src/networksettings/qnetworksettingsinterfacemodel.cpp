@@ -122,12 +122,7 @@ QVariant QNetworkSettingsInterfaceModel::data(const QModelIndex & index, int rol
 */
 void QNetworkSettingsInterfaceModel::append(QNetworkSettingsInterface* item)
 {
-    item->setParent(this);
-    connectStateChanges(item);
-
-    beginInsertRows(QModelIndex(), rowCount(), rowCount());
-    m_items.append(item);
-    endInsertRows();
+    insert(rowCount(), item);
 }
 
 /*!
@@ -155,7 +150,7 @@ void QNetworkSettingsInterfaceModel::connectStateChanges(QNetworkSettingsInterfa
 void QNetworkSettingsInterfaceModel::remove(int row)
 {
     beginRemoveRows(QModelIndex(), row, row);
-    m_items.removeFirst();
+    m_items.takeAt(row)->deleteLater();
     endRemoveRows();
 }
 
