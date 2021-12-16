@@ -28,7 +28,6 @@
 ****************************************************************************/
 #include "qnetworksettingsinterface.h"
 #include "qnetworksettingsinterface_p.h"
-#include "qnetworksettings.h"
 
 QT_BEGIN_NAMESPACE
 

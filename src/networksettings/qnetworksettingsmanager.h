@@ -29,19 +29,16 @@
 #ifndef QNETWORKSETTINGSMANAGER_H
 #define QNETWORKSETTINGSMANAGER_H
 
-#include <QtNetworkSettings/qnetworksettings.h>
 #include <QObject>
-#include <QStringListModel>
-#include <QtNetworkSettings/qnetworksettingsservicemodel.h>
-#include <QtNetworkSettings/qnetworksettingsinterfacemodel.h>
-#include <QtNetworkSettings/qnetworksettingsuseragent.h>
-#include <QtNetworkSettings/qnetworksettingsservice.h>
-
-QT_FORWARD_DECLARE_CLASS(QNetworkSettingsManagerPrivate)
-QT_FORWARD_DECLARE_CLASS(QNetworkSettingsInterface)
 
 QT_BEGIN_NAMESPACE
 
+class QNetworkSettingsService;
+class QNetworkSettingsInterface;
+class QNetworkSettingsUserAgent;
+class QNetworkSettingsServiceFilter;
+class QNetworkSettingsInterfaceModel;
+class QNetworkSettingsManagerPrivate;
 class Q_DECL_EXPORT QNetworkSettingsManager : public QObject
 {
     Q_OBJECT
@@ -50,9 +47,11 @@ class Q_DECL_EXPORT QNetworkSettingsManager : public QObject
     Q_PROPERTY(QNetworkSettingsUserAgent* userAgent READ userAgent CONSTANT)
     Q_PROPERTY(QNetworkSettingsService* currentWifiConnection READ currentWifiConnection NOTIFY currentWifiConnectionChanged)
     Q_PROPERTY(QNetworkSettingsService* currentWiredConnection READ currentWiredConnection NOTIFY currentWiredConnectionChanged)
+    Q_MOC_INCLUDE("qnetworksettingsservicemodel.h")
+    Q_MOC_INCLUDE("qnetworksettingsuseragent.h")
 
 public:
-    explicit QNetworkSettingsManager(QObject* parent = Q_NULLPTR);
+    explicit QNetworkSettingsManager(QObject* parent = nullptr);
     QNetworkSettingsServiceFilter* services();
     QNetworkSettingsInterfaceModel* interfaces();
     void setUserAgent(QNetworkSettingsUserAgent *agent);
@@ -80,7 +79,6 @@ protected:
 private:
     Q_DISABLE_COPY(QNetworkSettingsManager)
     Q_DECLARE_PRIVATE(QNetworkSettingsManager)
-
 };
 
 QT_END_NAMESPACE

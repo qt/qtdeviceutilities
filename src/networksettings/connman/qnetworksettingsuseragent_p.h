@@ -41,25 +41,20 @@
 //
 
 #include <QtCore/QObject>
-#include <QtDBus/QtDBus>
-#include "qnetworksettingsuseragent.h"
+#include <QtDBus/QDBusMessage>
+#include <QtDBus/QDBusObjectPath>
+#include <QtDBus/QDBusAbstractAdaptor>
 
 QT_BEGIN_NAMESPACE
-class QByteArray;
-template<class T> class QList;
-template<class Key, class Value> class QMap;
-class QString;
-class QVariant;
 
-const QString AgentPath(QStringLiteral("/ConnmanAgent"));
-
+class QNetworkSettingsUserAgent;
 class QNetworkSettingsUserAgentPrivate : public QDBusAbstractAdaptor
 {
     Q_OBJECT
     Q_CLASSINFO("D-Bus Interface", "net.connman.Agent")
     Q_DECLARE_PUBLIC(QNetworkSettingsUserAgent)
 public:
-    QNetworkSettingsUserAgentPrivate(QNetworkSettingsUserAgent *parent = Q_NULLPTR);
+    QNetworkSettingsUserAgentPrivate(QNetworkSettingsUserAgent *parent = nullptr);
     void setPassphrase(const QString &passphrase);
     QString passphrase() const {return m_passphrase;}
     void cancel();
@@ -82,3 +77,4 @@ private:
 QT_END_NAMESPACE
 
 #endif // QNETWORKSETTINGSUSERAGENTPRIVATE_H
+

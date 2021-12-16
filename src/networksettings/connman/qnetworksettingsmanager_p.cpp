@@ -26,10 +26,8 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-#include <QFile>
-#include <QNetworkInterface>
+#include "qnetworksettingsservice.h"
 #include "qnetworksettingsmanager_p.h"
-#include "qnetworksettingsinterface.h"
 #include "qnetworksettingsinterface_p.h"
 #include "qnetworksettingsservicemodel.h"
 #include "qnetworksettingsuseragent.h"
@@ -42,14 +40,14 @@ const QString ConnManServiceName(QStringLiteral("net.connman"));
 QNetworkSettingsManagerPrivate::QNetworkSettingsManagerPrivate(QNetworkSettingsManager *parent)
     :QObject(parent)
     ,q_ptr(parent)
-    , m_interfaceModel(Q_NULLPTR)
-    , m_serviceModel(Q_NULLPTR)
-    , m_serviceFilter(Q_NULLPTR)
-    , m_manager(Q_NULLPTR)
-    , m_agent(Q_NULLPTR)
-    , m_serviceWatcher(Q_NULLPTR)
-    , m_currentWifiConnection(Q_NULLPTR)
-    , m_currentWiredConnection(Q_NULLPTR)
+    , m_interfaceModel(nullptr)
+    , m_serviceModel(nullptr)
+    , m_serviceFilter(nullptr)
+    , m_manager(nullptr)
+    , m_agent(nullptr)
+    , m_serviceWatcher(nullptr)
+    , m_currentWifiConnection(nullptr)
+    , m_currentWiredConnection(nullptr)
     , m_initialized(false)
 {
     qRegisterMetaType<ConnmanMapStruct>("ConnmanMapStruct");

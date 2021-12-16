@@ -30,18 +30,16 @@
 #define QNETWORKSETTINGSINTERFACEMODEL_H
 
 #include <QAbstractListModel>
-#include <QtNetworkSettings/qnetworksettings.h>
 
 QT_BEGIN_NAMESPACE
 
 class QNetworkSettingsInterface;
-
 class Q_DECL_EXPORT QNetworkSettingsInterfaceModel : public QAbstractListModel
 {
     Q_OBJECT
 
 public:
-    explicit QNetworkSettingsInterfaceModel(QObject *parent = Q_NULLPTR);
+    explicit QNetworkSettingsInterfaceModel(QObject *parent = nullptr);
     // from QAbstractItemModel
     int rowCount(const QModelIndex & parent = QModelIndex()) const override;
     QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const override;

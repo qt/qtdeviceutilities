@@ -32,11 +32,11 @@
 #include <QObject>
 #include <QtNetworkSettings/qnetworksettings.h>
 
-QT_FORWARD_DECLARE_CLASS(QNetworkSettingsInterfacePrivate)
-
 QT_BEGIN_NAMESPACE
 
-class Q_DECL_EXPORT QNetworkSettingsInterface : public QObject {
+class QNetworkSettingsInterfacePrivate;
+class Q_DECL_EXPORT QNetworkSettingsInterface : public QObject
+{
     Q_OBJECT
     Q_PROPERTY(QString name READ name NOTIFY nameChanged)
     Q_PROPERTY(QNetworkSettingsState::State state READ state NOTIFY stateChanged)
@@ -44,7 +44,7 @@ class Q_DECL_EXPORT QNetworkSettingsInterface : public QObject {
     Q_PROPERTY(bool powered READ powered WRITE setPowered NOTIFY poweredChanged)
 
 public:
-    explicit QNetworkSettingsInterface(QObject* parent = Q_NULLPTR);
+    explicit QNetworkSettingsInterface(QObject* parent = nullptr);
     QString name() const;
     QNetworkSettingsState::State state();
     QNetworkSettingsType::Type type();

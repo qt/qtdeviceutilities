@@ -31,7 +31,6 @@
 
 #include <QtCore/QMetaType>
 #include <QtDBus/QtDBus>
-#include <QtNetworkSettings/qnetworksettings.h>
 
 #define PropertyAgentPath QStringLiteral("/ConnmanAgent")
 #define PropertyState QStringLiteral("State")
@@ -53,6 +52,9 @@
 #define AttributeOneline QStringLiteral("online")
 
 QT_BEGIN_NAMESPACE
+
+class QNetworkSettingsType;
+class QNetworkSettingsState;
 
 struct ConnmanMapStruct {
     QDBusObjectPath objectPath;

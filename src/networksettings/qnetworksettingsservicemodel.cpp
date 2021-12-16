@@ -27,6 +27,7 @@
 **
 ****************************************************************************/
 #include "qnetworksettingsservicemodel.h"
+#include "qnetworksettingsservice.h"
 #include "qnetworksettings.h"
 
 QT_BEGIN_NAMESPACE

@@ -43,20 +43,19 @@
 #include "qnetworksettingsservice.h"
 #include "qnetworksettings.h"
 
-QT_FORWARD_DECLARE_CLASS(QDBusPendingCallWatcher)
-QT_FORWARD_DECLARE_CLASS(QDBusVariant)
-
 // Automatically generated class in global namespace
 class NetConnmanServiceInterface;
 
 QT_BEGIN_NAMESPACE
 
+class QDBusVariant;
+class QDBusPendingCallWatcher;
 class QNetworkSettingsServicePrivate : public QObject
 {
     Q_OBJECT
     Q_DECLARE_PUBLIC(QNetworkSettingsService)
 public:
-    QNetworkSettingsServicePrivate(const QString& aPath, QNetworkSettingsService *parent = Q_NULLPTR);
+    QNetworkSettingsServicePrivate(const QString& aPath, QNetworkSettingsService *parent = nullptr);
 
     QNetworkSettingsService *q_ptr;
 private slots:

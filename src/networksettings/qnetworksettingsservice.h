@@ -32,10 +32,9 @@
 #include <QObject>
 #include <QtNetworkSettings/qnetworksettings.h>
 
-QT_FORWARD_DECLARE_CLASS(QNetworkSettingsServicePrivate)
-
 QT_BEGIN_NAMESPACE
 
+class QNetworkSettingsServicePrivate;
 class Q_DECL_EXPORT QNetworkSettingsService : public QObject
 {
     Q_OBJECT
@@ -51,7 +50,7 @@ class Q_DECL_EXPORT QNetworkSettingsService : public QObject
     Q_PROPERTY(QAbstractItemModel* nameservers READ nameservers NOTIFY nameserversChanged)
     Q_PROPERTY(bool autoConnect READ autoConnect WRITE setAutoConnect NOTIFY autoConnectChanged)
 public:
-    explicit QNetworkSettingsService(const QString& aServiceId, QObject* parent = Q_NULLPTR);
+    explicit QNetworkSettingsService(const QString& aServiceId, QObject* parent = nullptr);
 
     QString id() const;
     QString name() const;

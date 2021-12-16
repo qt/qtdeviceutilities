@@ -26,6 +26,9 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
+#include <QtDBus/QDBusConnection>
+
+#include "qnetworksettingsuseragent.h"
 #include "qnetworksettingsuseragent_p.h"
 #include "connmancommon.h"
 
