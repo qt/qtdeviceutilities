@@ -26,6 +26,7 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
+#include "qnetworksettings.h"
 #include "qnetworksettingsmanager.h"
 #include "qnetworksettingsservice.h"
 #include "qnetworksettingsservicemodel.h"
@@ -33,7 +34,6 @@
 #include "qnetworksettingsinterfacemodel.h"
 #include "qnetworksettingsmanager_p.h"
 #include "qnetworksettingsuseragent.h"
-#include <QStringListModel>
 
 QT_BEGIN_NAMESPACE
 

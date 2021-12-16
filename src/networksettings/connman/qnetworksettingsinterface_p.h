@@ -41,10 +41,11 @@
 //
 
 #include <QObject>
-#include <QtDBus>
+#include <QtDBus/QDBusVariant>
 #include "qnetworksettings.h"
 #include "qnetworksettingsinterface.h"
 
+// Automatically generated class in global namespace
 class NetConnmanTechnologyInterface;
 
 QT_BEGIN_NAMESPACE
@@ -84,7 +85,7 @@ class ConnmanSettingsInterface : public QNetworkSettingsInterface
 {
     Q_OBJECT
 public:
-    ConnmanSettingsInterface(const QString& path, const QVariantMap& properties, QObject *parent = Q_NULLPTR)
+    ConnmanSettingsInterface(const QString& path, const QVariantMap& properties, QObject *parent = nullptr)
         :QNetworkSettingsInterface(parent)
     {
         if (d_ptr)
@@ -96,9 +97,7 @@ public:
         d->setState(aState);
     }
 
-    virtual ~ConnmanSettingsInterface() {
-
-    }
+    virtual ~ConnmanSettingsInterface() {}
 
     QString path() const {
         if (d_ptr)
