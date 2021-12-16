@@ -81,11 +81,6 @@ Switch {
             when: !mousearea.drag.active
         }
 
-        MouseArea {
-            anchors.fill: parent
-            onClicked: control.checked = !control.checked
-        }
-
         QtButton {
             id: qtHandle
             anchors.verticalCenter: parent.verticalCenter
@@ -105,8 +100,6 @@ Switch {
                 drag.axis: Drag.XAxis
                 drag.minimumX: indicatorImg.width * 0.005
                 drag.maximumX: indicatorImg.width - width - indicatorImg.width * 0.005
-
-                onClicked: control.checked = !control.checked
 
                 onReleased: {
                     if (qtHandle.x > indicatorImg.width / 5 ) {
