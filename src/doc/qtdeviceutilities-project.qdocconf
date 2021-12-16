@@ -1,5 +1,3 @@
-include($QT_INSTALL_DOCS/global/qt-module-defaults.qdocconf)
-
 project                      = QtDeviceUtilities
 description                  = Qt Device Utilities $QT_VERSION
 version                      = $QT_VERSION
