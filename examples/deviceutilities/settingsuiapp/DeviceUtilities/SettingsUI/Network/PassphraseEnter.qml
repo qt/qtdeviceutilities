@@ -60,7 +60,7 @@ Rectangle {
 
             Text {
                 visible: showSsid
-                font.pixelSize: parent.height * Globals.subTitleFontSize
+                font.pixelSize: passphrasePopup.height * Globals.subTitleFontSize
                 font.family: Globals.appFont
                 color: "white"
                 text: qsTr("Enter SSID")
@@ -80,14 +80,14 @@ Rectangle {
             }
 
             Text {
-                font.pixelSize: parent.height * Globals.subTitleFontSize
+                font.pixelSize: passphrasePopup.height * Globals.subTitleFontSize
                 font.family: Globals.appFont
                 color: "white"
                 text: qsTr("Enter Passphrase")
             }
 
             Text {
-                font.pixelSize: parent.height * Globals.valueFontSize
+                font.pixelSize: passphrasePopup.height * Globals.valueFontSize
                 font.family: Globals.appFont
                 color: "red"
                 text: extraInfo

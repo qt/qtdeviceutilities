@@ -34,63 +34,10 @@ Rectangle {
     anchors.fill: parent
     color: Globals.backgroundColor
     opacity: 0.97
-
     property int margin: Globals.margin(main.width)
-
     signal closed()
 
-    Component.onCompleted: {
-        settingsList.currentIndex = 0
-        settingsLoader.source = settingsListModel.get(0).path + '/' +
-                                settingsListModel.get(0).view + '.qml'
-        titleItem.title = settingsListModel.get(0).title
-    }
-
-    SettingsHeader {
-        id: settingsHeader
-        onClicked: main.closed()
-    }
-
-    ListModel {
-        id: settingsListModel
-
-        ListElement {
-            title: "Network"
-            view: "NetworkSettings"
-            path: "Network"
-            icon: "icons/network.svg"
-        }
-    }
-
-    ListView {
-        id: settingsList
-        objectName: "settingsList"
-        anchors.top: settingsHeader.bottom
-        anchors.left: main.left
-        anchors.bottom: main.bottom
-        width: main.width / 3.33
-        model: settingsListModel
-
-        delegate: SettingsDelegate {}
-    }
-
-    SettingsTitleItem {
-        id: titleItem
-        anchors.left: settingsList.right
-        anchors.right: main.right
-        anchors.top: settingsHeader.bottom
-        anchors.leftMargin: margin * 2
-    }
-
-    Loader {
-        id: settingsLoader
-        width: main.width
-        height: main.height
-        anchors.top: titleItem.bottom
-        anchors.left: settingsList.right
-        anchors.right: main.right
-        anchors.bottom: main.bottom
-        anchors.leftMargin: margin * 2
-        anchors.rightMargin: margin * 2
+    NetworkSettings {
+        anchors.margins: margin
     }
 }

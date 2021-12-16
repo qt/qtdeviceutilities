@@ -1,8 +1,5 @@
 set(qml_files
     "Globals.qml"
-    "SettingsDelegate.qml"
-    "SettingsHeader.qml"
-    "SettingsTitleItem.qml"
     "SettingsUI.qml"
 )
 

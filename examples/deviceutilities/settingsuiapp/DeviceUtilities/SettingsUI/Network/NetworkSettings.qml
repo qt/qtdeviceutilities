@@ -33,12 +33,24 @@ import DeviceUtilities.SettingsUI
 
 Item {
     id: networkSettingsRoot
-    property string title: qsTr("Network Settings")
     anchors.fill: parent
+
+    Connections {
+        target: NetworkSettingsManager
+        function onInterfacesChanged() {
+            if (NetworkSettingsManager.interface(NetworkSettingsType.Wifi, 0) !== null) {
+                wifiSwitch.visible = true
+                wifiSwitch.checked = Qt.binding(function() { return NetworkSettingsManager.interface(NetworkSettingsType.Wifi, 0).powered })
+            } else {
+                wifiSwitch.visible = false
+            }
+        }
+    }
 
     Text {
         id: wlanText
-        text: qsTr("WLAN")
+        visible: wifiSwitch.visible
+        text: qsTr("WiFi")
         font.pixelSize: networkSettingsRoot.height * Globals.subTitleFontSize
         font.family: Globals.appFont
         font.styleName: "SemiBold"
@@ -46,6 +58,7 @@ Item {
         anchors.top: networkSettingsRoot.top
         anchors.left: networkSettingsRoot.left
     }
+
     CustomSwitch {
         id: wifiSwitch
         anchors.top: wlanText.bottom
@@ -53,8 +66,7 @@ Item {
         height: networkSettingsRoot.height * Globals.buttonHeight
         indicatorWidth: networkSettingsRoot.height * Globals.buttonWidth
         indicatorHeight: networkSettingsRoot.height * Globals.buttonHeight
-        property bool wiFiAvailable: NetworkSettingsManager.interface(NetworkSettingsType.Wifi, 0) !== null
-        checkable: wiFiAvailable && !wifiSwitchTimer.running
+        checkable: visible && !wifiSwitchTimer.running
 
         onCheckedChanged: {
             // Power on/off all WiFi interfaces
@@ -77,6 +89,7 @@ Item {
         anchors.left: wifiSwitch.right
         anchors.right: manualDisconnect.left
         anchors.rightMargin: 10
+        visible: wifiSwitch.visible
         enabled: wifiSwitch.checked
         fillColor: enabled ? Globals.buttonGreenColor : Globals.buttonGrayColor
         borderColor: "transparent"
@@ -86,10 +99,12 @@ Item {
             networkList.connectBySsid()
         }
     }
+
     QtButton {
         id: manualDisconnect
         anchors.top: wlanText.bottom
         anchors.right: networkSettingsRoot.right
+        visible: wifiSwitch.visible
         enabled: NetworkSettingsManager.currentWifiConnection
         fillColor: enabled ? Globals.buttonGreenColor : Globals.buttonGrayColor
         borderColor: "transparent"
@@ -101,16 +116,18 @@ Item {
             }
         }
     }
+
     Text {
         id: networkListTextItem
-        text: qsTr("Network list:")
+        text: qsTr("Available networks:")
         font.pixelSize: networkSettingsRoot.height * Globals.subTitleFontSize
         font.family: Globals.appFont
         font.styleName: "SemiBold"
         color: "white"
-        anchors.top: wifiSwitch.bottom
+        anchors.top: (wifiSwitch.visible === true) ? wifiSwitch.bottom : networkSettingsRoot.top
         anchors.topMargin: 10
     }
+
     NetworkListView {
         id: networkList
         anchors.top: networkListTextItem.bottom

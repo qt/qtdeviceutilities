@@ -28,6 +28,7 @@
 ****************************************************************************/
 pragma Singleton
 import QtQuick
+import QtDeviceUtilities.NetworkSettings
 
 QtObject {
     id: globals

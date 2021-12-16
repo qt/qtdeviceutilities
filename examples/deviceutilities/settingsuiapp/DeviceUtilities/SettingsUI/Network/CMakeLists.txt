@@ -5,7 +5,6 @@ set(qml_files
     "ComboBoxEntry.qml"
     "EditWiredSettings.qml"
     "IpAddressTextField.qml"
-    "NetworkDetails.qml"
     "NetworkListView.qml"
     "NetworkSettings.qml"
     "PassphraseEnter.qml"

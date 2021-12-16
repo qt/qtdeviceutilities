@@ -36,15 +36,15 @@ ListView {
     clip: true
     property var connectingService: null
     property bool retryConnectAfterIdle: false
+
+    focus: true
+    boundsBehavior: Flickable.DragOverBounds
+    model: NetworkSettingsManager.services
+
     function connectBySsid() {
         passphraseEnter.showSsid = true
         passphraseEnter.visible = true
     }
-
-    Component.onCompleted: {
-        NetworkSettingsManager.services.type = NetworkSettingsType.Unknown;
-    }
-    model: NetworkSettingsManager.services
 
     delegate: Item {
         id: networkDelegate
@@ -61,7 +61,7 @@ ListView {
                 font.pixelSize: Globals.subTitleFontSize
                 font.family: Globals.appFont
                 color: connected ? Globals.buttonGreenColor : "white"
-                text: name
+                text: (modelData.type === NetworkSettingsType.Wired) ? modelData["name"] + " (" + modelData["id"] + ")" : name
             }
             Row {
                 id: ipRow
@@ -107,7 +107,7 @@ ListView {
             fillColor: connected ? Globals.buttonGrayColor : Globals.buttonGreenColor
             borderColor: "transparent"
             text: connected ? qsTr("DISCONNECT") : qsTr("CONNECT")
-            height: Globals.buttonHeight
+            enabled: true
             onClicked: {
                 if (connected) {
                     NetworkSettingsManager.services.itemFromRow(index).disconnectService();
@@ -130,7 +130,6 @@ ListView {
             anchors.horizontalCenter: networkDelegate.horizontalCenter
         }
         Behavior on height { NumberAnimation { duration: 200} }
-
     }
 
     Connections {
@@ -143,7 +142,7 @@ ListView {
     // Popup for entering passphrase
     PassphraseEnter {
         id: passphraseEnter
-        parent: root
+        parent: list.parent
         visible: false
     }
 
@@ -166,6 +165,4 @@ ListView {
             }
         }
     }
-
-    focus: true
 }
