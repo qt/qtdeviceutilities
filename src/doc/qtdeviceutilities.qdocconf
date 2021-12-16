@@ -1,3 +1,4 @@
+include($QT_INSTALL_DOCS/global/qt-module-defaults.qdocconf)
 include(qtdeviceutilities-project.qdocconf)
 
 # Turn off single-directory output mode

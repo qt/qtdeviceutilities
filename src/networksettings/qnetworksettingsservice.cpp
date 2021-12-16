@@ -195,6 +195,8 @@ QString QNetworkSettingsService::name() const
 }
 
 /*!
+    \fn void QNetworkSettingsService::setAutoConnect(bool autoconnect)
+
     Sets automatic connections to the network service to \a autoconnect.
 */
 void QNetworkSettingsService::setAutoConnect(const bool autoconnect)
