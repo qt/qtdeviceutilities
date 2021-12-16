@@ -58,7 +58,7 @@ QT_BEGIN_NAMESPACE
     \readonly
     \brief Holds the state of this service.
 
-    \sa QNetworkSettingsState::States
+    \sa QNetworkSettingsState::State
 */
 
 /*!
@@ -66,7 +66,7 @@ QT_BEGIN_NAMESPACE
     \readonly
     \brief Holds the type of this service.
 
-    \sa QNetworkSettingsType::Types
+    \sa QNetworkSettingsType::Type
 */
 
 /*!
@@ -226,9 +226,9 @@ bool QNetworkSettingsService::autoConnect() const
 /*!
     Returns the network service state.
 
-    \sa QNetworkSettingsState::States
+    \sa QNetworkSettingsState::State
 */
-QNetworkSettingsState::States QNetworkSettingsService::state()
+QNetworkSettingsState::State QNetworkSettingsService::state()
 {
     Q_D(QNetworkSettingsService);
     return d->m_state.state();
@@ -246,9 +246,9 @@ QNetworkSettingsState::States QNetworkSettingsService::state()
 /*!
     Returns the network service type.
 
-    \sa QNetworkSettingsType::Types
+    \sa QNetworkSettingsType::Type
 */
-QNetworkSettingsType::Types QNetworkSettingsService::type()
+QNetworkSettingsType::Type QNetworkSettingsService::type()
 {
     Q_D(QNetworkSettingsService);
     return d->m_type.type();

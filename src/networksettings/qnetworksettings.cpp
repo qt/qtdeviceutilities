@@ -70,7 +70,7 @@ QT_BEGIN_NAMESPACE
 */
 
 /*!
-    \enum QNetworkSettingsState::States
+    \enum QNetworkSettingsState::State
 
     This enum type holds the state of the network interface.
 
@@ -95,21 +95,21 @@ QT_BEGIN_NAMESPACE
     \property QNetworkSettingsState::state
     \brief The state of the network interface.
 
-    \sa QNetworkSettingsState::States
+    \sa QNetworkSettingsState::State
 */
 
 /*!
     \fn QNetworkSettingsState::stateChanged()
     This signal is emitted when the state of the network interface changes.
 
-    \sa QNetworkSettingsState::States
+    \sa QNetworkSettingsState::State
 */
 
 /*!
     Creates a new network interface state object with the state \a state and the
     parent \a parent.
 */
-QNetworkSettingsState::QNetworkSettingsState(States state, QObject *parent)
+QNetworkSettingsState::QNetworkSettingsState(State state, QObject *parent)
     : QObject(parent)
     , m_state(state)
 {
@@ -127,14 +127,14 @@ QNetworkSettingsState::QNetworkSettingsState(QObject *parent)
 /*!
     Returns the network interface state.
 */
-QNetworkSettingsState::States QNetworkSettingsState::state() const {
+QNetworkSettingsState::State QNetworkSettingsState::state() const {
     return m_state;
 }
 
 /*!
     Sets the network interface state to \a state.
 */
-void QNetworkSettingsState::setState(const States state) {
+void QNetworkSettingsState::setState(const State state) {
     m_state = state;
     emit stateChanged();
 }
@@ -150,7 +150,7 @@ void QNetworkSettingsState::setState(const States state) {
 */
 
 /*!
-    \enum QNetworkSettingsType::Types
+    \enum QNetworkSettingsType::Type
 
     This enum type holds the type of the network interface.
 
@@ -168,21 +168,21 @@ void QNetworkSettingsState::setState(const States state) {
     \property QNetworkSettingsType::type
     \brief The type of the network interface.
 
-    \sa QNetworkSettingsType::Types
+    \sa QNetworkSettingsType::Type
 */
 
 /*!
     \fn QNetworkSettingsType::typeChanged()
     This signal is emitted when the type of the network interface changes.
 
-    \sa QNetworkSettingsType::Types
+    \sa QNetworkSettingsType::Type
 */
 
 /*!
     Creates a new network interface type object with the type \a type and
     parent \a parent.
 */
-QNetworkSettingsType::QNetworkSettingsType(Types type, QObject *parent)
+QNetworkSettingsType::QNetworkSettingsType(Type type, QObject *parent)
     : QObject(parent)
     , m_type(type)
 {
@@ -201,14 +201,14 @@ QNetworkSettingsType::QNetworkSettingsType(QObject *parent)
 /*!
     Returns the network interface type.
 */
-QNetworkSettingsType::Types QNetworkSettingsType::type() const {
+QNetworkSettingsType::Type QNetworkSettingsType::type() const {
     return m_type;
 }
 
 /*!
     Sets the network interface type to \a type.
 */
-void QNetworkSettingsType::setType(const Types type) {
+void QNetworkSettingsType::setType(const Type type) {
     m_type = type;
     emit typeChanged();
 }
@@ -222,7 +222,7 @@ void QNetworkSettingsType::setType(const Types type) {
 */
 
 /*!
-    \enum QNetworkSettingsIPv4::MethodType
+    \enum QNetworkSettingsIPv4::Method
 
     This enum type holds the method used for IPv4 configuration.
 
@@ -248,7 +248,7 @@ void QNetworkSettingsType::setType(const Types type) {
     \property QNetworkSettingsIPv4::method
     \brief Holds the method of IPv4 configuration.
 
-    \sa QNetworkSettingsIPv4::MethodType
+    \sa QNetworkSettingsIPv4::Method
 */
 
 /*!
@@ -282,11 +282,11 @@ void QNetworkSettingsIPv4::setGateway(const QString& gateway) {
     emit gatewayChanged();
 }
 
-QNetworkSettingsIPv4::MethodType QNetworkSettingsIPv4::method() const {
+QNetworkSettingsIPv4::Method QNetworkSettingsIPv4::method() const {
     return m_method;
 }
 
-void QNetworkSettingsIPv4::setMethod(const MethodType method) {
+void QNetworkSettingsIPv4::setMethod(const Method method) {
     m_method = method;
     emit methodChanged();
 }
@@ -309,7 +309,7 @@ void QNetworkSettingsIPv4::setMask(const QString& mask) {
 */
 
 /*!
-    \enum QNetworkSettingsIPv6::MethodType
+    \enum QNetworkSettingsIPv6::Method
 
     This enum type holds the method used for IPv6 configuration.
 
@@ -322,7 +322,7 @@ void QNetworkSettingsIPv4::setMask(const QString& mask) {
 */
 
 /*!
-    \enum QNetworkSettingsIPv6::PrivacyType
+    \enum QNetworkSettingsIPv6::Privacy
     \brief Holds the method of applying the privacy extensions in IPv6.
 
     \value  Disabled
@@ -349,14 +349,14 @@ void QNetworkSettingsIPv4::setMask(const QString& mask) {
     \property QNetworkSettingsIPv6::method
     \brief Holds the method of IPv6 configuration.
 
-    \sa QNetworkSettingsIPv6::MethodType
+    \sa QNetworkSettingsIPv6::Method
 */
 
 /*!
     \property QNetworkSettingsIPv6::privacy
     \brief Holds the method of applying privacy extensions for IPv6.
 
-    \sa QNetworkSettingsIPv6::PrivacyType
+    \sa QNetworkSettingsIPv6::Privacy
 */
 
 /*!
@@ -391,20 +391,20 @@ void QNetworkSettingsIPv6::setGateway(const QString& gateway) {
     emit gatewayChanged();
 }
 
-QNetworkSettingsIPv6::MethodType QNetworkSettingsIPv6::method() const {
+QNetworkSettingsIPv6::Method QNetworkSettingsIPv6::method() const {
     return m_method;
 }
 
-void QNetworkSettingsIPv6::setMethod(const MethodType method) {
+void QNetworkSettingsIPv6::setMethod(const Method method) {
     m_method = method;
     emit methodChanged();
 }
 
-QNetworkSettingsIPv6::PrivacyType QNetworkSettingsIPv6::privacy() const {
+QNetworkSettingsIPv6::Privacy QNetworkSettingsIPv6::privacy() const {
     return m_privacy;
 }
 
-void QNetworkSettingsIPv6::setPrivacy(const PrivacyType privacy) {
+void QNetworkSettingsIPv6::setPrivacy(const Privacy privacy) {
     m_privacy = privacy;
     emit privacyChanged();
 }
@@ -427,7 +427,7 @@ void QNetworkSettingsIPv6::setPrefixLength(const int& prefixLength) {
 */
 
 /*!
-    \enum QNetworkSettingsProxy::MethodType
+    \enum QNetworkSettingsProxy::Method
     \brief Holds the network proxy configuration method.
 
     \value  Direct
@@ -444,7 +444,7 @@ void QNetworkSettingsIPv6::setPrefixLength(const int& prefixLength) {
     \property QNetworkSettingsProxy::method
     \brief Holds the network proxy configuration method.
 
-    \sa MethodType
+    \sa QNetworkSettingsProxy::Method
 */
 
 /*!
@@ -454,7 +454,7 @@ void QNetworkSettingsIPv6::setPrefixLength(const int& prefixLength) {
     For manual proxy configuration, this property holds the proxy server
     address. For automatic configuration, it holds the proxy auto-config URL.
 
-    \sa MethodType
+    \sa QNetworkSettingsProxy::Method
 */
 
 /*!
@@ -537,11 +537,11 @@ void QNetworkSettingsProxy::setExcludes(const QStringList& excludes) {
     emit excludesChanged();
 }
 
-QNetworkSettingsProxy::MethodType QNetworkSettingsProxy::method(void) const {
+QNetworkSettingsProxy::Method QNetworkSettingsProxy::method(void) const {
     return m_method;
 }
 
-void QNetworkSettingsProxy::setMethod(const MethodType& method) {
+void QNetworkSettingsProxy::setMethod(const Method& method) {
     m_method = method;
     emit methodChanged();
 }
@@ -554,7 +554,7 @@ void QNetworkSettingsProxy::setMethod(const MethodType& method) {
 */
 
 /*!
-    \enum QNetworkSettingsWireless::SecurityFlags
+    \enum QNetworkSettingsWireless::Security
     \brief This enum type holds the wireless security protocol used to
     protect the connection.
 
@@ -599,15 +599,12 @@ QNetworkSettingsWireless::QNetworkSettingsWireless(QObject* parent)
 
 /*!
     Returns whether the Wifi network supports the wireless security
-    protocols specified in \a security.
+    protocol specified in \a security.
 
-    \sa QNetworkSettingsWireless::SecurityFlags
+    \sa QNetworkSettingsWireless::Security
 */
-bool QNetworkSettingsWireless::supportsSecurity(SecurityFlags security) {
-    if (m_securityFlags & security) {
-        return true;
-    }
-    return false;
+bool QNetworkSettingsWireless::supportsSecurity(Security security) {
+    return m_supportedSecurites.testFlag(security);
 }
 
 bool QNetworkSettingsWireless::hidden() const {
@@ -637,12 +634,8 @@ void QNetworkSettingsWireless::setSignalStrength(const int signalStrength) {
 /*!
     Sets \a security flags.
 */
-void QNetworkSettingsWireless::setSecurity(const SecurityFlags security) {
-    if (security == None) {
-        m_securityFlags = None;
-    } else {
-        m_securityFlags |= security;
-    }
+void QNetworkSettingsWireless::setSecurity(const Securities securities) {
+    m_supportedSecurites = securities;
 }
 
 void QNetworkSettingsWireless::setOutOfRange(const bool aOutOfRange) {

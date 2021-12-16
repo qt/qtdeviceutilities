@@ -57,11 +57,11 @@ public:
     explicit QNetworkSettingsInterfacePrivate(QNetworkSettingsInterface* parent);
     void initialize(const QString& path, const QVariantMap& properties);
     void setPowered(const bool power);
-    void setState(QNetworkSettingsState::States aState);
+    void setState(QNetworkSettingsState::State aState);
     void scan();
     QString name() const {return m_name;}
-    QNetworkSettingsType::Types type() const {return m_type.type();}
-    QNetworkSettingsState::States state() const {return m_state.state();}
+    QNetworkSettingsType::Type type() const {return m_type.type();}
+    QNetworkSettingsState::State state() const {return m_state.state();}
     bool powered() const {return m_powered;}
     QString path() const;
 
@@ -91,7 +91,7 @@ public:
             d_ptr->initialize(path, properties);
     }
 
-    void setState(QNetworkSettingsState::States aState) {
+    void setState(QNetworkSettingsState::State aState) {
         Q_D(QNetworkSettingsInterface);
         d->setState(aState);
     }

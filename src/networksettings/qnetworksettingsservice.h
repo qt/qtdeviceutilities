@@ -39,11 +39,10 @@ QT_BEGIN_NAMESPACE
 class Q_DECL_EXPORT QNetworkSettingsService : public QObject
 {
     Q_OBJECT
-    Q_ENUMS(StateTypes)
     Q_PROPERTY(QString id READ id CONSTANT)
     Q_PROPERTY(QString name READ name NOTIFY nameChanged)
-    Q_PROPERTY(QNetworkSettingsState::States state READ state NOTIFY stateChanged)
-    Q_PROPERTY(QNetworkSettingsType::Types type READ type NOTIFY typeChanged)
+    Q_PROPERTY(QNetworkSettingsState::State state READ state NOTIFY stateChanged)
+    Q_PROPERTY(QNetworkSettingsType::Type type READ type NOTIFY typeChanged)
     Q_PROPERTY(QNetworkSettingsIPv4* ipv4 READ ipv4 NOTIFY ipv4Changed)
     Q_PROPERTY(QNetworkSettingsIPv6* ipv6 READ ipv6 NOTIFY ipv6Changed)
     Q_PROPERTY(QNetworkSettingsProxy* proxy READ proxy  NOTIFY proxyChanged)
@@ -56,8 +55,8 @@ public:
 
     QString id() const;
     QString name() const;
-    QNetworkSettingsState::States state();
-    QNetworkSettingsType::Types type();
+    QNetworkSettingsState::State state();
+    QNetworkSettingsType::Type type();
     QNetworkSettingsIPv4* ipv4();
     QNetworkSettingsIPv6* ipv6();
     QNetworkSettingsProxy* proxy();

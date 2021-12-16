@@ -45,7 +45,6 @@ QT_BEGIN_NAMESPACE
 class Q_DECL_EXPORT QNetworkSettingsManager : public QObject
 {
     Q_OBJECT
-    Q_ENUMS(StateTypes NetworkTypeTypes)
     Q_PROPERTY(QNetworkSettingsServiceFilter* services READ services NOTIFY servicesChanged)
     Q_PROPERTY(QNetworkSettingsInterfaceModel* interfaces READ interfaces NOTIFY interfacesChanged)
     Q_PROPERTY(QNetworkSettingsUserAgent* userAgent READ userAgent CONSTANT)
