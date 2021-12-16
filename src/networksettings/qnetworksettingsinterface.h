@@ -39,15 +39,15 @@ QT_BEGIN_NAMESPACE
 class Q_DECL_EXPORT QNetworkSettingsInterface : public QObject {
     Q_OBJECT
     Q_PROPERTY(QString name READ name NOTIFY nameChanged)
-    Q_PROPERTY(QNetworkSettingsState::States state READ state NOTIFY stateChanged)
-    Q_PROPERTY(QNetworkSettingsType::Types type READ type NOTIFY typeChanged)
+    Q_PROPERTY(QNetworkSettingsState::State state READ state NOTIFY stateChanged)
+    Q_PROPERTY(QNetworkSettingsType::Type type READ type NOTIFY typeChanged)
     Q_PROPERTY(bool powered READ powered WRITE setPowered NOTIFY poweredChanged)
 
 public:
     explicit QNetworkSettingsInterface(QObject* parent = Q_NULLPTR);
     QString name() const;
-    QNetworkSettingsState::States state();
-    QNetworkSettingsType::Types type();
+    QNetworkSettingsState::State state();
+    QNetworkSettingsType::Type type();
     bool powered() const;
     void setPowered(const bool powered);
     Q_INVOKABLE void scanServices();

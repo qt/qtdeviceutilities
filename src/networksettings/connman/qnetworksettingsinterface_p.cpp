@@ -83,7 +83,7 @@ void QNetworkSettingsInterfacePrivate::updateProperty(const QString &name, const
     }
 }
 
-void QNetworkSettingsInterfacePrivate::setState(QNetworkSettingsState::States aState)
+void QNetworkSettingsInterfacePrivate::setState(QNetworkSettingsState::State aState)
 {
     Q_Q(QNetworkSettingsInterface);
     m_state.setState(aState);
