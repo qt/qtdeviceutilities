@@ -31,7 +31,6 @@
 
 #include <QObject>
 #include <QUrl>
-#include <QVariantMap>
 #include <QtNetworkSettings/qnetworksettingsaddressmodel.h>
 
 QT_BEGIN_NAMESPACE
@@ -54,8 +53,8 @@ public:
     };
     Q_ENUM(State)
 
-    explicit QNetworkSettingsState(State state, QObject *parent = Q_NULLPTR);
-    explicit QNetworkSettingsState(QObject *parent = Q_NULLPTR);
+    explicit QNetworkSettingsState(State state, QObject *parent = nullptr);
+    explicit QNetworkSettingsState(QObject *parent = nullptr);
 
     State state() const;
     void setState(const State state);
@@ -81,8 +80,8 @@ public:
     };
     Q_ENUM(Type)
 
-    explicit QNetworkSettingsType(Type type, QObject *parent = Q_NULLPTR);
-    explicit QNetworkSettingsType(QObject *parent = Q_NULLPTR);
+    explicit QNetworkSettingsType(Type type, QObject *parent = nullptr);
+    explicit QNetworkSettingsType(QObject *parent = nullptr);
 
     Type type() const;
     void setType(const Type type);
@@ -103,7 +102,7 @@ class Q_DECL_EXPORT QNetworkSettingsIPv4 : public QObject
     Q_PROPERTY(QString mask READ mask WRITE setMask NOTIFY maskChanged)
 
 public:
-    explicit QNetworkSettingsIPv4(QObject *parent = Q_NULLPTR);
+    explicit QNetworkSettingsIPv4(QObject *parent = nullptr);
 
     enum Method {
         Dhcp = 0,
@@ -144,7 +143,7 @@ class Q_DECL_EXPORT QNetworkSettingsIPv6 : public QObject
     Q_PROPERTY(int prefixLength READ prefixLength WRITE setPrefixLength NOTIFY prefixLengthChanged)
 
 public:
-    explicit QNetworkSettingsIPv6(QObject *parent = Q_NULLPTR);
+    explicit QNetworkSettingsIPv6(QObject *parent = nullptr);
 
     enum Method {
         Auto = 0,
@@ -194,7 +193,7 @@ class Q_DECL_EXPORT QNetworkSettingsProxy : public QObject
     Q_PROPERTY(QAbstractItemModel* excludes READ excludes NOTIFY excludesChanged)
     Q_PROPERTY(Method method READ method WRITE setMethod NOTIFY methodChanged)
 public:
-    explicit QNetworkSettingsProxy(QObject *parent = Q_NULLPTR);
+    explicit QNetworkSettingsProxy(QObject *parent = nullptr);
 
     enum Method {
         Direct = 0,
@@ -233,7 +232,7 @@ class Q_DECL_EXPORT QNetworkSettingsWireless : public QObject
     Q_PROPERTY(bool hidden READ hidden NOTIFY hiddenChanged)
     Q_PROPERTY(bool isOutOfRange READ outOfRange WRITE setOutOfRange NOTIFY outOfRangeChanged)
 public:
-    explicit QNetworkSettingsWireless(QObject* parent = Q_NULLPTR);
+    explicit QNetworkSettingsWireless(QObject* parent = nullptr);
 
     enum class Security {
         None    = 0x0000,

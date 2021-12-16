@@ -31,15 +31,15 @@
 
 #include <QSortFilterProxyModel>
 #include <QtNetworkSettings/qnetworksettings.h>
-#include <QtNetworkSettings/qnetworksettingsservice.h>
 
 QT_BEGIN_NAMESPACE
 
+class QNetworkSettingsService;
 class Q_DECL_EXPORT QNetworkSettingsServiceModel : public QAbstractListModel
 {
     Q_OBJECT
 public:
-    explicit QNetworkSettingsServiceModel(QObject *parent = Q_NULLPTR);
+    explicit QNetworkSettingsServiceModel(QObject *parent = nullptr);
     virtual ~QNetworkSettingsServiceModel();
     // from QAbstractItemModel
     int rowCount(const QModelIndex & parent = QModelIndex()) const override;
@@ -80,7 +80,7 @@ class Q_DECL_EXPORT QNetworkSettingsServiceFilter : public QSortFilterProxyModel
     Q_PROPERTY(QNetworkSettingsType::Type type READ type WRITE setType NOTIFY typeChanged)
     Q_PROPERTY(bool wiredNetworksAvailable MEMBER m_wiredNetworksAvailable WRITE setWiredNetworksAvailable NOTIFY wiredNetworksAvailableChanged)
 public:
-    explicit QNetworkSettingsServiceFilter(QObject* parent = Q_NULLPTR);
+    explicit QNetworkSettingsServiceFilter(QObject* parent = nullptr);
     virtual ~QNetworkSettingsServiceFilter();
     bool filterAcceptsRow( int source_row, const QModelIndex& source_parent ) const override;
     QNetworkSettingsType::Type type() const;

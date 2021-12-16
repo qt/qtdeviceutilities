@@ -28,6 +28,8 @@
 ****************************************************************************/
 #include "connmancommon.h"
 
+#include <QtNetworkSettings/qnetworksettings.h>
+
 QT_BEGIN_NAMESPACE
 
 //Conversion operations for datatypes

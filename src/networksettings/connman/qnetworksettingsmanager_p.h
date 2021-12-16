@@ -41,19 +41,21 @@
 //
 
 #include <QObject>
-#include <QtDBus>
 #include <QMap>
 #include <QPointer>
+#include <QtDBus/QDBusServiceWatcher>
 #include "connmancommon.h"
 #include "qnetworksettingsmanager.h"
 #include "qnetworksettingsinterfacemodel.h"
 #include "connman_manager_interface.h"
 
-QT_FORWARD_DECLARE_CLASS(QNetworkSettingsServiceModel)
-QT_FORWARD_DECLARE_CLASS(QNetworkSettingsServiceFilter)
-QT_FORWARD_DECLARE_CLASS(QNetworkSettingsService)
-
 QT_BEGIN_NAMESPACE
+
+class QDBusObjectPath;
+class QDBusPendingCallWatcher;
+class QNetworkSettingsService;
+class QNetworkSettingsServiceModel;
+class QNetworkSettingsServiceFilter;
 
 class QNetworkSettingsManagerPrivate : public QObject
 {

@@ -27,7 +27,6 @@
 **
 ****************************************************************************/
 #include "qnetworksettingsinterface_p.h"
-#include "qnetworksettingsinterface.h"
 #include "connman_technology_interface.h"
 #include "connmancommon.h"
 
@@ -35,10 +34,9 @@ QT_BEGIN_NAMESPACE
 
 QNetworkSettingsInterfacePrivate::QNetworkSettingsInterfacePrivate(QNetworkSettingsInterface* parent)
     : QObject(parent)
-    , m_technology(Q_NULLPTR)
+    , m_technology(nullptr)
     ,q_ptr(parent)
 {
-
 }
 
 void QNetworkSettingsInterfacePrivate::initialize(const QString& path, const QVariantMap& properties)
