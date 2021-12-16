@@ -77,14 +77,14 @@ private:
 class Q_DECL_EXPORT QNetworkSettingsServiceFilter : public QSortFilterProxyModel
 {
     Q_OBJECT
-    Q_PROPERTY(QNetworkSettingsType::Types type READ type WRITE setType NOTIFY typeChanged)
+    Q_PROPERTY(QNetworkSettingsType::Type type READ type WRITE setType NOTIFY typeChanged)
     Q_PROPERTY(bool wiredNetworksAvailable MEMBER m_wiredNetworksAvailable WRITE setWiredNetworksAvailable NOTIFY wiredNetworksAvailableChanged)
 public:
     explicit QNetworkSettingsServiceFilter(QObject* parent = Q_NULLPTR);
     virtual ~QNetworkSettingsServiceFilter();
     bool filterAcceptsRow( int source_row, const QModelIndex& source_parent ) const override;
-    QNetworkSettingsType::Types type() const;
-    void setType(QNetworkSettingsType::Types type);
+    QNetworkSettingsType::Type type() const;
+    void setType(QNetworkSettingsType::Type type);
     Q_INVOKABLE QVariant itemFromRow(const int row) const;
     Q_INVOKABLE int activeRow() const;
     void setWiredNetworksAvailable(bool);
@@ -92,7 +92,7 @@ Q_SIGNALS:
     void typeChanged();
     void wiredNetworksAvailableChanged();
 private:
-    QNetworkSettingsType::Types m_type;
+    QNetworkSettingsType::Type m_type;
     bool m_wiredNetworksAvailable;
 };
 

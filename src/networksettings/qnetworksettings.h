@@ -39,72 +39,85 @@ QT_BEGIN_NAMESPACE
 class Q_DECL_EXPORT QNetworkSettingsState : public QObject
 {
     Q_OBJECT
-    Q_ENUMS(States)
-    Q_PROPERTY(States state READ state WRITE setState NOTIFY stateChanged)
+    Q_PROPERTY(State state READ state WRITE setState NOTIFY stateChanged)
 
 public:
-    enum States {Idle, Failure, Association, Configuration, Ready, Disconnect, Online, Undefined};
+    enum State {
+        Idle = 0,
+        Failure,
+        Association,
+        Configuration,
+        Ready,
+        Disconnect,
+        Online,
+        Undefined
+    };
+    Q_ENUM(State)
 
-    explicit QNetworkSettingsState(States state, QObject *parent = Q_NULLPTR);
+    explicit QNetworkSettingsState(State state, QObject *parent = Q_NULLPTR);
     explicit QNetworkSettingsState(QObject *parent = Q_NULLPTR);
 
-    States state() const;
-    void setState(const States state);
+    State state() const;
+    void setState(const State state);
 
 Q_SIGNALS:
     void stateChanged();
 
 private:
-    States m_state;
+    State m_state;
 };
 
 class Q_DECL_EXPORT QNetworkSettingsType : public QObject
 {
     Q_OBJECT
-    Q_ENUMS(Types)
-    Q_PROPERTY(Types type READ type WRITE setType NOTIFY typeChanged)
+    Q_PROPERTY(Type type READ type WRITE setType NOTIFY typeChanged)
 
 public:
-    enum Types {
-        Wired,
+    enum Type {
+        Wired = 0,
         Wifi,
         Bluetooth,
         Unknown
     };
+    Q_ENUM(Type)
 
-    explicit QNetworkSettingsType(Types type, QObject *parent = Q_NULLPTR);
+    explicit QNetworkSettingsType(Type type, QObject *parent = Q_NULLPTR);
     explicit QNetworkSettingsType(QObject *parent = Q_NULLPTR);
 
-    Types type() const;
-    void setType(const Types type);
+    Type type() const;
+    void setType(const Type type);
 
 Q_SIGNALS:
     void typeChanged();
 
 private:
-    Types m_type;
+    Type m_type;
 };
 
 class Q_DECL_EXPORT QNetworkSettingsIPv4 : public QObject
 {
     Q_OBJECT
-    Q_ENUMS(MethodType)
     Q_PROPERTY(QString address READ address WRITE setAddress NOTIFY addressChanged)
     Q_PROPERTY(QString gateway READ gateway WRITE setGateway NOTIFY gatewayChanged)
-    Q_PROPERTY(MethodType method READ method WRITE setMethod NOTIFY methodChanged)
+    Q_PROPERTY(Method method READ method WRITE setMethod NOTIFY methodChanged)
     Q_PROPERTY(QString mask READ mask WRITE setMask NOTIFY maskChanged)
 
 public:
     explicit QNetworkSettingsIPv4(QObject *parent = Q_NULLPTR);
 
-    enum MethodType {Dhcp, Manual, Off};
+    enum Method {
+        Dhcp = 0,
+        Manual,
+        Off
+    };
+    Q_ENUM(Method)
 
     QString address() const;
     void setAddress(const QString& address);
     QString gateway() const;
     void setGateway(const QString& gateway);
-    MethodType method() const;
-    void setMethod(const MethodType method);
+    Method method() const;
+    void setMethod(const Method method);
     QString mask() const;
     void setMask(const QString& mask);
 
@@ -117,35 +130,44 @@ Q_SIGNALS:
 private:
     QString m_address;
     QString m_gateway;
-    MethodType m_method;
+    Method m_method;
     QString m_mask;
 };
-
 
 class Q_DECL_EXPORT QNetworkSettingsIPv6 : public QObject
 {
     Q_OBJECT
-    Q_ENUMS(MethodType PrivacyType)
     Q_PROPERTY(QString address READ address WRITE setAddress NOTIFY addressChanged)
     Q_PROPERTY(QString gateway READ gateway WRITE setGateway NOTIFY gatewayChanged)
-    Q_PROPERTY(MethodType method READ method WRITE setMethod NOTIFY methodChanged)
-    Q_PROPERTY(PrivacyType privacy READ privacy WRITE setPrivacy NOTIFY privacyChanged)
+    Q_PROPERTY(Method method READ method WRITE setMethod NOTIFY methodChanged)
+    Q_PROPERTY(Privacy privacy READ privacy WRITE setPrivacy NOTIFY privacyChanged)
     Q_PROPERTY(int prefixLength READ prefixLength WRITE setPrefixLength NOTIFY prefixLengthChanged)
 
 public:
     explicit QNetworkSettingsIPv6(QObject *parent = Q_NULLPTR);
 
-    enum MethodType {Auto, Manual, Off};
-    enum PrivacyType {Disabled, Enabled, Preferred};
+    enum Method {
+        Auto = 0,
+        Manual,
+        Off
+    };
+    Q_ENUM(Method)
+
+    enum Privacy {
+        Disabled = 0,
+        Enabled,
+        Preferred
+    };
+    Q_ENUM(Privacy)
 
     QString address() const;
     void setAddress(const QString& address);
     QString gateway() const;
     void setGateway(const QString& gateway);
-    MethodType method() const;
-    void setMethod(const MethodType method);
-    PrivacyType privacy() const;
-    void setPrivacy(const PrivacyType privacy);
+    Method method() const;
+    void setMethod(const Method method);
+    Privacy privacy() const;
+    void setPrivacy(const Privacy privacy);
     int prefixLength() const;
     void setPrefixLength(const int& prefixLength);
 
@@ -159,23 +181,27 @@ Q_SIGNALS:
 private:
     QString m_address;
     QString m_gateway;
-    MethodType m_method;
-    PrivacyType m_privacy;
+    Method m_method;
+    Privacy m_privacy;
     int m_prefixLength;
 };
 
-class Q_DECL_EXPORT QNetworkSettingsProxy   : public QObject
+class Q_DECL_EXPORT QNetworkSettingsProxy : public QObject
 {
     Q_OBJECT
-    Q_ENUMS(MethodType)
     Q_PROPERTY(QUrl url READ url WRITE setUrl NOTIFY urlChanged)
     Q_PROPERTY(QAbstractItemModel* servers READ servers NOTIFY serversChanged)
     Q_PROPERTY(QAbstractItemModel* excludes READ excludes NOTIFY excludesChanged)
-    Q_PROPERTY(MethodType method READ method WRITE setMethod NOTIFY methodChanged)
+    Q_PROPERTY(Method method READ method WRITE setMethod NOTIFY methodChanged)
 public:
     explicit QNetworkSettingsProxy(QObject *parent = Q_NULLPTR);
 
-    enum MethodType {Direct, Auto, Manual};
+    enum Method {
+        Direct = 0,
+        Auto,
+        Manual
+    };
+    Q_ENUM(Method)
 
     QUrl url() const;
     void setUrl(const QUrl& url);
@@ -185,8 +211,8 @@ public:
     QAbstractItemModel* excludes();
     QStringList excludes() const;
     void setExcludes(const QStringList& excludes);
-    MethodType method() const;
-    void setMethod(const MethodType& method);
+    Method method() const;
+    void setMethod(const Method& method);
 
 Q_SIGNALS:
     void urlChanged();
@@ -197,27 +223,32 @@ private:
     QUrl m_url;
     QNetworkSettingsAddressModel m_servers;
     QNetworkSettingsAddressModel m_excludes;
-    MethodType m_method;
+    Method m_method;
 };
 
 class Q_DECL_EXPORT QNetworkSettingsWireless : public QObject
 {
     Q_OBJECT
-    Q_ENUMS(SecurityFlags)
     Q_PROPERTY(int signalStrength READ signalStrength WRITE setSignalStrength NOTIFY signalStrengthChanged)
     Q_PROPERTY(bool hidden READ hidden NOTIFY hiddenChanged)
     Q_PROPERTY(bool isOutOfRange READ outOfRange WRITE setOutOfRange NOTIFY outOfRangeChanged)
 public:
     explicit QNetworkSettingsWireless(QObject* parent = Q_NULLPTR);
 
-    enum SecurityFlags {None=1, WEP=2, WPA=4, WPA2=8};
+    enum class Security {
+        None    = 0x0000,
+        WEP     = 0x0002,
+        WPA     = 0x0004,
+        WPA2    = 0x0008
+    };
+    Q_DECLARE_FLAGS(Securities, Security)
 
-    Q_INVOKABLE bool supportsSecurity(SecurityFlags security);
+    Q_INVOKABLE bool supportsSecurity(Security security);
     bool hidden() const;
     void setHidden(const bool hidden);
     int signalStrength() const;
     void setSignalStrength(const int signalStrength);
-    void setSecurity(const SecurityFlags security);
+    void setSecurity(const Securities securities);
     void setOutOfRange(const bool aOutOfRange);
     bool outOfRange() const;
 
@@ -227,11 +258,12 @@ Q_SIGNALS:
     void passwordChanged();
     void outOfRangeChanged();
 private:
-    quint16 m_securityFlags;
+    Securities m_supportedSecurites;
     bool m_hidden;
     int m_signalStrength;
     bool m_isOutOfRange;
 };
+Q_DECLARE_OPERATORS_FOR_FLAGS(QNetworkSettingsWireless::Securities)
 
 QT_END_NAMESPACE
 

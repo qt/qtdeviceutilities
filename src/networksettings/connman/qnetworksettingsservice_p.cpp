@@ -438,20 +438,22 @@ void QNetworkSettingsServicePrivate::updateProperty(const QString& key, const QV
     }
     else if (key == PropertySecurity) {
         QStringList value = qdbus_cast<QStringList>(val);
+        QNetworkSettingsWireless::Securities securities;
         foreach (const QString str, value) {
             if (str ==  AttributeNone || str == AttributeWps) {
-                m_wifiConfig.setSecurity(QNetworkSettingsWireless::None);
+                securities |= QNetworkSettingsWireless::Security::None;
             }
             else if (str == AttributeWep) {
-                m_wifiConfig.setSecurity(QNetworkSettingsWireless::WEP);
+                securities |= QNetworkSettingsWireless::Security::WEP;
             }
             else if (str == AttributePsk) {
-                m_wifiConfig.setSecurity(QNetworkSettingsWireless::WPA);
+                securities |=QNetworkSettingsWireless::Security::WPA;
             }
             else if (str == AttributeIeee) {
-                m_wifiConfig.setSecurity(QNetworkSettingsWireless::WPA2);
+                securities |=QNetworkSettingsWireless::Security::WPA2;
             }
         }
+        m_wifiConfig.setSecurity(securities);
     }
     else if (key == PropertyAutoConnect) {
         m_autoConnect = qdbus_cast<bool>(val);

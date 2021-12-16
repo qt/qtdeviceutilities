@@ -82,7 +82,7 @@ QT_BEGIN_NAMESPACE
     {
         QList<QNetworkSettingsInterface*> interfaces = manager->interfaces()->getModel();
         for (const auto &interface : interfaces) {
-            if (interface->type() == QNetworkSettingsType::Types::Wifi) {
+            if (interface->type() == QNetworkSettingsType::Type::Wifi) {
                 if (interface->powered()) {
                     interface->scanServices();
                 } else {
@@ -167,7 +167,7 @@ QNetworkSettingsManager::QNetworkSettingsManager(QObject *parent) :
 /*!
     Returns the service model.
 
-    \l QNetworkSettingsType::Types
+    \l QNetworkSettingsType::Type
 */
 QNetworkSettingsServiceFilter *QNetworkSettingsManager::services()
 {

@@ -49,7 +49,7 @@ QT_BEGIN_NAMESPACE
     This enum type holds information about the network connection.
 
     \value  Type
-            Network \l{QNetworkSettingsType::Types}{type}.
+            Network \l{QNetworkSettingsType::Type}{type}.
     \value  Name
             The service set identifier (SSID) of the network.
     \value  SignalStrength
@@ -296,7 +296,7 @@ void QNetworkSettingsServiceModel::signalStrengthChanged()
     \property QNetworkSettingsServiceFilter::type
     \brief The type of the network.
 
-    \l QNetworkSettingsType::Types
+    \l QNetworkSettingsType::Type
 */
 
 /*!
@@ -351,19 +351,19 @@ QNetworkSettingsServiceFilter::~QNetworkSettingsServiceFilter()
 /*!
     Returns the service model.
 
-    \l QNetworkSettingsType::Types
+    \l QNetworkSettingsType::Type
 */
-QNetworkSettingsType::Types  QNetworkSettingsServiceFilter::type() const
+QNetworkSettingsType::Type  QNetworkSettingsServiceFilter::type() const
 {
     return m_type;
 }
 
 /*!
-    \fn void QNetworkSettingsServiceFilter::setType(QNetworkSettingsType::Types type)
+    \fn void QNetworkSettingsServiceFilter::setType(QNetworkSettingsType::Type type)
 
     Sets the service model to \a type.
 */
-void QNetworkSettingsServiceFilter::setType(const QNetworkSettingsType::Types type)
+void QNetworkSettingsServiceFilter::setType(const QNetworkSettingsType::Type type)
 {
     m_type = type;
     emit typeChanged();

@@ -46,7 +46,7 @@ QT_BEGIN_NAMESPACE
     \brief This enum type holds information about a network interface.
 
     \value  Type
-            Network interface \l{QNetworkSettingsType::Types}{type}.
+            Network interface \l{QNetworkSettingsType::Type}{type}.
     \value  Status
             Network interface \l{QNetworkSettingsState::States}{state}.
     \value  Name

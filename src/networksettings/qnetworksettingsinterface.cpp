@@ -49,7 +49,7 @@ QT_BEGIN_NAMESPACE
     \readonly
     \brief Holds the state of the network interface.
 
-    \sa QNetworkSettingsState::States
+    \sa QNetworkSettingsState::State
 */
 
 /*!
@@ -68,7 +68,7 @@ QT_BEGIN_NAMESPACE
     \readonly
     \brief Holds the type of the network interface.
 
-    \sa QNetworkSettingsType::Types
+    \sa QNetworkSettingsType::Type
 */
 
 /*!
@@ -146,7 +146,7 @@ QString QNetworkSettingsInterface::name() const
 /*!
     Returns the state of the network interface.
 */
-QNetworkSettingsState::States QNetworkSettingsInterface::state()
+QNetworkSettingsState::State QNetworkSettingsInterface::state()
 {
     Q_D(QNetworkSettingsInterface);
     return d->state();
@@ -168,7 +168,7 @@ QNetworkSettingsState::States QNetworkSettingsInterface::state()
 /*!
     Returns the type of the network interface.
 */
-QNetworkSettingsType::Types QNetworkSettingsInterface::type()
+QNetworkSettingsType::Type QNetworkSettingsInterface::type()
 {
     Q_D(QNetworkSettingsInterface);
     return d->type();
