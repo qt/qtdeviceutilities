@@ -1,6 +1,6 @@
 #############################################################################
 ##
-## Copyright (C) 2021 The Qt Company Ltd.
+## Copyright (C) 2022 The Qt Company Ltd.
 ## Contact: https://www.qt.io/licensing/
 ##
 ## This file is part of the release tools of the Qt Toolkit.
@@ -37,7 +37,7 @@ class QtConanError(Exception):
 
 class QtDeviceUtilities(ConanFile):
     name = "qtdeviceutilities"
-    version = "6.3.0"
+    version = "6.3.1"
     license = "GPL-3.0, Commercial Qt License Agreement"
     author = "The Qt Company <https://www.qt.io/contact-us>"
     url = "https://code.qt.io/cgit/qt/qtdeviceutilities.git/"
