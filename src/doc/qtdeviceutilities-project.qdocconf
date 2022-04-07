@@ -53,8 +53,8 @@ macro.B2QA                   = "\\e {Boot to Qt for embedded Android}"
 macro.B2QL                   = "\\e {Boot to Qt for embedded Linux}"
 macro.QtDU                   = "Qt Device Utilities"
 
-# Keep Device Creation as the landing page
-navigation.landingpage       = "Qt for Device Creation"
+# Qt Device Utilities as the landing page
+navigation.landingpage       = "Qt Device Utilities"
 navigation.qmltypespage      = "Qt Device Utilities QML Types"
 navigation.cppclassespage    = "Qt Device Utilities C++ Classes"
 
