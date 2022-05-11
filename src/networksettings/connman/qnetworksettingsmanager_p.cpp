@@ -181,20 +181,23 @@ void QNetworkSettingsManagerPrivate::onTechnologyAdded(const QDBusObjectPath &te
     Q_Q(QNetworkSettingsManager);
 
     foreach (QNetworkSettingsInterface* item, m_interfaceModel.getModel()) {
-        ConnmanSettingsInterface* tech = qobject_cast<ConnmanSettingsInterface*>(item);
-        if (tech->path() != technology.path()) {
-            ConnmanSettingsInterface *interface = new ConnmanSettingsInterface(technology.path(), properties, this);
-            interface->scanServices();
-
-            if (interface->type() == QNetworkSettingsType::Wired) {
-                m_interfaceModel.insert(0, interface);
-            }
-            else if (interface->type() == QNetworkSettingsType::Wifi) {
-                m_interfaceModel.append(interface);
-            }
-            emit q->interfacesChanged();
+        ConnmanSettingsInterface* interface = qobject_cast<ConnmanSettingsInterface*>(item);
+        if (interface->path() == technology.path()) {
+            return; // we already know the interface/technology
         }
     }
+
+    ConnmanSettingsInterface *interface = new ConnmanSettingsInterface(technology.path(), properties, this);
+    interface->scanServices();
+
+    if (interface->type() == QNetworkSettingsType::Wired) {
+        m_interfaceModel.insert(0, interface);
+    }
+    else if (interface->type() == QNetworkSettingsType::Wifi) {
+        m_interfaceModel.append(interface);
+    }
+
+    emit q->interfacesChanged();
 }
 
 void QNetworkSettingsManagerPrivate::onTechnologyRemoved(const QDBusObjectPath &technology)
