@@ -36,7 +36,7 @@
 
 QT_BEGIN_NAMESPACE
 
-class TimezoneItem : public QObject
+class Q_DECL_EXPORT TimezoneItem : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString id READ id CONSTANT)
