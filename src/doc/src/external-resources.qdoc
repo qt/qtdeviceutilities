@@ -31,6 +31,7 @@
 */
 
 /*!
-    \externalpage http://code.qt.io/cgit/qt/qtdeviceutilities.git/tree/src/settingsui
+    \externalpage https://code.qt.io/cgit/qt/qtdeviceutilities.git/tree/examples/deviceutilities/settingsuiapp/
+
     \title Settings UI
 */
