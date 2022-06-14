@@ -632,7 +632,7 @@ void QNetworkSettingsWireless::setSignalStrength(const int signalStrength) {
 }
 
 /*!
-    Sets \a security flags.
+    Sets \a securities flags.
 */
 void QNetworkSettingsWireless::setSecurity(const Securities securities) {
     m_supportedSecurites = securities;
