@@ -1,7 +1,8 @@
 project                      = QtDeviceUtilities
 description                  = Qt Device Utilities $QT_VERSION
 version                      = $QT_VERSION
-macro.maintitle              = "\\title Qt Device Utilities $QT_VERSION"
+projectname                  = "Qt Device Utilities"
+macro.maintitle              = "\\title $projectname $QT_VERSION\n\\keyword $projectname"
 
 includepaths                += -I . \
                                -I ../networksettings

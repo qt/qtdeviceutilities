@@ -48,7 +48,7 @@ QT_BEGIN_NAMESPACE
     \value  Type
             Network interface \l{QNetworkSettingsType::Type}{type}.
     \value  Status
-            Network interface \l{QNetworkSettingsState::States}{state}.
+            Network interface \l{QNetworkSettingsState::State}{state}.
     \value  Name
             Network interface name.
     \value  Powered
