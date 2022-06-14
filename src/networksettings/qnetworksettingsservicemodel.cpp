@@ -319,7 +319,7 @@ void QNetworkSettingsServiceModel::signalStrengthChanged()
 
 /*!
     \qmltype NetworkSettingsServiceFilter
-    \inqmlmodule QtDeviceutilities.NetworkSettings
+    \inqmlmodule QtDeviceUtilities.NetworkSettings
     \abstract
 */
 
