@@ -30,11 +30,12 @@
 #define QNETWORKSETTINGSUSERAGENT_H
 
 #include <QObject>
+#include <QtNetworkSettings/qnetworksettingsglobal.h>
 
 QT_BEGIN_NAMESPACE
 
 class QNetworkSettingsUserAgentPrivate;
-class Q_DECL_EXPORT QNetworkSettingsUserAgent : public QObject
+class Q_NETWORKSETTINGS_EXPORT QNetworkSettingsUserAgent : public QObject
 {
     Q_OBJECT
 public:

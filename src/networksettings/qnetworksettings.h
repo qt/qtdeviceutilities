@@ -29,13 +29,15 @@
 #ifndef QNETWORKSETTINGS_H
 #define QNETWORKSETTINGS_H
 
+#include <QtNetworkSettings/qnetworksettingsglobal.h>
+
 #include <QObject>
 #include <QUrl>
 #include <QtNetworkSettings/qnetworksettingsaddressmodel.h>
 
 QT_BEGIN_NAMESPACE
 
-class Q_DECL_EXPORT QNetworkSettingsState : public QObject
+class Q_NETWORKSETTINGS_EXPORT QNetworkSettingsState : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(State state READ state WRITE setState NOTIFY stateChanged)
@@ -66,7 +68,7 @@ private:
     State m_state;
 };
 
-class Q_DECL_EXPORT QNetworkSettingsType : public QObject
+class Q_NETWORKSETTINGS_EXPORT QNetworkSettingsType : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(Type type READ type WRITE setType NOTIFY typeChanged)
@@ -93,7 +95,7 @@ private:
     Type m_type;
 };
 
-class Q_DECL_EXPORT QNetworkSettingsIPv4 : public QObject
+class Q_NETWORKSETTINGS_EXPORT QNetworkSettingsIPv4 : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString address READ address WRITE setAddress NOTIFY addressChanged)
@@ -133,7 +135,7 @@ private:
     QString m_mask;
 };
 
-class Q_DECL_EXPORT QNetworkSettingsIPv6 : public QObject
+class Q_NETWORKSETTINGS_EXPORT QNetworkSettingsIPv6 : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString address READ address WRITE setAddress NOTIFY addressChanged)
@@ -185,7 +187,7 @@ private:
     int m_prefixLength;
 };
 
-class Q_DECL_EXPORT QNetworkSettingsProxy : public QObject
+class Q_NETWORKSETTINGS_EXPORT QNetworkSettingsProxy : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QUrl url READ url WRITE setUrl NOTIFY urlChanged)
@@ -225,7 +227,7 @@ private:
     Method m_method;
 };
 
-class Q_DECL_EXPORT QNetworkSettingsWireless : public QObject
+class Q_NETWORKSETTINGS_EXPORT QNetworkSettingsWireless : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(int signalStrength READ signalStrength WRITE setSignalStrength NOTIFY signalStrengthChanged)

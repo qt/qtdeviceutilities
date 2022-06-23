@@ -35,7 +35,7 @@
 QT_BEGIN_NAMESPACE
 
 class QNetworkSettingsService;
-class Q_DECL_EXPORT QNetworkSettingsServiceModel : public QAbstractListModel
+class Q_NETWORKSETTINGS_EXPORT QNetworkSettingsServiceModel : public QAbstractListModel
 {
     Q_OBJECT
 public:
@@ -74,7 +74,7 @@ private:
     QHash<int, QByteArray> m_roleNames;
 };
 
-class Q_DECL_EXPORT QNetworkSettingsServiceFilter : public QSortFilterProxyModel
+class Q_NETWORKSETTINGS_EXPORT QNetworkSettingsServiceFilter : public QSortFilterProxyModel
 {
     Q_OBJECT
     Q_PROPERTY(QNetworkSettingsType::Type type READ type WRITE setType NOTIFY typeChanged)

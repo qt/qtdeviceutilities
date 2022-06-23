@@ -31,6 +31,7 @@ qt_internal_add_module(NetworkSettings
         Qt::Core
         Qt::DBus
         Qt::Network
+    GENERATE_CPP_EXPORTS
 )
 
 file(MAKE_DIRECTORY header_connman)

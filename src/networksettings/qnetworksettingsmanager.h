@@ -30,6 +30,7 @@
 #define QNETWORKSETTINGSMANAGER_H
 
 #include <QObject>
+#include <QtNetworkSettings/qnetworksettingsglobal.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -39,7 +40,7 @@ class QNetworkSettingsUserAgent;
 class QNetworkSettingsServiceFilter;
 class QNetworkSettingsInterfaceModel;
 class QNetworkSettingsManagerPrivate;
-class Q_DECL_EXPORT QNetworkSettingsManager : public QObject
+class Q_NETWORKSETTINGS_EXPORT QNetworkSettingsManager : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QNetworkSettingsServiceFilter* services READ services NOTIFY servicesChanged)
