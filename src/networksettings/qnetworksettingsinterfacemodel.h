@@ -30,11 +30,12 @@
 #define QNETWORKSETTINGSINTERFACEMODEL_H
 
 #include <QAbstractListModel>
+#include <QtNetworkSettings/qnetworksettingsglobal.h>
 
 QT_BEGIN_NAMESPACE
 
 class QNetworkSettingsInterface;
-class Q_DECL_EXPORT QNetworkSettingsInterfaceModel : public QAbstractListModel
+class Q_NETWORKSETTINGS_EXPORT QNetworkSettingsInterfaceModel : public QAbstractListModel
 {
     Q_OBJECT
 
