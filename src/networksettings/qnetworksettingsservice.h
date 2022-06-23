@@ -35,7 +35,7 @@
 QT_BEGIN_NAMESPACE
 
 class QNetworkSettingsServicePrivate;
-class Q_DECL_EXPORT QNetworkSettingsService : public QObject
+class Q_NETWORKSETTINGS_EXPORT QNetworkSettingsService : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString id READ id CONSTANT)

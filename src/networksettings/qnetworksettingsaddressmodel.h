@@ -30,10 +30,11 @@
 #define QNETWORKSETTINGSADDRESSMODEL_H
 
 #include <QStringListModel>
+#include <QtNetworkSettings/qnetworksettingsglobal.h>
 
 QT_BEGIN_NAMESPACE
 
-class Q_DECL_EXPORT QNetworkSettingsAddressModel : public QStringListModel
+class Q_NETWORKSETTINGS_EXPORT QNetworkSettingsAddressModel : public QStringListModel
 {
     Q_OBJECT
     Q_PROPERTY(int count READ count NOTIFY countChanged)
