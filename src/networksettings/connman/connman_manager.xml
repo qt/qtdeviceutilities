@@ -80,7 +80,7 @@
     <signal name="TechnologyAdded" tp:name-for-bindings="Technology_Added">
         <arg name="technology" type="o"/>
         <arg name="properties" type="a{sv}"/>
-        <annotation name="org.qtproject.QtDBus.QtTypeName.In1" value="QVariantMap"/>
+        <annotation name="org.qtproject.QtDBus.QtTypeName.Out1" value="QVariantMap"/>
     </signal>
 
     <signal name="TechnologyRemoved" tp:name-for-bindings="Technology_Removed">
