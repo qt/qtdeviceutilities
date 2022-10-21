@@ -260,11 +260,21 @@ void QNetworkSettingsManagerPrivate::onServicesChanged(ConnmanMapStructList chan
             emit q->servicesChanged();
 
         if (auto service = m_unnamedServices.take(path))
-            if (!service->placeholderState())
+            if (!service->placeholderState()) {
+                disconnect(service, &QNetworkSettingsService::nameChanged,
+                           this, &QNetworkSettingsManagerPrivate::serviceReady);
+                disconnect(service, &QNetworkSettingsService::typeChanged,
+                           this, &QNetworkSettingsManagerPrivate::serviceReady);
                 service->deleteLater();
+            }
         if (auto service = m_unknownServices.take(path))
-            if (!service->placeholderState())
+            if (!service->placeholderState()) {
+                disconnect(service, &QNetworkSettingsService::nameChanged,
+                           this, &QNetworkSettingsManagerPrivate::serviceReady);
+                disconnect(service, &QNetworkSettingsService::typeChanged,
+                           this, &QNetworkSettingsManagerPrivate::serviceReady);
                 service->deleteLater();
+            }
         m_unnamedServicesForSsidConnection.remove(path); // do not delete here
     }
 
