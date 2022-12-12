@@ -29,7 +29,7 @@
 #ifndef QNETWORKSETTINGSSERVICEMODEL_H
 #define QNETWORKSETTINGSSERVICEMODEL_H
 
-#include <QSortFilterProxyModel>
+#include <QtCore/qsortfilterproxymodel.h>
 #include <QtNetworkSettings/qnetworksettings.h>
 
 QT_BEGIN_NAMESPACE

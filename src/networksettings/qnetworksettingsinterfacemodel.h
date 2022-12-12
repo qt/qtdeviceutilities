@@ -29,7 +29,7 @@
 #ifndef QNETWORKSETTINGSINTERFACEMODEL_H
 #define QNETWORKSETTINGSINTERFACEMODEL_H
 
-#include <QAbstractListModel>
+#include <QtCore/QAbstractListModel>
 #include <QtNetworkSettings/qnetworksettingsglobal.h>
 
 QT_BEGIN_NAMESPACE

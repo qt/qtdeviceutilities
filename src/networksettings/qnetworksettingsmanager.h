@@ -29,7 +29,7 @@
 #ifndef QNETWORKSETTINGSMANAGER_H
 #define QNETWORKSETTINGSMANAGER_H
 
-#include <QObject>
+#include <QtCore/qobject.h>
 #include <QtNetworkSettings/qnetworksettingsglobal.h>
 
 QT_BEGIN_NAMESPACE

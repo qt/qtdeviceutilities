@@ -29,7 +29,7 @@
 #ifndef QNETWORKSETTINGSADDRESSMODEL_H
 #define QNETWORKSETTINGSADDRESSMODEL_H
 
-#include <QStringListModel>
+#include <QtCore/qstringlistmodel.h>
 #include <QtNetworkSettings/qnetworksettingsglobal.h>
 
 QT_BEGIN_NAMESPACE

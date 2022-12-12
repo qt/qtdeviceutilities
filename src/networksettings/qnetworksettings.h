@@ -31,8 +31,8 @@
 
 #include <QtNetworkSettings/qnetworksettingsglobal.h>
 
-#include <QObject>
-#include <QUrl>
+#include <QtCore/qobject.h>
+#include <QtCore/qurl.h>
 #include <QtNetworkSettings/qnetworksettingsaddressmodel.h>
 
 QT_BEGIN_NAMESPACE
