@@ -19,6 +19,7 @@ qt_internal_add_module(NetworkSettings
         qnetworksettingsservice.cpp qnetworksettingsservice.h
         qnetworksettingsservicemodel.cpp qnetworksettingsservicemodel.h
         qnetworksettingsuseragent.cpp qnetworksettingsuseragent.h
+        qnetworksettingsglobal.h
     DBUS_INTERFACE_SOURCES
         connman/connman_manager.xml
         connman/connman_service.xml
