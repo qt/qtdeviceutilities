@@ -587,7 +587,12 @@ void QNetworkSettingsProxy::setMethod(const MethodType& method) {
     Creates a new Wifi network configuration with the parent \a parent.
 */
 QNetworkSettingsWireless::QNetworkSettingsWireless(QObject* parent)
-  : QObject(parent) {
+    : QObject(parent)
+    , m_securityFlags(None)
+    , m_hidden(false)
+    , m_signalStrength(0)
+    , m_isOutOfRange(false)
+{
 }
 
 /*!
