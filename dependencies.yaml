@@ -1,7 +1,7 @@
 dependencies:
   ../../qt/qtdeclarative:
-    ref: b336de30c1525e19b4691591c11d020962d2b530
+    ref: 52647cdc485534eec5387fb816f187046fed45b4
     required: true
   ../qttools:
-    ref: a662dd624ee0ebb3ec633c8ee080955215269753
+    ref: 6826785b101281fbafc69d49c7bfadf463609a57
     required: false
