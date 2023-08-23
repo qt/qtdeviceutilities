@@ -439,7 +439,7 @@ void QNetworkSettingsServicePrivate::updateProperty(const QString& key, const QV
     else if (key == PropertySecurity) {
         QStringList value = qdbus_cast<QStringList>(val);
         QNetworkSettingsWireless::Securities securities;
-        foreach (const QString str, value) {
+        for (const QString str : value) {
             if (str ==  AttributeNone || str == AttributeWps) {
                 securities |= QNetworkSettingsWireless::Security::None;
             }

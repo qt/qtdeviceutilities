@@ -191,7 +191,7 @@ void QNetworkSettingsInterfaceModel::connectionStatusChanged()
     QNetworkSettingsInterface *s = qobject_cast<QNetworkSettingsInterface*>(sender());
 
     int row = 0;
-    foreach (QNetworkSettingsInterface* item, m_items) {
+    for (QNetworkSettingsInterface* item : m_items) {
         if (item == s) {
             updated(row);
             break;
@@ -205,7 +205,7 @@ void QNetworkSettingsInterfaceModel::poweredChanged()
 {
     QNetworkSettingsInterface *s = qobject_cast<QNetworkSettingsInterface*>(sender());
     int row = 0;
-    foreach (QNetworkSettingsInterface* item, m_items) {
+    for (QNetworkSettingsInterface* item : m_items) {
         if (item == s) {
             updated(row);
             break;

@@ -191,7 +191,7 @@ QNetworkSettingsService* QNetworkSettingsManager::service(const QString& name, i
 {
     Q_D(QNetworkSettingsManager);
 
-    foreach (QNetworkSettingsService* service, d->serviceModel()->getModel()) {
+    for (QNetworkSettingsService* service : d->serviceModel()->getModel()) {
         if (service->name() == name && service->type() == type) {
             return service;
         }
@@ -299,7 +299,7 @@ QNetworkSettingsInterface* QNetworkSettingsManager::interface(int type, int inst
     Q_D(QNetworkSettingsManager);
     int matchingInstance = 0;
 
-    foreach (QNetworkSettingsInterface* interface, d->m_interfaceModel.getModel()) {
+    for (QNetworkSettingsInterface* interface : d->m_interfaceModel.getModel()) {
         if (interface->type() == type) {
             if (matchingInstance == instance) {
                 return interface;

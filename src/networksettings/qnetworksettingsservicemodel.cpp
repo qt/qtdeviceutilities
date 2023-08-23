@@ -230,7 +230,7 @@ void QNetworkSettingsServiceModel::updated(int row)
 QNetworkSettingsService* QNetworkSettingsServiceModel::getByName(const QString& name)
 {
     QNetworkSettingsService* ret = nullptr;
-    foreach (QNetworkSettingsService* item, m_items) {
+    for (QNetworkSettingsService* item : m_items) {
         if (item->name() == name) {
             ret = item;
             break;
@@ -255,7 +255,7 @@ void QNetworkSettingsServiceModel::connectionStatusChanged()
     QNetworkSettingsService *s = qobject_cast<QNetworkSettingsService*>(sender());
 
     int row = 0;
-    foreach (QNetworkSettingsService* item, m_items) {
+    for (QNetworkSettingsService* item : m_items) {
         if (item == s) {
             updated(row);
             break;
@@ -272,7 +272,7 @@ void QNetworkSettingsServiceModel::signalStrengthChanged()
 {
     QNetworkSettingsWireless *s = qobject_cast<QNetworkSettingsWireless*>(sender());
     int row = 0;
-    foreach (QNetworkSettingsService* item, m_items) {
+    for (QNetworkSettingsService* item : m_items) {
         if (item->wirelessConfig() == s) {
             updated(row);
             break;
@@ -430,7 +430,7 @@ int QNetworkSettingsServiceFilter::activeRow() const
     QNetworkSettingsServiceModel* model = qobject_cast<QNetworkSettingsServiceModel*>(sourceModel());
     QList<QNetworkSettingsService*> data = model->getModel();
     int row = 0;
-    foreach (QNetworkSettingsService* item, data) {
+    for (QNetworkSettingsService* item : data) {
         if (item->type() == m_type &&
                 (item->state() == QNetworkSettingsState::Ready ||
                  item->state() == QNetworkSettingsState::Online)) {

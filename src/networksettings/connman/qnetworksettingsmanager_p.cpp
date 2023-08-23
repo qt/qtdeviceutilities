@@ -180,7 +180,7 @@ void QNetworkSettingsManagerPrivate::onTechnologyAdded(const QDBusObjectPath &te
 {
     Q_Q(QNetworkSettingsManager);
 
-    foreach (QNetworkSettingsInterface* item, m_interfaceModel.getModel()) {
+    for (QNetworkSettingsInterface* item : m_interfaceModel.getModel()) {
         ConnmanSettingsInterface* interface = qobject_cast<ConnmanSettingsInterface*>(item);
         if (interface->path() == technology.path()) {
             return; // we already know the interface/technology
@@ -204,7 +204,7 @@ void QNetworkSettingsManagerPrivate::onTechnologyRemoved(const QDBusObjectPath &
 {
     Q_Q(QNetworkSettingsManager);
 
-    foreach (QNetworkSettingsInterface* item, m_interfaceModel.getModel()) {
+    for (QNetworkSettingsInterface* item : m_interfaceModel.getModel()) {
         ConnmanSettingsInterface* tech = qobject_cast<ConnmanSettingsInterface*>(item);
         if (tech->path() == technology.path()) {
             m_interfaceModel.removeInterface(tech->name());
@@ -221,7 +221,7 @@ void QNetworkSettingsManagerPrivate::getServicesFinished(QDBusPendingCallWatcher
     if (reply.isError())
         return;
 
-    foreach (const ConnmanMapStruct &object, reply.value()) {
+    for (const ConnmanMapStruct &object : reply.value()) {
         const QString servicePath = object.objectPath.path();
         handleNewService(servicePath);
     }
@@ -236,7 +236,7 @@ void QNetworkSettingsManagerPrivate::getTechnologiesFinished(QDBusPendingCallWat
     if (reply.isError())
         return;
 
-    foreach (const ConnmanMapStruct &object, reply.value()) {
+    for (const ConnmanMapStruct &object : reply.value()) {
         ConnmanSettingsInterface *item = new ConnmanSettingsInterface(object.objectPath.path(), object.propertyMap, this);
         item->scanServices();
 
@@ -253,7 +253,7 @@ void QNetworkSettingsManagerPrivate::getTechnologiesFinished(QDBusPendingCallWat
 void QNetworkSettingsManagerPrivate::onServicesChanged(ConnmanMapStructList changed, const QList<QDBusObjectPath> &removed)
 {
     Q_Q(QNetworkSettingsManager);
-    foreach (const QDBusObjectPath &dpath, removed) {
+    for (const QDBusObjectPath &dpath : removed) {
         QString path = dpath.path();
 
         if (m_serviceModel->removeService(path))
@@ -279,14 +279,14 @@ void QNetworkSettingsManagerPrivate::onServicesChanged(ConnmanMapStructList chan
     }
 
     QStringList newServices;
-    foreach (const ConnmanMapStruct &map, changed) {
+    for (const ConnmanMapStruct &map : changed) {
         QString path = map.objectPath.path();
 
         if (m_unknownServices.contains(path) || m_unnamedServices.contains(path))
             continue;
 
         bool found = false;
-        foreach (QNetworkSettingsService* service, m_serviceModel->getModel()) {
+        for (QNetworkSettingsService* service : m_serviceModel->getModel()) {
             if (service->id() == path && service->placeholderState() == false) {
                 found = true;
                 break;
@@ -296,7 +296,7 @@ void QNetworkSettingsManagerPrivate::onServicesChanged(ConnmanMapStructList chan
             newServices.append(map.objectPath.path());
     }
 
-    foreach (QString newService, newServices) {
+    for (QString newService : newServices) {
         handleNewService(newService);
     }
 
@@ -370,7 +370,7 @@ void QNetworkSettingsManagerPrivate::serviceReady()
         }
 
         //Update the interface state accordingly
-        foreach (QNetworkSettingsInterface* item, m_interfaceModel.getModel()) {
+        for (QNetworkSettingsInterface* item : m_interfaceModel.getModel()) {
             ConnmanSettingsInterface* technology = qobject_cast<ConnmanSettingsInterface*>(item);
             if (technology->name() == service->name() && technology->type() == service->type()) {
                 technology->setState(technology->state());
