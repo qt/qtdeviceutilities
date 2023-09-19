@@ -73,7 +73,7 @@ ColumnLayout {
             id: delegateRectangle
             width: parent.width
             height: listView.height * 0.1
-            property var delegateData: modelData
+            property var delegateData: entry
 
             Row {
                 anchors.fill: parent

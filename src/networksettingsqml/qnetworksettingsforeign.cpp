@@ -69,7 +69,9 @@
     \qmlproperty model NetworkSettingsManager::services
     \readonly
 
-    Holds the service model.
+    Holds the service model. A delegate in a view that uses
+    the \e services model can access the NetworkService
+    item with the \e entry role.
 
     The services list in the model can be controlled with the
     \c type property, and NetworkService items can be retrieved
@@ -99,7 +101,7 @@
 
     Holds the interface model. A delegate in a view that uses
     the \e interfaces model can access the NetworkInterface
-    item with the \e dataModel role.
+    item with the \e entry role.
 
     \sa NetworkInterface
 */
