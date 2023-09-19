@@ -47,14 +47,14 @@ ItemDelegate {
             elide: Text.ElideRight
             horizontalAlignment: Text.AlignLeft
             verticalAlignment: Text.AlignVCenter
-            text: modelData["name"]
+            text: entry["name"]
         }
         WifiSignalMonitor {
             id: signalMonitor
             anchors.right: parent.right
             height: parent.height
             width: height
-            signalStrength: modelData.wirelessConfig["signalStrength"]
+            signalStrength: entry.wirelessConfig["signalStrength"]
             connected: connected
         }
     }

@@ -65,7 +65,7 @@ QT_BEGIN_NAMESPACE
 QNetworkSettingsServiceModel::QNetworkSettingsServiceModel(QObject *parent)
     : QAbstractListModel(parent)
 {
-    m_roleNames.insert(Qt::UserRole, "modelData");
+    m_roleNames.insert(Qt::UserRole, "entry");
     m_roleNames.insert(Name, "name");
     m_roleNames.insert(SignalStrength, "signalStrength");
     m_roleNames.insert(Connected, "connected");
