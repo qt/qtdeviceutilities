@@ -66,6 +66,7 @@ QNetworkSettingsServiceModel::QNetworkSettingsServiceModel(QObject *parent)
     : QAbstractListModel(parent)
 {
     m_roleNames.insert(Qt::UserRole, "entry");
+    m_roleNames.insert(Type, "type");
     m_roleNames.insert(Name, "name");
     m_roleNames.insert(SignalStrength, "signalStrength");
     m_roleNames.insert(Connected, "connected");
@@ -107,6 +108,9 @@ QVariant QNetworkSettingsServiceModel::data(const QModelIndex & index, int role)
     QNetworkSettingsService *item = m_items[index.row()];
     if (role == Qt::UserRole) {
         return QVariant::fromValue(static_cast<QObject*>(item));
+    }
+    else if (role == Type) {
+        return item->type();
     }
     else if (role == Name) {
         return item->name();
