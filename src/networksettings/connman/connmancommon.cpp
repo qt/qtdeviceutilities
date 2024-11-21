@@ -25,13 +25,13 @@ QDBusArgument &operator<<(QDBusArgument &argument, const ConnmanMapStruct &obj)
 
 const QString &operator>>(const QString &argument, QNetworkSettingsType &obj)
 {
-    if (argument == AttributeEthernet) {
+    if (argument == Q_AttributeEthernet) {
         obj.setType(QNetworkSettingsType::Wired);
     }
-    else if (argument == AttributeWifi) {
+    else if (argument == Q_AttributeWifi) {
         obj.setType(QNetworkSettingsType::Wifi);
     }
-    else if (argument == AttributeBluetooth) {
+    else if (argument == Q_AttributeBluetooth) {
         obj.setType(QNetworkSettingsType::Bluetooth);
     }
     else {
@@ -43,25 +43,25 @@ const QString &operator>>(const QString &argument, QNetworkSettingsType &obj)
 
 const QString &operator>>(const QString &argument, QNetworkSettingsState &obj)
 {
-    if (argument == AttributeIdle) {
+    if (argument == Q_AttributeIdle) {
         obj.setState(QNetworkSettingsState::Idle);
     }
-    else if (argument == AttributeFailure) {
+    else if (argument == Q_AttributeFailure) {
         obj.setState(QNetworkSettingsState::Failure);
     }
-    else if (argument == AttributeAssociation) {
+    else if (argument == Q_AttributeAssociation) {
         obj.setState(QNetworkSettingsState::Association);
     }
-    else if (argument == AttributeConfiguration) {
+    else if (argument == Q_AttributeConfiguration) {
         obj.setState(QNetworkSettingsState::Configuration);
     }
-    else if (argument == AttributeReady) {
+    else if (argument == Q_AttributeReady) {
         obj.setState(QNetworkSettingsState::Ready);
     }
-    else if (argument == AttributeDisconnect) {
+    else if (argument == Q_AttributeDisconnect) {
         obj.setState(QNetworkSettingsState::Disconnect);
     }
-    else if (argument == AttributeOneline) {
+    else if (argument == Q_AttributeOneline) {
         obj.setState(QNetworkSettingsState::Online);
     }
     else {

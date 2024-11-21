@@ -53,21 +53,21 @@ void QNetworkSettingsUserAgentPrivate::ReportError(const QDBusObjectPath &path, 
 void QNetworkSettingsUserAgentPrivate::registerAgent()
 {
     Q_Q(QNetworkSettingsUserAgent);
-    QDBusConnection::systemBus().registerObject(PropertyAgentPath, q);
+    QDBusConnection::systemBus().registerObject(Q_PropertyAgentPath, q);
 }
 
 QVariantMap QNetworkSettingsUserAgentPrivate::RequestInput(const QDBusObjectPath &path, const QVariantMap &params, const QDBusMessage &msg)
 {
     Q_Q(QNetworkSettingsUserAgent);
     Q_UNUSED(path);
-    QVariant name = params[PropertyName];
+    QVariant name = params[Q_PropertyName];
     if (!name.isValid()) {
         m_ssid.clear();
     }
     QVariantMap response;
     QVariant passPhrase = params[PropertyPassphrase];
     if (name.isValid() && !m_ssid.isEmpty()) {
-        response[PropertyName] = m_ssid;
+        response[Q_PropertyName] = m_ssid;
     }
     if (passPhrase.isValid()) {
         if (!m_passphrase.isEmpty()) {
@@ -89,7 +89,7 @@ void QNetworkSettingsUserAgentPrivate::setPassphrase(const QString& passphrase)
     if (m_pendingReply) {
         QVariantMap response;
         if (!m_ssid.isEmpty()) {
-            response[PropertyName] = m_ssid;
+            response[Q_PropertyName] = m_ssid;
         }
         response[PropertyPassphrase] = m_passphrase;
         QDBusMessage reply = m_pendingMessage.createReply();

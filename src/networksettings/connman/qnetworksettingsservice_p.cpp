@@ -237,7 +237,7 @@ QNetworkSettingsServicePrivate::QNetworkSettingsServicePrivate(const QString& id
 void QNetworkSettingsServicePrivate::setAutoConnect(bool autoconnect)
 {
     if (m_service) {
-        m_service->SetProperty(PropertyAutoConnect, QDBusVariant(QVariant(autoconnect)));
+        m_service->SetProperty(Q_PropertyAutoConnect, QDBusVariant(QVariant(autoconnect)));
         m_autoConnect = autoconnect;
     }
 }
@@ -383,7 +383,7 @@ void QNetworkSettingsServicePrivate::updateProperty(const QString& key, const QV
         value >> m_proxyConfig;
         emit q->proxyChanged();
     }
-    else if (key == PropertyState) {
+    else if (key == Q_PropertyState) {
         QString value = qdbus_cast<QString>(val);
         QNetworkSettingsState oldState;
         oldState.setState(m_state.state());
@@ -394,11 +394,11 @@ void QNetworkSettingsServicePrivate::updateProperty(const QString& key, const QV
         if (m_state.state() == QNetworkSettingsState::Disconnect)
             emit q->serviceDisconnected(q);
     }
-    else if (key == PropertyName) {
+    else if (key == Q_PropertyName) {
         m_name = qdbus_cast<QString>(val);
         emit q->nameChanged();
     }
-    else if (key == PropertyType) {
+    else if (key == Q_PropertyType) {
         QString value = qdbus_cast<QString>(val);
         value >> m_type;
         emit q->typeChanged();
@@ -429,7 +429,7 @@ void QNetworkSettingsServicePrivate::updateProperty(const QString& key, const QV
         }
         m_wifiConfig.setSecurity(securities);
     }
-    else if (key == PropertyAutoConnect) {
+    else if (key == Q_PropertyAutoConnect) {
         m_autoConnect = qdbus_cast<bool>(val);
         emit q->autoConnectChanged();
     }

@@ -20,10 +20,10 @@ void QNetworkSettingsInterfacePrivate::initialize(const QString& path, const QVa
     connect(m_technology, SIGNAL(PropertyChanged(QString,QDBusVariant)),
            this, SLOT(updateProperty(QString,QDBusVariant)));
 
-    updateProperty(PropertyName, properties[PropertyName]);
-    updateProperty(PropertyType, properties[PropertyType]);
-    updateProperty(PropertyConnected, properties[PropertyConnected]);
-    updateProperty(PropertyPowered, properties[PropertyPowered]);
+    updateProperty(Q_PropertyName, properties[Q_PropertyName]);
+    updateProperty(Q_PropertyType, properties[Q_PropertyType]);
+    updateProperty(Q_PropertyConnected, properties[Q_PropertyConnected]);
+    updateProperty(Q_PropertyPowered, properties[Q_PropertyPowered]);
 }
 
 void QNetworkSettingsInterfacePrivate::updateProperty(const QString &name, const QDBusVariant &value)
@@ -34,14 +34,14 @@ void QNetworkSettingsInterfacePrivate::updateProperty(const QString &name, const
 void QNetworkSettingsInterfacePrivate::updateProperty(const QString &name, const QVariant &value)
 {
     Q_Q(QNetworkSettingsInterface);
-    if (name == PropertyName) {
+    if (name == Q_PropertyName) {
         m_name = qdbus_cast<QString>(value);
     }
-    else if (name == PropertyType) {
+    else if (name == Q_PropertyType) {
         qdbus_cast<QString>(value) >> m_type;
         emit q->typeChanged();
     }
-    else if (name == PropertyConnected) {
+    else if (name == Q_PropertyConnected) {
         bool connected = qdbus_cast<bool>(value);
         if (connected)
             m_state.setState(QNetworkSettingsState::Online);
@@ -49,7 +49,7 @@ void QNetworkSettingsInterfacePrivate::updateProperty(const QString &name, const
             m_state.setState(QNetworkSettingsState::Disconnect);
         emit q->stateChanged();
     }
-    else if (name == PropertyPowered) {
+    else if (name == Q_PropertyPowered) {
         m_powered = qdbus_cast<bool>(value);
         emit q->poweredChanged();
     }
@@ -64,7 +64,7 @@ void QNetworkSettingsInterfacePrivate::setState(QNetworkSettingsState::State aSt
 
 void QNetworkSettingsInterfacePrivate::setPowered(const bool aPowered)
 {
-    m_technology->SetProperty(PropertyPowered, QDBusVariant(QVariant(aPowered)));
+    m_technology->SetProperty(Q_PropertyPowered, QDBusVariant(QVariant(aPowered)));
 }
 
 void QNetworkSettingsInterfacePrivate::scan()

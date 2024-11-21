@@ -72,7 +72,7 @@ bool QNetworkSettingsManagerPrivate::initialize()
         connect(m_manager, &NetConnmanManagerInterface::TechnologyAdded, this, &QNetworkSettingsManagerPrivate::onTechnologyAdded);
         connect(m_manager, &NetConnmanManagerInterface::TechnologyRemoved, this, &QNetworkSettingsManagerPrivate::onTechnologyRemoved);
 
-        m_manager->RegisterAgent(QDBusObjectPath(PropertyAgentPath));
+        m_manager->RegisterAgent(QDBusObjectPath(Q_PropertyAgentPath));
         m_initialized = true;
     } else {
         delete m_manager;

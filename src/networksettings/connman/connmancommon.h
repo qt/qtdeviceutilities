@@ -6,24 +6,24 @@
 #include <QtCore/QMetaType>
 #include <QtDBus/QtDBus>
 
-#define PropertyAgentPath QStringLiteral("/ConnmanAgent")
-#define PropertyState QStringLiteral("State")
-#define PropertyName QStringLiteral("Name")
-#define PropertyType QStringLiteral("Type")
-#define PropertyConnected QStringLiteral("Connected")
-#define PropertyPowered QStringLiteral("Powered")
-#define PropertyAutoConnect QStringLiteral("AutoConnect")
+#define Q_PropertyAgentPath QStringLiteral("/ConnmanAgent")
+#define Q_PropertyState QStringLiteral("State")
+#define Q_PropertyName QStringLiteral("Name")
+#define Q_PropertyType QStringLiteral("Type")
+#define Q_PropertyConnected QStringLiteral("Connected")
+#define Q_PropertyPowered QStringLiteral("Powered")
+#define Q_PropertyAutoConnect QStringLiteral("AutoConnect")
 
-#define AttributeWifi QStringLiteral("wifi")
-#define AttributeEthernet QStringLiteral("ethernet")
-#define AttributeBluetooth QStringLiteral("bluetooth")
-#define AttributeIdle QStringLiteral("idle")
-#define AttributeFailure QStringLiteral("failure")
-#define AttributeAssociation QStringLiteral("association")
-#define AttributeConfiguration QStringLiteral("configuration")
-#define AttributeReady QStringLiteral("ready")
-#define AttributeDisconnect QStringLiteral("disconnect")
-#define AttributeOneline QStringLiteral("online")
+#define Q_AttributeWifi QStringLiteral("wifi")
+#define Q_AttributeEthernet QStringLiteral("ethernet")
+#define Q_AttributeBluetooth QStringLiteral("bluetooth")
+#define Q_AttributeIdle QStringLiteral("idle")
+#define Q_AttributeFailure QStringLiteral("failure")
+#define Q_AttributeAssociation QStringLiteral("association")
+#define Q_AttributeConfiguration QStringLiteral("configuration")
+#define Q_AttributeReady QStringLiteral("ready")
+#define Q_AttributeDisconnect QStringLiteral("disconnect")
+#define Q_AttributeOneline QStringLiteral("online")
 
 QT_BEGIN_NAMESPACE
 
