@@ -61,7 +61,7 @@ ListView {
                 font.pixelSize: Globals.subTitleFontSize
                 font.family: Globals.appFont
                 color: connected ? Globals.buttonGreenColor : "white"
-                text: (modelData.type === NetworkSettingsType.Wired) ? modelData["name"] + " (" + modelData["id"] + ")" : name
+                text: (type === NetworkSettingsType.Wired) ? name + " (" + modelData["id"] + ")" : name
             }
             Row {
                 id: ipRow
