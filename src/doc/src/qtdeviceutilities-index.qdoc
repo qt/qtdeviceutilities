@@ -6,10 +6,26 @@
     \maintitle
     \brief Provides functionality for controlling settings in embedded applications.
 
-    \QtDU provides functionality that is useful for controlling settings in embedded
-    applications. \QtDU provides the following C++ modules:
+    \QtDU provides APIs for managing network settings on embedded Linux devices. The module is
+    designed for embedded systems using the ConnMan network manager, offering functionality for
+    tasks such as listing network interfaces, configuring IP settings, managing network services,
+    and integrating connectivity settings into embedded UIs.
+
+    While \QtDU supports both Ethernet and wireless networking workflows, Wi-Fi functionality
+    has specific backend requirements that you must account for. \QtDU relies on the system's
+    network manager, and currently supports only the ConnMan backend. Other network managers are not
+    supported.
+
+    Because of these backend constraints, Wi-Fi features work only on \B2Q or embedded
+    Linux systems that use ConnMan.
+
+    \section1 C++ modules
+
+    \QtDU provides the following C++ modules:
 
     \annotatedlist qtdevice-utilities-cpp-modules
+
+    \section1 QML modules
 
     \QtDU provides the following QML modules:
 
