@@ -92,8 +92,8 @@ void QNetworkSettingsManagerPrivate::requestInput(const QString& service, const 
 void QNetworkSettingsManagerPrivate::connectBySsid(const QString &name)
 {
     m_unnamedServicesForSsidConnection = m_unnamedServices;
-    tryNextConnection();
     m_currentSsid = name;
+    tryNextConnection();
 }
 
 void QNetworkSettingsManagerPrivate::clearConnectionState()
