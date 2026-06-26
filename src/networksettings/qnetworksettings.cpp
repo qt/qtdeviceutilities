@@ -7,6 +7,7 @@ QT_BEGIN_NAMESPACE
 /*!
     \module QtNetworkSettings
     \qtvariable networksettings
+    \qtcmakepackage NetworkSettings
     \ingroup qtdevice-utilities-cpp-modules
     \ingroup modules
     \title Qt Network Settings C++ Classes
