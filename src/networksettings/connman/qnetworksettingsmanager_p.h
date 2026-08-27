@@ -21,7 +21,7 @@
 #include "connmancommon.h"
 #include "qnetworksettingsmanager.h"
 #include "qnetworksettingsinterfacemodel.h"
-#include "connman_manager_interface.h"
+#include "connman_manager_interface_p.h"
 
 QT_BEGIN_NAMESPACE
 

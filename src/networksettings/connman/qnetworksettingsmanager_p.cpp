@@ -5,7 +5,7 @@
 #include "qnetworksettingsinterface_p.h"
 #include "qnetworksettingsservicemodel.h"
 #include "qnetworksettingsuseragent.h"
-#include "moc_connman_manager_interface.cpp"
+#include "moc_connman_manager_interface_p.cpp"
 
 QT_BEGIN_NAMESPACE
 
